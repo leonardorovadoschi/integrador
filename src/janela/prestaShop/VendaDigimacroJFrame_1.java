@@ -70,9 +70,9 @@ public class VendaDigimacroJFrame_1 extends javax.swing.JFrame {
         codCaracteristicaCliente = new QueryIntegrador(managerIntegrador1).valorConfiguracao("cliente_CARACTERISTICA_CPLUS_DIGIMACRO");
         queryCplus = new QueryCplus(managerCplus);
         //acesso = new ControleAcesso(managerCplus);
-        this.listagemSaidasMagentoJDialog = new SaidasPrestaShopJDialog(this, true, managerPrestaShop);
+        this.listagemSaidasMagentoJDialog = new SaidasPrestaShopJDialog(this, true, managerPrestaShop, managerIntegrador);
         //this.editSalesFlatOrderItemJDialog = new EditSalesFlatOrderItemJDialog(this, true, managerPrestaShop, managerCplus, usuario);
-        this.listagemProdutoMagentoJDialog = new ListPsProductJDialog(this, true, managerPrestaShop, managerCplus, usuario);
+        this.listagemProdutoMagentoJDialog = new ListPsProductJDialog(this, true,managerIntegrador, managerPrestaShop, managerCplus, usuario);
         this.insereSalesFlatOrderItemJDialog = new InsereSalesFlatOrderItemJDialog(this, true, managerPrestaShop, managerCplus, usuario);
         // colunaItemId = jTableProdutosPedido.getColumnModel().getColumnIndex("Item Id");
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));

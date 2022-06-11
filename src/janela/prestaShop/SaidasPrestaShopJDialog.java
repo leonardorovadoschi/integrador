@@ -14,6 +14,7 @@ import integrador.render.RenderNumeroInteiro;
 import integrador.render.RenderPreco;
 import integrador.webservice.ClienteWebService;
 import integrador.webservice.PrestaShopWebserviceException;
+import integrador.webservice.WebOrders;
 import static janela.prestaShop.ListPsProductJDialog.managerIntegrador;
 import java.awt.Toolkit;
 import java.math.BigDecimal;
@@ -452,27 +453,8 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
                         for (String id : ws.retornaListaId(nList)) {
                             getSchemaOpt.put("url", shopUrl + "/api/orders/" + id);
                             document = ws.getFuncao(getSchemaOpt);
-                            Element elemento = document.getDocumentElement();
-                            NodeList listNode = elemento.getElementsByTagName("order");
-                            for (int i = 0; i < listNode.getLength(); i++) {
-                                Element endElement = (Element) listNode.item(i);
-                                
-                                PsOrders psOrders = new PsOrders();
-                                psOrders.setIdOrder(Integer.valueOf(ws.obterValorObjeto(endElement, "id")));
-                                psOrders.setIdAddressDelivery(Integer.valueOf(ws.obterValorObjeto(endElement, "id_address_delivery")));
-                                psOrders.setIdAddressInvoice(Integer.valueOf(ws.obterValorObjeto(endElement, "id_address_invoice")));
-                                psOrders.setIdCart(Integer.valueOf(ws.obterValorObjeto(endElement, "id_cart")));
-                                psOrders.setIdCurrency(Integer.valueOf(ws.obterValorObjeto(endElement, "id_currency")));
-                                psOrders.setIdLang(Integer.valueOf(ws.obterValorObjeto(endElement, "id_lang")));
-                                psOrders.setIdCustomer(Integer.valueOf(ws.obterValorObjeto(endElement, "id_customer")));
-                                psOrders.setIdCarrier(Integer.valueOf(ws.obterValorObjeto(endElement, "id_carrier")));
-                                psOrders.setCurrentState(Integer.valueOf(ws.obterValorObjeto(endElement, "current_state")));
-                                psOrders.setModule(ws.obterValorObjeto(endElement, "module"));
-                                
-                                System.out.println("Id: " + ws.obterValorObjeto(endElement, "id"));
-                                System.out.println("id_customer: " + ws.obterValorObjeto(endElement, "id_customer"));
-                                System.out.println("id_address_invoice: " + ws.obterValorObjeto(endElement, "id_address_invoice"));
-                            }
+                           listPsOrders.add(new WebOrders().xmlParaEntidade(document, ws));
+                           
                         }
 
                     } catch (PrestaShopWebserviceException ex) {
