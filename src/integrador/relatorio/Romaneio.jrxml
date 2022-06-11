@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Romaneio Serial" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="7a02832c-165c-4ea9-bf02-6e43c6dba7c9">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\lista_integrador\\relatorio\\Romaneio_subreport.jasper"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="codigo" class="java.lang.String">
+		<fieldDescription><![CDATA[codprod.codigo]]></fieldDescription>
+	</field>
+	<field name="nomeprod" class="java.lang.String">
+		<fieldDescription><![CDATA[codprod.nomeprod]]></fieldDescription>
+	</field>
+	<field name="quantidade" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[quantidade]]></fieldDescription>
+	</field>
+	<field name="valortotal" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[valortotal]]></fieldDescription>
+	</field>
+	<field name="valorunitario" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[valorunitario]]></fieldDescription>
+	</field>
+	<field name="movendaprodserialCollection" class="java.util.Collection">
+		<fieldDescription><![CDATA[movendaprodserialCollection]]></fieldDescription>
+	</field>
+	<field name="nomecli" class="java.lang.String">
+		<fieldDescription><![CDATA[codmovenda.codcli.nomecli]]></fieldDescription>
+	</field>
+	<field name="numnota" class="java.lang.Integer">
+		<fieldDescription><![CDATA[codmovenda.numnota]]></fieldDescription>
+	</field>
+	<field name="numped" class="java.lang.Integer">
+		<fieldDescription><![CDATA[codmovenda.numped]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="29" uuid="699d257f-d5cb-4893-9894-af2cf1b2bca8"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="24" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Romaneio Seriais]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="16" splitType="Stretch">
+			<staticText>
+				<reportElement x="1" y="0" width="34" height="13" uuid="ae49eebf-f6d8-4af3-bd4c-bea30a769b73"/>
+				<text><![CDATA[Nome:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="35" y="0" width="205" height="15" uuid="b3fa8fda-ebcf-42a8-83d1-219022ada56d"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nomecli}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="252" y="0" width="52" height="13" uuid="fc9fa257-0fd2-41b9-9c4e-875e19a3bdee"/>
+				<text><![CDATA[Num. Nota:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="309" y="0" width="62" height="15" uuid="6b953740-09e8-4ee7-b957-98b20b31e177"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numnota}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="382" y="0" width="62" height="13" uuid="3e40b086-2876-4086-9b77-55cba015af03"/>
+				<text><![CDATA[Num. Pedido:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="444" y="0" width="70" height="15" uuid="1c65ca0a-586e-4d82-a730-61f402f48db7"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numped}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="14" width="555" height="1" uuid="eb4f0b71-1f1e-4398-ad25-d57fe3567998"/>
+			</line>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="15" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="13" uuid="423af222-20cc-47ec-b366-0ba37813b2b1"/>
+				<text><![CDATA[Codigo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="101" y="0" width="309" height="13" uuid="3856f4a8-c8d2-4ad2-9d7d-cda8e6096e30"/>
+				<text><![CDATA[Descrição]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="410" y="0" width="30" height="13" uuid="d6142def-8cef-4b4a-b2a7-5fc7f5b9cb77"/>
+				<text><![CDATA[Quan.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="495" y="0" width="50" height="13" uuid="a57bd917-5ca6-4eda-a4e7-1246764c28c2"/>
+				<text><![CDATA[Val. Tot.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="444" y="0" width="50" height="13" uuid="e2da294e-8d20-45f9-b846-629bced2a2d8"/>
+				<text><![CDATA[Valor Uni.]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="14" width="555" height="1" uuid="55550324-6f8e-46f4-920c-8f688fd3783d"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="29" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="100" height="13" uuid="3fb4c57a-7504-43c7-8ba5-632f4b0fc9c3"/>
+				<textFieldExpression><![CDATA[$F{codigo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="101" y="0" width="309" height="13" uuid="b7217d2b-f8ad-4625-9e06-19ba42256194"/>
+				<textFieldExpression><![CDATA[$F{nomeprod}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0">
+				<reportElement x="410" y="0" width="30" height="13" uuid="224d6bbb-8ab6-4dbe-8905-b517d11e77c2"/>
+				<textFieldExpression><![CDATA[$F{quantidade}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="495" y="0" width="50" height="13" uuid="0337f9d7-d928-4da4-80f5-36a04d57310a"/>
+				<textFieldExpression><![CDATA[$F{valortotal}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="444" y="0" width="50" height="13" uuid="1352143d-1bf2-4bf5-a22c-3fbd04774103"/>
+				<textFieldExpression><![CDATA[$F{valorunitario}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement x="0" y="14" width="555" height="13" uuid="8b88edc3-87ca-4a6f-a599-2be4183200ff"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{movendaprodserialCollection})]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportExpression>
+			</subreport>
+			<line>
+				<reportElement x="0" y="12" width="555" height="1" uuid="edc6649b-f294-419c-ae6d-696dd70f28f8"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="555" y="-16" width="1" height="45" uuid="6b951c88-b3c3-45cd-8a11-e80fea27fcdf"/>
+			</line>
+			<line>
+				<reportElement x="-1" y="-17" width="1" height="46" uuid="67a08f41-3e3b-4382-8ece-598cbc4b5d82"/>
+			</line>
+		</band>
+	</detail>
+</jasperReport>

@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="69b76f45-01ed-47e8-a17d-cfbfe460b506">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="ALTURA" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[ALTURA]]></fieldDescription>
+	</field>
+	<field name="ATIVO" class="java.lang.Integer">
+		<fieldDescription><![CDATA[ATIVO]]></fieldDescription>
+	</field>
+	<field name="CATEGORIA" class="java.lang.String">
+		<fieldDescription><![CDATA[CATEGORIA]]></fieldDescription>
+	</field>
+	<field name="CODIGO" class="java.lang.String">
+		<fieldDescription><![CDATA[CODIGO]]></fieldDescription>
+	</field>
+	<field name="DEPARTAMENTO" class="java.lang.String">
+		<fieldDescription><![CDATA[DEPARTAMENTO]]></fieldDescription>
+	</field>
+	<field name="DESCRICAO" class="java.lang.String">
+		<fieldDescription><![CDATA[DESCRICAO]]></fieldDescription>
+	</field>
+	<field name="DESCRTEC" class="java.lang.String">
+		<fieldDescription><![CDATA[DESCRTEC]]></fieldDescription>
+	</field>
+	<field name="DISPONIVEL" class="java.lang.Integer">
+		<fieldDescription><![CDATA[DISPONIVEL]]></fieldDescription>
+	</field>
+	<field name="EAN" class="java.lang.String">
+		<fieldDescription><![CDATA[EAN]]></fieldDescription>
+	</field>
+	<field name="ESTOQUE" class="java.lang.String">
+		<fieldDescription><![CDATA[ESTOQUE]]></fieldDescription>
+	</field>
+	<field name="ESTOQUEDISPONIVEL" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[ESTOQUEDISPONIVEL]]></fieldDescription>
+	</field>
+	<field name="FABRICANTE" class="java.lang.String">
+		<fieldDescription><![CDATA[FABRICANTE]]></fieldDescription>
+	</field>
+	<field name="GARANTIA" class="java.lang.Integer">
+		<fieldDescription><![CDATA[GARANTIA]]></fieldDescription>
+	</field>
+	<field name="LARGURA" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[LARGURA]]></fieldDescription>
+	</field>
+	<field name="NCM" class="java.lang.String">
+		<fieldDescription><![CDATA[NCM]]></fieldDescription>
+	</field>
+	<field name="ORIGEMPRODUTO" class="java.lang.String">
+		<fieldDescription><![CDATA[ORIGEMPRODUTO]]></fieldDescription>
+	</field>
+	<field name="PARTNUMBER" class="java.lang.String">
+		<fieldDescription><![CDATA[PARTNUMBER]]></fieldDescription>
+	</field>
+	<field name="PESOKG" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[PESOKG]]></fieldDescription>
+	</field>
+	<field name="PRECOREVENDA" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[PRECOREVENDA]]></fieldDescription>
+	</field>
+	<field name="PRECOSEMST" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[PRECOSEMST]]></fieldDescription>
+	</field>
+	<field name="PROFUNDIDADE" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[PROFUNDIDADE]]></fieldDescription>
+	</field>
+	<field name="SUBCATEGORIA" class="java.lang.String">
+		<fieldDescription><![CDATA[SUBCATEGORIA]]></fieldDescription>
+	</field>
+	<field name="SUBSTTRIBUTARIA" class="java.lang.Integer">
+		<fieldDescription><![CDATA[SUBSTTRIBUTARIA]]></fieldDescription>
+	</field>
+	<field name="TIMESTAMP" class="java.util.Date">
+		<fieldDescription><![CDATA[TIMESTAMP]]></fieldDescription>
+	</field>
+	<field name="URLFOTOPRODUTO" class="java.lang.String">
+		<fieldDescription><![CDATA[URLFOTOPRODUTO]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="41" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="100" height="20" uuid="1486b015-37bb-4559-aed7-d4510e0bec61"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="23" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="51" height="20" uuid="3583e1cb-0f54-449d-af92-84f1024300c6"/>
+				<text><![CDATA[CODIGO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="51" y="0" width="110" height="20" uuid="c8199480-0b99-429a-9fda-dde8238f4f87"/>
+				<text><![CDATA[DESCRICAO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="409" y="0" width="39" height="20" uuid="07343774-d2bb-4434-b930-d3e10c12964a"/>
+				<text><![CDATA[Est.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="460" y="0" width="83" height="20" uuid="4654f069-3c34-4870-b797-43b59cf7aa9d"/>
+				<text><![CDATA[EAN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="553" y="3" width="62" height="20" uuid="779ebd9a-52b7-483a-b71b-34fdd0504150"/>
+				<text><![CDATA[Preço]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="615" y="3" width="59" height="20" uuid="543d3e77-1238-4b4f-8815-11eee679f419"/>
+				<text><![CDATA[Sem ST]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="685" y="0" width="94" height="20" uuid="f64a046b-7b43-4d5f-90e8-cb0a2984b104"/>
+				<text><![CDATA[PARTNUMBER]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="779" y="3" width="23" height="20" uuid="3c851236-1b19-43f7-bfa7-e815a5b73090"/>
+				<text><![CDATA[UF]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="26" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="51" height="18" uuid="831d3bda-27d0-4c2f-a881-29a12694442b"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CODIGO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="51" y="0" width="341" height="18" uuid="f7d4af4d-09bf-4d83-9498-d1f13627aeaf"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DESCRICAO}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0">
+				<reportElement x="409" y="0" width="39" height="18" uuid="dac76583-e10e-4ed1-83eb-d9c339898a73"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ESTOQUEDISPONIVEL}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="460" y="0" width="83" height="18" uuid="5e0a8315-26db-4a2e-8a1f-1d45a566992f"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{EAN}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="553" y="0" width="62" height="18" uuid="cef78036-9098-46e3-bc2f-de09ec965010"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PRECOREVENDA}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="615" y="1" width="59" height="18" uuid="0a633220-8ebe-4047-a07a-bbafa07658ca"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PRECOSEMST}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="685" y="0" width="94" height="18" uuid="1d211807-cde1-497e-8c98-90671746e04d"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PARTNUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="779" y="1" width="23" height="18" uuid="0e3d2186-bafd-4fda-a186-12f23fe06339"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ESTOQUE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

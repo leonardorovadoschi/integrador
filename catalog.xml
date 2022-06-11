@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="https://digimacro.com.br/api/addresses" uri="xml-resources/web-service-references/addresses/wsdl/digimacro.com.br/api/addresses.xml"/>
+</catalog>

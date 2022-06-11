@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Relatório Inventário" pageWidth="842" pageHeight="595" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b683b259-39f8-4ac1-b9a0-a9cba42d3531">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="estatu" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[estatu]]></fieldDescription>
+	</field>
+	<field name="lastChange" class="java.util.Date">
+		<fieldDescription><![CDATA[lastChange]]></fieldDescription>
+	</field>
+	<field name="codigo" class="java.lang.String">
+		<fieldDescription><![CDATA[produto.codigo]]></fieldDescription>
+	</field>
+	<field name="datreaj" class="java.util.Date">
+		<fieldDescription><![CDATA[produto.datreaj]]></fieldDescription>
+	</field>
+	<field name="custoreal" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[produto.custoreal]]></fieldDescription>
+	</field>
+	<field name="customedio" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[produto.customedio]]></fieldDescription>
+	</field>
+	<field name="flaginativo" class="java.lang.Character">
+		<fieldDescription><![CDATA[produto.flaginativo]]></fieldDescription>
+	</field>
+	<field name="flagorigemproduto" class="java.lang.Character">
+		<fieldDescription><![CDATA[produto.flagorigemproduto]]></fieldDescription>
+	</field>
+	<field name="nomeprod" class="java.lang.String">
+		<fieldDescription><![CDATA[produto.nomeprod]]></fieldDescription>
+	</field>
+	<field name="pesobruto" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[produto.pesobruto]]></fieldDescription>
+	</field>
+	<field name="pesoliquido" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[produto.pesoliquido]]></fieldDescription>
+	</field>
+	<field name="precusto" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[produto.precusto]]></fieldDescription>
+	</field>
+	<field name="valoroutrasdesp" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[produto.valoroutrasdesp]]></fieldDescription>
+	</field>
+	<field name="valorsubsttributaria" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[produto.valorsubsttributaria]]></fieldDescription>
+	</field>
+	<field name="valoutroscustos" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[produto.valoutroscustos]]></fieldDescription>
+	</field>
+	<field name="valoripi" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[produto.valoripi]]></fieldDescription>
+	</field>
+	<field name="percoutroscustos" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[produto.percoutroscustos]]></fieldDescription>
+	</field>
+	<field name="percoutroscustos2" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[produto.percoutroscustos2]]></fieldDescription>
+	</field>
+	<variable name="TOT_PRODUTO" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{precusto}.multiply($F{estatu})]]></variableExpression>
+	</variable>
+	<variable name="TOTAL_ESTOQUE" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$V{TOTAL_ESTOQUE}.add($V{TOT_PRODUTO})]]></variableExpression>
+		<initialValueExpression><![CDATA[new BigDecimal("0.00")]]></initialValueExpression>
+	</variable>
+	<variable name="TOTAL_CUSTO_ESTOQUE" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$V{TOTAL_CUSTO_ESTOQUE}.add($F{precusto}.multiply($F{estatu}))]]></variableExpression>
+		<initialValueExpression><![CDATA[new BigDecimal("0.00")]]></initialValueExpression>
+	</variable>
+	<variable name="TOTAL_ST" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$V{TOTAL_ST}.add($F{valorsubsttributaria})]]></variableExpression>
+		<initialValueExpression><![CDATA[new BigDecimal("0.00")]]></initialValueExpression>
+	</variable>
+	<variable name="TOTAL_IPI" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$V{TOTAL_IPI}.add($F{valoripi})]]></variableExpression>
+		<initialValueExpression><![CDATA[new BigDecimal("0.00")]]></initialValueExpression>
+	</variable>
+	<variable name="TPTAL_PIS_COFINS" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$V{TPTAL_PIS_COFINS}.add($F{percoutroscustos2})]]></variableExpression>
+		<initialValueExpression><![CDATA[new BigDecimal("0.00")]]></initialValueExpression>
+	</variable>
+	<variable name="TOTAL_ICMS" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$V{TOTAL_ICMS}.add($F{percoutroscustos})]]></variableExpression>
+		<initialValueExpression><![CDATA[new BigDecimal("0.00")]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="53" splitType="Stretch">
+			<staticText>
+				<reportElement x="1" y="0" width="800" height="31" uuid="5fef64a3-a2aa-49da-872c-d6d3c3058887"/>
+				<textElement textAlignment="Center">
+					<font size="24"/>
+				</textElement>
+				<text><![CDATA[Relatório Inventário]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="716" y="31" width="85" height="20" uuid="efbd542c-d8b5-4a16-b7c7-2e884c482b07"/>
+				<textElement textAlignment="Right">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="623" y="31" width="93" height="20" uuid="e402acb3-ae99-4973-a486-85e2989e3c58"/>
+				<textElement textAlignment="Right">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Custo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="565" y="31" width="58" height="20" uuid="9428988d-54af-43a5-b5d8-8b22ea62e8ea"/>
+				<textElement textAlignment="Right">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Quanti.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="122" y="31" width="443" height="20" uuid="c9fc98e2-c311-4939-8d1a-d8060960df7f"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descrição]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="31" width="121" height="20" uuid="4c643dc2-e052-4613-99d6-5794969348ef"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Código]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="15">
+			<textField>
+				<reportElement x="1" y="0" width="121" height="13" uuid="a82bacde-3b8b-4bd5-bcdc-e9660902e510"/>
+				<textFieldExpression><![CDATA[$F{codigo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="122" y="0" width="443" height="13" uuid="a68c98e1-8e4c-43e8-8fdb-cffc36fa1d1a"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nomeprod}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0">
+				<reportElement x="565" y="0" width="58" height="13" uuid="05bf5610-a8c6-4f00-a18e-5847796a586e"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{estatu}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="716" y="0" width="85" height="13" uuid="1c22dc47-a1b5-4c01-95a6-17932f37858e"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{TOT_PRODUTO}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="623" y="0" width="93" height="13" uuid="90eaa01f-9e6c-4d2d-b1ae-29fc05760c3c"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{precusto}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="23" splitType="Stretch">
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="702" y="0" width="100" height="20" uuid="6baa8fc1-653a-4bfa-b29b-24d265c2b004"/>
+				<textElement textAlignment="Right">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{TOTAL_CUSTO_ESTOQUE}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="583" y="0" width="119" height="20" uuid="9efbd4f7-649a-4922-af7b-22ac7dfe2945"/>
+				<textElement textAlignment="Right">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Custo Contabil]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>
