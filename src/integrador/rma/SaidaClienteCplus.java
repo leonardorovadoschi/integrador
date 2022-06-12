@@ -19,7 +19,7 @@ import entidade.cplus.Setorestoque;
 import entidade.cplus.Tipomovimento;
 import entidade.cplus.Unidade;
 import entidade.cplus.Usuario;
-import janela.cplus.FormatacaoDeCampos;
+import janela.cplus.FormataCampos;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -582,7 +582,7 @@ public class SaidaClienteCplus {
         } else {
             mensagem = movSaida.getObs();
         }
-        mensagem = mensagem + "Saida ref. Pedido de Venda: " + movSaidaProd.getCodmovenda().getNumped() + ", Data Lan�amento: " + new FormatacaoDeCampos().dataStringSoData(new Date(System.currentTimeMillis()), 0) + ", produto " + movSaidaProd.getCodprod().getNomeprod() + " com serial " + serial + "\n";
+        mensagem = mensagem + "Saida ref. Pedido de Venda: " + movSaidaProd.getCodmovenda().getNumped() + ", Data Lan�amento: " + new FormataCampos().dataStringSoData(new Date(System.currentTimeMillis()), 0) + ", produto " + movSaidaProd.getCodprod().getNomeprod() + " com serial " + serial + "\n";
         movSaida.setObs(mensagem);
         try {
             new MovendaJpaController(managerCplus).edit(movSaida);

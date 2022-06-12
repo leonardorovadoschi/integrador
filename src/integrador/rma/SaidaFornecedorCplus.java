@@ -24,7 +24,7 @@ import entidade.cplus.Setorestoque;
 import entidade.cplus.Tipomovimento;
 import entidade.cplus.Unidade;
 import entidade.cplus.Usuario;
-import janela.cplus.FormatacaoDeCampos;
+import janela.cplus.FormataCampos;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -833,7 +833,7 @@ public class SaidaFornecedorCplus {
         }else{
         mensagem = movSaida.getObs();
         }
-        mensagem = mensagem + "Saida ref. Nota de Compra: " + movEntradaProd.getCodmoventr().getNumnota() + ", Data Lançamento: "+new FormatacaoDeCampos().dataStringSoData(new Date(System.currentTimeMillis()), 0)+ " produto " + movEntradaProd.getCodprod().getNomeprod() + " com serial " + serial + "\n";
+        mensagem = mensagem + "Saida ref. Nota de Compra: " + movEntradaProd.getCodmoventr().getNumnota() + ", Data Lançamento: "+new FormataCampos().dataStringSoData(new Date(System.currentTimeMillis()), 0)+ " produto " + movEntradaProd.getCodprod().getNomeprod() + " com serial " + serial + "\n";
         movSaida.setObs(mensagem);
         try {
             new MovendaJpaController(managerCplus).edit(movSaida);

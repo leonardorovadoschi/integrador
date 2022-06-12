@@ -15,7 +15,7 @@ import integrador.fornecedores.IntegracaoOderco;
 import integrador.fornecedores.OrdenaNomeAll;
 import integrador.fornecedores.ProdutoAll;
 import integrador.relatorio.ImprimeRelatorio;
-import janela.cplus.FormatacaoDeCampos;
+import janela.cplus.FormataCampos;
 import java.awt.Toolkit;
 import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
@@ -310,7 +310,7 @@ public class ListaFornecedorJFrame extends javax.swing.JFrame {
                             + "<RetornarListaProdutosEstoque xmlns=\"http://allnations/wsintegracao/\">\n"
                             + "<CodigoCliente>0057910</CodigoCliente>\n"
                             + "<Senha>743275</Senha>\n"
-                            + "<Data>" + new FormatacaoDeCampos().dataStringSoData(new Date(System.currentTimeMillis()), -700) + "</Data>\n"
+                            + "<Data>" + new FormataCampos().dataStringSoData(new Date(System.currentTimeMillis()), -700) + "</Data>\n"
                             + "</RetornarListaProdutosEstoque>\n"
                             + "</soap:Body>\n"
                             + "</soap:Envelope>";
@@ -459,7 +459,7 @@ public class ListaFornecedorJFrame extends javax.swing.JFrame {
                     + "<RetornarListaProdutosEstoque xmlns=\"http://allnations/wsintegracao/\">\n"
                     + "<CodigoCliente>0057910</CodigoCliente>\n"
                     + "<Senha>743275</Senha>\n"
-                    + "<Data>" + new FormatacaoDeCampos().dataStringSoData(new Date(System.currentTimeMillis()), -700) + "</Data>\n"
+                    + "<Data>" + new FormataCampos().dataStringSoData(new Date(System.currentTimeMillis()), -700) + "</Data>\n"
                     + "</RetornarListaProdutosEstoque>\n"
                     + "</soap:Body>\n"
                     + "</soap:Envelope>";

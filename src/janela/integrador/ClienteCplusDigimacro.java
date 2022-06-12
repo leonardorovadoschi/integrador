@@ -12,7 +12,7 @@ import entidade.prestaShop.PsCustomer;
 import entidade.prestaShop.PsCustomerGroup;
 import entidade.prestaShop.PsCustomerGroupPK;
 import entidade.prestaShop.PsState;
-import janela.cplus.FormatacaoDeCampos;
+import janela.cplus.FormataCampos;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -116,8 +116,8 @@ public class ClienteCplusDigimacro {
                             + "\n Cpf/Cnpj: " + cpfCnpj(cliente)
                             + "\n ATUALIZAR O ENDEREÇO??? "
                             + "\n Data Atualização Cplus: "
-                            + new FormatacaoDeCampos().dataStringDataCompleta(cliente.getLastChange(), 0) + "\n Data Atualização Site: "
-                            + new FormatacaoDeCampos().dataStringDataCompleta(pc.getDateUpd(), 0), "Atualizar", JOptionPane.YES_NO_CANCEL_OPTION);
+                            + new FormataCampos().dataStringDataCompleta(cliente.getLastChange(), 0) + "\n Data Atualização Site: "
+                            + new FormataCampos().dataStringDataCompleta(pc.getDateUpd(), 0), "Atualizar", JOptionPane.YES_NO_CANCEL_OPTION);
                     if (cancelar == JOptionPane.NO_OPTION) {
                         condicao = false;
                     }
@@ -372,9 +372,9 @@ public class ClienteCplusDigimacro {
         String str;
         if ("N".equals(clienteCplus.getFlagfisica().toString())) {
             str = clienteCplus.getCnpj();
-            //  str = new FormatacaoDeCampos().mascaraCNPJ(clienteCplus.getCnpj());
+            //  str = new FormataCampos().mascaraCNPJ(clienteCplus.getCnpj());
         } else {
-            //  str = new FormatacaoDeCampos().mascaraCPF(clienteCplus.getCpf());
+            //  str = new FormataCampos().mascaraCPF(clienteCplus.getCpf());
             str = clienteCplus.getCpf();
         }
         return str;

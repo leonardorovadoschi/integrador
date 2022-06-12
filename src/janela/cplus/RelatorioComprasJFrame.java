@@ -39,7 +39,7 @@ public class RelatorioComprasJFrame extends javax.swing.JFrame {
     public RelatorioComprasJFrame(EntityManagerFactory managerIntegrador1, EntityManagerFactory managerCplus1) {
         initComponents();
 
-        formataCampos = new FormatacaoDeCampos();
+        formataCampos = new FormataCampos();
         managerCplus = managerCplus1;
         managerIntegrador = managerIntegrador1;
         queryCplus = new QueryCplus(managerCplus);
@@ -49,7 +49,7 @@ public class RelatorioComprasJFrame extends javax.swing.JFrame {
         jTextFieldNumeroDiasCompra.setText("30");
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
         colunaCodprod = jTableRelatorio.getColumnModel().getColumnIndex("ID C-Plus");
-        formataCampo = new FormatacaoDeCampos();
+        formataCampo = new FormataCampos();
     }
 
     /**
@@ -986,7 +986,7 @@ public class RelatorioComprasJFrame extends javax.swing.JFrame {
 
     static EntityManagerFactory managerCplus;
     private static EntityManagerFactory managerIntegrador;
-    private final FormatacaoDeCampos formataCampos;
+    private final FormataCampos formataCampos;
     private final QueryCplus queryCplus;
     private BigDecimal numerodeDiasCalculo;
     private final QueryIntegrador queryIntegrador;
@@ -994,7 +994,7 @@ public class RelatorioComprasJFrame extends javax.swing.JFrame {
     private Date fimAvaliacao;
     int colunaCodprod;
     Produto produtoCplus;
-    FormatacaoDeCampos formataCampo;
+    FormataCampos formataCampo;
     private String idProdCplus;
 
 

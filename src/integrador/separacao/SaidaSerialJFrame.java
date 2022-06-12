@@ -18,7 +18,7 @@ import entidade.integrador.IntConfiguracao;
 import entidade.integrador.IntLogs;
 import acesso.ListagemUsuarioJDialog;
 import entidade.prestaShop.PsOrders;
-import janela.cplus.FormatacaoDeCampos;
+import janela.cplus.FormataCampos;
 import janela.cplus.ListagemSaidasJDialog;
 import query.cplus.QueryCplus;
 import query.integrador.QueryIntegrador;
@@ -846,21 +846,21 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
                                     condicaoProdutoNoPedido = false;
                                     condicao = false;
                                     mensagem = "ESTE PRODUTO J¡ EST¡ TOTALMENTE SEPARADO, \n Se houver produtos iguais no pedido descarte a informaÁ„o! \n  verifique!!! \n";
-                                    msgLog = ", O produto: " + moVendaProd.getCodprod().getNomeprod() + ", est· totalmente separado. Serial: " + produtoSerial.getSerial() + ", Data: " + new FormatacaoDeCampos().dataStringDataCompleta(new Date(System.currentTimeMillis()), 0);
+                                    msgLog = ", O produto: " + moVendaProd.getCodprod().getNomeprod() + ", est· totalmente separado. Serial: " + produtoSerial.getSerial() + ", Data: " + new FormataCampos().dataStringDataCompleta(new Date(System.currentTimeMillis()), 0);
 
                                 }
                             } else {
                                 condicao = false;
                                 condicaoProdutoNoPedido = false;
                                 mensagem = "ESTE SERIAL J¡Å EST¡Å NO PEDIDO, verifique!!! \n" + produtoSerial.getSerial();
-                                msgLog = ", O produto: " + moVendaProd.getCodprod().getNomeprod() + ", o serial j·° est·° no pedido. Serial: " + produtoSerial.getSerial() + ", Data: " + new FormatacaoDeCampos().dataStringDataCompleta(new Date(System.currentTimeMillis()), 0);
+                                msgLog = ", O produto: " + moVendaProd.getCodprod().getNomeprod() + ", o serial j·° est·° no pedido. Serial: " + produtoSerial.getSerial() + ", Data: " + new FormataCampos().dataStringDataCompleta(new Date(System.currentTimeMillis()), 0);
                             }
                         }// fim if que ferifica se o produto estÔøΩ no pedido                         
                     }//fim for Movendaprod 
                     if (condicaoProdutoNoPedido) {
                         condicao = false;
                         mensagem = "O PRODUTO: " + produto.getNomeprod() + "\n N√O EST¡Å NO PEDIDO Verifique!!!!!";
-                        msgLog = ", O produto: " + produto.getNomeprod() + ", m„o est· no pedido " + produtoSerial.getSerial() + ", Data: " + new FormatacaoDeCampos().dataStringDataCompleta(new Date(System.currentTimeMillis()), 0);
+                        msgLog = ", O produto: " + produto.getNomeprod() + ", m„o est· no pedido " + produtoSerial.getSerial() + ", Data: " + new FormataCampos().dataStringDataCompleta(new Date(System.currentTimeMillis()), 0);
                     }
                 } else {//que verifica se foi digitado o EAN
                     condicao = false;

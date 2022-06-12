@@ -52,7 +52,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
     public SaidaJFrame(EntityManagerFactory managerIntegrador1, EntityManagerFactory managerCplus1) {
         initComponents();
        // var = var1;
-        formataCampos = new FormatacaoDeCampos();
+        formataCampos = new FormataCampos();
         managerCplus = managerCplus1;
         managerIntegrador = managerIntegrador1;
         colunaCodMovendaProduto = jTableMovendaProd.getColumnModel().getColumnIndex("Codmovprod");
@@ -2913,7 +2913,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
     int colunaMovDocReferenciado;
     static EntityManagerFactory managerCplus ;
     //static VariavelStatica var;
-    private final FormatacaoDeCampos formataCampos;
+    private final FormataCampos formataCampos;
     private final QueryCplus queryCplus;
     ListagemSaidasJDialog listagemSaidasJDialog;
     ListagemEntradasJDialog listagemEntradasJDialog;

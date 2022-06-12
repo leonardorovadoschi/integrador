@@ -12,7 +12,7 @@ import entidade.cplus.Movendaprod;
 import entidade.cplus.Movendaprodserial;
 import entidade.cplus.Tipomovimento;
 import entidade.cplus.Unidade;
-import janela.cplus.FormatacaoDeCampos;
+import janela.cplus.FormataCampos;
 import janela.cplus.ListagemClientesJDialog;
 import janela.cplus.ListagemOperacaoJDialog;
 import query.cplus.QueryCplus;
@@ -679,17 +679,17 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
         List<Documento> listDoc = new QueryCplus(managerCplus).resultDocumento(movSaidaProd.getCodmovenda().getNumped().toString());
         if ("Y".equals(tipoMovimentoObjeto.getFlagdevolucao().toString())) {
             for (Documento doc : listDoc) {
-                mensagem = mensagem + "Ref. Nota: " + doc.getNumnota() + ", Data: " + new FormatacaoDeCampos().dataStringSoData(movSaidaProd.getCodmovenda().getData(), 0) + " "
+                mensagem = mensagem + "Ref. Nota: " + doc.getNumnota() + ", Data: " + new FormataCampos().dataStringSoData(movSaidaProd.getCodmovenda().getData(), 0) + " "
                         + "Chave: " + doc.getChaveacessonfeletronica() + " \n";
             }
         } else {
             if (listDoc.size() > 0) {
                 for (Documento doc : listDoc) {
-                    mensagem = mensagem + "Ref. Nota: " + doc.getNumnota() + ", Data: " + new FormatacaoDeCampos().dataStringSoData(movSaidaProd.getCodmovenda().getData(), 0) + " "
+                    mensagem = mensagem + "Ref. Nota: " + doc.getNumnota() + ", Data: " + new FormataCampos().dataStringSoData(movSaidaProd.getCodmovenda().getData(), 0) + " "
                             + "Chave: " + doc.getChaveacessonfeletronica() + " \n";
                 }
             } else {
-                mensagem = mensagem + "Ref. Pedido: " + movSaidaProd.getCodmovenda().getNumped() + ", Data: " + new FormatacaoDeCampos().dataStringSoData(movSaidaProd.getCodmovenda().getData(), 0) + "\n";
+                mensagem = mensagem + "Ref. Pedido: " + movSaidaProd.getCodmovenda().getNumped() + ", Data: " + new FormataCampos().dataStringSoData(movSaidaProd.getCodmovenda().getData(), 0) + "\n";
             }
         }
         jTextAreaObservacos.setText(mensagem);

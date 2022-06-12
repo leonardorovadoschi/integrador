@@ -32,7 +32,7 @@ public class ListagemEntradasJDialog extends javax.swing.JDialog {
         colunaCodMovEntrada = jTableListagemEntradas.getColumnModel().getColumnIndex("Codmoventr");
         managerCplus = managerCplus1;
         queryCplus = new QueryCplus(managerCplus);
-        formataCampos = new FormatacaoDeCampos();
+        formataCampos = new FormataCampos();
         jDateChooserDataFinal.setDate(formataCampos.alteraDiaData(formataCampos.dataAtual(), 0));
         jDateChooserDataInicial.setDate(formataCampos.alteraDiaData(formataCampos.dataAtual(), -2));
         listagemClientesJDialog = new ListagemClientesJDialog(parent, modal, managerCplus);
@@ -434,7 +434,7 @@ public class ListagemEntradasJDialog extends javax.swing.JDialog {
     
     private String termoPes;
     private Moventrada movEntrada;
-   FormatacaoDeCampos formataCampos;
+   FormataCampos formataCampos;
     private int colunaCodMovEntrada;
     QueryCplus queryCplus;
     static EntityManagerFactory managerCplus;

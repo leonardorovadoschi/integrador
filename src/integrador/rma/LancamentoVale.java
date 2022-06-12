@@ -12,7 +12,7 @@ import entidade.cplus.Movenda;
 import entidade.cplus.Moventrada;
 import entidade.cplus.Usuario;
 import entidade.cplus.Vale;
-import janela.cplus.FormatacaoDeCampos;
+import janela.cplus.FormataCampos;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -71,7 +71,7 @@ public class LancamentoVale {
             new ConexaoDB().atualizarCodigo("VALE", "NUMVALE", numVale);
             codVale++;
             new ConexaoDB().atualizarCodigo("VALE", "CODVALE", codVale);
-            JOptionPane.showMessageDialog(null, "vale Gerado com Sucesso!!!\n Numero vale: " +val.getNumvale()+" Valor: "+ new FormatacaoDeCampos().bigDecimalParaString(valor, 2));
+            JOptionPane.showMessageDialog(null, "vale Gerado com Sucesso!!!\n Numero vale: " +val.getNumvale()+" Valor: "+ new FormataCampos().bigDecimalParaString(valor, 2));
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Houve um erro ao Gravar Vave!!!\n " + ex);
         }        

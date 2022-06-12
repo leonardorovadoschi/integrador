@@ -24,7 +24,7 @@ import entidade.prestaShop.PsOrders;
 import entidade.prestaShop.PsPack;
 import query.cplus.QueryCplus;
 import integrador.relatorio.ImprimeRelatorio;
-import janela.cplus.FormatacaoDeCampos;
+import janela.cplus.FormataCampos;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Date;
@@ -97,8 +97,8 @@ public class PedidoDigimacroCplus {
                                     + "\n Cpf/Cnpj: " + cpfCnpj(cliente)
                                     + "\n ATUALIZAR O ENDEREÇO??? "
                                     + "\n Data Atualização Cplus: "
-                                    + new FormatacaoDeCampos().dataStringDataCompleta(cliente.getLastChange(), 0) + "\n Data Atualização Site: "
-                                    + new FormatacaoDeCampos().dataStringDataCompleta(new PsCustomerJpaController(managerPrestaShop).findPsCustomer(order.getIdCustomer()).getDateUpd(), 0), "Atualizar", JOptionPane.YES_NO_CANCEL_OPTION);
+                                    + new FormataCampos().dataStringDataCompleta(cliente.getLastChange(), 0) + "\n Data Atualização Site: "
+                                    + new FormataCampos().dataStringDataCompleta(new PsCustomerJpaController(managerPrestaShop).findPsCustomer(order.getIdCustomer()).getDateUpd(), 0), "Atualizar", JOptionPane.YES_NO_CANCEL_OPTION);
                             if (cancelar == JOptionPane.NO_OPTION) {
                                 condicao = false;
                             }
@@ -230,9 +230,9 @@ public class PedidoDigimacroCplus {
         String str;
         if ("N".equals(clienteCplus.getFlagfisica().toString())) {
             str = clienteCplus.getCnpj();
-            //  str = new FormatacaoDeCampos().mascaraCNPJ(clienteCplus.getCnpj());
+            //  str = new FormataCampos().mascaraCNPJ(clienteCplus.getCnpj());
         } else {
-            //  str = new FormatacaoDeCampos().mascaraCPF(clienteCplus.getCpf());
+            //  str = new FormataCampos().mascaraCPF(clienteCplus.getCpf());
             str = clienteCplus.getCpf();
         }
         return str;
@@ -243,7 +243,7 @@ public class PedidoDigimacroCplus {
         if (new QueryIntegrador(managerIntegrador).valorConfiguracao("cliente_CODIGO_PARA_CUPOM").equals(cli.getCodcli())) {
             obs = "Nome: " + new PsCustomerJpaController(managerPrestaShop).findPsCustomer(order.getIdCustomer()).getFirstname() + " "
                     + new PsCustomerJpaController(managerPrestaShop).findPsCustomer(order.getIdCustomer()).getLastname() + " \n"
-                    + "CNPJ/CPF: " + new FormatacaoDeCampos().mascaraCNPJouCPF(new PsCustomerJpaController(managerPrestaShop).findPsCustomer(order.getIdCustomer()).getSiret()) + "\n";
+                    + "CNPJ/CPF: " + new FormataCampos().mascaraCNPJouCPF(new PsCustomerJpaController(managerPrestaShop).findPsCustomer(order.getIdCustomer()).getSiret()) + "\n";
         }
         for (PsMessage mens : new QueryPrestaShop(managerPrestaShop).listPsMessage(order.getIdOrder())) {
             obs = obs + mens.getMessage() + "\n";

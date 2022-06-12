@@ -9,7 +9,7 @@ package janela.prestaShop;
 import acesso.ControleAcesso;
 import entidade.cplus.Usuario;
 import entidade.prestaShop.PsProduct;
-import janela.cplus.FormatacaoDeCampos;
+import janela.cplus.FormataCampos;
 
 import java.awt.Toolkit;
 import java.util.List;
@@ -40,7 +40,7 @@ public class ListPsProductJDialog extends javax.swing.JDialog {
         managerPrestaShop = managerPrestaShop1;
         managerCplus = managerCplus1; 
         managerIntegrador = managerIntegrador1;
-        formataCampos = new FormatacaoDeCampos();
+        formataCampos = new FormataCampos();
         shopUrl = new QueryIntegrador(managerIntegrador).valorConfiguracao("shopURL");
         key = new QueryIntegrador(managerIntegrador).valorConfiguracao("shopKEY");
        usuario = usuario1;
@@ -356,7 +356,7 @@ public class ListPsProductJDialog extends javax.swing.JDialog {
     static EntityManagerFactory managerCplus;
     int colunaEntityId;
     //private SalesFlatOrder flatOrder;
-    FormatacaoDeCampos formataCampos;
+    FormataCampos formataCampos;
     QueryPrestaShop queryPrestaShop;
     private boolean cancelamento;
     //private BigDecimal quantidadeAntiga;

@@ -19,7 +19,7 @@ import entidade.cplus.Setorestoque;
 import entidade.cplus.Tipomovimento;
 import entidade.cplus.Unidade;
 import entidade.cplus.Usuario;
-import janela.cplus.FormatacaoDeCampos;
+import janela.cplus.FormataCampos;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -624,7 +624,7 @@ public class EntradaClienteCplus {
         } else {
             mensagem = movEntrada.getObs();
         }
-        mensagem = mensagem + "Entrada ref. Pedido " + movendaProd.getCodmovenda().getNumped() + ", Data Lançamento: " + new FormatacaoDeCampos().dataStringSoData(new Date(System.currentTimeMillis()), 0) + " produto " + movendaProd.getCodprod().getNomeprod() + " com serial " + serial + "\n";
+        mensagem = mensagem + "Entrada ref. Pedido " + movendaProd.getCodmovenda().getNumped() + ", Data Lançamento: " + new FormataCampos().dataStringSoData(new Date(System.currentTimeMillis()), 0) + " produto " + movendaProd.getCodprod().getNomeprod() + " com serial " + serial + "\n";
         movEntrada.setObs(mensagem);
         try {
             new MoventradaJpaController(managerCplus).edit(movEntrada);
@@ -653,7 +653,7 @@ public class EntradaClienteCplus {
             } else {
                 mens = movEntrada.getObsnotafiscal();
             }
-            mens = mens + "referente a Nota Nï¿½: " + movenda.getNumnota().toString() + " Data: " + new FormatacaoDeCampos().dataStringSoData(movenda.getData(), 0) + "\n";
+            mens = mens + "referente a Nota Nï¿½: " + movenda.getNumnota().toString() + " Data: " + new FormataCampos().dataStringSoData(movenda.getData(), 0) + "\n";
             movEntrada.setObsnotafiscal(mens);
             try {
                 new MoventradaJpaController(managerCplus).edit(movEntrada);

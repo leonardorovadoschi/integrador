@@ -7,7 +7,7 @@
 package integrador.rma;
 
 import entidade.cplus.Movendaproddevolucaocompra;
-import janela.cplus.FormatacaoDeCampos;
+import janela.cplus.FormataCampos;
 import janela.cplus.ListagemFornecedorJDialog;
 import janela.cplus.ListagemSaidasJDialog;
 import java.awt.Toolkit;
@@ -40,7 +40,7 @@ public class ControleRmaJFrame extends javax.swing.JFrame {
         querySerial = new QueryCplus(managerCplus);
         queryIntegrador = new QueryIntegrador(managerIntegrador);
         colunaCodDevolucao = jTableControleRma.getColumnModel().getColumnIndex("Codmovendaproddevolucaocompra");
-        formatacaoDeCampos = new FormatacaoDeCampos();
+        formatacaoDeCampos = new FormataCampos();
         //VariavelStatica var = new VariavelStatica();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
         decimaisArredondamento = Integer.valueOf(queryIntegrador.valorConfiguracao("casas_decimais_ARREDONDAMENTO"));
@@ -563,7 +563,7 @@ public class ControleRmaJFrame extends javax.swing.JFrame {
     private QueryIntegrador queryIntegrador;
     List<Movendaproddevolucaocompra> listRma;
     int colunaCodDevolucao;
-    FormatacaoDeCampos formatacaoDeCampos; 
+    FormataCampos formatacaoDeCampos; 
     private int decimaisArredondamento;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroupFiltros;

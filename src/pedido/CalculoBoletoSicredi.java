@@ -8,7 +8,7 @@ package pedido;
 
 import entidade.cplus.Contareceber;
 //import integrador.boleto.sicredi.CobrancaBancariaJFrame;
-import janela.cplus.FormatacaoDeCampos;
+import janela.cplus.FormataCampos;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -111,7 +111,7 @@ public class CalculoBoletoSicredi {
             }
         }
         nossoNumeroCplus = nNumero;
-        anoAtual = new FormatacaoDeCampos().anoAtualDoisDigitos();
+        anoAtual = new FormataCampos().anoAtualDoisDigitos();
         DVNossoNumero = calculoDVNossoNumero();      
        // System.out.println("Digito Nosso Numero: " + DVNossoNumero);
         DVLivre = calculoDVLivre();
@@ -684,7 +684,7 @@ public class CalculoBoletoSicredi {
         String montagemBloco;
         montagemBloco = agencia + uaPosto + cedente + anoAtual + bite + nossoNumeroCplus ;
         int acumulador = 0;
-        anoAtual = new FormatacaoDeCampos().anoAtualDoisDigitos();
+        anoAtual = new FormataCampos().anoAtualDoisDigitos();
         for (int i = 0; i < montagemBloco.length(); i++) {
             switch (i) {
                 case 0:

@@ -19,7 +19,7 @@ import integrador.render.RenderDataEHora;
 import integrador.render.RenderPorcentagem;
 import integrador.render.RenderPreco;
 //import integrador.cliente.MagentoIntegradorCliente;
-import janela.cplus.FormatacaoDeCampos;
+import janela.cplus.FormataCampos;
 import janela.integrador.AtualizaExecucaoIntegrador;
 import janela.integrador.ClienteCplusDigimacro;
 import query.cplus.QueryCplus;
@@ -57,7 +57,7 @@ public class VendaDigimacroJFrame_1 extends javax.swing.JFrame {
         //new RenderCnpjCpf();
         //new RenderDataEHora();
         //new RenderCustomerNome();
-        formataCampos = new FormatacaoDeCampos();
+        formataCampos = new FormataCampos();
         managerPrestaShop = managerPrestaShop1;
         managerIntegrador = managerIntegrador1;
         new RenderPreco();
@@ -957,7 +957,7 @@ public class VendaDigimacroJFrame_1 extends javax.swing.JFrame {
     static EntityManagerFactory managerIntegrador;
     static EntityManagerFactory managerCplus;
     private final String codCaracteristicaCliente;
-    private final FormatacaoDeCampos formataCampos;
+    private final FormataCampos formataCampos;
     private PsOrders psOrders;
     private final SaidasPrestaShopJDialog listagemSaidasMagentoJDialog;
     private final ListPsProductJDialog listagemProdutoMagentoJDialog;

@@ -40,7 +40,7 @@ public class ListagemSaidasJDialog extends javax.swing.JDialog {
         colunaCodMoVenda = jTableListagemSaidas.getColumnModel().getColumnIndex("codmovenda");
         colunaStatus = jTableListagemSaidas.getColumnModel().getColumnIndex("Status");
         indexComboBox = 0;
-        formatacaoCampos = new FormatacaoDeCampos();       
+        formatacaoCampos = new FormataCampos();       
         jDateChooserDataFinal.setDate(formatacaoCampos.alteraDiaData(formatacaoCampos.dataAtual(), 0));
         jDateChooserDataInicial.setDate(formatacaoCampos.alteraDiaData(formatacaoCampos.dataAtual(), -2));
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
@@ -581,7 +581,7 @@ public class ListagemSaidasJDialog extends javax.swing.JDialog {
     private boolean cancelamento;
     private Movenda moVenda;
     private int indexComboBox;
-    private final FormatacaoDeCampos formatacaoCampos;
+    private final FormataCampos formatacaoCampos;
    // ListagemClientesJDialog listagemClientesJDialog;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.persistence.EntityManager cplusPUEntityManager;

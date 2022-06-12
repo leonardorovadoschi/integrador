@@ -40,7 +40,7 @@ import entidade.prestaShop.PsTag;
 import entidade.prestaShop.PsTagCount;
 import entidade.prestaShop.PsTagCountPK;
 import entidade.prestaShop.PsTaxRulesGroup;
-import janela.cplus.FormatacaoDeCampos;
+import janela.cplus.FormataCampos;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.Connection;
@@ -393,7 +393,7 @@ public class ProdutoCplusDigimacro {
         String ob = "";
         if (proCplus != null) {
             ob = proCplus.getObs() + " <p>Part Number: " + partNumber(proCplus, managerCplus) + "</p> <p>NCM: "
-                    + new FormatacaoDeCampos().mascaraNCM(proCplus.getCodclassificacaofiscal().getCodigoclassificacaofiscal()) + " </p>";
+                    + new FormataCampos().mascaraNCM(proCplus.getCodclassificacaofiscal().getCodigoclassificacaofiscal()) + " </p>";
         }
         return ob;
     }
@@ -616,7 +616,7 @@ public class ProdutoCplusDigimacro {
                 psSP.setReductionTax(true);
                 psSP.setReductionType("amount");
                 psSP.setFrom(new Date(System.currentTimeMillis()));
-                psSP.setTo(new FormatacaoDeCampos().alteraDiaData(new Date(System.currentTimeMillis()), 360));
+                psSP.setTo(new FormataCampos().alteraDiaData(new Date(System.currentTimeMillis()), 360));
                 new PsSpecificPriceJpaController(managerPrestaShop).create(psSP);
             } else if (listPSSPdif.size() == 1) {
                 for (PsSpecificPrice psSP : listPSSPdif) {
@@ -644,7 +644,7 @@ public class ProdutoCplusDigimacro {
                     //psSP.setReductionTax(true);
                     //psSP.setReductionType("percentage");
                     //psSP.setFrom(new );
-                    psSP.setTo(new FormatacaoDeCampos().alteraDiaData(new Date(System.currentTimeMillis()), 360));
+                    psSP.setTo(new FormataCampos().alteraDiaData(new Date(System.currentTimeMillis()), 360));
                     try {
                         new PsSpecificPriceJpaController(managerPrestaShop).edit(psSP);
                     } catch (Exception ex) {
@@ -679,7 +679,7 @@ public class ProdutoCplusDigimacro {
                 psSP.setReductionTax(true);
                 psSP.setReductionType("percentage");
                 psSP.setFrom(new Date(System.currentTimeMillis()));
-                psSP.setTo(new FormatacaoDeCampos().alteraDiaData(new Date(System.currentTimeMillis()), 360));
+                psSP.setTo(new FormataCampos().alteraDiaData(new Date(System.currentTimeMillis()), 360));
                 new PsSpecificPriceJpaController(managerPrestaShop).create(psSP);
             } else if (listPSSP.size() == 1) {
                 for (PsSpecificPrice psSP : listPSSP) {
@@ -699,7 +699,7 @@ public class ProdutoCplusDigimacro {
                     //psSP.setReductionTax(true);
                     //psSP.setReductionType("percentage");
                     //psSP.setFrom(new );
-                    psSP.setTo(new FormatacaoDeCampos().alteraDiaData(new Date(System.currentTimeMillis()), 360));
+                    psSP.setTo(new FormataCampos().alteraDiaData(new Date(System.currentTimeMillis()), 360));
                     try {
                         new PsSpecificPriceJpaController(managerPrestaShop).edit(psSP);
                     } catch (Exception ex) {
@@ -745,7 +745,7 @@ public class ProdutoCplusDigimacro {
                 psSP.setReductionTax(true);
                 psSP.setReductionType("percentage");
                 psSP.setFrom(new Date(System.currentTimeMillis()));
-                psSP.setTo(new FormatacaoDeCampos().alteraDiaData(new Date(System.currentTimeMillis()), 360));
+                psSP.setTo(new FormataCampos().alteraDiaData(new Date(System.currentTimeMillis()), 360));
                 new PsSpecificPriceJpaController(managerPrestaShop).create(psSP);
             } else if (listPSSP.size() == 1) {
                 for (PsSpecificPrice psSP : listPSSP) {
@@ -765,7 +765,7 @@ public class ProdutoCplusDigimacro {
                     //psSP.setReductionTax(true);
                     //psSP.setReductionType("percentage");
                     //psSP.setFrom(new );
-                    psSP.setTo(new FormatacaoDeCampos().alteraDiaData(new Date(System.currentTimeMillis()), 360));
+                    psSP.setTo(new FormataCampos().alteraDiaData(new Date(System.currentTimeMillis()), 360));
                     try {
                         new PsSpecificPriceJpaController(managerPrestaShop).edit(psSP);
                     } catch (Exception ex) {

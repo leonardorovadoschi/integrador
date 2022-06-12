@@ -45,7 +45,7 @@ public class RelatorioEstoqueJFrame extends javax.swing.JFrame {
          managerCplus = managerCplus1;
           queryCplus = new QueryCplus(managerCplus);
           setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
-          formatacaoCampos = new FormatacaoDeCampos(); 
+          formatacaoCampos = new FormataCampos(); 
           jDateChooserDataInventario.setDate(formatacaoCampos.alteraHoraData(formatacaoCampos.dataAtual()));
           jDateChooserFim.setDate(formatacaoCampos.alteraHoraData(formatacaoCampos.dataAtual()));
           jDateChooserInicio.setDate(formatacaoCampos.alteraDiaData(formatacaoCampos.dataAtual(), -30));
@@ -543,7 +543,7 @@ public class RelatorioEstoqueJFrame extends javax.swing.JFrame {
  static EntityManagerFactory managerCplus;
  private List<Produtoestoque> listaProdutosEstoque;
  QueryCplus queryCplus;
- private final FormatacaoDeCampos formatacaoCampos;
+ private final FormataCampos formatacaoCampos;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonGeraDados;
     private javax.swing.JButton jButtonProdSemVendas;

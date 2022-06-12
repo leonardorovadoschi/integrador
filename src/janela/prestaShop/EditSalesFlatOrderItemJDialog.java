@@ -11,10 +11,14 @@ import entidade.cplus.Usuario;
 import entidade.prestaShop.PsOrderDetail;
 import entidade.prestaShop.PsOrders;
 import entidade.prestaShop.PsProduct;
-import janela.cplus.FormatacaoDeCampos;
+import janela.cplus.FormataCampos;
 
 ;
 import java.math.BigDecimal;
+import java.util.Calendar;
+import java.util.Date;
+import javax.persistence.EntityManagerFactory;
+import javax.swing.JOptionPane;import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 import javax.persistence.EntityManagerFactory;
@@ -40,7 +44,7 @@ public class EditSalesFlatOrderItemJDialog extends javax.swing.JDialog {
         initComponents();
         managerMagento = managerMagento1;
         managerCplus = managerCplus1;
-        formataCampos = new FormatacaoDeCampos();
+        formataCampos = new FormataCampos();
         
         usuario = usuario1;
         acesso = new ControleAcesso(managerCplus);
@@ -675,7 +679,7 @@ public class EditSalesFlatOrderItemJDialog extends javax.swing.JDialog {
     static EntityManagerFactory managerCplus;
     private PsOrderDetail flatOrderItem;
     private PsOrders flatOrder;
-    FormatacaoDeCampos formataCampos;
+    FormataCampos formataCampos;
     //VariavelStatica var;
     private boolean cancelamento;
     private BigDecimal quantidadeAntiga;

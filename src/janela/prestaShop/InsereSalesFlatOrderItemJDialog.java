@@ -15,7 +15,7 @@ import entidade.prestaShop.PsPack;
 import entidade.prestaShop.PsProduct;
 import entidade.prestaShop.PsProductLang;
 import entidade.prestaShop.PsStockAvailable;
-import janela.cplus.FormatacaoDeCampos;
+import janela.cplus.FormataCampos;
 import java.awt.Toolkit;
 import java.math.BigDecimal;
 import java.util.Calendar;
@@ -51,7 +51,7 @@ public class InsereSalesFlatOrderItemJDialog extends javax.swing.JDialog {
         managerCplus = managerCplus1;       
         queryPrestaShop = new QueryPrestaShop(managerPrestaShop);
         queryCplus =  new QueryCplus(managerCplus);
-        formataCampos = new FormatacaoDeCampos();
+        formataCampos = new FormataCampos();
        usuario = usuario1;
        acesso = new ControleAcesso(managerCplus);
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
@@ -698,7 +698,7 @@ public class InsereSalesFlatOrderItemJDialog extends javax.swing.JDialog {
     static EntityManagerFactory managerCplus;
    // private SalesFlatOrderItem flatOrderItem;
     private PsOrders psOrders;
-    FormatacaoDeCampos formataCampos;
+    FormataCampos formataCampos;
     private boolean cancelamento;
     private BigDecimal quantidade;
     private PsProduct psProduct;

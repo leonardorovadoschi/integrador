@@ -22,8 +22,23 @@ import javax.swing.text.MaskFormatter;
  *
  * @author LEO
  */
-public class FormatacaoDeCampos {
+public class FormataCampos {
 
+    /**
+     * Função que converte data do BD para uma string, usada em pesquisas WebService
+     * formato yyyy-MM-dd%20HH:mm:ss %20 substitui o espaço em branco
+     * @param dataBancoDados
+     * @param alterarDia
+     * @return 
+     */
+    public String dataStringWebService(Date dataBancoDados, int alterarDia) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Calendar fimExecucao = Calendar.getInstance();
+        fimExecucao.setTime(dataBancoDados);
+        fimExecucao.add(Calendar.DAY_OF_MONTH, alterarDia);
+        String dataFormat = sdf.format(fimExecucao.getTime());
+        return dataFormat;
+    }
     /**
      * Função que transforma data do banco de dados em String formatada tambem
      * incrementa ou decrementa o dia

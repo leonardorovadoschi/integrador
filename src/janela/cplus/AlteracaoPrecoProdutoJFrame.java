@@ -68,7 +68,7 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
      * @param managerPrestaShop1
      */
     public AlteracaoPrecoProdutoJFrame(EntityManagerFactory managerCplus1, EntityManagerFactory managerIntegracao1, EntityManagerFactory managerPrestaShop1) {
-        formataCampo = new FormatacaoDeCampos();
+        formataCampo = new FormataCampos();
         managerIntegrador = managerIntegracao1;
         managerPrestaShop = managerPrestaShop1;
         managerCplus = managerCplus1;
@@ -3030,7 +3030,7 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
     private final QueryCplus queryCplus;
     private final QueryIntegrador queryIntegrador;
     private QueryPrestaShop queryPrestaShop;
-    private final FormatacaoDeCampos formataCampo;
+    private final FormataCampos formataCampo;
     private int colunaCodigo;
     private int colunaEan;
     private int colunaCodprod;

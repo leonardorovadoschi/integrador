@@ -8,7 +8,7 @@ package janela.prestaShop;
 import com.mysql.cj.x.protobuf.MysqlxCrud;
 import entidade.prestaShop.PsOrders;
 import integrador.render.RenderCustomerNome;
-import janela.cplus.FormatacaoDeCampos;
+import janela.cplus.FormataCampos;
 import integrador.render.RenderDataEHora;
 import integrador.render.RenderNumeroInteiro;
 import integrador.render.RenderPreco;
@@ -64,9 +64,9 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
         this.ws = new ClienteWebService(shopUrl, key, false);
 
         idOrder = jTableListOrders.getColumnModel().getColumnIndex("Id Order");
-        formatacaoCampos = new FormatacaoDeCampos();
-        jDateChooserDataInicial.setDate(formatacaoCampos.alteraDiaData(formatacaoCampos.dataAtual(), -2));
-        jDateChooserDataFinal.setDate(formatacaoCampos.alteraDiaData(formatacaoCampos.dataAtual(), 1));
+        formataCampos = new FormataCampos();
+        jDateChooserDataInicial.setDate(formataCampos.alteraDiaData(formataCampos.dataAtual(), -2));
+        jDateChooserDataFinal.setDate(formataCampos.alteraDiaData(formataCampos.dataAtual(), 1));
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
         controleDeAcesso();
     }
@@ -110,6 +110,7 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
         jPanelPesquisa.setBorder(javax.swing.BorderFactory.createTitledBorder("Pesquisa"));
 
         jComboBoxTipoPesquisa.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Nº Orders", "Status do Pedido", "Item 3", "Item 4" }));
+        jComboBoxTipoPesquisa.setSelectedIndex(1);
         jComboBoxTipoPesquisa.setToolTipText("selecione qual o tipo de pesquisa que você deseja fazer");
         jComboBoxTipoPesquisa.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -453,12 +454,10 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
                         for (String id : ws.retornaListaId(nList)) {
                             getSchemaOpt.put("url", shopUrl + "/api/orders/" + id);
                             document = ws.getFuncao(getSchemaOpt);
-                           listPsOrders.add(new WebOrders().xmlParaEntidade(document, ws));
-                           
+                            listPsOrders.add(new WebOrders().xmlParaEntidade(document, ws, managerPrestaShop));
                         }
-
                     } catch (PrestaShopWebserviceException ex) {
-                        Logger.getLogger(SaidasPrestaShopJDialog.class.getName()).log(Level.SEVERE, null, ex);
+                        JOptionPane.showMessageDialog(null, "Erro ao consultar Web Service: \n" + ex);
                     }
                     if (listPsOrders.size() < 1) {
                         JOptionPane.showMessageDialog(null, "Não foi encontrado resultado para essa pesquisa!!! ");
@@ -472,26 +471,105 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
                 break;
             case 1://por status pedido
                 psOrdersList.clear();
+                listPsOrders = new ArrayList<>();
                 Date dataInicial = jDateChooserDataInicial.getDate();
                 Date dataFinal = jDateChooserDataFinal.getDate();
                 if (jRadioButtonPendente.isSelected()) {
-                    List<Integer> list = new ArrayList<>();
-                    list.add(1);
-                    list.add(2);
-                    list.add(3);
-                    list.add(10);
-                    listPsOrders = queryPrestaShop.listPsOrders(list, dataInicial, dataFinal);
+                    try {
+                    //List<Integer> list = new ArrayList<>();
+                        // list.add(1);
+                        // list.add(2);
+                        //list.add(3);
+                        // list.add(10);
+                        //listPsOrders = queryPrestaShop.listPsOrders(list, dataInicial, dataFinal);
+                        HashMap<String, Object> getSchemaOpt = new HashMap();
+                        getSchemaOpt.put("url", shopUrl + "/api/orders?date=1&filter[date_upd]=[" + formataCampos.dataStringWebService(dataInicial, 0) + ","
+                                + formataCampos.dataStringWebService(dataFinal, 0) + "]&filter[current_state]=[1|2|10]");
+                        Document document;
+                        document = ws.getFuncao(getSchemaOpt);
+                        NodeList nList = document.getElementsByTagName("order");
+                        for (String id : ws.retornaListaId(nList)) {
+                            getSchemaOpt.put("url", shopUrl + "/api/orders/" + id);
+                            document = ws.getFuncao(getSchemaOpt);
+                            PsOrders ord = new WebOrders().xmlParaEntidade(document, ws, managerPrestaShop);
+                            if(ord != null){
+                            listPsOrders.add(ord);
+                            }
+                        }
+                    } catch (PrestaShopWebserviceException ex) {
+                        JOptionPane.showMessageDialog(null, "Erro ao consultar Web Service: \n" + ex);
+                    }
                 } else if (jRadioButtonCancelado.isSelected()) {
-                    listPsOrders = queryPrestaShop.listPsOrders(6, dataFinal, dataInicial);
+                   // listPsOrders = queryPrestaShop.listPsOrders(6, dataFinal, dataInicial);
+                   try {                  
+                        HashMap<String, Object> getSchemaOpt = new HashMap();
+                        getSchemaOpt.put("url", shopUrl + "/api/orders?date=1&filter[date_upd]=[" + formataCampos.dataStringWebService(dataInicial, 0) + ","
+                                + formataCampos.dataStringWebService(dataFinal, 0) + "]&filter[current_state]=6");
+                        Document document;
+                        document = ws.getFuncao(getSchemaOpt);
+                        NodeList nList = document.getElementsByTagName("order");
+                        for (String id : ws.retornaListaId(nList)) {
+                            getSchemaOpt.put("url", shopUrl + "/api/orders/" + id);
+                            document = ws.getFuncao(getSchemaOpt);
+                            listPsOrders.add(new WebOrders().xmlParaEntidade(document, ws, managerPrestaShop));
+                        }
+                    } catch (PrestaShopWebserviceException ex) {
+                        JOptionPane.showMessageDialog(null, "Erro ao consultar Web Service: \n" + ex);
+                    } 
                 } else if (jRadioButtonProcessado.isSelected()) {
-                    listPsOrders = queryPrestaShop.listPsOrders(5, dataFinal, dataInicial);
+                    //listPsOrders = queryPrestaShop.listPsOrders(5, dataFinal, dataInicial);
+                    try {                  
+                        HashMap<String, Object> getSchemaOpt = new HashMap();
+                        getSchemaOpt.put("url", shopUrl + "/api/orders?date=1&filter[date_upd]=[" + formataCampos.dataStringWebService(dataInicial, 0) + ","
+                                + formataCampos.dataStringWebService(dataFinal, 0) + "]&filter[current_state]=5");
+                        Document document;
+                        document = ws.getFuncao(getSchemaOpt);
+                        NodeList nList = document.getElementsByTagName("order");
+                        for (String id : ws.retornaListaId(nList)) {
+                            getSchemaOpt.put("url", shopUrl + "/api/orders/" + id);
+                            document = ws.getFuncao(getSchemaOpt);
+                            listPsOrders.add(new WebOrders().xmlParaEntidade(document, ws, managerPrestaShop));
+                        }
+                    } catch (PrestaShopWebserviceException ex) {
+                        JOptionPane.showMessageDialog(null, "Erro ao consultar Web Service: \n" + ex);
+                    } 
                 } else if (jRadioButtonEmSeparacao.isSelected()) {
-                    listPsOrders = queryPrestaShop.listPsOrders(3, dataFinal, dataInicial);
+                    //listPsOrders = queryPrestaShop.listPsOrders(3, dataFinal, dataInicial);
+                    try {                  
+                        HashMap<String, Object> getSchemaOpt = new HashMap();
+                        getSchemaOpt.put("url", shopUrl + "/api/orders?date=1&filter[date_upd]=[" + formataCampos.dataStringWebService(dataInicial, 0) + ","
+                                + formataCampos.dataStringWebService(dataFinal, 0) + "]&filter[current_state]=3");
+                        Document document;
+                        document = ws.getFuncao(getSchemaOpt);
+                        NodeList nList = document.getElementsByTagName("order");
+                        for (String id : ws.retornaListaId(nList)) {
+                            getSchemaOpt.put("url", shopUrl + "/api/orders/" + id);
+                            document = ws.getFuncao(getSchemaOpt);
+                            listPsOrders.add(new WebOrders().xmlParaEntidade(document, ws, managerPrestaShop));
+                        }
+                    } catch (PrestaShopWebserviceException ex) {
+                        JOptionPane.showMessageDialog(null, "Erro ao consultar Web Service: \n" + ex);
+                    } 
                 } else {
-                    listPsOrders = queryPrestaShop.listPsOrders(dataFinal, dataInicial);
+                    //listPsOrders = queryPrestaShop.listPsOrders(dataFinal, dataInicial);
+                    try {                  
+                        HashMap<String, Object> getSchemaOpt = new HashMap();
+                        getSchemaOpt.put("url", shopUrl + "/api/orders?date=1&filter[date_upd]=[" + formataCampos.dataStringWebService(dataInicial, 0) + ","
+                                + formataCampos.dataStringWebService(dataFinal, 0) + "]");
+                        Document document;
+                        document = ws.getFuncao(getSchemaOpt);
+                        NodeList nList = document.getElementsByTagName("order");
+                        for (String id : ws.retornaListaId(nList)) {
+                            getSchemaOpt.put("url", shopUrl + "/api/orders/" + id);
+                            document = ws.getFuncao(getSchemaOpt);
+                            listPsOrders.add(new WebOrders().xmlParaEntidade(document, ws, managerPrestaShop));
+                        }
+                    } catch (PrestaShopWebserviceException ex) {
+                        JOptionPane.showMessageDialog(null, "Erro ao consultar Web Service: \n" + ex);
+                    } 
                 }
-                //Date dataInicial = formatacaoCampos.dataBanco(jTextFieldDataInicial.getText());
-                //Date dataFinal = formatacaoCampos.dataBanco(jTextFieldDataFinal.getText());
+                //Date dataInicial = formataCampos.dataBanco(jTextFieldDataInicial.getText());
+                //Date dataFinal = formataCampos.dataBanco(jTextFieldDataFinal.getText());
 
                 if (listPsOrders.size() < 1) {
                     JOptionPane.showMessageDialog(null, "Não foi encontrado resultado para essa pesquisa!!! ");
@@ -588,7 +666,7 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
     private boolean cancelamento;
     private PsOrders psOrders;
     private int idOrder;
-    private final FormatacaoDeCampos formatacaoCampos;
+    private final FormataCampos formataCampos;
     private final String shopUrl;
     private final String key;
     private ClienteWebService ws;

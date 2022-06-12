@@ -17,7 +17,7 @@ import entidade.cplus.Unidade;
 import entidade.prestaShop.PsOrderDetail;
 import entidade.prestaShop.PsOrders;
 import entidade.prestaShop.PsPack;
-import janela.cplus.FormatacaoDeCampos;
+import janela.cplus.FormataCampos;
 import query.cplus.QueryCplus;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -143,7 +143,7 @@ public class ManutencaoVenda {
             moVenda.setIdentrega(nfc.getCodnfceletronica()); // referente ao numero do cumpom
             moVenda.setEntregareferencia(nfc.getChaveacessonfceletronica()); //referente a chave de acesso
             moVenda.setNumpedcliente(formatString(nfc.getNumeroprotocolonfceletronica(), "#### #### #### #### #### #### #### #### #### #### ####")); //referente ao numero do protocolo
-            moVenda.setEntregaendereco(new FormatacaoDeCampos().dataStringSoHora(nfc.getDatahorarecebimento(), 0));
+            moVenda.setEntregaendereco(new FormataCampos().dataStringSoHora(nfc.getDatahorarecebimento(), 0));
             moVenda.setDataemissao(nfc.getDatahoraemissao());
             moVenda.setNumtransf(moVenda.getMovendaprodCollection().size());
 

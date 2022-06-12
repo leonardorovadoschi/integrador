@@ -19,7 +19,7 @@ import entidade.cplus.Produtoestoque;
 import entidade.cplus.Produtoserial;
 import entidade.cplus.Tipomovimento;
 import entidade.cplus.Usuario;
-import janela.cplus.FormatacaoDeCampos;
+import janela.cplus.FormataCampos;
 import janela.cplus.ListagemClientesJDialog;
 import janela.cplus.ListagemEntradasJDialog;
 import janela.cplus.ListagemFornecedorJDialog;
@@ -67,7 +67,7 @@ public class RmaJFrame extends javax.swing.JFrame {
         queryIntegrador = new QueryIntegrador(managerIntegrador);
         queryCplus = new QueryCplus(managerCplus);
         queryPrestaShop = new QueryPrestaShop(managerPrestaShop);
-        formatacaoDeCampos = new FormatacaoDeCampos();
+        formatacaoDeCampos = new FormataCampos();
         this.listagemEntradasJDialog = new ListagemEntradasJDialog(this, true, managerCplus);
         this.listagemSaidasJDialog = new ListagemSaidasJDialog(this, true, managerCplus);
         this.numeroNotaJDialog = new NumeroNotaJDialog(this, true);
@@ -1185,7 +1185,7 @@ public class RmaJFrame extends javax.swing.JFrame {
     private final QueryIntegrador queryIntegrador;
     private final QueryCplus queryCplus;
     private final QueryPrestaShop queryPrestaShop;
-    FormatacaoDeCampos formatacaoDeCampos;
+    FormataCampos formatacaoDeCampos;
     String serial;
     int colunaCodClienteSaida;
     int colunaCodFornecedorEntrada;
