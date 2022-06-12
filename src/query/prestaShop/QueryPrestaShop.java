@@ -10,6 +10,8 @@ import entidade.prestaShop.PsAddress;
 import entidade.prestaShop.PsCarrier;
 import entidade.prestaShop.PsCategoryLang;
 import entidade.prestaShop.PsCategoryProduct;
+import entidade.prestaShop.PsCustomPaymentMethod;
+import entidade.prestaShop.PsCustomPaymentMethodLang;
 import entidade.prestaShop.PsCustomer;
 import entidade.prestaShop.PsCustomerGroup;
 import entidade.prestaShop.PsManufacturer;
@@ -37,11 +39,13 @@ import entidade.prestaShop.PsTaxLang;
 import entidade.prestaShop.PsTaxRulesGroup;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaQuery;
 
 /**
  *
@@ -447,7 +451,15 @@ public class QueryPrestaShop implements Serializable {
         query.setParameter("orderReference", orderReference);
         return query.getResultList();
     }
-
+    
+    
+     public List<PsCustomPaymentMethodLang> listCustomPagament() {
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery("SELECT c FROM PsCustomPaymentMethodLang c WHERE c.psCustomPaymentMethodLangPK.idLang =:id");
+        query.setParameter("id", 2);
+        return query.getResultList();
+     }
+     
    public List<PsOrders> listPsOrders(List<Integer> listCurrentState, Date dataInicial, Date dataFinal) {
         EntityManager em = getEntityManager();
         Query query = em.createQuery("SELECT c FROM PsOrders c WHERE c.currentState IN :currentState AND c.dateAdd BETWEEN :dataInicial AND :dataFinal");

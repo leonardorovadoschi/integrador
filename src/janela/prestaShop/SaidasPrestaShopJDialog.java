@@ -5,31 +5,24 @@
  */
 package janela.prestaShop;
 
-import com.mysql.cj.x.protobuf.MysqlxCrud;
 import entidade.prestaShop.PsOrders;
 import integrador.render.RenderCustomerNome;
 import janela.cplus.FormataCampos;
 import integrador.render.RenderDataEHora;
-import integrador.render.RenderNumeroInteiro;
 import integrador.render.RenderPreco;
 import integrador.webservice.ClienteWebService;
 import integrador.webservice.PrestaShopWebserviceException;
 import integrador.webservice.WebOrders;
 import static janela.prestaShop.ListPsProductJDialog.managerIntegrador;
 import java.awt.Toolkit;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
-import javax.xml.transform.TransformerException;
 import jpa.prestaShop.PsOrdersJpaController;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import query.integrador.QueryIntegrador;
 import query.prestaShop.QueryPrestaShop;
@@ -454,7 +447,7 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
                         for (String id : ws.retornaListaId(nList)) {
                             getSchemaOpt.put("url", shopUrl + "/api/orders/" + id);
                             document = ws.getFuncao(getSchemaOpt);
-                            listPsOrders.add(new WebOrders().xmlParaEntidade(document, ws, managerPrestaShop));
+                            listPsOrders.add(new WebOrders().xmlParaEntidade(document, ws));
                         }
                     } catch (PrestaShopWebserviceException ex) {
                         JOptionPane.showMessageDialog(null, "Erro ao consultar Web Service: \n" + ex);
@@ -491,7 +484,7 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
                         for (String id : ws.retornaListaId(nList)) {
                             getSchemaOpt.put("url", shopUrl + "/api/orders/" + id);
                             document = ws.getFuncao(getSchemaOpt);
-                            PsOrders ord = new WebOrders().xmlParaEntidade(document, ws, managerPrestaShop);
+                            PsOrders ord = new WebOrders().xmlParaEntidade(document, ws);
                             if(ord != null){
                             listPsOrders.add(ord);
                             }
@@ -511,7 +504,7 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
                         for (String id : ws.retornaListaId(nList)) {
                             getSchemaOpt.put("url", shopUrl + "/api/orders/" + id);
                             document = ws.getFuncao(getSchemaOpt);
-                            listPsOrders.add(new WebOrders().xmlParaEntidade(document, ws, managerPrestaShop));
+                            listPsOrders.add(new WebOrders().xmlParaEntidade(document, ws));
                         }
                     } catch (PrestaShopWebserviceException ex) {
                         JOptionPane.showMessageDialog(null, "Erro ao consultar Web Service: \n" + ex);
@@ -528,7 +521,7 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
                         for (String id : ws.retornaListaId(nList)) {
                             getSchemaOpt.put("url", shopUrl + "/api/orders/" + id);
                             document = ws.getFuncao(getSchemaOpt);
-                            listPsOrders.add(new WebOrders().xmlParaEntidade(document, ws, managerPrestaShop));
+                            listPsOrders.add(new WebOrders().xmlParaEntidade(document, ws));
                         }
                     } catch (PrestaShopWebserviceException ex) {
                         JOptionPane.showMessageDialog(null, "Erro ao consultar Web Service: \n" + ex);
@@ -545,7 +538,7 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
                         for (String id : ws.retornaListaId(nList)) {
                             getSchemaOpt.put("url", shopUrl + "/api/orders/" + id);
                             document = ws.getFuncao(getSchemaOpt);
-                            listPsOrders.add(new WebOrders().xmlParaEntidade(document, ws, managerPrestaShop));
+                            listPsOrders.add(new WebOrders().xmlParaEntidade(document, ws));
                         }
                     } catch (PrestaShopWebserviceException ex) {
                         JOptionPane.showMessageDialog(null, "Erro ao consultar Web Service: \n" + ex);
@@ -562,7 +555,7 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
                         for (String id : ws.retornaListaId(nList)) {
                             getSchemaOpt.put("url", shopUrl + "/api/orders/" + id);
                             document = ws.getFuncao(getSchemaOpt);
-                            listPsOrders.add(new WebOrders().xmlParaEntidade(document, ws, managerPrestaShop));
+                            listPsOrders.add(new WebOrders().xmlParaEntidade(document, ws));
                         }
                     } catch (PrestaShopWebserviceException ex) {
                         JOptionPane.showMessageDialog(null, "Erro ao consultar Web Service: \n" + ex);

@@ -6,35 +6,50 @@
 package janela.prestaShop;
 
 import entidade.cplus.Cliente;
-import entidade.cplus.Usuario;
-import entidade.prestaShop.PsOrders;
 import entidade.cplus.Clientecaracteristica;
+import entidade.cplus.Usuario;
 import entidade.integrador.IntExecucao;
 import entidade.prestaShop.PsAddress;
+import entidade.prestaShop.PsCustomPaymentMethod;
+import entidade.prestaShop.PsCustomPaymentMethodLang;
 import entidade.prestaShop.PsCustomer;
 import entidade.prestaShop.PsOrderDetail;
 import entidade.prestaShop.PsOrderStateLang;
+import entidade.prestaShop.PsOrders;
 import integrador.render.RenderCnpjCpf;
 import integrador.render.RenderDataEHora;
 import integrador.render.RenderPorcentagem;
 import integrador.render.RenderPreco;
+import integrador.webservice.ClienteWebService;
+import integrador.webservice.PrestaShopWebserviceException;
+import integrador.webservice.WebCustomer;
+import integrador.webservice.WebOrderDetails;
+import integrador.webservice.WebOrders;
 //import integrador.cliente.MagentoIntegradorCliente;
 import janela.cplus.FormataCampos;
 import janela.integrador.AtualizaExecucaoIntegrador;
 import janela.integrador.ClienteCplusDigimacro;
-import query.cplus.QueryCplus;
 import janela.integrador.ClienteDigimacroCplus;
+import static janela.prestaShop.ListPsProductJDialog.managerIntegrador;
 import java.awt.Toolkit;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import jpa.integrador.IntExecucaoJpaController;
 import jpa.prestaShop.PsCustomerJpaController;
 import jpa.prestaShop.PsOrdersJpaController;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
 import pedido.PedidoDigimacroCplus;
+import query.cplus.QueryCplus;
 import query.integrador.QueryIntegrador;
 import query.prestaShop.QueryPrestaShop;
 
@@ -67,18 +82,30 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         usuario = usuario1;
         queryPrestaShop = new QueryPrestaShop(managerPrestaShop);
         initComponents();
+        
+        
+        
+        shopUrl = new QueryIntegrador(managerIntegrador).valorConfiguracao("shopURL");
+        key = new QueryIntegrador(managerIntegrador).valorConfiguracao("shopKEY");
+
+        this.ws = new ClienteWebService(shopUrl, key, false);
+
         codCaracteristicaCliente = new QueryIntegrador(managerIntegrador).valorConfiguracao("cliente_CARACTERISTICA_CPLUS_DIGIMACRO");
         queryCplus = new QueryCplus(managerCplus);
         //acesso = new ControleAcesso(managerCplus);
         this.listagemSaidasMagentoJDialog = new SaidasPrestaShopJDialog(this, true, managerPrestaShop, managerIntegrador);
         //this.editSalesFlatOrderItemJDialog = new EditSalesFlatOrderItemJDialog(this, true, managerPrestaShop, managerCplus, usuario);
-        this.listagemProdutoMagentoJDialog = new ListPsProductJDialog(this, true,managerIntegrador, managerPrestaShop, managerCplus, usuario);
+        this.listagemProdutoMagentoJDialog = new ListPsProductJDialog(this, true, managerIntegrador, managerPrestaShop, managerCplus, usuario);
         this.insereSalesFlatOrderItemJDialog = new InsereSalesFlatOrderItemJDialog(this, true, managerPrestaShop, managerCplus, usuario);
         // colunaItemId = jTableProdutosPedido.getColumnModel().getColumnIndex("Item Id");
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
         jDateChooserDataInicialCustomer.setDate(formataCampos.alteraDiaData(formataCampos.dataAtual(), -2));
         jDateChooserDataFinalCustomer.setDate(formataCampos.alteraDiaData(formataCampos.dataAtual(), 1));
         colunaCustomerId = jTableCustomer.getColumnModel().getColumnIndex("Id Customer");
+        jComboBoxPagamento.setModel(new DefaultComboBoxModel());
+        for( PsCustomPaymentMethodLang mp : queryPrestaShop.listCustomPagament()){
+            ((DefaultComboBoxModel) jComboBoxPagamento.getModel()).addElement(mp.getName()); // Adiciono o Objeto
+        }
 
     }
 
@@ -855,11 +882,11 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
             Calendar fimExecucao = Calendar.getInstance();
             fimExecucao.setTime(dataAtual);
             List<Cliente> listClienteCplusDigi = queryCplus.listClienteData(inicioExecucao);
-           
+
             for (Cliente cliCplus : listClienteCplusDigi) {
                 List<Clientecaracteristica> lisCar = queryCplus.listClienteCaracteristica(codCaracteristicaCliente, cliCplus.getCodcli());
-                if (lisCar.size() == 1) {                             
-                new ClienteCplusDigimacro().atualizaClienteDigimacro(managerCplus, managerIntegrador, cliCplus, managerPrestaShop);                
+                if (lisCar.size() == 1) {
+                    new ClienteCplusDigimacro().atualizaClienteDigimacro(managerCplus, managerIntegrador, cliCplus, managerPrestaShop);
                 }
             }
             if (condicaoErro == true) {
@@ -873,7 +900,18 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
     }
 
     private void carregaCampos() {
-        PsCustomer psCustomer = new PsCustomerJpaController(managerPrestaShop).findPsCustomer(psOrders.getIdCustomer());
+        //PsCustomer psCustomer = new PsCustomerJpaController(managerPrestaShop).findPsCustomer(psOrders.getIdCustomer());
+        PsCustomer psCustomer = null;
+        Document document;
+        try {
+            HashMap<String, Object> getSchemaOpt = new HashMap();
+            getSchemaOpt.put("url", shopUrl + "/api/customers/" + psOrders.getIdCustomer());
+            document = ws.getFuncao(getSchemaOpt);
+            psCustomer = new WebCustomer().xmlParaEntidade(document, ws);
+        } catch (PrestaShopWebserviceException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao consultar Web Service: \n" + ex);
+        }
+
         //PsAddress psAddress = new PsAddressJpaController(managerPrestaShop).findPsAddress(psCustomer.get)
         //jTextFieldCpfCnpj.setText(psCustomer.getSiret());
         jTextFieldDesconto.setText(formataCampos.bigDecimalParaString(psOrders.getTotalDiscountsTaxIncl(), 3));
@@ -889,7 +927,10 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         }
         jTextFieldTaxa.setText(formataCampos.bigDecimalParaString(psOrders.getTotalPaidTaxIncl().subtract(psOrders.getTotalPaidTaxExcl()), 3));
         jTextFieldValorTotal.setText(formataCampos.bigDecimalParaString(psOrders.getTotalPaidTaxIncl(), 3));
-        if ("ps_checkpayment".equals(psOrders.getModule())) {
+        
+        //String produto= (String)((DefaultComboBoxModel) jComboBoxPagamento.getModel()).getSelectedItem();
+        jComboBoxPagamento.setSelectedItem(psOrders.getPayment());
+        /**if ("ps_checkpayment".equals(psOrders.getModule())) {
             jComboBoxPagamento.setSelectedIndex(0);
         }
         if ("ps_wirepayment".equals(psOrders.getModule())) {
@@ -898,11 +939,30 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         if ("custompaymentmethod_1".equals(psOrders.getModule())) {
             jComboBoxPagamento.setSelectedIndex(2);
         }
+        */
+        
         jButtonAtualizaCliente.setEnabled(true);
         jButtonAlteraPagamento.setEnabled(true);
-        for (PsOrderDetail orDetail : queryPrestaShop.listPsOrderDetail(psOrders.getIdOrder())) {
-            psOrderDetailList.add(orDetail);
+
+        //listPsOrders = new ArrayList<>();
+        try {
+            HashMap<String, Object> getSchemaOpt = new HashMap();
+            getSchemaOpt.put("url", shopUrl + "/api/order_details?filter[id_order]=" + psOrders.getIdOrder());
+            // Document document;
+            document = ws.getFuncao(getSchemaOpt);
+            NodeList nList = document.getElementsByTagName("order_detail");
+            for (String id : ws.retornaListaId(nList)) {
+                getSchemaOpt.put("url", shopUrl + "/api/order_details/" + id);
+                document = ws.getFuncao(getSchemaOpt);
+                psOrderDetailList.add(new WebOrderDetails().xmlParaEntidade(document, ws));
+            }
+        } catch (PrestaShopWebserviceException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao consultar Web Service: \n" + ex);
         }
+
+        //for (PsOrderDetail orDetail : queryPrestaShop.listPsOrderDetail(psOrders.getIdOrder())) {
+      //      psOrderDetailList.add(orDetail);
+      //  }
     }
 
     private void limpaCampos() {
@@ -969,6 +1029,9 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
     //private final ControleAcesso acesso;
     private final int colunaCustomerId;
     //private int colunaCarrinhoId;
+    private final String shopUrl;
+    private final String key;
+    private ClienteWebService ws;
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1022,6 +1085,5 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
     private javax.persistence.Query psOrderDetailQuery;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
-
 
 }

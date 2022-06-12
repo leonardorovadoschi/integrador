@@ -23,49 +23,47 @@ import org.w3c.dom.NodeList;
  */
 public class WebOrders {
 
-    public PsOrders xmlParaEntidade(Document document, ClienteWebService ws, EntityManagerFactory managerPrestaShop) {
-        //document = ws.getFuncao(getSchemaOpt);
+    public PsOrders xmlParaEntidade(Document document, ClienteWebService ws) {
         Element elemento = document.getDocumentElement();
         NodeList listNode = elemento.getElementsByTagName("order");
         PsOrders psOrders = null;
         String teste = "";
         for (int i = 0; i < listNode.getLength(); i++) {
             Element endElement = (Element) listNode.item(i);
-            psOrders = new PsOrdersJpaController(managerPrestaShop).findPsOrders(Integer.valueOf(ws.obterValorObjeto(endElement, "id")));
-            System.out.println("Id: " + ws.obterValorObjeto(endElement, "id"));
-            System.out.println("id_customer: " + ws.obterValorObjeto(endElement, "id_customer"));
-            System.out.println("id_address_invoice: " + ws.obterValorObjeto(endElement, "id_address_invoice"));
-
-            // PsOrders psOrders = new PsOrders();
-            // psOrders.setIdOrder(Integer.valueOf(ws.obterValorObjeto(endElement, "id")));
-            psOrders.setIdAddressDelivery(Integer.valueOf(ws.obterValorObjeto(endElement, "id_address_delivery")));
-            psOrders.setIdAddressInvoice(Integer.valueOf(ws.obterValorObjeto(endElement, "id_address_invoice")));
-            psOrders.setIdCart(Integer.valueOf(ws.obterValorObjeto(endElement, "id_cart")));
-            psOrders.setIdCurrency(Integer.valueOf(ws.obterValorObjeto(endElement, "id_currency")));
+            psOrders = new PsOrders();
+           // System.out.println("Id: " + ws.obterValorObjeto(endElement, "id"));
+           // System.out.println("id_customer: " + ws.obterValorObjeto(endElement, "id_customer"));
+           //System.out.println("id_address_invoice: " + ws.obterValorObjeto(endElement, "id_address_invoice"));
+            psOrders.setIdOrder(Integer.valueOf(ws.obterValorObjeto(endElement, "id")));
+            psOrders.setReference(ws.obterValorObjeto(endElement, "reference"));
+            psOrders.setIdShopGroup(Integer.valueOf(ws.obterValorObjeto(endElement, "id_shop_group")));
+            psOrders.setIdShop(Integer.valueOf(ws.obterValorObjeto(endElement, "id_shop")));
+            psOrders.setIdCarrier(Integer.valueOf(ws.obterValorObjeto(endElement, "id_carrier")));
             psOrders.setIdLang(Integer.valueOf(ws.obterValorObjeto(endElement, "id_lang")));
             psOrders.setIdCustomer(Integer.valueOf(ws.obterValorObjeto(endElement, "id_customer")));
-            psOrders.setIdCarrier(Integer.valueOf(ws.obterValorObjeto(endElement, "id_carrier")));
+            psOrders.setIdCart(Integer.valueOf(ws.obterValorObjeto(endElement, "id_cart")));
+            psOrders.setIdCurrency(Integer.valueOf(ws.obterValorObjeto(endElement, "id_currency")));
+            psOrders.setIdAddressDelivery(Integer.valueOf(ws.obterValorObjeto(endElement, "id_address_delivery")));
+            psOrders.setIdAddressInvoice(Integer.valueOf(ws.obterValorObjeto(endElement, "id_address_invoice")));
+                        
             psOrders.setCurrentState(Integer.valueOf(ws.obterValorObjeto(endElement, "current_state")));
+            psOrders.setSecureKey(ws.obterValorObjeto(endElement, "secure_key"));
+            psOrders.setPayment(ws.obterValorObjeto(endElement, "payment"));
+            psOrders.setConversionRate(bigDecimal(ws.obterValorObjeto(endElement, "conversion_rate")));
             psOrders.setModule(ws.obterValorObjeto(endElement, "module"));
-            ///  System.out.println("Id: " + ws.obterValorObjeto(endElement, "recyclable"));
             psOrders.setRecyclable(Boolean.valueOf(ws.obterValorObjeto(endElement, "recyclable")));
             psOrders.setGift(Boolean.valueOf(ws.obterValorObjeto(endElement, "gift")));
             teste = ws.obterValorObjeto(endElement, "gift_message");
-            if (!"".equals(teste)) {
-                psOrders.setGiftMessage(teste);
-            }
-            // psOrders.setGiftMessage(gif);
+            if (!"".equals(teste)) {    psOrders.setGiftMessage(teste); }
             psOrders.setMobileTheme(Boolean.valueOf(ws.obterValorObjeto(endElement, "mobile_theme")));
             teste = ws.obterValorObjeto(endElement, "shipping_number");
-            if (!"".equals(teste)) {
-                psOrders.setShippingNumber(teste);
-            }
+            if (!"".equals(teste)) {    psOrders.setShippingNumber(teste);  }
             psOrders.setTotalDiscounts(bigDecimal(ws.obterValorObjeto(endElement, "total_discounts")));
-            //System.out.println("total_discounts_tax_incl: " + ws.obterValorObjeto(endElement, "total_discounts_tax_incl"));
             psOrders.setTotalDiscountsTaxIncl(bigDecimal(ws.obterValorObjeto(endElement, "total_discounts_tax_incl")));
             psOrders.setTotalDiscountsTaxExcl(bigDecimal(ws.obterValorObjeto(endElement, "total_discounts_tax_excl")));
             psOrders.setTotalPaid(bigDecimal(ws.obterValorObjeto(endElement, "total_paid")));
             psOrders.setTotalPaidTaxIncl(bigDecimal(ws.obterValorObjeto(endElement, "total_paid_tax_incl")));
+            psOrders.setTotalPaidTaxExcl(bigDecimal(ws.obterValorObjeto(endElement, "total_paid_tax_excl")));
             psOrders.setTotalPaidReal(bigDecimal(ws.obterValorObjeto(endElement, "total_paid_real")));
             psOrders.setTotalProducts(bigDecimal(ws.obterValorObjeto(endElement, "total_products")));
             psOrders.setTotalProductsWt(bigDecimal(ws.obterValorObjeto(endElement, "total_products_wt")));
@@ -73,9 +71,7 @@ public class WebOrders {
             psOrders.setTotalShippingTaxIncl(bigDecimal(ws.obterValorObjeto(endElement, "total_shipping_tax_incl")));
             psOrders.setTotalShippingTaxExcl(bigDecimal(ws.obterValorObjeto(endElement, "total_shipping_tax_excl")));
             teste = ws.obterValorObjeto(endElement, "Carrier_tax_rate");
-            if (!"".equals(teste)) {
-                psOrders.setCarrierTaxRate(bigDecimal(teste));
-            }
+            if (!"".equals(teste)) {    psOrders.setCarrierTaxRate(bigDecimal(teste));  }
             psOrders.setTotalWrapping(bigDecimal(ws.obterValorObjeto(endElement, "total_wrapping")));
             psOrders.setTotalWrappingTaxIncl(bigDecimal(ws.obterValorObjeto(endElement, "total_wrapping_tax_incl")));
             psOrders.setTotalWrappingTaxExcl(bigDecimal(ws.obterValorObjeto(endElement, "total_wrapping_tax_excl")));
@@ -84,13 +80,9 @@ public class WebOrders {
             psOrders.setInvoiceNumber(Integer.valueOf(ws.obterValorObjeto(endElement, "invoice_number")));
             psOrders.setDeliveryNumber(Integer.valueOf(ws.obterValorObjeto(endElement, "delivery_number")));
             teste = ws.obterValorObjeto(endElement, "invoice_date");
-            if (!"".equals(teste) && !"0000-00-00 00:00:00".equals(teste)) {
-                psOrders.setInvoiceDate(dataWebService(teste));
-            }
+            if (!"".equals(teste) && !"0000-00-00 00:00:00".equals(teste)) {    psOrders.setInvoiceDate(dataWebService(teste)); }
             teste = ws.obterValorObjeto(endElement, "delivery_date");
-            if (!"".equals(teste)&& !"0000-00-00 00:00:00".equals(teste)) {
-                psOrders.setDeliveryDate(dataWebService(teste));
-            }
+            if (!"".equals(teste)&& !"0000-00-00 00:00:00".equals(teste)) { psOrders.setDeliveryDate(dataWebService(teste));    }
             psOrders.setValid(Integer.valueOf(ws.obterValorObjeto(endElement, "valid")));
             psOrders.setDateAdd(dataWebService(ws.obterValorObjeto(endElement, "date_add")));
             psOrders.setDateUpd(dataWebService(ws.obterValorObjeto(endElement, "date_upd")));         

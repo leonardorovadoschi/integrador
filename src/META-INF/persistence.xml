@@ -750,6 +750,9 @@
     <class>entidade.prestaShop.PsWebservicePermission</class>
     <class>entidade.prestaShop.PsZone</class>
     <class>entidade.prestaShop.PsZoneShop</class>
+    <class>entidade.prestaShop.PsCustomPaymentMethod</class>
+    <class>entidade.prestaShop.PsCustomPaymentMethodLang</class>
+    <class>entidade.prestaShop.PsCustomPaymentMethodShop</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://192.168.10.190:3306/prestashop?zeroDateTimeBehavior=CONVERT_TO_NULL"/>
       <property name="javax.persistence.jdbc.user" value="leonardo"/>
