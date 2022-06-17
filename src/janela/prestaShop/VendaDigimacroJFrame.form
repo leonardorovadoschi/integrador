@@ -73,11 +73,29 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Component id="jTabbedPaneVendasMagento" alignment="1" max="32767" attributes="0"/>
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace max="32767" attributes="0"/>
+              <Component id="jButtonAdicionar" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jButtonEditar" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jButtonRemover" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="251" max="-2" attributes="0"/>
+          </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jTabbedPaneVendasMagento" min="-2" pref="617" max="-2" attributes="0"/>
+          <Group type="102" attributes="0">
+              <Component id="jTabbedPaneVendasMagento" min="-2" pref="617" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jButtonAdicionar" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jButtonEditar" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jButtonRemover" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace pref="49" max="32767" attributes="0"/>
+          </Group>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -106,7 +124,7 @@
                                   <Component id="jPanelPesquisa" max="32767" attributes="0"/>
                                   <Component id="jPanelInformacoes" max="32767" attributes="0"/>
                               </Group>
-                              <EmptySpace min="0" pref="234" max="32767" attributes="0"/>
+                              <EmptySpace min="0" pref="336" max="32767" attributes="0"/>
                           </Group>
                           <Component id="jScrollPane2" alignment="1" max="32767" attributes="0"/>
                       </Group>
@@ -604,7 +622,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="jPanelControleClienteDigimacro" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" pref="528" max="32767" attributes="0"/>
+                      <Component id="jScrollPane1" pref="507" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -616,16 +634,13 @@
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                              <Component id="jCheckBoxNaoIntegrado" alignment="0" pref="165" max="32767" attributes="0"/>
-                              <Component id="jComboBoxTermoPesquisa" alignment="0" max="32767" attributes="0"/>
-                          </Group>
+                          <Component id="jComboBoxTermoPesquisa" min="-2" pref="165" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="jTextFieldStringPesquisa" min="-2" pref="264" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="jButtonPesquisar1" max="32767" attributes="0"/>
+                                  <Component id="jButtonPesquisar1" pref="312" max="32767" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Component id="jButtonImportarCliente" min="-2" pref="183" max="-2" attributes="0"/>
                               </Group>
@@ -655,10 +670,7 @@
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jCheckBoxNaoIntegrado" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabelDataInicialCustomer" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="jLabelDataInicialCustomer" min="-2" max="-2" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="1" attributes="0">
@@ -678,17 +690,14 @@
                 <Component class="javax.swing.JComboBox" name="jComboBoxTermoPesquisa">
                   <Properties>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                      <StringArray count="4">
-                        <StringItem index="0" value="Data Cadastro"/>
+                      <StringArray count="3">
+                        <StringItem index="0" value="Data Atualiza&#xe7;&#xe3;o"/>
                         <StringItem index="1" value="E-mail Principal"/>
-                        <StringItem index="2" value="Item 3"/>
-                        <StringItem index="3" value="Item 4"/>
+                        <StringItem index="2" value="Data Cria&#xe7;&#xe3;o"/>
                       </StringArray>
                     </Property>
+                    <Property name="toolTipText" type="java.lang.String" value="Seleciona , qual o tipo de pesquisa que deseja fazer!"/>
                   </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBoxTermoPesquisaActionPerformed"/>
-                  </Events>
                 </Component>
                 <Component class="javax.swing.JTextField" name="jTextFieldStringPesquisa">
                 </Component>
@@ -719,12 +728,6 @@
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonImportarClienteActionPerformed"/>
                   </Events>
-                </Component>
-                <Component class="javax.swing.JCheckBox" name="jCheckBoxNaoIntegrado">
-                  <Properties>
-                    <Property name="selected" type="boolean" value="true"/>
-                    <Property name="text" type="java.lang.String" value="Cliente n&#xe3;o Integrado"/>
-                  </Properties>
                 </Component>
                 <Component class="com.toedter.calendar.JDateChooser" name="jDateChooserDataInicialCustomer">
                 </Component>
@@ -974,5 +977,23 @@
         </Container>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JButton" name="jButtonAdicionar">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Adicionar"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="jButtonEditar">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Editar"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonEditarActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="jButtonRemover">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Remover"/>
+      </Properties>
+    </Component>
   </SubComponents>
 </Form>

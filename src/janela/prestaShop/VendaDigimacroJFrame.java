@@ -10,7 +10,6 @@ import entidade.cplus.Clientecaracteristica;
 import entidade.cplus.Usuario;
 import entidade.integrador.IntExecucao;
 import entidade.prestaShop.PsAddress;
-import entidade.prestaShop.PsCustomPaymentMethod;
 import entidade.prestaShop.PsCustomPaymentMethodLang;
 import entidade.prestaShop.PsCustomer;
 import entidade.prestaShop.PsOrderDetail;
@@ -30,16 +29,12 @@ import janela.cplus.FormataCampos;
 import janela.integrador.AtualizaExecucaoIntegrador;
 import janela.integrador.ClienteCplusDigimacro;
 import janela.integrador.ClienteDigimacroCplus;
-import static janela.prestaShop.ListPsProductJDialog.managerIntegrador;
 import java.awt.Toolkit;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
@@ -82,19 +77,16 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         usuario = usuario1;
         queryPrestaShop = new QueryPrestaShop(managerPrestaShop);
         initComponents();
-        
-        
-        
+
         shopUrl = new QueryIntegrador(managerIntegrador).valorConfiguracao("shopURL");
         key = new QueryIntegrador(managerIntegrador).valorConfiguracao("shopKEY");
-
         this.ws = new ClienteWebService(shopUrl, key, false);
 
         codCaracteristicaCliente = new QueryIntegrador(managerIntegrador).valorConfiguracao("cliente_CARACTERISTICA_CPLUS_DIGIMACRO");
         queryCplus = new QueryCplus(managerCplus);
         //acesso = new ControleAcesso(managerCplus);
-        this.listagemSaidasMagentoJDialog = new SaidasPrestaShopJDialog(this, true, managerPrestaShop, managerIntegrador);
-        //this.editSalesFlatOrderItemJDialog = new EditSalesFlatOrderItemJDialog(this, true, managerPrestaShop, managerCplus, usuario);
+        this.listagemSaidasMagentoJDialog = new SaidasPrestaShopJDialog(this, true, managerIntegrador);
+        this.editOrderDetailsJDialog = new EditOrderDetailsJDialog(this, true, managerPrestaShop, managerCplus, usuario);
         this.listagemProdutoMagentoJDialog = new ListPsProductJDialog(this, true, managerIntegrador, managerPrestaShop, managerCplus, usuario);
         this.insereSalesFlatOrderItemJDialog = new InsereSalesFlatOrderItemJDialog(this, true, managerPrestaShop, managerCplus, usuario);
         // colunaItemId = jTableProdutosPedido.getColumnModel().getColumnIndex("Item Id");
@@ -102,8 +94,9 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         jDateChooserDataInicialCustomer.setDate(formataCampos.alteraDiaData(formataCampos.dataAtual(), -2));
         jDateChooserDataFinalCustomer.setDate(formataCampos.alteraDiaData(formataCampos.dataAtual(), 1));
         colunaCustomerId = jTableCustomer.getColumnModel().getColumnIndex("Id Customer");
+        colunaOrderDetail = jTable1.getColumnModel().getColumnIndex("Id Order Detail");
         jComboBoxPagamento.setModel(new DefaultComboBoxModel());
-        for( PsCustomPaymentMethodLang mp : queryPrestaShop.listCustomPagament()){
+        for (PsCustomPaymentMethodLang mp : queryPrestaShop.listCustomPagament()) {
             ((DefaultComboBoxModel) jComboBoxPagamento.getModel()).addElement(mp.getName()); // Adiciono o Objeto
         }
 
@@ -150,7 +143,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         jTextFieldFrete = new javax.swing.JTextField();
         jTextFieldTaxa = new javax.swing.JTextField();
         jButtonAlteraPagamento = new javax.swing.JButton();
-        jComboBoxPagamento = new javax.swing.JComboBox<>();
+        jComboBoxPagamento = new javax.swing.JComboBox<String>();
         jButtonInserir = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -160,13 +153,15 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         jTextFieldStringPesquisa = new javax.swing.JTextField();
         jButtonPesquisar1 = new javax.swing.JButton();
         jButtonImportarCliente = new javax.swing.JButton();
-        jCheckBoxNaoIntegrado = new javax.swing.JCheckBox();
         jDateChooserDataInicialCustomer = new com.toedter.calendar.JDateChooser();
         jLabelDataInicialCustomer = new javax.swing.JLabel();
         jLabelDataFinalCustomer = new javax.swing.JLabel();
         jDateChooserDataFinalCustomer = new com.toedter.calendar.JDateChooser();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableCustomer = new javax.swing.JTable();
+        jButtonAdicionar = new javax.swing.JButton();
+        jButtonEditar = new javax.swing.JButton();
+        jButtonRemover = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Venda no Site");
@@ -210,7 +205,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
                 .addComponent(jButtonPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28)
                 .addComponent(jButtonImportarPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 158, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 254, Short.MAX_VALUE)
                 .addComponent(jButtonAtualizaCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -258,7 +253,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
             }
         });
 
-        jComboBoxPagamento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Prazo (Boleto)", "À vista", "Cupom", "" }));
+        jComboBoxPagamento.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Prazo (Boleto)", "À vista", "Cupom", "" }));
         jComboBoxPagamento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxPagamentoActionPerformed(evt);
@@ -429,7 +424,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
                         .addGroup(jPanelVendasMagentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jPanelPesquisa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanelInformacoes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 234, Short.MAX_VALUE))
+                        .addGap(0, 336, Short.MAX_VALUE))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
@@ -446,12 +441,8 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
 
         jTabbedPaneVendasMagento.addTab("Vendas Site", jPanelVendasMagento);
 
-        jComboBoxTermoPesquisa.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Data Cadastro", "E-mail Principal", "Item 3", "Item 4" }));
-        jComboBoxTermoPesquisa.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBoxTermoPesquisaActionPerformed(evt);
-            }
-        });
+        jComboBoxTermoPesquisa.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Data Atualização", "E-mail Principal", "Data Criação" }));
+        jComboBoxTermoPesquisa.setToolTipText("Seleciona , qual o tipo de pesquisa que deseja fazer!");
 
         jButtonPesquisar1.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jButtonPesquisar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/pesquisar.png"))); // NOI18N
@@ -471,9 +462,6 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
             }
         });
 
-        jCheckBoxNaoIntegrado.setSelected(true);
-        jCheckBoxNaoIntegrado.setText("Cliente não Integrado");
-
         jLabelDataInicialCustomer.setText("Data Inicial:");
 
         jLabelDataFinalCustomer.setText("Data Final:");
@@ -483,15 +471,13 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         jPanelControleClienteDigimacroLayout.setHorizontalGroup(
             jPanelControleClienteDigimacroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelControleClienteDigimacroLayout.createSequentialGroup()
-                .addGroup(jPanelControleClienteDigimacroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jCheckBoxNaoIntegrado, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
-                    .addComponent(jComboBoxTermoPesquisa, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jComboBoxTermoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanelControleClienteDigimacroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelControleClienteDigimacroLayout.createSequentialGroup()
                         .addComponent(jTextFieldStringPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButtonPesquisar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonPesquisar1, javax.swing.GroupLayout.DEFAULT_SIZE, 312, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
                         .addComponent(jButtonImportarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanelControleClienteDigimacroLayout.createSequentialGroup()
@@ -513,11 +499,9 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
                     .addComponent(jTextFieldStringPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonPesquisar1)
                     .addComponent(jButtonImportarCliente))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 5, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanelControleClienteDigimacroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelControleClienteDigimacroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jCheckBoxNaoIntegrado)
-                        .addComponent(jLabelDataInicialCustomer))
+                    .addComponent(jLabelDataInicialCustomer)
                     .addGroup(jPanelControleClienteDigimacroLayout.createSequentialGroup()
                         .addGap(5, 5, 5)
                         .addGroup(jPanelControleClienteDigimacroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -681,20 +665,46 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
             .addGroup(jPanelClienteDigimacroLayout.createSequentialGroup()
                 .addComponent(jPanelControleClienteDigimacro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 528, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 507, Short.MAX_VALUE))
         );
 
         jTabbedPaneVendasMagento.addTab("Cliente Site", jPanelClienteDigimacro);
+
+        jButtonAdicionar.setText("Adicionar");
+
+        jButtonEditar.setText("Editar");
+        jButtonEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEditarActionPerformed(evt);
+            }
+        });
+
+        jButtonRemover.setText("Remover");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jTabbedPaneVendasMagento, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonAdicionar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonEditar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonRemover)
+                .addGap(251, 251, 251))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPaneVendasMagento, javax.swing.GroupLayout.PREFERRED_SIZE, 617, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jTabbedPaneVendasMagento, javax.swing.GroupLayout.PREFERRED_SIZE, 617, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonAdicionar)
+                    .addComponent(jButtonEditar)
+                    .addComponent(jButtonRemover))
+                .addContainerGap(49, Short.MAX_VALUE))
         );
 
         bindingGroup.bind();
@@ -726,13 +736,13 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
     private void jButtonPesquisar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPesquisar1ActionPerformed
         switch (jComboBoxTermoPesquisa.getSelectedIndex()) {
             case 0:
-                pesquisaDataCustomer();
+                pesquisaDataCustomerUpdete();
                 break;
             case 1:
                 pesquisaPorEmail();
                 break;
             case 2:
-
+                pesquisaDataCustomerCreate();
                 break;
         }
     }//GEN-LAST:event_jButtonPesquisar1ActionPerformed
@@ -810,9 +820,22 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBoxPagamentoActionPerformed
 
-    private void jComboBoxTermoPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxTermoPesquisaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBoxTermoPesquisaActionPerformed
+    private void jButtonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarActionPerformed
+        this.editOrderDetailsJDialog.setVisible(true);
+        if (this.editOrderDetailsJDialog.isCancelamento() == false) {
+            Integer cod = Integer.valueOf(jTable1.getValueAt(jTable1.getSelectedRow(), colunaOrderDetail).toString());
+            try {
+                HashMap<String, Object> getSchemaOpt = new HashMap();
+                Document document;
+                getSchemaOpt.put("url", shopUrl + "/api/order_details/" + cod);
+                document = ws.getFuncao(getSchemaOpt);
+                this.editOrderDetailsJDialog.setOrderDetails(new WebOrderDetails().xmlParaEntidade(document, ws), psOrders);
+
+            } catch (PrestaShopWebserviceException ex) {
+                JOptionPane.showMessageDialog(null, "Erro ao consultar Web Service: \n" + ex);
+            }
+        }
+    }//GEN-LAST:event_jButtonEditarActionPerformed
 
     private void importarClienteMagentoParaCplus() {
         Integer idCustomer = Integer.valueOf(jTableCustomer.getValueAt(jTableCustomer.getSelectedRow(), colunaCustomerId).toString());
@@ -849,24 +872,59 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         return condicao;
     }
 
-    private void pesquisaPorEmail() {
+    private void pesquisaDataCustomerUpdete() {
         psCustomerList.clear();
-        for (PsCustomer cliMagento : queryPrestaShop.listClienteEmail(jTextFieldStringPesquisa.getText())) {
-            psCustomerList.add(cliMagento);
+        try {
+            HashMap<String, Object> getSchemaOpt = new HashMap();
+            getSchemaOpt.put("url", shopUrl + "/api/customers?date=1&filter[date_upd]=[" + formataCampos.dataStringWebService(jDateChooserDataInicialCustomer.getDate(), 0) + ","
+                    + formataCampos.dataStringWebService(jDateChooserDataFinalCustomer.getDate(), 0) + "]");
+            Document document;
+            document = ws.getFuncao(getSchemaOpt);
+            NodeList nList = document.getElementsByTagName("customer");
+            for (String id : ws.retornaListaId(nList)) {
+                getSchemaOpt.put("url", shopUrl + "/api/customers/" + id);
+                document = ws.getFuncao(getSchemaOpt);
+                psCustomerList.add(new WebCustomer().xmlParaEntidade(document, ws));
+            }
+        } catch (PrestaShopWebserviceException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao consultar Web Service: \n" + ex);
         }
     }
 
-    private void pesquisaDataCustomer() {
+    private void pesquisaDataCustomerCreate() {
         psCustomerList.clear();
-        for (PsCustomer psCustomer : queryPrestaShop.listCustomerData(jDateChooserDataInicialCustomer.getDate(), jDateChooserDataFinalCustomer.getDate())) {
-            if (jCheckBoxNaoIntegrado.isSelected()) {
-                List<Cliente> listemailCplus = queryCplus.resultPortCnpjOuCpf(cpfCnpj(psCustomer.getSiret()));
-                if (listemailCplus.isEmpty()) {
-                    psCustomerList.add(psCustomer);
-                }
-            } else {
-                psCustomerList.add(psCustomer);
+        try {
+            HashMap<String, Object> getSchemaOpt = new HashMap();
+            getSchemaOpt.put("url", shopUrl + "/api/customers?date=1&filter[date_add]=[" + formataCampos.dataStringWebService(jDateChooserDataInicialCustomer.getDate(), 0) + ","
+                    + formataCampos.dataStringWebService(jDateChooserDataFinalCustomer.getDate(), 0) + "]");
+            Document document;
+            document = ws.getFuncao(getSchemaOpt);
+            NodeList nList = document.getElementsByTagName("customer");
+            for (String id : ws.retornaListaId(nList)) {
+                getSchemaOpt.put("url", shopUrl + "/api/customers/" + id);
+                document = ws.getFuncao(getSchemaOpt);
+                psCustomerList.add(new WebCustomer().xmlParaEntidade(document, ws));
             }
+        } catch (PrestaShopWebserviceException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao consultar Web Service: \n" + ex);
+        }
+    }
+
+    private void pesquisaPorEmail() {
+        psCustomerList.clear();
+        try {
+            HashMap<String, Object> getSchemaOpt = new HashMap();
+            getSchemaOpt.put("url", shopUrl + "/api/customers?filter[email]=%[" + jTextFieldStringPesquisa.getText().trim() + "]%");
+            Document document;
+            document = ws.getFuncao(getSchemaOpt);
+            NodeList nList = document.getElementsByTagName("customer");
+            for (String id : ws.retornaListaId(nList)) {
+                getSchemaOpt.put("url", shopUrl + "/api/customers/" + id);
+                document = ws.getFuncao(getSchemaOpt);
+                psCustomerList.add(new WebCustomer().xmlParaEntidade(document, ws));
+            }
+        } catch (PrestaShopWebserviceException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao consultar Web Service: \n" + ex);
         }
     }
 
@@ -927,24 +985,13 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         }
         jTextFieldTaxa.setText(formataCampos.bigDecimalParaString(psOrders.getTotalPaidTaxIncl().subtract(psOrders.getTotalPaidTaxExcl()), 3));
         jTextFieldValorTotal.setText(formataCampos.bigDecimalParaString(psOrders.getTotalPaidTaxIncl(), 3));
-        
+
         //String produto= (String)((DefaultComboBoxModel) jComboBoxPagamento.getModel()).getSelectedItem();
         jComboBoxPagamento.setSelectedItem(psOrders.getPayment());
-        /**if ("ps_checkpayment".equals(psOrders.getModule())) {
-            jComboBoxPagamento.setSelectedIndex(0);
-        }
-        if ("ps_wirepayment".equals(psOrders.getModule())) {
-            jComboBoxPagamento.setSelectedIndex(1);
-        }
-        if ("custompaymentmethod_1".equals(psOrders.getModule())) {
-            jComboBoxPagamento.setSelectedIndex(2);
-        }
-        */
-        
+
         jButtonAtualizaCliente.setEnabled(true);
         jButtonAlteraPagamento.setEnabled(true);
 
-        //listPsOrders = new ArrayList<>();
         try {
             HashMap<String, Object> getSchemaOpt = new HashMap();
             getSchemaOpt.put("url", shopUrl + "/api/order_details?filter[id_order]=" + psOrders.getIdOrder());
@@ -961,8 +1008,8 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         }
 
         //for (PsOrderDetail orDetail : queryPrestaShop.listPsOrderDetail(psOrders.getIdOrder())) {
-      //      psOrderDetailList.add(orDetail);
-      //  }
+        //      psOrderDetailList.add(orDetail);
+        //  }
     }
 
     private void limpaCampos() {
@@ -1023,11 +1070,12 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
     private final ListPsProductJDialog listagemProdutoMagentoJDialog;
     private final QueryPrestaShop queryPrestaShop;
     private final QueryCplus queryCplus;
-    //private final EditSalesFlatOrderItemJDialog editSalesFlatOrderItemJDialog;
+    private final EditOrderDetailsJDialog editOrderDetailsJDialog;
     private final InsereSalesFlatOrderItemJDialog insereSalesFlatOrderItemJDialog;
     private static Usuario usuario;
     //private final ControleAcesso acesso;
     private final int colunaCustomerId;
+    private final int colunaOrderDetail;
     //private int colunaCarrinhoId;
     private final String shopUrl;
     private final String key;
@@ -1036,14 +1084,16 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.persistence.EntityManager PrestaShopPUEntityManager;
+    private javax.swing.JButton jButtonAdicionar;
     private javax.swing.JButton jButtonAlteraPagamento;
     private javax.swing.JButton jButtonAtualizaCliente;
+    private javax.swing.JButton jButtonEditar;
     private javax.swing.JButton jButtonImportarCliente;
     private javax.swing.JButton jButtonImportarPedido;
     private javax.swing.JButton jButtonInserir;
     private javax.swing.JButton jButtonPesquisar;
     private javax.swing.JButton jButtonPesquisar1;
-    private javax.swing.JCheckBox jCheckBoxNaoIntegrado;
+    private javax.swing.JButton jButtonRemover;
     private javax.swing.JComboBox<String> jComboBoxPagamento;
     private javax.swing.JComboBox jComboBoxTermoPesquisa;
     private com.toedter.calendar.JDateChooser jDateChooserDataFinalCustomer;

@@ -21,11 +21,9 @@ import java.util.HashMap;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
-import jpa.prestaShop.PsOrdersJpaController;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import query.integrador.QueryIntegrador;
-import query.prestaShop.QueryPrestaShop;
 
 /**
  *
@@ -41,14 +39,14 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
      * @param managerPrestaShop1
      * @param managerIntegrador1
      */
-    public SaidasPrestaShopJDialog(java.awt.Frame parent, boolean modal, EntityManagerFactory managerPrestaShop1, EntityManagerFactory managerIntegrador1) {
+    public SaidasPrestaShopJDialog(java.awt.Frame parent, boolean modal, EntityManagerFactory managerIntegrador1) {
         super(parent, modal);
         //new RenderDataEHora();
         //new RenderCustomerNome(managerPrestaShop);
         //new RenderPreco()
         managerIntegrador = managerIntegrador1;
-        managerPrestaShop = managerPrestaShop1;
-        queryPrestaShop = new QueryPrestaShop(managerPrestaShop);
+        //managerPrestaShop = managerPrestaShop1;
+        //  queryPrestaShop = new QueryPrestaShop(managerPrestaShop);
         initComponents();
 
         shopUrl = new QueryIntegrador(managerIntegrador).valorConfiguracao("shopURL");
@@ -74,7 +72,6 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
     private void initComponents() {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        digimacroPUEntityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("cplusPU").createEntityManager();
         buttonGroupStatusPedido = new javax.swing.ButtonGroup();
         PrestaShopPUEntityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("PrestaShopPU").createEntityManager();
         psOrdersQuery = java.beans.Beans.isDesignTime() ? null : PrestaShopPUEntityManager.createQuery("SELECT p FROM PsOrders p").setMaxResults(10);
@@ -102,8 +99,7 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
 
         jPanelPesquisa.setBorder(javax.swing.BorderFactory.createTitledBorder("Pesquisa"));
 
-        jComboBoxTipoPesquisa.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Nº Orders", "Status do Pedido", "Item 3", "Item 4" }));
-        jComboBoxTipoPesquisa.setSelectedIndex(1);
+        jComboBoxTipoPesquisa.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Referência", "Status do Pedido", "ID" }));
         jComboBoxTipoPesquisa.setToolTipText("selecione qual o tipo de pesquisa que você deseja fazer");
         jComboBoxTipoPesquisa.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -160,9 +156,9 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
             .addGroup(jPanelPesquisaLayout.createSequentialGroup()
                 .addGroup(jPanelPesquisaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelPesquisaLayout.createSequentialGroup()
-                        .addComponent(jComboBoxTipoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextFieldTermoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jComboBoxTipoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextFieldTermoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButtonPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanelPesquisaLayout.createSequentialGroup()
@@ -171,7 +167,7 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
                         .addComponent(jDateChooserDataInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabelDataFinal)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jDateChooserDataFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jRadioButtonPendente)
@@ -183,32 +179,28 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
                         .addComponent(jRadioButtonEmSeparacao)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jRadioButtonTodos)))
-                .addGap(0, 186, Short.MAX_VALUE))
+                .addGap(0, 195, Short.MAX_VALUE))
         );
         jPanelPesquisaLayout.setVerticalGroup(
             jPanelPesquisaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelPesquisaLayout.createSequentialGroup()
+            .addGroup(jPanelPesquisaLayout.createSequentialGroup()
                 .addGroup(jPanelPesquisaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBoxTipoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextFieldTermoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonPesquisar))
-                .addGroup(jPanelPesquisaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelPesquisaLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanelPesquisaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanelPesquisaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabelDataInicial)
-                                .addComponent(jLabelDataFinal))
-                            .addComponent(jDateChooserDataInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanelPesquisaLayout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addGroup(jPanelPesquisaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jRadioButtonPendente)
-                            .addComponent(jRadioButtonCancelado)
-                            .addComponent(jRadioButtonProcessado)
-                            .addComponent(jRadioButtonTodos)
-                            .addComponent(jRadioButtonEmSeparacao)))))
-            .addComponent(jDateChooserDataFinal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelPesquisaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanelPesquisaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabelDataInicial)
+                        .addComponent(jLabelDataFinal))
+                    .addComponent(jDateChooserDataInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanelPesquisaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jRadioButtonPendente)
+                        .addComponent(jRadioButtonCancelado)
+                        .addComponent(jRadioButtonProcessado)
+                        .addComponent(jRadioButtonTodos)
+                        .addComponent(jRadioButtonEmSeparacao))
+                    .addComponent(jDateChooserDataFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         jButtonOk.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
@@ -294,7 +286,7 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
             jTableListOrders.getColumnModel().getColumn(2).setMinWidth(350);
             jTableListOrders.getColumnModel().getColumn(2).setPreferredWidth(400);
             jTableListOrders.getColumnModel().getColumn(2).setMaxWidth(800);
-            jTableListOrders.getColumnModel().getColumn(2).setCellRenderer(new RenderCustomerNome(managerPrestaShop));
+            jTableListOrders.getColumnModel().getColumn(2).setCellRenderer(new RenderCustomerNome(managerIntegrador));
             jTableListOrders.getColumnModel().getColumn(3).setMinWidth(100);
             jTableListOrders.getColumnModel().getColumn(3).setPreferredWidth(100);
             jTableListOrders.getColumnModel().getColumn(3).setMaxWidth(300);
@@ -353,17 +345,18 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
                 .addComponent(jButtonCancelar)
                 .addGap(98, 98, 98))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanelPesquisa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1152, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(jPanelPesquisa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanelPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanelPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(7, 7, 7)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonOk)
@@ -469,7 +462,7 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
                 Date dataFinal = jDateChooserDataFinal.getDate();
                 if (jRadioButtonPendente.isSelected()) {
                     try {
-                    //List<Integer> list = new ArrayList<>();
+                        //List<Integer> list = new ArrayList<>();
                         // list.add(1);
                         // list.add(2);
                         //list.add(3);
@@ -485,16 +478,16 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
                             getSchemaOpt.put("url", shopUrl + "/api/orders/" + id);
                             document = ws.getFuncao(getSchemaOpt);
                             PsOrders ord = new WebOrders().xmlParaEntidade(document, ws);
-                            if(ord != null){
-                            listPsOrders.add(ord);
+                            if (ord != null) {
+                                listPsOrders.add(ord);
                             }
                         }
                     } catch (PrestaShopWebserviceException ex) {
                         JOptionPane.showMessageDialog(null, "Erro ao consultar Web Service: \n" + ex);
                     }
                 } else if (jRadioButtonCancelado.isSelected()) {
-                   // listPsOrders = queryPrestaShop.listPsOrders(6, dataFinal, dataInicial);
-                   try {                  
+                    // listPsOrders = queryPrestaShop.listPsOrders(6, dataFinal, dataInicial);
+                    try {
                         HashMap<String, Object> getSchemaOpt = new HashMap();
                         getSchemaOpt.put("url", shopUrl + "/api/orders?date=1&filter[date_upd]=[" + formataCampos.dataStringWebService(dataInicial, 0) + ","
                                 + formataCampos.dataStringWebService(dataFinal, 0) + "]&filter[current_state]=6");
@@ -508,10 +501,10 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
                         }
                     } catch (PrestaShopWebserviceException ex) {
                         JOptionPane.showMessageDialog(null, "Erro ao consultar Web Service: \n" + ex);
-                    } 
+                    }
                 } else if (jRadioButtonProcessado.isSelected()) {
                     //listPsOrders = queryPrestaShop.listPsOrders(5, dataFinal, dataInicial);
-                    try {                  
+                    try {
                         HashMap<String, Object> getSchemaOpt = new HashMap();
                         getSchemaOpt.put("url", shopUrl + "/api/orders?date=1&filter[date_upd]=[" + formataCampos.dataStringWebService(dataInicial, 0) + ","
                                 + formataCampos.dataStringWebService(dataFinal, 0) + "]&filter[current_state]=5");
@@ -525,10 +518,10 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
                         }
                     } catch (PrestaShopWebserviceException ex) {
                         JOptionPane.showMessageDialog(null, "Erro ao consultar Web Service: \n" + ex);
-                    } 
+                    }
                 } else if (jRadioButtonEmSeparacao.isSelected()) {
                     //listPsOrders = queryPrestaShop.listPsOrders(3, dataFinal, dataInicial);
-                    try {                  
+                    try {
                         HashMap<String, Object> getSchemaOpt = new HashMap();
                         getSchemaOpt.put("url", shopUrl + "/api/orders?date=1&filter[date_upd]=[" + formataCampos.dataStringWebService(dataInicial, 0) + ","
                                 + formataCampos.dataStringWebService(dataFinal, 0) + "]&filter[current_state]=3");
@@ -542,10 +535,10 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
                         }
                     } catch (PrestaShopWebserviceException ex) {
                         JOptionPane.showMessageDialog(null, "Erro ao consultar Web Service: \n" + ex);
-                    } 
+                    }
                 } else {
                     //listPsOrders = queryPrestaShop.listPsOrders(dataFinal, dataInicial);
-                    try {                  
+                    try {
                         HashMap<String, Object> getSchemaOpt = new HashMap();
                         getSchemaOpt.put("url", shopUrl + "/api/orders?date=1&filter[date_upd]=[" + formataCampos.dataStringWebService(dataInicial, 0) + ","
                                 + formataCampos.dataStringWebService(dataFinal, 0) + "]");
@@ -559,7 +552,7 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
                         }
                     } catch (PrestaShopWebserviceException ex) {
                         JOptionPane.showMessageDialog(null, "Erro ao consultar Web Service: \n" + ex);
-                    } 
+                    }
                 }
                 //Date dataInicial = formataCampos.dataBanco(jTextFieldDataInicial.getText());
                 //Date dataFinal = formataCampos.dataBanco(jTextFieldDataFinal.getText());
@@ -573,7 +566,15 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
                 }
                 break;
             case 2://sem argumento
-
+                HashMap<String, Object> getSchemaOpt = new HashMap();
+                try {
+                    Document document;
+                    getSchemaOpt.put("url", shopUrl + "/api/orders/" + jTextFieldTermoPesquisa.getText());
+                    document = ws.getFuncao(getSchemaOpt);
+                    listPsOrders.add(new WebOrders().xmlParaEntidade(document, ws));
+                } catch (PrestaShopWebserviceException ex) {
+                    JOptionPane.showMessageDialog(null, "Erro ao consultar Web Service: \n" + ex);
+                }
                 break;
             case 3://sem argumento
 
@@ -589,7 +590,17 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
         idOrder = jTableListOrders.getColumnModel().getColumnIndex("Id Order");
         Integer cod = Integer.valueOf(jTableListOrders.getValueAt(jTableListOrders.getSelectedRow(), idOrder).toString());
         if (cod != null) {
-            psOrders = new PsOrdersJpaController(managerPrestaShop).findPsOrders(cod);
+            try {
+                HashMap<String, Object> getSchemaOpt = new HashMap();
+                getSchemaOpt.put("url", shopUrl + "/api/orders/" + cod);
+                Document document;
+                document = ws.getFuncao(getSchemaOpt);
+                psOrders = new WebOrders().xmlParaEntidade(document, ws);
+                // psOrders = new PsOrdersJpaController(managerPrestaShop).findPsOrders(cod);
+            } catch (PrestaShopWebserviceException ex) {
+                JOptionPane.showMessageDialog(null, "Erro ao consultar Web Service: \n" + ex);
+                setCancelamento(true);
+            }
             setCancelamento(false);
             dispose();
         } else {
@@ -642,7 +653,7 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                SaidasPrestaShopJDialog dialog = new SaidasPrestaShopJDialog(new javax.swing.JFrame(), true, managerPrestaShop, managerIntegrador);
+                SaidasPrestaShopJDialog dialog = new SaidasPrestaShopJDialog(new javax.swing.JFrame(), true, managerIntegrador);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -654,8 +665,8 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
         });
     }
 
-    private final QueryPrestaShop queryPrestaShop;
-    static EntityManagerFactory managerPrestaShop;
+    //  private final QueryPrestaShop queryPrestaShop;
+    //static EntityManagerFactory managerPrestaShop;
     private boolean cancelamento;
     private PsOrders psOrders;
     private int idOrder;
@@ -670,7 +681,6 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.persistence.EntityManager PrestaShopPUEntityManager;
     private javax.swing.ButtonGroup buttonGroupStatusPedido;
-    private javax.persistence.EntityManager digimacroPUEntityManager;
     private javax.swing.JButton jButtonCancelar;
     private javax.swing.JButton jButtonOk;
     private javax.swing.JButton jButtonPesquisar;

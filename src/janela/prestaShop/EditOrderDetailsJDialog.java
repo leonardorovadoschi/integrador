@@ -11,7 +11,9 @@ import entidade.cplus.Usuario;
 import entidade.prestaShop.PsOrderDetail;
 import entidade.prestaShop.PsOrders;
 import entidade.prestaShop.PsProduct;
+import integrador.webservice.ClienteWebService;
 import janela.cplus.FormataCampos;
+import static janela.prestaShop.VendaDigimacroJFrame.managerIntegrador;
 
 ;
 import java.math.BigDecimal;
@@ -23,34 +25,38 @@ import java.util.Calendar;
 import java.util.Date;
 import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
+import query.integrador.QueryIntegrador;
 
 
 /**
  *
  * @author leonardo
  */
-public class EditSalesFlatOrderItemJDialog extends javax.swing.JDialog {
+public class EditOrderDetailsJDialog extends javax.swing.JDialog {
 
     /**
      * Creates new form editSalesFlatOrderItemJDialog
      * @param parent
      * @param modal
-     * @param managerMagento1
+     * @param managerPrestaShop1
      * @param managerCplus1
      * @param usuario1
      */
-    public EditSalesFlatOrderItemJDialog(java.awt.Frame parent, boolean modal, EntityManagerFactory managerMagento1, EntityManagerFactory managerCplus1, Usuario usuario1) {
+    public EditOrderDetailsJDialog(java.awt.Frame parent, boolean modal, EntityManagerFactory managerPrestaShop1, EntityManagerFactory managerCplus1, Usuario usuario1) {
         super(parent, modal);
         initComponents();
-        managerMagento = managerMagento1;
+        managerPrestaShop = managerPrestaShop1;
         managerCplus = managerCplus1;
         formataCampos = new FormataCampos();
-        
+        shopUrl = new QueryIntegrador(managerIntegrador).valorConfiguracao("shopURL");
+        key = new QueryIntegrador(managerIntegrador).valorConfiguracao("shopKEY");
+        this.ws = new ClienteWebService(shopUrl, key, false);
         usuario = usuario1;
         acesso = new ControleAcesso(managerCplus);
         if (acesso.verificaAcessoUsuario(usuario, "Alterar preço de venda")) {
-            jTextFieldValorUnitarioComDesconto.setEnabled(true);
+            jTextFieldUnitarioComDesconto.setEnabled(true);
         }
+    
     }
 
     /**
@@ -71,19 +77,15 @@ public class EditSalesFlatOrderItemJDialog extends javax.swing.JDialog {
         jLabelPrecoOriginal = new javax.swing.JLabel();
         jTextFieldPriceOriginal = new javax.swing.JTextField();
         jLabelTaxParcent = new javax.swing.JLabel();
-        jTextFieldTaxParcent = new javax.swing.JTextField();
-        jLabelPriceInclTax = new javax.swing.JLabel();
-        jTextFieldPriceInclTax = new javax.swing.JTextField();
+        jTextFieldReducaoGrupo = new javax.swing.JTextField();
         jLabelTotalTaxa = new javax.swing.JLabel();
         jTextFieldTotalTaxa = new javax.swing.JTextField();
         jLabelDiscontParcent = new javax.swing.JLabel();
-        jTextFieldDiscontParcent = new javax.swing.JTextField();
-        jLabelDiscontAmount = new javax.swing.JLabel();
-        jTextFieldDiscontAmount = new javax.swing.JTextField();
+        jTextFieldDescontoQuantidade = new javax.swing.JTextField();
         jLabelRowTotal = new javax.swing.JLabel();
-        jTextFieldRowTotal = new javax.swing.JTextField();
+        jTextFieldValorTotal = new javax.swing.JTextField();
         jLabelValorUnitarioComDesconto = new javax.swing.JLabel();
-        jTextFieldValorUnitarioComDesconto = new javax.swing.JTextField();
+        jTextFieldUnitarioComDesconto = new javax.swing.JTextField();
         jLabelQuantidade = new javax.swing.JLabel();
         jTextFieldQtyOrdered = new javax.swing.JTextField();
         jButtonGravar = new javax.swing.JButton();
@@ -107,7 +109,7 @@ public class EditSalesFlatOrderItemJDialog extends javax.swing.JDialog {
                     .addComponent(jLabelSku, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanelInformacaoProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextFieldSku)
+                    .addComponent(jTextFieldSku, javax.swing.GroupLayout.DEFAULT_SIZE, 433, Short.MAX_VALUE)
                     .addComponent(jTextFieldDescricaoProduto))
                 .addContainerGap())
         );
@@ -126,59 +128,56 @@ public class EditSalesFlatOrderItemJDialog extends javax.swing.JDialog {
 
         jPanelValorProduto.setBorder(javax.swing.BorderFactory.createTitledBorder("Valores:"));
 
+        jLabelPrecoOriginal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabelPrecoOriginal.setText("Preço Original:");
 
         jTextFieldPriceOriginal.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jTextFieldPriceOriginal.setEnabled(false);
 
-        jLabelTaxParcent.setText("Taxa: %");
+        jLabelTaxParcent.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabelTaxParcent.setText("Redução Grupo %:");
 
-        jTextFieldTaxParcent.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jTextFieldTaxParcent.setEnabled(false);
+        jTextFieldReducaoGrupo.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextFieldReducaoGrupo.setEnabled(false);
 
-        jLabelPriceInclTax.setText("Unitário com Taxa:");
-
-        jTextFieldPriceInclTax.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jTextFieldPriceInclTax.setEnabled(false);
-
+        jLabelTotalTaxa.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabelTotalTaxa.setText("Total Taxa:");
 
         jTextFieldTotalTaxa.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jTextFieldTotalTaxa.setEnabled(false);
 
+        jLabelDiscontParcent.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabelDiscontParcent.setText("Desconto: %");
 
-        jTextFieldDiscontParcent.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jTextFieldDiscontParcent.setEnabled(false);
+        jTextFieldDescontoQuantidade.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextFieldDescontoQuantidade.setEnabled(false);
 
-        jLabelDiscontAmount.setText("Total Desconto:");
-
-        jTextFieldDiscontAmount.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jTextFieldDiscontAmount.setEnabled(false);
-
+        jLabelRowTotal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabelRowTotal.setText("Valor Total:");
 
-        jTextFieldRowTotal.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jTextFieldRowTotal.setEnabled(false);
+        jTextFieldValorTotal.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextFieldValorTotal.setEnabled(false);
 
-        jLabelValorUnitarioComDesconto.setText("Valor Uni. Com Desconto:");
+        jLabelValorUnitarioComDesconto.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabelValorUnitarioComDesconto.setText("Uni. Com Desc.");
 
-        jTextFieldValorUnitarioComDesconto.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jTextFieldValorUnitarioComDesconto.setEnabled(false);
-        jTextFieldValorUnitarioComDesconto.addFocusListener(new java.awt.event.FocusAdapter() {
+        jTextFieldUnitarioComDesconto.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextFieldUnitarioComDesconto.setEnabled(false);
+        jTextFieldUnitarioComDesconto.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                jTextFieldValorUnitarioComDescontoFocusGained(evt);
+                jTextFieldUnitarioComDescontoFocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                jTextFieldValorUnitarioComDescontoFocusLost(evt);
+                jTextFieldUnitarioComDescontoFocusLost(evt);
             }
         });
-        jTextFieldValorUnitarioComDesconto.addActionListener(new java.awt.event.ActionListener() {
+        jTextFieldUnitarioComDesconto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldValorUnitarioComDescontoActionPerformed(evt);
+                jTextFieldUnitarioComDescontoActionPerformed(evt);
             }
         });
 
+        jLabelQuantidade.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabelQuantidade.setText("Quantidade:");
 
         jTextFieldQtyOrdered.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
@@ -202,70 +201,58 @@ public class EditSalesFlatOrderItemJDialog extends javax.swing.JDialog {
         jPanelValorProdutoLayout.setHorizontalGroup(
             jPanelValorProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelValorProdutoLayout.createSequentialGroup()
-                .addGroup(jPanelValorProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jLabelRowTotal, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabelDiscontAmount, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabelDiscontParcent, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabelPriceInclTax, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
-                    .addComponent(jLabelPrecoOriginal, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanelValorProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabelPrecoOriginal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabelDiscontParcent, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabelValorUnitarioComDesconto, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+                    .addComponent(jLabelRowTotal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelValorProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jTextFieldPriceOriginal, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
-                    .addComponent(jTextFieldPriceInclTax)
-                    .addComponent(jTextFieldDiscontParcent)
-                    .addComponent(jTextFieldDiscontAmount)
-                    .addComponent(jTextFieldRowTotal))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jTextFieldDescontoQuantidade)
+                    .addComponent(jTextFieldUnitarioComDesconto)
+                    .addComponent(jTextFieldValorTotal))
+                .addGroup(jPanelValorProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelValorProdutoLayout.createSequentialGroup()
+                        .addGap(56, 56, 56)
+                        .addGroup(jPanelValorProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabelTaxParcent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabelTotalTaxa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(16, 16, 16))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelValorProdutoLayout.createSequentialGroup()
+                        .addGap(87, 87, 87)
+                        .addComponent(jLabelQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(jPanelValorProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabelTaxParcent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabelTotalTaxa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabelValorUnitarioComDesconto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabelQuantidade, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanelValorProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextFieldTaxParcent)
+                    .addComponent(jTextFieldReducaoGrupo)
                     .addComponent(jTextFieldTotalTaxa)
-                    .addComponent(jTextFieldValorUnitarioComDesconto)
-                    .addComponent(jTextFieldQtyOrdered, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE))
-                .addGap(0, 76, Short.MAX_VALUE))
+                    .addComponent(jTextFieldQtyOrdered, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanelValorProdutoLayout.setVerticalGroup(
             jPanelValorProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelValorProdutoLayout.createSequentialGroup()
-                .addGroup(jPanelValorProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanelValorProdutoLayout.createSequentialGroup()
-                        .addGroup(jPanelValorProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabelPrecoOriginal)
-                            .addComponent(jTextFieldPriceOriginal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabelTaxParcent)
-                            .addComponent(jTextFieldTaxParcent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanelValorProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabelPriceInclTax)
-                            .addComponent(jTextFieldPriceInclTax, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabelTotalTaxa)
-                            .addComponent(jTextFieldTotalTaxa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanelValorProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabelDiscontParcent)
-                            .addComponent(jTextFieldDiscontParcent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanelValorProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabelDiscontAmount)
-                            .addComponent(jTextFieldDiscontAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanelValorProdutoLayout.createSequentialGroup()
-                        .addGroup(jPanelValorProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabelValorUnitarioComDesconto)
-                            .addComponent(jTextFieldValorUnitarioComDesconto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanelValorProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabelQuantidade)
-                            .addComponent(jTextFieldQtyOrdered, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGroup(jPanelValorProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldPriceOriginal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelTaxParcent)
+                    .addComponent(jTextFieldReducaoGrupo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelPrecoOriginal))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelValorProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelRowTotal)
-                    .addComponent(jTextFieldRowTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 49, Short.MAX_VALUE))
+                    .addComponent(jLabelTotalTaxa)
+                    .addComponent(jTextFieldTotalTaxa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelDiscontParcent)
+                    .addComponent(jTextFieldDescontoQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelValorProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldUnitarioComDesconto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelValorUnitarioComDesconto))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelValorProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelQuantidade)
+                    .addComponent(jTextFieldQtyOrdered, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelRowTotal)))
         );
 
         jButtonGravar.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
@@ -291,31 +278,31 @@ public class EditSalesFlatOrderItemJDialog extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanelValorProduto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPanelValorProduto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanelInformacaoProduto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButtonGravar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonCancelar)
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanelInformacaoProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButtonGravar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonCancelar))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanelInformacaoProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanelValorProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanelValorProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(88, 88, 88)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonGravar)
                     .addComponent(jButtonCancelar))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
         pack();
@@ -329,9 +316,9 @@ public class EditSalesFlatOrderItemJDialog extends javax.swing.JDialog {
         cancelamento();
     }//GEN-LAST:event_jButtonCancelarActionPerformed
 
-    private void jTextFieldValorUnitarioComDescontoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldValorUnitarioComDescontoFocusLost
+    private void jTextFieldUnitarioComDescontoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldUnitarioComDescontoFocusLost
        eventoValorUnitario();
-    }//GEN-LAST:event_jTextFieldValorUnitarioComDescontoFocusLost
+    }//GEN-LAST:event_jTextFieldUnitarioComDescontoFocusLost
 
     private void jTextFieldQtyOrderedFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldQtyOrderedFocusLost
        eventoQuantidade();
@@ -341,27 +328,27 @@ public class EditSalesFlatOrderItemJDialog extends javax.swing.JDialog {
         jTextFieldQtyOrdered.selectAll();
     }//GEN-LAST:event_jTextFieldQtyOrderedFocusGained
 
-    private void jTextFieldValorUnitarioComDescontoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldValorUnitarioComDescontoFocusGained
-         jTextFieldValorUnitarioComDesconto.selectAll();
+    private void jTextFieldUnitarioComDescontoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldUnitarioComDescontoFocusGained
+         jTextFieldUnitarioComDesconto.selectAll();
         
-    }//GEN-LAST:event_jTextFieldValorUnitarioComDescontoFocusGained
+    }//GEN-LAST:event_jTextFieldUnitarioComDescontoFocusGained
 
-    private void jTextFieldValorUnitarioComDescontoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldValorUnitarioComDescontoActionPerformed
+    private void jTextFieldUnitarioComDescontoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldUnitarioComDescontoActionPerformed
        eventoValorUnitario();
-    }//GEN-LAST:event_jTextFieldValorUnitarioComDescontoActionPerformed
+    }//GEN-LAST:event_jTextFieldUnitarioComDescontoActionPerformed
 
     private void jTextFieldQtyOrderedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldQtyOrderedActionPerformed
         eventoQuantidade();
     }//GEN-LAST:event_jTextFieldQtyOrderedActionPerformed
 
     private void eventoValorUnitario() {
-        double valorComDesconto = formataCampos.stringParaDecimal(jTextFieldValorUnitarioComDesconto.getText(), 4).doubleValue();
-        double porcentagemTaxa = formataCampos.stringParaDecimal(jTextFieldTaxParcent.getText(), 4).doubleValue();
+        double valorComDesconto = formataCampos.stringParaDecimal(jTextFieldUnitarioComDesconto.getText(), 4).doubleValue();
+        double porcentagemTaxa = formataCampos.stringParaDecimal(jTextFieldReducaoGrupo.getText(), 4).doubleValue();
         double valorOriginal = formataCampos.stringParaDecimal(jTextFieldPriceOriginal.getText(), 4).doubleValue();
         BigDecimal quantidade = formataCampos.stringParaDecimal(jTextFieldQtyOrdered.getText(), 4);
     //    jTextFieldPriceInclTax.setText(formataCampos.bigDecimalParaString(calculaValorUnitarioComTaxa(valorComDesconto, porcentagemTaxa), var.casas_decimais_ARREDONDAMENTO));
-        jTextFieldDiscontParcent.setText(formataCampos.bigDecimalParaString(calculaPorcentagemDesconto(valorOriginal, valorComDesconto), 4));
-     //   jTextFieldDiscontAmount.setText(formataCampos.bigDecimalParaString(calculaValorUnitarioDesconto(valorOriginal, valorComDesconto).multiply(quantidade), var.casas_decimais_ARREDONDAMENTO));
+        jTextFieldDescontoQuantidade.setText(formataCampos.bigDecimalParaString(calculaPorcentagemDesconto(valorOriginal, valorComDesconto), 4));
+     //   jTextFieldTotalDesconto.setText(formataCampos.bigDecimalParaString(calculaValorUnitarioDesconto(valorOriginal, valorComDesconto).multiply(quantidade), var.casas_decimais_ARREDONDAMENTO));
      //   jTextFieldTotalTaxa.setText(formataCampos.bigDecimalParaString(calculaTaxaUnitario(valorComDesconto, porcentagemTaxa).multiply(quantidade), var.casas_decimais_ARREDONDAMENTO));
     //    jTextFieldRowTotal.setText(formataCampos.bigDecimalParaString(calculaValorTotal(valorComDesconto, porcentagemTaxa, quantidade.doubleValue()), var.casas_decimais_ARREDONDAMENTO));
         if((formataCampos.stringParaDecimal(jTextFieldQtyOrdered.getText(), 4).doubleValue() % quantidadeProdutoAgrupado().doubleValue()) == 0){
@@ -373,15 +360,15 @@ public class EditSalesFlatOrderItemJDialog extends javax.swing.JDialog {
     private void eventoQuantidade(){
          if((formataCampos.stringParaDecimal(jTextFieldQtyOrdered.getText(), 4).doubleValue() % quantidadeProdutoAgrupado().doubleValue()) == 0){
          BigDecimal quantidade = formataCampos.stringParaDecimal(jTextFieldQtyOrdered.getText(), 4);
-        if (verificaEstoqueDisponivel(quantidadeAntiga, quantidade, productEntity , managerMagento)) {          
-            double porcentagemDesconto = 1 - (formataCampos.stringParaDecimal(jTextFieldDiscontParcent.getText(), 4).doubleValue() / 100.00);
-            double porcentagemTaxa = formataCampos.stringParaDecimal(jTextFieldTaxParcent.getText(), 4).doubleValue();
+        if (verificaEstoqueDisponivel(BigDecimal.ONE, quantidade, productEntity , managerPrestaShop)) {          
+            double porcentagemDesconto = 1 - (formataCampos.stringParaDecimal(jTextFieldDescontoQuantidade.getText(), 4).doubleValue() / 100.00);
+            double porcentagemTaxa = formataCampos.stringParaDecimal(jTextFieldReducaoGrupo.getText(), 4).doubleValue();
             double valorOriginal = valorOriginal(quantidade.doubleValue());
             double valorComDesconto = valorOriginal * porcentagemDesconto ;          
            // jTextFieldPriceInclTax.setText(formataCampos.bigDecimalParaString(calculaValorUnitarioComTaxa(valorComDesconto, porcentagemTaxa), var.casas_decimais_ARREDONDAMENTO));
-            jTextFieldPriceInclTax.setText(formataCampos.bigDecimalParaString(calculaValorUnitarioComTaxa(valorComDesconto, porcentagemTaxa), 4));
+           // jTextFieldPriceInclTax.setText(formataCampos.bigDecimalParaString(calculaValorUnitarioComTaxa(valorComDesconto, porcentagemTaxa), 4));
          //   jTextFieldValorUnitarioComDesconto.setText(formataCampos.bigDecimalParaString(new BigDecimal(valorComDesconto), var.casas_decimais_ARREDONDAMENTO));            
-         //   jTextFieldDiscontAmount.setText(formataCampos.bigDecimalParaString(calculaValorUnitarioDesconto(valorOriginal, valorComDesconto).multiply(quantidade), var.casas_decimais_ARREDONDAMENTO));
+         //   jTextFieldTotalDesconto.setText(formataCampos.bigDecimalParaString(calculaValorUnitarioDesconto(valorOriginal, valorComDesconto).multiply(quantidade), var.casas_decimais_ARREDONDAMENTO));
          //   jTextFieldTotalTaxa.setText(formataCampos.bigDecimalParaString(calculaTaxaUnitario(valorComDesconto, porcentagemTaxa).multiply(quantidade), var.casas_decimais_ARREDONDAMENTO));
           //  jTextFieldRowTotal.setText(formataCampos.bigDecimalParaString(calculaValorTotal(valorComDesconto, porcentagemTaxa, quantidade.doubleValue()), var.casas_decimais_ARREDONDAMENTO));
           //  jTextFieldPriceOriginal.setText(formataCampos.bigDecimalParaString(new BigDecimal(valorOriginal) , var.casas_decimais_ARREDONDAMENTO));
@@ -389,7 +376,7 @@ public class EditSalesFlatOrderItemJDialog extends javax.swing.JDialog {
             jButtonGravar.requestFocus();
         }else{
           // jTextFieldQtyOrdered.setText(formataCampos.bigDecimalParaString(flatOrderItem.getQtyOrdered(), 0));
-            int qunt = verificaQuantidadeEstoque(productEntity, managerMagento).intValue();
+            int qunt = verificaQuantidadeEstoque(productEntity, managerPrestaShop).intValue();
              JOptionPane.showMessageDialog(null, "Não Ha Estoque Suficiente!\n Estoque Disponível: " + qunt) ;
         }
         }else{
@@ -401,7 +388,7 @@ public class EditSalesFlatOrderItemJDialog extends javax.swing.JDialog {
     
     private BigDecimal quantidadeProdutoAgrupado(){
          BigDecimal quan = BigDecimal.ONE;
-//        List<CatalogProductBundleSelection> listBundleSelection = new CatalogProductBundleSelectionJpaController(managerMagento).resultPorEntityId(productEntity.getEntityId());
+//        List<CatalogProductBundleSelection> listBundleSelection = new CatalogProductBundleSelectionJpaController(managerPrestaShop).resultPorEntityId(productEntity.getEntityId());
       //  for(CatalogProductBundleSelection bundle : listBundleSelection){          
      //       quan = bundle.getSelectionQty();
       //  }
@@ -410,21 +397,21 @@ public class EditSalesFlatOrderItemJDialog extends javax.swing.JDialog {
     
     private void editarSalesFlatOrderItem() {
         BigDecimal quantidade = formataCampos.stringParaDecimal(jTextFieldQtyOrdered.getText(), 4);
-        BigDecimal valorTotalDesconto = formataCampos.stringParaDecimal(jTextFieldDiscontAmount.getText(), 4);
+       // BigDecimal valorTotalDesconto = formataCampos.stringParaDecimal(jTextFieldTotalDesconto.getText(), 4);
         BigDecimal valorOriginal = formataCampos.stringParaDecimal(jTextFieldPriceOriginal.getText(), 4);
         //BigDecimal quantidade = formataCampos.stringParaDecimal(jTextFieldQtyOrdered.getText(), 4);
-        if (verificaEstoqueDisponivel(quantidadeAntiga, quantidade, productEntity, managerMagento)) {
-          //  new AtualizaSalesFlatOrderItem().editaSalesFlatorderItem(quantidade, valorTotalDesconto, valorOriginal, productEntity, flatOrderItem, flatOrder, var, managerMagento);
-          //  new AtualizaSalesFlatOrder().atualizaSalesFlatOrder(flatOrder, var, managerMagento);
-            editaEstoqueMagento(quantidade, productEntity, managerMagento);
+       // if (verificaEstoqueDisponivel(quantidadeAntiga, quantidade, productEntity, managerPrestaShop)) {
+          //  new AtualizaSalesFlatOrderItem().editaSalesFlatorderItem(quantidade, valorTotalDesconto, valorOriginal, productEntity, flatOrderItem, flatOrder, var, managerPrestaShop);
+          //  new AtualizaSalesFlatOrder().atualizaSalesFlatOrder(flatOrder, var, managerPrestaShop);
+            editaEstoqueMagento(quantidade, productEntity, managerPrestaShop);
             jButtonGravar.setEnabled(false);
             atualizaCplus(productEntity, managerCplus);
             dispose();
-        } else {
+      //  } else {
            // jTextFieldQtyOrdered.setText(formataCampos.bigDecimalParaString(flatOrderItem.getQtyOrdered(), 0));
-            int qunt = verificaQuantidadeEstoque(productEntity, managerMagento).intValue();
+            int qunt = verificaQuantidadeEstoque(productEntity, managerPrestaShop).intValue();
             JOptionPane.showMessageDialog(null, "Não Ha Estoque Suficiente!\n Estoque Disponível: " + qunt);
-        }
+      //  }
     }
     
     private void atualizaCplus(PsProduct entity, EntityManagerFactory managerCplus){
@@ -441,16 +428,16 @@ public class EditSalesFlatOrderItemJDialog extends javax.swing.JDialog {
     
     private double valorOriginal(double quantidade){
         double menorValor = 0.0;
-      //  if(comparaDataAtualComDoBanco(productEntity, var.EavAttribute_SPECIAL_TO_DATE, managerMagento) == false){
-     //       menorValor = retornaDecimal(var.EavAttribute_SPECIAL_PRICE, productEntity, managerMagento);
+      //  if(comparaDataAtualComDoBanco(productEntity, var.EavAttribute_SPECIAL_TO_DATE, managerPrestaShop) == false){
+     //       menorValor = retornaDecimal(var.EavAttribute_SPECIAL_PRICE, productEntity, managerPrestaShop);
      //   }else{
-     //        menorValor = retornaDecimal(var.EavAttribute_PRICE, productEntity, managerMagento);
+     //        menorValor = retornaDecimal(var.EavAttribute_PRICE, productEntity, managerPrestaShop);
      //   }      
-     //   List< CatalogProductEntityGroupPrice> listGroupPrice = new CatalogProductEntityGroupPriceJpaController(managerMagento).listGroupPrice(productEntity.getEntityId(), groupId);
+     //   List< CatalogProductEntityGroupPrice> listGroupPrice = new CatalogProductEntityGroupPriceJpaController(managerPrestaShop).listGroupPrice(productEntity.getEntityId(), groupId);
      //   for(CatalogProductEntityGroupPrice groupPrice :listGroupPrice){          
       //      menorValor = groupPrice.getValue().doubleValue();
      //   }       
-    //    List< CatalogProductEntityTierPrice> listTierPrice = new CatalogProductEntityTierPriceJpaController(managerMagento).listadeTierPricePorProduto(productEntity, groupId);
+    //    List< CatalogProductEntityTierPrice> listTierPrice = new CatalogProductEntityTierPriceJpaController(managerPrestaShop).listadeTierPricePorProduto(productEntity, groupId);
    //      for (CatalogProductEntityTierPrice tierPrice : listTierPrice) {
    //          if(quantidade >= tierPrice.getQty().doubleValue()){
     //             if(menorValor > tierPrice.getValue().doubleValue()){
@@ -461,9 +448,9 @@ public class EditSalesFlatOrderItemJDialog extends javax.swing.JDialog {
         return menorValor;
     }
     
-    private double retornaDecimal(short atributo, PsProduct catalogProductEntity, EntityManagerFactory managerMagento){
+    private double retornaDecimal(short atributo, PsProduct catalogProductEntity, EntityManagerFactory managerPrestaShop){
         BigDecimal decimal = BigDecimal.ZERO;
-      //  List<CatalogProductEntityDecimal> listEntityDecimal = new CatalogProductEntityDecimalJpaController(managerMagento).finalAtributo(catalogProductEntity, atributo, new CoreStoreJpaController(managerMagento).findCoreStore((short)0));
+      //  List<CatalogProductEntityDecimal> listEntityDecimal = new CatalogProductEntityDecimalJpaController(managerPrestaShop).finalAtributo(catalogProductEntity, atributo, new CoreStoreJpaController(managerPrestaShop).findCoreStore((short)0));
       //  for(CatalogProductEntityDecimal deci : listEntityDecimal){
       //      decimal = deci.getValue();
        // }
@@ -475,12 +462,12 @@ public class EditSalesFlatOrderItemJDialog extends javax.swing.JDialog {
      *
      * @param entity
      * @param atributo
-     * @param managerMagentoDigimacro
+     * @param managerPrestaShop
      * @return true se a data atual é igual ou menos que a data do banco
      */
-   private boolean comparaDataAtualComDoBanco(PsProduct  entity, short atributo, EntityManagerFactory managerMagentoDigimacro) {
+   private boolean comparaDataAtualComDoBanco(PsProduct  entity, short atributo, EntityManagerFactory managerPrestaShop) {
         boolean condicao = false;
-       // CoreStore coreStore = new CoreStoreJpaController(managerMagento).findCoreStore((short)0);
+       // CoreStore coreStore = new CoreStoreJpaController(managerPrestaShop).findCoreStore((short)0);
         Calendar dataAtualCal = Calendar.getInstance();
         dataAtualCal.setTime(new Date(System.currentTimeMillis()));
         String diaAtualStr = String.format("%02d", dataAtualCal.get(Calendar.DAY_OF_MONTH));
@@ -488,7 +475,7 @@ public class EditSalesFlatOrderItemJDialog extends javax.swing.JDialog {
         String anoAtualStr = String.format("%04d", dataAtualCal.get(Calendar.YEAR));
         Calendar dataBancoCal = Calendar.getInstance();
         int totalDataAtual = Integer.valueOf(anoAtualStr + mesAtualStr + diaAtualStr);
-      //  List<CatalogProductEntityDatetime> listEntity = new CatalogProductEntityDatetimeJpaController(managerMagentoDigimacro).finalAtributo(entity, atributo, coreStore);
+      //  List<CatalogProductEntityDatetime> listEntity = new CatalogProductEntityDatetimeJpaController(managerPrestaShop).finalAtributo(entity, atributo, coreStore);
      //   if (listEntity.isEmpty()) {
     //        condicao = true;
    //     } else {
@@ -508,24 +495,24 @@ public class EditSalesFlatOrderItemJDialog extends javax.swing.JDialog {
         return condicao;
     }
     
-    private BigDecimal verificaQuantidadeEstoque(PsProduct entity, EntityManagerFactory managerMagento){
+    private BigDecimal verificaQuantidadeEstoque(PsProduct entity, EntityManagerFactory managerPrestaShop){
         BigDecimal qty = BigDecimal.ZERO; 
-      //  List<CataloginventoryStockItem> listEstoqItem = new CataloginventoryStockItemJpaController(managerMagento).finalAtributo(entity, var.Stok_CATALOG_INVENTORY_STOCK);
+      //  List<CataloginventoryStockItem> listEstoqItem = new CataloginventoryStockItemJpaController(managerPrestaShop).finalAtributo(entity, var.Stok_CATALOG_INVENTORY_STOCK);
          //   for (CataloginventoryStockItem estoqItem : listEstoqItem) {
-        //        CataloginventoryStockItem estoque = new CataloginventoryStockItemJpaController(managerMagento).findCataloginventoryStockItem(estoqItem.getItemId());
+        //        CataloginventoryStockItem estoque = new CataloginventoryStockItemJpaController(managerPrestaShop).findCataloginventoryStockItem(estoqItem.getItemId());
        //          qty = estoque.getQty();
       //      }//fim for estoque magento
             return qty;
     }
     
     private void editaEstoqueMagento(BigDecimal quantidade, PsProduct  entity, EntityManagerFactory managerMagento) {
-        double quantidadeRequerida = quantidade.doubleValue() - quantidadeAntiga.doubleValue() ;
-       // List<CataloginventoryStockItem> listEstoqItem = new CataloginventoryStockItemJpaController(managerMagento).finalAtributo(entity, var.Stok_CATALOG_INVENTORY_STOCK);
+     //   double quantidadeRequerida = quantidade.doubleValue() - quantidadeAntiga.doubleValue() ;
+       // List<CataloginventoryStockItem> listEstoqItem = new CataloginventoryStockItemJpaController(managerPrestaShop).finalAtributo(entity, var.Stok_CATALOG_INVENTORY_STOCK);
      //   for (CataloginventoryStockItem estoqItem : listEstoqItem) {
     //        double novaQuantidade = estoqItem.getQty().doubleValue() - quantidadeRequerida;
     //        estoqItem.setQty(new BigDecimal(novaQuantidade));
     //        try {
-     //           new CataloginventoryStockItemJpaController(managerMagento).edit(estoqItem);
+     //           new CataloginventoryStockItemJpaController(managerPrestaShop).edit(estoqItem);
      //           quantidadeAntiga = quantidade;
      //       } catch (Exception ex) {
      //          JOptionPane.showMessageDialog(null, "Hove um erro ao editar Estoque no Magento!\n" + ex);
@@ -538,7 +525,7 @@ public class EditSalesFlatOrderItemJDialog extends javax.swing.JDialog {
        boolean condicao = true;
        if(quantidadeRequerida > 0.00){
            double quantidadeDisponivel = 0;
-        //    List<CataloginventoryStockItem> listEstoqItem = new CataloginventoryStockItemJpaController(managerMagento).finalAtributo(entity, var.Stok_CATALOG_INVENTORY_STOCK);
+        //    List<CataloginventoryStockItem> listEstoqItem = new CataloginventoryStockItemJpaController(managerPrestaShop).finalAtributo(entity, var.Stok_CATALOG_INVENTORY_STOCK);
         //    for (CataloginventoryStockItem estoqItem : listEstoqItem) {
         //        quantidadeDisponivel = estoqItem.getQty().doubleValue();
             }//fim for estoque magento
@@ -585,23 +572,13 @@ public class EditSalesFlatOrderItemJDialog extends javax.swing.JDialog {
     }
     
     private void carregaCampos() {
-     //   jTextFieldDescricaoProduto.setText(flatOrderItem.getName());       
-     //   double porcentagemTaxa = flatOrderItem.getTaxPercent().doubleValue();
-     //   double valorOriginal = flatOrderItem.getPrice().doubleValue();
-     //   BigDecimal quantidade = flatOrderItem.getQtyOrdered();
-    //    double valorTotalDesconto = flatOrderItem.getDiscountAmount().doubleValue();
-    //    double valorComDesconto = calculaValorComDesconto(valorOriginal, valorTotalDesconto, quantidade.doubleValue()).doubleValue();
-     //   jTextFieldPriceInclTax.setText(formataCampos.bigDecimalParaString(calculaValorUnitarioComTaxa(valorComDesconto, porcentagemTaxa), var.casas_decimais_ARREDONDAMENTO));
-     //   jTextFieldRowTotal.setText(formataCampos.bigDecimalParaString(calculaValorTotal(valorComDesconto, porcentagemTaxa, quantidade.doubleValue()), var.casas_decimais_ARREDONDAMENTO));
-    //    jTextFieldValorUnitarioComDesconto.setText(formataCampos.bigDecimalParaString(calculaValorComDesconto(valorOriginal, valorTotalDesconto, quantidade.doubleValue()), 2));
-   //     jTextFieldDiscontAmount.setText(formataCampos.bigDecimalParaString(flatOrderItem.getDiscountAmount(), var.casas_decimais_ARREDONDAMENTO));
-    //    jTextFieldDiscontParcent.setText(formataCampos.bigDecimalParaString(flatOrderItem.getDiscountPercent(), 4));
-   //     jTextFieldPriceOriginal.setText(formataCampos.bigDecimalParaString(flatOrderItem.getPrice(), var.casas_decimais_ARREDONDAMENTO));
-   //     jTextFieldQtyOrdered.setText(formataCampos.bigDecimalParaString(flatOrderItem.getQtyOrdered(), 0));
-    //    jTextFieldSku.setText(flatOrderItem.getSku());
-    //    jTextFieldTotalTaxa.setText(formataCampos.bigDecimalParaString(flatOrderItem.getTaxAmount(), var.casas_decimais_ARREDONDAMENTO));
-    //    jTextFieldTaxParcent.setText(formataCampos.bigDecimalParaString(flatOrderItem.getTaxPercent(), 4));
-    //    quantidadeAntiga = quantidade;
+        jTextFieldDescricaoProduto.setText(flatOrderItem.getProductName());   
+        jTextFieldPriceOriginal.setText(formataCampos.bigDecimalParaString(flatOrderItem.getOriginalProductPrice(), 2));
+        jTextFieldDescontoQuantidade.setText(formataCampos.bigDecimalParaString(flatOrderItem.getReductionPercent(), 2));
+        jTextFieldUnitarioComDesconto.setText(formataCampos.bigDecimalParaString(flatOrderItem.getUnitPriceTaxIncl(), 2));
+        jTextFieldReducaoGrupo.setText(formataCampos.bigDecimalParaString(flatOrderItem.getGroupReduction(), 2));   
+        
+        quantidadeAntiga = flatOrderItem.getProductQuantity();
     }
   
     private void cancelamento(){
@@ -612,11 +589,11 @@ public class EditSalesFlatOrderItemJDialog extends javax.swing.JDialog {
             }
     }
     
-    public void setSalesFlatOrderItem(PsOrderDetail salesFlatOrderItem, PsOrders salesFlatOrder) {
+    public void setOrderDetails(PsOrderDetail salesFlatOrderItem, PsOrders salesFlatOrder) {
         this.flatOrderItem = salesFlatOrderItem;
         this.flatOrder = salesFlatOrder;
         //this.groupId = salesFlatOrder.getCustomerGroupId();
-       //  this.productEntity = new CatalogProductEntityJpaController(managerMagento).findCatalogProductEntity(salesFlatOrderItem.getProductId());
+       //  this.productEntity = new CatalogProductEntityJpaController(managerPrestaShop).findCatalogProductEntity(salesFlatOrderItem.getProductId());
         carregaCampos();
                 
     }
@@ -650,20 +627,20 @@ public class EditSalesFlatOrderItemJDialog extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(EditSalesFlatOrderItemJDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditOrderDetailsJDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(EditSalesFlatOrderItemJDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditOrderDetailsJDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(EditSalesFlatOrderItemJDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditOrderDetailsJDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(EditSalesFlatOrderItemJDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditOrderDetailsJDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                EditSalesFlatOrderItemJDialog dialog = new EditSalesFlatOrderItemJDialog(new javax.swing.JFrame(), true, managerMagento,managerCplus, usuario);
+                EditOrderDetailsJDialog dialog = new EditOrderDetailsJDialog(new javax.swing.JFrame(), true, managerPrestaShop,managerCplus, usuario);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -675,28 +652,27 @@ public class EditSalesFlatOrderItemJDialog extends javax.swing.JDialog {
         });
     }
 
-    static EntityManagerFactory managerMagento;
+    static EntityManagerFactory managerPrestaShop;
     static EntityManagerFactory managerCplus;
     private PsOrderDetail flatOrderItem;
     private PsOrders flatOrder;
-    FormataCampos formataCampos;
-    //VariavelStatica var;
+    private FormataCampos formataCampos;
     private boolean cancelamento;
-    private BigDecimal quantidadeAntiga;
-    PsProduct productEntity;
-    private short groupId;
+    private int quantidadeAntiga;
+    private PsProduct productEntity;
     static Usuario usuario;
-    ControleAcesso acesso;
+    private ControleAcesso acesso;
+    private final String shopUrl;
+    private final String key;
+    private ClienteWebService ws;
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCancelar;
     private javax.swing.JButton jButtonGravar;
     private javax.swing.JLabel jLabelDescricaoProduto;
-    private javax.swing.JLabel jLabelDiscontAmount;
     private javax.swing.JLabel jLabelDiscontParcent;
     private javax.swing.JLabel jLabelPrecoOriginal;
-    private javax.swing.JLabel jLabelPriceInclTax;
     private javax.swing.JLabel jLabelQuantidade;
     private javax.swing.JLabel jLabelRowTotal;
     private javax.swing.JLabel jLabelSku;
@@ -705,16 +681,14 @@ public class EditSalesFlatOrderItemJDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabelValorUnitarioComDesconto;
     private javax.swing.JPanel jPanelInformacaoProduto;
     private javax.swing.JPanel jPanelValorProduto;
+    private javax.swing.JTextField jTextFieldDescontoQuantidade;
     private javax.swing.JTextField jTextFieldDescricaoProduto;
-    private javax.swing.JTextField jTextFieldDiscontAmount;
-    private javax.swing.JTextField jTextFieldDiscontParcent;
-    private javax.swing.JTextField jTextFieldPriceInclTax;
     private javax.swing.JTextField jTextFieldPriceOriginal;
     private javax.swing.JTextField jTextFieldQtyOrdered;
-    private javax.swing.JTextField jTextFieldRowTotal;
+    private javax.swing.JTextField jTextFieldReducaoGrupo;
     private javax.swing.JTextField jTextFieldSku;
-    private javax.swing.JTextField jTextFieldTaxParcent;
     private javax.swing.JTextField jTextFieldTotalTaxa;
-    private javax.swing.JTextField jTextFieldValorUnitarioComDesconto;
+    private javax.swing.JTextField jTextFieldUnitarioComDesconto;
+    private javax.swing.JTextField jTextFieldValorTotal;
     // End of variables declaration//GEN-END:variables
 }

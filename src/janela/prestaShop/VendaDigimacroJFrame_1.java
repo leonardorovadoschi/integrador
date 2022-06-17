@@ -70,7 +70,7 @@ public class VendaDigimacroJFrame_1 extends javax.swing.JFrame {
         codCaracteristicaCliente = new QueryIntegrador(managerIntegrador1).valorConfiguracao("cliente_CARACTERISTICA_CPLUS_DIGIMACRO");
         queryCplus = new QueryCplus(managerCplus);
         //acesso = new ControleAcesso(managerCplus);
-        this.listagemSaidasMagentoJDialog = new SaidasPrestaShopJDialog(this, true, managerPrestaShop, managerIntegrador);
+        this.listagemSaidasMagentoJDialog = new SaidasPrestaShopJDialog(this, true, managerIntegrador);
         //this.editSalesFlatOrderItemJDialog = new EditSalesFlatOrderItemJDialog(this, true, managerPrestaShop, managerCplus, usuario);
         this.listagemProdutoMagentoJDialog = new ListPsProductJDialog(this, true,managerIntegrador, managerPrestaShop, managerCplus, usuario);
         this.insereSalesFlatOrderItemJDialog = new InsereSalesFlatOrderItemJDialog(this, true, managerPrestaShop, managerCplus, usuario);

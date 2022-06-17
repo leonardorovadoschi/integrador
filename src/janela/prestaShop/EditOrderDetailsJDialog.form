@@ -23,20 +23,21 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
+          <Component id="jPanelValorProduto" alignment="0" max="32767" attributes="0"/>
+          <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                  <Component id="jPanelValorProduto" max="32767" attributes="0"/>
-                  <Component id="jPanelInformacaoProduto" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="jPanelInformacaoProduto" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <Component id="jButtonGravar" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jButtonCancelar" min="-2" max="-2" attributes="0"/>
+                  </Group>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
-          </Group>
-          <Group type="102" alignment="1" attributes="0">
-              <EmptySpace max="32767" attributes="0"/>
-              <Component id="jButtonGravar" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="jButtonCancelar" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -45,14 +46,14 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jPanelInformacaoProduto" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="jPanelValorProduto" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
+              <Component id="jPanelValorProduto" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="88" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jButtonGravar" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jButtonCancelar" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace pref="29" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -77,7 +78,7 @@
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jTextFieldSku" max="32767" attributes="0"/>
+                      <Component id="jTextFieldSku" pref="433" max="32767" attributes="0"/>
                       <Component id="jTextFieldDescricaoProduto" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -130,87 +131,72 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                      <Component id="jLabelRowTotal" alignment="0" max="32767" attributes="0"/>
-                      <Component id="jLabelDiscontAmount" alignment="0" max="32767" attributes="0"/>
-                      <Component id="jLabelDiscontParcent" alignment="0" max="32767" attributes="0"/>
-                      <Component id="jLabelPriceInclTax" alignment="0" pref="113" max="32767" attributes="0"/>
-                      <Component id="jLabelPrecoOriginal" alignment="0" max="32767" attributes="0"/>
+              <Group type="102" attributes="0">
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="jLabelPrecoOriginal" alignment="1" max="32767" attributes="0"/>
+                      <Component id="jLabelDiscontParcent" alignment="1" max="32767" attributes="0"/>
+                      <Component id="jLabelValorUnitarioComDesconto" pref="140" max="32767" attributes="0"/>
+                      <Component id="jLabelRowTotal" alignment="1" min="-2" pref="109" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="jTextFieldPriceOriginal" pref="80" max="32767" attributes="0"/>
-                      <Component id="jTextFieldPriceInclTax" max="32767" attributes="0"/>
-                      <Component id="jTextFieldDiscontParcent" max="32767" attributes="0"/>
-                      <Component id="jTextFieldDiscontAmount" max="32767" attributes="0"/>
-                      <Component id="jTextFieldRowTotal" max="32767" attributes="0"/>
+                      <Component id="jTextFieldDescontoQuantidade" max="32767" attributes="0"/>
+                      <Component id="jTextFieldUnitarioComDesconto" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jTextFieldValorTotal" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="jLabelTaxParcent" max="32767" attributes="0"/>
-                      <Component id="jLabelTotalTaxa" max="32767" attributes="0"/>
-                      <Component id="jLabelValorUnitarioComDesconto" max="32767" attributes="0"/>
-                      <Component id="jLabelQuantidade" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="jLabelTaxParcent" max="32767" attributes="0"/>
+                              <Component id="jLabelTotalTaxa" max="32767" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace min="-2" pref="87" max="-2" attributes="0"/>
+                          <Component id="jLabelQuantidade" min="-2" pref="108" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                      </Group>
                   </Group>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="jTextFieldTaxParcent" max="32767" attributes="0"/>
+                      <Component id="jTextFieldReducaoGrupo" max="32767" attributes="0"/>
                       <Component id="jTextFieldTotalTaxa" max="32767" attributes="0"/>
-                      <Component id="jTextFieldValorUnitarioComDesconto" max="32767" attributes="0"/>
-                      <Component id="jTextFieldQtyOrdered" pref="80" max="32767" attributes="0"/>
+                      <Component id="jTextFieldQtyOrdered" min="-2" pref="80" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="0" pref="76" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <Group type="103" groupAlignment="1" attributes="0">
-                      <Group type="102" attributes="0">
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabelPrecoOriginal" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jTextFieldPriceOriginal" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabelTaxParcent" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jTextFieldTaxParcent" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabelPriceInclTax" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jTextFieldPriceInclTax" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabelTotalTaxa" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jTextFieldTotalTaxa" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabelDiscontParcent" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jTextFieldDiscontParcent" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabelDiscontAmount" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jTextFieldDiscontAmount" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
-                      <Group type="102" attributes="0">
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabelValorUnitarioComDesconto" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jTextFieldValorUnitarioComDesconto" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabelQuantidade" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jTextFieldQtyOrdered" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
+              <Group type="102" attributes="0">
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="jTextFieldPriceOriginal" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabelTaxParcent" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jTextFieldReducaoGrupo" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabelPrecoOriginal" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jLabelRowTotal" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jTextFieldRowTotal" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabelTotalTaxa" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jTextFieldTotalTaxa" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabelDiscontParcent" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jTextFieldDescontoQuantidade" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="0" pref="49" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="jTextFieldUnitarioComDesconto" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabelValorUnitarioComDesconto" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="jLabelQuantidade" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jTextFieldQtyOrdered" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                      <Component id="jTextFieldValorTotal" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabelRowTotal" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
               </Group>
           </Group>
         </DimensionLayout>
@@ -218,6 +204,7 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="jLabelPrecoOriginal">
           <Properties>
+            <Property name="horizontalAlignment" type="int" value="4"/>
             <Property name="text" type="java.lang.String" value="Pre&#xe7;o Original:"/>
           </Properties>
         </Component>
@@ -229,21 +216,11 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabelTaxParcent">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Taxa: %"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="jTextFieldTaxParcent">
-          <Properties>
             <Property name="horizontalAlignment" type="int" value="4"/>
-            <Property name="enabled" type="boolean" value="false"/>
+            <Property name="text" type="java.lang.String" value="Redu&#xe7;&#xe3;o Grupo %:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabelPriceInclTax">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Unit&#xe1;rio com Taxa:"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="jTextFieldPriceInclTax">
+        <Component class="javax.swing.JTextField" name="jTextFieldReducaoGrupo">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="4"/>
             <Property name="enabled" type="boolean" value="false"/>
@@ -251,6 +228,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabelTotalTaxa">
           <Properties>
+            <Property name="horizontalAlignment" type="int" value="4"/>
             <Property name="text" type="java.lang.String" value="Total Taxa:"/>
           </Properties>
         </Component>
@@ -262,21 +240,11 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabelDiscontParcent">
           <Properties>
+            <Property name="horizontalAlignment" type="int" value="4"/>
             <Property name="text" type="java.lang.String" value="Desconto: %"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextFieldDiscontParcent">
-          <Properties>
-            <Property name="horizontalAlignment" type="int" value="4"/>
-            <Property name="enabled" type="boolean" value="false"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="jLabelDiscontAmount">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Total Desconto:"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="jTextFieldDiscontAmount">
+        <Component class="javax.swing.JTextField" name="jTextFieldDescontoQuantidade">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="4"/>
             <Property name="enabled" type="boolean" value="false"/>
@@ -284,10 +252,11 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabelRowTotal">
           <Properties>
+            <Property name="horizontalAlignment" type="int" value="4"/>
             <Property name="text" type="java.lang.String" value="Valor Total:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextFieldRowTotal">
+        <Component class="javax.swing.JTextField" name="jTextFieldValorTotal">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="4"/>
             <Property name="enabled" type="boolean" value="false"/>
@@ -295,22 +264,24 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabelValorUnitarioComDesconto">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Valor Uni. Com Desconto:"/>
+            <Property name="horizontalAlignment" type="int" value="4"/>
+            <Property name="text" type="java.lang.String" value="Uni. Com Desc."/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextFieldValorUnitarioComDesconto">
+        <Component class="javax.swing.JTextField" name="jTextFieldUnitarioComDesconto">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="4"/>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <Events>
-            <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTextFieldValorUnitarioComDescontoFocusGained"/>
-            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTextFieldValorUnitarioComDescontoFocusLost"/>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextFieldValorUnitarioComDescontoActionPerformed"/>
+            <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTextFieldUnitarioComDescontoFocusGained"/>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTextFieldUnitarioComDescontoFocusLost"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextFieldUnitarioComDescontoActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabelQuantidade">
           <Properties>
+            <Property name="horizontalAlignment" type="int" value="4"/>
             <Property name="text" type="java.lang.String" value="Quantidade:"/>
           </Properties>
         </Component>
