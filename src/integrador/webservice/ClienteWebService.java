@@ -7,11 +7,8 @@ package integrador.webservice;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
@@ -21,8 +18,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -51,11 +46,8 @@ import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.HttpMultipartMode;
-import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.ByteArrayBody;
-import org.apache.http.entity.mime.content.ContentBody;
-import org.apache.http.entity.mime.content.FileBody;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -595,13 +587,13 @@ public class ClienteWebService {
             return "";
         }
         Node no = noElemento.getFirstChild();
-        System.out.println("noElemento.getFirstChild(): " + noElemento.getTagName());
+       // System.out.println("noElemento.getFirstChild(): " + noElemento.getTagName());
         if(no == null){
             return "";
         }
         
         //System.out.println("Nó getNodeName(): " + no.getTextContent());
-        System.out.println("Nó getNodeValue(): " + no.getNodeValue());  
+       // System.out.println("Nó getNodeValue(): " + no.getNodeValue());  
         return no.getNodeValue();
     }
 }

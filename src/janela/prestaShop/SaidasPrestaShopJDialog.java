@@ -100,6 +100,7 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
         jPanelPesquisa.setBorder(javax.swing.BorderFactory.createTitledBorder("Pesquisa"));
 
         jComboBoxTipoPesquisa.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Referência", "Status do Pedido", "ID" }));
+        jComboBoxTipoPesquisa.setSelectedIndex(1);
         jComboBoxTipoPesquisa.setToolTipText("selecione qual o tipo de pesquisa que você deseja fazer");
         jComboBoxTipoPesquisa.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -354,7 +355,7 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanelPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanelPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(7, 7, 7)
@@ -410,6 +411,14 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
                 jTextFieldTermoPesquisa.setEnabled(false);
                 jDateChooserDataFinal.setEnabled(true);
                 jDateChooserDataInicial.setEnabled(true);
+                break;
+            case 2:
+                jRadioButtonCancelado.setEnabled(false);
+                jRadioButtonProcessado.setEnabled(false);
+                jRadioButtonPendente.setEnabled(false);
+                jTextFieldTermoPesquisa.setEnabled(true);
+                jDateChooserDataFinal.setEnabled(false);
+                jDateChooserDataInicial.setEnabled(false);
                 break;
         }
 
@@ -566,14 +575,30 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
                 }
                 break;
             case 2://sem argumento
-                HashMap<String, Object> getSchemaOpt = new HashMap();
-                try {
-                    Document document;
-                    getSchemaOpt.put("url", shopUrl + "/api/orders/" + jTextFieldTermoPesquisa.getText());
-                    document = ws.getFuncao(getSchemaOpt);
-                    listPsOrders.add(new WebOrders().xmlParaEntidade(document, ws));
-                } catch (PrestaShopWebserviceException ex) {
-                    JOptionPane.showMessageDialog(null, "Erro ao consultar Web Service: \n" + ex);
+                psOrdersList.clear();
+                listPsOrders = new ArrayList<>();
+                if (!"".equals(jTextFieldTermoPesquisa.getText())) {
+                    try {
+                        HashMap<String, Object> getSchemaOpt = new HashMap();
+                        getSchemaOpt.put("url", shopUrl + "/api/orders?filter[id]=" + jTextFieldTermoPesquisa.getText().trim());
+                        Document document;
+                        document = ws.getFuncao(getSchemaOpt);
+                        NodeList nList = document.getElementsByTagName("order");
+                        for (String id : ws.retornaListaId(nList)) {
+                            getSchemaOpt.put("url", shopUrl + "/api/orders/" + id);
+                            document = ws.getFuncao(getSchemaOpt);
+                            listPsOrders.add(new WebOrders().xmlParaEntidade(document, ws));
+                        }
+                    } catch (PrestaShopWebserviceException ex) {
+                        JOptionPane.showMessageDialog(null, "Erro ao consultar Web Service: \n" + ex);
+                    }
+                }
+                if (listPsOrders.size() < 1) {
+                    JOptionPane.showMessageDialog(null, "Não foi encontrado resultado para essa pesquisa!!! ");
+                } else {
+                    for (PsOrders sales : listPsOrders) {
+                        psOrdersList.add(sales);
+                    }//fim for
                 }
                 break;
             case 3://sem argumento

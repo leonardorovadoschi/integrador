@@ -143,7 +143,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         jTextFieldFrete = new javax.swing.JTextField();
         jTextFieldTaxa = new javax.swing.JTextField();
         jButtonAlteraPagamento = new javax.swing.JButton();
-        jComboBoxPagamento = new javax.swing.JComboBox<String>();
+        jComboBoxPagamento = new javax.swing.JComboBox<>();
         jButtonInserir = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -253,7 +253,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
             }
         });
 
-        jComboBoxPagamento.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Prazo (Boleto)", "¿ vista", "Cupom", "" }));
+        jComboBoxPagamento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Prazo (Boleto)", "¿ vista", "Cupom", "" }));
         jComboBoxPagamento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxPagamentoActionPerformed(evt);
@@ -348,23 +348,29 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
 
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, psOrderDetailList, jTable1);
         org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${productEan13}"));
-        columnBinding.setColumnName("Product Ean13");
+        columnBinding.setColumnName("EAN");
         columnBinding.setColumnClass(String.class);
         columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${productQuantity}"));
-        columnBinding.setColumnName("Quant");
-        columnBinding.setColumnClass(Integer.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${productName}"));
         columnBinding.setColumnName("Produto Nome");
         columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${productQuantityDiscount}"));
-        columnBinding.setColumnName("Prod Qnt Desc");
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${productQuantity}"));
+        columnBinding.setColumnName("Quant");
+        columnBinding.setColumnClass(Integer.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${originalProductPrice}"));
+        columnBinding.setColumnName("PreÁo Normal");
         columnBinding.setColumnClass(java.math.BigDecimal.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${unitPriceTaxIncl}"));
-        columnBinding.setColumnName("Unit Price Tax Incl");
+        columnBinding.setColumnName("Unit·rio");
         columnBinding.setColumnClass(java.math.BigDecimal.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${totalPriceTaxIncl}"));
-        columnBinding.setColumnName("Total Price Tax Incl");
+        columnBinding.setColumnName("Total");
+        columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${groupReduction}"));
+        columnBinding.setColumnName("Desc. Grupo");
+        columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${productWeight}"));
+        columnBinding.setColumnName("Peso");
         columnBinding.setColumnClass(java.math.BigDecimal.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${idOrder}"));
         columnBinding.setColumnName("Id Order");
@@ -375,14 +381,8 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${idOrderDetail}"));
         columnBinding.setColumnName("Id Order Detail");
         columnBinding.setColumnClass(Integer.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${groupReduction}"));
-        columnBinding.setColumnName("Group Reduction");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${originalProductPrice}"));
-        columnBinding.setColumnName("Original Product Price");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${productWeight}"));
-        columnBinding.setColumnName("Peso");
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${productQuantityDiscount}"));
+        columnBinding.setColumnName("Prod Qnt Desc");
         columnBinding.setColumnClass(java.math.BigDecimal.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${productId}"));
         columnBinding.setColumnName("Product Id");
@@ -392,23 +392,29 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         columnBinding.setColumnClass(String.class);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(jTable1);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
             jTable1.getColumnModel().getColumn(0).setMinWidth(120);
             jTable1.getColumnModel().getColumn(0).setPreferredWidth(120);
             jTable1.getColumnModel().getColumn(0).setMaxWidth(300);
-            jTable1.getColumnModel().getColumn(2).setMinWidth(350);
-            jTable1.getColumnModel().getColumn(2).setPreferredWidth(350);
-            jTable1.getColumnModel().getColumn(2).setMaxWidth(500);
-            jTable1.getColumnModel().getColumn(3).setMinWidth(80);
-            jTable1.getColumnModel().getColumn(3).setPreferredWidth(80);
+            jTable1.getColumnModel().getColumn(1).setMinWidth(350);
+            jTable1.getColumnModel().getColumn(1).setPreferredWidth(350);
+            jTable1.getColumnModel().getColumn(1).setMaxWidth(500);
+            jTable1.getColumnModel().getColumn(3).setMinWidth(100);
+            jTable1.getColumnModel().getColumn(3).setPreferredWidth(100);
+            jTable1.getColumnModel().getColumn(3).setMaxWidth(200);
             jTable1.getColumnModel().getColumn(3).setCellRenderer(new RenderPreco());
             jTable1.getColumnModel().getColumn(4).setCellRenderer(new RenderPreco());
             jTable1.getColumnModel().getColumn(5).setCellRenderer(new RenderPreco());
-            jTable1.getColumnModel().getColumn(9).setCellRenderer(new RenderPorcentagem());
-            jTable1.getColumnModel().getColumn(10).setMinWidth(100);
-            jTable1.getColumnModel().getColumn(10).setPreferredWidth(100);
-            jTable1.getColumnModel().getColumn(10).setMaxWidth(200);
+            jTable1.getColumnModel().getColumn(6).setCellRenderer(new RenderPorcentagem());
+            jTable1.getColumnModel().getColumn(11).setMinWidth(80);
+            jTable1.getColumnModel().getColumn(11).setPreferredWidth(80);
+            jTable1.getColumnModel().getColumn(11).setCellRenderer(new RenderPreco());
             jTable1.getColumnModel().getColumn(13).setMinWidth(100);
             jTable1.getColumnModel().getColumn(13).setPreferredWidth(100);
         }
@@ -673,6 +679,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         jButtonAdicionar.setText("Adicionar");
 
         jButtonEditar.setText("Editar");
+        jButtonEditar.setEnabled(false);
         jButtonEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonEditarActionPerformed(evt);
@@ -680,6 +687,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         });
 
         jButtonRemover.setText("Remover");
+        jButtonRemover.setEnabled(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -821,8 +829,8 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBoxPagamentoActionPerformed
 
     private void jButtonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarActionPerformed
-        this.editOrderDetailsJDialog.setVisible(true);
-        if (this.editOrderDetailsJDialog.isCancelamento() == false) {
+       // this.editOrderDetailsJDialog.setVisible(true);
+       // if (this.editOrderDetailsJDialog.isCancelamento() == false) {
             Integer cod = Integer.valueOf(jTable1.getValueAt(jTable1.getSelectedRow(), colunaOrderDetail).toString());
             try {
                 HashMap<String, Object> getSchemaOpt = new HashMap();
@@ -830,12 +838,17 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
                 getSchemaOpt.put("url", shopUrl + "/api/order_details/" + cod);
                 document = ws.getFuncao(getSchemaOpt);
                 this.editOrderDetailsJDialog.setOrderDetails(new WebOrderDetails().xmlParaEntidade(document, ws), psOrders);
-
+                this.editOrderDetailsJDialog.setVisible(true);
             } catch (PrestaShopWebserviceException ex) {
                 JOptionPane.showMessageDialog(null, "Erro ao consultar Web Service: \n" + ex);
             }
-        }
+      //  }
     }//GEN-LAST:event_jButtonEditarActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        jButtonEditar.setEnabled(true);
+        jButtonRemover.setEnabled(true);
+    }//GEN-LAST:event_jTable1MouseClicked
 
     private void importarClienteMagentoParaCplus() {
         Integer idCustomer = Integer.valueOf(jTableCustomer.getValueAt(jTableCustomer.getSelectedRow(), colunaCustomerId).toString());
@@ -954,7 +967,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
             new AtualizaExecucaoIntegrador().atualizaExecucaoIntegradorCondicao(exeProduto, 1, managerIntegrador);
             // jProgressBarIntegrador.setString("");
             //  jProgressBarIntegrador.setMinimum(0);
-        }//if que verifica se est√° em execu√ß√£o
+        }//if que verifica se est· em execuÁ„o
     }
 
     private void carregaCampos() {
@@ -991,6 +1004,8 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
 
         jButtonAtualizaCliente.setEnabled(true);
         jButtonAlteraPagamento.setEnabled(true);
+        jButtonEditar.setEnabled(false);
+        jButtonRemover.setEnabled(false);
 
         try {
             HashMap<String, Object> getSchemaOpt = new HashMap();
