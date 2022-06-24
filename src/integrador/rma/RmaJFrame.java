@@ -63,6 +63,7 @@ public class RmaJFrame extends javax.swing.JFrame {
 
         managerCplus = managerCplus1;
         managerIntegrador = managerIntegrador1;
+        managerPrestaShop = managerPrestaShop1;
         user = usuario;
         queryIntegrador = new QueryIntegrador(managerIntegrador);
         queryCplus = new QueryCplus(managerCplus);

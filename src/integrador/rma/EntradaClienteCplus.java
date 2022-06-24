@@ -124,7 +124,7 @@ public class EntradaClienteCplus {
                 
             //double quant = 1.00;
             double quant = quantidadeConversaoEntrada(movendaProd);
-            BigDecimal descRateadoUnitario = movendaProd.getValordescontorateado().divide(movendaProd.getQuantidade()).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP);
+            BigDecimal descRateadoUnitario = movendaProd.getValordescontorateado().divide(movendaProd.getQuantidade(), 3 ,BigDecimal.ROUND_HALF_UP);
             double valorUnitario = (movendaProd.getValorunitario().subtract(descRateadoUnitario)).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP).doubleValue();
             
             double valorTotal = valorUnitario * quant;
@@ -385,7 +385,7 @@ public class EntradaClienteCplus {
         quant = quant + quantidadeConversaoEntrada(movendaProd);
 
         //double valorUnitario = movendaProd.getValorunitario().setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP).doubleValue();        
-        BigDecimal descRateadoUnitario = movendaProd.getValordescontorateado().divide(movendaProd.getQuantidade()).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP);
+        BigDecimal descRateadoUnitario = movendaProd.getValordescontorateado().divide(movendaProd.getQuantidade(), 3 ,BigDecimal.ROUND_HALF_UP);
         double valorUnitario = (movendaProd.getValorunitario().subtract(descRateadoUnitario)).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP).doubleValue();
             
         double valorTotal = valorUnitario * quant;

@@ -909,7 +909,7 @@ public class RelatorioComprasJFrame extends javax.swing.JFrame {
         if (numerodeDiasCalculo.doubleValue() == 0.00) {
             totBig = totalVendas;
         } else {
-            totBig = totalVendas.divide(numerodeDiasCalculo, 3, RoundingMode.UP);
+            totBig = totalVendas.divide(numerodeDiasCalculo, 3 ,BigDecimal.ROUND_HALF_UP);
         }
         //BigDecimal totBig = new BigDecimal(tot).setScale(3, BigDecimal.ROUND_HALF_UP);
         return totBig.doubleValue();

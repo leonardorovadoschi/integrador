@@ -660,7 +660,7 @@ public class ProdutoCplusDigimacro {
         listBigDecimal.add(new BigDecimal("3.0"));
         for (BigDecimal bd : listBigDecimal) {
             //PsSpecificPrice psSP = new PsSpecificPrice();
-            List<PsSpecificPrice> listPSSP = new QueryPrestaShop(managerPrestaShop).listPsSpecificPrice(pp.getIdProduct(), bd.divide(new BigDecimal("100.0")), 7);
+            List<PsSpecificPrice> listPSSP = new QueryPrestaShop(managerPrestaShop).listPsSpecificPrice(pp.getIdProduct(), bd.divide(new BigDecimal("100.0"), 7 ,BigDecimal.ROUND_HALF_UP), 7);
             if (listPSSP.isEmpty()) {
                 PsSpecificPrice psSP = new PsSpecificPrice();
                 psSP.setIdSpecificPriceRule(0);
@@ -675,7 +675,7 @@ public class ProdutoCplusDigimacro {
                 psSP.setIdProductAttribute(0);
                 psSP.setPrice(new BigDecimal("-1.0"));
                 psSP.setFromQuantity(defineQuantidadePreco(pp, bd));
-                psSP.setReduction(bd.divide(new BigDecimal("100.0")));
+                psSP.setReduction(bd.divide(new BigDecimal("100.0"), 7 ,BigDecimal.ROUND_HALF_UP));
                 psSP.setReductionTax(true);
                 psSP.setReductionType("percentage");
                 psSP.setFrom(new Date(System.currentTimeMillis()));
@@ -726,7 +726,7 @@ public class ProdutoCplusDigimacro {
         listBigDecimal.add(new BigDecimal("3.0"));
         for (BigDecimal bd : listBigDecimal) {
             //PsSpecificPrice psSP = new PsSpecificPrice();
-            List<PsSpecificPrice> listPSSP = new QueryPrestaShop(managerPrestaShop).listPsSpecificPrice(pp.getIdProduct(), bd.divide(new BigDecimal("100.0")), 4);
+            List<PsSpecificPrice> listPSSP = new QueryPrestaShop(managerPrestaShop).listPsSpecificPrice(pp.getIdProduct(), bd.divide(new BigDecimal("100.0"), 4 ,BigDecimal.ROUND_HALF_UP), 4);
             if (listPSSP.isEmpty()) {
                 PsSpecificPrice psSP = new PsSpecificPrice();
                 psSP.setIdSpecificPriceRule(0);
@@ -741,7 +741,7 @@ public class ProdutoCplusDigimacro {
                 psSP.setIdProductAttribute(0);
                 psSP.setPrice(new BigDecimal("-1.0"));
                 psSP.setFromQuantity(defineQuantidadePreco(pp, bd));
-                psSP.setReduction(bd.divide(new BigDecimal("100.0")));
+                psSP.setReduction(bd.divide(new BigDecimal("100.0"), 4 ,BigDecimal.ROUND_HALF_UP));
                 psSP.setReductionTax(true);
                 psSP.setReductionType("percentage");
                 psSP.setFrom(new Date(System.currentTimeMillis()));

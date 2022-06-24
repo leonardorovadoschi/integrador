@@ -317,9 +317,10 @@ public class ClienteWebService {
         //*  #	%23
         //*  %	%25
         //*  |	%7C
+        completeUrl = completeUrl.replaceAll("\\%", "%25");
         completeUrl = completeUrl.replaceAll(" ", "%20");
         completeUrl = completeUrl.replaceAll("\\|", "%7C");
-        completeUrl = completeUrl.replaceAll("\\%", "%25");
+        
 
         HttpGet httpget = new HttpGet(completeUrl);
         HashMap<String, Object> resoult = this.executarRequest(httpget);

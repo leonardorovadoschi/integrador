@@ -473,7 +473,7 @@ public class ControleRmaJFrame extends javax.swing.JFrame {
                          JOptionPane.showMessageDialog(null, "A quantidade retornada n�o pode ser maior que a quantidade enviada!!! ");
                     }else{//fim if que verifica a quantidade digitada
                         dev.setQuantidaderetornada(quantItens);
-                        BigDecimal valorRet = dev.getValorcusto().divide(dev.getQuantidade());
+                        BigDecimal valorRet = dev.getValorcusto().divide(dev.getQuantidade(), 3 ,BigDecimal.ROUND_HALF_UP);
                         valorRet.multiply(quantItens);
                         dev.setValorretornado(valorRet.setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
                          try {
