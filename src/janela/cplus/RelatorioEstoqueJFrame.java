@@ -393,9 +393,9 @@ public class RelatorioEstoqueJFrame extends javax.swing.JFrame {
                                 + "\t" + movProd.getCodprod().getCodclassificacaofiscal().getCodigoclassificacaofiscal()
                                 + "\t" + e.getNome()
                                 + "\t" + e.getQuatidade()
-                                + "\t" + movProd.getValorunitario().add(movProd.getValoripi().divide(movProd.getQuantidade(), 4, RoundingMode.UP)).setScale(4, RoundingMode.UP)
-                                + "\t" + new BigDecimal(e.getQuatidade()).multiply(movProd.getValorunitario().add(movProd.getValoripi().divide(movProd.getQuantidade(), 4, RoundingMode.UP))).setScale(4, RoundingMode.UP)
-                                + "\t" + new BigDecimal(e.getQuatidade()).multiply(movProd.getBasesubsttributaria().divide(movProd.getQuantidade(), 4, RoundingMode.UP)).setScale(4, RoundingMode.UP)
+                                + "\t" + formatacaoCampos.bigDecimalParaString(movProd.getValorunitario().add(movProd.getValoripi().divide(movProd.getQuantidade(), 4, RoundingMode.UP)).setScale(4, RoundingMode.UP), 2)
+                                + "\t" + formatacaoCampos.bigDecimalParaString(new BigDecimal(e.getQuatidade()).multiply(movProd.getValorunitario().add(movProd.getValoripi().divide(movProd.getQuantidade(), 4, RoundingMode.UP))).setScale(4, RoundingMode.UP), 2)
+                                + "\t" + formatacaoCampos.bigDecimalParaString(new BigDecimal(e.getQuatidade()).multiply(movProd.getBasesubsttributaria().divide(movProd.getQuantidade(), 4, RoundingMode.UP)).setScale(4, RoundingMode.UP), 2)
                                 + "\t" + formatacaoCampos.dataStringSoData(movProd.getCodmoventr().getData(), 0)
                                 + "\t" + movProd.getCodmoventr().getNumnota()
                                 + "\n";
