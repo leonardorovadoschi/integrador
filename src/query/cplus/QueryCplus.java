@@ -67,6 +67,33 @@ public class QueryCplus {
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
+    
+    /**
+     * Função que retorna lista de produtos de entrada, sendo Compra e CST 10 pelo codigo do produto
+     * @param codigo
+     * @return 
+     */
+     public List<Moventradaprod> lisProdEntrada(String codigo) {
+        EntityManager em = getEntityManager();
+        javax.persistence.Query query = em.createQuery("SELECT prod FROM Moventradaprod prod WHERE prod.codprod.codigo =:codigo AND prod.codsituacaotributaria =:CST AND prod.codmoventr.codtipomovimento.flagtipomovimento =:tipoMovimento ORDER BY prod.codmoventr.data DESC");
+        query.setParameter("codigo", codigo);
+        query.setParameter("tipoMovimento", 'C');
+        query.setParameter("CST", "10");
+        return query.getResultList();
+    }
+     /**
+     * Função que retorna lista de produtos de entrada, sendo Compra e CST 60 pelo codigo do produto
+     * @param codigo
+     * @return 
+     */
+     public List<Moventradaprod> lisProdEntrada2(String codigo) {
+        EntityManager em = getEntityManager();
+        javax.persistence.Query query = em.createQuery("SELECT prod FROM Moventradaprod prod WHERE prod.codprod.codigo =:codigo AND prod.codsituacaotributaria =:CST AND prod.codmoventr.codtipomovimento.flagtipomovimento =:tipoMovimento ORDER BY prod.codmoventr.data DESC");
+        query.setParameter("codigo", codigo);
+        query.setParameter("tipoMovimento", 'C');
+        query.setParameter("CST", "60");
+        return query.getResultList();
+    }
 
     /**
      * FunÃ§Ã£o que pesquisa por alteraÃ§Ã£o de data na tabela estoque do Cplus

@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package janela.cplus;
 
 import entidade.cplus.Documento;
@@ -16,12 +15,18 @@ import entidade.cplus.Produto;
 import entidade.cplus.Produtoestoque;
 import integrador.relatorio.ImprimeRelatorio;
 import java.awt.Toolkit;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
 import jpa.cplus.MoventradaJpaController;
@@ -37,20 +42,21 @@ public class RelatorioEstoqueJFrame extends javax.swing.JFrame {
 
     /**
      * Creates new form RelatorioInventarioJFrame
+     *
      * @param managerCplus1
      */
-    public RelatorioEstoqueJFrame( EntityManagerFactory managerCplus1) {     
+    public RelatorioEstoqueJFrame(EntityManagerFactory managerCplus1) {
         initComponents();
-        
-         managerCplus = managerCplus1;
-          queryCplus = new QueryCplus(managerCplus);
-          setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
-          formatacaoCampos = new FormataCampos(); 
-          jDateChooserDataInventario.setDate(formatacaoCampos.alteraHoraData(formatacaoCampos.dataAtual()));
-          jDateChooserFim.setDate(formatacaoCampos.alteraHoraData(formatacaoCampos.dataAtual()));
-          jDateChooserInicio.setDate(formatacaoCampos.alteraDiaData(formatacaoCampos.dataAtual(), -30));
-          jDateChooserDataSemVenda.setDate(formatacaoCampos.alteraDiaData(formatacaoCampos.dataAtual(), -365));
-          System.out.println(jDateChooserDataInventario.getDate());
+
+        managerCplus = managerCplus1;
+        queryCplus = new QueryCplus(managerCplus);
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
+        formatacaoCampos = new FormataCampos();
+        jDateChooserDataInventario.setDate(formatacaoCampos.alteraHoraData(formatacaoCampos.dataAtual()));
+        jDateChooserFim.setDate(formatacaoCampos.alteraHoraData(formatacaoCampos.dataAtual()));
+        jDateChooserInicio.setDate(formatacaoCampos.alteraDiaData(formatacaoCampos.dataAtual(), -30));
+        jDateChooserDataSemVenda.setDate(formatacaoCampos.alteraDiaData(formatacaoCampos.dataAtual(), -365));
+        //System.out.println(jDateChooserDataInventario.getDate());
     }
 
     /**
@@ -78,6 +84,7 @@ public class RelatorioEstoqueJFrame extends javax.swing.JFrame {
         jButtonProdSemVendas = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jDateChooserDataSemVenda = new com.toedter.calendar.JDateChooser();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Relatório Estoque");
@@ -127,6 +134,13 @@ public class RelatorioEstoqueJFrame extends javax.swing.JFrame {
 
         jLabel1.setText("Sem Venda Des De:");
 
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -139,7 +153,7 @@ public class RelatorioEstoqueJFrame extends javax.swing.JFrame {
                         .addContainerGap(55, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButtonGeraDados, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
+                            .addComponent(jButtonGeraDados, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jToggleButtonImprimir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButtonProdSemVendas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -154,20 +168,24 @@ public class RelatorioEstoqueJFrame extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jDateChooserDataSemVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jToggleButtonCalculoDiferencaTributos)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jDateChooserFim, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jCheckBoxComDocumentoEmitido, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(jLabelInicio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jDateChooserInicio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(jLabelFim, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(64, 64, 64))))
+                                .addComponent(jDateChooserFim, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(64, 64, 64))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jCheckBoxComDocumentoEmitido, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 254, Short.MAX_VALUE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(jLabelInicio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(jDateChooserInicio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jLabelFim, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton1)
+                                .addGap(78, 78, 78))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -180,10 +198,11 @@ public class RelatorioEstoqueJFrame extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jButtonGeraDados)
-                                    .addComponent(jLabelDataInventario)
-                                    .addComponent(jDateChooserDataInventario, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jDateChooserDataInventario, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jButtonGeraDados)
+                                        .addComponent(jLabelDataInventario)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jCheckBoxRelatorioUmaLinha)
@@ -205,7 +224,8 @@ public class RelatorioEstoqueJFrame extends javax.swing.JFrame {
                                 .addComponent(jDateChooserDataSemVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jButtonProdSemVendas)
-                                    .addComponent(jLabel1))))))
+                                    .addComponent(jLabel1)))
+                            .addComponent(jButton1))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE)
                 .addContainerGap())
@@ -216,100 +236,100 @@ public class RelatorioEstoqueJFrame extends javax.swing.JFrame {
 
     private void jButtonGeraDadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGeraDadosActionPerformed
         List<Produtoestoque> listProdEstoque = new ProdutoestoqueJpaController(managerCplus).findProdutoestoqueEntities();
-        List<Produtoestoque> listProd = new ArrayList<>();       
-          verificaDataEmissaoNula();
-        for (Produtoestoque prodEstoque : listProdEstoque) {  
+        List<Produtoestoque> listProd = new ArrayList<>();
+        verificaDataEmissaoNula();
+        for (Produtoestoque prodEstoque : listProdEstoque) {
             int quantidadeEstoque = 0;
-            if(formatacaoCampos.comparaDuasDatas(prodEstoque.getLastChange(), formatacaoCampos.alteraHoraData(jDateChooserDataInventario.getDate()))){//PRIMEIRA DATA for MENOR ou IGUAL a SEGUNDA DATA vai retornar FALSE
+            if (formatacaoCampos.comparaDuasDatas(prodEstoque.getLastChange(), formatacaoCampos.alteraHoraData(jDateChooserDataInventario.getDate()))) {//PRIMEIRA DATA for MENOR ou IGUAL a SEGUNDA DATA vai retornar FALSE
                 //aqui sera verificado a quantidade em estoque do dia do relatório             
-                for(Moventradaprod entradaProd : queryCplus.resultProdutoEntrada(prodEstoque.getProduto().getCodprod(), formatacaoCampos.alteraHoraData(jDateChooserDataInventario.getDate()), false)){
+                for (Moventradaprod entradaProd : queryCplus.resultProdutoEntrada(prodEstoque.getProduto().getCodprod(), formatacaoCampos.alteraHoraData(jDateChooserDataInventario.getDate()), false)) {
                     quantidadeEstoque = quantidadeEstoque + entradaProd.getQuantidade().intValue();
                 }
-                for(Movendaprod saidaProd : queryCplus.resultProdutoSaida(prodEstoque.getProduto().getCodprod(), formatacaoCampos.alteraHoraData(jDateChooserDataInventario.getDate()))){
+                for (Movendaprod saidaProd : queryCplus.resultProdutoSaida(prodEstoque.getProduto().getCodprod(), formatacaoCampos.alteraHoraData(jDateChooserDataInventario.getDate()))) {
                     quantidadeEstoque = quantidadeEstoque - saidaProd.getQuantidade().intValue();
-                }               
-            }else{
+                }
+            } else {
                 quantidadeEstoque = prodEstoque.getEstatu().intValue();
             }
-                       
+
             if (quantidadeEstoque > 0) {
-                
+
                 double custoProdutoUnitario;
                 double creditoPisCofins;
-                double creditoIcms ;
+                double creditoIcms;
                 double valorIpiUnitario;
-                double valorStUnitario;            
-                    //quantidadeEstoque = prodEstoque.getEstatu().intValue();                            
-                    double valorProdutos = 0.00;
-                    double valorTotalIcms = 0.00;
-                    double valorTotalPisCofins = 0.00;
-                    double valorTotalIpi = 0.00;
-                    double valorTotalSt = 0.00;
-                    int estoqueCompra = 0;
-                    int incremetEstoque = 0;
-                   // queryCplus.resultProdutoEntrada(prodEstoque.getProduto().getCodprod(), true, 10)
-                            for (Moventradaprod movProd : queryCplus.resultProdutoEntrada(prodEstoque.getProduto().getCodprod(), formatacaoCampos.alteraHoraData(jDateChooserDataInventario.getDate()), true)) {
-                        estoqueCompra = estoqueCompra + movProd.getQuantidade().intValue();
-                        if (quantidadeEstoque >= estoqueCompra) {
-                            valorProdutos = valorProdutos + movProd.getValortotal().doubleValue();
-                            valorTotalIcms = valorTotalIcms + movProd.getValoricms().doubleValue();
-                            valorTotalPisCofins = valorTotalPisCofins + movProd.getValorpis().doubleValue() + movProd.getValorcofins().doubleValue();
-                            if (movProd.getValorsubsttributaria() != null) {
-                                valorTotalSt = valorTotalSt + movProd.getValorsubsttributaria().doubleValue();
-                            }
-                            if (movProd.getValoripi() != null) {
-                                valorTotalIpi = valorTotalIpi + movProd.getValoripi().doubleValue();
-                            }
-                            incremetEstoque = incremetEstoque + movProd.getQuantidade().intValue();
-                        } else {
-                            valorProdutos = valorProdutos + ((quantidadeEstoque - incremetEstoque) * movProd.getValorunitario().doubleValue());
-                            double valorRestanteIcmsUnitario = movProd.getValoricms().doubleValue() / movProd.getQuantidade().doubleValue();
-                            valorTotalIcms = valorTotalIcms + (valorRestanteIcmsUnitario * (quantidadeEstoque - incremetEstoque));
-                            double valorRestantePisCofinsUnitario = (movProd.getValorpis().doubleValue() + movProd.getValorcofins().doubleValue()) / (movProd.getQuantidade().doubleValue());
-                            valorTotalPisCofins = valorTotalPisCofins + (valorRestantePisCofinsUnitario * (quantidadeEstoque - incremetEstoque));
-                            if (movProd.getValorsubsttributaria() != null) {
-                                double valorRestanteStUnitario = movProd.getValorsubsttributaria().doubleValue() / movProd.getQuantidade().doubleValue();
-                                valorTotalSt = valorTotalSt + (valorRestanteStUnitario * (quantidadeEstoque - incremetEstoque));
-                            }
-                            if (movProd.getValoripi() != null) {
-                                double valorRestanteIpi = movProd.getValoripi().doubleValue() / movProd.getQuantidade().doubleValue();
-                                valorTotalIpi = valorTotalIpi + (valorRestanteIpi * (quantidadeEstoque - incremetEstoque));
-                            }
-                            break;
-                        } //             
-                    } //fim for listagem entrada de compra
-                                                                               
-                    if("102".equals(prodEstoque.getProduto().getCfopdentrouf())){
-                        creditoIcms = valorTotalIcms;
-                        prodEstoque.getProduto().setPercoutroscustos(new BigDecimal(creditoIcms).setScale(2, BigDecimal.ROUND_HALF_UP));
-                    }else{                  
-                        prodEstoque.getProduto().setPercoutroscustos(BigDecimal.ZERO);
-                    }
-                    creditoPisCofins = valorTotalPisCofins;
-                    prodEstoque.getProduto().setPercoutroscustos2(new BigDecimal(creditoPisCofins).setScale(2, BigDecimal.ROUND_HALF_UP)); 
-                    
-                    valorStUnitario = valorTotalSt ;
-                    prodEstoque.getProduto().setValorsubsttributaria(new BigDecimal(valorStUnitario).setScale(2, BigDecimal.ROUND_HALF_UP));
-                    
-                     valorIpiUnitario = valorTotalIpi;
-                    prodEstoque.getProduto().setValoripi(new BigDecimal(valorIpiUnitario).setScale(2, BigDecimal.ROUND_HALF_UP));
-                    
-                    creditoIcms = valorTotalIcms / quantidadeEstoque;
-                     creditoPisCofins = valorTotalPisCofins / quantidadeEstoque;
-                     valorStUnitario = valorTotalSt / quantidadeEstoque;
-                     valorIpiUnitario = valorTotalIpi / quantidadeEstoque;
-                    custoProdutoUnitario = valorProdutos  / quantidadeEstoque;
-                    custoProdutoUnitario =  custoProdutoUnitario + valorIpiUnitario + valorStUnitario - creditoIcms - creditoPisCofins;
-                    prodEstoque.getProduto().setPrecusto(new BigDecimal(custoProdutoUnitario).setScale(2, BigDecimal.ROUND_HALF_UP));
-                    
-                    prodEstoque.setEstatu(new BigDecimal(quantidadeEstoque));
-                    double custoreal = custoProdutoUnitario + creditoPisCofins;
-                    prodEstoque.getProduto().setCustoreal(new BigDecimal(custoreal));
-                    listProd.add(prodEstoque);
-                
+                double valorStUnitario;
+                //quantidadeEstoque = prodEstoque.getEstatu().intValue();                            
+                double valorProdutos = 0.00;
+                double valorTotalIcms = 0.00;
+                double valorTotalPisCofins = 0.00;
+                double valorTotalIpi = 0.00;
+                double valorTotalSt = 0.00;
+                int estoqueCompra = 0;
+                int incremetEstoque = 0;
+                // queryCplus.resultProdutoEntrada(prodEstoque.getProduto().getCodprod(), true, 10)
+                for (Moventradaprod movProd : queryCplus.resultProdutoEntrada(prodEstoque.getProduto().getCodprod(), formatacaoCampos.alteraHoraData(jDateChooserDataInventario.getDate()), true)) {
+                    estoqueCompra = estoqueCompra + movProd.getQuantidade().intValue();
+                    if (quantidadeEstoque >= estoqueCompra) {
+                        valorProdutos = valorProdutos + movProd.getValortotal().doubleValue();
+                        valorTotalIcms = valorTotalIcms + movProd.getValoricms().doubleValue();
+                        valorTotalPisCofins = valorTotalPisCofins + movProd.getValorpis().doubleValue() + movProd.getValorcofins().doubleValue();
+                        if (movProd.getValorsubsttributaria() != null) {
+                            valorTotalSt = valorTotalSt + movProd.getValorsubsttributaria().doubleValue();
+                        }
+                        if (movProd.getValoripi() != null) {
+                            valorTotalIpi = valorTotalIpi + movProd.getValoripi().doubleValue();
+                        }
+                        incremetEstoque = incremetEstoque + movProd.getQuantidade().intValue();
+                    } else {
+                        valorProdutos = valorProdutos + ((quantidadeEstoque - incremetEstoque) * movProd.getValorunitario().doubleValue());
+                        double valorRestanteIcmsUnitario = movProd.getValoricms().doubleValue() / movProd.getQuantidade().doubleValue();
+                        valorTotalIcms = valorTotalIcms + (valorRestanteIcmsUnitario * (quantidadeEstoque - incremetEstoque));
+                        double valorRestantePisCofinsUnitario = (movProd.getValorpis().doubleValue() + movProd.getValorcofins().doubleValue()) / (movProd.getQuantidade().doubleValue());
+                        valorTotalPisCofins = valorTotalPisCofins + (valorRestantePisCofinsUnitario * (quantidadeEstoque - incremetEstoque));
+                        if (movProd.getValorsubsttributaria() != null) {
+                            double valorRestanteStUnitario = movProd.getValorsubsttributaria().doubleValue() / movProd.getQuantidade().doubleValue();
+                            valorTotalSt = valorTotalSt + (valorRestanteStUnitario * (quantidadeEstoque - incremetEstoque));
+                        }
+                        if (movProd.getValoripi() != null) {
+                            double valorRestanteIpi = movProd.getValoripi().doubleValue() / movProd.getQuantidade().doubleValue();
+                            valorTotalIpi = valorTotalIpi + (valorRestanteIpi * (quantidadeEstoque - incremetEstoque));
+                        }
+                        break;
+                    } //             
+                } //fim for listagem entrada de compra
+
+                if ("102".equals(prodEstoque.getProduto().getCfopdentrouf())) {
+                    creditoIcms = valorTotalIcms;
+                    prodEstoque.getProduto().setPercoutroscustos(new BigDecimal(creditoIcms).setScale(2, BigDecimal.ROUND_HALF_UP));
+                } else {
+                    prodEstoque.getProduto().setPercoutroscustos(BigDecimal.ZERO);
+                }
+                creditoPisCofins = valorTotalPisCofins;
+                prodEstoque.getProduto().setPercoutroscustos2(new BigDecimal(creditoPisCofins).setScale(2, BigDecimal.ROUND_HALF_UP));
+
+                valorStUnitario = valorTotalSt;
+                prodEstoque.getProduto().setValorsubsttributaria(new BigDecimal(valorStUnitario).setScale(2, BigDecimal.ROUND_HALF_UP));
+
+                valorIpiUnitario = valorTotalIpi;
+                prodEstoque.getProduto().setValoripi(new BigDecimal(valorIpiUnitario).setScale(2, BigDecimal.ROUND_HALF_UP));
+
+                creditoIcms = valorTotalIcms / quantidadeEstoque;
+                creditoPisCofins = valorTotalPisCofins / quantidadeEstoque;
+                valorStUnitario = valorTotalSt / quantidadeEstoque;
+                valorIpiUnitario = valorTotalIpi / quantidadeEstoque;
+                custoProdutoUnitario = valorProdutos / quantidadeEstoque;
+                custoProdutoUnitario = custoProdutoUnitario + valorIpiUnitario + valorStUnitario - creditoIcms - creditoPisCofins;
+                prodEstoque.getProduto().setPrecusto(new BigDecimal(custoProdutoUnitario).setScale(2, BigDecimal.ROUND_HALF_UP));
+
+                prodEstoque.setEstatu(new BigDecimal(quantidadeEstoque));
+                double custoreal = custoProdutoUnitario + creditoPisCofins;
+                prodEstoque.getProduto().setCustoreal(new BigDecimal(custoreal));
+                listProd.add(prodEstoque);
+
             }//fim if com estoque maior que zero
         }//fim for
-            listaProdutosEstoque = listProd;
+        listaProdutosEstoque = listProd;
     }//GEN-LAST:event_jButtonGeraDadosActionPerformed
 
     private void jToggleButtonImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButtonImprimirActionPerformed
@@ -321,26 +341,88 @@ public class RelatorioEstoqueJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jToggleButtonCalculoDiferencaTributosActionPerformed
 
     private void jButtonProdSemVendasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonProdSemVendasActionPerformed
-       String tex ="";
-       jTextArea.setText("");
-       List<Produtoestoque> prodList = new ArrayList<>();
-        for(Produtoestoque prodestoque : queryCplus.resultComEstoque()){
-           if(queryCplus.naoVendidoDesDe(prodestoque.getProduto().getCodprod(), jDateChooserDataSemVenda.getDate()).isEmpty()){
-               if(queryCplus.compradoAntes(prodestoque.getProduto().getCodprod(), jDateChooserDataSemVenda.getDate()).isEmpty())
-             prodList.add(prodestoque);           
-           }
-       }      
-        if(prodList.size()>0){
-            Comparator ordemNome = new ComparadorNomeProduto();
-                Collections.sort(prodList,ordemNome);
-                for(Produtoestoque pe: prodList){
-                    tex = tex + pe.getProduto().getCodigo()
-                                   + " - " + pe.getProduto().getNomeprod()
-                                    + "\n";
-                          jTextArea.setText(tex);
+        String tex = "";
+        jTextArea.setText("");
+        List<Produtoestoque> prodList = new ArrayList<>();
+        for (Produtoestoque prodestoque : queryCplus.resultComEstoque()) {
+            if (queryCplus.naoVendidoDesDe(prodestoque.getProduto().getCodprod(), jDateChooserDataSemVenda.getDate()).isEmpty()) {
+                if (queryCplus.compradoAntes(prodestoque.getProduto().getCodprod(), jDateChooserDataSemVenda.getDate()).isEmpty()) {
+                    prodList.add(prodestoque);
                 }
+            }
+        }
+        if (prodList.size() > 0) {
+            Comparator ordemNome = new ComparadorNomeProduto();
+            Collections.sort(prodList, ordemNome);
+            for (Produtoestoque pe : prodList) {
+                tex = tex + pe.getProduto().getCodigo()
+                        + " - " + pe.getProduto().getNomeprod()
+                        + "\n";
+                jTextArea.setText(tex);
+            }
         }
     }//GEN-LAST:event_jButtonProdSemVendasActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        calculaBaseSTdeArquivo();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void calculaBaseSTdeArquivo() {
+        Scanner scanner;
+        try {
+            scanner = new Scanner(new FileReader("D:\\inventario.txt")).useDelimiter("\\t|\\n");
+            List<EntidadeInventario> listInventario = new ArrayList<>();
+            while (scanner.hasNext()) {
+                EntidadeInventario ei = new EntidadeInventario();
+                ei.setCodigo(scanner.next());
+                ei.setNome(scanner.next());
+                ei.setQuatidade(scanner.next());
+                ei.setValorUnitario(scanner.next());
+                ei.setValorTotal(scanner.next());
+                listInventario.add(ei);
+            }
+
+            String textArea = "";
+            for (EntidadeInventario e : listInventario) {
+                System.out.println(e.getNome());
+                List<Moventradaprod> lisMovProd = queryCplus.lisProdEntrada(e.getCodigo());
+                if (lisMovProd.size() > 0) {
+                    for (Moventradaprod movProd : lisMovProd) {
+                        System.out.println(movProd.getValorunitario().add(movProd.getValoripi().divide(movProd.getQuantidade(), 4, RoundingMode.UP)).setScale(4, RoundingMode.UP));
+                        textArea = textArea + e.getCodigo()
+                                + "\t" + movProd.getCodprod().getCodclassificacaofiscal().getCodigoclassificacaofiscal()
+                                + "\t" + e.getNome()
+                                + "\t" + e.getQuatidade()
+                                + "\t" + movProd.getValorunitario().add(movProd.getValoripi().divide(movProd.getQuantidade(), 4, RoundingMode.UP)).setScale(4, RoundingMode.UP)
+                                + "\t" + new BigDecimal(e.getQuatidade()).multiply(movProd.getValorunitario().add(movProd.getValoripi().divide(movProd.getQuantidade(), 4, RoundingMode.UP))).setScale(4, RoundingMode.UP)
+                                + "\t" + new BigDecimal(e.getQuatidade()).multiply(movProd.getBasesubsttributaria().divide(movProd.getQuantidade(), 4, RoundingMode.UP)).setScale(4, RoundingMode.UP)
+                                + "\t" + formatacaoCampos.dataStringSoData(movProd.getCodmoventr().getData(), 0)
+                                + "\t" + movProd.getCodmoventr().getNumnota()
+                                + "\n";
+                        break;
+                    }
+                } else {
+                    for (Moventradaprod movProd : queryCplus.lisProdEntrada2(e.getCodigo())) {
+                        System.out.println("cst 60: "+movProd.getValorunitario().add(movProd.getValoripi().divide(movProd.getQuantidade(), 4, RoundingMode.UP)).setScale(4, RoundingMode.UP));
+                        textArea = textArea + e.getCodigo()
+                                + "\t" + movProd.getCodprod().getCodclassificacaofiscal().getCodigoclassificacaofiscal()
+                                + "\t" + e.getNome()
+                                + "\t" + e.getQuatidade()
+                                + "\t" + movProd.getValorunitario().add(movProd.getValoripi().divide(movProd.getQuantidade(), 4, RoundingMode.UP)).setScale(4, RoundingMode.UP)
+                                + "\t" + new BigDecimal(e.getQuatidade()).multiply(movProd.getValorunitario().add(movProd.getValoripi().divide(movProd.getQuantidade(), 4, RoundingMode.UP))).setScale(4, RoundingMode.UP)
+                                + "\t" + new BigDecimal(e.getQuatidade()).multiply(movProd.getBasesubsttributaria().divide(movProd.getQuantidade(), 4, RoundingMode.UP)).setScale(4, RoundingMode.UP)
+                                + "\t" + formatacaoCampos.dataStringSoData(movProd.getCodmoventr().getData(), 0)
+                                + "\t" + movProd.getCodmoventr().getNumnota()
+                                + "\n";
+                        break;
+                    }
+                }
+            }
+            jTextArea.setText(textArea);
+        } catch (FileNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, "Hove um erro ao ler arquivo \n");
+        }
+    }
 
     private void diferencaTributos() {
         double icmsCredito = 0.00;
@@ -351,10 +433,10 @@ public class RelatorioEstoqueJFrame extends javax.swing.JFrame {
         double cofinsDebito = 0.00;
         if (jCheckBoxComDocumentoEmitido.isSelected()) {
             for (Nfceletronica nfc : queryCplus.listaNFC(jDateChooserInicio.getDate(), jDateChooserFim.getDate())) {
-                if("A".equals(nfc.getStatusnfceletronica())){
-                icmsDebito = icmsDebito + nfc.getCodmovenda().getValoricms().doubleValue();
-                pisDebito = pisDebito + nfc.getCodmovenda().getValortotalpis().doubleValue();
-                cofinsDebito = cofinsDebito + nfc.getCodmovenda().getValortotalcofins().doubleValue();
+                if ("A".equals(nfc.getStatusnfceletronica())) {
+                    icmsDebito = icmsDebito + nfc.getCodmovenda().getValoricms().doubleValue();
+                    pisDebito = pisDebito + nfc.getCodmovenda().getValortotalpis().doubleValue();
+                    cofinsDebito = cofinsDebito + nfc.getCodmovenda().getValortotalcofins().doubleValue();
                 }
             }
             for (Documento doc : queryCplus.listDocumento(jDateChooserInicio.getDate(), jDateChooserFim.getDate())) {
@@ -375,54 +457,55 @@ public class RelatorioEstoqueJFrame extends javax.swing.JFrame {
             if ("00".equals(entradaProd.getCodsituacaotributaria())) {
                 icmsCredito = icmsCredito + entradaProd.getValoricms().doubleValue();
             }
-            if(entradaProd.getValorpis() != null && entradaProd.getValorcofins() != null){
-            pisCredito = pisCredito + entradaProd.getValorpis().doubleValue();
-            cofinsCredito = cofinsCredito + entradaProd.getValorcofins().doubleValue();
-            }else{
-                System.out.println("Nota com pis ou cofins nulo Cod MovEntrada: "+entradaProd.getCodmoventr().getCodmoventr());
+            if (entradaProd.getValorpis() != null && entradaProd.getValorcofins() != null) {
+                pisCredito = pisCredito + entradaProd.getValorpis().doubleValue();
+                cofinsCredito = cofinsCredito + entradaProd.getValorcofins().doubleValue();
+            } else {
+                System.out.println("Nota com pis ou cofins nulo Cod MovEntrada: " + entradaProd.getCodmoventr().getCodmoventr());
             }
         }
-        jTextArea.setText("Crédito ICMS: "+formatacaoCampos.bigDecimalParaString(new BigDecimal(icmsCredito), 2)+"\n"+
-        "Crédito PIS: "+formatacaoCampos.bigDecimalParaString(new BigDecimal(pisCredito), 2)+"\n"+
-                "Crédito COFINS: "+formatacaoCampos.bigDecimalParaString(new BigDecimal(cofinsCredito), 2)+"\n"+
-                "Débito ICMS: "+formatacaoCampos.bigDecimalParaString(new BigDecimal(icmsDebito), 2)+"\n"+
-                "Débito PIS: "+formatacaoCampos.bigDecimalParaString(new BigDecimal(pisDebito), 2)+"\n"+
-                "Débito COFINS: "+formatacaoCampos.bigDecimalParaString(new BigDecimal(cofinsDebito), 2)+"\n"+
-                "A pagar ICMS: "+formatacaoCampos.bigDecimalParaString(new BigDecimal(icmsDebito - icmsCredito), 2)+"\n"+
-                "A pagar PIS: "+formatacaoCampos.bigDecimalParaString(new BigDecimal(pisDebito - pisCredito), 2)+"\n"+
-                "A pagar COFINS: "+formatacaoCampos.bigDecimalParaString(new BigDecimal(cofinsDebito - cofinsCredito), 2)+"\n"
+        jTextArea.setText("Crédito ICMS: " + formatacaoCampos.bigDecimalParaString(new BigDecimal(icmsCredito), 2) + "\n"
+                + "Crédito PIS: " + formatacaoCampos.bigDecimalParaString(new BigDecimal(pisCredito), 2) + "\n"
+                + "Crédito COFINS: " + formatacaoCampos.bigDecimalParaString(new BigDecimal(cofinsCredito), 2) + "\n"
+                + "Débito ICMS: " + formatacaoCampos.bigDecimalParaString(new BigDecimal(icmsDebito), 2) + "\n"
+                + "Débito PIS: " + formatacaoCampos.bigDecimalParaString(new BigDecimal(pisDebito), 2) + "\n"
+                + "Débito COFINS: " + formatacaoCampos.bigDecimalParaString(new BigDecimal(cofinsDebito), 2) + "\n"
+                + "A pagar ICMS: " + formatacaoCampos.bigDecimalParaString(new BigDecimal(icmsDebito - icmsCredito), 2) + "\n"
+                + "A pagar PIS: " + formatacaoCampos.bigDecimalParaString(new BigDecimal(pisDebito - pisCredito), 2) + "\n"
+                + "A pagar COFINS: " + formatacaoCampos.bigDecimalParaString(new BigDecimal(cofinsDebito - cofinsCredito), 2) + "\n"
         );
     }
-    
-    private void imprimirRelatorio (){
+
+    private void imprimirRelatorio() {
         if (listaProdutosEstoque.size() > 0) {
-                Comparator ordemNome = new ComparadorNomeProduto();
-                Collections.sort(listaProdutosEstoque, ordemNome);
-                if(jCheckBoxRelatorioUmaLinha.isSelected()){
-                     new ImprimeRelatorio().imprimeRelatorio("/integrador/relatorio/Relatorio_Inventario_contabil.jrxml", listaProdutosEstoque);
-                }else{
+            Comparator ordemNome = new ComparadorNomeProduto();
+            Collections.sort(listaProdutosEstoque, ordemNome);
+            if (jCheckBoxRelatorioUmaLinha.isSelected()) {
+                new ImprimeRelatorio().imprimeRelatorio("/integrador/relatorio/Relatorio_Inventario_contabil.jrxml", listaProdutosEstoque);
+            } else {
                 new ImprimeRelatorio().imprimeRelatorio("/integrador/relatorio/Relatorio_Inventario.jrxml", listaProdutosEstoque);
-                }
-            }else{
-            JOptionPane.showMessageDialog(null,"Não ha dados a serem impressos \n");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Não ha dados a serem impressos \n");
         }
     }
-    private void verificaDataEmissaoNula(){
-        for(Moventrada ent: new MoventradaJpaController(managerCplus).findMoventradaEntities()){
-            if(ent.getDataemissao() == null){
+
+    private void verificaDataEmissaoNula() {
+        for (Moventrada ent : new MoventradaJpaController(managerCplus).findMoventradaEntities()) {
+            if (ent.getDataemissao() == null) {
                 ent.setDataemissao(ent.getData());
                 try {
                     new MoventradaJpaController(managerCplus).edit(ent);
-                    System.out.println("Foi alterado data emissão "+ent.getCodmoventr());
+                    System.out.println("Foi alterado data emissão " + ent.getCodmoventr());
                 } catch (NonexistentEntityException ex) {
-                    JOptionPane.showMessageDialog(null,"Houve um erro ao editar data emissão \n"+ ex);
+                    JOptionPane.showMessageDialog(null, "Houve um erro ao editar data emissão \n" + ex);
                 } catch (Exception ex) {
-                   JOptionPane.showMessageDialog(null,"Houve um erro ao editar data emissão \n"+ ex);
+                    JOptionPane.showMessageDialog(null, "Houve um erro ao editar data emissão \n" + ex);
                 }
             }
         }
     }
-    
+
     private void calculaPorcentagemCusto(Produto prod) {
         List<Produtoestoque> listProdEstoque = new ProdutoestoqueJpaController(managerCplus).findProdutoestoqueEntities();
         List<Produtoestoque> listProd = new ArrayList<>();
@@ -506,6 +589,7 @@ public class RelatorioEstoqueJFrame extends javax.swing.JFrame {
             new ImprimeRelatorio().imprimeRelatorio("/integrador/relatorio/Relatorio_Inventario.jrxml", listProd);
         }
     }
+
     /**
      * @param args the command line arguments
      */
@@ -540,11 +624,12 @@ public class RelatorioEstoqueJFrame extends javax.swing.JFrame {
             }
         });
     }
- static EntityManagerFactory managerCplus;
- private List<Produtoestoque> listaProdutosEstoque;
- QueryCplus queryCplus;
- private final FormataCampos formatacaoCampos;
+    static EntityManagerFactory managerCplus;
+    private List<Produtoestoque> listaProdutosEstoque;
+    QueryCplus queryCplus;
+    private final FormataCampos formatacaoCampos;
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonGeraDados;
     private javax.swing.JButton jButtonProdSemVendas;
     private javax.swing.JCheckBox jCheckBoxComDocumentoEmitido;
