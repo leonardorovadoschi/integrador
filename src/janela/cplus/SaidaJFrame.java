@@ -150,7 +150,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
         jTextAreaObservacoesFiscal = new javax.swing.JTextArea();
         jPanel2 = new javax.swing.JPanel();
         jLabelIdentificadorDestino = new javax.swing.JLabel();
-        jComboBoxIdentificadorDeDestino = new javax.swing.JComboBox<>();
+        jComboBoxIdentificadorDeDestino = new javax.swing.JComboBox<String>();
         jButtonPesquisar = new javax.swing.JButton();
         jLabelMensagem = new javax.swing.JLabel();
         jButtonExcluirSaida = new javax.swing.JButton();
@@ -424,7 +424,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
         jPanelDadosSaidaLayout.setHorizontalGroup(
             jPanelDadosSaidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDadosSaidaLayout.createSequentialGroup()
-                .addContainerGap(12, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanelDadosSaidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelDadosSaidaLayout.createSequentialGroup()
                         .addGroup(jPanelDadosSaidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -577,7 +577,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
 
         jLabelIdentificadorDestino.setText("Identificador de Destino:");
 
-        jComboBoxIdentificadorDeDestino.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1 - Operação Interna", "2 - Operação Interestadual", "3 - Operação com Exterior" }));
+        jComboBoxIdentificadorDeDestino.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1 - Operação Interna", "2 - Operação Interestadual", "3 - Operação com Exterior" }));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -681,7 +681,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                         .addComponent(jPanelSaida, javax.swing.GroupLayout.PREFERRED_SIZE, 446, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jButtonPesquisar))
-                .addContainerGap(102, Short.MAX_VALUE))
+                .addContainerGap(322, Short.MAX_VALUE))
         );
 
         jTabbedPaneMovenda.addTab("Lista de Pedidos", jPanelListaPedido);
@@ -819,7 +819,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
                     .addComponent(jTextFieldAliqCofinsProd, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelPisCofinsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabelBaseCofinsProd, javax.swing.GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE)
+                    .addComponent(jLabelBaseCofinsProd, javax.swing.GroupLayout.PREFERRED_SIZE, 72, Short.MAX_VALUE)
                     .addComponent(jLabelBasePisProd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanelPisCofinsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -827,7 +827,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
                     .addComponent(jTextFieldBaseCofinsProd))
                 .addGap(10, 10, 10)
                 .addGroup(jPanelPisCofinsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabelValorCofinsProd, javax.swing.GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE)
+                    .addComponent(jLabelValorCofinsProd, javax.swing.GroupLayout.PREFERRED_SIZE, 74, Short.MAX_VALUE)
                     .addComponent(jLabelValorPisProd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelPisCofinsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -918,7 +918,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
                         .addComponent(jTextFieldValorIpiProd, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanelIPILayout.createSequentialGroup()
                         .addGroup(jPanelIPILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jLabelBaseIpiProd, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE)
+                            .addComponent(jLabelBaseIpiProd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabelAliqIpiProd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanelIPILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1008,7 +1008,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
                     .addGroup(jPanelSubsTribLayout.createSequentialGroup()
                         .addGroup(jPanelSubsTribLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jLabelAliqMva, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabelBaseSTProd, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 66, Short.MAX_VALUE))
+                            .addComponent(jLabelBaseSTProd, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanelSubsTribLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jTextFieldBaseSTProd, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
@@ -1423,10 +1423,10 @@ public class SaidaJFrame extends javax.swing.JFrame {
         jPanelProdutosPedido.setLayout(jPanelProdutosPedidoLayout);
         jPanelProdutosPedidoLayout.setHorizontalGroup(
             jPanelProdutosPedidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1063, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1305, Short.MAX_VALUE)
             .addGroup(jPanelProdutosPedidoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanelEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, 1053, Short.MAX_VALUE))
+                .addComponent(jPanelEdicao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelProdutosPedidoLayout.setVerticalGroup(
             jPanelProdutosPedidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1434,7 +1434,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanelEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 346, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE))
         );
 
         jTabbedPaneMovenda.addTab("Produtos Pedido", jPanelProdutosPedido);
@@ -1515,7 +1515,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
                         .addComponent(jButtonRelacionaDocDevolucao, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButtonDeletarDocRelacionado, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(58, Short.MAX_VALUE))
+                .addContainerGap(295, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelRelacaoDeDocumentosLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButtonDeletarDevolucao)
@@ -1532,7 +1532,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
                 .addComponent(jButtonDeletarDevolucao)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(195, Short.MAX_VALUE))
+                .addContainerGap(405, Short.MAX_VALUE))
         );
 
         jTabbedPaneMovenda.addTab("Relação de Nota Devolução", jPanelRelacaoDeDocumentos);
@@ -1541,13 +1541,16 @@ public class SaidaJFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPaneMovenda)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jTabbedPaneMovenda, javax.swing.GroupLayout.PREFERRED_SIZE, 1310, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPaneMovenda))
+                .addComponent(jTabbedPaneMovenda, javax.swing.GroupLayout.PREFERRED_SIZE, 840, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         bindingGroup.bind();
@@ -1706,6 +1709,9 @@ public class SaidaJFrame extends javax.swing.JFrame {
         
         BigDecimal aliq = formataCampos.stringParaDecimal(jTextFieldAliqIcmsProduto.getText(), decimaisArredondamento);
         BigDecimal base = formataCampos.stringParaDecimal(jTextFieldBaseIcmsProduto.getText(), decimaisArredondamento);
+         if(jComboBoxCstIcms.getSelectedIndex() == 7){
+            base = base.multiply(new BigDecimal("0.70588"));
+        }
         jTextFieldValorIcmsProduto.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base), decimaisArredondamento));
         jTextFieldBaseIcmsProduto.requestFocus();
     }//GEN-LAST:event_jTextFieldAliqIcmsProdutoActionPerformed
@@ -1716,6 +1722,9 @@ public class SaidaJFrame extends javax.swing.JFrame {
         
         BigDecimal aliq = formataCampos.stringParaDecimal(jTextFieldAliqIcmsProduto.getText(), decimaisArredondamento);
         BigDecimal base = formataCampos.stringParaDecimal(jTextFieldBaseIcmsProduto.getText(), decimaisArredondamento);
+         if(jComboBoxCstIcms.getSelectedIndex() == 7){
+            base = base.multiply(new BigDecimal("0.70588"));
+        }
         jTextFieldValorIcmsProduto.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base), decimaisArredondamento));
        // jTextFieldBaseIcmsProduto.requestFocus();
     }//GEN-LAST:event_jTextFieldAliqIcmsProdutoFocusLost
@@ -1726,6 +1735,9 @@ public class SaidaJFrame extends javax.swing.JFrame {
         
         BigDecimal aliq = formataCampos.stringParaDecimal(jTextFieldAliqIcmsProduto.getText(), decimaisArredondamento);
         BigDecimal base = formataCampos.stringParaDecimal(jTextFieldBaseIcmsProduto.getText(), decimaisArredondamento);
+        if(jComboBoxCstIcms.getSelectedIndex() == 7){
+            base = base.multiply(new BigDecimal("0.70588"));
+        }
         jTextFieldValorIcmsProduto.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base), decimaisArredondamento));
         jTextFieldBaseSTProd.requestFocus();
     }//GEN-LAST:event_jTextFieldBaseIcmsProdutoActionPerformed
@@ -1736,6 +1748,9 @@ public class SaidaJFrame extends javax.swing.JFrame {
         
         BigDecimal aliq = formataCampos.stringParaDecimal(jTextFieldAliqIcmsProduto.getText(), decimaisArredondamento);
         BigDecimal base = formataCampos.stringParaDecimal(jTextFieldBaseIcmsProduto.getText(), decimaisArredondamento);
+         if(jComboBoxCstIcms.getSelectedIndex() == 7){
+            base = base.multiply(new BigDecimal("0.70588"));
+        }
         jTextFieldValorIcmsProduto.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base), decimaisArredondamento));
         //jTextFieldBaseSTProd.requestFocus();
     }//GEN-LAST:event_jTextFieldBaseIcmsProdutoFocusLost
@@ -1837,6 +1852,9 @@ public class SaidaJFrame extends javax.swing.JFrame {
 
             aliq = formataCampos.stringParaDecimal(jTextFieldAliqIcmsProduto.getText(), decimaisArredondamento);
             base = formataCampos.stringParaDecimal(jTextFieldBaseIcmsProduto.getText(), decimaisArredondamento);
+             if(jComboBoxCstIcms.getSelectedIndex() == 7){
+            base = base.multiply(new BigDecimal("0.70588"));
+        }
             jTextFieldValorIcmsProduto.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base), decimaisArredondamento));
         }
         if (jCheckBoxAtualizaBaseIPI.isSelected()) {
@@ -1848,15 +1866,17 @@ public class SaidaJFrame extends javax.swing.JFrame {
             jTextFieldValorIpiProd.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base), decimaisArredondamento));
         }//fim if IPI
         if (jCheckBoxAtualizaBasePisCofins.isSelected()) {
-            text = jTextFieldValorProdutos.getText();;
-            jTextFieldBaseCofinsProd.setText(formataCampos.stringParaStringMoeda(text, decimaisArredondamento));
-
+            BigDecimal val = formataCampos.stringParaDecimal(jTextFieldValorProdutos.getText(), decimaisArredondamento).
+                    subtract(formataCampos.stringParaDecimal(jTextFieldValorIcmsProduto.getText(), decimaisArredondamento));           
+            text = formataCampos.bigDecimalParaString(val, decimaisArredondamento);
+           jTextFieldBaseCofinsProd.setText(formataCampos.stringParaStringMoeda(text, decimaisArredondamento));
+          // jTextFieldBaseCofinsProd.setText(text);
             aliq = formataCampos.stringParaDecimal(jTextFieldAliqCofinsProd.getText(), decimaisArredondamento);
             base = formataCampos.stringParaDecimal(jTextFieldBaseCofinsProd.getText(), decimaisArredondamento);
             jTextFieldValorCofinsProd.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base), decimaisArredondamento));
 
-            jTextFieldBasePisProd.setText(formataCampos.stringParaStringMoeda(text, decimaisArredondamento));
-
+            //jTextFieldBasePisProd.setText(formataCampos.stringParaStringMoeda(text, decimaisArredondamento));
+               jTextFieldBasePisProd.setText(text); 
             aliq = formataCampos.stringParaDecimal(jTextFieldAliqPisProd.getText(), decimaisArredondamento);
             base = formataCampos.stringParaDecimal(jTextFieldBasePisProd.getText(), decimaisArredondamento);
             jTextFieldValorPis.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base), decimaisArredondamento));
@@ -1883,6 +1903,9 @@ public class SaidaJFrame extends javax.swing.JFrame {
 
             aliq = formataCampos.stringParaDecimal(jTextFieldAliqIcmsProduto.getText(), decimaisArredondamento);
             base = formataCampos.stringParaDecimal(jTextFieldBaseIcmsProduto.getText(), decimaisArredondamento);
+             if(jComboBoxCstIcms.getSelectedIndex() == 7){
+            base = base.multiply(new BigDecimal("0.70588"));
+        }
             jTextFieldValorIcmsProduto.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base), decimaisArredondamento));
         }
         if (jCheckBoxAtualizaBaseIPI.isSelected()) {
@@ -1894,15 +1917,17 @@ public class SaidaJFrame extends javax.swing.JFrame {
             jTextFieldValorIpiProd.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base), decimaisArredondamento));
         }//fim if IPI
         if (jCheckBoxAtualizaBasePisCofins.isSelected()) {
-            text = jTextFieldValorProdutos.getText();;
+            BigDecimal val = formataCampos.stringParaDecimal(jTextFieldValorProdutos.getText(), decimaisArredondamento).
+                    subtract(formataCampos.stringParaDecimal(jTextFieldValorIcmsProduto.getText(), decimaisArredondamento));           
+            text = formataCampos.bigDecimalParaString(val, decimaisArredondamento);
             jTextFieldBaseCofinsProd.setText(formataCampos.stringParaStringMoeda(text, decimaisArredondamento));
-
+           //jTextFieldBaseCofinsProd.setText(text);
             aliq = formataCampos.stringParaDecimal(jTextFieldAliqCofinsProd.getText(), decimaisArredondamento);
             base = formataCampos.stringParaDecimal(jTextFieldBaseCofinsProd.getText(), decimaisArredondamento);
             jTextFieldValorCofinsProd.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base), decimaisArredondamento));
 
-            jTextFieldBasePisProd.setText(formataCampos.stringParaStringMoeda(text, decimaisArredondamento));
-
+            //jTextFieldBasePisProd.setText(formataCampos.stringParaStringMoeda(text, decimaisArredondamento));
+            jTextFieldBasePisProd.setText(text);
             aliq = formataCampos.stringParaDecimal(jTextFieldAliqPisProd.getText(), decimaisArredondamento);
             base = formataCampos.stringParaDecimal(jTextFieldBasePisProd.getText(), decimaisArredondamento);
             jTextFieldValorPis.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base), decimaisArredondamento));

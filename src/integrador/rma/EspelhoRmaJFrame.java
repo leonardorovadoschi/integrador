@@ -567,18 +567,21 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
                                                 
                         prod.getCodmovenda().setCodcli(cliente);
                         if ("RS".equals(cliente.getEstado())) {
-                            if ("405".equals(prod.getCodprod().getCfopdentrouf())) {
-                                prod.setCodcfop(new CfopJpaController(managerCplus).findCfop("5411"));
-                                
+                           // if ("405".equals(prod.getCodprod().getCfopdentrouf())) {
+                            if ("5405".equals(prod.getCodcfop().getCodcfop()) ) {
+                                prod.setCodcfop(new CfopJpaController(managerCplus).findCfop("5411"));                               
                             } else {
+                                if("51".equals(prod.getCodsituacaotributaria())){
+                                  prod.setValoricms(prod.getValoricms().multiply(new BigDecimal("0.70588")).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP)) ; 
+                                }
                                 prod.setCodcfop(new CfopJpaController(managerCplus).findCfop("5202"));
                             }
                         } else {
-                            if ("405".equals(prod.getCodprod().getCfopdentrouf())) {
-                                prod.setCodcfop(new CfopJpaController(managerCplus).findCfop("6411"));
-                            } else {
+                            //if ("405".equals(prod.getCodprod().getCfopdentrouf())) {
+                            //   prod.setCodcfop(new CfopJpaController(managerCplus).findCfop("6411"));
+                            //} else {
                                 prod.setCodcfop(new CfopJpaController(managerCplus).findCfop("6202"));
-                            }
+                           // }
                         }
                        // prod.getCodmovenda().setObs(mensagemNota(prod));
                     } else {
@@ -631,17 +634,21 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
                     
                     prod.getCodmovenda().setCodcli(cliente);
                      if ("RS".equals(cliente.getEstado())) {
-                            if ("405".equals(prod.getCodprod().getCfopdentrouf())) {
-                                prod.setCodcfop(new CfopJpaController(managerCplus).findCfop("5411"));
+                            // if ("405".equals(prod.getCodprod().getCfopdentrouf())) {
+                            if ("5405".equals(prod.getCodcfop().getCodcfop()) ) {
+                                prod.setCodcfop(new CfopJpaController(managerCplus).findCfop("5411"));                               
                             } else {
+                                if("51".equals(prod.getCodsituacaotributaria())){
+                                  prod.setValoricms(prod.getValoricms().multiply(new BigDecimal("0.70588")).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP)) ; 
+                                }
                                 prod.setCodcfop(new CfopJpaController(managerCplus).findCfop("5202"));
                             }
                         } else {
-                            if ("405".equals(prod.getCodprod().getCfopdentrouf())) {
-                                prod.setCodcfop(new CfopJpaController(managerCplus).findCfop("6411"));
-                            } else {
+                            //if ("405".equals(prod.getCodprod().getCfopdentrouf())) {
+                            //   prod.setCodcfop(new CfopJpaController(managerCplus).findCfop("6411"));
+                            //} else {
                                 prod.setCodcfop(new CfopJpaController(managerCplus).findCfop("6202"));
-                            }
+                           // }
                         }
                      prod.getCodmovenda().setObs(mensagemNota(prod));
                 } else {

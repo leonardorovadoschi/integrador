@@ -191,7 +191,7 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
-              <Component id="jPanelControle" alignment="1" pref="121" max="32767" attributes="0"/>
+              <Component id="jPanelControle" alignment="1" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>

@@ -179,7 +179,8 @@ public class SaidaFornecedorCplus {
                 baseIcmsMovenda = movEntradaProd.getBaseicms().doubleValue();
                 }
                 baseIcms = baseIcmsMovenda / quantidadeMovEntrada * quant;
-                valorIcms = baseIcms * aliqIcms / 100;
+               // valorIcms = baseIcms * aliqIcms / 100;
+                valorIcms = movEntradaProd.getValoricms().doubleValue() / quantidadeMovEntrada * quant;
             } else {
                 aliqIcms = 0.00;
                 baseIcms = 0.00;
@@ -488,7 +489,8 @@ public class SaidaFornecedorCplus {
             aliqIcms = movEntradaProd.getAliqicms().doubleValue();
             double baseIcmsMovenda = movEntradaProd.getBaseicms().setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP).doubleValue();
             baseIcms = baseIcmsMovenda / quantidadeMovEntrada * quant;
-            valorIcms = baseIcms * aliqIcms / 100;
+            //valorIcms = baseIcms * aliqIcms / 100;
+            valorIcms = movEntradaProd.getValoricms().doubleValue() / quantidadeMovEntrada * quant;
         } else {
             aliqIcms = 0.00;
             baseIcms = 0.00;

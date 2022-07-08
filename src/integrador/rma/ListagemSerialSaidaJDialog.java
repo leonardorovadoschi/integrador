@@ -186,14 +186,15 @@ public class ListagemSerialSaidaJDialog extends javax.swing.JDialog {
             if (cod != null) {
                 setMovendaprodserial(new MovendaprodserialJpaController(managerCplus).findMovendaprodserial(cod));
                 setCancelamento(false);
+                movendaprodserialList.clear();
                 dispose();
             } else {
-                JOptionPane.showMessageDialog(null, "O Cï¿½digo estï¿½ nullo por favor verifique!!! ");
-            }        
+                JOptionPane.showMessageDialog(null, "O Código está nullo por favor verifique!!! ");
+            }  
     }
     
      private void cancelamento(){
-        int cancelar = JOptionPane.showConfirmDialog(null, " Deseja realmente cancelar? \n O processo serï¿½ encerrado!!", "Cancelar", JOptionPane.YES_NO_CANCEL_OPTION);
+        int cancelar = JOptionPane.showConfirmDialog(null, " Deseja realmente cancelar? \n O processo será encerrado!!", "Cancelar", JOptionPane.YES_NO_CANCEL_OPTION);
             if (cancelar == JOptionPane.YES_OPTION) {
                 setCancelamento(true);
                 dispose();

@@ -106,7 +106,6 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         jMenuItemSeparacao = new javax.swing.JMenuItem();
         jMenuManutencaoRma = new javax.swing.JMenu();
         jMenuItemRma = new javax.swing.JMenuItem();
-        jMenuItemControleRma = new javax.swing.JMenuItem();
         jMenuItemEspelhoRma = new javax.swing.JMenuItem();
         jMenuVendaMagento = new javax.swing.JMenu();
         jMenuItemVendasDigimacro = new javax.swing.JMenuItem();
@@ -197,14 +196,6 @@ public class PrincipalJFrame extends javax.swing.JFrame {
             }
         });
         jMenuManutencaoRma.add(jMenuItemRma);
-
-        jMenuItemControleRma.setText("Controle RMA");
-        jMenuItemControleRma.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemControleRmaActionPerformed(evt);
-            }
-        });
-        jMenuManutencaoRma.add(jMenuItemControleRma);
 
         jMenuItemEspelhoRma.setText("Espelho RMA");
         jMenuItemEspelhoRma.addActionListener(new java.awt.event.ActionListener() {
@@ -369,17 +360,6 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         }
         saidaSerialJFrame.setVisible(true);
     }//GEN-LAST:event_jMenuItemSeparacaoActionPerformed
-
-    private void jMenuItemControleRmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemControleRmaActionPerformed
-        if (controleRmaJFrame == null || !controleRmaJFrame.isDisplayable()) {
-            controleRmaJFrame = new ControleRmaJFrame(managerCplus, managerIntegrador);
-            controleRmaJFrame.setLocationRelativeTo(this); //opcional  
-        } else {
-            controleRmaJFrame.setExtendedState(JFrame.NORMAL);
-            controleRmaJFrame.toFront();
-        }
-        controleRmaJFrame.setVisible(true);
-    }//GEN-LAST:event_jMenuItemControleRmaActionPerformed
 
     private void jMenuItemVendasDigimacroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemVendasDigimacroActionPerformed
         if (vendaMagentoJFrame == null || !vendaMagentoJFrame.isDisplayable()) {
@@ -611,7 +591,6 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuIntegracao;
     private javax.swing.JMenuItem jMenuItemAlteracaoDePreco;
     private javax.swing.JMenuItem jMenuItemCompras;
-    private javax.swing.JMenuItem jMenuItemControleRma;
     private javax.swing.JMenuItem jMenuItemEntradaSerial;
     private javax.swing.JMenuItem jMenuItemEspelhoRma;
     private javax.swing.JMenuItem jMenuItemEstoque;

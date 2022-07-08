@@ -739,7 +739,7 @@ public class RmaJFrame extends javax.swing.JFrame {
     }
 
     /**
-     * Essa funï¿½ao cria a saida para fornecedor no caso produtos com defeito
+     * Essa função cria a saida para fornecedor no caso produtos com defeito
      * @return false caso não haja erros
      */
     private boolean saidaFornecedor(boolean controlaEstoque) {
@@ -752,8 +752,8 @@ public class RmaJFrame extends javax.swing.JFrame {
         String nomeFornecedor = "";
         String codMovProdEntrada = "";
         Moventradaprod entradaProd;
-        // localizaÃ§Ã£o da entrada do produto
-        do {//licalizaÃ§Ã£o calculo ICMS por estado 
+        // localização da entrada do produto
+        do {//licalização calculo ICMS por estado 
             colunaMovProdutoEntrada = jTableListagemEntradaSerial.getColumnModel().getColumnIndex("CodMovProdutoEntrada");
             codMovProdEntrada = jTableListagemEntradaSerial.getValueAt(jTableListagemEntradaSerial.getSelectedRow(), colunaMovProdutoEntrada).toString();
             entradaProd = new MoventradaprodJpaController(managerCplus).findMoventradaprod(codMovProdEntrada);
@@ -827,12 +827,12 @@ public class RmaJFrame extends javax.swing.JFrame {
                     cancelaSaidaFornecedor = true;
                 }
                 List<Movenda> listMovenda = queryCplus.listagemMovendaFornecedor(movimentoSaidaFornecedor.getCodigo(), fornecedor.getCodforn());
-                if (listMovenda.isEmpty()) {//if que avisa usuario da decisÃ£o
+                if (listMovenda.isEmpty()) {//if que avisa usuario da decisão
                     int cancelar = JOptionPane.showConfirmDialog(null, "Cuidado!!! \n você criara uma nova saida! \n Para o Fornecedor: " + fornecedor.getNomeforn() + "\n Com a Operação: " + movimentoSaidaFornecedor.getNometipomovimento(), "Criar Saida Fornecedor", JOptionPane.YES_NO_CANCEL_OPTION);
                     if (cancelar != JOptionPane.YES_OPTION) {
                         cancelaSaidaFornecedor = true;
                     }
-                } else if (listMovenda.size() == 1) {//if que verifica se jÃ¡ existe uma saida
+                } else if (listMovenda.size() == 1) {//if que verifica se já existe uma saida
                     int cancelar = JOptionPane.showConfirmDialog(null, "Cuidado!!! \n Já existe uma saida! \n Para o Fornecedor: " + fornecedor.getNomeforn() + "\n Com a Operação: " + movimentoSaidaFornecedor.getNometipomovimento(), "Inserir Produto na Saida Fornecedor", JOptionPane.YES_NO_CANCEL_OPTION);
                     if (cancelar != JOptionPane.YES_OPTION) {
                         cancelaSaidaFornecedor = true;

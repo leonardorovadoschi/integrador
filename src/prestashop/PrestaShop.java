@@ -35,18 +35,21 @@ public class PrestaShop {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                EntityManagerFactory managerCplus = Persistence.createEntityManagerFactory("cplusPU");
-                EntityManagerFactory managerIntegrador = Persistence.createEntityManagerFactory("integradorPU");
-                EntityManagerFactory managerPrestaShop = Persistence.createEntityManagerFactory("PrestaShopPU");
-
-                if (relatorioEstoqueJFrame == null || !relatorioEstoqueJFrame.isDisplayable()) {
-                    relatorioEstoqueJFrame = new RelatorioEstoqueJFrame(managerCplus);
-                    //relatorioEstoqueJFrame.setLocationRelativeTo(this); //opcional  
-                } else {
-                    relatorioEstoqueJFrame.setExtendedState(JFrame.NORMAL);
-                    relatorioEstoqueJFrame.toFront();
-                }
-                relatorioEstoqueJFrame.setVisible(true);
+                //EntityManagerFactory managerCplus = Persistence.createEntityManagerFactory("cplusPU");
+                //EntityManagerFactory managerIntegrador = Persistence.createEntityManagerFactory("integradorPU");
+               // EntityManagerFactory managerPrestaShop = Persistence.createEntityManagerFactory("PrestaShopPU");
+                //relatorio estoque
+                /**
+                 * if (relatorioEstoqueJFrame == null ||
+                 * !relatorioEstoqueJFrame.isDisplayable()) {
+                 * relatorioEstoqueJFrame = new
+                 * RelatorioEstoqueJFrame(managerCplus);
+                 * //relatorioEstoqueJFrame.setLocationRelativeTo(this);
+                 * //opcional } else {
+                 * relatorioEstoqueJFrame.setExtendedState(JFrame.NORMAL);
+                 * relatorioEstoqueJFrame.toFront(); }
+                 * relatorioEstoqueJFrame.setVisible(true);
+                 */
 
                 //From vendas               
                 /**
@@ -59,16 +62,15 @@ public class PrestaShop {
                  * siteJFrame.toFront(); } siteJFrame.setVisible(true);
                  */
                 //From principal
-                /**
-                 * if (frameIntegracao == null ||
-                 * !frameIntegracao.isDisplayable()) { frameIntegracao = new
-                 * PrincipalJFrame();
-                 * //frameIntegracao.setLocationRelativeTo(this); //opcional }
-                 * else { frameIntegracao.setExtendedState(JFrame.NORMAL);
-                 * frameIntegracao.toFront(); }
-                 * frameIntegracao.setVisible(true);
-                 *
-                 */
+                if (frameIntegracao == null || !frameIntegracao.isDisplayable()) {
+                    frameIntegracao = new PrincipalJFrame();
+                    //frameIntegracao.setLocationRelativeTo(this); //opcional 
+                } else {
+                    frameIntegracao.setExtendedState(JFrame.NORMAL);
+                    frameIntegracao.toFront();
+                }
+                frameIntegracao.setVisible(true);
+
             }
         });
 
