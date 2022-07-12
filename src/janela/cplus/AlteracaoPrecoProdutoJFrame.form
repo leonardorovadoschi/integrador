@@ -157,7 +157,7 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jScrollPaneListagemProdutos" alignment="1" pref="1082" max="32767" attributes="0"/>
+                  <Component id="jScrollPaneListagemProdutos" alignment="1" pref="1316" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
@@ -804,7 +804,7 @@
                       <Component id="jRadioButtonTresDecimais" alignment="0" max="32767" attributes="0"/>
                       <Component id="jRadioButtonDuasDecimais" alignment="0" max="32767" attributes="0"/>
                       <Component id="jRadioButtonUmaDecimal" alignment="0" max="32767" attributes="0"/>
-                      <Component id="jRadioButtonCustoUltimaCompra" pref="139" max="32767" attributes="0"/>
+                      <Component id="jRadioButtonCustoUltimaCompra" pref="0" max="32767" attributes="0"/>
                       <Component id="jRadioButtonCustoSystema" alignment="0" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
@@ -1743,9 +1743,14 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
-                  <Group type="103" groupAlignment="1" attributes="0">
+                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
                       <Component id="jPanelOutros" max="-2" attributes="0"/>
-                      <Component id="jPanelArredondamentoVenda" alignment="1" min="-2" max="-2" attributes="0"/>
+                      <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jScrollPane4" max="32767" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="jPanelArredondamentoVenda" min="-2" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -1772,7 +1777,7 @@
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jPanelDataMovimento" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="jPanelEstoque" pref="0" max="32767" attributes="0"/>
+                              <Component id="jPanelEstoque" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jPanelPesquisa" min="-2" max="-2" attributes="0"/>
@@ -1780,7 +1785,10 @@
                       <Group type="102" attributes="0">
                           <Component id="jPanelOutros" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jPanelArredondamentoVenda" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="jPanelArredondamentoVenda" min="-2" max="-2" attributes="0"/>
+                              <Component id="jScrollPane4" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
@@ -1941,14 +1949,14 @@
                           <Component id="jLabelPrecoCusto" alignment="1" max="32767" attributes="0"/>
                           <Component id="jLabelCustoReal" alignment="1" max="32767" attributes="0"/>
                           <Component id="jLabelValorSt" alignment="1" max="32767" attributes="0"/>
-                          <Component id="jLabelValorOutrosCustos" alignment="1" pref="100" max="32767" attributes="0"/>
+                          <Component id="jLabelValorOutrosCustos" alignment="1" pref="0" max="32767" attributes="0"/>
                           <Component id="jLabelCustoMedio" alignment="1" max="32767" attributes="0"/>
                           <Component id="jLabelValorIpi" alignment="1" max="32767" attributes="0"/>
                           <Component id="jLabelValorOutrasDespesas" alignment="1" pref="0" max="32767" attributes="0"/>
                           <Component id="jLabelPrecoPutrosCustos" alignment="1" max="32767" attributes="0"/>
                           <Component id="jLabelTotalOutrosCustos" alignment="1" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="6" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jTextFieldPrecoCusto" linkSize="8" alignment="1" pref="60" max="32767" attributes="0"/>
                           <Component id="jTextFieldCustoReal" linkSize="8" alignment="1" pref="60" max="32767" attributes="0"/>
@@ -2259,7 +2267,7 @@
                               <Component id="jButtonGravar" min="-2" pref="120" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="jCheckBoxAtivo" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="24" max="32767" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                               <Component id="jButtonAtualizaMargemCusto" min="-2" pref="194" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
@@ -2945,6 +2953,21 @@
                   <ComponentRef name="buttonGroupArredondamentoPrecoVenda"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Decimal Tr&#xea;s (xx,xxx)"/>
+              </Properties>
+            </Component>
+          </SubComponents>
+        </Container>
+        <Container class="javax.swing.JScrollPane" name="jScrollPane4">
+          <AuxValues>
+            <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+          </AuxValues>
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+          <SubComponents>
+            <Component class="javax.swing.JTextArea" name="jTextAreaEan">
+              <Properties>
+                <Property name="columns" type="int" value="20"/>
+                <Property name="rows" type="int" value="5"/>
               </Properties>
             </Component>
           </SubComponents>
