@@ -23,8 +23,6 @@ import integrador.webservice.ClienteWebService;
 import integrador.webservice.PrestaShopWebserviceException;
 import integrador.webservice.WebCustomer;
 import integrador.webservice.WebOrderDetails;
-import integrador.webservice.WebOrders;
-//import integrador.cliente.MagentoIntegradorCliente;
 import janela.cplus.FormataCampos;
 import janela.integrador.AtualizaExecucaoIntegrador;
 import janela.integrador.ClienteCplusDigimacro;
@@ -86,7 +84,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         queryCplus = new QueryCplus(managerCplus);
         //acesso = new ControleAcesso(managerCplus);
         this.listagemSaidasMagentoJDialog = new SaidasPrestaShopJDialog(this, true, managerIntegrador);
-        this.editOrderDetailsJDialog = new EditOrderDetailsJDialog(this, true, managerPrestaShop, managerCplus, usuario);
+        this.editOrderDetailsJDialog = new EditOrderDetailsJDialog(this, true, managerCplus, usuario);
         this.listagemProdutoMagentoJDialog = new ListPsProductJDialog(this, true, managerIntegrador, managerPrestaShop, managerCplus, usuario);
         this.insereSalesFlatOrderItemJDialog = new InsereSalesFlatOrderItemJDialog(this, true, managerPrestaShop, managerCplus, usuario);
         // colunaItemId = jTableProdutosPedido.getColumnModel().getColumnIndex("Item Id");
