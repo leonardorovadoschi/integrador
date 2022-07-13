@@ -38,7 +38,7 @@ import query.integrador.QueryIntegrador;
 
 /**
  *
- * @author leonardo
+ * @author leonardo 1.0
  */
 
 
