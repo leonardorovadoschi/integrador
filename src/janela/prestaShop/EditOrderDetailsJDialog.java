@@ -49,7 +49,6 @@ public class EditOrderDetailsJDialog extends javax.swing.JDialog {
      *
      * @param parent
      * @param modal
-     * @param managerPrestaShop1
      * @param managerCplus1
      * @param usuario1
      */
