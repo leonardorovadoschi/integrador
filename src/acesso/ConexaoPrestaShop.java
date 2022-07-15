@@ -6,6 +6,8 @@
 package acesso;
 
 import entidade.prestaShop.PsAccessory;
+import entidade.prestaShop.PsOrderCommission;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -137,5 +139,59 @@ public class ConexaoPrestaShop {
             Logger.getLogger(ConexaoPrestaShop.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+    
+    public void editaPsOrderCommission(Connection conn,int idOrder, double valorCommission){
+        String sql = "UPDATE ps_order_commission SET discount=?,discount_tax_excl=? WHERE id_order=?";
+        PreparedStatement stmt;
+        try {
+            stmt = conn.prepareStatement(sql);
+            stmt.setDouble(1, valorCommission);
+            stmt.setDouble(2, valorCommission);
+            stmt.setInt(3, idOrder);
+            stmt.execute();
+           
+            //stmt.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(ConexaoPrestaShop.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public List<PsOrderCommission> listPsOrderCommission(Connection conn, Integer idOrder) {
+         StringBuilder sql = new StringBuilder();
+        List<PsOrderCommission> str = new ArrayList<>();
+        PsOrderCommission acess;
+        sql.append("SELECT * ");
+        sql.append("FROM ps_order_commission ");
+        sql.append("WHERE id_order =?");
+        //sql.append(nomeTabela);
+        //sql.append(" AND id_product_2 =?");
+        //sql.append(nomeCampo);
+       // Connection conn = getConnection();
+
+        PreparedStatement comando;
+        try {
+            comando = conn.prepareStatement(sql.toString());
+            comando.setInt(1, idOrder);
+            //comando.setInt(2, id_product_2);
+            ResultSet resultado;
+            resultado = comando.executeQuery();
+            while (resultado.next()) {
+                acess = new PsOrderCommission();
+                acess.setIdOrder(resultado.getInt("id_order"));
+                acess.setIdCurrency(resultado.getInt("id_currency"));
+                acess.setCommission(resultado.getDouble("commission"));
+                acess.setCommissionTaxExcl(resultado.getDouble("commission_tax_excl"));
+                acess.setDiscount(resultado.getDouble("discount"));
+                acess.setDiscountTaxExcl(resultado.getDouble("discount_tax_excl"));
+                str.add(acess);
+            }
+            resultado.close();
+            comando.close();
+            //conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(ConexaoDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return str;
     }
 }

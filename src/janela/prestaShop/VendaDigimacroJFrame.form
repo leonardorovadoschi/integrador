@@ -124,7 +124,7 @@
                                   <Component id="jPanelPesquisa" max="32767" attributes="0"/>
                                   <Component id="jPanelInformacoes" max="32767" attributes="0"/>
                               </Group>
-                              <EmptySpace min="0" pref="336" max="32767" attributes="0"/>
+                              <EmptySpace min="0" pref="316" max="32767" attributes="0"/>
                           </Group>
                           <Component id="jScrollPane2" alignment="1" max="32767" attributes="0"/>
                       </Group>
@@ -163,7 +163,7 @@
                           <Component id="jButtonPesquisar" min="-2" pref="110" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                           <Component id="jButtonImportarPedido" min="-2" pref="208" max="-2" attributes="0"/>
-                          <EmptySpace pref="254" max="32767" attributes="0"/>
+                          <EmptySpace pref="274" max="32767" attributes="0"/>
                           <Component id="jButtonAtualizaCliente" min="-2" pref="209" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -265,7 +265,7 @@
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="jTextFieldValorTotal" max="32767" attributes="0"/>
                               <Component id="jTextFieldDesconto" max="32767" attributes="0"/>
-                              <Component id="jTextFieldFrete" max="32767" attributes="0"/>
+                              <Component id="jTextFieldTotalProdutos" max="32767" attributes="0"/>
                               <Component id="jTextFieldTaxa" pref="83" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -304,7 +304,7 @@
                               <Component id="jLabelRgIe" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jTextFieldRgIe" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabelFrete" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jTextFieldFrete" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jTextFieldTotalProdutos" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jButtonInserir" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
@@ -379,7 +379,7 @@
                 <Component class="javax.swing.JLabel" name="jLabelFrete">
                   <Properties>
                     <Property name="horizontalAlignment" type="int" value="4"/>
-                    <Property name="text" type="java.lang.String" value="Frete:"/>
+                    <Property name="text" type="java.lang.String" value="Total Produtos"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabelTaxa">
@@ -392,7 +392,7 @@
                 </Component>
                 <Component class="javax.swing.JTextField" name="jTextFieldDesconto">
                 </Component>
-                <Component class="javax.swing.JTextField" name="jTextFieldFrete">
+                <Component class="javax.swing.JTextField" name="jTextFieldTotalProdutos">
                 </Component>
                 <Component class="javax.swing.JTextField" name="jTextFieldTaxa">
                 </Component>
@@ -408,10 +408,10 @@
                   <Properties>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                       <StringArray count="4">
-                        <StringItem index="0" value="Prazo (Boleto)"/>
-                        <StringItem index="1" value="&#xc0; vista"/>
-                        <StringItem index="2" value="Cupom"/>
-                        <StringItem index="3" value=""/>
+                        <StringItem index="0" value="Cupom"/>
+                        <StringItem index="1" value="&#xc0; vista 1.5 Desconto"/>
+                        <StringItem index="2" value="&#xc0; vista sem desconto"/>
+                        <StringItem index="3" value="Prazo (Boleto)"/>
                       </StringArray>
                     </Property>
                   </Properties>
@@ -482,6 +482,13 @@
                             <Connection code="new RenderPreco()" type="code"/>
                           </Renderer>
                         </Column>
+                        <Column maxWidth="-1" minWidth="80" prefWidth="80" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                            <Connection code="new RenderPreco()" type="code"/>
+                          </Renderer>
+                        </Column>
                         <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                           <Title/>
                           <Editor/>
@@ -494,34 +501,27 @@
                           <Editor/>
                           <Renderer/>
                         </Column>
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                          <Title/>
-                          <Editor/>
-                          <Renderer/>
-                        </Column>
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                          <Title/>
-                          <Editor/>
-                          <Renderer/>
-                        </Column>
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                          <Title/>
-                          <Editor/>
-                          <Renderer/>
-                        </Column>
-                        <Column maxWidth="-1" minWidth="80" prefWidth="80" resizable="true">
-                          <Title/>
-                          <Editor/>
-                          <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                            <Connection code="new RenderPreco()" type="code"/>
-                          </Renderer>
-                        </Column>
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                          <Title/>
-                          <Editor/>
-                          <Renderer/>
-                        </Column>
                         <Column maxWidth="-1" minWidth="100" prefWidth="100" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer/>
+                        </Column>
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer/>
+                        </Column>
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer/>
+                        </Column>
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer/>
+                        </Column>
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                           <Title/>
                           <Editor/>
                           <Renderer/>
@@ -559,6 +559,10 @@
                         <BindingParameter name="NAME" value="Total"/>
                         <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.math.BigDecimal.class"/>
                       </Subbinding>
+                      <Subbinding sourcePath="${reductionPercent}">
+                        <BindingParameter name="NAME" value="Desconto %"/>
+                        <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.math.BigDecimal.class"/>
+                      </Subbinding>
                       <Subbinding sourcePath="${groupReduction}">
                         <BindingParameter name="NAME" value="Desc. Grupo"/>
                         <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.math.BigDecimal.class"/>
@@ -566,6 +570,10 @@
                       <Subbinding sourcePath="${productWeight}">
                         <BindingParameter name="NAME" value="Peso"/>
                         <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.math.BigDecimal.class"/>
+                      </Subbinding>
+                      <Subbinding sourcePath="${productReference}">
+                        <BindingParameter name="NAME" value="Product Reference"/>
+                        <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
                       </Subbinding>
                       <Subbinding sourcePath="${idOrder}">
                         <BindingParameter name="NAME" value="Id Order"/>
@@ -579,17 +587,9 @@
                         <BindingParameter name="NAME" value="Id Order Detail"/>
                         <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Integer.class"/>
                       </Subbinding>
-                      <Subbinding sourcePath="${productQuantityDiscount}">
-                        <BindingParameter name="NAME" value="Prod Qnt Desc"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.math.BigDecimal.class"/>
-                      </Subbinding>
                       <Subbinding sourcePath="${productId}">
                         <BindingParameter name="NAME" value="Product Id"/>
                         <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Integer.class"/>
-                      </Subbinding>
-                      <Subbinding sourcePath="${productReference}">
-                        <BindingParameter name="NAME" value="Product Reference"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
                       </Subbinding>
                     </BindingProperty>
                   </BindingProperties>

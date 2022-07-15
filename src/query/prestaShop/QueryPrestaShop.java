@@ -5,12 +5,10 @@
  */
 package query.prestaShop;
 
-import entidade.prestaShop.PsAccessory;
 import entidade.prestaShop.PsAddress;
 import entidade.prestaShop.PsCarrier;
 import entidade.prestaShop.PsCategoryLang;
 import entidade.prestaShop.PsCategoryProduct;
-import entidade.prestaShop.PsCustomPaymentMethod;
 import entidade.prestaShop.PsCustomPaymentMethodLang;
 import entidade.prestaShop.PsCustomer;
 import entidade.prestaShop.PsCustomerGroup;
@@ -19,6 +17,7 @@ import entidade.prestaShop.PsManufacturerLang;
 import entidade.prestaShop.PsManufacturerShop;
 import entidade.prestaShop.PsMessage;
 import entidade.prestaShop.PsModuloCpf;
+import entidade.prestaShop.PsOrderCommission;
 import entidade.prestaShop.PsOrderDetail;
 import entidade.prestaShop.PsOrderInvoice;
 import entidade.prestaShop.PsOrderPayment;
@@ -39,13 +38,11 @@ import entidade.prestaShop.PsTaxLang;
 import entidade.prestaShop.PsTaxRulesGroup;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
-import javax.persistence.criteria.CriteriaQuery;
 
 /**
  *

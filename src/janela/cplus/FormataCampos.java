@@ -336,4 +336,26 @@ public class FormataCampos {
     public String stringParaStringMoeda(String valorTextField, int digitosDecimais) {
         return bigDecimalParaString(stringParaDecimal(valorTextField, digitosDecimais), digitosDecimais);
     }
+    /**
+     * Função que retorna Valores formatados em jText para xml WebService
+     * @param jTextField
+     * @return 
+     */
+    public String webServiceMoeda(String jTextField){
+        String textValue = jTextField;
+        textValue = textValue.replace(".", "");
+        textValue = textValue.replaceAll(",", ".");
+        return textValue;
+    }
+    
+    public String webServiceMoeda(BigDecimal bigDecimal){
+        String text;
+        DecimalFormat df =  new DecimalFormat();
+        df.setMaximumFractionDigits(6);
+        df.setMaximumFractionDigits(4);
+        text = String.valueOf(df.format(bigDecimal.doubleValue()));
+        text = text.replace(".", "");
+       text = text.replaceAll(",", ".");
+        return text;
+    }
 }

@@ -30,6 +30,8 @@ public class WebStockAvailable {
             psStockAvailable.setIdShop(Integer.valueOf(ws.obterValorObjeto(endElement, "id_shop")));
             psStockAvailable.setIdShopGroup(Integer.valueOf(ws.obterValorObjeto(endElement, "id_shop_group")));
             psStockAvailable.setQuantity(Integer.valueOf(ws.obterValorObjeto(endElement, "quantity")));
+            //psStockAvailable.setPhysicalQuantity(Integer.valueOf(ws.obterValorObjeto(endElement, "physical_quantity")));
+            //psStockAvailable.setReservedQuantity(Integer.valueOf(ws.obterValorObjeto(endElement, "reserved_quantity")));
             psStockAvailable.setDependsOnStock(Boolean.valueOf(ws.obterValorObjeto(endElement, "depends_on_stock")));
             psStockAvailable.setOutOfStock(Boolean.valueOf(ws.obterValorObjeto(endElement, "out_of_stock")));
             

@@ -230,7 +230,7 @@ public class ClienteWebService {
             }
 
             StringEntity entity = new StringEntity(xml, ContentType.create("text/xml", Consts.UTF_8));
-                    //entity.setChunked(true);
+            //entity.setChunked(true);
 
             HttpPost httppost = new HttpPost(completeUrl);
             httppost.setEntity(entity);
@@ -320,7 +320,6 @@ public class ClienteWebService {
         completeUrl = completeUrl.replaceAll("\\%", "%25");
         completeUrl = completeUrl.replaceAll(" ", "%20");
         completeUrl = completeUrl.replaceAll("\\|", "%7C");
-        
 
         HttpGet httpget = new HttpGet(completeUrl);
         HashMap<String, Object> resoult = this.executarRequest(httpget);
@@ -412,13 +411,12 @@ public class ClienteWebService {
         }
 
         StringEntity entity = new StringEntity(xml, ContentType.create("text/xml", Consts.UTF_8));
-            //entity.setChunked(true);
+        entity.setChunked(true);
 
         HttpPut httpput = new HttpPut(completeUrl);
         httpput.setEntity(entity);
         HashMap<String, Object> resoult = this.executarRequest(httpput);
         this.verificarCodigoDeStatus((int) resoult.get("status_code"));// check the response validity
-
         try {
             Document doc = this.analizarXML((InputStream) resoult.get("response"));
             response.close();
@@ -588,13 +586,13 @@ public class ClienteWebService {
             return "";
         }
         Node no = noElemento.getFirstChild();
-       // System.out.println("noElemento.getFirstChild(): " + noElemento.getTagName());
-        if(no == null){
+        // System.out.println("noElemento.getFirstChild(): " + noElemento.getTagName());
+        if (no == null) {
             return "";
         }
-        
+
         //System.out.println("Nó getNodeName(): " + no.getTextContent());
-       // System.out.println("Nó getNodeValue(): " + no.getNodeValue());  
+        // System.out.println("Nó getNodeValue(): " + no.getNodeValue());  
         return no.getNodeValue();
     }
 }

@@ -19,6 +19,7 @@ import entidade.prestaShop.PsStockAvailable;
 import integrador.webservice.ClienteWebService;
 import integrador.webservice.PrestaShopWebserviceException;
 import integrador.webservice.WebCustomer;
+import integrador.webservice.WebOrderDetails;
 import integrador.webservice.WebProducts;
 import integrador.webservice.WebSpecificPrice;
 import integrador.webservice.WebStockAvailable;
@@ -28,20 +29,24 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
+import javax.xml.transform.TransformerException;
+import jpa.cplus.ProdutoJpaController;
 import jpa.cplus.ProdutoestoqueJpaController;
+import jpa.prestaShop.PsStockAvailableJpaController;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import query.cplus.QueryCplus;
 import query.integrador.QueryIntegrador;
+import query.prestaShop.QueryPrestaShop;
 
 /**
  *
  * @author leonardo 1.0
  */
-
-
 public class EditOrderDetailsJDialog extends javax.swing.JDialog {
 
     /**
@@ -52,10 +57,12 @@ public class EditOrderDetailsJDialog extends javax.swing.JDialog {
      * @param managerCplus1
      * @param usuario1
      */
-    public EditOrderDetailsJDialog(java.awt.Frame parent, boolean modal, EntityManagerFactory managerCplus1, Usuario usuario1) {
+    public EditOrderDetailsJDialog(java.awt.Frame parent, boolean modal, EntityManagerFactory managerPrestaShop1, EntityManagerFactory managerCplus1, Usuario usuario1) {
         super(parent, modal);
         initComponents();
         managerCplus = managerCplus1;
+        managerPrestaShop = managerPrestaShop1;
+        queryPrestaShop = new QueryPrestaShop(managerPrestaShop);
         formataCampos = new FormataCampos();
         shopUrl = new QueryIntegrador(managerIntegrador).valorConfiguracao("shopURL");
         key = new QueryIntegrador(managerIntegrador).valorConfiguracao("shopKEY");
@@ -65,7 +72,7 @@ public class EditOrderDetailsJDialog extends javax.swing.JDialog {
         if (acesso.verificaAcessoUsuario(usuario, "Alterar preço de venda")) {
             jTextFieldUnitarioComDesconto.setEnabled(true);
         }
-
+        
     }
 
     /**
@@ -350,10 +357,10 @@ public class EditOrderDetailsJDialog extends javax.swing.JDialog {
     private void jTextFieldQuantidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldQuantidadeActionPerformed
         eventoQuantidade();
     }//GEN-LAST:event_jTextFieldQuantidadeActionPerformed
-
+    
     private void eventoValorUnitario() {
         unitMod = formataCampos.stringParaDecimal(jTextFieldUnitarioComDesconto.getText(), 2);
-        reducaoMod = (psOrderDetails.getOriginalProductPrice().divide(unitMod, 4 , BigDecimal.ROUND_HALF_UP)).subtract(BigDecimal.ONE).multiply(new BigDecimal("100.00"));
+        reducaoMod = (psOrderDetails.getOriginalProductPrice().divide(unitMod, 4, BigDecimal.ROUND_HALF_UP)).subtract(BigDecimal.ONE).multiply(new BigDecimal("100.00"));
         jTextFieldDescontoQuantidade.setText(formataCampos.bigDecimalParaString(reducaoMod, 2));
         quantMod = Integer.valueOf(jTextFieldQuantidade.getText());
         totalMod = unitMod.multiply(new BigDecimal(quantMod + ".00"));
@@ -364,7 +371,7 @@ public class EditOrderDetailsJDialog extends javax.swing.JDialog {
             jButtonGravar.requestFocus();
         }
     }
-
+    
     private void eventoQuantidade() {
         if ((psOrderDetails.getProductQuantity() % quantidadeProdutoAgrupado().doubleValue()) == 0) {
             quantMod = Integer.valueOf(jTextFieldQuantidade.getText());
@@ -377,16 +384,16 @@ public class EditOrderDetailsJDialog extends javax.swing.JDialog {
                 }
                 reducaoMod = redu.multiply(new BigDecimal("100.00"));
                 jTextFieldDescontoQuantidade.setText(formataCampos.bigDecimalParaString(reducaoMod, 2));
-
+                
                 unitMod = (BigDecimal.ONE.subtract(redu)).multiply(psOrderDetails.getOriginalProductPrice()).setScale(4, BigDecimal.ROUND_HALF_UP);
-
+                
                 jTextFieldUnitarioComDesconto.setText(formataCampos.bigDecimalParaString(unitMod, 2));
                 totalMod = unitMod.multiply(new BigDecimal(jTextFieldQuantidade.getText() + ".00"));
                 jTextFieldValorTotal.setText(formataCampos.bigDecimalParaString(totalMod, 2));
-
+                
                 jButtonGravar.setEnabled(true);
                 jButtonGravar.requestFocus();
-            } else {              
+            } else {                
                 JOptionPane.showMessageDialog(null, "Não Ha Estoque Suficiente!\n Estoque Disponível: " + verificaQuantidadeEstoque());
             }
         } else {
@@ -395,9 +402,10 @@ public class EditOrderDetailsJDialog extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(null, "A quantidade deve ser multipla de: " + quantidadeProdutoAgrupado().intValue());
         }
     }
-
+    
     private BigDecimal quantidadeProdutoAgrupado() {
         BigDecimal quan = BigDecimal.ONE;
+        prodCplus = new ProdutoJpaController(managerCplus).findProduto(psProduct.getReference());
         for (Unidade un : new QueryCplus(managerCplus).resultPorUnidadeProduto(prodCplus.getUnidade())) {
             if (un.getFatorconversao().intValue() > 1) {
                 quan = un.getFatorconversao();
@@ -405,79 +413,102 @@ public class EditOrderDetailsJDialog extends javax.swing.JDialog {
         }
         return quan;
     }
-
-    private void editarSalesFlatOrderItem() {
-         BigDecimal quantidade = formataCampos.stringParaDecimal(jTextFieldQuantidade.getText(), 4);
-        // BigDecimal valorTotalDesconto = formataCampos.stringParaDecimal(jTextFieldTotalDesconto.getText(), 4);
-        BigDecimal valorOriginal = formataCampos.stringParaDecimal(jTextFieldPriceOriginal.getText(), 4);
-        //BigDecimal quantidade = formataCampos.stringParaDecimal(jTextFieldQtyOrdered.getText(), 4);
-        if (verificaEstoqueDisponivel(quantidade.intValue())) {
-            //  new AtualizaSalesFlatOrderItem().editaSalesFlatorderItem(quantidade, valorTotalDesconto, valorOriginal, psProduct, flatOrderItem, flatOrder, var, managerPrestaShop);
-            //  new AtualizaSalesFlatOrder().atualizaSalesFlatOrder(flatOrder, var, managerPrestaShop);
-            // editaEstoqueMagento(quantidade, psProduct, managerPrestaShop);
+    
+    private void editarSalesFlatOrderItem() {        
+        if (verificaEstoqueDisponivel(Integer.valueOf(jTextFieldQuantidade.getText()))) {            
+            try {
+                HashMap<String, Object> getSchemaOpt = new HashMap();
+                Document document;
+                getSchemaOpt.put("url", shopUrl + "/api/order_details/" + psOrderDetails.getIdOrderDetail());
+                document = ws.getFuncao(getSchemaOpt);
+                //document.getElementsByTagName("product_price").item(0).setTextContent(formataCampos.webServiceMoeda(jTextFieldPriceOriginal.getText()));
+                document.getElementsByTagName("unit_price_tax_excl").item(0).setTextContent(formataCampos.webServiceMoeda(jTextFieldUnitarioComDesconto.getText()));
+                document.getElementsByTagName("unit_price_tax_incl").item(0).setTextContent(formataCampos.webServiceMoeda(jTextFieldUnitarioComDesconto.getText()));
+                document.getElementsByTagName("total_price_tax_excl").item(0).setTextContent(formataCampos.webServiceMoeda(jTextFieldValorTotal.getText()));
+                document.getElementsByTagName("total_price_tax_incl").item(0).setTextContent(formataCampos.webServiceMoeda(jTextFieldValorTotal.getText()));
+                BigDecimal val = formataCampos.stringParaDecimal(jTextFieldUnitarioComDesconto.getText(), 2).add(BigDecimal.ONE);
+                document.getElementsByTagName("product_quantity_discount").item(0).setTextContent(formataCampos.webServiceMoeda(val));
+                document.getElementsByTagName("product_quantity").item(0).setTextContent(jTextFieldQuantidade.getText());
+                
+                HashMap<String, Object> productDetail = new HashMap();
+                //productDetail.put("url", shopUrl);
+                productDetail.put("resource", "order_details");
+                productDetail.put("id", psOrderDetails.getIdOrderDetail());
+                productDetail.put("putXml", ws.DocumentToString(document));
+                ws.edit(productDetail);                
+                
+            } catch (PrestaShopWebserviceException | TransformerException ex) {
+                JOptionPane.showMessageDialog(null, "Erro ao consultar Web Service: \n" + ex);
+            }
+            
             jButtonGravar.setEnabled(false);
             atualizaCplus();
+            editaEstoquePS(Integer.valueOf(jTextFieldQuantidade.getText()));
             dispose();
         } else {
             // jTextFieldQtyOrdered.setText(formataCampos.bigDecimalParaString(flatOrderItem.getQtyOrdered(), 0));
             JOptionPane.showMessageDialog(null, "Não Ha Estoque Suficiente!\n Estoque Disponível: " + verificaQuantidadeEstoque());
         }
     }
+    
+    private void editaEstoquePS(int quantidadeAtual) {
+        int quantidadeRequerida = quantidadeAtual - quantOrderDetails;
+        int stockNovo = stok.getQuantity() - quantidadeRequerida;       
+        stok.setQuantity(stockNovo);
+        //stok.setPhysicalQuantity(stockNovo);
+        int reser = stok.getPhysicalQuantity() - stok.getQuantity();
+        stok.setReservedQuantity(reser);
+        try {
+            new PsStockAvailableJpaController(managerPrestaShop).edit(stok);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Houve um erro ao Atualizar Estoque PrestaShop!!!\n " + ex);
+        }
+    }
 
     private void atualizaCplus() {
-          List<Produtoestoque> listestoque = new QueryCplus(managerCplus).listagemProdutoEstoque(psProduct.getReference());
+        List<Produtoestoque> listestoque = new QueryCplus(managerCplus).listagemProdutoEstoque(psProduct.getReference());
         for (Produtoestoque estoque : listestoque) {
             estoque.setLastChange(formataCampos.dataAtual());
             try {
                 new ProdutoestoqueJpaController(managerCplus).edit(estoque);
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, "Houve um erro ao Atualizar Estoque Produto!!!\n " + ex);
+                JOptionPane.showMessageDialog(null, "Houve um erro ao Atualizar Estoque C-Plus!!!\n " + ex);
             }
         }
     }
-
+    
     private int verificaQuantidadeEstoque() {
-          int quantidadeDisponivel = 0;
-        PsStockAvailable stok = null;
-        try {
-            HashMap<String, Object> getSchemaOpt = new HashMap();
-            getSchemaOpt.put("url", shopUrl + "/api/stock_availables?filter[id_product]=" + psOrderDetails.getProductId());
-            Document document;
-            document = ws.getFuncao(getSchemaOpt);
-            NodeList nList = document.getElementsByTagName("stock_available");
-            for (String id : ws.retornaListaId(nList)) {
-                getSchemaOpt.put("url", shopUrl + "/api/stock_availables/" + id);
-                document = ws.getFuncao(getSchemaOpt);
-                stok = new WebStockAvailable().xmlParaEntidade(document, ws);
-                quantidadeDisponivel = stok.getQuantity();
-            }
-        } catch (PrestaShopWebserviceException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao consultar Web Service: \n" + ex);
+        int quantidadeDisponivel = 0;
+        //PsStockAvailable stok = null;
+        /**
+         * try { HashMap<String, Object> getSchemaOpt = new HashMap();
+         * getSchemaOpt.put("url", shopUrl +
+         * "/api/stock_availables?filter[id_product]=" +
+         * psOrderDetails.getProductId()); Document document; document =
+         * ws.getFuncao(getSchemaOpt); NodeList nList =
+         * document.getElementsByTagName("stock_available"); for (String id :
+         * ws.retornaListaId(nList)) { getSchemaOpt.put("url", shopUrl +
+         * "/api/stock_availables/" + id); document =
+         * ws.getFuncao(getSchemaOpt); stok = new
+         * WebStockAvailable().xmlParaEntidade(document, ws);
+         * quantidadeDisponivel = stok.getQuantity(); } } catch
+         * (PrestaShopWebserviceException ex) {
+         * JOptionPane.showMessageDialog(null, "Erro ao consultar Web Service:
+         * \n" + ex); }
+         */
+        for (PsStockAvailable e : queryPrestaShop.listEstoqueProduto(psOrderDetails.getProductId())) {
+            stok = e;
+            quantidadeDisponivel = e.getQuantity();
         }
         return quantidadeDisponivel;
     }
-
+    
     private boolean verificaEstoqueDisponivel(int quantidadeAtual) {
-        int quantidadeRequerida = quantidadeAtual - quantidadeAntiga;
+        int quantidadeRequerida = quantidadeAtual - quantOrderDetails;
         boolean condicao = true;
-        PsStockAvailable stok = null;
+        // PsStockAvailable stok = null;
         if (quantidadeRequerida > 0) {
-            int quantidadeDisponivel = 0;
-            try {
-                HashMap<String, Object> getSchemaOpt = new HashMap();
-                getSchemaOpt.put("url", shopUrl + "/api/stock_availables?filter[id_product]=" + psOrderDetails.getProductId());
-                Document document;
-                document = ws.getFuncao(getSchemaOpt);
-                NodeList nList = document.getElementsByTagName("stock_available");
-                for (String id : ws.retornaListaId(nList)) {
-                    getSchemaOpt.put("url", shopUrl + "/api/stock_availables/" + id);
-                    document = ws.getFuncao(getSchemaOpt);
-                    stok = new WebStockAvailable().xmlParaEntidade(document, ws);
-                    quantidadeDisponivel = stok.getQuantity();
-                }
-            } catch (PrestaShopWebserviceException ex) {
-                JOptionPane.showMessageDialog(null, "Erro ao consultar Web Service: \n" + ex);
-            }
+            int quantidadeDisponivel = verificaQuantidadeEstoque();
             // }//fim for estoque magento
             if (quantidadeDisponivel >= quantidadeRequerida) {
                 condicao = true;
@@ -487,7 +518,7 @@ public class EditOrderDetailsJDialog extends javax.swing.JDialog {
         }//fim if que verifica se a quantidade requerida é maior que zero
         return condicao;
     }
-
+    
     private void carregaCampos() {
         jTextFieldDescricaoProduto.setText(psOrderDetails.getProductName());
         jTextFieldPriceOriginal.setText(formataCampos.bigDecimalParaString(psOrderDetails.getOriginalProductPrice(), 2));
@@ -497,8 +528,8 @@ public class EditOrderDetailsJDialog extends javax.swing.JDialog {
         jTextFieldValorTotal.setText(formataCampos.bigDecimalParaString(psOrderDetails.getTotalPriceTaxIncl(), 2));
         jTextFieldQuantidade.setText(String.valueOf(psOrderDetails.getProductQuantity()));
         jTextFieldEan.setText(psOrderDetails.getProductEan13());
-        quantidadeAntiga = psOrderDetails.getProductQuantity();
-
+        quantOrderDetails = psOrderDetails.getProductQuantity();
+        
         listSpecificPrice = new ArrayList<>();
         try {
             HashMap<String, Object> getSchemaOpt = new HashMap();
@@ -507,7 +538,7 @@ public class EditOrderDetailsJDialog extends javax.swing.JDialog {
             document = ws.getFuncao(getSchemaOpt);
             psCustomer = new WebCustomer().xmlParaEntidade(document, ws);
             getSchemaOpt.put("url", shopUrl + "/api/specific_prices?sort=[from_quantity_ASC]&filter[id_product]=" + psOrderDetails.getProductId() + "&filter[id_group]=" + psCustomer.getIdDefaultGroup());
-
+            
             document = ws.getFuncao(getSchemaOpt);
             NodeList nList = document.getElementsByTagName("specific_price");
             for (String id : ws.retornaListaId(nList)) {
@@ -521,7 +552,7 @@ public class EditOrderDetailsJDialog extends javax.swing.JDialog {
         } catch (PrestaShopWebserviceException ex) {
             JOptionPane.showMessageDialog(null, "Erro ao consultar Web Service: \n" + ex);
         }
-
+        
         String txt = "Quant.\t  % \tValor\n";
         for (PsSpecificPrice sp : listSpecificPrice) {
             txt = txt + sp.getFromQuantity() + " \t" + formataCampos.bigDecimalParaString(sp.getReduction().multiply(new BigDecimal("100.00")), 2) + "% \t"
@@ -529,7 +560,7 @@ public class EditOrderDetailsJDialog extends javax.swing.JDialog {
         }
         jTextAreaPrecoQuantidade.setText(txt);
     }
-
+    
     private void cancelamento() {
         int cancelar = JOptionPane.showConfirmDialog(null, " Deseja realmente cancelar? \n O processo será encerrado!!", "Cancelar", JOptionPane.YES_NO_CANCEL_OPTION);
         if (cancelar == JOptionPane.YES_OPTION) {
@@ -537,14 +568,14 @@ public class EditOrderDetailsJDialog extends javax.swing.JDialog {
             dispose();
         }
     }
-
+    
     public void setOrderDetails(PsOrderDetail orderDetails, PsOrders order) {
         this.psOrderDetails = orderDetails;
         this.psOrder = order;
         //this.psCustomer = customer;
         carregaCampos();
     }
-
+    
     public boolean isCancelamento() {
         return cancelamento;
     }
@@ -588,7 +619,7 @@ public class EditOrderDetailsJDialog extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                EditOrderDetailsJDialog dialog = new EditOrderDetailsJDialog(new javax.swing.JFrame(), true, managerCplus, usuario);
+                EditOrderDetailsJDialog dialog = new EditOrderDetailsJDialog(new javax.swing.JFrame(), true, managerPrestaShop, managerCplus, usuario);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -599,13 +630,15 @@ public class EditOrderDetailsJDialog extends javax.swing.JDialog {
             }
         });
     }
-
+    private PsStockAvailable stok;
     static EntityManagerFactory managerCplus;
+    static EntityManagerFactory managerPrestaShop;
+    private QueryPrestaShop queryPrestaShop;
     private PsOrderDetail psOrderDetails;
     private PsOrders psOrder;
     private final FormataCampos formataCampos;
     private boolean cancelamento;
-    private int quantidadeAntiga;
+    private int quantOrderDetails;
     private PsProduct psProduct;
     static Usuario usuario;
     private final ControleAcesso acesso;
@@ -618,7 +651,7 @@ public class EditOrderDetailsJDialog extends javax.swing.JDialog {
     private BigDecimal unitMod;
     private int quantMod;
     private BigDecimal totalMod;
-     private Produto prodCplus;
+    private Produto prodCplus;
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
