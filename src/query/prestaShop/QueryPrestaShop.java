@@ -43,6 +43,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
+import org.w3c.dom.ls.LSInput;
 
 /**
  *
@@ -59,13 +60,55 @@ public class QueryPrestaShop implements Serializable {
         return emf.createEntityManager();
     }
     
-    public List<PsProduct> listProductNume(String nome) {
+    public List<PsProduct> listProductNome(String nome) {
         EntityManager em = getEntityManager();
         Query query = em.createQuery("SELECT p FROM PsProduct p LEFT JOIN PsProductLang pl ON pl.idProduct = p.idProduct WHERE pl.name LIKE :nome");
         query.setParameter("nome", "%"+nome+"%");
         return query.getResultList();
     }
+    
+    
+    
+    public List<PsProduct> listProductNomeOuEan(String nomeProduto) {
+        if (!"".equals(nomeProduto)) {
+            nomeProduto = nomeProduto.trim();
+            String[] listPalavras = nomeProduto.split(" ");
 
+            String querCodigo = "";
+            if (listPalavras.length < 2) {
+                querCodigo = "p.ean13 LIKE :codigo";
+            }
+
+            String quer = "";
+            for (int cont = 0; listPalavras.length > cont; cont++) {
+                if (cont == 0) {
+                    String querOr = "";
+                    if (listPalavras.length < 2) {
+                        querOr = " OR";
+                    }
+                    quer = querOr + " pl.name LIKE :nomeProd" + cont;
+                } else {
+                    quer = quer + " AND pl.name LIKE :nomeProd" + cont;
+                }
+            }
+            
+            quer = quer + " ORDER BY sa.quantity DESC";
+
+            EntityManager em = getEntityManager();
+            Query query = em.createQuery("SELECT p FROM PsProductLang pl INNER JOIN PsProduct p ON p.idProduct = pl.psProductLangPK.idProduct INNER JOIN PsStockAvailable sa ON sa.idProduct = p.idProduct WHERE " + querCodigo + quer);
+            if (listPalavras.length < 2) {
+                query.setParameter("codigo", "%" + nomeProduto.trim() + "%");//primeiro parametro 
+            }
+            for (int cont = 0; listPalavras.length > cont; cont++) {
+                query.setParameter("nomeProd" + cont, "%" + listPalavras[cont].trim() + "%");//primeiro parametro 
+            }          
+            return query.getResultList();
+        } else {
+            return null;
+        }
+    }
+        
+     
     /**
      * Função que retorna a referencia entre Produto C-plus com o campo
      * regferencia no site
@@ -76,6 +119,7 @@ public class QueryPrestaShop implements Serializable {
     public List<PsProduct> listagemProdutoSite(String referencia) {
         EntityManager em = getEntityManager();
         Query query = em.createQuery("SELECT c FROM PsProduct c WHERE c.reference = :referencia");
+       // Query query = em.createQuery("SELECT sa FROM PsStockAvailable sa WHERE sa.quantity :referencia");
         query.setParameter("referencia", referencia);
         return query.getResultList();
     }
@@ -236,6 +280,7 @@ public class QueryPrestaShop implements Serializable {
         query.setParameter("idLang", idLang);
         return query.getResultList();
     }
+    
 
     public List<PsProductShop> listPsProductShop(Integer idProduct, Integer idShop) {
         EntityManager em = getEntityManager();
@@ -334,6 +379,13 @@ public class QueryPrestaShop implements Serializable {
         query.setParameter("idProductPack", idProductPack);  
         return query.getResultList();
     }
+    
+    public List<PsPack> listPackPorProduct(Integer idPsProduct) {
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery("SELECT c FROM PsPack c WHERE c.psPackPK.idProductItem =:idPsProduct");
+        query.setParameter("idPsProduct", idPsProduct);  
+        return query.getResultList();
+    }
 
      public List<PsPack> listPack(Integer idProductPack, Integer idProductItem) {
          EntityManager em = getEntityManager();
@@ -352,9 +404,17 @@ public class QueryPrestaShop implements Serializable {
         return query.getResultList();
     }
 
-    public List<PsOrders> listPsOrders(Date dataInicial, Date dataFinal) {
+    public List<PsOrders> listPsOrdersAdd(Date dataInicial, Date dataFinal) {
         EntityManager em = getEntityManager();
         Query query = em.createQuery("SELECT c FROM PsOrders c WHERE c.dateAdd BETWEEN :dataInicial AND :dataFinal");
+        query.setParameter("dataInicial", dataInicial);
+        query.setParameter("dataFinal", dataFinal);
+        return query.getResultList();
+    }
+    
+    public List<PsOrders> listPsOrdersUpd(Date dataInicial, Date dataFinal) {
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery("SELECT c FROM PsOrders c WHERE c.dateUpd BETWEEN :dataInicial AND :dataFinal");
         query.setParameter("dataInicial", dataInicial);
         query.setParameter("dataFinal", dataFinal);
         return query.getResultList();
@@ -367,9 +427,17 @@ public class QueryPrestaShop implements Serializable {
         return query.getResultList();
     }
    
-    public Iterable<PsCustomer> listCustomerData(Date dataInicial, Date dataFinal) {
+    public Iterable<PsCustomer> listCustomerDataAdd(Date dataInicial, Date dataFinal) {
         EntityManager em = getEntityManager();
         Query query = em.createQuery("SELECT c FROM PsCustomer c WHERE c.dateAdd BETWEEN :dataInicial AND :dataFinal");
+        query.setParameter("dataInicial", dataInicial);
+        query.setParameter("dataFinal", dataFinal);
+        return query.getResultList();
+    }
+    
+    public Iterable<PsCustomer> listCustomerDataUpd(Date dataInicial, Date dataFinal) {
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery("SELECT c FROM PsCustomer c WHERE c.dateUpd BETWEEN :dataInicial AND :dataFinal");
         query.setParameter("dataInicial", dataInicial);
         query.setParameter("dataFinal", dataFinal);
         return query.getResultList();
@@ -468,10 +536,10 @@ public class QueryPrestaShop implements Serializable {
         return query.getResultList();
     }
 
-    public List<PsOrders> listOrders(String entregatelefone) {
+    public List<PsOrders> listPsOrders(String reference) {
          EntityManager em = getEntityManager();
-        Query query = em.createQuery("SELECT c FROM PsOrders c WHERE c.reference =:entregatelefone");
-        query.setParameter("entregatelefone", entregatelefone);
+        Query query = em.createQuery("SELECT c FROM PsOrders c WHERE c.reference =:reference");
+        query.setParameter("reference", reference);
         return query.getResultList();
     }
 
@@ -519,6 +587,15 @@ public class QueryPrestaShop implements Serializable {
         Query query = em.createQuery("SELECT c FROM PsSpecificPrice c WHERE c.idProduct =:idProduct AND c.reductionType =:reducionTipe AND c.idGroup =:idGroup");
         query.setParameter("idProduct", idProduct);
         query.setParameter("reducionTipe", reducionTipe);
+        query.setParameter("idGroup", idGroup);
+        return query.getResultList();
+    }
+    
+    public List<PsSpecificPrice> listPsSpecificPrice(Integer idProduct, int idGroup) {
+         EntityManager em = getEntityManager();
+        Query query = em.createQuery("SELECT c FROM PsSpecificPrice c WHERE c.idProduct =:idProduct AND c.idGroup =:idGroup ORDER BY c.fromQuantity ASC");
+        query.setParameter("idProduct", idProduct);
+        //query.setParameter("reducionTipe", reducionTipe);
         query.setParameter("idGroup", idGroup);
         return query.getResultList();
     }

@@ -70,10 +70,10 @@ public class VendaDigimacroJFrame_1 extends javax.swing.JFrame {
         codCaracteristicaCliente = new QueryIntegrador(managerIntegrador1).valorConfiguracao("cliente_CARACTERISTICA_CPLUS_DIGIMACRO");
         queryCplus = new QueryCplus(managerCplus);
         //acesso = new ControleAcesso(managerCplus);
-        this.listagemSaidasMagentoJDialog = new SaidasPrestaShopJDialog(this, true, managerIntegrador);
+        this.listagemSaidasMagentoJDialog = new SaidasPrestaShopJDialog(this, true, managerPrestaShop, managerIntegrador);
         //this.editSalesFlatOrderItemJDialog = new EditSalesFlatOrderItemJDialog(this, true, managerPrestaShop, managerCplus, usuario);
         this.listagemProdutoMagentoJDialog = new ListPsProductJDialog(this, true,managerIntegrador, managerPrestaShop, managerCplus, usuario);
-        this.insereSalesFlatOrderItemJDialog = new InsereSalesFlatOrderItemJDialog(this, true, managerPrestaShop, managerCplus, usuario);
+        this.insereSalesFlatOrderItemJDialog = new AdicionarOrderDetailJDialog(this, true, managerPrestaShop, managerCplus, usuario);
         // colunaItemId = jTableProdutosPedido.getColumnModel().getColumnIndex("Item Id");
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
         jDateChooserDataInicialCustomer.setDate(formataCampos.alteraDiaData(formataCampos.dataAtual(), -2));
@@ -772,7 +772,7 @@ public class VendaDigimacroJFrame_1 extends javax.swing.JFrame {
             if (jaExiste) {
                 JOptionPane.showMessageDialog(null, "O produto já está no pedido verifique!!! ");
             } else {
-                this.insereSalesFlatOrderItemJDialog.setProduct(this.listagemProdutoMagentoJDialog.getProductEntity(), psOrders);
+                this.insereSalesFlatOrderItemJDialog.setObjetos(this.listagemProdutoMagentoJDialog.getProductEntity(), psOrders);
                 this.insereSalesFlatOrderItemJDialog.setVisible(true);
                 // carregaCamposSalesFlatOrder();
             }
@@ -831,7 +831,7 @@ public class VendaDigimacroJFrame_1 extends javax.swing.JFrame {
 
     private void pesquisaDataCustomer() {
         psCustomerList.clear();
-        for (PsCustomer psCustomer : queryPrestaShop.listCustomerData(jDateChooserDataInicialCustomer.getDate(), jDateChooserDataFinalCustomer.getDate())) {
+        for (PsCustomer psCustomer : queryPrestaShop.listCustomerDataAdd(jDateChooserDataInicialCustomer.getDate(), jDateChooserDataFinalCustomer.getDate())) {
             if (jCheckBoxNaoIntegrado.isSelected()) {
                 List<Cliente> listemailCplus = queryCplus.resultPortCnpjOuCpf(cpfCnpj(psCustomer.getSiret()));
                 if (listemailCplus.isEmpty()) {
@@ -964,7 +964,7 @@ public class VendaDigimacroJFrame_1 extends javax.swing.JFrame {
     private final QueryPrestaShop queryPrestaShop;
     private final QueryCplus queryCplus;
     //private final EditSalesFlatOrderItemJDialog editSalesFlatOrderItemJDialog;
-    private final InsereSalesFlatOrderItemJDialog insereSalesFlatOrderItemJDialog;
+    private final AdicionarOrderDetailJDialog insereSalesFlatOrderItemJDialog;
     private static Usuario usuario;
     //private final ControleAcesso acesso;
     private final int colunaCustomerId;

@@ -528,7 +528,7 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
             if ("A".equals(nfc.getStatusnfceletronica())) {
                 // List<PedidoIntegrador> listPedidoIntegrador = new PedidoIntegradorJpaController(managerIntegrador).codigoTelefone(movenda.getEntregatelefone());
                 // for (PedidoIntegrador pedidoIntegrador : listPedidoIntegrador) {
-                List<PsOrders> listOrder = queryPrestaShop.listOrders(movenda.getEntregatelefone());
+                List<PsOrders> listOrder = queryPrestaShop.listPsOrders(movenda.getEntregatelefone());
                 for (PsOrders order : listOrder) {
                     if (movenda.getValortotalnota().doubleValue() < new ValoresOrder().valorTotalPredido(order).doubleValue()) {
                         // new ManutencaoVenda().alteraValorProdutos(var, queryCplus, movenda, pedidoIntegrador, managerCplus);

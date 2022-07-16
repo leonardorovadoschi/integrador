@@ -29,6 +29,17 @@ import javax.persistence.Transient;
 @Table(name = "ps_order_detail")
 
 public class PsOrderDetail implements Serializable {
+    @Column(name = "product_mpn")
+    private String productMpn;
+    @Basic(optional = false)
+    @Column(name = "tax_computation_method")
+    private short taxComputationMethod;
+    @Basic(optional = false)
+    @Column(name = "total_refunded_tax_excl")
+    private BigDecimal totalRefundedTaxExcl;
+    @Basic(optional = false)
+    @Column(name = "total_refunded_tax_incl")
+    private BigDecimal totalRefundedTaxIncl;
 
     @Transient
     private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
@@ -112,9 +123,6 @@ public class PsOrderDetail implements Serializable {
     @Column(name = "id_tax_rules_group")
     private Integer idTaxRulesGroup;
     @Basic(optional = false)
-    @Column(name = "tax_computation_method")
-    private boolean taxComputationMethod;
-    @Basic(optional = false)
     @Column(name = "tax_name")
     private String taxName;
     @Basic(optional = false)
@@ -171,7 +179,7 @@ public class PsOrderDetail implements Serializable {
         this.idOrderDetail = idOrderDetail;
     }
 
-    public PsOrderDetail(Integer idOrderDetail, int idOrder, int idShop, int productId, String productName, int productQuantity, int productQuantityInStock, int productQuantityRefunded, int productQuantityReturn, int productQuantityReinjected, BigDecimal productPrice, BigDecimal reductionPercent, BigDecimal reductionAmount, BigDecimal reductionAmountTaxIncl, BigDecimal reductionAmountTaxExcl, BigDecimal groupReduction, BigDecimal productQuantityDiscount, BigDecimal productWeight, boolean taxComputationMethod, String taxName, BigDecimal taxRate, BigDecimal ecotax, BigDecimal ecotaxTaxRate, boolean discountQuantityApplied, BigDecimal totalPriceTaxIncl, BigDecimal totalPriceTaxExcl, BigDecimal unitPriceTaxIncl, BigDecimal unitPriceTaxExcl, BigDecimal totalShippingPriceTaxIncl, BigDecimal totalShippingPriceTaxExcl, BigDecimal purchaseSupplierPrice, BigDecimal originalProductPrice, BigDecimal originalWholesalePrice) {
+    public PsOrderDetail(Integer idOrderDetail, int idOrder, int idShop, int productId, String productName, int productQuantity, int productQuantityInStock, int productQuantityRefunded, int productQuantityReturn, int productQuantityReinjected, BigDecimal productPrice, BigDecimal reductionPercent, BigDecimal reductionAmount, BigDecimal reductionAmountTaxIncl, BigDecimal reductionAmountTaxExcl, BigDecimal groupReduction, BigDecimal productQuantityDiscount, BigDecimal productWeight, Short taxComputationMethod, String taxName, BigDecimal taxRate, BigDecimal ecotax, BigDecimal ecotaxTaxRate, boolean discountQuantityApplied, BigDecimal totalPriceTaxIncl, BigDecimal totalPriceTaxExcl, BigDecimal unitPriceTaxIncl, BigDecimal unitPriceTaxExcl, BigDecimal totalShippingPriceTaxIncl, BigDecimal totalShippingPriceTaxExcl, BigDecimal purchaseSupplierPrice, BigDecimal originalProductPrice, BigDecimal originalWholesalePrice) {
         this.idOrderDetail = idOrderDetail;
         this.idOrder = idOrder;
         this.idShop = idShop;
@@ -487,16 +495,6 @@ public class PsOrderDetail implements Serializable {
         changeSupport.firePropertyChange("idTaxRulesGroup", oldIdTaxRulesGroup, idTaxRulesGroup);
     }
 
-    public boolean getTaxComputationMethod() {
-        return taxComputationMethod;
-    }
-
-    public void setTaxComputationMethod(boolean taxComputationMethod) {
-        boolean oldTaxComputationMethod = this.taxComputationMethod;
-        this.taxComputationMethod = taxComputationMethod;
-        changeSupport.firePropertyChange("taxComputationMethod", oldTaxComputationMethod, taxComputationMethod);
-    }
-
     public String getTaxName() {
         return taxName;
     }
@@ -698,6 +696,38 @@ public class PsOrderDetail implements Serializable {
 
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         changeSupport.removePropertyChangeListener(listener);
+    }
+
+    public String getProductMpn() {
+        return productMpn;
+    }
+
+    public void setProductMpn(String productMpn) {
+        this.productMpn = productMpn;
+    }
+
+    public short getTaxComputationMethod() {
+        return taxComputationMethod;
+    }
+
+    public void setTaxComputationMethod(short taxComputationMethod) {
+        this.taxComputationMethod = taxComputationMethod;
+    }
+
+    public BigDecimal getTotalRefundedTaxExcl() {
+        return totalRefundedTaxExcl;
+    }
+
+    public void setTotalRefundedTaxExcl(BigDecimal totalRefundedTaxExcl) {
+        this.totalRefundedTaxExcl = totalRefundedTaxExcl;
+    }
+
+    public BigDecimal getTotalRefundedTaxIncl() {
+        return totalRefundedTaxIncl;
+    }
+
+    public void setTotalRefundedTaxIncl(BigDecimal totalRefundedTaxIncl) {
+        this.totalRefundedTaxIncl = totalRefundedTaxIncl;
     }
     
 }

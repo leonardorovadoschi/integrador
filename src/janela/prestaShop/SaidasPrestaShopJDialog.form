@@ -318,7 +318,7 @@
                   <Title/>
                   <Editor/>
                   <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                    <Connection code="new RenderCustomerNome(managerIntegrador)" type="code"/>
+                    <Connection code="new RenderCustomerNome(managerPrestaShop)" type="code"/>
                   </Renderer>
                 </Column>
                 <Column maxWidth="300" minWidth="100" prefWidth="100" resizable="true">
@@ -416,7 +416,7 @@
                 <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
               </Subbinding>
               <Subbinding sourcePath="${idCustomer}">
-                <BindingParameter name="NAME" value="Id Customer"/>
+                <BindingParameter name="NAME" value="Cliente"/>
                 <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Integer.class"/>
               </Subbinding>
               <Subbinding sourcePath="${payment}">
