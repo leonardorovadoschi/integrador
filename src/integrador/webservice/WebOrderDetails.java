@@ -6,7 +6,6 @@
 
 package integrador.webservice;
 
-import entidade.prestaShop.PsCustomer;
 import entidade.prestaShop.PsOrderDetail;
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -59,7 +58,7 @@ public class WebOrderDetails {
             teste = ws.obterValorObjeto(endElement, "product_supplier_reference");
             if (!"".equals(teste)) {    psOrderDetail.setProductSupplierReference(teste);  }
            psOrderDetail.setProductWeight(bigDecimal(ws.obterValorObjeto(endElement, "product_weight")));
-           psOrderDetail.setTaxComputationMethod(Boolean.valueOf(ws.obterValorObjeto(endElement, "tax_computation_method")));
+           //psOrderDetail.setTaxComputationMethod(Boolean.valueOf(ws.obterValorObjeto(endElement, "tax_computation_method")));
            psOrderDetail.setIdTaxRulesGroup(Integer.valueOf(ws.obterValorObjeto(endElement, "id_tax_rules_group")));
            psOrderDetail.setEcotax(bigDecimal(ws.obterValorObjeto(endElement, "ecotax")));
            psOrderDetail.setEcotaxTaxRate(bigDecimal(ws.obterValorObjeto(endElement, "ecotax_tax_rate")));

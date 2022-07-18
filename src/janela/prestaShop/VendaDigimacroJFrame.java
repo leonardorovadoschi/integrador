@@ -139,7 +139,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         jTextFieldTaxa = new javax.swing.JTextField();
         jButtonAlteraPagamento = new javax.swing.JButton();
         jComboBoxPagamento = new javax.swing.JComboBox<String>();
-        jButtonInserir = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jPanelClienteDigimacro = new javax.swing.JPanel();
@@ -248,18 +248,17 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
             }
         });
 
-        jComboBoxPagamento.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Cupom", "À vista 1.5 Desconto", "À vista sem desconto", "Prazo (Boleto)" }));
+        jComboBoxPagamento.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Cupom" }));
         jComboBoxPagamento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxPagamentoActionPerformed(evt);
             }
         });
 
-        jButtonInserir.setText("Inserir");
-        jButtonInserir.setEnabled(false);
-        jButtonInserir.addActionListener(new java.awt.event.ActionListener() {
+        jButton1.setText("Pesquisa Produtos");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonInserirActionPerformed(evt);
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -298,9 +297,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
                 .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButtonAlteraPagamento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jComboBoxPagamento, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanelInformacoesLayout.createSequentialGroup()
-                        .addComponent(jButtonInserir)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanelInformacoesLayout.setVerticalGroup(
@@ -324,14 +321,14 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
                     .addComponent(jLabelRgIe)
                     .addComponent(jTextFieldRgIe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelFrete)
-                    .addComponent(jTextFieldTotalProdutos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonInserir))
+                    .addComponent(jTextFieldTotalProdutos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelStaus)
                     .addComponent(jTextFieldStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelTaxa)
-                    .addComponent(jTextFieldTaxa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldTaxa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelEmail)
@@ -815,28 +812,6 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButtonAlteraPagamentoActionPerformed
 
-    private void jButtonInserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonInserirActionPerformed
-        this.listPsProductJDialog.setVisible(true);
-        if (this.listPsProductJDialog.isCancelamento() == false) {
-            boolean jaExiste = false;
-            for (PsOrderDetail item : queryPrestaShop.listPsOrderDetail(psOrders.getIdOrder())) {
-                if (Objects.equals(item.getProductId(), this.listPsProductJDialog.getProductEntity().getIdProduct())) {
-                    jaExiste = true;
-                }
-            }
-            if (jaExiste) {
-                JOptionPane.showMessageDialog(null, "O produto já está no pedido verifique!!! ");
-            } else {
-                this.adicionarOrderDetailJDialog.setObjetos(this.listPsProductJDialog.getProductEntity(), psOrders);
-                this.adicionarOrderDetailJDialog.setVisible(true);
-                // carregaCamposSalesFlatOrder();
-                atualizaListOrderDetail(); //atualizar o list para garantir que valores atulizados sejam retornados                    
-                editaOrders(); //editar orders com valores atualizados
-                carregaCampos();
-            }
-        }
-    }//GEN-LAST:event_jButtonInserirActionPerformed
-
     private void jComboBoxPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxPagamentoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBoxPagamentoActionPerformed
@@ -898,54 +873,12 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButtonAdicionarActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.listPsProductJDialog.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     private void editaOrders() {
-        // metodo pagamento valor desconto custompaymentmethod_3
-        /**
-         * try { HashMap<String, Object> getSchemaOpt = new HashMap(); Document
-         * document; getSchemaOpt.put("url", shopUrl + "/api/orders/" +
-         * psOrders.getIdOrder()); document = ws.getFuncao(getSchemaOpt);
-         * BigDecimal totProd = BigDecimal.ZERO; for (PsOrderDetail od :
-         * psOrderDetailList) { totProd =
-         * totProd.add(od.getTotalPriceTaxIncl()); }
-         * document.getElementsByTagName("total_products").item(0).setTextContent(formataCampos.webServiceMoeda(totProd));
-         * document.getElementsByTagName("total_products_wt").item(0).setTextContent(formataCampos.webServiceMoeda(totProd));
-         * psOrders.setTotalProducts(totProd);
-         * psOrders.setTotalProductsWt(totProd); BigDecimal valTotal; if
-         * ("custompaymentmethod_3".equals(psOrders.getModule())) { //se o
-         * metodo de pagamento for com desconto //valTotal =
-         * valTotal.add(valorDescontoFormaPagamento()); valTotal =
-         * totProd.multiply(new BigDecimal("0.985")).setScale(2,
-         * BigDecimal.ROUND_HALF_UP); //editar o valor da commission Connection
-         * conn = new ConexaoPrestaShop().getConnection(); double valDesconto =
-         * (valTotal.subtract(totProd).setScale(2,
-         * BigDecimal.ROUND_HALF_UP)).doubleValue(); new
-         * ConexaoPrestaShop().editaPsOrderCommission(conn,
-         * psOrders.getIdOrder(), valDesconto); new
-         * ConexaoPrestaShop().closeConnection(); valTotal =
-         * valTotal.subtract(psOrders.getTotalDiscountsTaxIncl()).setScale(2,
-         * BigDecimal.ROUND_HALF_UP); } else { valTotal =
-         * totProd.subtract(psOrders.getTotalDiscountsTaxIncl()).setScale(2,
-         * BigDecimal.ROUND_HALF_UP); } //valTotal =
-         * valTotal.add(psOrders.getTotalDiscountsTaxIncl());
-         * //document.getElementsByTagName("total_discounts").item(0).setTextContent(formataCampos.webServiceMoeda(valTotal));
-         * //document.getElementsByTagName("total_discounts_tax_incl").item(0).setTextContent(formataCampos.webServiceMoeda(valTotal));
-         * //document.getElementsByTagName("total_discounts_tax_excl").item(0).setTextContent(formataCampos.webServiceMoeda(valTotal));
-         * //valTotal = valTotal.add(totProd);
-         * document.getElementsByTagName("total_paid").item(0).setTextContent(formataCampos.webServiceMoeda(valTotal));
-         * document.getElementsByTagName("total_paid_tax_incl").item(0).setTextContent(formataCampos.webServiceMoeda(valTotal));
-         * document.getElementsByTagName("total_paid_tax_excl").item(0).setTextContent(formataCampos.webServiceMoeda(valTotal));
-         * psOrders.setTotalPaid(valTotal);
-         * psOrders.setTotalPaidTaxIncl(valTotal);
-         * psOrders.setTotalPaidTaxExcl(valTotal); HashMap<String, Object> ord =
-         * new HashMap(); //productDetail.put("url", shopUrl);
-         * ord.put("resource", "orders"); ord.put("id", psOrders.getIdOrder());
-         * ord.put("putXml", ws.DocumentToString(document));
-         * System.out.print(ws.edit(ord));
-         *
-         * } catch (PrestaShopWebserviceException | TransformerException ex) {
-         * JOptionPane.showMessageDialog(null, "Erro ao editar Orders Web
-         * Service: \n" + ex); }
-         */
+      atualizaListOrderDetail();
         BigDecimal totProd = BigDecimal.ZERO;
         for (PsOrderDetail od : psOrderDetailList) {
             totProd = totProd.add(od.getTotalPriceTaxIncl());
@@ -963,6 +896,10 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
             new ConexaoPrestaShop().closeConnection();
             valTotal = valTotal.subtract(psOrders.getTotalDiscountsTaxIncl()).setScale(2, BigDecimal.ROUND_HALF_UP);
         } else {
+            Connection conn = new ConexaoPrestaShop().getConnection();
+            double valDesconto = 0.00; // vai zerar o valor da tabela
+            new ConexaoPrestaShop().editaPsOrderCommission(conn, psOrders.getIdOrder(), valDesconto);
+            new ConexaoPrestaShop().closeConnection();          
             valTotal = totProd.subtract(psOrders.getTotalDiscountsTaxIncl()).setScale(2, BigDecimal.ROUND_HALF_UP);
         }
         psOrders.setTotalPaid(valTotal);
@@ -1294,13 +1231,13 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.persistence.EntityManager PrestaShopPUEntityManager;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonAdicionar;
     private javax.swing.JButton jButtonAlteraPagamento;
     private javax.swing.JButton jButtonAtualizaCliente;
     private javax.swing.JButton jButtonEditar;
     private javax.swing.JButton jButtonImportarCliente;
     private javax.swing.JButton jButtonImportarPedido;
-    private javax.swing.JButton jButtonInserir;
     private javax.swing.JButton jButtonPesquisar;
     private javax.swing.JButton jButtonPesquisar1;
     private javax.swing.JButton jButtonRemover;

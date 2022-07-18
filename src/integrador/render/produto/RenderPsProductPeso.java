@@ -23,7 +23,7 @@ public class RenderPsProductPeso extends DefaultTableCellRenderer{
         Object result = null;
         if ((aValue != null) && (aValue instanceof Number)) {
             Number numberValue = (Number) aValue;
-            NumberFormat formatter = NumberFormat.getPercentInstance();
+            NumberFormat formatter = NumberFormat.getNumberInstance();
             formatter.setMinimumFractionDigits(3);
             result = formatter.format(numberValue.doubleValue() );
         }

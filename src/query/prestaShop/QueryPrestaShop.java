@@ -17,6 +17,7 @@ import entidade.prestaShop.PsManufacturerLang;
 import entidade.prestaShop.PsManufacturerShop;
 import entidade.prestaShop.PsMessage;
 import entidade.prestaShop.PsModuloCpf;
+import entidade.prestaShop.PsOrderCarrier;
 import entidade.prestaShop.PsOrderCommission;
 import entidade.prestaShop.PsOrderDetail;
 import entidade.prestaShop.PsOrderInvoice;
@@ -107,7 +108,13 @@ public class QueryPrestaShop implements Serializable {
             return null;
         }
     }
-        
+       
+    public List<PsOrderCarrier> listPsOrderCarrier(Integer idOrder) {
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery("SELECT c FROM PsOrderCarrier c WHERE c.idOrder = :idOrder");
+        query.setParameter("idOrder", idOrder);
+        return query.getResultList();
+    }
      
     /**
      * Função que retorna a referencia entre Produto C-plus com o campo

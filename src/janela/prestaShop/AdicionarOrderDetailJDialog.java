@@ -12,6 +12,7 @@ import entidade.cplus.Unidade;
 import entidade.cplus.Usuario;
 import entidade.prestaShop.PsCustomer;
 import entidade.prestaShop.PsGroup;
+import entidade.prestaShop.PsOrderCarrier;
 import entidade.prestaShop.PsOrderDetail;
 import entidade.prestaShop.PsOrders;
 import entidade.prestaShop.PsPack;
@@ -27,12 +28,15 @@ import java.math.RoundingMode;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
 import jpa.cplus.ProdutoJpaController;
 import jpa.cplus.ProdutoestoqueJpaController;
 import jpa.prestaShop.PsCustomerJpaController;
 import jpa.prestaShop.PsGroupJpaController;
+import jpa.prestaShop.PsOrderCarrierJpaController;
 import jpa.prestaShop.PsOrderDetailJpaController;
 import jpa.prestaShop.PsProductJpaController;
 import jpa.prestaShop.PsStockAvailableJpaController;
@@ -356,9 +360,9 @@ public class AdicionarOrderDetailJDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_jTextFieldQuantidadeActionPerformed
 
     private void eventoValorUnitario() {
-       reducaoMod = formataCampos.stringParaDecimal(jTextFieldPriceOriginal.getText(), 2).divide(
-        formataCampos.stringParaDecimal( jTextFieldUnitarioComDesconto.getText(), 2), 2, BigDecimal.ROUND_HALF_UP); 
-       reducaoMod = reducaoMod.subtract(BigDecimal.ONE).multiply(new BigDecimal("100.00"));
+        reducaoMod = formataCampos.stringParaDecimal(jTextFieldPriceOriginal.getText(), 2).divide(
+                formataCampos.stringParaDecimal(jTextFieldUnitarioComDesconto.getText(), 2), 2, BigDecimal.ROUND_HALF_UP);
+        reducaoMod = reducaoMod.subtract(BigDecimal.ONE).multiply(new BigDecimal("100.00"));
         jTextFieldDescontoQuantidade.setText(formataCampos.bigDecimalParaString(reducaoMod, 2));
         unitMod = formataCampos.stringParaDecimal(jTextFieldUnitarioComDesconto.getText(), 2);
         //jTextFieldUnitarioComDesconto.setText(formataCampos.bigDecimalParaString(precUni, 2));                
@@ -455,15 +459,20 @@ public class AdicionarOrderDetailJDialog extends javax.swing.JDialog {
             item.setProductQuantityDiscount(formataCampos.stringParaDecimal(jTextFieldUnitarioComDesconto.getText(), 2).add(BigDecimal.ONE));
             item.setProductEan13(psProduct.getEan13());
             item.setProductReference(psProduct.getReference());
-            item.setProductWeight(psProduct.getWeight());
+            item.setProductWeight(psProduct.getWeight().multiply(new BigDecimal(quantMod)));
             item.setIdTaxRulesGroup(0);
             item.setTaxComputationMethod(Short.valueOf("0"));
             item.setTaxRate(BigDecimal.ZERO);
             item.setEcotax(BigDecimal.ZERO);
             item.setEcotaxTaxRate(BigDecimal.ZERO);
-            if(item.getReductionPercent().doubleValue() > 0.00){
+            item.setProductIsbn("");
+            item.setProductUpc("");
+            item.setProductMpn("");
+            item.setProductSupplierReference("");
+            item.setDownloadHash("");
+            if (item.getReductionPercent().doubleValue() > 0.00) {
                 item.setDiscountQuantityApplied(true);
-            }else{
+            } else {
                 item.setDiscountQuantityApplied(false);
             }
             item.setDownloadNb(0);
@@ -479,29 +488,40 @@ public class AdicionarOrderDetailJDialog extends javax.swing.JDialog {
             item.setTotalRefundedTaxExcl(BigDecimal.ZERO);
             item.setTotalRefundedTaxIncl(BigDecimal.ZERO);
             item.setTaxName("");
-            
             new PsOrderDetailJpaController(managerPrestaShop).create(item);
             
+             for(PsOrderCarrier orderCarrier : queryPrestaShop.listPsOrderCarrier(psOrders.getIdOrder())) {
+               
+                orderCarrier.setWeight(psProduct.getWeight().multiply(new BigDecimal(quantMod)));
+                
+                try {
+                    new PsOrderCarrierJpaController(managerPrestaShop).edit(orderCarrier);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, "Não foi possível editar PsOrderCarrier" + ex);
+                }
+            }
+            
+
             editaEstoquePS(quantMod);
             atualizaCplus();
             jButtonGravar.setEnabled(false);
             dispose();
-        } else {           
+        } else {
             JOptionPane.showMessageDialog(null, "Não Ha Estoque Suficiente!\n Estoque Disponível: " + estoqueDisponivel());
         }
 
     }
-    
-    private String nomePsProduct(){
+
+    private String nomePsProduct() {
         String nome = "";
-         for (PsProductLang lan : queryPrestaShop.listPsProductLang(psProduct.getIdProduct(), 2)) {
-                nome = lan.getName();
-            }
-         return nome;
+        for (PsProductLang lan : queryPrestaShop.listPsProductLang(psProduct.getIdProduct(), 2)) {
+            nome = lan.getName();
+        }
+        return nome;
     }
 
     private void editaEstoquePS(int quantidadeAtual) {
-       // int quantidadeRequerida = quantidadeAtual - quantOrderDetails;
+        // int quantidadeRequerida = quantidadeAtual - quantOrderDetails;
         int stockNovo = stok.getQuantity() - quantidadeAtual;
         stok.setQuantity(stockNovo);
         //stok.setPhysicalQuantity(stockNovo);
@@ -570,14 +590,14 @@ public class AdicionarOrderDetailJDialog extends javax.swing.JDialog {
         jTextFieldEan.setText(psProduct.getEan13());
         //quantOrderDetails = psOrderDetails.getProductQuantity();
         jButtonGravar.setEnabled(true);
-        
+
         estoqueDisponivel(); // carrega variavel globla
-        
-         String txt = " Quant.\t  % \tValor\n";
+
+        String txt = " Quant.\t  % \tValor\n";
         for (PsSpecificPrice sp : listSpecificPrice) {
             txt = txt + " " + sp.getFromQuantity() + " \t" + formataCampos.bigDecimalParaString(sp.getReduction().multiply(new BigDecimal("100.00")), 2) + "% \t"
                     + formataCampos.bigDecimalParaString((BigDecimal.ONE.subtract(sp.getReduction())).multiply(
-                            formataCampos.stringParaDecimal(jTextFieldPriceOriginal.getText(), 4)), 2) + "\n";
+                                    formataCampos.stringParaDecimal(jTextFieldPriceOriginal.getText(), 4)), 2) + "\n";
         }
         jTextAreaPrecoQuantidade.setText(txt);
         // }

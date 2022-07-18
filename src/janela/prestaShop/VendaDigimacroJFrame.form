@@ -272,10 +272,7 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jButtonAlteraPagamento" max="32767" attributes="0"/>
                               <Component id="jComboBoxPagamento" max="32767" attributes="0"/>
-                              <Group type="102" attributes="0">
-                                  <Component id="jButtonInserir" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                              </Group>
+                              <Component id="jButton1" alignment="0" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -305,7 +302,6 @@
                               <Component id="jTextFieldRgIe" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabelFrete" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jTextFieldTotalProdutos" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jButtonInserir" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -313,6 +309,7 @@
                               <Component id="jTextFieldStatus" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabelTaxa" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jTextFieldTaxa" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -407,11 +404,8 @@
                 <Component class="javax.swing.JComboBox" name="jComboBoxPagamento">
                   <Properties>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                      <StringArray count="4">
+                      <StringArray count="1">
                         <StringItem index="0" value="Cupom"/>
-                        <StringItem index="1" value="&#xc0; vista 1.5 Desconto"/>
-                        <StringItem index="2" value="&#xc0; vista sem desconto"/>
-                        <StringItem index="3" value="Prazo (Boleto)"/>
                       </StringArray>
                     </Property>
                   </Properties>
@@ -422,13 +416,12 @@
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                   </AuxValues>
                 </Component>
-                <Component class="javax.swing.JButton" name="jButtonInserir">
+                <Component class="javax.swing.JButton" name="jButton1">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Inserir"/>
-                    <Property name="enabled" type="boolean" value="false"/>
+                    <Property name="text" type="java.lang.String" value="Pesquisa Produtos"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonInserirActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
                   </Events>
                 </Component>
               </SubComponents>
