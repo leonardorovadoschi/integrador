@@ -6,7 +6,11 @@
 package integrador.render.produto;
 
 import entidade.prestaShop.PsProductLang;
+import entidade.prestaShop.PsStockAvailable;
+import java.awt.Color;
+import java.awt.Component;
 import javax.persistence.EntityManagerFactory;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import query.prestaShop.QueryPrestaShop;
 
@@ -17,9 +21,11 @@ import query.prestaShop.QueryPrestaShop;
 public class RenderPsProductName extends DefaultTableCellRenderer {
 
     private EntityManagerFactory emf;
+    private int v;
 
     public RenderPsProductName(EntityManagerFactory managerPrestaShop) {
         //setHorizontalAlignment(SwingConstants.RIGHT);
+        
         emf = managerPrestaShop;
     }
 
@@ -32,7 +38,24 @@ public class RenderPsProductName extends DefaultTableCellRenderer {
            for (PsProductLang lan : new QueryPrestaShop(emf).listPsProductLang((Integer) aValue, 2)) {
                 nome = lan.getName();
             }
+           for (PsStockAvailable sa : new QueryPrestaShop(emf).listPsStockAvailable((Integer) aValue, 1)) {            
+                v = sa.getQuantity();
+            }
         }
         super.setValue(nome);
     }
+   @Override
+    public Component getTableCellRendererComponent(JTable aTable, Object objectValue, boolean aIsSelected, boolean aHasFocus, int aRow, int aColumn) {
+        if (objectValue == null) {
+            return this;
+        }
+        Component renderer = super.getTableCellRendererComponent(aTable, objectValue, aIsSelected, aHasFocus, aRow, aColumn);
+        if (v < 1) {
+            renderer.setForeground(Color.RED);          
+        } else {
+            renderer.setForeground(Color.BLUE);         
+        }
+        return this;
+    } 
 }
+

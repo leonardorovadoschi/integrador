@@ -373,6 +373,9 @@ public class AdicionarOrderDetailJDialog extends javax.swing.JDialog {
         if (Integer.valueOf(jTextFieldQuantidade.getText()) % quantidadeProdutoAgrupado() == 0) {
             jButtonGravar.setEnabled(true);
             jButtonGravar.requestFocus();
+        } else {
+            jButtonGravar.setEnabled(false);
+            JOptionPane.showMessageDialog(null, "A quantidade deve ser multipla de: " + quantidadeProdutoAgrupado());
         }
     }
 
@@ -409,18 +412,17 @@ public class AdicionarOrderDetailJDialog extends javax.swing.JDialog {
         } else {
             //jTextFieldQtyOrdered.setText(formataCampos.bigDecimalParaString(flatOrderItem.getQtyOrdered(), 0));
             jButtonGravar.setEnabled(false);
-            JOptionPane.showMessageDialog(null, "A quantidade deve ser multipla de: " + quantidadeProdutoAgrupado().intValue());
+            JOptionPane.showMessageDialog(null, "A quantidade deve ser multipla de: " + quantidadeProdutoAgrupado());
         }
     }
 
     private Integer quantidadeProdutoAgrupado() {
         Integer quan = 1;
-        if (psProduct.getCacheIsPack()) {
-            for (PsPack psP : queryPrestaShop.listPackPorProduct(psProduct.getIdProduct())) {
-                quan = psP.getQuantity();
-            }
-        }
-
+        //if (psProduct.getCacheIsPack()) {
+           // for (PsPack psP : queryPrestaShop.listPackItem(psProduct.getIdProduct())) {
+           //     quan = psP.getQuantity();
+           // }
+       // }
         return quan;
     }
 
@@ -489,18 +491,6 @@ public class AdicionarOrderDetailJDialog extends javax.swing.JDialog {
             item.setTotalRefundedTaxIncl(BigDecimal.ZERO);
             item.setTaxName("");
             new PsOrderDetailJpaController(managerPrestaShop).create(item);
-            
-             for(PsOrderCarrier orderCarrier : queryPrestaShop.listPsOrderCarrier(psOrders.getIdOrder())) {
-               
-                orderCarrier.setWeight(psProduct.getWeight().multiply(new BigDecimal(quantMod)));
-                
-                try {
-                    new PsOrderCarrierJpaController(managerPrestaShop).edit(orderCarrier);
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(null, "Não foi possível editar PsOrderCarrier" + ex);
-                }
-            }
-            
 
             editaEstoquePS(quantMod);
             atualizaCplus();
@@ -625,10 +615,17 @@ public class AdicionarOrderDetailJDialog extends javax.swing.JDialog {
         //this.psOrderDetails = orderDetails;
         this.psOrders = order;
         //this.groupId = salesFlatOrder.getCustomerGroupId();
-        this.psProduct = product;
+       // if (product.getCacheIsPack()) {
+       //     for (PsPack psP : queryPrestaShop.listPack(product.getIdProduct())) {
+        //        this.psProduct = new PsProductJpaController(managerPrestaShop).findPsProduct(psP.getPsPackPK().getIdProductItem());
+      //      }
+      //  } else {
+          this.psProduct = product;
+     //   }
         this.reducaoMod = BigDecimal.ZERO;
         quantMod = quantidadeProdutoAgrupado();
         carregaCampos();
+        eventoQuantidade();
 
     }
 

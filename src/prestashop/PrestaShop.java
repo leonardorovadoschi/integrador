@@ -35,9 +35,9 @@ public class PrestaShop {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                EntityManagerFactory managerCplus = Persistence.createEntityManagerFactory("cplusPU");
-               EntityManagerFactory managerIntegrador = Persistence.createEntityManagerFactory("integradorPU");
-                EntityManagerFactory managerPrestaShop = Persistence.createEntityManagerFactory("PrestaShopPU");
+               /// EntityManagerFactory managerCplus = Persistence.createEntityManagerFactory("cplusPU");
+              // EntityManagerFactory managerIntegrador = Persistence.createEntityManagerFactory("integradorPU");
+               // EntityManagerFactory managerPrestaShop = Persistence.createEntityManagerFactory("PrestaShopPU");
                 //relatorio estoque
                 /**
                  * if (relatorioEstoqueJFrame == null ||
@@ -52,7 +52,7 @@ public class PrestaShop {
                  */
 
                 //From vendas               
-             
+             /**
                   if (siteJFrame == null || !siteJFrame.isDisplayable()) {
                   siteJFrame = new VendaDigimacroJFrame(managerIntegrador,
                   managerPrestaShop, managerCplus, new
@@ -60,9 +60,9 @@ public class PrestaShop {
                   //siteJFrame.setLocationRelativeTo(this); //opcional } else {
                   siteJFrame.setExtendedState(JFrame.NORMAL);
                   siteJFrame.toFront(); } siteJFrame.setVisible(true);
-                 
+                 */
                 //From principal
-                /**
+               
                 if (frameIntegracao == null || !frameIntegracao.isDisplayable()) {
                     frameIntegracao = new PrincipalJFrame();
                     //frameIntegracao.setLocationRelativeTo(this); //opcional 
@@ -71,7 +71,7 @@ public class PrestaShop {
                     frameIntegracao.toFront();
                 }
                 frameIntegracao.setVisible(true);
-             */   
+              
             }
         });
 

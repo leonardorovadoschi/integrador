@@ -1965,7 +1965,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jCheckBoxAtualizaBasePisCofinsActionPerformed
 
     private void jButtonExcluirSaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirSaidaActionPerformed
-        int cancelar = JOptionPane.showConfirmDialog(null, " Deseja realmente excluir a saida!!", "Exclus�o", JOptionPane.YES_NO_CANCEL_OPTION);
+        int cancelar = JOptionPane.showConfirmDialog(null, " Deseja realmente excluir a saida!!", "Excluir", JOptionPane.YES_NO_CANCEL_OPTION);
         if (cancelar == JOptionPane.YES_OPTION) {
             new DeletarPedidoCplus().deletarPedidoCplus(movenda, managerCplus);
         }

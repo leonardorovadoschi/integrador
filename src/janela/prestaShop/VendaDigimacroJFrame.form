@@ -94,7 +94,7 @@
                   <Component id="jButtonEditar" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jButtonRemover" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="49" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -120,13 +120,11 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jPanelPesquisa" max="32767" attributes="0"/>
-                                  <Component id="jPanelInformacoes" max="32767" attributes="0"/>
-                              </Group>
+                              <Component id="jPanelPesquisa" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="316" max="32767" attributes="0"/>
                           </Group>
                           <Component id="jScrollPane2" alignment="1" max="32767" attributes="0"/>
+                          <Component id="jPanelInformacoes" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -163,7 +161,9 @@
                           <Component id="jButtonPesquisar" min="-2" pref="110" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                           <Component id="jButtonImportarPedido" min="-2" pref="208" max="-2" attributes="0"/>
-                          <EmptySpace pref="274" max="32767" attributes="0"/>
+                          <EmptySpace pref="86" max="32767" attributes="0"/>
+                          <Component id="jButton1" min="-2" pref="170" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="jButtonAtualizaCliente" min="-2" pref="209" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -175,6 +175,7 @@
                           <Component id="jButtonPesquisar" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jButtonImportarPedido" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jButtonAtualizaCliente" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -218,9 +219,24 @@
                       <Image iconType="3" name="/icones/atualizar.png"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Atualizar Cliente"/>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonAtualizaClienteActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JButton" name="jButton1">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Arial" size="12" style="1"/>
+                    </Property>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/icones/pesquisar.png"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Pesquisa Produtos"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
                   </Events>
                 </Component>
               </SubComponents>
@@ -268,13 +284,19 @@
                               <Component id="jTextFieldTotalProdutos" max="32767" attributes="0"/>
                               <Component id="jTextFieldTaxa" pref="83" max="32767" attributes="0"/>
                           </Group>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jButtonAlteraPagamento" max="32767" attributes="0"/>
-                              <Component id="jComboBoxPagamento" max="32767" attributes="0"/>
-                              <Component id="jButton1" alignment="0" max="32767" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="jComboBoxPagamento" pref="256" max="32767" attributes="0"/>
+                              </Group>
+                              <Group type="102" attributes="0">
+                                  <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                                  <Component id="jComboBoxState" max="32767" attributes="0"/>
+                              </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jButtonAlteraPagamento" min="-2" pref="222" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="69" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -287,6 +309,7 @@
                               <Component id="jLabelValorTotal" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jTextFieldValorTotal" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jComboBoxPagamento" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jButtonAlteraPagamento" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -294,7 +317,6 @@
                               <Component id="jTextFieldCpfCnpj" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabelDesconto" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jTextFieldDesconto" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jButtonAlteraPagamento" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -302,6 +324,7 @@
                               <Component id="jTextFieldRgIe" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabelFrete" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jTextFieldTotalProdutos" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jComboBoxState" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -309,7 +332,6 @@
                               <Component id="jTextFieldStatus" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabelTaxa" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jTextFieldTaxa" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -395,7 +417,14 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="jButtonAlteraPagamento">
                   <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Arial" size="12" style="1"/>
+                    </Property>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/icones/Edit.png"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Alterar Meio de Pagamento"/>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonAlteraPagamentoActionPerformed"/>
@@ -405,24 +434,22 @@
                   <Properties>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                       <StringArray count="1">
-                        <StringItem index="0" value="Cupom"/>
+                        <StringItem index="0" value=" "/>
                       </StringArray>
                     </Property>
                   </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBoxPagamentoActionPerformed"/>
-                  </Events>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                   </AuxValues>
                 </Component>
-                <Component class="javax.swing.JButton" name="jButton1">
+                <Component class="javax.swing.JComboBox" name="jComboBoxState">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Pesquisa Produtos"/>
+                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                      <StringArray count="1">
+                        <StringItem index="0" value=" "/>
+                      </StringArray>
+                    </Property>
                   </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
-                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -636,9 +663,9 @@
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jTextFieldStringPesquisa" min="-2" pref="264" max="-2" attributes="0"/>
+                                  <Component id="jTextFieldPesquisaCustomer" min="-2" pref="264" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="jButtonPesquisar1" pref="312" max="32767" attributes="0"/>
+                                  <Component id="jButtonPesquisarCustomer" pref="312" max="32767" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Component id="jButtonImportarCliente" min="-2" pref="183" max="-2" attributes="0"/>
                               </Group>
@@ -662,8 +689,8 @@
                       <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jComboBoxTermoPesquisa" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jTextFieldStringPesquisa" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jButtonPesquisar1" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jTextFieldPesquisaCustomer" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jButtonPesquisarCustomer" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jButtonImportarCliente" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
@@ -697,9 +724,9 @@
                     <Property name="toolTipText" type="java.lang.String" value="Seleciona , qual o tipo de pesquisa que deseja fazer!"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="jTextFieldStringPesquisa">
+                <Component class="javax.swing.JTextField" name="jTextFieldPesquisaCustomer">
                 </Component>
-                <Component class="javax.swing.JButton" name="jButtonPesquisar1">
+                <Component class="javax.swing.JButton" name="jButtonPesquisarCustomer">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Arial" size="12" style="1"/>
@@ -710,7 +737,7 @@
                     <Property name="text" type="java.lang.String" value="Pesquizar"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonPesquisar1ActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonPesquisarCustomerActionPerformed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="jButtonImportarCliente">
@@ -977,6 +1004,12 @@
     </Container>
     <Component class="javax.swing.JButton" name="jButtonAdicionar">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Arial" size="12" style="1"/>
+        </Property>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/icones/adicionar.png"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Adicionar"/>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
@@ -986,6 +1019,12 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButtonEditar">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Arial" size="12" style="1"/>
+        </Property>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/icones/Edit.png"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Editar"/>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
@@ -995,9 +1034,18 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButtonRemover">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Arial" size="12" style="1"/>
+        </Property>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/icones/delete.png"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Remover"/>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonRemoverActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

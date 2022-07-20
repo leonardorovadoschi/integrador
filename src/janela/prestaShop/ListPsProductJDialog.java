@@ -16,8 +16,6 @@ import integrador.render.produto.RenderPsProductName;
 import integrador.render.produto.RenderPsProductPeso;
 import integrador.render.produto.RenderPsStockDisponivel;
 import janela.cplus.FormataCampos;
-import java.awt.Color;
-
 import java.awt.Toolkit;
 import java.math.BigDecimal;
 import java.util.List;
@@ -25,7 +23,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
 import jpa.prestaShop.PsGroupJpaController;
 import jpa.prestaShop.PsProductJpaController;
-import query.integrador.QueryIntegrador;
 import query.prestaShop.QueryPrestaShop;
 
 /**
@@ -84,8 +81,6 @@ public class ListPsProductJDialog extends javax.swing.JDialog {
         jComboBoxTipoPesquisa = new javax.swing.JComboBox();
         jTextFieldTermoPesquisa = new javax.swing.JTextField();
         jButtonPesquisar = new javax.swing.JButton();
-        jButtonCancelar = new javax.swing.JButton();
-        jButtonOk = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTablePsProduct = new javax.swing.JTable();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -94,6 +89,8 @@ public class ListPsProductJDialog extends javax.swing.JDialog {
         jTextAreaPrecoSemIe = new javax.swing.JTextArea();
         jScrollPane4 = new javax.swing.JScrollPane();
         jTextAreaPrecoRuim = new javax.swing.JTextArea();
+        jButtonOk = new javax.swing.JButton();
+        jButtonCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Pesquisa Produtos");
@@ -117,25 +114,6 @@ public class ListPsProductJDialog extends javax.swing.JDialog {
             }
         });
 
-        jButtonCancelar.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        jButtonCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/cancelar.png"))); // NOI18N
-        jButtonCancelar.setText("Cancelar");
-        jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonCancelarActionPerformed(evt);
-            }
-        });
-
-        jButtonOk.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        jButtonOk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/ok.png"))); // NOI18N
-        jButtonOk.setText("OK!");
-        jButtonOk.setEnabled(false);
-        jButtonOk.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonOkActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanelPesquisaLayout = new javax.swing.GroupLayout(jPanelPesquisa);
         jPanelPesquisa.setLayout(jPanelPesquisaLayout);
         jPanelPesquisaLayout.setHorizontalGroup(
@@ -146,10 +124,7 @@ public class ListPsProductJDialog extends javax.swing.JDialog {
                 .addComponent(jTextFieldTermoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 427, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButtonPesquisar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 122, Short.MAX_VALUE)
-                .addComponent(jButtonOk)
-                .addGap(27, 27, 27)
-                .addComponent(jButtonCancelar))
+                .addContainerGap(325, Short.MAX_VALUE))
         );
         jPanelPesquisaLayout.setVerticalGroup(
             jPanelPesquisaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -157,12 +132,11 @@ public class ListPsProductJDialog extends javax.swing.JDialog {
                 .addGroup(jPanelPesquisaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBoxTipoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextFieldTermoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonPesquisar)
-                    .addComponent(jButtonCancelar)
-                    .addComponent(jButtonOk))
+                    .addComponent(jButtonPesquisar))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jTablePsProduct.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jTablePsProduct.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
 
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, psProductList, jTablePsProduct);
@@ -250,6 +224,25 @@ public class ListPsProductJDialog extends javax.swing.JDialog {
         jTextAreaPrecoRuim.setTabSize(6);
         jScrollPane4.setViewportView(jTextAreaPrecoRuim);
 
+        jButtonOk.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jButtonOk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/ok.png"))); // NOI18N
+        jButtonOk.setText("OK!");
+        jButtonOk.setEnabled(false);
+        jButtonOk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonOkActionPerformed(evt);
+            }
+        });
+
+        jButtonCancelar.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jButtonCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/cancelar.png"))); // NOI18N
+        jButtonCancelar.setText("Cancelar");
+        jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCancelarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -266,6 +259,10 @@ public class ListPsProductJDialog extends javax.swing.JDialog {
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(63, 63, 63)
+                .addComponent(jButtonOk)
+                .addGap(30, 30, 30)
+                .addComponent(jButtonCancelar)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -275,10 +272,14 @@ public class ListPsProductJDialog extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane4))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane4))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButtonOk)
+                        .addComponent(jButtonCancelar)))
                 .addContainerGap(40, Short.MAX_VALUE))
         );
 
@@ -411,7 +412,9 @@ public class ListPsProductJDialog extends javax.swing.JDialog {
                     psProductList.clear();
                     List<PsProduct> listProductEntity = queryPrestaShop.listProductNomeOuEan(jTextFieldTermoPesquisa.getText());
                     for (PsProduct entity : listProductEntity) {
+                        if (!"none".equals(entity.getVisibility())) {
                         psProductList.add(entity);
+                        }
                     }
                     break;
                 case 1:

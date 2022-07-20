@@ -192,7 +192,7 @@ public class ClienteCplusDigimacro {
                     } else if (paList.size() > 1) {
                         JOptionPane.showMessageDialog(null, "O cliente: " + cliente.getNomecli() + " Possui mais que um endereço");
                     }
-                }//if endereÃ§o diferente                
+                }//if endereço diferente                
             }//for
         }
         // } else {//fim if que fverifica duplicidade de e-mail no site
@@ -525,11 +525,11 @@ public class ClienteCplusDigimacro {
         pa.setCity(cliente.getCidade());
         pa.setPhone(tamanhoString(cliente.getFax(), 31).replaceAll("[^0-9]", "").trim());
         pa.setPhoneMobile(tamanhoString(cliente.getTelefone(), 31).replaceAll("[^0-9]", "").trim());
-        // pa.setVatNumber(cpfCnpj(cliente));
-        // pa.setDni(rgIe(cliente));
+        pa.setVatNumber(cpfCnpj(cliente));
+        pa.setDni(rgIe(cliente));
 
-        pa.setVatNumber(rgIe(cliente));
-        pa.setDni(cpfCnpj(cliente));
+       // pa.setVatNumber(rgIe(cliente));
+        //pa.setDni(cpfCnpj(cliente));
 
         pa.setDateAdd(new Date(System.currentTimeMillis()));
         pa.setDateUpd(new Date(System.currentTimeMillis()));
@@ -595,11 +595,11 @@ public class ClienteCplusDigimacro {
             pa.setCity(cliente.getCidade());
             pa.setPhone(tamanhoString(cliente.getFax(), 31).replaceAll("[^0-9]", "").trim());
             pa.setPhoneMobile(tamanhoString(cliente.getTelefone(), 31).replaceAll("[^0-9]", "").trim());
-            //pa.setVatNumber(cpfCnpj(cliente));
-            // pa.setDni(rgIe(cliente));
+            pa.setVatNumber(cpfCnpj(cliente));
+             pa.setDni(rgIe(cliente));
 
-            pa.setVatNumber(rgIe(cliente));
-            pa.setDni(cpfCnpj(cliente));
+            //pa.setVatNumber(rgIe(cliente));
+            //pa.setDni(cpfCnpj(cliente));
 
             pa.setDateUpd(new Date(System.currentTimeMillis()));
             pa.setActive(true);

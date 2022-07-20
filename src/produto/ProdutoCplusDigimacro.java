@@ -42,7 +42,6 @@ import entidade.prestaShop.PsTagCountPK;
 import entidade.prestaShop.PsTaxRulesGroup;
 import janela.cplus.FormataCampos;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.sql.Connection;
 import java.sql.Date;
 import java.util.ArrayList;

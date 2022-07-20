@@ -586,6 +586,7 @@ public class PackProduto {
         for (BigDecimal bd : listBigDecimal) {
             //PsSpecificPrice psSP = new PsSpecificPrice();
             List<PsSpecificPrice> listPSSP = new QueryPrestaShop(managerPrestaShop).listPsSpecificPrice(pp.getIdProduct(), bd.divide(new BigDecimal("100.0"), 3 ,BigDecimal.ROUND_HALF_UP), 4);
+           /*
             if (listPSSP.isEmpty()) {
                 PsSpecificPrice psSP = new PsSpecificPrice();
                 psSP.setIdSpecificPriceRule(0);
@@ -640,6 +641,15 @@ public class PackProduto {
                     }
                 }
             }
+            */
+            
+            for (PsSpecificPrice psSP : listPSSP) {
+                    try {
+                        new PsSpecificPriceJpaController(managerPrestaShop).destroy(psSP.getIdSpecificPrice());
+                    } catch (NonexistentEntityException ex) {
+                        criaLog(managerIntegrador, "Houve um erro ao excluir PsSpecificPrice ex. " + ex, "ERRO EXCLUIR");
+                    }
+                }
         }
     }
 
