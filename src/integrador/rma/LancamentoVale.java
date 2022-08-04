@@ -10,6 +10,7 @@ import acesso.ConexaoDB;
 import entidade.cplus.Cliente;
 import entidade.cplus.Movenda;
 import entidade.cplus.Moventrada;
+import entidade.cplus.Moventradaprod;
 import entidade.cplus.Usuario;
 import entidade.cplus.Vale;
 import janela.cplus.FormataCampos;
@@ -27,35 +28,34 @@ import query.cplus.QueryCplus;
  */
 public class LancamentoVale {
     QueryCplus querySerial;
-    public void lancamentoVale(Usuario usuario, Cliente cliente, Movenda saidaCliente, Moventrada entrada, BigDecimal valor, EntityManagerFactory managerCplus, EntityManagerFactory managerIntegrador){
+    public void lancamentoVale(Usuario usuario, Cliente cliente, Movenda saidaCliente, Moventrada entrada, EntityManagerFactory managerCplus){
         querySerial = new QueryCplus(managerCplus);
         List<Vale> listVale = querySerial.listagemValePorDevolucao(entrada.getCodmoventr(), cliente.getCodcli());
         if(listVale.isEmpty()){
-            criaVale(usuario, cliente, saidaCliente, entrada, valor, managerCplus, managerIntegrador);
+            criaVale(usuario, cliente, saidaCliente, entrada, managerCplus);
         }else if(listVale.size() == 1){
             for(Vale vale : listVale){
-            editaVale(vale, usuario, saidaCliente, entrada, valor, managerCplus);
+            editaVale(vale, usuario, saidaCliente, entrada, managerCplus);
             }
         }
         
     }
+    
+    private BigDecimal valorVale (Moventrada entrada , EntityManagerFactory managerCplus){
+        BigDecimal val = BigDecimal.ZERO;
+        for(Moventradaprod prod : new QueryCplus(managerCplus).listagemMovEntradaProdPorEntrada(entrada.getCodmoventr())){
+            val = val.add(prod.getValortotal());
+        }
+        return val;
+    }
 
-    private void criaVale(Usuario usuario, Cliente cliente, Movenda saidaCliente, Moventrada entrada, BigDecimal valor, EntityManagerFactory managerCplus, EntityManagerFactory managerIntegrador) {
-        Vale val = new Vale();        
-        //Configuracao configuracao = new ConfiguracaoJpaController(managerIntegrador).findConfiguracao("increment_tabela_vale");
-       // Integer numVale= Integer.valueOf(configuracao.getValorConfiguracao());
-       // numVale--;
-       // configuracao.setValorConfiguracao(Integer.toString(numVale));
-        //try {
-       //     new ConfiguracaoJpaController(managerIntegrador).edit(configuracao);
-       //     } catch (Exception ex) {//fim catch da tabela configuração
-        //    JOptionPane.showMessageDialog(null, "Houve um erro ao Gravar Configuração de Vale!!!\n " + ex);
-       // }
+    private void criaVale(Usuario usuario, Cliente cliente, Movenda saidaCliente, Moventrada entrada, EntityManagerFactory managerCplus) {
+        Vale val = new Vale();               
        int numVale = new ConexaoDB().ultimoCodigo("VALE", "NUMVALE");
        int codVale = new ConexaoDB().ultimoCodigo("VALE", "CODVALE");
         val.setNumvale(numVale);
         val.setCodmovenda(saidaCliente.getCodmovenda());
-        val.setValor(valor);
+        val.setValor(valorVale(entrada, managerCplus));
         val.setDatvale(new Date(System.currentTimeMillis()));
         val.setObs(entrada.getObs());
         val.setCodcli(cliente);
@@ -71,15 +71,15 @@ public class LancamentoVale {
             new ConexaoDB().atualizarCodigo("VALE", "NUMVALE", numVale);
             codVale++;
             new ConexaoDB().atualizarCodigo("VALE", "CODVALE", codVale);
-            JOptionPane.showMessageDialog(null, "vale Gerado com Sucesso!!!\n Numero vale: " +val.getNumvale()+" Valor: "+ new FormataCampos().bigDecimalParaString(valor, 2));
+            JOptionPane.showMessageDialog(null, "vale Gerado com Sucesso!!!\n Numero vale: " +val.getNumvale()+" Valor: "+ new FormataCampos().bigDecimalParaString(val.getValor(), 2));
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Houve um erro ao Gravar Vave!!!\n " + ex);
         }        
     }
 
-    private void editaVale(Vale val, Usuario usuario, Movenda saidaCliente, Moventrada entrada, BigDecimal valor,  EntityManagerFactory managerCplus) {       
+    private void editaVale(Vale val, Usuario usuario, Movenda saidaCliente, Moventrada entrada, EntityManagerFactory managerCplus) {       
         val.setCodmovenda(saidaCliente.getCodmovenda());
-        val.setValor(val.getValor().add(valor));       
+        val.setValor(valorVale(entrada, managerCplus));       
         val.setObs(entrada.getObs());      
         val.setCoduser(usuario.getCoduser());
         val.setHoravale(new Date(System.currentTimeMillis()));

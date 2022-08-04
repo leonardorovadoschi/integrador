@@ -15,7 +15,6 @@ import entidade.cplus.Movendadevolucao;
 import entidade.cplus.Movendaprod;
 import entidade.cplus.Moventrada;
 import entidade.cplus.Moventradaprod;
-import entidade.cplus.Produto;
 import entidade.cplus.Setorestoque;
 import entidade.cplus.Tipomovimento;
 import entidade.cplus.Unidade;
@@ -32,7 +31,6 @@ import jpa.cplus.MovendadevolucaoJpaController;
 import jpa.cplus.MovendaprodJpaController;
 import jpa.cplus.MoventradaJpaController;
 import jpa.cplus.MoventradaprodJpaController;
-import jpa.cplus.ProdutoJpaController;
 import jpa.cplus.exceptions.NonexistentEntityException;
 import query.cplus.QueryCplus;
 import query.integrador.QueryIntegrador;
@@ -92,7 +90,7 @@ public class EntradaClienteCplus {
                         }
                     } else {
                         for (Moventradaprod prod : listMovEntradaProd) {
-                            if (editaEntradaProd(usuario, movimento, calculoIcmsEstado, prod, entrada, movendaProd, serial, managerCplus, managerIntegrador) == false) {
+                            if (editaEntradaProd(cliente, usuario, movimento, calculoIcmsEstado, prod, entrada, movendaProd, serial, managerCplus, managerIntegrador) == false) {
                                 condicao = false;
                             }
                         }
@@ -102,7 +100,7 @@ public class EntradaClienteCplus {
                 condicao = false;
             }
         } else if (listMoventrada.size() > 1) {
-            JOptionPane.showMessageDialog(null, "O Sistema acho mais que um resultado para essa transação!!!");
+            JOptionPane.showMessageDialog(null, "O Sistema achou mais que um resultado para essa transação!!!");
             condicao = false;
         }
         return condicao;
@@ -328,7 +326,7 @@ public class EntradaClienteCplus {
             String devolucao = movimento.getFlagdevolucao().toString();
             if ("Y".equals(devolucao)) {
                 Moventradaprod entPro = new MoventradaprodJpaController(managerCplus).findMoventradaprod(String.format("%09d", configCont));
-                new LancamentoVale().lancamentoVale(usuario, movEntrada.getCodcli(), movendaProd.getCodmovenda(), new MoventradaJpaController(managerCplus).findMoventrada(entPro.getCodmoventr().getCodmoventr()), new BigDecimal(valorTotal).setScale(2, BigDecimal.ROUND_HALF_UP), managerCplus, managerIntegrador);
+                new LancamentoVale().lancamentoVale(usuario, movEntrada.getCodcli(), movendaProd.getCodmovenda(), movEntrada, managerCplus);
                 devolucaoCliente(usuario, entPro, movendaProd, managerCplus, managerIntegrador);
             }
             /////////////////////////////////////////////////////////////
@@ -344,7 +342,7 @@ public class EntradaClienteCplus {
     }
 
     /**
-     * Funï¿½ï¿½o que preenche a tabela Movendadevolucao, e complementa a venda
+     * Função que preenche a tabela Movendadevolucao, e complementa a venda
      * com quantidade devolvida
      *
      * @param usuario
@@ -399,7 +397,7 @@ public class EntradaClienteCplus {
      * @param serial
      * @param managerCplus
      */
-    private boolean editaEntradaProd(Usuario usuario, Tipomovimento movimento, Calculoicmsestado calculoIcmsEstado, Moventradaprod movEntradaProd,
+    private boolean editaEntradaProd(Cliente cliente, Usuario usuario, Tipomovimento movimento, Calculoicmsestado calculoIcmsEstado, Moventradaprod movEntradaProd,
             Moventrada movEntrada, Movendaprod movendaProd, String serial, EntityManagerFactory managerCplus, EntityManagerFactory managerIntegrador) {
         boolean condicao = true;
         double quant = movEntradaProd.getQuantidade().doubleValue();
@@ -407,6 +405,9 @@ public class EntradaClienteCplus {
         quant = quant + quantidadeConversaoEntrada(movendaProd);
 
         //double valorUnitario = movendaProd.getValorunitario().setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP).doubleValue();        
+        // BigDecimal descRateadoUnitario = movendaProd.getValordescontorateado().divide(movendaProd.getQuantidade(), 3, BigDecimal.ROUND_HALF_UP);
+        // double valorUnitario = (movendaProd.getValorunitario().subtract(descRateadoUnitario)).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP).doubleValue();
+        
         BigDecimal descRateadoUnitario = movendaProd.getValordescontorateado().divide(movendaProd.getQuantidade(), 3, BigDecimal.ROUND_HALF_UP);
         double valorUnitario = (movendaProd.getValorunitario().subtract(descRateadoUnitario)).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP).doubleValue();
 
@@ -429,6 +430,24 @@ public class EntradaClienteCplus {
             aliqIcms = 0.00;
             baseIcms = 0.00;
             valorIcms = 0.00;
+        }
+        if ("RS".equals(cliente.getEstado())) {
+            // if ("405".equals(prod.getCodprod().getCfopdentrouf())) {
+            //Produto prod = new ProdutoJpaController(managerCplus).findProduto(movendaProd.getCodprod().getCodprod());
+            if ("5405".equals(movendaProd.getCodcfop().getCodcfop())) {
+                movEntradaProd.setCodcfop(new CfopJpaController(managerCplus).findCfop("1411"));
+            } else {
+                if ("51".equals(movendaProd.getCodsituacaotributaria())) {
+                    valorIcms = valorIcms * 0.70588;              
+                }
+                movEntradaProd.setCodcfop(new CfopJpaController(managerCplus).findCfop("1202"));
+            }
+        } else {
+            //if ("405".equals(prod.getCodprod().getCfopdentrouf())) {
+            //   prod.setCodcfop(new CfopJpaController(managerCplus).findCfop("6411"));
+            //} else {
+           movEntradaProd.setCodcfop(new CfopJpaController(managerCplus).findCfop("2202"));
+            // }
         }
         double baseSt;
         double valorST;
@@ -496,7 +515,7 @@ public class EntradaClienteCplus {
             mensagemNotaFiscal(new MovendaJpaController(managerCplus).findMovenda(movendaProd.getCodmovenda().getCodmovenda()), entrada, managerCplus);
             String devolucao = movimento.getFlagdevolucao().toString();
             if ("Y".equals(devolucao)) {
-                new LancamentoVale().lancamentoVale(usuario, movEntrada.getCodcli(), movendaProd.getCodmovenda(), entrada, new BigDecimal(valorTotal).setScale(2, BigDecimal.ROUND_HALF_UP), managerCplus, managerIntegrador);
+                new LancamentoVale().lancamentoVale(usuario, movEntrada.getCodcli(), movendaProd.getCodmovenda(), entrada, managerCplus);
                 devolucaoCliente(usuario, movEntradaProd, movendaProd, managerCplus, managerIntegrador);
             }
         } catch (NonexistentEntityException ex) {
@@ -667,7 +686,7 @@ public class EntradaClienteCplus {
             for (int cont = 0; mensagemEntrada.length > cont; cont++) {
                 if (mensagemEntrada[cont] == null ? numNota == null : mensagemEntrada[cont].equals(numNota)) {
                     notaExistente = true;
-                }//fim if que verifica se a nota jï¿½ estï¿½ na observaï¿½ï¿½o
+                }//fim if que verifica se a nota já está na observação
             }//fim for que verifica paavras           
         }
         if (notaExistente == false && movenda.getNumnota() != null) {
@@ -677,7 +696,7 @@ public class EntradaClienteCplus {
             } else {
                 mens = movEntrada.getObsnotafiscal();
             }
-            mens = mens + "referente a Nota Nï¿½: " + movenda.getNumnota().toString() + " Data: " + new FormataCampos().dataStringSoData(movenda.getData(), 0) + "\n";
+            mens = mens + "referente a Nota Nº: " + movenda.getNumnota().toString() + " Data: " + new FormataCampos().dataStringSoData(movenda.getData(), 0) + "\n";
             movEntrada.setObsnotafiscal(mens);
             try {
                 new MoventradaJpaController(managerCplus).edit(movEntrada);
