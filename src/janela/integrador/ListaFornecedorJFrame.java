@@ -100,7 +100,7 @@ public class ListaFornecedorJFrame extends javax.swing.JFrame {
         });
 
         jButtonImportarProdutosColecao.setText("Importa Lista Coleção");
-        jButtonImportarProdutosColecao.setToolTipText("Referencia - Descrição - Modelo - NCM - EAN - Marca - Caixa Master - Giro - %IPI - %ICMS - Sem IPI - Com IPI - ST RS - Com ST");
+        jButtonImportarProdutosColecao.setToolTipText("Referencia - Descrição - Modelo - NCM - EAN - Marca - Caixa Master - %IPI - Giro - %ICMS - Sem IPI - Com IPI");
         jButtonImportarProdutosColecao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonImportarProdutosColecaoActionPerformed(evt);
@@ -225,7 +225,7 @@ public class ListaFornecedorJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonImportarListaAldoActionPerformed
 
     private void jButtonImportarProdutosColecaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonImportarProdutosColecaoActionPerformed
-        // String campos = "Referencia - Descrição - Modelo - NCM - EAN - Marca - Caixa Master - Giro - %IPI - %ICMS - Sem IPI - Com IPI - ST RS - Com ST";
+        // String campos = "Referencia - Descrição - Modelo - NCM - EAN - Marca - Caixa Master - %IPI - Giro - %ICMS - Sem IPI - Com IPI";
         new Thread(() -> {
             manutencaoBotoes(false);
             int cancelar = JOptionPane.showConfirmDialog(null, " Deseja realmente executar essa tarefa", "Executar", JOptionPane.YES_NO_CANCEL_OPTION);
@@ -247,19 +247,19 @@ public class ListaFornecedorJFrame extends javax.swing.JFrame {
                         proColecao.setMarca(scanner.next());
                         /* Caixa Master */
                         scanner.next();
+                         proColecao.setPorcentagemIPI(scanner.next());
                         /* Tipo de giro */
-                        scanner.next();
-                        proColecao.setPorcentagemIPI(scanner.next());
+                        scanner.next();                     
                         /* porcentagem ICMS*/
                         scanner.next();
                         String semIpi = scanner.next().replace(".", "");
                         proColecao.setPrecoSemIPI(semIpi.replace(",", "."));
                         String comIpi = scanner.next().replace(".", "");
-                        proColecao.setPrecoComIPI(comIpi.replace(",", "."));
-                        String stRs = scanner.next().replace(".", "");
-                        proColecao.setStRs(stRs.replace(",", "."));
-                        String comSt = scanner.next().replace(".", "");
-                        proColecao.setPrecoComSt(comSt.replace("\r", "").replace(",", "."));
+                        proColecao.setPrecoComIPI(comIpi.replace("\r", "").replace(",", "."));
+                        //String stRs = scanner.next().replace(".", "");
+                        //proColecao.setStRs(stRs.replace(",", "."));
+                        //String comSt = scanner.next().replace(".", "");
+                        //proColecao.setPrecoComSt(comSt.replace("\r", "").replace(",", "."));
                         proColecao.setQuantidade("10");
                         if (!"".equals(proColecao.getEan()) && proColecao.getEan() != null) {
                             listProdCole.add(proColecao);
