@@ -91,9 +91,10 @@ public class IntegracaoColecao {
                         proFornecedor.setDisponivel(1);
                         proFornecedor.setPorcentagemStRs(BigDecimal.ONE);
                         proFornecedor.setPrecoCusto(new BigDecimal(proCol.getPrecoComIPI()));
-                        proFornecedor.setPrecoCustoComSt(new BigDecimal(proCol.getPrecoComIPI()).add(new BigDecimal(proCol.getStRs())));
+                        proFornecedor.setPrecoCustoComSt(new BigDecimal(proCol.getPrecoComIPI()));
                         // prodForn.setPorcentagemOutrosCustos(utilitario.calculaPorcentagemCusto(prodForn.getPrecoCusto(), prodForn, managerCplus));
-                        proFornecedor.setValorStRs(new BigDecimal(proCol.getStRs()));
+                        //proFornecedor.setValorStRs(new BigDecimal(proCol.getStRs()));
+                        proFornecedor.setValorStRs(new BigDecimal(proCol.getPrecoComIPI()));
                         proFornecedor.setValorCustoRs(new BigDecimal(proCol.getPrecoComIPI()));
                     } else {
                         proFornecedor.setDisponivel(0);
@@ -135,9 +136,10 @@ public class IntegracaoColecao {
 
                 prodForn.setPorcentagemStRs(BigDecimal.ONE);
                 prodForn.setPrecoCusto(new BigDecimal(proCol.getPrecoComIPI()));
-                prodForn.setPrecoCustoComSt(new BigDecimal(proCol.getPrecoComIPI()).add(new BigDecimal(proCol.getStRs())));
+               prodForn.setPrecoCustoComSt(new BigDecimal(proCol.getPrecoComIPI()));
+               
                 // prodForn.setPorcentagemOutrosCustos(utilitario.calculaPorcentagemCusto(prodForn.getPrecoCusto(), prodForn, managerCplus));
-                prodForn.setValorStRs(new BigDecimal(proCol.getStRs()));
+                prodForn.setValorStRs(new BigDecimal(proCol.getPrecoComIPI()));
                 prodForn.setValorCustoRs(new BigDecimal(proCol.getPrecoComIPI()));
 
             } else {
