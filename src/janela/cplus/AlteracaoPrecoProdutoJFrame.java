@@ -691,27 +691,10 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmoventr.data}"));
         columnBinding.setColumnName("Data");
         columnBinding.setColumnClass(java.util.Date.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmoventr.hora}"));
-        columnBinding.setColumnName("Hora");
-        columnBinding.setColumnClass(java.util.Date.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmoventr.codForn.nomeforn}"));
         columnBinding.setColumnName("Fornecedor");
         columnBinding.setColumnClass(String.class);
         columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmoventr.numnota}"));
-        columnBinding.setColumnName("Num. Nota");
-        columnBinding.setColumnClass(Integer.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmoventr.codForn.cnpj}"));
-        columnBinding.setColumnName("CNPJ");
-        columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${flagorigemproduto}"));
-        columnBinding.setColumnName("Origem");
-        columnBinding.setColumnClass(Character.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmoventr.codForn.estado}"));
-        columnBinding.setColumnName("Estado");
-        columnBinding.setColumnClass(String.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${quantidade}"));
         columnBinding.setColumnName("Quantidade");
         columnBinding.setColumnClass(java.math.BigDecimal.class);
@@ -721,20 +704,36 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valortotal}"));
         columnBinding.setColumnName("Valor Total");
         columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valorsubsttributaria}"));
-        columnBinding.setColumnName("Valor ST");
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${aliqicms}"));
+        columnBinding.setColumnName("Aliq ICMS");
         columnBinding.setColumnClass(java.math.BigDecimal.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valoripi}"));
         columnBinding.setColumnName("Valor IPI");
         columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valorsubsttributaria}"));
+        columnBinding.setColumnName("Valor ST");
+        columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmoventr.numnota}"));
+        columnBinding.setColumnName("Num. Nota");
+        columnBinding.setColumnClass(Integer.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${flagorigemproduto}"));
+        columnBinding.setColumnName("Origem");
+        columnBinding.setColumnClass(Character.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmoventr.codForn.cnpj}"));
+        columnBinding.setColumnName("CNPJ");
+        columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmoventr.codForn.estado}"));
+        columnBinding.setColumnName("Estado");
+        columnBinding.setColumnClass(String.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmoventr.hora}"));
+        columnBinding.setColumnName("Hora");
+        columnBinding.setColumnClass(java.util.Date.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valorpis}"));
         columnBinding.setColumnName("Valor PIS");
         columnBinding.setColumnClass(java.math.BigDecimal.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valorcofins}"));
         columnBinding.setColumnName("Valor COFINS");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${aliqicms}"));
-        columnBinding.setColumnName("Aliq ICMS");
         columnBinding.setColumnClass(java.math.BigDecimal.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${basesubsttributaria}"));
         columnBinding.setColumnName("Base ST");
@@ -779,17 +778,17 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
         jTableListagemEntradas.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (jTableListagemEntradas.getColumnModel().getColumnCount() > 0) {
             jTableListagemEntradas.getColumnModel().getColumn(0).setPreferredWidth(90);
-            jTableListagemEntradas.getColumnModel().getColumn(1).setCellRenderer(new integrador.render.RenderHora());
-            jTableListagemEntradas.getColumnModel().getColumn(2).setPreferredWidth(250);
-            jTableListagemEntradas.getColumnModel().getColumn(4).setPreferredWidth(120);
-            jTableListagemEntradas.getColumnModel().getColumn(7).setCellRenderer(new RenderNumeroInteiro());
-            jTableListagemEntradas.getColumnModel().getColumn(8).setCellRenderer(new integrador.render.RenderPreco());
-            jTableListagemEntradas.getColumnModel().getColumn(9).setCellRenderer(new integrador.render.RenderPreco());
-            jTableListagemEntradas.getColumnModel().getColumn(10).setCellRenderer(new integrador.render.RenderPreco());
-            jTableListagemEntradas.getColumnModel().getColumn(11).setCellRenderer(new integrador.render.RenderPreco());
-            jTableListagemEntradas.getColumnModel().getColumn(12).setCellRenderer(new integrador.render.RenderPreco());
+            jTableListagemEntradas.getColumnModel().getColumn(1).setPreferredWidth(250);
+            jTableListagemEntradas.getColumnModel().getColumn(2).setCellRenderer(new RenderNumeroInteiro());
+            jTableListagemEntradas.getColumnModel().getColumn(3).setCellRenderer(new integrador.render.RenderPreco());
+            jTableListagemEntradas.getColumnModel().getColumn(4).setCellRenderer(new integrador.render.RenderPreco());
+            jTableListagemEntradas.getColumnModel().getColumn(5).setCellRenderer( new RenderPorcentagem());
+            jTableListagemEntradas.getColumnModel().getColumn(6).setCellRenderer(new integrador.render.RenderPreco());
+            jTableListagemEntradas.getColumnModel().getColumn(7).setCellRenderer(new integrador.render.RenderPreco());
+            jTableListagemEntradas.getColumnModel().getColumn(10).setPreferredWidth(120);
+            jTableListagemEntradas.getColumnModel().getColumn(12).setCellRenderer(new integrador.render.RenderHora());
             jTableListagemEntradas.getColumnModel().getColumn(13).setCellRenderer(new integrador.render.RenderPreco());
-            jTableListagemEntradas.getColumnModel().getColumn(14).setCellRenderer( new RenderPorcentagem());
+            jTableListagemEntradas.getColumnModel().getColumn(14).setCellRenderer(new integrador.render.RenderPreco());
             jTableListagemEntradas.getColumnModel().getColumn(15).setCellRenderer(new integrador.render.RenderPreco());
             jTableListagemEntradas.getColumnModel().getColumn(17).setCellRenderer( new RenderPorcentagem());
             jTableListagemEntradas.getColumnModel().getColumn(18).setCellRenderer( new RenderPorcentagem());
@@ -1227,7 +1226,7 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
                     .addComponent(jLabelPrecoCusto, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabelCustoReal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabelValorSt, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabelValorOutrosCustos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
+                    .addComponent(jLabelValorOutrosCustos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
                     .addComponent(jLabelCustoMedio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabelValorIpi, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabelValorOutrasDespesas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
@@ -2063,9 +2062,9 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextFieldPercOutrosCustosFocusLost
 
     private void jButtonAtualizaMargemCustoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAtualizaMargemCustoActionPerformed
-        //calculaPorcentagemCusto();
-       // gravaValores();
-        new CalculoDeCusto().custoMediouUniComIpi(produtoCplus, managerCplus);
+        calculaPorcentagemCusto();
+        gravaValores();
+        //new CalculoDeCusto().custoMediouUniComIpi(produtoCplus, managerCplus);
         jTabbedPaneAlteracaoPrecoProdutoCplus.setSelectedIndex(0);
     }//GEN-LAST:event_jButtonAtualizaMargemCustoActionPerformed
 
@@ -2312,36 +2311,8 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
                 condicaoSt = true;
             }
             listIcmsEstado = queryCplus.listcalculoIcmsEstadol("RS", "RS", "5102", produtoCplus.getCodcalculoicms().getCodcalculoicms());
-            if (listIcmsEstado.size() == 1) {
-                valorUnitarioComTributosComLucro = (custoProdutoUnitario + valorIpiUnitario) * porcentagemLugro;
-                for (Calculoicmsestado icmsEstado : listIcmsEstado) {
-                    double aliqIcms = 0.00;
-                    double aliqReducaoIcms = 0.00;
-                    if (icmsEstado.getAliqicms() != null) {
-                        aliqIcms = icmsEstado.getAliqicms().doubleValue();
-                    }
-                    if (icmsEstado.getAliqreducaobaseicms() != null) {
-                        aliqReducaoIcms = icmsEstado.getAliqreducaobaseicms().doubleValue();
-                    }
-                    if (icmsEstado.getAliqdiferimento().doubleValue() > 0.00) {
-                        aliqIcmsSaida = 12.0;
-                         aliqReducaoIcms = 0.00;
-                    } else {
-                        aliqIcmsSaida = (aliqIcms * (100 - aliqReducaoIcms)) / 100;
-                    }
-                }
-                debitoIcms = (valorUnitarioComTributosComLucro * aliqIcmsSaida) / 100.00;
-                debitoPisCofin = (valorUnitarioComTributosComLucro * aliqPisCofins) / 100.00;
-                diferencaIcms = debitoIcms - creditoIcms;
-                diferencaPisCofins = debitoPisCofin - creditoPisCofins;
-                //soma valor tributos 
-                valorUnitarioComTributosComLucro = (custoProdutoUnitario + valorIpiUnitario + diferencaIcms + diferencaPisCofins) * porcentagemLugro;
-                debitoIcms = (valorUnitarioComTributosComLucro * aliqIcmsSaida) / 100.00;
-                debitoPisCofin = (valorUnitarioComTributosComLucro * aliqPisCofins) / 100.00;
-                diferencaIcms = debitoIcms - creditoIcms;
-                diferencaPisCofins = debitoPisCofin - creditoPisCofins;
-                porcentagemCusto = ((diferencaIcms + diferencaPisCofins) / custoProdutoUnitario) * 100.00;
-                jTextFieldPercOutrosCustos.setText(formataCampo.bigDecimalParaString(new BigDecimal(porcentagemCusto), casasDecimais));
+            if (listIcmsEstado.size() == 1) {               
+                jTextFieldPercOutrosCustos.setText(formataCampo.bigDecimalParaString(new CalculoDeCusto().custoMediouUniComIpi(listIcmsEstado, produtoCplus, managerCplus), casasDecimais));
             } else {
                 condicaoIcms = true;
                 //JOptionPane.showMessageDialog(null, "N�o foi possi encontrar o calculo de ICMS verifique no C-Plus!!!\n lista de resultados: " + listIcmsEstado.size());
@@ -2371,34 +2342,7 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
             listIcmsEstado = queryCplus.listcalculoIcmsEstadol("RS", "RS", "5102", produtoCplus.getCodcalculoicms().getCodcalculoicms());
             if (listIcmsEstado.size() == 1) {
                 for (Moventradaprod movProd : queryCplus.resultProdutoEntrada(produtoCplus.getCodprod(), true, 1)) {
-                    aliqIcmsEntrada = movProd.getAliqicms().doubleValue();
-                    creditoIcms = (custoProdutoUnitario * aliqIcmsEntrada) / 100.00;
-                    creditoPisCofins = (custoProdutoUnitario * aliqPisCofins) / 100.00;
-                    valorIpiUnitario = produtoCplus.getValoripi().doubleValue();
-                    valorUnitarioComTributosComLucro = (custoProdutoUnitario + valorIpiUnitario) * porcentagemLugro;
-                    for (Calculoicmsestado icmsEstado : listIcmsEstado) {
-                        double aliqIcms = 0.00;
-                        double aliqReducaoIcms = 0.00;
-                        if (icmsEstado.getAliqicms() != null) {
-                            aliqIcms = icmsEstado.getAliqicms().doubleValue();
-                        }
-                        if (icmsEstado.getAliqreducaobaseicms() != null) {
-                            aliqReducaoIcms = icmsEstado.getAliqreducaobaseicms().doubleValue();
-                        }
-                        aliqIcmsSaida = (aliqIcms * (100 - aliqReducaoIcms)) / 100;
-                    }
-                    debitoIcms = (valorUnitarioComTributosComLucro * aliqIcmsSaida) / 100.00;
-                    debitoPisCofin = (valorUnitarioComTributosComLucro * aliqPisCofins) / 100.00;
-                    diferencaIcms = debitoIcms - creditoIcms;
-                    diferencaPisCofins = debitoPisCofin - creditoPisCofins;
-                    //soma valor tributos 
-                    valorUnitarioComTributosComLucro = (custoProdutoUnitario + valorIpiUnitario + diferencaIcms + diferencaPisCofins) * porcentagemLugro;
-                    debitoIcms = (valorUnitarioComTributosComLucro * aliqIcmsSaida) / 100.00;
-                    debitoPisCofin = (valorUnitarioComTributosComLucro * aliqPisCofins) / 100.00;
-                    diferencaIcms = debitoIcms - creditoIcms;
-                    diferencaPisCofins = debitoPisCofin - creditoPisCofins;
-                    porcentagemCusto = ((diferencaIcms + diferencaPisCofins) / custoProdutoUnitario) * 100.00;
-                    jTextFieldPercOutrosCustos.setText(formataCampo.bigDecimalParaString(new BigDecimal(porcentagemCusto), casasDecimais));
+                    jTextFieldPercOutrosCustos.setText(formataCampo.bigDecimalParaString(new CalculoDeCusto().custoMediouUniComIpi(listIcmsEstado, produtoCplus, managerCplus), casasDecimais));
                 }
             } else {
                 condicaoIcms = true;

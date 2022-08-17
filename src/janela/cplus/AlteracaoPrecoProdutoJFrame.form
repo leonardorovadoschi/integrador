@@ -1047,34 +1047,7 @@
                           <Editor/>
                           <Renderer/>
                         </Column>
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                          <Title/>
-                          <Editor/>
-                          <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                            <Connection code="new integrador.render.RenderHora()" type="code"/>
-                          </Renderer>
-                        </Column>
                         <Column maxWidth="-1" minWidth="-1" prefWidth="250" resizable="true">
-                          <Title/>
-                          <Editor/>
-                          <Renderer/>
-                        </Column>
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                          <Title/>
-                          <Editor/>
-                          <Renderer/>
-                        </Column>
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="120" resizable="true">
-                          <Title/>
-                          <Editor/>
-                          <Renderer/>
-                        </Column>
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                          <Title/>
-                          <Editor/>
-                          <Renderer/>
-                        </Column>
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                           <Title/>
                           <Editor/>
                           <Renderer/>
@@ -1104,35 +1077,62 @@
                           <Title/>
                           <Editor/>
                           <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                            <Connection code="new integrador.render.RenderPreco()" type="code"/>
-                          </Renderer>
-                        </Column>
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                          <Title/>
-                          <Editor/>
-                          <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                            <Connection code="new integrador.render.RenderPreco()" type="code"/>
-                          </Renderer>
-                        </Column>
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                          <Title/>
-                          <Editor/>
-                          <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                            <Connection code="new integrador.render.RenderPreco()" type="code"/>
-                          </Renderer>
-                        </Column>
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                          <Title/>
-                          <Editor/>
-                          <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                            <Connection code="new integrador.render.RenderPreco()" type="code"/>
-                          </Renderer>
-                        </Column>
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                          <Title/>
-                          <Editor/>
-                          <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                             <Connection code=" new RenderPorcentagem()" type="code"/>
+                          </Renderer>
+                        </Column>
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                            <Connection code="new integrador.render.RenderPreco()" type="code"/>
+                          </Renderer>
+                        </Column>
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                            <Connection code="new integrador.render.RenderPreco()" type="code"/>
+                          </Renderer>
+                        </Column>
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer/>
+                        </Column>
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer/>
+                        </Column>
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="120" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer/>
+                        </Column>
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer/>
+                        </Column>
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                            <Connection code="new integrador.render.RenderHora()" type="code"/>
+                          </Renderer>
+                        </Column>
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                            <Connection code="new integrador.render.RenderPreco()" type="code"/>
+                          </Renderer>
+                        </Column>
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                            <Connection code="new integrador.render.RenderPreco()" type="code"/>
                           </Renderer>
                         </Column>
                         <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
@@ -1225,33 +1225,11 @@
                       <Subbinding sourcePath="${codmoventr.data}">
                         <BindingParameter name="NAME" value="Data"/>
                         <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.util.Date.class"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
-                      </Subbinding>
-                      <Subbinding sourcePath="${codmoventr.hora}">
-                        <BindingParameter name="NAME" value="Hora"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.util.Date.class"/>
                       </Subbinding>
                       <Subbinding sourcePath="${codmoventr.codForn.nomeforn}">
                         <BindingParameter name="NAME" value="Fornecedor"/>
                         <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
                         <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
-                      </Subbinding>
-                      <Subbinding sourcePath="${codmoventr.numnota}">
-                        <BindingParameter name="NAME" value="Num. Nota"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Integer.class"/>
-                      </Subbinding>
-                      <Subbinding sourcePath="${codmoventr.codForn.cnpj}">
-                        <BindingParameter name="NAME" value="CNPJ"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
-                      </Subbinding>
-                      <Subbinding sourcePath="${flagorigemproduto}">
-                        <BindingParameter name="NAME" value="Origem"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Character.class"/>
-                      </Subbinding>
-                      <Subbinding sourcePath="${codmoventr.codForn.estado}">
-                        <BindingParameter name="NAME" value="Estado"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
                       </Subbinding>
                       <Subbinding sourcePath="${quantidade}">
                         <BindingParameter name="NAME" value="Quantidade"/>
@@ -1265,13 +1243,38 @@
                         <BindingParameter name="NAME" value="Valor Total"/>
                         <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.math.BigDecimal.class"/>
                       </Subbinding>
-                      <Subbinding sourcePath="${valorsubsttributaria}">
-                        <BindingParameter name="NAME" value="Valor ST"/>
+                      <Subbinding sourcePath="${aliqicms}">
+                        <BindingParameter name="NAME" value="Aliq ICMS"/>
                         <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.math.BigDecimal.class"/>
                       </Subbinding>
                       <Subbinding sourcePath="${valoripi}">
                         <BindingParameter name="NAME" value="Valor IPI"/>
                         <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.math.BigDecimal.class"/>
+                      </Subbinding>
+                      <Subbinding sourcePath="${valorsubsttributaria}">
+                        <BindingParameter name="NAME" value="Valor ST"/>
+                        <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.math.BigDecimal.class"/>
+                      </Subbinding>
+                      <Subbinding sourcePath="${codmoventr.numnota}">
+                        <BindingParameter name="NAME" value="Num. Nota"/>
+                        <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Integer.class"/>
+                      </Subbinding>
+                      <Subbinding sourcePath="${flagorigemproduto}">
+                        <BindingParameter name="NAME" value="Origem"/>
+                        <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Character.class"/>
+                      </Subbinding>
+                      <Subbinding sourcePath="${codmoventr.codForn.cnpj}">
+                        <BindingParameter name="NAME" value="CNPJ"/>
+                        <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
+                        <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
+                      </Subbinding>
+                      <Subbinding sourcePath="${codmoventr.codForn.estado}">
+                        <BindingParameter name="NAME" value="Estado"/>
+                        <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
+                      </Subbinding>
+                      <Subbinding sourcePath="${codmoventr.hora}">
+                        <BindingParameter name="NAME" value="Hora"/>
+                        <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.util.Date.class"/>
                       </Subbinding>
                       <Subbinding sourcePath="${valorpis}">
                         <BindingParameter name="NAME" value="Valor PIS"/>
@@ -1279,10 +1282,6 @@
                       </Subbinding>
                       <Subbinding sourcePath="${valorcofins}">
                         <BindingParameter name="NAME" value="Valor COFINS"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.math.BigDecimal.class"/>
-                      </Subbinding>
-                      <Subbinding sourcePath="${aliqicms}">
-                        <BindingParameter name="NAME" value="Aliq ICMS"/>
                         <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.math.BigDecimal.class"/>
                       </Subbinding>
                       <Subbinding sourcePath="${basesubsttributaria}">
@@ -1949,7 +1948,7 @@
                           <Component id="jLabelPrecoCusto" alignment="1" max="32767" attributes="0"/>
                           <Component id="jLabelCustoReal" alignment="1" max="32767" attributes="0"/>
                           <Component id="jLabelValorSt" alignment="1" max="32767" attributes="0"/>
-                          <Component id="jLabelValorOutrosCustos" alignment="1" pref="0" max="32767" attributes="0"/>
+                          <Component id="jLabelValorOutrosCustos" alignment="1" pref="100" max="32767" attributes="0"/>
                           <Component id="jLabelCustoMedio" alignment="1" max="32767" attributes="0"/>
                           <Component id="jLabelValorIpi" alignment="1" max="32767" attributes="0"/>
                           <Component id="jLabelValorOutrasDespesas" alignment="1" pref="0" max="32767" attributes="0"/>
