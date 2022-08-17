@@ -2063,8 +2063,9 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextFieldPercOutrosCustosFocusLost
 
     private void jButtonAtualizaMargemCustoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAtualizaMargemCustoActionPerformed
-        calculaPorcentagemCusto();
-        gravaValores();
+        //calculaPorcentagemCusto();
+       // gravaValores();
+        new CalculoDeCusto().custoMediouUniComIpi(produtoCplus, managerCplus);
         jTabbedPaneAlteracaoPrecoProdutoCplus.setSelectedIndex(0);
     }//GEN-LAST:event_jButtonAtualizaMargemCustoActionPerformed
 
@@ -2222,6 +2223,8 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
         }
         return str2;
     }
+    
+   
 
     private void calculaPorcentagemCusto() {
         int quantidadeEstoque = 0;
