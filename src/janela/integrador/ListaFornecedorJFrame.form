@@ -107,7 +107,7 @@
         <Component class="javax.swing.JButton" name="jButtonImportarProdutosColecao">
           <Properties>
             <Property name="text" type="java.lang.String" value="Importa Lista Cole&#xe7;&#xe3;o"/>
-            <Property name="toolTipText" type="java.lang.String" value="Referencia - Descri&#xe7;&#xe3;o - Modelo - NCM - EAN - Marca - Caixa Master - Giro - %IPI - %ICMS - Sem IPI - Com IPI - ST RS - Com ST"/>
+            <Property name="toolTipText" type="java.lang.String" value="Referencia - Descri&#xe7;&#xe3;o - Modelo - NCM - EAN - Marca - Caixa Master - %IPI - Giro - %ICMS - Sem IPI - Com IPI"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonImportarProdutosColecaoActionPerformed"/>
