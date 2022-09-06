@@ -635,13 +635,13 @@ public class RmaJFrame extends javax.swing.JFrame {
     private void verificaSerialCadastrado() {
         colunaSerial = jTableProdutoSerial.getColumnModel().getColumnIndex("Serial");
         int codSerialProd = jTableProdutoSerial.getColumnModel().getColumnIndex("Cod Serial");
-        String serialNovo ="";
-                serialNovo = JOptionPane.showInputDialog("Digite o Serial novo! ").toUpperCase();
+        String serialNovo = "";
+        serialNovo = JOptionPane.showInputDialog("Digite o Serial novo! ").toUpperCase();
         if (!"".equals(serialNovo)) {
             List<Produtoserial> listProdSerialNovo = queryCplus.pesquisaSerialExato(serialNovo);
             if (listProdSerialNovo.isEmpty()) {
-               // List<Produtoserial> listProdSerialAntigo = queryCplus.pesquisaSerialExato(jTableProdutoSerial.getValueAt(jTableProdutoSerial.getSelectedRow(), colunaSerial).toString());
-               List<Produtoserial> listProdSerialAntigo = queryCplus.pesquisaCodProdutoSerial(jTableProdutoSerial.getValueAt(jTableProdutoSerial.getSelectedRow(), codSerialProd).toString());
+                // List<Produtoserial> listProdSerialAntigo = queryCplus.pesquisaSerialExato(jTableProdutoSerial.getValueAt(jTableProdutoSerial.getSelectedRow(), colunaSerial).toString());
+                List<Produtoserial> listProdSerialAntigo = queryCplus.pesquisaCodProdutoSerial(jTableProdutoSerial.getValueAt(jTableProdutoSerial.getSelectedRow(), codSerialProd).toString());
                 for (Produtoserial serialAntigo : listProdSerialAntigo) {
                     serialAntigo.setSerial(serialNovo);
                     try {
@@ -655,7 +655,7 @@ public class RmaJFrame extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(null, "Houve um erro ao editar o serial! \n!!" + ex);
                     }
                 }//FIM FOR QUE LISTA O SERIAL ANTIGO
-            } else {//IF QUE VERIFICA SE NOVO SERIAL JÃ¡ ESTÁ CADASTRADO NO BANCO
+            } else {//IF QUE VERIFICA SE NOVO SERIAL JÁ ESTÁ CADASTRADO NO BANCO
                 JOptionPane.showMessageDialog(null, "O serial " + serialNovo + " Já está cadastrado, Verifique!!!");
             }
         } else {//FIM IF QUR VERIFICA SE NOVO SERIAL DIGITADO É NULLO
@@ -672,7 +672,7 @@ public class RmaJFrame extends javax.swing.JFrame {
             disponivel = estoquAtual - resOS - resOrcamento;
             jTextFieldEstoqueCplus.setText(formatacaoDeCampos.bigDecimalParaString(new BigDecimal(disponivel), 0));
         }
-        
+
     }
 
     /**
@@ -735,11 +735,12 @@ public class RmaJFrame extends javax.swing.JFrame {
                 }
                 break;
         }
-        jTextFieldArgumentoPesquisa.setText("");
+        //jTextFieldArgumentoPesquisa.setText("");
     }
 
     /**
      * Essa função cria a saida para fornecedor no caso produtos com defeito
+     *
      * @return false caso não haja erros
      */
     private boolean saidaFornecedor(boolean controlaEstoque) {
@@ -853,6 +854,7 @@ public class RmaJFrame extends javax.swing.JFrame {
 
     /**
      * Função que cuida da coleta de dados para entrada no estoque por cliente
+     *
      * @return false caso não haja erros
      */
     private boolean entradaCliente() {
@@ -1058,11 +1060,11 @@ public class RmaJFrame extends javax.swing.JFrame {
                 }
             } else if (listMovenda.size() == 1) {//if que verifica se já existe uma saida
                 String numPed = "";
-                for(Movenda ven : listMovenda ){
+                for (Movenda ven : listMovenda) {
                     numPed = numPed + String.valueOf(ven.getNumped());
                 }
-                int cancelar = JOptionPane.showConfirmDialog(null, "Cuidado!!! \n Já existe uma saida! \n Para o Cliente: " + cliente.getNomecli() + "\n Com a Operção: " + movimentoSaidaCliente.getNometipomovimento() +
-                       "\n Numero Pedido(s): " + numPed + ", ", "Inserir Produto na Saida Fornecedor", JOptionPane.YES_NO_CANCEL_OPTION);
+                int cancelar = JOptionPane.showConfirmDialog(null, "Cuidado!!! \n Já existe uma saida! \n Para o Cliente: " + cliente.getNomecli() + "\n Com a Operção: " + movimentoSaidaCliente.getNometipomovimento()
+                        + "\n Numero Pedido(s): " + numPed + ", ", "Inserir Produto na Saida Fornecedor", JOptionPane.YES_NO_CANCEL_OPTION);
                 if (cancelar != JOptionPane.YES_OPTION) {
                     cancelaSaidaCliente = true;
                 }
@@ -1091,9 +1093,13 @@ public class RmaJFrame extends javax.swing.JFrame {
         switch (jComboBoxTermoPesquisa.getSelectedIndex()) {
             case 0:
                 produtoserialList.clear();
-                listProdSerial = queryCplus.resultadoSerialLike(jTextFieldArgumentoPesquisa.getText());
-                for (Produtoserial p : listProdSerial) {
-                    produtoserialList.add(p);
+                if (!"".equals(jTextFieldArgumentoPesquisa.getText())) {
+                    listProdSerial = queryCplus.resultadoSerialLike(jTextFieldArgumentoPesquisa.getText());
+                    for (Produtoserial p : listProdSerial) {
+                        produtoserialList.add(p);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Não há valor para pesquisa!!! ");
                 }
                 break;
             case 1:
@@ -1140,7 +1146,6 @@ public class RmaJFrame extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
