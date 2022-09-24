@@ -901,7 +901,7 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jScrollPane2" alignment="0" pref="1305" max="32767" attributes="0"/>
+                  <Component id="jScrollPane2" alignment="0" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jPanelEdicao" max="32767" attributes="0"/>
@@ -914,7 +914,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jPanelEdicao" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane2" pref="500" max="32767" attributes="0"/>
+                      <Component id="jScrollPane2" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -926,53 +926,51 @@
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                          <Component id="jButtonEditarMovendaProd" min="-2" pref="175" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="jButtonTrocaProdutoPedido" min="-2" pref="175" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="280" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <Component id="jPanelValorProduto" pref="0" max="32767" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="jPanelIPI" min="-2" pref="165" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="jPanelSubsTrib" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" attributes="0">
                                   <Component id="jPanelPisCofins" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
-                                  <Component id="jPanelIcms" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="32767" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="1" attributes="0">
-                                  <Group type="103" groupAlignment="1" attributes="0">
-                                      <Group type="102" attributes="0">
-                                          <Component id="jButtonEditarMovendaProd" min="-2" pref="175" max="-2" attributes="0"/>
-                                          <EmptySpace max="32767" attributes="0"/>
-                                          <Component id="jButtonTrocaProdutoPedido" min="-2" pref="175" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" attributes="0">
-                                          <Component id="jPanelValorProduto" min="-2" pref="353" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
-                                          <Component id="jPanelIPI" min="-2" pref="144" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="jPanelSubsTrib" max="32767" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                                  <EmptySpace min="-2" pref="185" max="-2" attributes="0"/>
+                                  <Component id="jPanelIcms" min="-2" pref="481" max="-2" attributes="0"/>
                               </Group>
                           </Group>
+                          <EmptySpace min="-2" pref="95" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
-                          <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="jPanelIcms" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jPanelPisCofins" min="-2" max="-2" attributes="0"/>
+                              <Component id="jPanelIcms" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jPanelValorProduto" alignment="0" max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="jPanelValorProduto" pref="134" max="32767" attributes="0"/>
+                              <Component id="jPanelSubsTrib" max="32767" attributes="0"/>
                               <Component id="jPanelIPI" max="32767" attributes="0"/>
-                              <Component id="jPanelSubsTrib" alignment="0" max="32767" attributes="0"/>
                           </Group>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jButtonEditarMovendaProd" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jButtonTrocaProdutoPedido" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jButtonEditarMovendaProd" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
+                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -1025,25 +1023,25 @@
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jLabelBaseCofinsProd" pref="72" max="32767" attributes="0"/>
-                                  <Component id="jLabelBasePisProd" max="32767" attributes="0"/>
+                                  <Component id="jLabelBasePisProd" pref="81" max="32767" attributes="0"/>
+                                  <Component id="jLabelBaseCofinsProd" pref="0" max="32767" attributes="0"/>
                               </Group>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Component id="jTextFieldBasePisProd" pref="58" max="32767" attributes="0"/>
                                   <Component id="jTextFieldBaseCofinsProd" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jLabelValorCofinsProd" pref="74" max="32767" attributes="0"/>
-                                  <Component id="jLabelValorPisProd" max="32767" attributes="0"/>
+                                  <Component id="jLabelValorPisProd" pref="86" max="32767" attributes="0"/>
+                                  <Component id="jLabelValorCofinsProd" pref="0" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jTextFieldValorPis" pref="72" max="32767" attributes="0"/>
                                   <Component id="jTextFieldValorCofinsProd" max="32767" attributes="0"/>
                               </Group>
-                              <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -1070,20 +1068,19 @@
                                       <Component id="jLabelBasePisProd" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="jTextFieldBasePisProd" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="jLabelValorPisProd" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jTextFieldValorPis" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  </Group>
+                                  <Component id="jLabelValorPisProd" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                                      <Component id="jLabelBaseCofinsProd" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jTextFieldBaseCofinsProd" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabelValorCofinsProd" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Component id="jTextFieldValorCofinsProd" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jLabelBaseCofinsProd" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jTextFieldBaseCofinsProd" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabelValorCofinsProd" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="jTextFieldValorPis" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jTextFieldValorCofinsProd" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -1223,25 +1220,23 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="jLabelBaseIpiProd" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jLabelValorIpiProd" alignment="0" min="-2" pref="70" max="-2" attributes="0"/>
+                                  <Component id="jLabelAliqIpiProd" alignment="0" max="32767" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <Component id="jLabelValorIpiProd" min="-2" pref="57" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jTextFieldValorIpiProd" min="-2" pref="62" max="-2" attributes="0"/>
+                                  <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="jTextFieldBaseIpiProd" max="32767" attributes="0"/>
+                                      <Component id="jTextFieldAliqIpiProd" min="-2" pref="60" max="-2" attributes="0"/>
                                   </Group>
-                                  <Group type="102" attributes="0">
-                                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                          <Component id="jLabelBaseIpiProd" max="32767" attributes="0"/>
-                                          <Component id="jLabelAliqIpiProd" max="32767" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="jTextFieldAliqIpiProd" min="-2" pref="40" max="-2" attributes="0"/>
-                                          <Component id="jTextFieldBaseIpiProd" min="-2" pref="60" max="-2" attributes="0"/>
-                                      </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace min="1" pref="1" max="-2" attributes="0"/>
+                                      <Component id="jTextFieldValorIpiProd" min="-2" pref="60" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace min="-2" pref="388" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="373" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -1323,17 +1318,13 @@
                                       <Component id="jLabelOrigemProduto" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Component id="jComboBoxOrigemProduto" min="-2" pref="188" max="-2" attributes="0"/>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="jLabelCfop" min="-2" pref="47" max="-2" attributes="0"/>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="jTextFieldCfopProduto" min="-2" pref="56" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                          <Component id="jLabelAliqMva" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="jLabelBaseSTProd" alignment="0" pref="0" max="32767" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="jLabelAliqMva" max="32767" attributes="0"/>
+                                          <Component id="jLabelBaseSTProd" pref="77" max="32767" attributes="0"/>
                                       </Group>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                           <Component id="jTextFieldBaseSTProd" pref="60" max="32767" attributes="0"/>
                                           <Component id="jTextFieldAliqMva" max="32767" attributes="0"/>
@@ -1348,6 +1339,10 @@
                                           <Component id="jTextFieldValorSTProd" pref="60" max="32767" attributes="0"/>
                                           <Component id="jTextFieldAliqStDestino" max="32767" attributes="0"/>
                                       </Group>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="jLabelCfop" min="-2" pref="56" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="jTextFieldCfopProduto" min="-2" pref="56" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace max="32767" attributes="0"/>
@@ -1361,6 +1356,10 @@
                                   <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                                       <Component id="jTextFieldValorSTProd" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabelValorSTProd" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Group type="103" alignment="3" groupAlignment="3" attributes="0">
+                                          <Component id="jTextFieldCfopProduto" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jLabelCfop" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      </Group>
                                   </Group>
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="jLabelBaseSTProd" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -1378,8 +1377,6 @@
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jComboBoxOrigemProduto" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabelOrigemProduto" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jTextFieldCfopProduto" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabelCfop" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -1388,6 +1385,7 @@
                   <SubComponents>
                     <Component class="javax.swing.JLabel" name="jLabelBaseSTProd">
                       <Properties>
+                        <Property name="horizontalAlignment" type="int" value="4"/>
                         <Property name="text" type="java.lang.String" value="Base S.T.:"/>
                       </Properties>
                     </Component>
@@ -1400,6 +1398,7 @@
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabelValorSTProd">
                       <Properties>
+                        <Property name="horizontalAlignment" type="int" value="4"/>
                         <Property name="text" type="java.lang.String" value="Valor S.T.:"/>
                       </Properties>
                     </Component>
@@ -1448,6 +1447,7 @@
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabelAliqMva">
                       <Properties>
+                        <Property name="horizontalAlignment" type="int" value="4"/>
                         <Property name="text" type="java.lang.String" value="Ali. MVA:"/>
                       </Properties>
                     </Component>
@@ -1455,6 +1455,7 @@
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel2">
                       <Properties>
+                        <Property name="horizontalAlignment" type="int" value="4"/>
                         <Property name="text" type="java.lang.String" value="Aliq. ST Destino:"/>
                       </Properties>
                     </Component>
@@ -1484,27 +1485,48 @@
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Component id="jLabelCstIcms" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jComboBoxCstIcms" max="32767" attributes="0"/>
+                              <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
+                          </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="jLabelCstIcms" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jComboBoxCstIcms" pref="0" max="32767" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="jLabelAliquotaIcmsProduto" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jTextFieldAliqIcmsProduto" min="-2" pref="50" max="-2" attributes="0"/>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="jLabelBaseIcmsProduto" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="jTextFieldBaseIcmsProduto" min="-2" pref="50" max="-2" attributes="0"/>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="jLabelValorIcmsProduto" min="-2" max="-2" attributes="0"/>
-                                  </Group>
+                                  <Component id="jLabel3" max="32767" attributes="0"/>
+                                  <Component id="jLabelAliquotaIcmsProduto" pref="90" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jTextFieldValorIcmsProduto" min="-2" pref="61" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="jTextFieldAliqDeferimento" pref="50" max="32767" attributes="0"/>
+                                  <Component id="jTextFieldAliqIcmsProduto" max="32767" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="jLabelBaseIcmsProduto" max="32767" attributes="0"/>
+                                  <Component id="jLabelValorIcmsOperacao" min="-2" pref="90" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="jTextFieldBaseIcmsProduto" max="32767" attributes="0"/>
+                                  <Component id="jTextFieldValorIcmsOperacao" min="-2" pref="60" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="jLabelValorIcmsProduto" max="32767" attributes="0"/>
+                                  <Component id="jLabelValorIcmsDeferimento" min="-2" pref="90" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="jTextFieldValorIcmsDeferimento" min="-2" pref="55" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
+                                      <Component id="jTextFieldValorIcmsProduto" max="32767" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -1519,7 +1541,16 @@
                                   <Component id="jLabelValorIcmsProduto" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jTextFieldValorIcmsProduto" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace max="32767" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jTextFieldAliqDeferimento" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabelValorIcmsOperacao" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jTextFieldValorIcmsOperacao" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jTextFieldValorIcmsDeferimento" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabelValorIcmsDeferimento" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jLabelCstIcms" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jComboBoxCstIcms" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -1531,6 +1562,7 @@
                   <SubComponents>
                     <Component class="javax.swing.JLabel" name="jLabelAliquotaIcmsProduto">
                       <Properties>
+                        <Property name="horizontalAlignment" type="int" value="4"/>
                         <Property name="text" type="java.lang.String" value="Ali. ICMS:"/>
                       </Properties>
                     </Component>
@@ -1543,6 +1575,7 @@
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabelBaseIcmsProduto">
                       <Properties>
+                        <Property name="horizontalAlignment" type="int" value="4"/>
                         <Property name="text" type="java.lang.String" value="Base ICMS:"/>
                       </Properties>
                     </Component>
@@ -1555,6 +1588,7 @@
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabelValorIcmsProduto">
                       <Properties>
+                        <Property name="horizontalAlignment" type="int" value="4"/>
                         <Property name="text" type="java.lang.String" value="Valor ICMS:"/>
                       </Properties>
                     </Component>
@@ -1592,6 +1626,47 @@
                         </Property>
                         <Property name="selectedIndex" type="int" value="11"/>
                         <Property name="toolTipText" type="java.lang.String" value="Selecione aqui o c&#xf3;digo de Situa&#xe7;&#xe3;o Tribut&#xe1;ria de ICMS "/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JLabel" name="jLabel3">
+                      <Properties>
+                        <Property name="horizontalAlignment" type="int" value="4"/>
+                        <Property name="text" type="java.lang.String" value="Ali. Def.:"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JTextField" name="jTextFieldAliqDeferimento">
+                      <Properties>
+                        <Property name="toolTipText" type="java.lang.String" value="&#xc9; a aliquota do deferimento caso haja"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JLabel" name="jLabelValorIcmsOperacao">
+                      <Properties>
+                        <Property name="horizontalAlignment" type="int" value="4"/>
+                        <Property name="text" type="java.lang.String" value="ICMS Oper:"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JTextField" name="jTextFieldValorIcmsOperacao">
+                      <Properties>
+                        <Property name="toolTipText" type="java.lang.String" value="&#xc9; o valor total do ICMS, no caso pela aliquota estadual"/>
+                        <Property name="enabled" type="boolean" value="false"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTextFieldValorIcmsOperacaoFocusGained"/>
+                        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTextFieldValorIcmsOperacaoFocusLost"/>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextFieldValorIcmsOperacaoActionPerformed"/>
+                      </Events>
+                    </Component>
+                    <Component class="javax.swing.JLabel" name="jLabelValorIcmsDeferimento">
+                      <Properties>
+                        <Property name="horizontalAlignment" type="int" value="4"/>
+                        <Property name="text" type="java.lang.String" value="Valor Def.:"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JTextField" name="jTextFieldValorIcmsDeferimento">
+                      <Properties>
+                        <Property name="toolTipText" type="java.lang.String" value="&#xc9; o valor do ICMS da Opera&#xe7;&#xe3;o multiplo pela alicota do deferimento"/>
+                        <Property name="enabled" type="boolean" value="false"/>
+                        <Property name="focusable" type="boolean" value="false"/>
                       </Properties>
                     </Component>
                   </SubComponents>

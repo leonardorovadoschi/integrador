@@ -46,23 +46,24 @@ public class SaidaJFrame extends javax.swing.JFrame {
 
     /**
      * Creates new form ListagemVendasJFrame
+     *
      * @param managerIntegrador1
      * @param managerCplus1
      */
     public SaidaJFrame(EntityManagerFactory managerIntegrador1, EntityManagerFactory managerCplus1) {
         initComponents();
-       // var = var1;
+        // var = var1;
         formataCampos = new FormataCampos();
         managerCplus = managerCplus1;
         managerIntegrador = managerIntegrador1;
         colunaCodMovendaProduto = jTableMovendaProd.getColumnModel().getColumnIndex("Codmovprod");
         colunaMovDocReferenciado = jTableDocDevolucaoFornecedor.getColumnModel().getColumnIndex("Codmovdocreferenciado");
         queryCplus = new QueryCplus(managerCplus);
-        queryIntegrador =  new QueryIntegrador(managerIntegrador);
+        queryIntegrador = new QueryIntegrador(managerIntegrador);
         this.listagemSaidasJDialog = new ListagemSaidasJDialog(this, true, managerCplus);
         this.listagemEntradasJDialog = new ListagemEntradasJDialog(this, true, managerCplus);
         this.listagemClientesJDialog = new ListagemClientesJDialog(this, true, managerCplus);
-        this.listagemVendedor =  new ListagemVendedorJDialog(this, true, managerCplus);
+        this.listagemVendedor = new ListagemVendedorJDialog(this, true, managerCplus);
         //querySerial = new QuerySerial(managerCplus);
         decimaisArredondamento = Integer.valueOf(queryIntegrador.valorConfiguracao("casas_decimais_ARREDONDAMENTO"));
     }
@@ -205,6 +206,12 @@ public class SaidaJFrame extends javax.swing.JFrame {
         jTextFieldValorIcmsProduto = new javax.swing.JTextField();
         jLabelCstIcms = new javax.swing.JLabel();
         jComboBoxCstIcms = new javax.swing.JComboBox();
+        jLabel3 = new javax.swing.JLabel();
+        jTextFieldAliqDeferimento = new javax.swing.JTextField();
+        jLabelValorIcmsOperacao = new javax.swing.JLabel();
+        jTextFieldValorIcmsOperacao = new javax.swing.JTextField();
+        jLabelValorIcmsDeferimento = new javax.swing.JLabel();
+        jTextFieldValorIcmsDeferimento = new javax.swing.JTextField();
         jPanelValorProduto = new javax.swing.JPanel();
         jLabelValorUnitario = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
@@ -819,21 +826,21 @@ public class SaidaJFrame extends javax.swing.JFrame {
                     .addComponent(jTextFieldAliqCofinsProd, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelPisCofinsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabelBaseCofinsProd, javax.swing.GroupLayout.PREFERRED_SIZE, 72, Short.MAX_VALUE)
-                    .addComponent(jLabelBasePisProd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jLabelBasePisProd, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
+                    .addComponent(jLabelBaseCofinsProd, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelPisCofinsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jTextFieldBasePisProd, javax.swing.GroupLayout.DEFAULT_SIZE, 58, Short.MAX_VALUE)
                     .addComponent(jTextFieldBaseCofinsProd))
                 .addGap(10, 10, 10)
                 .addGroup(jPanelPisCofinsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabelValorCofinsProd, javax.swing.GroupLayout.PREFERRED_SIZE, 74, Short.MAX_VALUE)
-                    .addComponent(jLabelValorPisProd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabelValorPisProd, javax.swing.GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE)
+                    .addComponent(jLabelValorCofinsProd, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelPisCofinsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jTextFieldValorPis, javax.swing.GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE)
                     .addComponent(jTextFieldValorCofinsProd))
-                .addGap(25, 25, 25))
+                .addGap(13, 13, 13))
         );
         jPanelPisCofinsLayout.setVerticalGroup(
             jPanelPisCofinsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -854,16 +861,16 @@ public class SaidaJFrame extends javax.swing.JFrame {
                     .addGroup(jPanelPisCofinsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabelBasePisProd)
                         .addComponent(jTextFieldBasePisProd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanelPisCofinsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabelValorPisProd)
-                        .addComponent(jTextFieldValorPis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabelValorPisProd))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelPisCofinsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelPisCofinsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabelBaseCofinsProd)
-                        .addComponent(jTextFieldBaseCofinsProd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabelValorCofinsProd))
-                    .addComponent(jTextFieldValorCofinsProd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(jPanelPisCofinsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelBaseCofinsProd)
+                    .addComponent(jTextFieldBaseCofinsProd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelValorCofinsProd)))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelPisCofinsLayout.createSequentialGroup()
+                .addComponent(jTextFieldValorPis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextFieldValorCofinsProd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jPanelIPI.setBorder(javax.swing.BorderFactory.createTitledBorder("IPI"));
@@ -911,20 +918,19 @@ public class SaidaJFrame extends javax.swing.JFrame {
             jPanelIPILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelIPILayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(jPanelIPILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabelBaseIpiProd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabelValorIpiProd, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelAliqIpiProd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
                 .addGroup(jPanelIPILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelIPILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jTextFieldBaseIpiProd)
+                        .addComponent(jTextFieldAliqIpiProd, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanelIPILayout.createSequentialGroup()
-                        .addComponent(jLabelValorIpiProd, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldValorIpiProd, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanelIPILayout.createSequentialGroup()
-                        .addGroup(jPanelIPILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jLabelBaseIpiProd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabelAliqIpiProd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanelIPILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextFieldAliqIpiProd, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextFieldBaseIpiProd, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(388, 388, 388))
+                        .addGap(1, 1, 1)
+                        .addComponent(jTextFieldValorIpiProd, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(373, 373, 373))
         );
         jPanelIPILayout.setVerticalGroup(
             jPanelIPILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -945,6 +951,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
 
         jPanelSubsTrib.setBorder(javax.swing.BorderFactory.createTitledBorder("Substituição Tributária"));
 
+        jLabelBaseSTProd.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabelBaseSTProd.setText("Base S.T.:");
 
         jTextFieldBaseSTProd.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -961,6 +968,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
             }
         });
 
+        jLabelValorSTProd.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabelValorSTProd.setText("Valor S.T.:");
 
         jTextFieldValorSTProd.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -987,8 +995,10 @@ public class SaidaJFrame extends javax.swing.JFrame {
         jComboBoxOrigemProduto.setSelectedIndex(9);
         jComboBoxOrigemProduto.setToolTipText("Escolha aqui a origem do produto");
 
+        jLabelAliqMva.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabelAliqMva.setText("Ali. MVA:");
 
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel2.setText("Aliq. ST Destino:");
 
         javax.swing.GroupLayout jPanelSubsTribLayout = new javax.swing.GroupLayout(jPanelSubsTrib);
@@ -1000,16 +1010,12 @@ public class SaidaJFrame extends javax.swing.JFrame {
                     .addGroup(jPanelSubsTribLayout.createSequentialGroup()
                         .addComponent(jLabelOrigemProduto)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jComboBoxOrigemProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabelCfop, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextFieldCfopProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jComboBoxOrigemProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanelSubsTribLayout.createSequentialGroup()
-                        .addGroup(jPanelSubsTribLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jLabelAliqMva, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabelBaseSTProd, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanelSubsTribLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabelAliqMva, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabelBaseSTProd, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanelSubsTribLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jTextFieldBaseSTProd, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
                             .addComponent(jTextFieldAliqMva))
@@ -1020,7 +1026,11 @@ public class SaidaJFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanelSubsTribLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jTextFieldValorSTProd, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
-                            .addComponent(jTextFieldAliqStDestino))))
+                            .addComponent(jTextFieldAliqStDestino))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabelCfop, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextFieldCfopProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelSubsTribLayout.setVerticalGroup(
@@ -1029,7 +1039,10 @@ public class SaidaJFrame extends javax.swing.JFrame {
                 .addGroup(jPanelSubsTribLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelSubsTribLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jTextFieldValorSTProd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabelValorSTProd))
+                        .addComponent(jLabelValorSTProd)
+                        .addGroup(jPanelSubsTribLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextFieldCfopProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelCfop)))
                     .addGroup(jPanelSubsTribLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabelBaseSTProd)
                         .addComponent(jTextFieldBaseSTProd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -1042,9 +1055,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanelSubsTribLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBoxOrigemProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelOrigemProduto)
-                    .addComponent(jTextFieldCfopProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelCfop)))
+                    .addComponent(jLabelOrigemProduto)))
         );
 
         jButtonTrocaProdutoPedido.setText("Trocar Produto de Pedido");
@@ -1058,6 +1069,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
 
         jPanelIcms.setBorder(javax.swing.BorderFactory.createTitledBorder("ICMS:"));
 
+        jLabelAliquotaIcmsProduto.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabelAliquotaIcmsProduto.setText("Ali. ICMS:");
 
         jTextFieldAliqIcmsProduto.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -1074,6 +1086,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
             }
         });
 
+        jLabelBaseIcmsProduto.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabelBaseIcmsProduto.setText("Base ICMS:");
 
         jTextFieldBaseIcmsProduto.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -1090,6 +1103,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
             }
         });
 
+        jLabelValorIcmsProduto.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabelValorIcmsProduto.setText("Valor ICMS:");
 
         jTextFieldValorIcmsProduto.setEnabled(false);
@@ -1102,28 +1116,74 @@ public class SaidaJFrame extends javax.swing.JFrame {
         jComboBoxCstIcms.setSelectedIndex(11);
         jComboBoxCstIcms.setToolTipText("Selecione aqui o código de Situação Tributária de ICMS ");
 
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel3.setText("Ali. Def.:");
+
+        jTextFieldAliqDeferimento.setToolTipText("É a aliquota do deferimento caso haja");
+
+        jLabelValorIcmsOperacao.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabelValorIcmsOperacao.setText("ICMS Oper:");
+
+        jTextFieldValorIcmsOperacao.setToolTipText("É o valor total do ICMS, no caso pela aliquota estadual");
+        jTextFieldValorIcmsOperacao.setEnabled(false);
+        jTextFieldValorIcmsOperacao.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTextFieldValorIcmsOperacaoFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextFieldValorIcmsOperacaoFocusLost(evt);
+            }
+        });
+        jTextFieldValorIcmsOperacao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldValorIcmsOperacaoActionPerformed(evt);
+            }
+        });
+
+        jLabelValorIcmsDeferimento.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabelValorIcmsDeferimento.setText("Valor Def.:");
+
+        jTextFieldValorIcmsDeferimento.setToolTipText("É o valor do ICMS da Operação multiplo pela alicota do deferimento");
+        jTextFieldValorIcmsDeferimento.setEnabled(false);
+        jTextFieldValorIcmsDeferimento.setFocusable(false);
+
         javax.swing.GroupLayout jPanelIcmsLayout = new javax.swing.GroupLayout(jPanelIcms);
         jPanelIcms.setLayout(jPanelIcmsLayout);
         jPanelIcmsLayout.setHorizontalGroup(
             jPanelIcmsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelIcmsLayout.createSequentialGroup()
-                .addGroup(jPanelIcmsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelIcmsLayout.createSequentialGroup()
-                        .addComponent(jLabelCstIcms)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBoxCstIcms, 0, 1, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelIcmsLayout.createSequentialGroup()
-                        .addComponent(jLabelAliquotaIcmsProduto)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldAliqIcmsProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabelBaseIcmsProduto)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextFieldBaseIcmsProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabelValorIcmsProduto)))
+                .addComponent(jLabelCstIcms)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextFieldValorIcmsProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jComboBoxCstIcms, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(70, 70, 70))
+            .addGroup(jPanelIcmsLayout.createSequentialGroup()
+                .addGroup(jPanelIcmsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabelAliquotaIcmsProduto, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelIcmsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jTextFieldAliqDeferimento, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+                    .addComponent(jTextFieldAliqIcmsProduto))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelIcmsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabelBaseIcmsProduto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabelValorIcmsOperacao, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelIcmsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jTextFieldBaseIcmsProduto)
+                    .addComponent(jTextFieldValorIcmsOperacao, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelIcmsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabelValorIcmsProduto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabelValorIcmsDeferimento, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanelIcmsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelIcmsLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextFieldValorIcmsDeferimento, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanelIcmsLayout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addComponent(jTextFieldValorIcmsProduto)))
+                .addGap(24, 24, 24))
         );
         jPanelIcmsLayout.setVerticalGroup(
             jPanelIcmsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1135,7 +1195,15 @@ public class SaidaJFrame extends javax.swing.JFrame {
                     .addComponent(jTextFieldBaseIcmsProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelValorIcmsProduto)
                     .addComponent(jTextFieldValorIcmsProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelIcmsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jTextFieldAliqDeferimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelValorIcmsOperacao)
+                    .addComponent(jTextFieldValorIcmsOperacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldValorIcmsDeferimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelValorIcmsDeferimento))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelIcmsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelCstIcms)
                     .addComponent(jComboBoxCstIcms, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -1243,42 +1311,42 @@ public class SaidaJFrame extends javax.swing.JFrame {
         jPanelEdicaoLayout.setHorizontalGroup(
             jPanelEdicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelEdicaoLayout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(jButtonEditarMovendaProd, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonTrocaProdutoPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(280, 280, 280))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelEdicaoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanelEdicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelEdicaoLayout.createSequentialGroup()
+                .addGroup(jPanelEdicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(jPanelEdicaoLayout.createSequentialGroup()
+                        .addComponent(jPanelValorProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanelIPI, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanelSubsTrib, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanelEdicaoLayout.createSequentialGroup()
                         .addComponent(jPanelPisCofins, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(2, 2, 2)
-                        .addComponent(jPanelIcms, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelEdicaoLayout.createSequentialGroup()
-                        .addGroup(jPanelEdicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanelEdicaoLayout.createSequentialGroup()
-                                .addComponent(jButtonEditarMovendaProd, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButtonTrocaProdutoPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanelEdicaoLayout.createSequentialGroup()
-                                .addComponent(jPanelValorProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(7, 7, 7)
-                                .addComponent(jPanelIPI, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jPanelSubsTrib, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGap(185, 185, 185))))
+                        .addComponent(jPanelIcms, javax.swing.GroupLayout.PREFERRED_SIZE, 481, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(95, 95, 95))
         );
         jPanelEdicaoLayout.setVerticalGroup(
             jPanelEdicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelEdicaoLayout.createSequentialGroup()
-                .addGroup(jPanelEdicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanelIcms, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanelPisCofins, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelEdicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanelValorProduto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanelIPI, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanelSubsTrib, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jPanelPisCofins, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanelIcms, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelEdicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanelValorProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 134, Short.MAX_VALUE)
+                    .addComponent(jPanelSubsTrib, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanelIPI, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelEdicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonEditarMovendaProd)
-                    .addComponent(jButtonTrocaProdutoPedido)))
+                    .addComponent(jButtonTrocaProdutoPedido)
+                    .addComponent(jButtonEditarMovendaProd))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTableMovendaProd.setAutoCreateRowSorter(true);
@@ -1423,7 +1491,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
         jPanelProdutosPedido.setLayout(jPanelProdutosPedidoLayout);
         jPanelProdutosPedidoLayout.setHorizontalGroup(
             jPanelProdutosPedidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1305, Short.MAX_VALUE)
+            .addComponent(jScrollPane2)
             .addGroup(jPanelProdutosPedidoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanelEdicao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -1434,7 +1502,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanelEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE))
+                .addComponent(jScrollPane2))
         );
 
         jTabbedPaneMovenda.addTab("Produtos Pedido", jPanelProdutosPedido);
@@ -1559,14 +1627,14 @@ public class SaidaJFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPesquisarActionPerformed
-       this.listagemSaidasJDialog.setVisible(true);
-       if(this.listagemSaidasJDialog.isCancelamento()== false){
-           movenda = this.listagemSaidasJDialog.getMoVenda();
-           
-           carregaCamposSaida();
-           
-       }
-         jTabbedPaneMovenda.setSelectedIndex(0);
+        this.listagemSaidasJDialog.setVisible(true);
+        if (this.listagemSaidasJDialog.isCancelamento() == false) {
+            movenda = this.listagemSaidasJDialog.getMoVenda();
+
+            carregaCamposSaida();
+
+        }
+        jTabbedPaneMovenda.setSelectedIndex(0);
     }//GEN-LAST:event_jButtonPesquisarActionPerformed
 
     private void jComboBoxCstCofinsProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxCstCofinsProdActionPerformed
@@ -1574,27 +1642,27 @@ public class SaidaJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBoxCstCofinsProdActionPerformed
 
     private void jTableMovendaProdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableMovendaProdKeyPressed
-       
+
     }//GEN-LAST:event_jTableMovendaProdKeyPressed
 
     private void jTableMovendaProdMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableMovendaProdMouseClicked
-      carregarCamposSaidaProduto();
-      jTextFieldValorUnitarioProduto.requestFocus();
-      jTextFieldValorUnitarioProduto.selectAll();
+        carregarCamposSaidaProduto();
+        jTextFieldValorUnitarioProduto.requestFocus();
+        jTextFieldValorUnitarioProduto.selectAll();
     }//GEN-LAST:event_jTableMovendaProdMouseClicked
 
     private void jTextFieldAliqPisProdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldAliqPisProdFocusLost
-       String text = jTextFieldAliqPisProd.getText();
+        String text = jTextFieldAliqPisProd.getText();
         jTextFieldAliqPisProd.setText(formataCampos.stringParaStringMoeda(text, decimaisArredondamento));
         BigDecimal aliq = formataCampos.stringParaDecimal(jTextFieldAliqPisProd.getText(), decimaisArredondamento);
         BigDecimal base = formataCampos.stringParaDecimal(jTextFieldBasePisProd.getText(), decimaisArredondamento);
-        jTextFieldValorPis.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base),decimaisArredondamento));
-       // jTextFieldBasePisProd.requestFocus();
+        jTextFieldValorPis.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base), decimaisArredondamento));
+        // jTextFieldBasePisProd.requestFocus();
     }//GEN-LAST:event_jTextFieldAliqPisProdFocusLost
 
     private void jButtonEditarMovendaProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarMovendaProdActionPerformed
         editaMovendaProduto();
-        limpacampos();       
+        limpacampos();
     }//GEN-LAST:event_jButtonEditarMovendaProdActionPerformed
 
     private void jButtonTrocaProdutoPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTrocaProdutoPedidoActionPerformed
@@ -1606,47 +1674,47 @@ public class SaidaJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonDeletarDevolucaoActionPerformed
 
     private void jTextFieldAliqPisProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldAliqPisProdActionPerformed
-       String text = jTextFieldAliqPisProd.getText();
-        jTextFieldAliqPisProd.setText(formataCampos.stringParaStringMoeda(text,decimaisArredondamento));
+        String text = jTextFieldAliqPisProd.getText();
+        jTextFieldAliqPisProd.setText(formataCampos.stringParaStringMoeda(text, decimaisArredondamento));
         BigDecimal aliq = formataCampos.stringParaDecimal(jTextFieldAliqPisProd.getText(), decimaisArredondamento);
-       BigDecimal base = formataCampos.stringParaDecimal(jTextFieldBasePisProd.getText(), decimaisArredondamento);
-        jTextFieldValorPis.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base),decimaisArredondamento));
+        BigDecimal base = formataCampos.stringParaDecimal(jTextFieldBasePisProd.getText(), decimaisArredondamento);
+        jTextFieldValorPis.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base), decimaisArredondamento));
         jTextFieldBasePisProd.requestFocus();
     }//GEN-LAST:event_jTextFieldAliqPisProdActionPerformed
 
     private void jTextFieldBasePisProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldBasePisProdActionPerformed
-       String text = jTextFieldBasePisProd.getText();
-        jTextFieldBasePisProd.setText(formataCampos.stringParaStringMoeda(text,decimaisArredondamento));
+        String text = jTextFieldBasePisProd.getText();
+        jTextFieldBasePisProd.setText(formataCampos.stringParaStringMoeda(text, decimaisArredondamento));
         BigDecimal aliq = formataCampos.stringParaDecimal(jTextFieldAliqPisProd.getText(), decimaisArredondamento);
-       BigDecimal base = formataCampos.stringParaDecimal(jTextFieldBasePisProd.getText(), decimaisArredondamento);
-        jTextFieldValorPis.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base),decimaisArredondamento));
+        BigDecimal base = formataCampos.stringParaDecimal(jTextFieldBasePisProd.getText(), decimaisArredondamento);
+        jTextFieldValorPis.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base), decimaisArredondamento));
         jTextFieldAliqCofinsProd.requestFocus();
     }//GEN-LAST:event_jTextFieldBasePisProdActionPerformed
 
     private void jTextFieldBasePisProdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldBasePisProdFocusLost
         String text = jTextFieldBasePisProd.getText();
-        jTextFieldBasePisProd.setText(formataCampos.stringParaStringMoeda(text,decimaisArredondamento));
-        
+        jTextFieldBasePisProd.setText(formataCampos.stringParaStringMoeda(text, decimaisArredondamento));
+
         BigDecimal aliq = formataCampos.stringParaDecimal(jTextFieldAliqPisProd.getText(), decimaisArredondamento);
         BigDecimal base = formataCampos.stringParaDecimal(jTextFieldBasePisProd.getText(), decimaisArredondamento);
-        jTextFieldValorPis.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base),decimaisArredondamento));
+        jTextFieldValorPis.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base), decimaisArredondamento));
         //jTextFieldAliqCofinsProd.requestFocus();
     }//GEN-LAST:event_jTextFieldBasePisProdFocusLost
 
     private void jTextFieldAliqCofinsProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldAliqCofinsProdActionPerformed
         String text = jTextFieldAliqCofinsProd.getText();
-        jTextFieldAliqCofinsProd.setText(formataCampos.stringParaStringMoeda(text,decimaisArredondamento));
-        
+        jTextFieldAliqCofinsProd.setText(formataCampos.stringParaStringMoeda(text, decimaisArredondamento));
+
         BigDecimal aliq = formataCampos.stringParaDecimal(jTextFieldAliqCofinsProd.getText(), decimaisArredondamento);
         BigDecimal base = formataCampos.stringParaDecimal(jTextFieldBaseCofinsProd.getText(), decimaisArredondamento);
-        jTextFieldValorCofinsProd.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base),decimaisArredondamento));
+        jTextFieldValorCofinsProd.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base), decimaisArredondamento));
         jTextFieldBaseCofinsProd.requestFocus();
     }//GEN-LAST:event_jTextFieldAliqCofinsProdActionPerformed
 
     private void jTextFieldAliqCofinsProdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldAliqCofinsProdFocusLost
-       String text = jTextFieldAliqCofinsProd.getText();
+        String text = jTextFieldAliqCofinsProd.getText();
         jTextFieldAliqCofinsProd.setText(formataCampos.stringParaStringMoeda(text, decimaisArredondamento));
-        
+
         BigDecimal aliq = formataCampos.stringParaDecimal(jTextFieldAliqCofinsProd.getText(), decimaisArredondamento);
         BigDecimal base = formataCampos.stringParaDecimal(jTextFieldBaseCofinsProd.getText(), decimaisArredondamento);
         jTextFieldValorCofinsProd.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base), decimaisArredondamento));
@@ -1656,17 +1724,17 @@ public class SaidaJFrame extends javax.swing.JFrame {
     private void jTextFieldBaseCofinsProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldBaseCofinsProdActionPerformed
         String text = jTextFieldBaseCofinsProd.getText();
         jTextFieldBaseCofinsProd.setText(formataCampos.stringParaStringMoeda(text, decimaisArredondamento));
-        
+
         BigDecimal aliq = formataCampos.stringParaDecimal(jTextFieldAliqCofinsProd.getText(), decimaisArredondamento);
         BigDecimal base = formataCampos.stringParaDecimal(jTextFieldBaseCofinsProd.getText(), decimaisArredondamento);
-        jTextFieldValorCofinsProd.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base),decimaisArredondamento));
+        jTextFieldValorCofinsProd.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base), decimaisArredondamento));
         jTextFieldAliqIpiProd.requestFocus();
     }//GEN-LAST:event_jTextFieldBaseCofinsProdActionPerformed
 
     private void jTextFieldAliqIpiProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldAliqIpiProdActionPerformed
-         String text = jTextFieldAliqIpiProd.getText();
+        String text = jTextFieldAliqIpiProd.getText();
         jTextFieldAliqIpiProd.setText(formataCampos.stringParaStringMoeda(text, decimaisArredondamento));
-        
+
         BigDecimal aliq = formataCampos.stringParaDecimal(jTextFieldAliqIpiProd.getText(), decimaisArredondamento);
         BigDecimal base = formataCampos.stringParaDecimal(jTextFieldBaseIpiProd.getText(), decimaisArredondamento);
         jTextFieldValorIpiProd.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base), decimaisArredondamento));
@@ -1676,7 +1744,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
     private void jTextFieldAliqIpiProdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldAliqIpiProdFocusLost
         String text = jTextFieldAliqIpiProd.getText();
         jTextFieldAliqIpiProd.setText(formataCampos.stringParaStringMoeda(text, decimaisArredondamento));
-        
+
         BigDecimal aliq = formataCampos.stringParaDecimal(jTextFieldAliqIpiProd.getText(), decimaisArredondamento);
         BigDecimal base = formataCampos.stringParaDecimal(jTextFieldBaseIpiProd.getText(), decimaisArredondamento);
         jTextFieldValorIpiProd.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base), decimaisArredondamento));
@@ -1686,7 +1754,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
     private void jTextFieldBaseIpiProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldBaseIpiProdActionPerformed
         String text = jTextFieldBaseIpiProd.getText();
         jTextFieldBaseIpiProd.setText(formataCampos.stringParaStringMoeda(text, decimaisArredondamento));
-        
+
         BigDecimal aliq = formataCampos.stringParaDecimal(jTextFieldAliqIpiProd.getText(), decimaisArredondamento);
         BigDecimal base = formataCampos.stringParaDecimal(jTextFieldBaseIpiProd.getText(), decimaisArredondamento);
         jTextFieldValorIpiProd.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base), decimaisArredondamento));
@@ -1694,9 +1762,9 @@ public class SaidaJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextFieldBaseIpiProdActionPerformed
 
     private void jTextFieldBaseIpiProdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldBaseIpiProdFocusLost
-         String text = jTextFieldBaseIpiProd.getText();
+        String text = jTextFieldBaseIpiProd.getText();
         jTextFieldBaseIpiProd.setText(formataCampos.stringParaStringMoeda(text, decimaisArredondamento));
-        
+
         BigDecimal aliq = formataCampos.stringParaDecimal(jTextFieldAliqIpiProd.getText(), decimaisArredondamento);
         BigDecimal base = formataCampos.stringParaDecimal(jTextFieldBaseIpiProd.getText(), decimaisArredondamento);
         jTextFieldValorIpiProd.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base), decimaisArredondamento));
@@ -1706,10 +1774,10 @@ public class SaidaJFrame extends javax.swing.JFrame {
     private void jTextFieldAliqIcmsProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldAliqIcmsProdutoActionPerformed
         String text = jTextFieldAliqIcmsProduto.getText();
         jTextFieldAliqIcmsProduto.setText(formataCampos.stringParaStringMoeda(text, decimaisArredondamento));
-        
+
         BigDecimal aliq = formataCampos.stringParaDecimal(jTextFieldAliqIcmsProduto.getText(), decimaisArredondamento);
         BigDecimal base = formataCampos.stringParaDecimal(jTextFieldBaseIcmsProduto.getText(), decimaisArredondamento);
-         if(jComboBoxCstIcms.getSelectedIndex() == 7){
+        if (jComboBoxCstIcms.getSelectedIndex() == 7) {
             base = base.multiply(new BigDecimal("0.70588"));
         }
         jTextFieldValorIcmsProduto.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base), decimaisArredondamento));
@@ -1717,25 +1785,25 @@ public class SaidaJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextFieldAliqIcmsProdutoActionPerformed
 
     private void jTextFieldAliqIcmsProdutoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldAliqIcmsProdutoFocusLost
-       String text = jTextFieldAliqIcmsProduto.getText();
+        String text = jTextFieldAliqIcmsProduto.getText();
         jTextFieldAliqIcmsProduto.setText(formataCampos.stringParaStringMoeda(text, decimaisArredondamento));
-        
+
         BigDecimal aliq = formataCampos.stringParaDecimal(jTextFieldAliqIcmsProduto.getText(), decimaisArredondamento);
         BigDecimal base = formataCampos.stringParaDecimal(jTextFieldBaseIcmsProduto.getText(), decimaisArredondamento);
-         if(jComboBoxCstIcms.getSelectedIndex() == 7){
+        if (jComboBoxCstIcms.getSelectedIndex() == 7) {
             base = base.multiply(new BigDecimal("0.70588"));
         }
         jTextFieldValorIcmsProduto.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base), decimaisArredondamento));
-       // jTextFieldBaseIcmsProduto.requestFocus();
+        // jTextFieldBaseIcmsProduto.requestFocus();
     }//GEN-LAST:event_jTextFieldAliqIcmsProdutoFocusLost
 
     private void jTextFieldBaseIcmsProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldBaseIcmsProdutoActionPerformed
-       String text = jTextFieldBaseIcmsProduto.getText();
+        String text = jTextFieldBaseIcmsProduto.getText();
         jTextFieldBaseIcmsProduto.setText(formataCampos.stringParaStringMoeda(text, decimaisArredondamento));
-        
+
         BigDecimal aliq = formataCampos.stringParaDecimal(jTextFieldAliqIcmsProduto.getText(), decimaisArredondamento);
         BigDecimal base = formataCampos.stringParaDecimal(jTextFieldBaseIcmsProduto.getText(), decimaisArredondamento);
-        if(jComboBoxCstIcms.getSelectedIndex() == 7){
+        if (jComboBoxCstIcms.getSelectedIndex() == 7) {
             base = base.multiply(new BigDecimal("0.70588"));
         }
         jTextFieldValorIcmsProduto.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base), decimaisArredondamento));
@@ -1743,12 +1811,12 @@ public class SaidaJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextFieldBaseIcmsProdutoActionPerformed
 
     private void jTextFieldBaseIcmsProdutoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldBaseIcmsProdutoFocusLost
-         String text = jTextFieldBaseIcmsProduto.getText();
+        String text = jTextFieldBaseIcmsProduto.getText();
         jTextFieldBaseIcmsProduto.setText(formataCampos.stringParaStringMoeda(text, decimaisArredondamento));
-        
+
         BigDecimal aliq = formataCampos.stringParaDecimal(jTextFieldAliqIcmsProduto.getText(), decimaisArredondamento);
         BigDecimal base = formataCampos.stringParaDecimal(jTextFieldBaseIcmsProduto.getText(), decimaisArredondamento);
-         if(jComboBoxCstIcms.getSelectedIndex() == 7){
+        if (jComboBoxCstIcms.getSelectedIndex() == 7) {
             base = base.multiply(new BigDecimal("0.70588"));
         }
         jTextFieldValorIcmsProduto.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base), decimaisArredondamento));
@@ -1762,13 +1830,13 @@ public class SaidaJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextFieldBaseSTProdActionPerformed
 
     private void jTextFieldBaseSTProdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldBaseSTProdFocusLost
-       String text = jTextFieldBaseSTProd.getText();
+        String text = jTextFieldBaseSTProd.getText();
         jTextFieldBaseSTProd.setText(formataCampos.stringParaStringMoeda(text, decimaisArredondamento));
         //jTextFieldValorSTProd.requestFocus();
     }//GEN-LAST:event_jTextFieldBaseSTProdFocusLost
 
     private void jTextFieldValorSTProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldValorSTProdActionPerformed
-       String text = jTextFieldValorSTProd.getText();
+        String text = jTextFieldValorSTProd.getText();
         jTextFieldValorSTProd.setText(formataCampos.stringParaStringMoeda(text, decimaisArredondamento));
         jButtonEditarMovendaProd.requestFocus();
     }//GEN-LAST:event_jTextFieldValorSTProdActionPerformed
@@ -1784,17 +1852,17 @@ public class SaidaJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextFieldAliqPisProdFocusGained
 
     private void jTextFieldBasePisProdFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldBasePisProdFocusGained
-       jTextFieldBasePisProd.selectAll();
+        jTextFieldBasePisProd.selectAll();
     }//GEN-LAST:event_jTextFieldBasePisProdFocusGained
 
     private void jTextFieldAliqCofinsProdFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldAliqCofinsProdFocusGained
-       jTextFieldAliqCofinsProd.selectAll();
+        jTextFieldAliqCofinsProd.selectAll();
     }//GEN-LAST:event_jTextFieldAliqCofinsProdFocusGained
 
     private void jTextFieldBaseCofinsProdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldBaseCofinsProdFocusLost
-       String text = jTextFieldBaseCofinsProd.getText();
+        String text = jTextFieldBaseCofinsProd.getText();
         jTextFieldBaseCofinsProd.setText(formataCampos.stringParaStringMoeda(text, decimaisArredondamento));
-        
+
         BigDecimal aliq = formataCampos.stringParaDecimal(jTextFieldAliqCofinsProd.getText(), decimaisArredondamento);
         BigDecimal base = formataCampos.stringParaDecimal(jTextFieldBaseCofinsProd.getText(), decimaisArredondamento);
         jTextFieldValorCofinsProd.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base), decimaisArredondamento));
@@ -1802,23 +1870,23 @@ public class SaidaJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextFieldBaseCofinsProdFocusLost
 
     private void jTextFieldBaseCofinsProdFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldBaseCofinsProdFocusGained
-       jTextFieldBaseCofinsProd.selectAll();
+        jTextFieldBaseCofinsProd.selectAll();
     }//GEN-LAST:event_jTextFieldBaseCofinsProdFocusGained
 
     private void jTextFieldAliqIcmsProdutoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldAliqIcmsProdutoFocusGained
-       jTextFieldAliqIcmsProduto.selectAll();
+        jTextFieldAliqIcmsProduto.selectAll();
     }//GEN-LAST:event_jTextFieldAliqIcmsProdutoFocusGained
 
     private void jTextFieldBaseIcmsProdutoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldBaseIcmsProdutoFocusGained
-       jTextFieldBaseIcmsProduto.selectAll();
+        jTextFieldBaseIcmsProduto.selectAll();
     }//GEN-LAST:event_jTextFieldBaseIcmsProdutoFocusGained
 
     private void jTextFieldBaseSTProdFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldBaseSTProdFocusGained
-       jTextFieldBaseSTProd.selectAll();
+        jTextFieldBaseSTProd.selectAll();
     }//GEN-LAST:event_jTextFieldBaseSTProdFocusGained
 
     private void jTextFieldValorSTProdFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldValorSTProdFocusGained
-       jTextFieldValorSTProd.selectAll();
+        jTextFieldValorSTProd.selectAll();
     }//GEN-LAST:event_jTextFieldValorSTProdFocusGained
 
     private void jTextFieldAliqIpiProdFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldAliqIpiProdFocusGained
@@ -1826,7 +1894,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextFieldAliqIpiProdFocusGained
 
     private void jTextFieldBaseIpiProdFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldBaseIpiProdFocusGained
-       jTextFieldBaseIpiProd.selectAll();
+        jTextFieldBaseIpiProd.selectAll();
     }//GEN-LAST:event_jTextFieldBaseIpiProdFocusGained
 
     private void jButtonRelacionaDocDevolucaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRelacionaDocDevolucaoActionPerformed
@@ -1838,49 +1906,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonDeletarDocRelacionadoActionPerformed
 
     private void jTextFieldValorUnitarioProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldValorUnitarioProdutoActionPerformed
-        String text = jTextFieldValorUnitarioProduto.getText();
-        jTextFieldValorUnitarioProduto.setText(formataCampos.stringParaStringMoeda(text, decimaisArredondamento));
-        BigDecimal aliq;
-        BigDecimal base;
-        BigDecimal valUnitario = formataCampos.stringParaDecimal(jTextFieldValorUnitarioProduto.getText(), decimaisArredondamento);
-        BigDecimal quantidade = new BigDecimal(jTextFieldQuantidadeProduto.getText());
-        jTextFieldValorProdutos.setText(formataCampos.bigDecimalParaString(valUnitario.multiply(quantidade), decimaisArredondamento));
-
-        if (jCheckBoxAtualizaBaseIcms.isSelected()) {
-            text = jTextFieldValorProdutos.getText();
-            jTextFieldBaseIcmsProduto.setText(formataCampos.stringParaStringMoeda(text, decimaisArredondamento));
-
-            aliq = formataCampos.stringParaDecimal(jTextFieldAliqIcmsProduto.getText(), decimaisArredondamento);
-            base = formataCampos.stringParaDecimal(jTextFieldBaseIcmsProduto.getText(), decimaisArredondamento);
-             if(jComboBoxCstIcms.getSelectedIndex() == 7){
-            base = base.multiply(new BigDecimal("0.70588"));
-        }
-            jTextFieldValorIcmsProduto.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base), decimaisArredondamento));
-        }
-        if (jCheckBoxAtualizaBaseIPI.isSelected()) {
-            text = jTextFieldValorProdutos.getText();
-            jTextFieldBaseIpiProd.setText(formataCampos.stringParaStringMoeda(text, decimaisArredondamento));
-
-            aliq = formataCampos.stringParaDecimal(jTextFieldAliqIpiProd.getText(), decimaisArredondamento);
-            base = formataCampos.stringParaDecimal(jTextFieldBaseIpiProd.getText(), decimaisArredondamento);
-            jTextFieldValorIpiProd.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base), decimaisArredondamento));
-        }//fim if IPI
-        if (jCheckBoxAtualizaBasePisCofins.isSelected()) {
-            BigDecimal val = formataCampos.stringParaDecimal(jTextFieldValorProdutos.getText(), decimaisArredondamento).
-                    subtract(formataCampos.stringParaDecimal(jTextFieldValorIcmsProduto.getText(), decimaisArredondamento));           
-            text = formataCampos.bigDecimalParaString(val, decimaisArredondamento);
-           jTextFieldBaseCofinsProd.setText(formataCampos.stringParaStringMoeda(text, decimaisArredondamento));
-          // jTextFieldBaseCofinsProd.setText(text);
-            aliq = formataCampos.stringParaDecimal(jTextFieldAliqCofinsProd.getText(), decimaisArredondamento);
-            base = formataCampos.stringParaDecimal(jTextFieldBaseCofinsProd.getText(), decimaisArredondamento);
-            jTextFieldValorCofinsProd.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base), decimaisArredondamento));
-
-            //jTextFieldBasePisProd.setText(formataCampos.stringParaStringMoeda(text, decimaisArredondamento));
-               jTextFieldBasePisProd.setText(text); 
-            aliq = formataCampos.stringParaDecimal(jTextFieldAliqPisProd.getText(), decimaisArredondamento);
-            base = formataCampos.stringParaDecimal(jTextFieldBasePisProd.getText(), decimaisArredondamento);
-            jTextFieldValorPis.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base), decimaisArredondamento));
-        }//fim fi Base pis e cofins
+        alteraValorProduto();
         jTextFieldAliqPisProd.requestFocus();
     }//GEN-LAST:event_jTextFieldValorUnitarioProdutoActionPerformed
 
@@ -1889,76 +1915,33 @@ public class SaidaJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextFieldValorUnitarioProdutoFocusGained
 
     private void jTextFieldValorUnitarioProdutoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldValorUnitarioProdutoFocusLost
-        String text = jTextFieldValorUnitarioProduto.getText();
-        jTextFieldValorUnitarioProduto.setText(formataCampos.stringParaStringMoeda(text, decimaisArredondamento));
-        BigDecimal aliq;
-        BigDecimal base;
-        BigDecimal valUnitario = formataCampos.stringParaDecimal(jTextFieldValorUnitarioProduto.getText(), decimaisArredondamento);
-        BigDecimal quantidade = new BigDecimal(jTextFieldQuantidadeProduto.getText());
-        jTextFieldValorProdutos.setText(formataCampos.bigDecimalParaString(valUnitario.multiply(quantidade), decimaisArredondamento));
+        alteraValorProduto();
 
-        if (jCheckBoxAtualizaBaseIcms.isSelected()) {
-            text = jTextFieldValorProdutos.getText();
-            jTextFieldBaseIcmsProduto.setText(formataCampos.stringParaStringMoeda(text, decimaisArredondamento));
-
-            aliq = formataCampos.stringParaDecimal(jTextFieldAliqIcmsProduto.getText(), decimaisArredondamento);
-            base = formataCampos.stringParaDecimal(jTextFieldBaseIcmsProduto.getText(), decimaisArredondamento);
-             if(jComboBoxCstIcms.getSelectedIndex() == 7){
-            base = base.multiply(new BigDecimal("0.70588"));
-        }
-            jTextFieldValorIcmsProduto.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base), decimaisArredondamento));
-        }
-        if (jCheckBoxAtualizaBaseIPI.isSelected()) {
-            text = jTextFieldValorProdutos.getText();
-            jTextFieldBaseIpiProd.setText(formataCampos.stringParaStringMoeda(text, decimaisArredondamento));
-
-            aliq = formataCampos.stringParaDecimal(jTextFieldAliqIpiProd.getText(), decimaisArredondamento);
-            base = formataCampos.stringParaDecimal(jTextFieldBaseIpiProd.getText(), decimaisArredondamento);
-            jTextFieldValorIpiProd.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base), decimaisArredondamento));
-        }//fim if IPI
-        if (jCheckBoxAtualizaBasePisCofins.isSelected()) {
-            BigDecimal val = formataCampos.stringParaDecimal(jTextFieldValorProdutos.getText(), decimaisArredondamento).
-                    subtract(formataCampos.stringParaDecimal(jTextFieldValorIcmsProduto.getText(), decimaisArredondamento));           
-            text = formataCampos.bigDecimalParaString(val, decimaisArredondamento);
-            jTextFieldBaseCofinsProd.setText(formataCampos.stringParaStringMoeda(text, decimaisArredondamento));
-           //jTextFieldBaseCofinsProd.setText(text);
-            aliq = formataCampos.stringParaDecimal(jTextFieldAliqCofinsProd.getText(), decimaisArredondamento);
-            base = formataCampos.stringParaDecimal(jTextFieldBaseCofinsProd.getText(), decimaisArredondamento);
-            jTextFieldValorCofinsProd.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base), decimaisArredondamento));
-
-            //jTextFieldBasePisProd.setText(formataCampos.stringParaStringMoeda(text, decimaisArredondamento));
-            jTextFieldBasePisProd.setText(text);
-            aliq = formataCampos.stringParaDecimal(jTextFieldAliqPisProd.getText(), decimaisArredondamento);
-            base = formataCampos.stringParaDecimal(jTextFieldBasePisProd.getText(), decimaisArredondamento);
-            jTextFieldValorPis.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base), decimaisArredondamento));
-
-        }//fim fi Base pis e cofins
-        
     }//GEN-LAST:event_jTextFieldValorUnitarioProdutoFocusLost
 
     private void jCheckBoxAtualizaBaseIcmsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxAtualizaBaseIcmsActionPerformed
-    
-        if(jCheckBoxAtualizaBaseIcms.isSelected()){
+
+        if (jCheckBoxAtualizaBaseIcms.isSelected()) {
             jTextFieldBaseIcmsProduto.setEnabled(false);
-        }else{
-          jTextFieldBaseIcmsProduto.setEnabled(true);  
+        } else {
+            jTextFieldBaseIcmsProduto.setEnabled(true);
         }
-        
+
     }//GEN-LAST:event_jCheckBoxAtualizaBaseIcmsActionPerformed
 
     private void jCheckBoxAtualizaBaseIPIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxAtualizaBaseIPIActionPerformed
-       if(jCheckBoxAtualizaBaseIPI.isSelected()){
+        if (jCheckBoxAtualizaBaseIPI.isSelected()) {
             jTextFieldBaseIpiProd.setEnabled(false);
-        }else{
-             jTextFieldBaseIpiProd.setEnabled(true);
+        } else {
+            jTextFieldBaseIpiProd.setEnabled(true);
         }
     }//GEN-LAST:event_jCheckBoxAtualizaBaseIPIActionPerformed
 
     private void jCheckBoxAtualizaBasePisCofinsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxAtualizaBasePisCofinsActionPerformed
-       if(jCheckBoxAtualizaBasePisCofins.isSelected()){
+        if (jCheckBoxAtualizaBasePisCofins.isSelected()) {
             jTextFieldBasePisProd.setEnabled(false);
             jTextFieldBaseCofinsProd.setEnabled(false);
-        }else{
+        } else {
             jTextFieldBasePisProd.setEnabled(true);
             jTextFieldBaseCofinsProd.setEnabled(true);
         }
@@ -1972,11 +1955,11 @@ public class SaidaJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonExcluirSaidaActionPerformed
 
     private void jButtonTrocarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTrocarClienteActionPerformed
-       trocarClienteSaida();
+        trocarClienteSaida();
     }//GEN-LAST:event_jButtonTrocarClienteActionPerformed
 
     private void jButtonImprimeNFCeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonImprimeNFCeActionPerformed
-        
+
         new ImprimeRelatorio().imprimeRelatorio("/integrador/relatorio/CupomNFCe.jrxml", new ManutencaoVenda().listaRelatorio(movenda, nfc));
     }//GEN-LAST:event_jButtonImprimeNFCeActionPerformed
 
@@ -1986,56 +1969,102 @@ public class SaidaJFrame extends javax.swing.JFrame {
             movenda.setCodvended(this.listagemVendedor.getVendedor());
             new MovendaJpaController(managerCplus).edit(movenda);
         } catch (NonexistentEntityException ex) {
-            JOptionPane.showMessageDialog(null, "Houve um erro ao alterar Vendedor!!! \n"+ex);
+            JOptionPane.showMessageDialog(null, "Houve um erro ao alterar Vendedor!!! \n" + ex);
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Houve um erro ao alterar Vendedor!!! \n"+ex);
+            JOptionPane.showMessageDialog(null, "Houve um erro ao alterar Vendedor!!! \n" + ex);
         }
     }//GEN-LAST:event_jButtonTrocaVendedorActionPerformed
 
-    private void trocarClienteSaida() {       
+    private void jTextFieldValorIcmsOperacaoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldValorIcmsOperacaoFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldValorIcmsOperacaoFocusGained
+
+    private void jTextFieldValorIcmsOperacaoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldValorIcmsOperacaoFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldValorIcmsOperacaoFocusLost
+
+    private void jTextFieldValorIcmsOperacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldValorIcmsOperacaoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldValorIcmsOperacaoActionPerformed
+
+    private void alteraValorProduto() {
+        String text = jTextFieldValorUnitarioProduto.getText();
+        jTextFieldValorUnitarioProduto.setText(formataCampos.stringParaStringMoeda(text, decimaisArredondamento));
+        BigDecimal aliq;
+        BigDecimal valorTotalProduto;
+        BigDecimal valorIcms = BigDecimal.ZERO;
+        BigDecimal valorIcmsDeferimento;
+        BigDecimal aliqDeferimento;
+        BigDecimal valorIcmsOperacao;
+        BigDecimal valUnitario = formataCampos.stringParaDecimal(jTextFieldValorUnitarioProduto.getText(), decimaisArredondamento);
+        BigDecimal quantidade = new BigDecimal(jTextFieldQuantidadeProduto.getText());
+        valorTotalProduto = valUnitario.multiply(quantidade);
+        jTextFieldValorProdutos.setText(formataCampos.bigDecimalParaString(valorTotalProduto, decimaisArredondamento));
+
+        if (jCheckBoxAtualizaBaseIcms.isSelected()) {
+            //text = jTextFieldValorProdutos.getText();
+            jTextFieldBaseIcmsProduto.setText(formataCampos.bigDecimalParaString(valorTotalProduto, decimaisArredondamento));
+
+            aliq = formataCampos.stringParaDecimal(jTextFieldAliqIcmsProduto.getText(), decimaisArredondamento);
+            //base = formataCampos.stringParaDecimal(jTextFieldBaseIcmsProduto.getText(), decimaisArredondamento);
+            if (jComboBoxCstIcms.getSelectedIndex() == 7) {
+                aliqDeferimento = formataCampos.stringParaDecimal(jTextFieldAliqDeferimento.getText(), 3);
+                valorIcmsOperacao = calculodeValores(aliq, valorTotalProduto);
+                jTextFieldValorIcmsOperacao.setText(formataCampos.bigDecimalParaString(valorIcmsOperacao, decimaisArredondamento));
+                valorIcmsDeferimento = calculodeValores(aliqDeferimento, valorIcmsOperacao);
+                jTextFieldValorIcmsDeferimento.setText(formataCampos.bigDecimalParaString(valorIcmsDeferimento, decimaisArredondamento));
+                valorIcms = valorIcmsOperacao.subtract(valorIcmsDeferimento);
+                jTextFieldValorIcmsProduto.setText(formataCampos.bigDecimalParaString(valorIcms, decimaisArredondamento));
+            } else {
+                valorIcms = calculodeValores(aliq, valorTotalProduto);
+                jTextFieldValorIcmsProduto.setText(formataCampos.bigDecimalParaString(valorIcms, decimaisArredondamento));
+            }
+        }
+        if (jCheckBoxAtualizaBaseIPI.isSelected()) {
+            //text = jTextFieldValorProdutos.getText();
+            jTextFieldBaseIpiProd.setText(formataCampos.bigDecimalParaString(valorTotalProduto, decimaisArredondamento));
+
+            aliq = formataCampos.stringParaDecimal(jTextFieldAliqIpiProd.getText(), decimaisArredondamento);
+            //base = formataCampos.stringParaDecimal(jTextFieldBaseIpiProd.getText(), decimaisArredondamento);
+            jTextFieldValorIpiProd.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, valorTotalProduto), decimaisArredondamento));
+        }//fim if IPI
+        if (jCheckBoxAtualizaBasePisCofins.isSelected()) {
+            // BigDecimal val = formataCampos.stringParaDecimal(jTextFieldValorProdutos.getText(), decimaisArredondamento).
+            //         subtract(formataCampos.stringParaDecimal(jTextFieldValorIcmsProduto.getText(), decimaisArredondamento));
+            // text = formataCampos.bigDecimalParaString(val, decimaisArredondamento);
+            BigDecimal basePisCofins = valorTotalProduto.subtract(formataCampos.stringParaDecimal(jTextFieldValorIcmsProduto.getText(), decimaisArredondamento));
+            jTextFieldBaseCofinsProd.setText(formataCampos.bigDecimalParaString(basePisCofins, decimaisArredondamento));
+            //jTextFieldBaseCofinsProd.setText(text);
+            aliq = formataCampos.stringParaDecimal(jTextFieldAliqCofinsProd.getText(), decimaisArredondamento);
+            //base = formataCampos.stringParaDecimal(jTextFieldBaseCofinsProd.getText(), decimaisArredondamento);
+            jTextFieldValorCofinsProd.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, basePisCofins), decimaisArredondamento));
+
+            //jTextFieldBasePisProd.setText(formataCampos.stringParaStringMoeda(text, decimaisArredondamento));
+            jTextFieldBasePisProd.setText(formataCampos.bigDecimalParaString(basePisCofins, decimaisArredondamento));
+            aliq = formataCampos.stringParaDecimal(jTextFieldAliqPisProd.getText(), decimaisArredondamento);
+            //base = formataCampos.stringParaDecimal(jTextFieldBasePisProd.getText(), decimaisArredondamento);
+            jTextFieldValorPis.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, basePisCofins), decimaisArredondamento));
+
+        }//fim fi Base pis e cofins
+    }
+
+    private void trocarClienteSaida() {
         boolean condicaoIcms = true;
         this.listagemClientesJDialog.setVisible(true);
         if (this.listagemClientesJDialog.isCancelamento() == false) {
             //cliente = this.listagemClientesJDialog.getCliente();           
-            if(this.listagemClientesJDialog.getCliente().getCodtipomovimento() != null){
+            if (this.listagemClientesJDialog.getCliente().getCodtipomovimento() != null) {
                 movenda.setCodcli(this.listagemClientesJDialog.getCliente());
                 movenda.setCodtipomovimento(this.listagemClientesJDialog.getCliente().getCodtipomovimento());
-            for (Movendaprod prod : movenda.getMovendaprodCollection()) {
-                //Calculoicmsestado calculoIcmsEstado;
-                String cfop;
-                String cfopSecundaria = "";
-                if ("RS".equals(movenda.getCodcli().getEstado())) {
-                    cfop = "5405";
-                    cfopSecundaria = "5102";
-                } else {
-                     String str = movenda.getIndoperacao().toString();
-                    if ("1".equals(str)) {
-                        cfop = "6108";
-                    } else {
-                        cfop = "6403";
-                        cfopSecundaria = "6102";
-                    }
-                }
-                List<Calculoicmsestado> listCalculoIcmsEstado;
-                listCalculoIcmsEstado = queryCplus.listcalculoIcmsEstadol("RS", movenda.getCodcli().getEstado(), cfop, prod.getCodprod().getCodcalculoicms().getCodcalculoicms());
-                if (listCalculoIcmsEstado.isEmpty()) {
-                    listCalculoIcmsEstado = queryCplus.listcalculoIcmsEstadol("RS", movenda.getCodcli().getEstado(), cfopSecundaria, prod.getCodprod().getCodcalculoicms().getCodcalculoicms());
-                }
-                if (listCalculoIcmsEstado.isEmpty()) {
-                    condicaoIcms = false;
-                    JOptionPane.showMessageDialog(null, "Nï¿½o foi possivel encontrar o calculo de ICMS do Produto: \n" + prod.getCodprod().getNomeprod() + " verifique o cadastro no C-Plus!!! \n");
-                }
-            }
-            if (condicaoIcms) {
                 for (Movendaprod prod : movenda.getMovendaprodCollection()) {
-                    Calculoicmsestado calculoIcmsEstado = null;
+                    //Calculoicmsestado calculoIcmsEstado;
                     String cfop;
                     String cfopSecundaria = "";
                     if ("RS".equals(movenda.getCodcli().getEstado())) {
                         cfop = "5405";
                         cfopSecundaria = "5102";
                     } else {
-                       String str = movenda.getIndoperacao().toString();
+                        String str = movenda.getIndoperacao().toString();
                         if ("1".equals(str)) {
                             cfop = "6108";
                         } else {
@@ -2048,113 +2077,140 @@ public class SaidaJFrame extends javax.swing.JFrame {
                     if (listCalculoIcmsEstado.isEmpty()) {
                         listCalculoIcmsEstado = queryCplus.listcalculoIcmsEstadol("RS", movenda.getCodcli().getEstado(), cfopSecundaria, prod.getCodprod().getCodcalculoicms().getCodcalculoicms());
                     }
-                    if (listCalculoIcmsEstado.size() == 1) {
-                        for (Calculoicmsestado icms : listCalculoIcmsEstado) {
-                            calculoIcmsEstado = icms;
-                        }
-                        double valorTotalProduto = prod.getValortotal().doubleValue();
-                        double baseCofins;
-                        double aliqCofins;
-                        if (calculoIcmsEstado.getAliqcofins() == null) {
-                            aliqCofins = 0.00;
-                            baseCofins = 0.00;
-                        } else {
-                            baseCofins = valorTotalProduto;
-                            aliqCofins = calculoIcmsEstado.getAliqcofins().doubleValue();
-                        }
-                        double valorCofins = baseCofins * aliqCofins / 100;
-                        prod.setBasecofins(new BigDecimal(baseCofins));
-                        prod.setAliqcofins(new BigDecimal(aliqCofins));
-                        prod.setValorcofins(new BigDecimal(valorCofins));
-                        double basePis;
-                        double aliqPis;
-                        if (calculoIcmsEstado.getAliqpis() == null) {
-                            aliqPis = 0.00;
-                            basePis = 0.00;
-                        } else {
-                            basePis = valorTotalProduto;
-                            aliqPis = calculoIcmsEstado.getAliqpis().doubleValue();
-                        }
-                        double valorPis = basePis * aliqPis / 100;
-                        prod.setBasepis(new BigDecimal(basePis));
-                        prod.setAliqpis(new BigDecimal(aliqPis));
-                        prod.setValorpis(new BigDecimal(valorPis));
-                        //prod.setCustoreal(pedidoProdIntegrador.getIdProduto().getPrecoCusto());
-                        prod.setCstpis(calculoIcmsEstado.getCstpis());
-                        prod.setCstcofins(calculoIcmsEstado.getCstcofins());
-                        //prod.setBasesubsttributaria(formataCampos.stringParaDecimal(jTextFieldBaseSTProd.getText(), var.casas_decimais_ARREDONDAMENTO));
-                        // prod.setValorsubsttributaria(formataCampos.stringParaDecimal(jTextFieldValorSTProd.getText(), var.casas_decimais_ARREDONDAMENTO));
-                        prod.setCodcfop(calculoIcmsEstado.getCodcfop());
-                        //prod.setFlagorigemproduto(origem);
-                        double aliqIcms;
-
-                        if (calculoIcmsEstado.getAliqicms() == null) {
-                            aliqIcms = 0.00;
-                        } else {
-                            aliqIcms = calculoIcmsEstado.getAliqicms().doubleValue();
-                        }
-                        double baseIcms;
-                        double valorIcms;
-                        double aliqReducaoIcms;
-                        if (aliqIcms > 0.00) {
-                            if (calculoIcmsEstado.getAliqreducaobaseicms() == null) {
-                                aliqReducaoIcms = 0.00;
-                            } else {
-                                aliqReducaoIcms = calculoIcmsEstado.getAliqreducaobaseicms().doubleValue();
-                            }
-                            baseIcms = (100 - aliqReducaoIcms) * valorTotalProduto / 100;
-                            valorIcms = baseIcms * aliqIcms / 100;
-                        } else {
-                            aliqIcms = 0.00;
-                            baseIcms = 0.00;
-                            valorIcms = 0.00;
-                        }
-                        prod.setBaseicms(new BigDecimal(baseIcms));
-                        prod.setAliqicms(new BigDecimal(aliqIcms));
-                        prod.setValoricms(new BigDecimal(valorIcms));
-                        prod.setCodsituacaotributaria(calculoIcmsEstado.getCodsituacaotributaria());
-                        try {
-                            new MovendaprodJpaController(managerCplus).edit(prod);
-                        } catch (NonexistentEntityException ex) {
-                            condicaoIcms = false;
-                            JOptionPane.showMessageDialog(null, "Houve um erro ao Editar Produto do Pedido!!! \n" + ex);
-                        } catch (Exception ex) {
-                            condicaoIcms = false;
-                            JOptionPane.showMessageDialog(null, "Houve um erro ao Editar Produto do Pedido!!! \n" + ex);
-                        }
+                    if (listCalculoIcmsEstado.isEmpty()) {
+                        condicaoIcms = false;
+                        JOptionPane.showMessageDialog(null, "Não foi possivel encontrar o calculo de ICMS do Produto: \n" + prod.getCodprod().getNomeprod() + " verifique o cadastro no C-Plus!!! \n");
                     }
-                }//fim for ediï¿½ï¿½o
-            }//if que verifica se todos os calculos de icms foram encontrados
-            if(condicaoIcms){
-                editaMovendaCliente(this.listagemClientesJDialog.getCliente(), movenda, managerCplus);                
-                carregaCamposSaida();                
+                }
+                if (condicaoIcms) {
+                    for (Movendaprod prod : movenda.getMovendaprodCollection()) {
+                        Calculoicmsestado calculoIcmsEstado = null;
+                        String cfop;
+                        String cfopSecundaria = "";
+                        if ("RS".equals(movenda.getCodcli().getEstado())) {
+                            cfop = "5405";
+                            cfopSecundaria = "5102";
+                        } else {
+                            String str = movenda.getIndoperacao().toString();
+                            if ("1".equals(str)) {
+                                cfop = "6108";
+                            } else {
+                                cfop = "6403";
+                                cfopSecundaria = "6102";
+                            }
+                        }
+                        List<Calculoicmsestado> listCalculoIcmsEstado;
+                        listCalculoIcmsEstado = queryCplus.listcalculoIcmsEstadol("RS", movenda.getCodcli().getEstado(), cfop, prod.getCodprod().getCodcalculoicms().getCodcalculoicms());
+                        if (listCalculoIcmsEstado.isEmpty()) {
+                            listCalculoIcmsEstado = queryCplus.listcalculoIcmsEstadol("RS", movenda.getCodcli().getEstado(), cfopSecundaria, prod.getCodprod().getCodcalculoicms().getCodcalculoicms());
+                        }
+                        if (listCalculoIcmsEstado.size() == 1) {
+                            for (Calculoicmsestado icms : listCalculoIcmsEstado) {
+                                calculoIcmsEstado = icms;
+                            }
+                            double valorTotalProduto = prod.getValortotal().doubleValue();
+                            double baseCofins;
+                            double aliqCofins;
+                            if (calculoIcmsEstado.getAliqcofins() == null) {
+                                aliqCofins = 0.00;
+                                baseCofins = 0.00;
+                            } else {
+                                baseCofins = valorTotalProduto;
+                                aliqCofins = calculoIcmsEstado.getAliqcofins().doubleValue();
+                            }
+                            double valorCofins = baseCofins * aliqCofins / 100;
+                            prod.setBasecofins(new BigDecimal(baseCofins));
+                            prod.setAliqcofins(new BigDecimal(aliqCofins));
+                            prod.setValorcofins(new BigDecimal(valorCofins));
+                            double basePis;
+                            double aliqPis;
+                            if (calculoIcmsEstado.getAliqpis() == null) {
+                                aliqPis = 0.00;
+                                basePis = 0.00;
+                            } else {
+                                basePis = valorTotalProduto;
+                                aliqPis = calculoIcmsEstado.getAliqpis().doubleValue();
+                            }
+                            double valorPis = basePis * aliqPis / 100;
+                            prod.setBasepis(new BigDecimal(basePis));
+                            prod.setAliqpis(new BigDecimal(aliqPis));
+                            prod.setValorpis(new BigDecimal(valorPis));
+                            //prod.setCustoreal(pedidoProdIntegrador.getIdProduto().getPrecoCusto());
+                            prod.setCstpis(calculoIcmsEstado.getCstpis());
+                            prod.setCstcofins(calculoIcmsEstado.getCstcofins());
+                            //prod.setBasesubsttributaria(formataCampos.stringParaDecimal(jTextFieldBaseSTProd.getText(), var.casas_decimais_ARREDONDAMENTO));
+                            // prod.setValorsubsttributaria(formataCampos.stringParaDecimal(jTextFieldValorSTProd.getText(), var.casas_decimais_ARREDONDAMENTO));
+                            prod.setCodcfop(calculoIcmsEstado.getCodcfop());
+                            //prod.setFlagorigemproduto(origem);
+                            double aliqIcms;
+
+                            if (calculoIcmsEstado.getAliqicms() == null) {
+                                aliqIcms = 0.00;
+                            } else {
+                                aliqIcms = calculoIcmsEstado.getAliqicms().doubleValue();
+                            }
+                            double baseIcms;
+                            double valorIcms;
+                            double aliqReducaoIcms;
+                            if (aliqIcms > 0.00) {
+                                if (calculoIcmsEstado.getAliqreducaobaseicms() == null) {
+                                    aliqReducaoIcms = 0.00;
+                                } else {
+                                    aliqReducaoIcms = calculoIcmsEstado.getAliqreducaobaseicms().doubleValue();
+                                }
+                                baseIcms = (100 - aliqReducaoIcms) * valorTotalProduto / 100;
+                                valorIcms = baseIcms * aliqIcms / 100;
+                            } else {
+                                aliqIcms = 0.00;
+                                baseIcms = 0.00;
+                                valorIcms = 0.00;
+                            }
+                            prod.setBaseicms(new BigDecimal(baseIcms));
+                            prod.setAliqicms(new BigDecimal(aliqIcms));
+                            prod.setValoricms(new BigDecimal(valorIcms));
+                            prod.setCodsituacaotributaria(calculoIcmsEstado.getCodsituacaotributaria());
+                            try {
+                                new MovendaprodJpaController(managerCplus).edit(prod);
+                            } catch (NonexistentEntityException ex) {
+                                condicaoIcms = false;
+                                JOptionPane.showMessageDialog(null, "Houve um erro ao Editar Produto do Pedido!!! \n" + ex);
+                            } catch (Exception ex) {
+                                condicaoIcms = false;
+                                JOptionPane.showMessageDialog(null, "Houve um erro ao Editar Produto do Pedido!!! \n" + ex);
+                            }
+                        }
+                    }//fim for editar
+                }//if que verifica se todos os calculos de icms foram encontrados
+                if (condicaoIcms) {
+                    editaMovendaCliente(this.listagemClientesJDialog.getCliente(), movenda, managerCplus);
+                    carregaCamposSaida();
+                }
+            } else {//if que verifica se a operação é nula
+                JOptionPane.showMessageDialog(null, "A operação do Cliente está em branco!!! \n");
             }
-        }else{//if que verifica se a operaï¿½ï¿½o e nula
-          JOptionPane.showMessageDialog(null, "A operaï¿½ï¿½o do Cliente estï¿½ em branco!!! \n");  
-        }
         }//if que verifica se a pesquisa cliente foi cancelada
 
     }
-                               
-    private void excluirDocDevolucaoFornecedor(){
-        if(jTableDocDevolucaoFornecedor.getSelectedRow() == -1){
-            JOptionPane.showMessageDialog(null, "Vocï¿½ deve selecionar uma linha na tabela abaixo!!!" );
-        }else{
+
+    private void excluirDocDevolucaoFornecedor() {
+        if (jTableDocDevolucaoFornecedor.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(null, "Vocï¿½ deve selecionar uma linha na tabela abaixo!!!");
+        } else {
             colunaMovDocReferenciado = jTableDocDevolucaoFornecedor.getColumnModel().getColumnIndex("Codmovdocreferenciado");
             String cod = jTableDocDevolucaoFornecedor.getValueAt(jTableDocDevolucaoFornecedor.getSelectedRow(), colunaMovDocReferenciado).toString();
             try {
                 new MovdocreferenciadoJpaController(managerCplus).destroy(cod);
                 carregaLitaReferenciaDoc(movenda);
             } catch (NonexistentEntityException ex) {
-               JOptionPane.showMessageDialog(null, "Houve um erro ao Excluir Referencia de Nota de compra!!!\n " + ex);
+                JOptionPane.showMessageDialog(null, "Houve um erro ao Excluir Referencia de Nota de compra!!!\n " + ex);
             }
         }
     }
-    
+
     private void criaDocDevolucaoFornecedor() {
         this.listagemEntradasJDialog.setVisible(true);
         if (this.listagemEntradasJDialog.isCancelamento() == false) {
-            Moventrada movEntrada = this.listagemEntradasJDialog.getMovEntrada();            
+            Moventrada movEntrada = this.listagemEntradasJDialog.getMovEntrada();
             List<Movdocreferenciado> lisNota = queryCplus.relacaoNotaDevolucaoFornecedor(movEntrada.getCodmoventr(), movenda.getCodmovenda());
             if (lisNota.isEmpty()) {
                 //Configuracao configuracao = new ConfiguracaoJpaController(managerIntegrador).findConfiguracao("increment_tabela_movenda_doc_referencia");
@@ -2162,10 +2218,10 @@ public class SaidaJFrame extends javax.swing.JFrame {
                 //configCont++;
                 //configuracao.setValorConfiguracao(Integer.toString(configCont));
                 //try {
-                 //   new ConfiguracaoJpaController(managerIntegrador).edit(configuracao);
+                //   new ConfiguracaoJpaController(managerIntegrador).edit(configuracao);
                 //} catch (Exception ex) {
-               //     JOptionPane.showMessageDialog(null, "Houve um erro ao Gravar Configuraï¿½ï¿½o de Entrada Produto!!!\n " + ex);
-               // }
+                //     JOptionPane.showMessageDialog(null, "Houve um erro ao Gravar Configuraï¿½ï¿½o de Entrada Produto!!!\n " + ex);
+                // }
                 Movdocreferenciado refNota = new Movdocreferenciado();
                 refNota.setCodmovdocreferenciado(String.format("%09d", configCont));
                 refNota.setModelonota(movEntrada.getModelonota());
@@ -2179,125 +2235,126 @@ public class SaidaJFrame extends javax.swing.JFrame {
                 refNota.setIdentidadeorigemref(movEntrada.getCodmoventr());
                 try {
                     new MovdocreferenciadoJpaController(managerCplus).create(refNota);
-                    configCont ++;
+                    configCont++;
                     new ConexaoDB().atualizarCodigo("MOVENDADOCREF", "CODMOVENDADOCREF", configCont);
                     carregaLitaReferenciaDoc(movenda);
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, "Houve um erro ao Gravar Referencia de Nota de compra!!!\n " + ex);
                 }
-            }else{//fim if que nï¿½o encontra resultado
-                 JOptionPane.showMessageDialog(null, "Essa Nota jï¿½ esta relacionada com a devoluï¿½ï¿½o!!!" );
-            }       
+            } else {//fim if que nï¿½o encontra resultado
+                JOptionPane.showMessageDialog(null, "Essa Nota já esta relacionada com a devolução!!!");
+            }
         }//fim if que verifica se a saida foi cancelada
     }
-    
-    private void deletaDevolucaoDeCompra(){
-         if(jTableMovendaProd.getSelectedRow() == -1){
-            JOptionPane.showMessageDialog(null, "Vocï¿½ deve selecionar um produto na listagem!!!");       
-        }else{
-             colunaCodMovendaProduto = jTableMovendaProd.getColumnModel().getColumnIndex("Codmovprod");
-             String codMovProdSaida = jTableMovendaProd.getValueAt(jTableMovendaProd.getSelectedRow(), colunaCodMovendaProduto).toString();
-        List<Movendaproddevolucaocompra> list = queryCplus.listagemControlaDevolucaoPorSaidaProd(codMovProdSaida);
-        for(Movendaproddevolucaocompra dev : list){
-            try {
-                new MovendaproddevolucaocompraJpaController(managerCplus).destroy(dev.getCodmovendaproddevolucaocompra());
-            } catch (NonexistentEntityException ex) {
-                JOptionPane.showMessageDialog(null, "Houve um erro ao deletar controle de devoluï¿½ï¿½o de compra!!! \n"+ex); 
+
+    private void deletaDevolucaoDeCompra() {
+        if (jTableMovendaProd.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(null, "Você deve selecionar um produto na listagem!!!");
+        } else {
+            colunaCodMovendaProduto = jTableMovendaProd.getColumnModel().getColumnIndex("Codmovprod");
+            String codMovProdSaida = jTableMovendaProd.getValueAt(jTableMovendaProd.getSelectedRow(), colunaCodMovendaProduto).toString();
+            List<Movendaproddevolucaocompra> list = queryCplus.listagemControlaDevolucaoPorSaidaProd(codMovProdSaida);
+            for (Movendaproddevolucaocompra dev : list) {
+                try {
+                    new MovendaproddevolucaocompraJpaController(managerCplus).destroy(dev.getCodmovendaproddevolucaocompra());
+                } catch (NonexistentEntityException ex) {
+                    JOptionPane.showMessageDialog(null, "Houve um erro ao deletar controle de devolução de compra!!! \n" + ex);
+                }
             }
         }
-         }
     }
-    
-    private BigDecimal calculodeValores(BigDecimal aliquota, BigDecimal base){
+
+    private BigDecimal calculodeValores(BigDecimal aliquota, BigDecimal base) {
         double aliq = aliquota.doubleValue();
         double bas = base.doubleValue();
-        double valor = (aliq * bas)/100;       
+        double valor = (aliq * bas) / 100;
         return new BigDecimal(valor);
-        
+
     }
-   
-    private void trocaProdutoDePedido(){
-        if(jTableMovendaProd.getSelectedRow() == -1){
-            JOptionPane.showMessageDialog(null, "VocÃª deve selecionar um produto na listagem!!!");       
-        }else{
+
+    private void trocaProdutoDePedido() {
+        if (jTableMovendaProd.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(null, "Você deve selecionar um produto na listagem!!!");
+        } else {
             this.listagemSaidasJDialog.setTermoPesquisa("");
-        this.listagemSaidasJDialog.setVisible(true);
-        if(this.listagemSaidasJDialog.isCancelamento()== false){
-            Movenda movendaAlterado = this.listagemSaidasJDialog.getMoVenda();
-            colunaCodMovendaProduto = jTableMovendaProd.getColumnModel().getColumnIndex("Codmovprod");
-            Movendaprod prod = new MovendaprodJpaController(managerCplus).findMovendaprod(jTableMovendaProd.getValueAt(jTableMovendaProd.getSelectedRow(), colunaCodMovendaProduto).toString());
-            prod.setCodmovenda(movendaAlterado);
-                              
-            if(!"C".equals(movendaAlterado.getFlagcli().toString())){
-            List<Movendaproddevolucaocompra> listDevProd = queryCplus.listagemControlaDevolucaoPorSaidaProd(prod.getCodmovprod());
-            if (listDevProd.isEmpty()) {
-            //Configuracao configuracao = new ConfiguracaoJpaController(managerIntegrador).findConfiguracao("increment_tabela_movenda_controla_devolucao");
-            Integer configCont = new ConexaoDB().ultimoCodigo("MOVENDAPRODDEVOLUCAOCOMPRA", "CODMOVENDAPRODDEVOLUCAOCOMPRA");
-            
-            Movendaproddevolucaocompra devProd = new Movendaproddevolucaocompra();
-            devProd.setCodmovendaproddevolucaocompra(String.format("%09d", configCont));
-            devProd.setCodprod(prod.getCodprod());          
-            devProd.setCodforn(movendaAlterado.getCodForn());            
-            devProd.setCodmovprod(prod);
-            devProd.setQuantidade(prod.getQuantidade());
-            devProd.setValorcusto(prod.getValortotal().add(prod.getValorsubsttributaria().add(prod.getValoripi())));
-            devProd.setDatasaida(new Date(System.currentTimeMillis()));
-            devProd.setQuantidaderetornada(BigDecimal.ZERO);
-            devProd.setDataprevistadevolucao(new Date(System.currentTimeMillis()));
-            devProd.setValorretornado(BigDecimal.ZERO);
-            try {
-                new MovendaproddevolucaocompraJpaController(managerCplus).create(devProd);
-                configCont ++;
-                 new ConexaoDB().atualizarCodigo("MOVENDAPRODDEVOLUCAOCOMPRA", "CODMOVENDAPRODDEVOLUCAOCOMPRA", configCont);
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, "Houve um erro ao Gravar Controle de devoluÃ§Ã£o!!!\n " + ex);
-            }
-        } else if (listDevProd.size() == 1) {
-            for (Movendaproddevolucaocompra dev : listDevProd) {
-                dev.setCodforn(movendaAlterado.getCodForn());
-                dev.setQuantidade(prod.getQuantidade());
-                dev.setValorcusto(prod.getValortotal().add(prod.getValorsubsttributaria().add(prod.getValoripi())));
-                dev.setDatasaida(new Date(System.currentTimeMillis()));
+            this.listagemSaidasJDialog.setVisible(true);
+            if (this.listagemSaidasJDialog.isCancelamento() == false) {
+                Movenda movendaAlterado = this.listagemSaidasJDialog.getMoVenda();
+                colunaCodMovendaProduto = jTableMovendaProd.getColumnModel().getColumnIndex("Codmovprod");
+                Movendaprod prod = new MovendaprodJpaController(managerCplus).findMovendaprod(jTableMovendaProd.getValueAt(jTableMovendaProd.getSelectedRow(), colunaCodMovendaProduto).toString());
+                prod.setCodmovenda(movendaAlterado);
+
+                if (!"C".equals(movendaAlterado.getFlagcli().toString())) {
+                    List<Movendaproddevolucaocompra> listDevProd = queryCplus.listagemControlaDevolucaoPorSaidaProd(prod.getCodmovprod());
+                    if (listDevProd.isEmpty()) {
+                        //Configuracao configuracao = new ConfiguracaoJpaController(managerIntegrador).findConfiguracao("increment_tabela_movenda_controla_devolucao");
+                        Integer configCont = new ConexaoDB().ultimoCodigo("MOVENDAPRODDEVOLUCAOCOMPRA", "CODMOVENDAPRODDEVOLUCAOCOMPRA");
+
+                        Movendaproddevolucaocompra devProd = new Movendaproddevolucaocompra();
+                        devProd.setCodmovendaproddevolucaocompra(String.format("%09d", configCont));
+                        devProd.setCodprod(prod.getCodprod());
+                        devProd.setCodforn(movendaAlterado.getCodForn());
+                        devProd.setCodmovprod(prod);
+                        devProd.setQuantidade(prod.getQuantidade());
+                        devProd.setValorcusto(prod.getValortotal().add(prod.getValorsubsttributaria().add(prod.getValoripi())));
+                        devProd.setDatasaida(new Date(System.currentTimeMillis()));
+                        devProd.setQuantidaderetornada(BigDecimal.ZERO);
+                        devProd.setDataprevistadevolucao(new Date(System.currentTimeMillis()));
+                        devProd.setValorretornado(BigDecimal.ZERO);
+                        try {
+                            new MovendaproddevolucaocompraJpaController(managerCplus).create(devProd);
+                            configCont++;
+                            new ConexaoDB().atualizarCodigo("MOVENDAPRODDEVOLUCAOCOMPRA", "CODMOVENDAPRODDEVOLUCAOCOMPRA", configCont);
+                        } catch (Exception ex) {
+                            JOptionPane.showMessageDialog(null, "Houve um erro ao Gravar Controle de devoluÃ§Ã£o!!!\n " + ex);
+                        }
+                    } else if (listDevProd.size() == 1) {
+                        for (Movendaproddevolucaocompra dev : listDevProd) {
+                            dev.setCodforn(movendaAlterado.getCodForn());
+                            dev.setQuantidade(prod.getQuantidade());
+                            dev.setValorcusto(prod.getValortotal().add(prod.getValorsubsttributaria().add(prod.getValoripi())));
+                            dev.setDatasaida(new Date(System.currentTimeMillis()));
+                            try {
+                                new MovendaproddevolucaocompraJpaController(managerCplus).edit(dev);
+                            } catch (Exception ex) {
+                                JOptionPane.showMessageDialog(null, "Houve um erro ao Editar Controle de devoluÃ§Ã£o!!!\n " + ex);
+                            }
+                        }//fim for devolucao
+                    }//fim if que verifica a quantidade da lista           
+                }//fim if que verifica se ï¿½ fornecedor se nï¿½o for nï¿½o controla devoluï¿½ï¿½o
                 try {
-                    new MovendaproddevolucaocompraJpaController(managerCplus).edit(dev);
+                    new MovendaprodJpaController(managerCplus).edit(prod);
+                } catch (NonexistentEntityException ex) {
+                    JOptionPane.showMessageDialog(null, "Houve um erro ao trocar Produto de Pedido!!!\n " + ex);
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(null, "Houve um erro ao Editar Controle de devoluÃ§Ã£o!!!\n " + ex);
+                    JOptionPane.showMessageDialog(null, "Houve um erro ao trocar Produto de Pedido!!!\n " + ex);
                 }
-            }//fim for devolucao
-        }//fim if que verifica a quantidade da lista           
-        }//fim if que verifica se ï¿½ fornecedor se nï¿½o for nï¿½o controla devoluï¿½ï¿½o
-            try {
-                new MovendaprodJpaController(managerCplus).edit(prod);
-            } catch (NonexistentEntityException ex) {
-                 JOptionPane.showMessageDialog(null, "Houve um erro ao trocar Produto de Pedido!!!\n " + ex);
-            } catch (Exception ex) {
-               JOptionPane.showMessageDialog(null, "Houve um erro ao trocar Produto de Pedido!!!\n " + ex);
+
+                editaMovenda(movendaAlterado, managerCplus);
+                editaMovenda(movenda, managerCplus);
+                movendaprodList.clear();
+                for (Movendaprod pro : queryCplus.listMovendaProd(movenda.getCodmovenda())) {
+                    movendaprodList.add(pro);
+                }
             }
-            
-            editaMovenda(movendaAlterado, managerCplus);
-            editaMovenda(movenda, managerCplus);
-            movendaprodList.clear();
-        for (Movendaprod pro : queryCplus.listMovendaProd(movenda.getCodmovenda())) {
-            movendaprodList.add(pro);
-        }
-        }        }//fim else que verifica se a produto selecionado na lista
+        }//fim else que verifica se a produto selecionado na lista
     }
-        
-    private void carregaCamposSaida() {    
+
+    private void carregaCamposSaida() {
         limpacampos();
         movendaprodList.clear();
         for (Movendaprod pro : queryCplus.listMovendaProd(movenda.getCodmovenda())) {
             movendaprodList.add(pro);
         }
         //totais da nota
-        if("Y".equals(movenda.getFlagcancelada().toString())){
-        jLabelMensagem.setForeground(Color.red);
-        jLabelMensagem.setText("Saida Cancelada");
-        jButtonExcluirSaida.setEnabled(true);
-        }else{
-             jButtonExcluirSaida.setEnabled(false);
+        if ("Y".equals(movenda.getFlagcancelada().toString())) {
+            jLabelMensagem.setForeground(Color.red);
+            jLabelMensagem.setText("Saida Cancelada");
+            jButtonExcluirSaida.setEnabled(true);
+        } else {
+            jButtonExcluirSaida.setEnabled(false);
             jLabelMensagem.setForeground(Color.black);
-        jLabelMensagem.setText("");
+            jLabelMensagem.setText("");
         }
         jTextFieldValorTotalNota.setText(formataCampos.bigDecimalParaString(movenda.getValortotalnota(), decimaisArredondamento));
         jTextFieldValorTotalCofins.setText(formataCampos.bigDecimalParaString(movenda.getValortotalcofins(), decimaisArredondamento));
@@ -2311,70 +2368,70 @@ public class SaidaJFrame extends javax.swing.JFrame {
         //fim totais da nota
         //saida
         String clienStr = movenda.getCodtipomovimento().getFlagforncli().toString();
-        if("C".equals(clienStr)){
-            if(movenda.getCodcli() == null){
+        if ("C".equals(clienStr)) {
+            if (movenda.getCodcli() == null) {
                 jTextFieldNomeFantasia.setText(movenda.getNomecli());
-            }else{
-        jTextFieldCidade.setText(movenda.getCodcli().getCidade());
-        jTextFieldEndereco.setText(movenda.getCodcli().getEndereco());
-        jTextFieldEstado.setText(movenda.getCodcli().getEstado());
-        jTextFieldNomeFantasia.setText(movenda.getCodcli().getNomecli());
-        jTextFieldRazaoCliente.setText(movenda.getCodcli().getConjfantasia());  
+            } else {
+                jTextFieldCidade.setText(movenda.getCodcli().getCidade());
+                jTextFieldEndereco.setText(movenda.getCodcli().getEndereco());
+                jTextFieldEstado.setText(movenda.getCodcli().getEstado());
+                jTextFieldNomeFantasia.setText(movenda.getCodcli().getNomecli());
+                jTextFieldRazaoCliente.setText(movenda.getCodcli().getConjfantasia());
             }
-        }else{
-        jTextFieldCidade.setText(movenda.getCodForn().getCidade());
-        jTextFieldEndereco.setText(movenda.getCodForn().getEndereco());
-        jTextFieldEstado.setText(movenda.getCodForn().getEstado());
-        jTextFieldNomeFantasia.setText(movenda.getCodForn().getNomeforn());
-        jTextFieldRazaoCliente.setText(movenda.getCodForn().getRazaosocial());
+        } else {
+            jTextFieldCidade.setText(movenda.getCodForn().getCidade());
+            jTextFieldEndereco.setText(movenda.getCodForn().getEndereco());
+            jTextFieldEstado.setText(movenda.getCodForn().getEstado());
+            jTextFieldNomeFantasia.setText(movenda.getCodForn().getNomeforn());
+            jTextFieldRazaoCliente.setText(movenda.getCodForn().getRazaosocial());
         }
         jTextFieldDataSaida.setText(formataCampos.dataStringSoData(movenda.getData(), 0));
         jTextFieldHora.setText(formataCampos.dataStringSoHora(movenda.getHora(), 0));
         jTextFieldEntregaTelefone.setText(movenda.getEntregatelefone());
-        if(movenda.getNumcupom() != null){
-        jTextFieldNumeroCupom.setText(movenda.getNumcupom().toString());
-        }else{
-           jTextFieldNumeroCupom.setText("0"); 
+        if (movenda.getNumcupom() != null) {
+            jTextFieldNumeroCupom.setText(movenda.getNumcupom().toString());
+        } else {
+            jTextFieldNumeroCupom.setText("0");
         }
-        for(Nfceletronica nfce : queryCplus.listaNFC(movenda.getCodmovenda())){
+        for (Nfceletronica nfce : queryCplus.listaNFC(movenda.getCodmovenda())) {
             int i = Integer.parseInt(nfce.getCodnfceletronica());
             jTextFieldNumeroNFCe.setText(String.valueOf(i));
             jTextFieldChaveNFCe.setText(nfce.getChaveacessonfceletronica());
         }
-        for(Documento doc : queryCplus.resultDocumento(String.valueOf(movenda.getNumped()))){
+        for (Documento doc : queryCplus.resultDocumento(String.valueOf(movenda.getNumped()))) {
             jTextFieldChaveNFe.setText(doc.getChaveacessonfeletronica());
         }
-        if(movenda.getNumnota() != null){
-        jTextFieldNumeroNota.setText(movenda.getNumnota().toString());
-        }else{
+        if (movenda.getNumnota() != null) {
+            jTextFieldNumeroNota.setText(movenda.getNumnota().toString());
+        } else {
             jTextFieldNumeroNota.setText("0");
         }
         jTextFieldNumeroPedido.setText(movenda.getNumped().toString());
         jTextAreaObservacoesFiscal.setText(movenda.getObsnotafiscal());
         jTextAreaObservacoesSaida.setText(movenda.getObs());
         jTextFieldOperacao.setText(movenda.getCodtipomovimento().getNometipomovimento());
-        if(movenda.getCodvended() !=null){
-        jTextFieldNomeVendedor.setText(movenda.getCodvended().getNomevended());
+        if (movenda.getCodvended() != null) {
+            jTextFieldNomeVendedor.setText(movenda.getCodvended().getNomevended());
         }
-        if(movenda.getCodmovenda() != null && "Y".equals(movenda.getCodtipomovimento().getFlagdevolucao().toString())){
-        carregaLitaReferenciaDoc(movenda);
-        jButtonRelacionaDocDevolucao.setEnabled(true);
-        jButtonDeletarDocRelacionado.setEnabled(true);
-        }else{
+        if (movenda.getCodmovenda() != null && "Y".equals(movenda.getCodtipomovimento().getFlagdevolucao().toString())) {
+            carregaLitaReferenciaDoc(movenda);
+            jButtonRelacionaDocDevolucao.setEnabled(true);
+            jButtonDeletarDocRelacionado.setEnabled(true);
+        } else {
             jButtonRelacionaDocDevolucao.setEnabled(false);
             jButtonDeletarDocRelacionado.setEnabled(false);
         }
         jButtonTrocaVendedor.setEnabled(true);
         jButtonTrocarCliente.setEnabled(true);
-         List<Nfceletronica> listNFCE = queryCplus.resultPorCodMovenda(movenda.getCodmovenda());
+        List<Nfceletronica> listNFCE = queryCplus.resultPorCodMovenda(movenda.getCodmovenda());
         for (Nfceletronica nfce : listNFCE) {
             if ("A".equals(nfce.getStatusnfceletronica())) {
-            nfc = nfce;
-            jButtonImprimeNFCe.setEnabled(true);
+                nfc = nfce;
+                jButtonImprimeNFCe.setEnabled(true);
             }
         }
-        if(movenda.getIdentificadordestino() != null){
-        switch (movenda.getIdentificadordestino().toString()) {
+        if (movenda.getIdentificadordestino() != null) {
+            switch (movenda.getIdentificadordestino().toString()) {
                 case "1":
                     jComboBoxIdentificadorDeDestino.setSelectedIndex(0);
                     break;
@@ -2385,20 +2442,20 @@ public class SaidaJFrame extends javax.swing.JFrame {
                     jComboBoxIdentificadorDeDestino.setSelectedIndex(2);
                     break;
                 default:
-                     jComboBoxIdentificadorDeDestino.setSelectedIndex(0);
+                    jComboBoxIdentificadorDeDestino.setSelectedIndex(0);
             }
         }
     }
-    
-    private void carregaLitaReferenciaDoc(Movenda saida){
+
+    private void carregaLitaReferenciaDoc(Movenda saida) {
         movdocreferenciadoList.clear();
         List<Movdocreferenciado> listDocs = queryCplus.relacaoNotaDevolucaoFornecedorSaida(saida.getCodmovenda());
-        for(Movdocreferenciado doc : listDocs){
+        for (Movdocreferenciado doc : listDocs) {
             movdocreferenciadoList.add(doc);
         }
     }
-    
-    private void limpacampos(){
+
+    private void limpacampos() {
         jTextFieldAliqCofinsProd.setText("");
         jTextFieldAliqIpiProd.setText("");
         jTextFieldAliqPisProd.setText("");
@@ -2414,7 +2471,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
         jTextFieldEndereco.setText("");
         jTextFieldEstado.setText("");
         jTextFieldNomeFantasia.setText("");
-        jTextFieldRazaoCliente.setText("");        
+        jTextFieldRazaoCliente.setText("");
         jTextFieldDataSaida.setText("");
         jTextFieldHora.setText("");
         jTextFieldEntregaTelefone.setText("");
@@ -2433,27 +2490,31 @@ public class SaidaJFrame extends javax.swing.JFrame {
         jComboBoxCstCofinsProd.setSelectedIndex(3);
         jComboBoxCstPisProd.setSelectedIndex(3);
         jComboBoxCstIcms.setSelectedIndex(11);
-        
+
         jButtonEditarMovendaProd.setEnabled(false);
         jButtonTrocaProdutoPedido.setEnabled(false);
         jButtonDeletarDevolucao.setEnabled(false);
         jButtonImprimeNFCe.setEnabled(false);
         jButtonTrocaVendedor.setEnabled(false);
         jButtonTrocarCliente.setEnabled(false);
-        
+
         jTextFieldAliqIcmsProduto.setText("");
-         jTextFieldBaseIcmsProduto.setText("");
-          jTextFieldValorIcmsProduto.setText("");
-          
-          jTextFieldValorProdutos.setText("");//produtos pedido
-          jTextFieldValorUnitarioProduto.setText("");//produtos pedido
-          jTextFieldQuantidadeProduto.setText("");
-          jTextFieldAliqStDestino.setText("");
-          jTextFieldAliqMva.setText("");
-        
+        jTextFieldBaseIcmsProduto.setText("");
+        jTextFieldValorIcmsProduto.setText("");
+
+        jTextFieldValorProdutos.setText("");//produtos pedido
+        jTextFieldValorUnitarioProduto.setText("");//produtos pedido
+        jTextFieldQuantidadeProduto.setText("");
+        jTextFieldAliqStDestino.setText("");
+        jTextFieldAliqMva.setText("");
+
+        jTextFieldAliqDeferimento.setText("");
+        jTextFieldValorIcmsDeferimento.setText("");
+        jTextFieldValorIcmsOperacao.setText("");
+
     }
-    
-    private void carregarCamposSaidaProduto(){
+
+    private void carregarCamposSaidaProduto() {
         colunaCodMovendaProduto = jTableMovendaProd.getColumnModel().getColumnIndex("Codmovprod");
         Movendaprod prod = new MovendaprodJpaController(managerCplus).findMovendaprod(jTableMovendaProd.getValueAt(jTableMovendaProd.getSelectedRow(), colunaCodMovendaProduto).toString());
         if (prod.getCstpis() == null) {
@@ -2488,58 +2549,62 @@ public class SaidaJFrame extends javax.swing.JFrame {
                     jComboBoxCstCofinsProd.setSelectedIndex(0);
             }
         }
-         jTextFieldBasePisProd.setText(formataCampos.bigDecimalParaString(prod.getBasepis(), decimaisArredondamento));
-         jTextFieldAliqPisProd.setText(formataCampos.bigDecimalParaString(prod.getAliqpis(), decimaisArredondamento));
-         jTextFieldValorPis.setText(formataCampos.bigDecimalParaString(prod.getValorpis(), decimaisArredondamento));
-         jTextFieldBaseCofinsProd.setText(formataCampos.bigDecimalParaString(prod.getBasecofins(), decimaisArredondamento));
-         jTextFieldAliqCofinsProd.setText(formataCampos.bigDecimalParaString(prod.getAliqcofins(), decimaisArredondamento));
-         jTextFieldValorCofinsProd.setText(formataCampos.bigDecimalParaString(prod.getValorcofins(), decimaisArredondamento));
-         jTextFieldBaseIpiProd.setText(formataCampos.bigDecimalParaString(prod.getBaseipi(), decimaisArredondamento));
-         jTextFieldAliqIpiProd.setText(formataCampos.bigDecimalParaString(prod.getAliqipi(), decimaisArredondamento));
-         jTextFieldValorIpiProd.setText(formataCampos.bigDecimalParaString(prod.getValoripi(), decimaisArredondamento));
-         jTextFieldBaseSTProd.setText(formataCampos.bigDecimalParaString(prod.getBasesubsttributaria(), decimaisArredondamento));
-         jTextFieldValorSTProd.setText(formataCampos.bigDecimalParaString(prod.getValorsubsttributaria(), decimaisArredondamento));
-         if(prod.getCodcfop() != null){
-             jTextFieldCfopProduto.setText(prod.getCodcfop().getCodcfop());
-         }
-         if(prod.getFlagorigemproduto() != null){
-        switch (prod.getFlagorigemproduto().toString()) {
-            case "0":
-                jComboBoxOrigemProduto.setSelectedIndex(0);
-                break;
-            case "1":
-                jComboBoxOrigemProduto.setSelectedIndex(1);
-                break;
-            case "2":
-                jComboBoxOrigemProduto.setSelectedIndex(2);
-                break;
-            case "3":
-                jComboBoxOrigemProduto.setSelectedIndex(3);
-                break;
-            case "4":
-                jComboBoxOrigemProduto.setSelectedIndex(4);
-                break;
-            case "5":
-                jComboBoxOrigemProduto.setSelectedIndex(5);
-                break;
-            case "6":
-                jComboBoxOrigemProduto.setSelectedIndex(6);
-                break;
-            case "7":
-                jComboBoxOrigemProduto.setSelectedIndex(7);
-                break;
-            case "8":
-                jComboBoxOrigemProduto.setSelectedIndex(8);
-                break;
+        jTextFieldBasePisProd.setText(formataCampos.bigDecimalParaString(prod.getBasepis(), decimaisArredondamento));
+        jTextFieldAliqPisProd.setText(formataCampos.bigDecimalParaString(prod.getAliqpis(), decimaisArredondamento));
+        jTextFieldValorPis.setText(formataCampos.bigDecimalParaString(prod.getValorpis(), decimaisArredondamento));
+        jTextFieldBaseCofinsProd.setText(formataCampos.bigDecimalParaString(prod.getBasecofins(), decimaisArredondamento));
+        jTextFieldAliqCofinsProd.setText(formataCampos.bigDecimalParaString(prod.getAliqcofins(), decimaisArredondamento));
+        jTextFieldValorCofinsProd.setText(formataCampos.bigDecimalParaString(prod.getValorcofins(), decimaisArredondamento));
+        jTextFieldBaseIpiProd.setText(formataCampos.bigDecimalParaString(prod.getBaseipi(), decimaisArredondamento));
+        jTextFieldAliqIpiProd.setText(formataCampos.bigDecimalParaString(prod.getAliqipi(), decimaisArredondamento));
+        jTextFieldValorIpiProd.setText(formataCampos.bigDecimalParaString(prod.getValoripi(), decimaisArredondamento));
+        jTextFieldBaseSTProd.setText(formataCampos.bigDecimalParaString(prod.getBasesubsttributaria(), decimaisArredondamento));
+        jTextFieldValorSTProd.setText(formataCampos.bigDecimalParaString(prod.getValorsubsttributaria(), decimaisArredondamento));
+        if (prod.getCodcfop() != null) {
+            jTextFieldCfopProduto.setText(prod.getCodcfop().getCodcfop());
+        }
+        if (prod.getFlagorigemproduto() != null) {
+            switch (prod.getFlagorigemproduto().toString()) {
+                case "0":
+                    jComboBoxOrigemProduto.setSelectedIndex(0);
+                    break;
+                case "1":
+                    jComboBoxOrigemProduto.setSelectedIndex(1);
+                    break;
+                case "2":
+                    jComboBoxOrigemProduto.setSelectedIndex(2);
+                    break;
+                case "3":
+                    jComboBoxOrigemProduto.setSelectedIndex(3);
+                    break;
+                case "4":
+                    jComboBoxOrigemProduto.setSelectedIndex(4);
+                    break;
+                case "5":
+                    jComboBoxOrigemProduto.setSelectedIndex(5);
+                    break;
+                case "6":
+                    jComboBoxOrigemProduto.setSelectedIndex(6);
+                    break;
+                case "7":
+                    jComboBoxOrigemProduto.setSelectedIndex(7);
+                    break;
+                case "8":
+                    jComboBoxOrigemProduto.setSelectedIndex(8);
+                    break;
                 default:
-                  jComboBoxOrigemProduto.setSelectedIndex(9);  
-         } 
-         }else{
-             jComboBoxOrigemProduto.setSelectedIndex(9);
-         }
+                    jComboBoxOrigemProduto.setSelectedIndex(9);
+            }
+        } else {
+            jComboBoxOrigemProduto.setSelectedIndex(9);
+        }
         jTextFieldAliqIcmsProduto.setText(formataCampos.bigDecimalParaString(prod.getAliqicms(), decimaisArredondamento));
         jTextFieldBaseIcmsProduto.setText(formataCampos.bigDecimalParaString(prod.getBaseicms(), decimaisArredondamento));
         jTextFieldValorIcmsProduto.setText(formataCampos.bigDecimalParaString(prod.getValoricms(), decimaisArredondamento));
+
+        jTextFieldAliqDeferimento.setText(formataCampos.bigDecimalParaString(prod.getAliqdiferimento(), 3));
+        jTextFieldValorIcmsDeferimento.setText(formataCampos.bigDecimalParaString(prod.getValoricmsdiferimento(), decimaisArredondamento));
+        jTextFieldValorIcmsOperacao.setText(formataCampos.bigDecimalParaString(prod.getValoricmsoperacao(), decimaisArredondamento));
         if (prod.getCodsituacaotributaria() == null) {
             jComboBoxCstIcms.setSelectedIndex(0);
         } else {
@@ -2582,29 +2647,29 @@ public class SaidaJFrame extends javax.swing.JFrame {
                     break;
             }
         }
-        if("Y".equals(prod.getCodmovenda().getCodtipomovimento().getFlagdevolucao().toString())){
+        if ("Y".equals(prod.getCodmovenda().getCodtipomovimento().getFlagdevolucao().toString())) {
             jCheckBoxAtualizaBaseIPI.setSelected(true);
             jCheckBoxAtualizaBaseIcms.setSelected(true);
             jCheckBoxAtualizaBasePisCofins.setSelected(true);
-        }else{
+        } else {
             jCheckBoxAtualizaBaseIPI.setSelected(false);
             jCheckBoxAtualizaBaseIcms.setSelected(false);
             jCheckBoxAtualizaBasePisCofins.setSelected(false);
         }
-        if(jCheckBoxAtualizaBaseIPI.isSelected()){
+        if (jCheckBoxAtualizaBaseIPI.isSelected()) {
             jTextFieldBaseIpiProd.setEnabled(false);
-        }else{
-             jTextFieldBaseIpiProd.setEnabled(true);
+        } else {
+            jTextFieldBaseIpiProd.setEnabled(true);
         }
-        if(jCheckBoxAtualizaBaseIcms.isSelected()){
+        if (jCheckBoxAtualizaBaseIcms.isSelected()) {
             jTextFieldBaseIcmsProduto.setEnabled(false);
-        }else{
-          jTextFieldBaseIcmsProduto.setEnabled(true);  
+        } else {
+            jTextFieldBaseIcmsProduto.setEnabled(true);
         }
-        if(jCheckBoxAtualizaBasePisCofins.isSelected()){
+        if (jCheckBoxAtualizaBasePisCofins.isSelected()) {
             jTextFieldBasePisProd.setEnabled(false);
             jTextFieldBaseCofinsProd.setEnabled(false);
-        }else{
+        } else {
             jTextFieldBasePisProd.setEnabled(true);
             jTextFieldBaseCofinsProd.setEnabled(true);
         }
@@ -2612,16 +2677,16 @@ public class SaidaJFrame extends javax.swing.JFrame {
         jTextFieldValorUnitarioProduto.setText(formataCampos.bigDecimalParaString(prod.getValorunitario(), decimaisArredondamento));
         jTextFieldQuantidadeProduto.setText(formataCampos.bigDecimalParaString(prod.getQuantidade(), 0));
         jTextFieldAliqStDestino.setText(formataCampos.bigDecimalParaString(prod.getAliqicmsStUfDestino(), decimaisArredondamento));
-        if(prod.getAliqmva() == null){
+        if (prod.getAliqmva() == null) {
             jTextFieldAliqMva.setText("");
-        }else{
-        jTextFieldAliqMva.setText(formataCampos.bigDecimalParaString(prod.getAliqmva(), decimaisArredondamento));
+        } else {
+            jTextFieldAliqMva.setText(formataCampos.bigDecimalParaString(prod.getAliqmva(), decimaisArredondamento));
         }
         jButtonDeletarDevolucao.setEnabled(true);
         jButtonEditarMovendaProd.setEnabled(true);
         jButtonTrocaProdutoPedido.setEnabled(true);
     }
-    
+
     private void editaMovendaProduto() {
         if (jTableMovendaProd.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(null, "Voce deve selecionar uma linha na tabela!!!");
@@ -2662,86 +2727,95 @@ public class SaidaJFrame extends javax.swing.JFrame {
             prod.setBasesubsttributaria(formataCampos.stringParaDecimal(jTextFieldBaseSTProd.getText(), decimaisArredondamento));
             prod.setValorsubsttributaria(formataCampos.stringParaDecimal(jTextFieldValorSTProd.getText(), decimaisArredondamento));
             prod.setCodcfop(new CfopJpaController(managerCplus).findCfop(jTextFieldCfopProduto.getText()));
-            if(jComboBoxOrigemProduto.getSelectedIndex() != 9){
-            char origem;
-            switch (jComboBoxOrigemProduto.getSelectedIndex()) {
-                case 0:
-                    origem = '0';
-                    break;
-                case 1:
-                    origem = '1';
-                    break;
-                case 2:
-                    origem = '2';
-                    break;
-                case 3:
-                    origem = '3';
-                    break;
-                case 4:
-                    origem = '4';
-                    break;
-                case 5:
-                    origem = '5';
-                    break;
-                case 6:
-                    origem = '6';
-                    break;
-                case 7:
-                    origem = '7';
-                    break;
-                case 8:
-                    origem = '8';
-                    break;
-                   default:
-                       origem = '0';
-            }
-            prod.setFlagorigemproduto(origem);
+            if (jComboBoxOrigemProduto.getSelectedIndex() != 9) {
+                char origem;
+                switch (jComboBoxOrigemProduto.getSelectedIndex()) {
+                    case 0:
+                        origem = '0';
+                        break;
+                    case 1:
+                        origem = '1';
+                        break;
+                    case 2:
+                        origem = '2';
+                        break;
+                    case 3:
+                        origem = '3';
+                        break;
+                    case 4:
+                        origem = '4';
+                        break;
+                    case 5:
+                        origem = '5';
+                        break;
+                    case 6:
+                        origem = '6';
+                        break;
+                    case 7:
+                        origem = '7';
+                        break;
+                    case 8:
+                        origem = '8';
+                        break;
+                    default:
+                        origem = '0';
+                }
+                prod.setFlagorigemproduto(origem);
             }
             prod.setAliqicms(formataCampos.stringParaDecimal(jTextFieldAliqIcmsProduto.getText(), decimaisArredondamento));
             prod.setBaseicms(formataCampos.stringParaDecimal(jTextFieldBaseIcmsProduto.getText(), decimaisArredondamento));
             prod.setValoricms(formataCampos.stringParaDecimal(jTextFieldValorIcmsProduto.getText(), decimaisArredondamento));
             prod.setAliqicmsStUfDestino(formataCampos.stringParaDecimal(jTextFieldAliqStDestino.getText(), decimaisArredondamento));
-            if(!"".equals(jTextFieldAliqMva.getText())){
-            prod.setAliqmva(formataCampos.stringParaDecimal(jTextFieldAliqMva.getText(), decimaisArredondamento));
+            if (!"".equals(jTextFieldAliqDeferimento.getText())) {
+                prod.setAliqdiferimento(formataCampos.stringParaDecimal(jTextFieldAliqDeferimento.getText(), decimaisArredondamento));
             }
-            if(jComboBoxCstIcms.getSelectedIndex() != 11){
-            switch (jComboBoxCstIcms.getSelectedIndex()) {
-                case 0:
-                    prod.setCodsituacaotributaria("00");
-                    break;
-                case 1:
-                    prod.setCodsituacaotributaria("10");
-                    break;
-                case 2:
-                    prod.setCodsituacaotributaria("20");
-                    break;
-                case 3:
-                    prod.setCodsituacaotributaria("30");
-                    break;
-                case 4:
-                    prod.setCodsituacaotributaria("40");
-                    break;
-                case 5:
-                    prod.setCodsituacaotributaria("41");
-                    break;
-                case 6:
-                    prod.setCodsituacaotributaria("50");
-                    break;
-                case 7:
-                    prod.setCodsituacaotributaria("51");
-                    break;
-                case 8:
-                    prod.setCodsituacaotributaria("60");
-                    break;
-                case 9:
-                    prod.setCodsituacaotributaria("70");
-                    break;
-                case 10:
-                    prod.setCodsituacaotributaria("90");
-                    break;
+            if (!"".equals(jTextFieldValorIcmsDeferimento.getText())) {
+                prod.setValoricmsdiferimento(formataCampos.stringParaDecimal(jTextFieldValorIcmsDeferimento.getText(), decimaisArredondamento));
             }
+            if (!"".equals(jTextFieldValorIcmsOperacao.getText())) {
+                prod.setValoricmsoperacao(formataCampos.stringParaDecimal(jTextFieldValorIcmsOperacao.getText(), decimaisArredondamento));
             }
-          //  prod.setCodsituacaotributaria(nul);
+            if (!"".equals(jTextFieldAliqMva.getText())) {
+                prod.setAliqmva(formataCampos.stringParaDecimal(jTextFieldAliqMva.getText(), decimaisArredondamento));
+            }
+            if (jComboBoxCstIcms.getSelectedIndex() != 11) {
+                switch (jComboBoxCstIcms.getSelectedIndex()) {
+                    case 0:
+                        prod.setCodsituacaotributaria("00");
+                        break;
+                    case 1:
+                        prod.setCodsituacaotributaria("10");
+                        break;
+                    case 2:
+                        prod.setCodsituacaotributaria("20");
+                        break;
+                    case 3:
+                        prod.setCodsituacaotributaria("30");
+                        break;
+                    case 4:
+                        prod.setCodsituacaotributaria("40");
+                        break;
+                    case 5:
+                        prod.setCodsituacaotributaria("41");
+                        break;
+                    case 6:
+                        prod.setCodsituacaotributaria("50");
+                        break;
+                    case 7:
+                        prod.setCodsituacaotributaria("51");
+                        break;
+                    case 8:
+                        prod.setCodsituacaotributaria("60");
+                        break;
+                    case 9:
+                        prod.setCodsituacaotributaria("70");
+                        break;
+                    case 10:
+                        prod.setCodsituacaotributaria("90");
+                        break;
+                }
+            }
+            //  prod.setCodsituacaotributaria(nul);
             try {
                 new MovendaprodJpaController(managerCplus).edit(prod);
                 editaMovenda(prod.getCodmovenda(), managerCplus);
@@ -2751,14 +2825,14 @@ public class SaidaJFrame extends javax.swing.JFrame {
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, "Erro ao editar!!!\n" + ex);
             }
-                       
+
         }
     }
-    
+
     private boolean editaMovendaCliente(Cliente cli, Movenda saida, EntityManagerFactory managerCplus) {
-       boolean condicao = true;
+        boolean condicao = true;
         List<Movendaprod> listMovProd = queryCplus.listMovendaProd(saida.getCodmovenda());
-        if (listMovProd.isEmpty()) {            
+        if (listMovProd.isEmpty()) {
             saida.setBaseicms(BigDecimal.ZERO);
             saida.setValoricms(BigDecimal.ZERO);
             saida.setBasesubsttributaria(BigDecimal.ZERO);
@@ -2807,27 +2881,27 @@ public class SaidaJFrame extends javax.swing.JFrame {
             saida.setCodcli(cli);
             saida.setNomecli(cli.getNomecli());
         }
-        if("RS".equals(cli.getEstado())){            
-            saida.setIdentificadordestino('1');                              
-        }else{
+        if ("RS".equals(cli.getEstado())) {
+            saida.setIdentificadordestino('1');
+        } else {
             saida.setIdentificadordestino('2');
         }
         try {
-            new MovendaJpaController(managerCplus).edit(saida); 
-            for(Contareceber cr : queryCplus.resultReceberPorVenda(movenda.getCodmovenda())){
-                   cr.setCodcli(cli);
-                   cr.setDatvenc(new Date(System.currentTimeMillis()));
-                   new ContareceberJpaController(managerCplus).edit(cr);                   
-                }
+            new MovendaJpaController(managerCplus).edit(saida);
+            for (Contareceber cr : queryCplus.resultReceberPorVenda(movenda.getCodmovenda())) {
+                cr.setCodcli(cli);
+                cr.setDatvenc(new Date(System.currentTimeMillis()));
+                new ContareceberJpaController(managerCplus).edit(cr);
+            }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Houve um erro ao Gravar Entrada!!!\n " + ex);
             condicao = false;
         }
         return condicao;
     }
-    
+
     private boolean editaMovenda(Movenda saida, EntityManagerFactory managerCplus) {
-       boolean condicao = true;
+        boolean condicao = true;
         List<Movendaprod> listMovProd = queryCplus.listMovendaProd(saida.getCodmovenda());
         if (listMovProd.isEmpty()) {
             saida.setBaseicms(BigDecimal.ZERO);
@@ -2876,25 +2950,25 @@ public class SaidaJFrame extends javax.swing.JFrame {
             saida.setValortotalnota(new BigDecimal(valTotalNota));
             saida.setValortotalipi(new BigDecimal(valIpi));
         }
-         switch (jComboBoxIdentificadorDeDestino.getSelectedIndex()) {
-                case 0:
-                    saida.setIdentificadordestino('1');
-                    break;
-                case 1:
-                     saida.setIdentificadordestino('2');
-                    break;
-                case 2:
-                     saida.setIdentificadordestino('3');
-            }
+        switch (jComboBoxIdentificadorDeDestino.getSelectedIndex()) {
+            case 0:
+                saida.setIdentificadordestino('1');
+                break;
+            case 1:
+                saida.setIdentificadordestino('2');
+                break;
+            case 2:
+                saida.setIdentificadordestino('3');
+        }
         try {
-            new MovendaJpaController(managerCplus).edit(saida);                     
+            new MovendaJpaController(managerCplus).edit(saida);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Houve um erro ao Gravar Entrada!!!\n " + ex);
             condicao = false;
         }
         return condicao;
     }
-    
+
     /**
      * @param args the command line arguments
      */
@@ -2932,11 +3006,11 @@ public class SaidaJFrame extends javax.swing.JFrame {
             }
         });
     }
-      
+
     int colunaCodMovendaProduto;
     int codMovenda = 0;
     int colunaMovDocReferenciado;
-    static EntityManagerFactory managerCplus ;
+    static EntityManagerFactory managerCplus;
     //static VariavelStatica var;
     private final FormataCampos formataCampos;
     private final QueryCplus queryCplus;
@@ -2950,7 +3024,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
     private static EntityManagerFactory managerIntegrador;
     private Nfceletronica nfc;
     private final int decimaisArredondamento;
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.persistence.EntityManager entityManager;
     private javax.swing.JButton jButtonDeletarDevolucao;
@@ -2973,6 +3047,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
     private javax.swing.JComboBox jComboBoxOrigemProduto;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabelAliqCofinsProd;
     private javax.swing.JLabel jLabelAliqIpiProd;
     private javax.swing.JLabel jLabelAliqMva;
@@ -3009,6 +3084,8 @@ public class SaidaJFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelRazaoCliente;
     private javax.swing.JLabel jLabelValorCofinsProd;
     private javax.swing.JLabel jLabelValorIcms;
+    private javax.swing.JLabel jLabelValorIcmsDeferimento;
+    private javax.swing.JLabel jLabelValorIcmsOperacao;
     private javax.swing.JLabel jLabelValorIcmsProduto;
     private javax.swing.JLabel jLabelValorIpiProd;
     private javax.swing.JLabel jLabelValorPisProd;
@@ -3048,6 +3125,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
     private javax.swing.JTextArea jTextAreaObservacoesFiscal;
     private javax.swing.JTextArea jTextAreaObservacoesSaida;
     private javax.swing.JTextField jTextFieldAliqCofinsProd;
+    private javax.swing.JTextField jTextFieldAliqDeferimento;
     private javax.swing.JTextField jTextFieldAliqIcmsProduto;
     private javax.swing.JTextField jTextFieldAliqIpiProd;
     private javax.swing.JTextField jTextFieldAliqMva;
@@ -3080,6 +3158,8 @@ public class SaidaJFrame extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldRazaoCliente;
     private javax.swing.JTextField jTextFieldValorCofinsProd;
     private javax.swing.JTextField jTextFieldValorIcms;
+    private javax.swing.JTextField jTextFieldValorIcmsDeferimento;
+    private javax.swing.JTextField jTextFieldValorIcmsOperacao;
     private javax.swing.JTextField jTextFieldValorIcmsProduto;
     private javax.swing.JTextField jTextFieldValorIpi;
     private javax.swing.JTextField jTextFieldValorIpiProd;

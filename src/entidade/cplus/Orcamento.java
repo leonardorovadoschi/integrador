@@ -31,6 +31,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "ORCAMENTO", catalog = "", schema = "")
 
 public class Orcamento implements Serializable {
+    @Column(name = "VALORICMSSTDESONERADO")
+    private BigDecimal valoricmsstdesonerado;
 
     @JoinColumn(name = "CODINTERMEDIADOR", referencedColumnName = "CODINTERMEDIADOR")
     @ManyToOne
@@ -1245,6 +1247,14 @@ public class Orcamento implements Serializable {
 
     public void setCodintermediador(Intermediador codintermediador) {
         this.codintermediador = codintermediador;
+    }
+
+    public BigDecimal getValoricmsstdesonerado() {
+        return valoricmsstdesonerado;
+    }
+
+    public void setValoricmsstdesonerado(BigDecimal valoricmsstdesonerado) {
+        this.valoricmsstdesonerado = valoricmsstdesonerado;
     }
     
 }

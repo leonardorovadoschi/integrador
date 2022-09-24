@@ -372,17 +372,16 @@ public class PedidoDigimacroCplus {
                 prod.setValortotal(valorTotal);
                 prod.setFlagtipoacrescimoitem('V');
                 //double valorTotalProduto = pedidoProdIntegrador.getPrecoTotal().doubleValue();
-                 List<Campocustomvalor> lisCustom = queryCplus.resultCampoPersonalisado(prodCplus.getCodprod());
+                List<Campocustomvalor> lisCustom = queryCplus.resultCampoPersonalisado(prodCplus.getCodprod());
                 String text = "";
                 for (Campocustomvalor cus : lisCustom) {
                     if ("000000003".equals(cus.getCodcampocustommaster().getCodcampocustommaster())) {
-                        if(cus.getValor() != null) {                      
-                        text = text + cus.getValor() + " ";
+                        if (cus.getValor() != null) {
+                            text = text + cus.getValor() + " ";
                         }
                     }
                 }
-                
-                
+
                 if (calculoIcmsEstado.getAliqicms() == null) {
                     aliqIcms = 0.00;
                 } else {
@@ -395,28 +394,35 @@ public class PedidoDigimacroCplus {
                         aliqReducaoIcms = calculoIcmsEstado.getAliqreducaobaseicms().doubleValue();
                     }
                     baseIcms = (100 - aliqReducaoIcms) * valorTotal.doubleValue() / 100;
-                                                     
 
-                    if ( "N".equals(cli.getFlagusaaliqicmsdiferenciada().toString())) {
+                    if ("N".equals(cli.getFlagusaaliqicmsdiferenciada().toString())) {
                        // if (cli.getIndiedest().toString() == "1") {                                                 
-                    //    prod.setCodcalculoicms(calculoIcmsEstado.getCodcalculoicms().getCodcalculoicms());
-                   //     prod.setCodclassificacaofiscal(prodCplus.getCodclassificacaofiscal().getCodclassificacaofiscal());
-                   //     prod.setTipotributacao('T');
-                   //    prod.setAliqtributacao(new BigDecimal("12.0"));
-                   //     prod.setNumeroorcamento(orcamento.getNumeroorcamento());
-                  //      prod.setAliqfcp(BigDecimal.ZERO);
-                   //     prod.setValorfcpsubsttributaria(BigDecimal.ZERO);
-                    //    prod.setAliqfcpStUfDestino(BigDecimal.ZERO);
-                    //    prod.setAliqmva(BigDecimal.ZERO);
-                   //     prod.setValorfcp(BigDecimal.ZERO);
-                    //    prod.setValoricmsoperacao(new BigDecimal(baseIcms * 12.0 / 100));
-                    //    prod.setAliqreducaobasesubsttributaria(BigDecimal.ZERO);
-                    //    prod.setFlagtipoacrescimoitem('V');
-                       
-                        valorIcms = baseIcms * 12.0 / 100;
-                        prod.setCodsituacaotributaria(calculoIcmsEstado.getCodsituacaotributaria());
-                        text = "Diferimento parcial do ICMS conforme Art. 1º-K do Livro III do RICMS/RS";
+                        //    prod.setCodcalculoicms(calculoIcmsEstado.getCodcalculoicms().getCodcalculoicms());
+                        //     prod.setCodclassificacaofiscal(prodCplus.getCodclassificacaofiscal().getCodclassificacaofiscal());
+                        //     prod.setTipotributacao('T');
+                        //    prod.setAliqtributacao(new BigDecimal("12.0"));
+                        //     prod.setNumeroorcamento(orcamento.getNumeroorcamento());
+                        //      prod.setAliqfcp(BigDecimal.ZERO);
+                        //     prod.setValorfcpsubsttributaria(BigDecimal.ZERO);
+                        //    prod.setAliqfcpStUfDestino(BigDecimal.ZERO);
+                        //    prod.setAliqmva(BigDecimal.ZERO);
+                        //     prod.setValorfcp(BigDecimal.ZERO);
+                        //    prod.setValoricmsoperacao(new BigDecimal(baseIcms * 12.0 / 100));
+                        //    prod.setAliqreducaobasesubsttributaria(BigDecimal.ZERO);
+                        //    prod.setFlagtipoacrescimoitem('V');
 
+                        valorIcms = baseIcms * 12.0 / 100;
+                        double aliqDeferimento = 0.0;
+                        if (calculoIcmsEstado.getAliqdiferimento() == null) {
+                            aliqDeferimento = calculoIcmsEstado.getAliqdiferimento().doubleValue(); //ex 29.412
+                        }
+                        prod.setCodsituacaotributaria(calculoIcmsEstado.getCodsituacaotributaria());
+                        if (aliqDeferimento > 0.0) {
+                            double valorIcmsOperacao = (calculoIcmsEstado.getAliqicms().doubleValue() * baseIcms) / 100;
+                            prod.setValoricmsoperacao(new BigDecimal(valorIcmsOperacao).setScale(2, RoundingMode.HALF_EVEN));
+                            prod.setValoricmsdiferimento(new BigDecimal(valorIcmsOperacao - valorIcms).setScale(2, RoundingMode.HALF_EVEN));
+                            text = "Diferimento parcial do ICMS conforme Art. 1º-K do Livro III do RICMS/RS";
+                        }                      
                     } else {
                         valorIcms = baseIcms * aliqIcms / 100;
                         prod.setCodsituacaotributaria(calculoIcmsEstado.getCodsituacaotributariadif());
@@ -426,9 +432,9 @@ public class PedidoDigimacroCplus {
                     baseIcms = 0.00;
                     valorIcms = 0.00;
                 }
-                
-                 prod.setComplemento(text);
-                
+
+                prod.setComplemento(text);
+
                 prod.setBaseicms(new BigDecimal(baseIcms).setScale(2, RoundingMode.HALF_EVEN));
                 prod.setAliqicms(new BigDecimal(aliqIcms).setScale(2, RoundingMode.HALF_EVEN));
                 prod.setValoricms(new BigDecimal(valorIcms).setScale(2, RoundingMode.HALF_EVEN));
@@ -446,7 +452,7 @@ public class PedidoDigimacroCplus {
                     aliqCofins = 0.00;
                     baseCofins = 0.00;
                 } else {
-                    baseCofins = valorTotal.doubleValue();
+                    baseCofins = valorTotal.doubleValue() - valorIcms;
                     aliqCofins = calculoIcmsEstado.getAliqcofins().doubleValue();
                 }
                 valorCofins = baseCofins * aliqCofins / 100;
@@ -458,7 +464,7 @@ public class PedidoDigimacroCplus {
                     aliqPis = 0.00;
                     basePis = 0.00;
                 } else {
-                    basePis = valorTotal.doubleValue();
+                    basePis = valorTotal.doubleValue() - valorIcms;
                     aliqPis = calculoIcmsEstado.getAliqpis().doubleValue();
                 }
                 valorPis = basePis * aliqPis / 100;
@@ -470,7 +476,7 @@ public class PedidoDigimacroCplus {
                 prod.setFlagitemcancelado('N');
                 prod.setFlagcancelado('N');
                 prod.setFlagaltpaf('N');
-                
+
                 try {
                     new OrcamentoprodJpaController(managerCplus).create(prod);
                 } catch (Exception ex) {

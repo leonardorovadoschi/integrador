@@ -30,6 +30,20 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "ORCAMENTOPROD", catalog = "", schema = "")
 
 public class Orcamentoprod implements Serializable {
+    @Column(name = "ALIQDIFERIMENTO")
+    private BigDecimal aliqdiferimento;
+    @Column(name = "VALORICMSDIFERIMENTO")
+    private BigDecimal valoricmsdiferimento;
+    @Column(name = "VALORFCPDIFERIMENTO")
+    private BigDecimal valorfcpdiferimento;
+    @Column(name = "VALORFCPEFETIVO")
+    private BigDecimal valorfcpefetivo;
+    @Column(name = "ALIQFCPDIFERIMENTO")
+    private BigDecimal aliqfcpdiferimento;
+    @Column(name = "VALORICMSSTDESONERADO")
+    private BigDecimal valoricmsstdesonerado;
+    @Column(name = "ALIQREDUCAOBASEICMS")
+    private BigDecimal aliqreducaobaseicms;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -1197,6 +1211,62 @@ public class Orcamentoprod implements Serializable {
     @Override
     public String toString() {
         return "entidade.cplus.Orcamentoprod[ codorcprod=" + codorcprod + " ]";
+    }
+
+    public BigDecimal getAliqdiferimento() {
+        return aliqdiferimento;
+    }
+
+    public void setAliqdiferimento(BigDecimal aliqdiferimento) {
+        this.aliqdiferimento = aliqdiferimento;
+    }
+
+    public BigDecimal getValoricmsdiferimento() {
+        return valoricmsdiferimento;
+    }
+
+    public void setValoricmsdiferimento(BigDecimal valoricmsdiferimento) {
+        this.valoricmsdiferimento = valoricmsdiferimento;
+    }
+
+    public BigDecimal getValorfcpdiferimento() {
+        return valorfcpdiferimento;
+    }
+
+    public void setValorfcpdiferimento(BigDecimal valorfcpdiferimento) {
+        this.valorfcpdiferimento = valorfcpdiferimento;
+    }
+
+    public BigDecimal getValorfcpefetivo() {
+        return valorfcpefetivo;
+    }
+
+    public void setValorfcpefetivo(BigDecimal valorfcpefetivo) {
+        this.valorfcpefetivo = valorfcpefetivo;
+    }
+
+    public BigDecimal getAliqfcpdiferimento() {
+        return aliqfcpdiferimento;
+    }
+
+    public void setAliqfcpdiferimento(BigDecimal aliqfcpdiferimento) {
+        this.aliqfcpdiferimento = aliqfcpdiferimento;
+    }
+
+    public BigDecimal getValoricmsstdesonerado() {
+        return valoricmsstdesonerado;
+    }
+
+    public void setValoricmsstdesonerado(BigDecimal valoricmsstdesonerado) {
+        this.valoricmsstdesonerado = valoricmsstdesonerado;
+    }
+
+    public BigDecimal getAliqreducaobaseicms() {
+        return aliqreducaobaseicms;
+    }
+
+    public void setAliqreducaobaseicms(BigDecimal aliqreducaobaseicms) {
+        this.aliqreducaobaseicms = aliqreducaobaseicms;
     }
     
 }
