@@ -2366,12 +2366,13 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
     }
 
     private void gravaValores() {
-        try {
+        try {     
+            gerarAuditoria();
             for (Produtopreco preco : listPrecoProduto) {
                 switch (preco.getCodpreco().getCodpreco()) {
                     case "000000001":
                         preco.setPreco(formataCampo.stringParaDecimal(jTextFieldPrecoNormal.getText(), decimaisArredondamento));
-                        preco.setMargem(calculaMargemPraGravarBanco(jTextFieldPrecoNormal.getText()));
+                        preco.setMargem(calculaMargemPraGravarBanco(jTextFieldPrecoNormal.getText()));                      
                         new ProdutoprecoJpaController(managerCplus).edit(preco);
                         break;
                 }
@@ -2425,10 +2426,9 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
                         origem = '0';
                 }
                 produtoCplus.setFlagorigemproduto(origem);
-            }
-
+            }         
             new ProdutoJpaController(managerCplus).edit(produtoCplus);
-            gerarAuditoria();
+            
             // List<ProdutoIntegracao> listProdIntegracao = queryIntegrador.resultCodigoProdutosCplus(produtoCplus.getCodprod());
             // if(listProdIntegracao.size() == 1){
             //       for (ProdutoIntegracao produtoIntegracao : listProdIntegracao) {
@@ -2475,11 +2475,11 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
             auditoria.setNomecomputador(addr.getHostName());
             auditoria.setIpcomputador(addr.getHostAddress());
             auditoria.setNomeentidadeorigem("PRODUTO");
-            auditoria.setIdentidadeorigem("000002519");
+            auditoria.setIdentidadeorigem(produtoCplus.getCodprod());
             auditoria.setCodacesso("000033241");
-
+            if(!"".equals(auditoria.getDetalhelog())){
             new AuditoriaJpaController(managerCplus).create(auditoria);
-           // cont++;
+            }
             //queryIntegrador.atualizaValorConfiguracao("increment_tabela_auditoria", String.valueOf(cont));
 
         } catch (UnknownHostException ex) {
@@ -2490,13 +2490,15 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
     }
 
     private String mensagemLog(Produto prod) {
-        String mensagem = "Alteração no cadastro de produtos " + prod.getNomeprod() + "\n";
+        String mensagem = "";
         for (Produtopreco preco : listPrecoProduto) {
             switch (preco.getCodpreco().getCodpreco()) {
                 case "000000001":
-                    if (preco.getPreco().doubleValue() != formataCampo.stringParaDecimal(jTextFieldPrecoNormal.getText(), decimaisArredondamento).doubleValue()) {
-                        mensagem = mensagem + preco.getCodpreco().getNomepreco() + " Margem de " + preco.getMargem() + " Para " + calculaMargemPraGravarBanco(jTextFieldPrecoNormal.getText()).toString()
-                                + " Preço de " + preco.getPreco() + " Para " + jTextFieldPrecoNormal.getText() + "\n";
+                    double precoNovo = formataCampo.stringParaDecimal(jTextFieldPrecoNormal.getText(), decimaisArredondamento).doubleValue();
+                    if (preco.getPreco().doubleValue() != precoNovo) {
+                        mensagem = "Alteração no cadastro de produtos " + prod.getNomeprod() + "\n";
+                        mensagem = mensagem + preco.getCodpreco().getNomepreco() + " Margem de " + formataCampo.bigDecimalParaString(preco.getMargem(), 4) + " Para " + formataCampo.bigDecimalParaString(calculaMargemPraGravarBanco(jTextFieldPrecoNormal.getText()), 4)
+                                + " Preço de " + formataCampo.bigDecimalParaString(preco.getPreco(), 2) + " Para " + jTextFieldPrecoNormal.getText() + "\n";
                     }
                     break;
 
