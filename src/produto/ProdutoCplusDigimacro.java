@@ -266,7 +266,7 @@ public class ProdutoCplusDigimacro {
     }
 
     /**
-     * FunÃ§Ã£o para editar produto no site
+     * Função para editar produto no site
      *
      * @param managerIntegrador
      * @param managerPrestaShop
@@ -585,6 +585,8 @@ public class ProdutoCplusDigimacro {
     }
 
     private void precoQuantidadeJuridicaDiferenciada(Produto pro, PsProduct pp, EntityManagerFactory managerPrestaShop, EntityManagerFactory managerIntegrador, EntityManagerFactory managerCplus) {
+        /*
+        BigDecimal precoDiferenciado = precoPrincipalDiferenciado(managerCplus, pro);
         if (taxaProdutosICMSDfifenciada(managerCplus, managerPrestaShop, pro)) {
             List<PsSpecificPrice> listPSSPdif = new QueryPrestaShop(managerPrestaShop).listPsSpecificPrice(pp.getIdProduct(), "amount", 7);
             if (listPSSPdif.isEmpty()) {
@@ -601,7 +603,7 @@ public class ProdutoCplusDigimacro {
                 psSP.setIdProductAttribute(0);
                 //
                 List<Calculoicmsestado> listCalculoIcmsEstado = new QueryCplus(managerCplus).listcalculoIcmsEstadol("RS", "RS", "5102", pro.getCodcalculoicms().getCodcalculoicms());
-                psSP.setPrice(precoPrincipalDiferenciado(managerCplus, pro));
+                psSP.setPrice(precoDiferenciado);
                 for (Calculoicmsestado cst : listCalculoIcmsEstado) {
                     if ("20".equals(cst.getCodsituacaotributariadif())) {
                         psSP.setPrice(precoPrincipal(managerCplus, pro));
@@ -631,7 +633,7 @@ public class ProdutoCplusDigimacro {
                     // psSP.setIdProductAttribute(0);
                     //
                     List<Calculoicmsestado> listCalculoIcmsEstado = new QueryCplus(managerCplus).listcalculoIcmsEstadol("RS", "RS", "5102", pro.getCodcalculoicms().getCodcalculoicms());
-                    psSP.setPrice(precoPrincipalDiferenciado(managerCplus, pro));
+                    psSP.setPrice(precoDiferenciado);
                     for (Calculoicmsestado cst : listCalculoIcmsEstado) {
                         if ("20".equals(cst.getCodsituacaotributariadif())) {
                             psSP.setPrice(precoPrincipal(managerCplus, pro));
@@ -652,6 +654,8 @@ public class ProdutoCplusDigimacro {
                 }
             }
         }
+        */
+        
         List<BigDecimal> listBigDecimal = new ArrayList<>();
         listBigDecimal.add(new BigDecimal("0.5"));
         listBigDecimal.add(new BigDecimal("1.0"));
@@ -673,6 +677,7 @@ public class ProdutoCplusDigimacro {
                 psSP.setIdCustomer(0);
                 psSP.setIdProductAttribute(0);
                 psSP.setPrice(new BigDecimal("-1.0"));
+                //psSP.setPrice(precoDiferenciado.multiply(new BigDecimal("0.9")));
                 psSP.setFromQuantity(defineQuantidadePreco(pp, bd));
                 psSP.setReduction(bd.divide(new BigDecimal("100.0"), 7 ,BigDecimal.ROUND_HALF_UP));
                 psSP.setReductionTax(true);
@@ -693,6 +698,7 @@ public class ProdutoCplusDigimacro {
                     // psSP.setIdCustomer(0);
                     // psSP.setIdProductAttribute(0);
                     psSP.setPrice(new BigDecimal("-1.0"));
+                    //psSP.setPrice(precoDiferenciado.multiply(new BigDecimal("0.9")));
                     psSP.setFromQuantity(defineQuantidadePreco(pp, bd));
                     //psSP.setReduction(bd.divide(new BigDecimal("100.0")));
                     //psSP.setReductionTax(true);
