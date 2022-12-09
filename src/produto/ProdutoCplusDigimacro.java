@@ -165,7 +165,8 @@ public class ProdutoCplusDigimacro {
         pp1.setLowStockThreshold(0);
         pp1.setLowStockAlert(true);
         pp1.setPrice(precoPrincipal(managerCplus, proCplus));
-        pp1.setWholesalePrice(proCplus.getCustoreal());
+        //pp1.setWholesalePrice(proCplus.getCustoreal());
+        pp1.setWholesalePrice(BigDecimal.ZERO);
         pp1.setUnity("");
         pp1.setUnitPriceRatio(BigDecimal.ZERO);
         pp1.setAdditionalShippingCost(BigDecimal.ZERO);
@@ -320,7 +321,8 @@ public class ProdutoCplusDigimacro {
             pp.setVisibility("both");
         }
         pp.setDateUpd(new Date(System.currentTimeMillis()));
-        pp.setWholesalePrice(proCplus.getCustoreal());
+        //pp.setWholesalePrice(proCplus.getCustoreal());
+        pp.setWholesalePrice(BigDecimal.ZERO);
         try {
             new PsProductJpaController(managerPrestaShop).edit(pp);
             produtoLang(pp, proCplus, managerPrestaShop, managerIntegrador, managerCplus);
@@ -441,7 +443,7 @@ public class ProdutoCplusDigimacro {
     }
 
     /**
-     * FunÃ§Ã£o para gravar Logs no banco do integrador
+     * Função para gravar Logs no banco do integrador
      *
      * @param managerIntegracao
      * @param mensagem
@@ -456,7 +458,7 @@ public class ProdutoCplusDigimacro {
     }
 
     /**
-     * FunÃ§Ã£o para retornar uma String EAN
+     * Função para retornar uma String EAN
      *
      * @param managerCplus
      * @param proCplus
@@ -898,7 +900,7 @@ public class ProdutoCplusDigimacro {
         }
     }
     
-     private void categoriaProdutoPack(PsProduct pp, Produto proCplus, EntityManagerFactory managerPrestaShop, EntityManagerFactory managerIntegrador) {
+    private void categoriaProdutoPack(PsProduct pp, Produto proCplus, EntityManagerFactory managerPrestaShop, EntityManagerFactory managerIntegrador) {
         //String[] listSecaoIntegrador = proCplus.getCodsec().getClassificacao().split("\\.");
         String[] listSecaoIntegrador = "116".split("\\.");
         List<PsCategoryProduct> listPCP = new QueryPrestaShop(managerPrestaShop).listCategoriaProduto(pp.getIdProduct(), 2);
@@ -965,7 +967,6 @@ public class ProdutoCplusDigimacro {
         nomeProduto = nomeProduto.replace("$", "");
         String[] listaDePalavras = nomeProduto.split(" ");
         for (int cont = 0; listaDePalavras.length > cont; cont++) {
-
             if (listaDePalavras[cont].length() > 1) {
                 List<PsTag> listTag = new QueryPrestaShop(managerPrestaShop).resultPorNomeTag(listaDePalavras[cont].trim());
                 if (listTag.isEmpty()) {
@@ -982,7 +983,6 @@ public class ProdutoCplusDigimacro {
                 for (PsTag pT : listTag) {
                     manipulaProductTag(managerPrestaShop, managerIntegrador, pT, pp);
                     manipulaTagCount(managerPrestaShop, managerIntegrador, pT, pp);
-
                 }
             }
         }
@@ -1030,7 +1030,6 @@ public class ProdutoCplusDigimacro {
                 }
             }
         }
-
     }
 
     private void manipulaProductTag(EntityManagerFactory managerPrestaShop, EntityManagerFactory managerIntegrador, PsTag pT, PsProduct pp) {
@@ -1090,9 +1089,7 @@ public class ProdutoCplusDigimacro {
                     criaLog(managerIntegrador, "Houve um erro ao editar PsManufacturerLang ex. " + ex, "ERRO EDITAR");
                 }
             }
-        } else {
-
-        }
+        } 
         return idManuf;
     }
 
@@ -1135,37 +1132,7 @@ public class ProdutoCplusDigimacro {
             condicao = true;
         }
         return condicao;
-    }
-
-    private boolean porPrecoPromocao(PsProductShop entity) {
-        boolean condicao = false;
-        Integer numDias = 0;
-        Calendar dataAtualCal = Calendar.getInstance();
-        dataAtualCal.setTime(new java.util.Date(System.currentTimeMillis()));
-        String diaAtualStr = String.format("%02d", dataAtualCal.get(Calendar.DAY_OF_MONTH));
-        String mesAtualStr = String.format("%02d", dataAtualCal.get(Calendar.MONTH));
-        String anoAtualStr = String.format("%04d", dataAtualCal.get(Calendar.YEAR));
-        Calendar dataBancoCal = Calendar.getInstance();
-        int totalDataAtual = Integer.valueOf(anoAtualStr + mesAtualStr + diaAtualStr);
-
-        if (entity.getAvailableDate() == null) {
-            dataBancoCal.setTime(new java.util.Date(System.currentTimeMillis()));
-        } else {
-            dataBancoCal.setTime(entity.getAvailableDate());
-        }
-        //dataBancoCal.setTime(entity.getAvailableDate());
-        String diaBancoStr = String.format("%02d", dataBancoCal.get(Calendar.DAY_OF_MONTH));
-        String mesBancoStr = String.format("%02d", dataBancoCal.get(Calendar.MONTH));
-        String anoBancoStr = String.format("%04d", dataBancoCal.get(Calendar.YEAR));
-        int totalDataBanco = Integer.valueOf(anoBancoStr + mesBancoStr + diaBancoStr);
-
-        numDias = totalDataAtual - totalDataBanco;
-        if (numDias < 10) {
-            condicao = true;
-            //   promo = true;
-        }
-        return condicao;
-    }
+    }   
 
     private boolean tirarPrecoPromocao(PsProductShop entity) {
         boolean condicao = false;
