@@ -30,10 +30,13 @@ import integrador.render.RenderNumeroNFCe;
 import java.awt.Toolkit;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
 import jpa.cplus.CalculoicmsestadoJpaController;
 import jpa.cplus.MovendaprodJpaController;
+import jpa.cplus.MovendaprodserialJpaController;
 import jpa.cplus.MoventradaprodJpaController;
 import jpa.cplus.MoventradaprodserialJpaController;
 import jpa.cplus.OrcamentoprodserialJpaController;
@@ -471,7 +474,7 @@ public class RmaJFrame extends javax.swing.JFrame {
         });
 
         jButtonExcluiSerial.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/delete.png"))); // NOI18N
-        jButtonExcluiSerial.setText("Excluir Serial");
+        jButtonExcluiSerial.setText("Excluir Serial da Saída");
         jButtonExcluiSerial.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonExcluiSerialActionPerformed(evt);
@@ -483,18 +486,19 @@ public class RmaJFrame extends javax.swing.JFrame {
         jPanelManutençãoSerialLayout.setHorizontalGroup(
             jPanelManutençãoSerialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelManutençãoSerialLayout.createSequentialGroup()
-                .addComponent(jButtonEditarSerial, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButtonExcluiSerial, javax.swing.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE)
-                .addGap(24, 24, 24))
+                .addGroup(jPanelManutençãoSerialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelManutençãoSerialLayout.createSequentialGroup()
+                        .addComponent(jButtonEditarSerial, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 157, Short.MAX_VALUE))
+                    .addComponent(jButtonExcluiSerial, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanelManutençãoSerialLayout.setVerticalGroup(
             jPanelManutençãoSerialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelManutençãoSerialLayout.createSequentialGroup()
-                .addGroup(jPanelManutençãoSerialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonEditarSerial)
-                    .addComponent(jButtonExcluiSerial))
-                .addGap(0, 91, Short.MAX_VALUE))
+                .addComponent(jButtonEditarSerial)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
+                .addComponent(jButtonExcluiSerial))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -603,31 +607,38 @@ public class RmaJFrame extends javax.swing.JFrame {
         } else {
             for (Produtoserial proSer : listProdSerial) {
                 List<Movendaprodserial> vendaSerial = queryCplus.listagemSaidaSerialExato(ser);
-                if (vendaSerial.isEmpty()) {
-                    //List<Moventradaprodserial> entradaSerial = querySerial.listagemEntradaSerial(ser);
-                    for (Moventradaprodserial entSer : proSer.getMoventradaprodserialCollection()) {
-                        try {
-                            new MoventradaprodserialJpaController(managerCplus).destroy(entSer.getCodmoventradaprodserial());
-                        } catch (NonexistentEntityException ex) {
-                            JOptionPane.showMessageDialog(null, "Houve um Erro ao Excluir Entrada Serial \n" + ex);
-                        }
-                    }//for
-                    for (Orcamentoprodserial orSer : proSer.getOrcamentoprodserialCollection()) {
-                        try {
-                            new OrcamentoprodserialJpaController(managerCplus).destroy(orSer.getCodorcprodser());
-                        } catch (NonexistentEntityException ex) {
-                            JOptionPane.showMessageDialog(null, "Houve um Erro ao Excluir Orï¿½amento Serial \n" + ex);
-                        }
-                    }//for
+                //if (vendaSerial.isEmpty()) {
+                for (Movendaprodserial veSerial : vendaSerial) {
                     try {
-                        new ProdutoserialJpaController(managerCplus).destroy(proSer.getCodprodutoserial());
-                        tipoDePesquisa();
-                    } catch (IllegalOrphanException | NonexistentEntityException ex) {
-                        JOptionPane.showMessageDialog(null, "Houve um Erro ao Excluir Produto Serial \n" + ex);
+                        new MovendaprodserialJpaController(managerCplus).destroy(veSerial.getCodmovendaprodserial());
+                    } catch (NonexistentEntityException ex) {
+                        JOptionPane.showMessageDialog(null, "Houve um Erro ao Excluir o Serial da Saída \n" + ex);
                     }
-                } else {
-                    JOptionPane.showMessageDialog(null, "O serial " + ser + " Não pode ser Excluido pois já tem Saida, Verifique!!!");
-                }//else
+                }
+                    //List<Moventradaprodserial> entradaSerial = querySerial.listagemEntradaSerial(ser);
+                //for (Moventradaprodserial entSer : proSer.getMoventradaprodserialCollection()) {
+                //   try {
+                //       new MoventradaprodserialJpaController(managerCplus).destroy(entSer.getCodmoventradaprodserial());
+                //    } catch (NonexistentEntityException ex) {
+                //        JOptionPane.showMessageDialog(null, "Houve um Erro ao Excluir Entrada Serial \n" + ex);
+                //   }
+                //}//for
+                for (Orcamentoprodserial orSer : proSer.getOrcamentoprodserialCollection()) {
+                    try {
+                        new OrcamentoprodserialJpaController(managerCplus).destroy(orSer.getCodorcprodser());
+                    } catch (NonexistentEntityException ex) {
+                        JOptionPane.showMessageDialog(null, "Houve um Erro ao Excluir Orçamento Serial \n" + ex);
+                    }
+                }//for
+                //try {
+                //    new ProdutoserialJpaController(managerCplus).destroy(proSer.getCodprodutoserial());
+                //   tipoDePesquisa();
+                //} catch (IllegalOrphanException | NonexistentEntityException ex) {
+                //   JOptionPane.showMessageDialog(null, "Houve um Erro ao Excluir Produto Serial \n" + ex);
+                // }
+                // } else {
+                //    JOptionPane.showMessageDialog(null, "O serial " + ser + " Não pode ser Excluido pois já tem Saida, Verifique!!!");
+                // }//else
             }//for
         }//else
     }
