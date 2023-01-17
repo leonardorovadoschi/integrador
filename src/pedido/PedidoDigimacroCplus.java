@@ -1,4 +1,4 @@
- /*
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -126,7 +126,8 @@ public class PedidoDigimacroCplus {
                             orc.setFlagpalm((short) 0);
                             orc.setCodempresa(new EmpresaJpaController(managerCplus).findEmpresa(1));
                             orc.setFlagstatus('O');
-                            orc.setValorfrete(order.getTotalShippingTaxIncl().setScale(2, RoundingMode.HALF_UP));
+                            //orc.setValorfrete(order.getTotalShippingTaxIncl().setScale(2, RoundingMode.HALF_UP));
+                            orc.setValorfrete(BigDecimal.ZERO);
                             orc.setEntregatelefone(order.getReference());
                             orc.setValoracrescimo(BigDecimal.ZERO);
                             orc.setHora(new Date(System.currentTimeMillis()));
@@ -145,7 +146,11 @@ public class PedidoDigimacroCplus {
                             orc.setValoricms(BigDecimal.ZERO);
                             orc.setAliqacrescimo(BigDecimal.ZERO);
                             if (order.getTotalShippingTaxIncl().doubleValue() < 1800.00) {
-                                orc.setFlagfrete('D');
+                                if (order.getTotalShippingTaxIncl().doubleValue() < 1.00) {
+                                    orc.setFlagfrete('D');
+                                } else {
+                                    orc.setFlagfrete('E');
+                                }
                             } else {
                                 orc.setFlagfrete('E');
                             }
@@ -396,7 +401,7 @@ public class PedidoDigimacroCplus {
                     baseIcms = (100 - aliqReducaoIcms) * valorTotal.doubleValue() / 100;
 
                     if ("N".equals(cli.getFlagusaaliqicmsdiferenciada().toString())) {
-                       // if (cli.getIndiedest().toString() == "1") {                                                 
+                        // if (cli.getIndiedest().toString() == "1") {                                                 
                         //    prod.setCodcalculoicms(calculoIcmsEstado.getCodcalculoicms().getCodcalculoicms());
                         //     prod.setCodclassificacaofiscal(prodCplus.getCodclassificacaofiscal().getCodclassificacaofiscal());
                         //     prod.setTipotributacao('T');
@@ -422,7 +427,7 @@ public class PedidoDigimacroCplus {
                             prod.setValoricmsoperacao(new BigDecimal(valorIcmsOperacao).setScale(2, RoundingMode.HALF_EVEN));
                             prod.setValoricmsdiferimento(new BigDecimal(valorIcmsOperacao - valorIcms).setScale(2, RoundingMode.HALF_EVEN));
                             text = "Diferimento parcial do ICMS conforme Art. 1º-K do Livro III do RICMS/RS";
-                        }                      
+                        }
                     } else {
                         valorIcms = baseIcms * aliqIcms / 100;
                         prod.setCodsituacaotributaria(calculoIcmsEstado.getCodsituacaotributariadif());
@@ -511,7 +516,8 @@ public class PedidoDigimacroCplus {
             orcamento.setValoricms(BigDecimal.ZERO);
             orcamento.setBasesubsttributaria(BigDecimal.ZERO);
             orcamento.setValorsubsttributaria(BigDecimal.ZERO);
-            orcamento.setValorfrete(psOrders.getTotalShippingTaxIncl().setScale(2, RoundingMode.HALF_UP));
+            // orcamento.setValorfrete(psOrders.getTotalShippingTaxIncl().setScale(2, RoundingMode.HALF_UP));
+            orcamento.setValorfrete(BigDecimal.ZERO);
             orcamento.setValoroutrasdespesas(BigDecimal.ZERO);
             orcamento.setValortotalprodutos(BigDecimal.ZERO);
             //saida.setValortotalnota(BigDecimal.ZERO);
