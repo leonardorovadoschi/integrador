@@ -331,13 +331,14 @@ public class ProdutoCplusDigimacro {
                 precoQuntidade(proCplus, pp, managerPrestaShop, managerIntegrador, managerCplus);
                 gerenciaTags(managerPrestaShop, managerIntegrador, proCplus, pp);
                 categoriaProduto(promo, pp, proCplus, managerPrestaShop, managerIntegrador);
+                 new PackProduto().atualizarPackProdutoCriado(managerIntegrador, managerPrestaShop, pp);
             }else{
                 categoriaProdutoPack(pp, proCplus, managerPrestaShop, managerIntegrador);
             }
             //categoriaProduto(promo, pp, proCplus, managerPrestaShop, managerIntegrador);
             produtoTransportadora(pp, managerPrestaShop, managerIntegrador);
             //atualizar pacote de produto criado
-            new PackProduto().atualizarPackProdutoCriado(managerIntegrador, managerPrestaShop, pp);
+           // new PackProduto().atualizarPackProdutoCriado(managerIntegrador, managerPrestaShop, pp);
             
         } catch (Exception ex) {
             criaLog(managerIntegrador, "Houve um erro ao criar PsProductLang ex. " + ex, "ERRO EDITAR");

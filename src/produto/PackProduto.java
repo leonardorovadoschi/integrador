@@ -40,8 +40,6 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import jpa.integrador.IntLogsJpaController;
 import jpa.prestaShop.PsCategoryProductJpaController;
