@@ -18,7 +18,6 @@ import entidade.prestaShop.PsManufacturerShop;
 import entidade.prestaShop.PsMessage;
 import entidade.prestaShop.PsModuloCpf;
 import entidade.prestaShop.PsOrderCarrier;
-import entidade.prestaShop.PsOrderCommission;
 import entidade.prestaShop.PsOrderDetail;
 import entidade.prestaShop.PsOrderInvoice;
 import entidade.prestaShop.PsOrderPayment;
@@ -130,7 +129,7 @@ public class QueryPrestaShop implements Serializable {
     }
 
     /**
-     * Pesquisa o nome da seÃ§Ã£o em PsCategoryLang
+     * Pesquisa o nome da seção em PsCategoryLang
      *
      * @param nome
      * @return
@@ -143,7 +142,7 @@ public class QueryPrestaShop implements Serializable {
     }
 
     /**
-     * FunÃ§Ã£o que retorna uma lista de Taxa do site pelo nome do calculo do
+     * Função que retorna uma lista de Taxa do site pelo nome do calculo do
      * icms do cplus
      *
      * @param nomeCalculoIcms
@@ -553,7 +552,7 @@ public class QueryPrestaShop implements Serializable {
         query.setParameter("reference", reference);
         return query.getResultList();
     }
-
+    
     public List<PsOrderDetail> listOrderDetail(Integer idOrder) {
         EntityManager em = getEntityManager();
         Query query = em.createQuery("SELECT c FROM PsOrderDetail c WHERE c.idOrder =:idOrder");

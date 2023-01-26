@@ -428,16 +428,19 @@ public class QueryCplus {
         return query.getResultList();
     }
 
-    public String incrementAuditoria() {
+    public String incrementAuditoria() { 
         EntityManager entityManager = getEntityManager();
-        Query query = entityManager.createQuery("SELECT MAX(m.codauditoria) FROM Auditoria m");
-        String increment = null;
-        for (Object m : query.getResultList()) {   //passa o valor de um objeto
-            int res = Integer.parseInt(m.toString());//converte objeto em string e depois em inteiro
-            res++;
-            increment = String.valueOf(res);
-        }
-        return increment;
+        Query query = entityManager.createQuery("SELECT MAX(cast(trim(m.codauditoria) as integer)) FROM Auditoria m");
+        Object result = query.getSingleResult();
+        String sequencia = result == null ? "0" : result.toString();
+        return String.format("%09d", Integer.valueOf(sequencia) + 1);
+       // String increment = null;
+       // for (Object m : query.getResultList()) {   //passa o valor de um objeto
+       //     int res = Integer.parseInt(m.toString());//converte objeto em string e depois em inteiro
+      //      res++;
+      //      increment = String.valueOf(res);
+       // }
+       // return increment;
     }
 
     /**
@@ -464,7 +467,7 @@ public class QueryCplus {
     }
 
     /**
-     * Funï¿½ï¿½o qeu lista devoluï¿½ï¿½o de compra poelo produto da saida
+     * Função qeu lista devolução de compra pelo produto da saida
      *
      * @param codMovProdSaida
      * @return
@@ -784,8 +787,8 @@ public class QueryCplus {
     }
 
     /**
-     * FunÃ§Ã£o que retorna uma lista de entradas o tipoMovimento for true Ã©
-     * sÃ³ compras, se for false serÃ¡ tudo maxResultado siginifica o umero de
+     * Função que retorna uma lista de entradas o tipoMovimento for true  
+     * será compras, se for false será tudo maxResultado siginifica o numero de
      * resultados retornados a ordem Ã© pela ultima data de entrada
      *
      * @param codigoProduto
@@ -1078,10 +1081,9 @@ public class QueryCplus {
     }
 
     /**
-     * Retorna todos os preÃ§os do produto
+     * Retorna todos os preços do produto
      *
      * @param codProduto
-     * @param codigoProduto
      * @return
      */
     public List<Produtopreco> listPrecos(String codProduto) {
@@ -1092,7 +1094,7 @@ public class QueryCplus {
     }
 
     /**
-     * Retorna o preÃ§o do codigo do preÃ§o do produto
+     * Retorna o preço pelo codigo
      *
      * @param codProduto
      * @param codPreco
@@ -1476,41 +1478,7 @@ public class QueryCplus {
         query.setParameter("valor", codigoClassificacaoFiscal + "%");//primeiro parametro      
         return query.getResultList();
     }
-
-    /**
-     * FunÃ§Ã£o pesquisa pela caracteristica do produtos que Ã©: '000000005'
-     * retorna uma lista com essa caracteristica e com o tempo de comeÃ§o e fim
-     * da pescquisa pelo Lastchange do produto no Cplus
-     *
-     * @param dataInicio
-     * @param dataFim
-     * @return
-     */
-    private List<Produto> listDataAtualizacao(Date dataInicio, Date dataFim) {
-        EntityManager em = getEntityManager();
-        Query query = em.createQuery("SELECT p.codprod FROM Produtocaracteristica p WHERE p.codcaracteristica = '000000005' AND p.codprod.lastChange BETWEEN :dataInicio AND :dataFim");
-        query.setParameter("dataInicio", dataInicio);//primeiro parametro 
-        query.setParameter("dataFim", dataFim);//primeiro parametro
-        return query.getResultList();
-    }
-
-    /**
-     * FunÃ§Ã£o pesquisa pela caracteristica do produtos que Ã©: '000000005'
-     * retorna uma lista com essa caracteristica e com o tempo de comeÃ§o e fim
-     * da pescquisa pelo Lastchange do produto no Cplus
-     *
-     * @param dataInicio
-     * @param dataFim
-     * @return Não retorna valor atual
-     */
-    private List<Produto> listDataAtualizacao(Date dataInicio) {
-        EntityManager em = getEntityManager();
-        Query query = em.createQuery("SELECT p.codprod FROM Produtocaracteristica p WHERE p.codcaracteristica = '000000005' AND p.codprod.lastChange > :dataInicio");
-        query.setParameter("dataInicio", dataInicio);//primeiro parametro 
-        //query.setParameter("dataFim", dataFim);//primeiro parametro
-        return query.getResultList();
-    }
-    
+  
      public List<Produto> listLastChange(Date dataInicio) {
         EntityManager em = getEntityManager();
         Query query = em.createQuery("SELECT p FROM Produto p WHERE p.lastChange > :dataInicio");
@@ -1520,7 +1488,7 @@ public class QueryCplus {
     }
 
     /**
-     * FunÃ§Ã£o que recebe o ncm da direita para esquerda todos, e se estoque
+     * Função que recebe o ncm da direita para esquerda todos, e se estoque
      * for maior que zero
      *
      * @param codigoClassificacaoFiscal
@@ -1586,8 +1554,8 @@ public class QueryCplus {
     /**
      * Lista calculo de Icms Por Estado
      *
-     * @param cfopSTForaUf ï¿½ a Sigla do Estado
-     * @param codCalculoIcms ï¿½ o codigo do Icms do Produto
+     * @param cfopSTForaUf 
+     * @param codCalculoIcms 
      * @param filtroPorCfop
      * @return
      */
@@ -1644,8 +1612,15 @@ public class QueryCplus {
         return query.getResultList();
     }
 
-    public String incrementOrcProd() {
+    public String incrementNumOrcamento() {
         Query query = getEntityManager().createQuery("SELECT MAX(cast(trim(p.numeroorcamento) as integer)) FROM Orcamentoprod p");
+        Object result = query.getSingleResult();
+        String sequencia = result == null ? "0" : result.toString();
+        return String.format("%06d", Integer.valueOf(sequencia) + 1);
+    }
+    
+     public String incrementOrcProd() {
+        Query query = getEntityManager().createQuery("SELECT MAX(cast(trim(p.codorcprod) as integer)) FROM Orcamentoprod p");
         Object result = query.getSingleResult();
         String sequencia = result == null ? "0" : result.toString();
         return String.format("%06d", Integer.valueOf(sequencia) + 1);

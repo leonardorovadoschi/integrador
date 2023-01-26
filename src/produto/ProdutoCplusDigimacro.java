@@ -6,7 +6,6 @@
 package produto;
 
 import acesso.ConexaoPrestaShop;
-import entidade.cplus.Calculoicmsestado;
 import entidade.cplus.Campocustomvalor;
 import entidade.cplus.Movenda;
 import entidade.cplus.Produto;
@@ -337,6 +336,9 @@ public class ProdutoCplusDigimacro {
             }
             //categoriaProduto(promo, pp, proCplus, managerPrestaShop, managerIntegrador);
             produtoTransportadora(pp, managerPrestaShop, managerIntegrador);
+            //atualizar pacote de produto criado
+            new PackProduto().atualizarPackProdutoCriado(managerIntegrador, managerPrestaShop, pp);
+            
         } catch (Exception ex) {
             criaLog(managerIntegrador, "Houve um erro ao criar PsProductLang ex. " + ex, "ERRO EDITAR");
         }

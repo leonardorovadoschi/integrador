@@ -18,10 +18,12 @@ import entidade.cplus.Unidade;
 import entidade.prestaShop.PsAddress;
 import entidade.prestaShop.PsCarrier;
 import entidade.prestaShop.PsCustomer;
+import entidade.prestaShop.PsGroup;
 import entidade.prestaShop.PsMessage;
 import entidade.prestaShop.PsOrderDetail;
 import entidade.prestaShop.PsOrders;
 import entidade.prestaShop.PsPack;
+import entidade.prestaShop.PsProduct;
 import query.cplus.QueryCplus;
 import integrador.relatorio.ImprimeRelatorio;
 import janela.cplus.FormataCampos;
@@ -42,6 +44,7 @@ import jpa.cplus.TipomovimentoJpaController;
 import jpa.cplus.TransportadoraJpaController;
 import jpa.cplus.VendedorJpaController;
 import jpa.prestaShop.PsCustomerJpaController;
+import jpa.prestaShop.PsGroupJpaController;
 import jpa.prestaShop.PsProductJpaController;
 import query.integrador.QueryIntegrador;
 import query.prestaShop.QueryPrestaShop;
@@ -200,8 +203,19 @@ public class PedidoDigimacroCplus {
                                 }
                                 for (PsOrderDetail orderItem : new QueryPrestaShop(managerPrestaShop).listPsOrderDetail(order.getIdOrder())) {
                                     if (new PsProductJpaController(managerPrestaShop).findPsProduct(orderItem.getProductId()).getCacheIsPack()) {
-                                        for (PsPack psP : new QueryPrestaShop(managerPrestaShop).listPack(new PsProductJpaController(managerPrestaShop).findPsProduct(orderItem.getProductId()).getIdProduct())) {
-                                            orderItem.setProductId(psP.getPsPackPK().getIdProductItem());
+
+                                        //for (PsPack psP : new QueryPrestaShop(managerPrestaShop).listPack(new PsProductJpaController(managerPrestaShop).findPsProduct(orderItem.getProductId()).getIdProduct())) {
+                                        for (PsPack psP : new QueryPrestaShop(managerPrestaShop).listPack(orderItem.getProductId())) {
+                                            PsProduct P = new PsProductJpaController(managerPrestaShop).findPsProduct(psP.getPsPackPK().getIdProductItem());
+                                            PsCustomer C =  new PsCustomerJpaController(managerPrestaShop).findPsCustomer(order.getIdCustomer());
+                                            PsGroup G = new PsGroupJpaController(managerPrestaShop).findPsGroup(C.getIdDefaultGroup());;
+                                            BigDecimal precUni = P.getPrice();
+                                            BigDecimal redGrup = G.getReduction().divide(new BigDecimal("100.00"), BigDecimal.ROUND_HALF_UP);
+                                            precUni = precUni.multiply(BigDecimal.ONE.subtract(redGrup));                                           
+                                            orderItem.setProductId(psP.getPsPackPK().getIdProductItem());                                                                                    
+                                            orderItem.setEcotax(BigDecimal.ZERO);
+                                            orderItem.setProductQuantity(psP.getQuantity());
+                                            orderItem.setTotalPriceTaxIncl(precUni.multiply(BigDecimal.valueOf(psP.getQuantity())));                                           
                                             if (imprimir) {
                                                 criaPedidoProdutoCplus(true, managerIntegrador, managerCplus, managerPrestaShop, orderItem, orcamento, cliente);
                                             } else {
@@ -254,21 +268,6 @@ public class PedidoDigimacroCplus {
             obs = obs + mens.getMessage() + "\n";
         }
         return obs;
-    }
-
-    private boolean verificaEndereco1(EntityManagerFactory managerIntegrador, EntityManagerFactory managerPrestaShop, Cliente cliente, PsCustomer pc) {
-        boolean condicao = false;
-        String ende = cliente.getEndereco();
-        //String bairro = cliente.getBairro();
-        String numero = cliente.getNumerologradouro();
-        String complemento = cliente.getComplementologradouro();
-        List<PsAddress> listText = new QueryPrestaShop(managerPrestaShop).listEndereco(false, pc.getIdCustomer(), endereco(ende, numero, complemento));
-        if (listText.size() > 0 || new QueryIntegrador(managerIntegrador).valorConfiguracao("cliente_CODIGO_PARA_CUPOM").equals(cliente.getCodcli())) {
-            condicao = true;
-        } else {
-            JOptionPane.showMessageDialog(null, "ENDEREÇO DO SITE DIFERENTE DO C-PLUS, Verifique!!! \n Cliente: " + cliente.getNomecli());
-        }
-        return condicao;
     }
 
     private boolean verificaEndereco(EntityManagerFactory managerIntegrador, EntityManagerFactory managerPrestaShop, Cliente cliente, PsOrders po) {
@@ -331,8 +330,10 @@ public class PedidoDigimacroCplus {
                 Orcamentoprod prod = new Orcamentoprod();
                 prod.setCodorc(orcamento);
                 prod.setCodprod(prodCplus);
-                //prod.setCodorcprod(new QueryCplus(managerCplus).incrementOrcProd());
-                prod.setCodorcprod(String.format("%06d", orderItem.getIdOrderDetail()));
+                prod.setCodorcprod(new QueryCplus(managerCplus).incrementOrcProd());
+               
+                //prod.setCodorcprod(String.format("%06d", orderItem.getIdOrderDetail()));                            
+                
                 prod.setCodempresa(new EmpresaJpaController(managerCplus).findEmpresa(1));
                 prod.setCodpreco(new PrecoJpaController(managerCplus).findPreco("000000001"));
                 boolean cliRuim = false;

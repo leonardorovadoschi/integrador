@@ -40,6 +40,8 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import jpa.integrador.IntLogsJpaController;
 import jpa.prestaShop.PsCategoryProductJpaController;
@@ -67,7 +69,7 @@ import query.prestaShop.QueryPrestaShop;
 public class PackProduto {
 
     /**
-     * Fun√ß√£o encarregada de verificar se o produto ser√° criado ou atualizado
+     * FunÁ„o encarregada de verificar se o produto ser· criado ou atualizado
      *
      * @param managerIntegrador
      * @param managerCplus
@@ -100,7 +102,7 @@ public class PackProduto {
     }
 
     /**
-     * Fun√ß√£o que cria um produto no prestaShop
+     * FunÁ„o que cria um produto no prestaShop
      *
      * @param managerIntegrador
      * @param managerCplus
@@ -158,13 +160,13 @@ public class PackProduto {
         pp1.setShowCondition(true);
         pp1.setCondition1("new");
         pp1.setShowPrice(true);
-       // if ("116".equals(proCplus.getCodsec().getClassificacao())) {
-         pp1.setIndexed(true);
-         //   pp1.setVisibility("none");
-       // } else {
-            // pp1.setIndexed(true);
-            pp1.setVisibility("both");
-      //  }
+        // if ("116".equals(proCplus.getCodsec().getClassificacao())) {
+        pp1.setIndexed(true);
+        //   pp1.setVisibility("none");
+        // } else {
+        // pp1.setIndexed(true);
+        pp1.setVisibility("both");
+        //  }
         pp1.setCacheIsPack(true);//pacote
         pp1.setCacheHasAttachments(false);
         pp1.setIsVirtual(false);
@@ -231,13 +233,13 @@ public class PackProduto {
                 pps.setShowCondition(false);
                 pps.setCondition("new");
                 pps.setShowPrice(true);
-               // if ("116".equals(proCplus.getCodsec().getClassificacao())) {
-                    pps.setIndexed(true);
+                // if ("116".equals(proCplus.getCodsec().getClassificacao())) {
+                pps.setIndexed(true);
                 //    pps.setVisibility("none");
-             //   } else {
-                    // pps.setIndexed(pps.getActive());
-                    pps.setVisibility("both");
-              //  }
+                //   } else {
+                // pps.setIndexed(pps.getActive());
+                pps.setVisibility("both");
+                //  }
                 pps.setIndexed(pps.getActive());
                 pps.setVisibility("both");
                 pps.setCacheDefaultAttribute(0);
@@ -282,8 +284,61 @@ public class PackProduto {
         return valor;
     }
 
+    public void atualizarPackProdutoCriado(EntityManagerFactory managerIntegrador, EntityManagerFactory managerPrestaShop, PsProduct pp) {
+        for (PsPack pak : new QueryPrestaShop(managerPrestaShop).listPackItem(pp.getIdProduct())) {
+            BigDecimal preco = BigDecimal.ZERO;
+            Integer qunti = 100;
+            for (PsPack pak2 : new QueryPrestaShop(managerPrestaShop).listPack(pak.getPsPackPK().getIdProductPack())) {
+                PsProduct pr = new PsProductJpaController(managerPrestaShop).findPsProduct(pak2.getPsPackPK().getIdProductItem());
+                preco = preco.add(pr.getPrice().multiply(new BigDecimal(pak2.getQuantity())));
+                List<PsStockAvailable> listPSSA = new QueryPrestaShop(managerPrestaShop).listPsStockAvailable(pr.getIdProduct(), 1);
+                for (PsStockAvailable psSA : listPSSA) {
+                    if (psSA.getQuantity() < qunti) {
+                        qunti = psSA.getQuantity();
+                    }
+                }
+            }
+            PsProduct psP = new PsProductJpaController(managerPrestaShop).findPsProduct(pak.getPsPackPK().getIdProductPack());
+            psP.setPrice(preco);
+            psP.setOutOfStock(2);
+            if (qunti > 0) {
+                psP.setActive(true);
+                psP.setIndexed(true);
+            } else {
+                psP.setActive(false);
+                psP.setIndexed(false);
+            }
+            try {
+                new PsProductJpaController(managerPrestaShop).edit(psP);
+
+                List<PsProductShop> listPPS = new QueryPrestaShop(managerPrestaShop).listPsProductShop(psP.getIdProduct(), 1);
+                for (PsProductShop pps : listPPS) {
+                    pps.setPrice(preco);
+                    if (qunti > 0) {
+                        pps.setActive(true);
+                        pps.setIndexed(true);
+                    } else {
+                        pps.setActive(false);
+                        pps.setIndexed(false);
+                    }
+                    new PsProductShopJpaController(managerPrestaShop).edit(pps);
+                }
+
+                List<PsStockAvailable> listPSSA = new QueryPrestaShop(managerPrestaShop).listPsStockAvailable(psP.getIdProduct(), 1);
+                for (PsStockAvailable psSA : listPSSA) {
+                    psSA.setQuantity(qunti);
+                    new PsStockAvailableJpaController(managerPrestaShop).edit(psSA);
+                }
+
+            } catch (Exception ex) {
+               criaLog(managerIntegrador, "Houve um erro ao atualizar ProdutoPack ex. " + ex, "ERRO EDITAR ");
+            }
+
+        }
+    }
+
     /**
-     * Fun√ß√£o para editar produto no site
+     * FunÁ„o para editar produto no site
      *
      * @param managerIntegrador
      * @param managerPrestaShop
@@ -291,7 +346,6 @@ public class PackProduto {
      * @param pp produto prestaShop
      */
     private void editaProdutoDigimacro(EntityManagerFactory managerCplus, EntityManagerFactory managerIntegrador, EntityManagerFactory managerPrestaShop, Produto proCplus, PsProduct pp) {
-        
         //PsProduct pp = new PsProduct();
         // pp.setIdSupplier(0);
         pp.setIdManufacturer(marcaFabricante(managerPrestaShop, managerIntegrador, proCplus));
@@ -340,13 +394,13 @@ public class PackProduto {
         pp.setShowCondition(false);
         pp.setCondition1("new");
         pp.setShowPrice(true);
-      //  if ("116".equals(proCplus.getCodsec().getClassificacao())) {
-            //pp.setIndexed(false);
-       ///     pp.setVisibility("none");
-     //   } else {
-            // pp.setIndexed(true);
-            pp.setVisibility("both");
-   //     }
+        //  if ("116".equals(proCplus.getCodsec().getClassificacao())) {
+        //pp.setIndexed(false);
+        ///     pp.setVisibility("none");
+        //   } else {
+        // pp.setIndexed(true);
+        pp.setVisibility("both");
+        //     }
         pp.setCacheIsPack(true);
         //pp.setCacheHasAttachments(false);
         //pp.setIsVirtual(false);
@@ -411,13 +465,13 @@ public class PackProduto {
                 // pps.setShowCondition(false);
                 // pps.setCondition("new");
                 // pps.setShowPrice(true);
-              //  if ("116".equals(proCplus.getCodsec().getClassificacao())) {
+                //  if ("116".equals(proCplus.getCodsec().getClassificacao())) {
                 ///    pps.setIndexed(false);
                 //    pps.setVisibility("none");
-               // } else {
-                    //pps.setIndexed(pps.getActive());
-                    pps.setVisibility("both");
-              //  }
+                // } else {
+                //pps.setIndexed(pps.getActive());
+                pps.setVisibility("both");
+                //  }
                 pps.setCacheDefaultAttribute(0);
                 pps.setAdvancedStockManagement(false);
                 //pps.setDateAdd(new Date(System.currentTimeMillis()));
@@ -450,7 +504,7 @@ public class PackProduto {
     }
 
     /**
-     * Fun√ß√£o que relaciona o calculo do icms do Cplus para o site
+     * FunÁ„o que relaciona o calculo do icms do Cplus para o site
      *
      * @param managerPrestaShop
      * @param pro
@@ -466,7 +520,7 @@ public class PackProduto {
     }
 
     /**
-     * Fun√ß√£o para gravar Logs no banco do integrador
+     * FunÁ„o para gravar Logs no banco do integrador
      *
      * @param managerIntegracao
      * @param mensagem
@@ -481,7 +535,7 @@ public class PackProduto {
     }
 
     /**
-     * Fun√ß√£o para retornar uma String EAN
+     * FunÁ„o para retornar uma String EAN
      *
      * @param managerCplus
      * @param proCplus
@@ -507,7 +561,7 @@ public class PackProduto {
         for (Produtopreco pr : listPreco) {
             preco = pr.getPreco().multiply(fatorConversaoBigDecimal(proCplus, managerCplus));
         }
-       // preco = preco.multiply(fatorConversaoBigDecimal(proCplus, managerCplus));
+        // preco = preco.multiply(fatorConversaoBigDecimal(proCplus, managerCplus));
         preco = preco.multiply(new BigDecimal("1.11"));
         return preco;
     }
@@ -555,7 +609,7 @@ public class PackProduto {
     }
 
     /**
-     * Fun√ß√£o que verifica as reservas dos pedidos no c-plus e no site
+     * FunÁ„o que verifica as reservas dos pedidos no c-plus e no site
      *
      * @param verificaLegiao
      * @param produto
@@ -585,8 +639,8 @@ public class PackProduto {
         listBigDecimal.add(new BigDecimal("3.0"));
         for (BigDecimal bd : listBigDecimal) {
             //PsSpecificPrice psSP = new PsSpecificPrice();
-            List<PsSpecificPrice> listPSSP = new QueryPrestaShop(managerPrestaShop).listPsSpecificPrice(pp.getIdProduct(), bd.divide(new BigDecimal("100.0"), 3 ,BigDecimal.ROUND_HALF_UP), 4);
-           /*
+            List<PsSpecificPrice> listPSSP = new QueryPrestaShop(managerPrestaShop).listPsSpecificPrice(pp.getIdProduct(), bd.divide(new BigDecimal("100.0"), 3, BigDecimal.ROUND_HALF_UP), 4);
+            /*
             if (listPSSP.isEmpty()) {
                 PsSpecificPrice psSP = new PsSpecificPrice();
                 psSP.setIdSpecificPriceRule(0);
@@ -641,15 +695,15 @@ public class PackProduto {
                     }
                 }
             }
-            */
-            
+             */
+
             for (PsSpecificPrice psSP : listPSSP) {
-                    try {
-                        new PsSpecificPriceJpaController(managerPrestaShop).destroy(psSP.getIdSpecificPrice());
-                    } catch (NonexistentEntityException ex) {
-                        criaLog(managerIntegrador, "Houve um erro ao excluir PsSpecificPrice ex. " + ex, "ERRO EXCLUIR");
-                    }
+                try {
+                    new PsSpecificPriceJpaController(managerPrestaShop).destroy(psSP.getIdSpecificPrice());
+                } catch (NonexistentEntityException ex) {
+                    criaLog(managerIntegrador, "Houve um erro ao excluir PsSpecificPrice ex. " + ex, "ERRO EXCLUIR");
                 }
+            }
         }
     }
 
@@ -667,12 +721,12 @@ public class PackProduto {
                     criaLog(managerIntegrador, "Houve um erro ao criar PsPack ex. " + ex, "ERRO CRIAR");
                 }
             } else {
-                for(PsPack packBanco : listPP){
+                for (PsPack packBanco : listPP) {
                     packBanco.setQuantity(fatorConversaoInteger(proCplus, managerCplus));
                     try {
                         new PsPackJpaController(managerPrestaShop).edit(packBanco);
                     } catch (Exception ex) {
-                       criaLog(managerIntegrador, "Houve um erro ao editar PsPack ex. " + ex, "ERRO EDITAR");
+                        criaLog(managerIntegrador, "Houve um erro ao editar PsPack ex. " + ex, "ERRO EDITAR");
                     }
                 }
             }
@@ -734,6 +788,7 @@ public class PackProduto {
         }
         return quantidade;
     }
+
     //categoria original
     private void categoriaProduto(boolean promocao, PsProduct pp, Produto proCplus, EntityManagerFactory managerPrestaShop, EntityManagerFactory managerIntegrador) {
         String sec;
@@ -787,8 +842,6 @@ public class PackProduto {
             }
         }
     }
-
-   
 
     private Integer fatorConversaoInteger(Produto prodCplus, EntityManagerFactory managerCplus) {
         Integer quantidade = 1;
@@ -894,9 +947,9 @@ public class PackProduto {
             }
         }
     }
-    
+
     private Integer marcaFabricante(EntityManagerFactory managerPrestaShop, EntityManagerFactory managerIntegrador, Produto proCplus) {
-       Integer idManuf = 1;
+        Integer idManuf = 1;
         List<PsManufacturer> listPM = new QueryPrestaShop(managerPrestaShop).listManufacturer(proCplus.getCodfabricante().getNomefabricante());
         if (listPM.isEmpty()) {
             PsManufacturer psM = new PsManufacturer();
@@ -932,14 +985,14 @@ public class PackProduto {
                         criaLog(managerIntegrador, "Houve um erro ao criar PsManufacturerLang ex. " + ex, "ERRO CRIAR");
                     }
                 }
-            }catch (Exception ex) {
+            } catch (Exception ex) {
                 criaLog(managerIntegrador, "Houve um erro ao editar PsManufacturerLang ex. " + ex, "ERRO EDITAR");
             }
         }
         return idManuf;
     }
-    
-     private String observacao(Produto proCplus, EntityManagerFactory managerCplus) {
+
+    private String observacao(Produto proCplus, EntityManagerFactory managerCplus) {
         String ob = "";
         if (proCplus != null) {
             ob = proCplus.getObs() + " <p>Part Number: " + partNumber(proCplus, managerCplus) + "</p> <p>NCM: "
@@ -947,8 +1000,8 @@ public class PackProduto {
         }
         return ob;
     }
-     
-     private String partNumber(Produto proCplus, EntityManagerFactory managerCplus) {
+
+    private String partNumber(Produto proCplus, EntityManagerFactory managerCplus) {
         //part Number 000000004
         //complemento Fiscal 000000003
         String codCampoCustomMaster = "000000004";
