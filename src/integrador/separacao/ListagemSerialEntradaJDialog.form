@@ -55,12 +55,15 @@
               <Component id="jScrollPane1" min="-2" pref="637" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jButtonAtualizarTabela" max="32767" attributes="0"/>
-                  <Group type="102" attributes="0">
-                      <Component id="jButtonEditarSerial" min="-2" pref="120" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="30" max="32767" attributes="0"/>
-                  </Group>
+                  <Component id="jButtonAtualizarTabela" pref="150" max="32767" attributes="0"/>
                   <Component id="jTextFieldSerial" max="32767" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="jButtonEditarSerial" max="32767" attributes="0"/>
+                          <Component id="jButtonExcluirSerial" max="32767" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -80,7 +83,9 @@
               <Component id="jTextFieldSerial" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jButtonEditarSerial" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="291" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jButtonExcluirSerial" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="253" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -170,6 +175,14 @@
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldSerial">
+    </Component>
+    <Component class="javax.swing.JButton" name="jButtonExcluirSerial">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Excluir Serial"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonExcluirSerialActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
