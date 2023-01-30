@@ -427,7 +427,10 @@ public class QueryCplus {
         query.setParameter("codigoUnidade", codigoUnidade);//primeiro parametro
         return query.getResultList();
     }
-
+    /**
+     * Não funciona pos o c-plus tenta usar o mesmo cod
+     * @return 
+     */
     public String incrementAuditoria() { 
         EntityManager entityManager = getEntityManager();
         Query query = entityManager.createQuery("SELECT MAX(cast(trim(m.codauditoria) as integer)) FROM Auditoria m");
