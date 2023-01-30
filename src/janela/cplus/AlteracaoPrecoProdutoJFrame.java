@@ -8,6 +8,7 @@ package janela.cplus;
 import entidade.cplus.Auditoria;
 import entidade.cplus.Calculoicmsestado;
 import entidade.cplus.Campocustomvalor;
+import entidade.cplus.Configuracao;
 import entidade.cplus.Movenda;
 import entidade.cplus.Movendaprod;
 import entidade.cplus.Moventrada;
@@ -42,6 +43,7 @@ import javax.swing.JOptionPane;
 import jpa.cplus.AuditoriaJpaController;
 import jpa.cplus.CampocustommasterJpaController;
 import jpa.cplus.CampocustomvalorJpaController;
+import jpa.cplus.ConfiguracaoJpaController;
 import jpa.cplus.ProdutoJpaController;
 import jpa.cplus.ProdutoprecoJpaController;
 import jpa.cplus.exceptions.NonexistentEntityException;
@@ -2460,11 +2462,11 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
         try {
             InetAddress addr = InetAddress.getLocalHost();
             // Configuracao configuracao = new ConfiguracaoJpaController(managerIntegrador).findConfiguracao("increment_tabela_auditoria");      
-          //  int cont = Integer.valueOf(queryIntegrador.valorConfiguracao("increment_tabela_auditoria"));
+            int cont = Integer.valueOf(queryIntegrador.valorConfiguracao("increment_tabela_auditoria"));
           
             Auditoria auditoria = new Auditoria();
-            //auditoria.setCodauditoria(String.format("%09d", cont));
-            auditoria.setCodauditoria(queryCplus.incrementAuditoria());
+            auditoria.setCodauditoria(String.format("%09d", cont));
+            //auditoria.setCodauditoria(queryCplus.incrementAuditoria());
             auditoria.setCoduser("000000006");
             auditoria.setCodsistema("000000001");
             auditoria.setData(new Date(System.currentTimeMillis()));
