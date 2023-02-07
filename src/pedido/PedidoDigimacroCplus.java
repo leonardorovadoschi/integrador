@@ -24,6 +24,7 @@ import entidade.prestaShop.PsOrderDetail;
 import entidade.prestaShop.PsOrders;
 import entidade.prestaShop.PsPack;
 import entidade.prestaShop.PsProduct;
+import entidade.prestaShop.PsSpecificPrice;
 import query.cplus.QueryCplus;
 import integrador.relatorio.ImprimeRelatorio;
 import janela.cplus.FormataCampos;
@@ -202,20 +203,32 @@ public class PedidoDigimacroCplus {
                                     }
                                 }
                                 for (PsOrderDetail orderItem : new QueryPrestaShop(managerPrestaShop).listPsOrderDetail(order.getIdOrder())) {
-                                    if (new PsProductJpaController(managerPrestaShop).findPsProduct(orderItem.getProductId()).getCacheIsPack()) {
 
+                                    if (new PsProductJpaController(managerPrestaShop).findPsProduct(orderItem.getProductId()).getCacheIsPack()) {
                                         //for (PsPack psP : new QueryPrestaShop(managerPrestaShop).listPack(new PsProductJpaController(managerPrestaShop).findPsProduct(orderItem.getProductId()).getIdProduct())) {
+                                        PsCustomer C = new PsCustomerJpaController(managerPrestaShop).findPsCustomer(order.getIdCustomer());
+                                        PsGroup G = new PsGroupJpaController(managerPrestaShop).findPsGroup(C.getIdDefaultGroup());
+                                        BigDecimal descPac = BigDecimal.ZERO;
+                                        List<PsSpecificPrice> listPric = new QueryPrestaShop(managerPrestaShop).listPsSpecificPrice(orderItem.getProductId(), G.getIdGroup());
+                                        if (listPric.isEmpty()) {
+                                            listPric = new QueryPrestaShop(managerPrestaShop).listPsSpecificPrice(orderItem.getProductId(), 0);// para todos os grupos
+                                        }
+                                        for (PsSpecificPrice specificPrice : listPric) {
+                                            if ("percentage".equals(specificPrice.getReductionType())) {
+                                                descPac = specificPrice.getReduction();
+                                            }
+                                        }
                                         for (PsPack psP : new QueryPrestaShop(managerPrestaShop).listPack(orderItem.getProductId())) {
                                             PsProduct P = new PsProductJpaController(managerPrestaShop).findPsProduct(psP.getPsPackPK().getIdProductItem());
-                                            PsCustomer C =  new PsCustomerJpaController(managerPrestaShop).findPsCustomer(order.getIdCustomer());
-                                            PsGroup G = new PsGroupJpaController(managerPrestaShop).findPsGroup(C.getIdDefaultGroup());;
+
                                             BigDecimal precUni = P.getPrice();
                                             BigDecimal redGrup = G.getReduction().divide(new BigDecimal("100.00"), BigDecimal.ROUND_HALF_UP);
-                                            precUni = precUni.multiply(BigDecimal.ONE.subtract(redGrup));                                           
-                                            orderItem.setProductId(psP.getPsPackPK().getIdProductItem());                                                                                    
+                                            precUni = precUni.multiply(BigDecimal.ONE.subtract(redGrup)); //redução do grupo
+                                            precUni = precUni.multiply((BigDecimal.ONE.subtract(descPac))).setScale(2, BigDecimal.ROUND_HALF_UP); //redução do pacote de produto
+                                            orderItem.setProductId(psP.getPsPackPK().getIdProductItem());
                                             orderItem.setEcotax(BigDecimal.ZERO);
-                                            orderItem.setProductQuantity(psP.getQuantity());
-                                            orderItem.setTotalPriceTaxIncl(precUni.multiply(BigDecimal.valueOf(psP.getQuantity())));                                           
+                                            //orderItem.setProductQuantity(psP.getQuantity());
+                                            orderItem.setTotalPriceTaxIncl(precUni.multiply(new BigDecimal(orderItem.getProductQuantity())));
                                             if (imprimir) {
                                                 criaPedidoProdutoCplus(true, managerIntegrador, managerCplus, managerPrestaShop, orderItem, orcamento, cliente);
                                             } else {
@@ -331,9 +344,8 @@ public class PedidoDigimacroCplus {
                 prod.setCodorc(orcamento);
                 prod.setCodprod(prodCplus);
                 prod.setCodorcprod(new QueryCplus(managerCplus).incrementOrcProd());
-               
+
                 //prod.setCodorcprod(String.format("%06d", orderItem.getIdOrderDetail()));                            
-                
                 prod.setCodempresa(new EmpresaJpaController(managerCplus).findEmpresa(1));
                 prod.setCodpreco(new PrecoJpaController(managerCplus).findPreco("000000001"));
                 boolean cliRuim = false;
