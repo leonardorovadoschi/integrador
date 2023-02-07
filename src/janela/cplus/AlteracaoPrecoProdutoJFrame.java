@@ -2461,7 +2461,7 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
     private void gerarAuditoria() {
         try {
             InetAddress addr = InetAddress.getLocalHost();
-            // Configuracao configuracao = new ConfiguracaoJpaController(managerIntegrador).findConfiguracao("increment_tabela_auditoria");      
+             //Configuracao configuracao = new ConfiguracaoJpaController(managerIntegrador).findConfiguracao("increment_tabela_auditoria");      
             int cont = Integer.valueOf(queryIntegrador.valorConfiguracao("increment_tabela_auditoria"));
           
             Auditoria auditoria = new Auditoria();
