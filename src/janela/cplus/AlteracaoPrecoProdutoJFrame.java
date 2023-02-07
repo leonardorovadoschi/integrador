@@ -2461,7 +2461,7 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
     private void gerarAuditoria() {
         try {
             InetAddress addr = InetAddress.getLocalHost();
-             //Configuracao configuracao = new ConfiguracaoJpaController(managerIntegrador).findConfiguracao("increment_tabela_auditoria");      
+            // Configuracao configuracao = new ConfiguracaoJpaController(managerIntegrador).findConfiguracao("increment_tabela_auditoria");      
             int cont = Integer.valueOf(queryIntegrador.valorConfiguracao("increment_tabela_auditoria"));
           
             Auditoria auditoria = new Auditoria();
@@ -2482,7 +2482,7 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
             if(!"".equals(auditoria.getDetalhelog())){
             new AuditoriaJpaController(managerCplus).create(auditoria);
             }
-            queryIntegrador.atualizaValorConfiguracao("increment_tabela_auditoria", String.valueOf(cont));
+            //queryIntegrador.atualizaValorConfiguracao("increment_tabela_auditoria", String.valueOf(cont));
 
         } catch (UnknownHostException ex) {
             criaLog(new Date(System.currentTimeMillis()), "Erro ao Criar Auditoria no C-plus no Frame Alteracao de preço \n" + ex, "Erro Criar");
