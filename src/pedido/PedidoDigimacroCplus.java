@@ -222,13 +222,14 @@ public class PedidoDigimacroCplus {
                                             PsProduct P = new PsProductJpaController(managerPrestaShop).findPsProduct(psP.getPsPackPK().getIdProductItem());
 
                                             BigDecimal precUni = P.getPrice();
+                                            BigDecimal quantidade = new BigDecimal(psP.getQuantity()).multiply(new BigDecimal(orderItem.getProductQuantity()));//é a quantidade do pacote x quantidade de pacote comprado
                                             BigDecimal redGrup = G.getReduction().divide(new BigDecimal("100.00"), BigDecimal.ROUND_HALF_UP);
                                             precUni = precUni.multiply(BigDecimal.ONE.subtract(redGrup)); //redução do grupo
                                             precUni = precUni.multiply((BigDecimal.ONE.subtract(descPac))).setScale(2, BigDecimal.ROUND_HALF_UP); //redução do pacote de produto
                                             orderItem.setProductId(psP.getPsPackPK().getIdProductItem());
                                             orderItem.setEcotax(BigDecimal.ZERO);
-                                            //orderItem.setProductQuantity(psP.getQuantity());
-                                            orderItem.setTotalPriceTaxIncl(precUni.multiply(new BigDecimal(orderItem.getProductQuantity())));
+                                            orderItem.setProductQuantity(quantidade.intValue());
+                                            orderItem.setTotalPriceTaxIncl(precUni.multiply(quantidade));
                                             if (imprimir) {
                                                 criaPedidoProdutoCplus(true, managerIntegrador, managerCplus, managerPrestaShop, orderItem, orcamento, cliente);
                                             } else {
@@ -373,7 +374,8 @@ public class PedidoDigimacroCplus {
                 double valorCofins;
                 double valorPis;
                 BigDecimal valorTotal;
-                BigDecimal quanConvertida = new BigDecimal(orderItem.getProductQuantity()).multiply(fatorConversaoBigDecimal(prodCplus, managerCplus));
+                //BigDecimal quanConvertida = new BigDecimal(orderItem.getProductQuantity()).multiply(fatorConversaoBigDecimal(prodCplus, managerCplus));
+                BigDecimal quanConvertida = new BigDecimal(orderItem.getProductQuantity());
                 BigDecimal valUni;
                 prod.setQuantidade(quanConvertida);
                 if (alterarValor) {
