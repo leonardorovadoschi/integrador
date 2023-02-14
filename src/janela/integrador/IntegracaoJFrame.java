@@ -15,6 +15,7 @@ import entidade.cplus.Produtopreco;
 import entidade.integrador.IntConfiguracao;
 import entidade.integrador.IntExecucao;
 import entidade.integrador.IntLogs;
+import entidade.prestaShop.PsCart;
 import entidade.prestaShop.PsCustomer;
 import entidade.prestaShop.PsOrders;
 import entidade.prestaShop.PsProduct;
@@ -40,6 +41,7 @@ import jpa.integrador.IntExecucaoJpaController;
 import jpa.integrador.IntLogsJpaController;
 import jpa.prestaShop.PsCustomerJpaController;
 import pedido.AtualizaPedidoCplusDigimacro;
+import pedido.ManutencaoCarrinhoSite;
 import produto.ProdutoCplusDigimacro;
 import produto.TaxRuleGroup;
 import query.cplus.QueryCplus;
@@ -583,24 +585,24 @@ public class IntegracaoJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonAtualizaTodosProdutosActionPerformed
 
     private void atualizaTodosProdutosComEstoque() {
-         int cancelar = JOptionPane.showConfirmDialog(null, " Deseja realmente executar essa tarefa", "Executar", JOptionPane.YES_NO_CANCEL_OPTION);
+        int cancelar = JOptionPane.showConfirmDialog(null, " Deseja realmente executar essa tarefa", "Executar", JOptionPane.YES_NO_CANCEL_OPTION);
         if (cancelar == JOptionPane.YES_OPTION) {
-        new Thread(() -> {
-            abrirFecharBotoes(false);
-            for (Produto proCplus : new ProdutoJpaController(managerCplus).findProdutoEntities()) {
-                if (estoqueCplus(managerCplus, proCplus) > 0) {
-                    proCplus.setLastChange(new Date(System.currentTimeMillis()));
-                    try {
-                        new ProdutoJpaController(managerCplus).edit(proCplus);
-                    } catch (NonexistentEntityException ex) {
-                        Logger.getLogger(IntegracaoJFrame.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (Exception ex) {
-                        Logger.getLogger(IntegracaoJFrame.class.getName()).log(Level.SEVERE, null, ex);
+            new Thread(() -> {
+                abrirFecharBotoes(false);
+                for (Produto proCplus : new ProdutoJpaController(managerCplus).findProdutoEntities()) {
+                    if (estoqueCplus(managerCplus, proCplus) > 0) {
+                        proCplus.setLastChange(new Date(System.currentTimeMillis()));
+                        try {
+                            new ProdutoJpaController(managerCplus).edit(proCplus);
+                        } catch (NonexistentEntityException ex) {
+                            Logger.getLogger(IntegracaoJFrame.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (Exception ex) {
+                            Logger.getLogger(IntegracaoJFrame.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
                 }
-            }
-            abrirFecharBotoes(true);
-        }).start();
+                abrirFecharBotoes(true);
+            }).start();
         }
     }
 
@@ -748,6 +750,55 @@ public class IntegracaoJFrame extends javax.swing.JFrame {
         jProgressBarIntegrador.setString("");
         jProgressBarIntegrador.setMinimum(0);
         jProgressBarIntegrador.setValue(0);
+    }
+
+    private void DeletarCarrinhoVazio() {
+        IntExecucao exeCart = new IntExecucaoJpaController(managerIntegrador).findIntExecucao("deletar_carrinho_vazio");
+        if (exeCart.getCondicao() == 1) {
+            new AtualizaExecucaoIntegrador().atualizaExecucaoIntegradorCondicao(exeCart, 0, managerIntegrador);
+            boolean condicaoErro = true;
+            Calendar dataAtual = Calendar.getInstance();
+            dataAtual.setTime(new Date(System.currentTimeMillis()));
+            Calendar dataBanco = Calendar.getInstance();
+
+            dataBanco.setTime(exeCart.getUltimaExecucao());
+            dataBanco.add(Calendar.SECOND, exeCart.getTempo());
+            if (dataAtual.after(dataBanco)) {
+                Calendar inicioExecucao = Calendar.getInstance();
+                inicioExecucao.setTime(exeCart.getUltimaExecucao());
+                //inicioExecucao.add(Calendar.DAY_OF_MONTH, -2);
+                //Date dataAtual = new Date(System.currentTimeMillis());
+                Calendar fimExecucao = Calendar.getInstance();
+                fimExecucao.setTime(dataAtual.getTime());
+                List<PsCart> listCart = queryPrestaShop.listCartMenorData(inicioExecucao.getTime());
+                int cont = 0;
+                jProgressBarIntegrador.setMinimum(cont);
+                int numRegistro = listCart.size();
+                jProgressBarIntegrador.setMaximum(numRegistro);
+                jLabelTotalRegistro.setText("0 de " + numRegistro + " Registros");
+                for (PsCart cart : listCart) {
+                    //String cod = cliC.getCodcli();
+                    List<PsCustomer> listCustomer = queryPrestaShop.listCustomer(cart.getIdCustomer());
+                    for (PsCustomer cus : listCustomer) {
+                        jProgressBarIntegrador.setString(String.valueOf("Deletando Carrinho do Cliente: " + cus.getFirstname()));
+                    }
+                                      
+                    new ManutencaoCarrinhoSite().DeletaCarrinhoVazio(cart, managerPrestaShop);
+                    cont++;
+                    jLabelTotalRegistro.setText(cont + " de " + numRegistro + " Registros");
+                    jProgressBarIntegrador.setValue(cont);
+                }
+                if (condicaoErro == true) {
+                    fimExecucao.add(Calendar.MINUTE, -5);
+                    new AtualizaExecucaoIntegrador().atualizaExecucaoIntegradorData(exeCart, fimExecucao.getTime(), managerIntegrador);
+                    criaLog(new Date(System.currentTimeMillis()), "Exclusão de Carrinhos vazios executada com sucesso: ", "Informar", managerIntegrador);
+                }
+            }
+            new AtualizaExecucaoIntegrador().atualizaExecucaoIntegradorCondicao(exeCart, 1, managerIntegrador);
+            jProgressBarIntegrador.setString("");
+            jProgressBarIntegrador.setMinimum(0);
+            jProgressBarIntegrador.setValue(0);
+        }//if que verifica se está em execução
     }
 
     private void integrarCliente(boolean manual) {
@@ -928,6 +979,8 @@ public class IntegracaoJFrame extends javax.swing.JFrame {
                     // execucaoAutomaticaProduto(jCheckBoxExecutaIntegracaoLegiao.isSelected());
                     integrarEstoque();
 
+                    
+                    DeletarCarrinhoVazio();
                     atualizaLogs();
                     jButtonParaExecucao.setEnabled(true);
                     jProgressBarIntegrador.setString(String.valueOf(""));
@@ -1003,9 +1056,9 @@ public class IntegracaoJFrame extends javax.swing.JFrame {
     private static EntityManagerFactory managerCplus;
     private static EntityManagerFactory managerPrestaShop;
     private final String codCaracteristicaCliente;
-    
-     private final String shopUrl ;
-     private final String key;
+
+    private final String shopUrl;
+    private final String key;
     //Executa executaManual;
     //private QueryIntegrador queryIntegrador;
 

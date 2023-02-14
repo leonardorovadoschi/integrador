@@ -7,6 +7,11 @@ package query.prestaShop;
 
 import entidade.prestaShop.PsAddress;
 import entidade.prestaShop.PsCarrier;
+import entidade.prestaShop.PsCart;
+import entidade.prestaShop.PsCartCartRule;
+import entidade.prestaShop.PsCartProduct;
+import entidade.prestaShop.PsCartRule;
+import entidade.prestaShop.PsCartRuleLang;
 import entidade.prestaShop.PsCategoryLang;
 import entidade.prestaShop.PsCategoryProduct;
 import entidade.prestaShop.PsCustomPaymentMethodLang;
@@ -112,7 +117,35 @@ public class QueryPrestaShop implements Serializable {
         query.setParameter("idOrder", idOrder);
         return query.getResultList();
     }
-
+    
+    public List<PsCart> listCartMenorData(Date dataUp) {
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery("SELECT c FROM PsCart c WHERE c.dateUpd < :dataUp");
+        query.setParameter("dataUp", dataUp);
+        return query.getResultList();
+    }
+    
+    public List<PsCartProduct> listCarProduct(Integer idCart) {
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery("SELECT c FROM PsCartProduct c WHERE c.psCartProductPK.idCart = :idCart");
+        query.setParameter("idCart", idCart);
+        return query.getResultList();
+    }
+    
+    public List<PsCartCartRule> listCartCartRule(Integer idCart) {
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery("SELECT c FROM PsCartCartRule c WHERE c.psCartCartRulePK.idCart =:idCart");
+        query.setParameter("idCart", idCart);
+        return query.getResultList();
+    }
+    
+     public List<PsCartRule> listCartRule(Integer idCartRule) {
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery("SELECT c FROM PsCartRule c WHERE c.idCartRule =:idCartRule");
+        query.setParameter("idCartRule", idCartRule);
+        return query.getResultList();
+    }
+         
     /**
      * Função que retorna a referencia entre Produto C-plus com o campo
      * regferencia no site
