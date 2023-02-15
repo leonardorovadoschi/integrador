@@ -1948,7 +1948,7 @@
                           <Component id="jLabelPrecoCusto" alignment="1" max="32767" attributes="0"/>
                           <Component id="jLabelCustoReal" alignment="1" max="32767" attributes="0"/>
                           <Component id="jLabelValorSt" alignment="1" max="32767" attributes="0"/>
-                          <Component id="jLabelValorOutrosCustos" alignment="1" pref="0" max="32767" attributes="0"/>
+                          <Component id="jLabelValorOutrosCustos" alignment="1" pref="100" max="32767" attributes="0"/>
                           <Component id="jLabelCustoMedio" alignment="1" max="32767" attributes="0"/>
                           <Component id="jLabelValorIpi" alignment="1" max="32767" attributes="0"/>
                           <Component id="jLabelValorOutrasDespesas" alignment="1" pref="0" max="32767" attributes="0"/>

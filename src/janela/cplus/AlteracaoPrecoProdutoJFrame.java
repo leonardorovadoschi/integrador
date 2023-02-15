@@ -2463,7 +2463,7 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
             InetAddress addr = InetAddress.getLocalHost();
             // Configuracao configuracao = new ConfiguracaoJpaController(managerIntegrador).findConfiguracao("increment_tabela_auditoria");      
             int cont = Integer.valueOf(queryIntegrador.valorConfiguracao("increment_tabela_auditoria"));
-          
+            cont++;
             Auditoria auditoria = new Auditoria();
             auditoria.setCodauditoria(String.format("%09d", cont));
             //auditoria.setCodauditoria(queryCplus.incrementAuditoria());
