@@ -1,4 +1,4 @@
-/*
+/*versão 1.100
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -8,7 +8,6 @@ package janela.cplus;
 import entidade.cplus.Auditoria;
 import entidade.cplus.Calculoicmsestado;
 import entidade.cplus.Campocustomvalor;
-import entidade.cplus.Configuracao;
 import entidade.cplus.Movenda;
 import entidade.cplus.Movendaprod;
 import entidade.cplus.Moventrada;
@@ -43,7 +42,6 @@ import javax.swing.JOptionPane;
 import jpa.cplus.AuditoriaJpaController;
 import jpa.cplus.CampocustommasterJpaController;
 import jpa.cplus.CampocustomvalorJpaController;
-import jpa.cplus.ConfiguracaoJpaController;
 import jpa.cplus.ProdutoJpaController;
 import jpa.cplus.ProdutoprecoJpaController;
 import jpa.cplus.exceptions.NonexistentEntityException;
