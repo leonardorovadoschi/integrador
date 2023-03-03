@@ -11,7 +11,6 @@ import entidade.prestaShop.PsCart;
 import entidade.prestaShop.PsCartCartRule;
 import entidade.prestaShop.PsCartProduct;
 import entidade.prestaShop.PsCartRule;
-import entidade.prestaShop.PsCartRuleLang;
 import entidade.prestaShop.PsCategoryLang;
 import entidade.prestaShop.PsCategoryProduct;
 import entidade.prestaShop.PsCustomPaymentMethodLang;
@@ -23,6 +22,7 @@ import entidade.prestaShop.PsManufacturerShop;
 import entidade.prestaShop.PsMessage;
 import entidade.prestaShop.PsModuloCpf;
 import entidade.prestaShop.PsOrderCarrier;
+import entidade.prestaShop.PsOrderCartRule;
 import entidade.prestaShop.PsOrderDetail;
 import entidade.prestaShop.PsOrderInvoice;
 import entidade.prestaShop.PsOrderPayment;
@@ -48,7 +48,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
-import org.w3c.dom.ls.LSInput;
 
 /**
  *
@@ -114,6 +113,13 @@ public class QueryPrestaShop implements Serializable {
     public List<PsOrderCarrier> listPsOrderCarrier(Integer idOrder) {
         EntityManager em = getEntityManager();
         Query query = em.createQuery("SELECT c FROM PsOrderCarrier c WHERE c.idOrder = :idOrder");
+        query.setParameter("idOrder", idOrder);
+        return query.getResultList();
+    }
+    
+    public List<PsOrderCartRule> listPsOrderCartRule(Integer idOrder) {
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery("SELECT c FROM PsOrderCartRule c WHERE c.idOrder = :idOrder");
         query.setParameter("idOrder", idOrder);
         return query.getResultList();
     }

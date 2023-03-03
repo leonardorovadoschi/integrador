@@ -15,6 +15,7 @@ import entidade.prestaShop.PsAddress;
 import entidade.prestaShop.PsCustomPaymentMethodLang;
 import entidade.prestaShop.PsCustomer;
 import entidade.prestaShop.PsOrderCarrier;
+import entidade.prestaShop.PsOrderCartRule;
 import entidade.prestaShop.PsOrderCommission;
 import entidade.prestaShop.PsOrderDetail;
 import entidade.prestaShop.PsOrderStateLang;
@@ -44,11 +45,13 @@ import jpa.cplus.ProdutoestoqueJpaController;
 import jpa.integrador.IntExecucaoJpaController;
 import jpa.prestaShop.PsCustomerJpaController;
 import jpa.prestaShop.PsOrderCarrierJpaController;
+import jpa.prestaShop.PsOrderCartRuleJpaController;
 import jpa.prestaShop.PsOrderDetailJpaController;
 import jpa.prestaShop.PsOrdersJpaController;
 import jpa.prestaShop.PsProductJpaController;
 import jpa.prestaShop.PsStockAvailableJpaController;
 import pedido.PedidoDigimacroCplus;
+import pedido.ValoresOrder;
 import query.cplus.QueryCplus;
 import query.integrador.QueryIntegrador;
 import query.prestaShop.QueryPrestaShop;
@@ -933,31 +936,19 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
     }
 
     private void editaOrders() {
-        BigDecimal totProd = BigDecimal.ZERO;
+        BigDecimal totProd = new ValoresOrder().totalProdutosSemPacote(managerPrestaShop, psOrders);
         BigDecimal totPeso = BigDecimal.ZERO;
         for (PsOrderDetail od : queryPrestaShop.listOrderDetail(psOrders.getIdOrder())) {
-            totProd = totProd.add(od.getTotalPriceTaxIncl());
+          // totProd = totProd.add(od.getTotalPriceTaxIncl());
             totPeso = totPeso.add(od.getProductWeight());
         }
         psOrders.setTotalProducts(totProd);
         psOrders.setTotalProductsWt(totProd);
-        BigDecimal valTotal;
-        if ("custompaymentmethod_3".equals(psOrders.getModule())) { //se o metodo de pagamento for com desconto
-            //valTotal = valTotal.add(valorDescontoFormaPagamento());
-            valTotal = totProd.multiply(new BigDecimal("0.985")).setScale(2, BigDecimal.ROUND_HALF_UP);
-            //editar o valor da commission
-            Connection conn = new ConexaoPrestaShop().getConnection();
-            double valDesconto = (valTotal.subtract(totProd).setScale(2, BigDecimal.ROUND_HALF_UP)).doubleValue();
-            new ConexaoPrestaShop().editaPsOrderCommission(conn, psOrders.getIdOrder(), valDesconto);
-            new ConexaoPrestaShop().closeConnection();
-            valTotal = valTotal.subtract(psOrders.getTotalDiscountsTaxIncl()).setScale(2, BigDecimal.ROUND_HALF_UP);
-        } else {
-            Connection conn = new ConexaoPrestaShop().getConnection();
-            double valDesconto = 0.00; // vai zerar o valor da tabela
-            new ConexaoPrestaShop().editaPsOrderCommission(conn, psOrders.getIdOrder(), valDesconto);
-            new ConexaoPrestaShop().closeConnection();
-            valTotal = totProd.subtract(psOrders.getTotalDiscountsTaxIncl()).setScale(2, BigDecimal.ROUND_HALF_UP);
-        }
+        BigDecimal valTotal = new ValoresOrder().valorTotalComDescontoSemPacote(managerPrestaShop, psOrders);
+        
+        //psOrders.setTotalDiscounts(valDesconto);
+        //psOrders.setTotalDiscountsTaxIncl(valDesconto);
+        //psOrders.setTotalDiscountsTaxExcl(valDesconto);
         psOrders.setTotalPaid(valTotal);
         psOrders.setTotalPaidTaxIncl(valTotal);
         psOrders.setTotalPaidTaxExcl(valTotal);
@@ -971,7 +962,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, "Não foi possível editar PsOrderCarrier" + ex);
                 }
-            }
+            }            
 
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Erro ao editar psOrders \n" + ex);
@@ -1161,15 +1152,15 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
      * @return
      */
     private BigDecimal valorDescontoFormaPagamento() {
-        Connection conn = new ConexaoPrestaShop().getConnection();
+        //Connection conn = new ConexaoPrestaShop().getConnection();
         BigDecimal totalDesconto = BigDecimal.ZERO;
-        String texPosi;
-        for (PsOrderCommission comm : new ConexaoPrestaShop().listPsOrderCommission(conn, psOrders.getIdOrder())) {
-            texPosi = String.valueOf(comm.getDiscount());
-            texPosi = texPosi.replaceAll("-", "");
-            totalDesconto = totalDesconto.add(new BigDecimal(texPosi)).setScale(4, BigDecimal.ROUND_HALF_UP);
-        }
-        new ConexaoPrestaShop().closeConnection();
+        //String texPosi;
+        //for (PsOrderCommission comm : new ConexaoPrestaShop().listPsOrderCommission(conn, psOrders.getIdOrder())) {
+        //    texPosi = String.valueOf(comm.getDiscount());
+        //    texPosi = texPosi.replaceAll("-", "");
+        //    totalDesconto = totalDesconto.add(new BigDecimal(texPosi)).setScale(4, BigDecimal.ROUND_HALF_UP);
+        //}
+       // new ConexaoPrestaShop().closeConnection();
         return totalDesconto;
     }
 

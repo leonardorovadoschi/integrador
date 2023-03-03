@@ -37,6 +37,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "PsOrderCartRule.findByFreeShipping", query = "SELECT p FROM PsOrderCartRule p WHERE p.freeShipping = :freeShipping")})
 public class PsOrderCartRule implements Serializable {
 
+    @Basic(optional = false)
+    @Column(name = "deleted")
+    private short deleted;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -169,6 +173,14 @@ public class PsOrderCartRule implements Serializable {
     @Override
     public String toString() {
         return "entidade.prestaShop.PsOrderCartRule[ idOrderCartRule=" + idOrderCartRule + " ]";
+    }
+
+    public short getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(short deleted) {
+        this.deleted = deleted;
     }
     
 }
