@@ -833,6 +833,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         }
         limpaCampos();
         carregaCampos();
+        jButtonImportarPedido.setEnabled(true);
 
     }//GEN-LAST:event_jButtonAlteraPagamentoActionPerformed
 
@@ -1060,7 +1061,8 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         //jTextFieldCpfCnpj.setText(psCustomer.getSiret());
 
         // valorDescontoFormaPagamento().add(psOrders.getTotalDiscountsTaxIncl());
-        jTextFieldDesconto.setText(formataCampos.bigDecimalParaString(valorDescontoFormaPagamento().add(psOrders.getTotalDiscountsTaxIncl()), 2));
+        //jTextFieldDesconto.setText(formataCampos.bigDecimalParaString(valorDescontoFormaPagamento().add(psOrders.getTotalDiscountsTaxIncl()), 2));
+        jTextFieldDesconto.setText(formataCampos.bigDecimalParaString(new ValoresOrder().valorTotalDesconto(managerPrestaShop, psOrders) , 3));
         jTextFieldEmail.setText(psCustomer.getEmail());
         jTextFieldTotalProdutos.setText(formataCampos.bigDecimalParaString(psOrders.getTotalProducts(), 2));
         jTextFieldNome.setText(psCustomer.getFirstname() + " " + psCustomer.getLastname());
@@ -1151,9 +1153,9 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
      *
      * @return
      */
-    private BigDecimal valorDescontoFormaPagamento() {
+    //private BigDecimal valorDescontoFormaPagamento() {
         //Connection conn = new ConexaoPrestaShop().getConnection();
-        BigDecimal totalDesconto = BigDecimal.ZERO;
+     //   BigDecimal totalDesconto = BigDecimal.ZERO;
         //String texPosi;
         //for (PsOrderCommission comm : new ConexaoPrestaShop().listPsOrderCommission(conn, psOrders.getIdOrder())) {
         //    texPosi = String.valueOf(comm.getDiscount());
@@ -1161,8 +1163,8 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         //    totalDesconto = totalDesconto.add(new BigDecimal(texPosi)).setScale(4, BigDecimal.ROUND_HALF_UP);
         //}
        // new ConexaoPrestaShop().closeConnection();
-        return totalDesconto;
-    }
+       // return totalDesconto;
+    //}
 
    // private void atualizaListOrderDetail() {
     //    psOrderDetailList.clear();

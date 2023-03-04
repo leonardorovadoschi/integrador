@@ -227,7 +227,7 @@ public class PedidoDigimacroCplus {
                                             BigDecimal redGrup = G.getReduction().divide(new BigDecimal("100.00"), BigDecimal.ROUND_HALF_UP);
                                             precUni = precUni.multiply(BigDecimal.ONE.subtract(redGrup)); //redução do grupo
                                             precUni = precUni.multiply((BigDecimal.ONE.subtract(descPac))).setScale(2, BigDecimal.ROUND_HALF_UP); //redução do pacote de produto
-                                            orderItem.setProductId(psP.getPsPackPK().getIdProductItem());                                           
+                                            orderItem.setProductId(psP.getPsPackPK().getIdProductItem());
                                             orderItem.setEcotax(BigDecimal.ZERO);
                                             orderItem.setProductQuantity(quantidade.intValue());
                                             orderItem.setUnitPriceTaxIncl(precUni);
@@ -252,7 +252,7 @@ public class PedidoDigimacroCplus {
                             }//for orçamento
                             lidtOrcamento = new QueryCplus(managerCplus).listOrcamentoEntregaTelefone(order.getReference());
                             for (Orcamento orcamento : lidtOrcamento) {
-                                editaOrcamento(imprimir, order, orcamento, managerCplus, managerIntegrador);
+                                editaOrcamento(imprimir, order, orcamento, managerCplus, managerIntegrador, managerPrestaShop);
                             }
                         }//if  que verifica alteração de endereço pelo cliente  
                     }
@@ -377,19 +377,22 @@ public class PedidoDigimacroCplus {
                 double valorPis;
                 BigDecimal valorTotal;
                 //BigDecimal quanConvertida = new BigDecimal(orderItem.getProductQuantity()).multiply(fatorConversaoBigDecimal(prodCplus, managerCplus));
-                BigDecimal quanConvertida = new BigDecimal(orderItem.getProductQuantity());
+                //BigDecimal quanConvertida = new BigDecimal(orderItem.getProductQuantity());
                 BigDecimal valUni;
-                prod.setQuantidade(quanConvertida);
+                prod.setQuantidade(new BigDecimal(orderItem.getProductQuantity()));
                 if (alterarValor) {
-                    valUni = orderItem.getTotalPriceTaxIncl().divide(quanConvertida, 2, BigDecimal.ROUND_HALF_DOWN);
-                    valUni = new ValoresOrder().valorUnitario(valUni.multiply(new BigDecimal("0.90")));
-                    valorTotal = new ValoresOrder().valorTotalItem(valUni, quanConvertida.intValue());
+                    valUni = orderItem.getUnitPriceTaxIncl().multiply(new BigDecimal("0.90")).setScale(2, BigDecimal.ROUND_HALF_UP);
+                    // valUni = new ValoresOrder().valorUnitario(valUni.multiply(new BigDecimal("0.90")));
+                    //valorTotal = new ValoresOrder().valorTotalItem(valUni, quanConvertida.intValue());
+                    valorTotal = valUni.multiply(prod.getQuantidade());
                     prod.setValorunitario(valUni);
                 } else {
-                    valUni = orderItem.getTotalPriceTaxIncl().divide(quanConvertida, 2, BigDecimal.ROUND_HALF_DOWN);
-                    valUni = new ValoresOrder().valorUnitario(valUni);
-                    valorTotal = new ValoresOrder().valorTotalItem(valUni, quanConvertida.intValue());
-                    prod.setValorunitario(new ValoresOrder().valorUnitario(valUni));
+                    //valUni = orderItem.getTotalPriceTaxIncl().divide(quanConvertida, 2, BigDecimal.ROUND_HALF_DOWN);
+                    valUni = orderItem.getUnitPriceTaxIncl().setScale(2, BigDecimal.ROUND_HALF_UP);
+                    //valUni = new ValoresOrder().valorUnitario(valUni);
+                    //valorTotal = new ValoresOrder().valorTotalItem(valUni, quanConvertida.intValue());
+                    valorTotal = orderItem.getTotalPriceTaxIncl();
+                    prod.setValorunitario(valUni);
                 }
                 prod.setValortotal(valorTotal);
                 prod.setFlagtipoacrescimoitem('V');
@@ -523,7 +526,7 @@ public class PedidoDigimacroCplus {
         }//for produto
     }
 
-    private boolean editaOrcamento(boolean alteraValor, PsOrders psOrders, Orcamento orcamento, EntityManagerFactory managerCplus, EntityManagerFactory managerIntegrador) {
+    private boolean editaOrcamento(boolean alteraValor, PsOrders psOrders, Orcamento orcamento, EntityManagerFactory managerCplus, EntityManagerFactory managerIntegrador, EntityManagerFactory managerPrestaShop) {
         boolean condicao = true;
         QueryCplus queryCplus = new QueryCplus(managerCplus);
         //int decimaisArredondamento = Integer.valueOf(new QueryIntegrador(managerIntegrador).valorConfiguracao("casas_decimais_ARREDONDAMENTO"));
@@ -546,7 +549,7 @@ public class PedidoDigimacroCplus {
             double basIcms = 0.00;
             double basSt = 0.00;
             double valSt = 0.00;
-            double valTotalProdutos = 0.00;
+            BigDecimal valTotalProdutos = BigDecimal.ZERO;
             double valIpi = 0.00;
             // double valTotalNota = 0.00;
             double valPis = 0.00;
@@ -558,7 +561,7 @@ public class PedidoDigimacroCplus {
                 basIcms = basIcms + prod.getBaseicms().doubleValue();
                 basSt = basSt + prod.getBasesubsttributaria().doubleValue();
                 valSt = valSt + prod.getValorsubsttributaria().doubleValue();
-                valTotalProdutos = valTotalProdutos + prod.getValortotal().doubleValue();
+                valTotalProdutos = valTotalProdutos.add(prod.getValortotal());
                 valIpi = valIpi + prod.getValoripi().doubleValue();
                 valPis = valPis + prod.getValorpis().doubleValue();
                 valCofins = valCofins + prod.getValorcofins().doubleValue();
@@ -576,34 +579,69 @@ public class PedidoDigimacroCplus {
                     orcamento.setCodcfop("6403");
                 }
             }
-            double valorDesconto = 0.00;
-            double valorTaxa = 0.00;
+            //double valorDesconto = 0.00;
+            //double valorTaxa = 0.00;
+            BigDecimal valorDesconto = valTotalProdutos.subtract(psOrders.getTotalPaidTaxIncl());
+            BigDecimal valorTaxa = BigDecimal.ZERO;
             if (alteraValor == false) {
-                if (psOrders.getTotalDiscountsTaxIncl().doubleValue() > 0.00) {
-                    orcamento.setValordesconto(psOrders.getTotalDiscountsTaxIncl());
-                    ////////
-                    valorDesconto = psOrders.getTotalDiscountsTaxIncl().doubleValue();
-                    valorTaxa = (valorDesconto / valTotalProdutos) * 100.00;
-                    orcamento.setAliqdesconto(new BigDecimal(valorTaxa).setScale(4, BigDecimal.ROUND_HALF_EVEN));
+                /**
+                 * if (psOrders.getTotalDiscountsTaxIncl().doubleValue() > 0.00)
+                 * {
+                 * orcamento.setValordesconto(psOrders.getTotalDiscountsTaxIncl());
+                 * //////// valorDesconto =
+                 * psOrders.getTotalDiscountsTaxIncl().doubleValue(); valorTaxa
+                 * = (valorDesconto / valTotalProdutos) * 100.00;
+                 * orcamento.setAliqdesconto(new
+                 * BigDecimal(valorTaxa).setScale(4,
+                 * BigDecimal.ROUND_HALF_EVEN));
+                 * orcamento.setFlagtipodesconto('A'); //////////// } else if
+                 * (valTotalProdutos >
+                 * psOrders.getTotalPaidTaxIncl().setScale(2,
+                 * RoundingMode.HALF_UP).doubleValue()) { valorDesconto =
+                 * valTotalProdutos -
+                 * psOrders.getTotalPaidTaxIncl().doubleValue(); valorTaxa =
+                 * (valorDesconto / valTotalProdutos) * 100.00;
+                 * orcamento.setAliqdesconto(new
+                 * BigDecimal(valorTaxa).setScale(4, RoundingMode.HALF_UP));
+                 * orcamento.setValordesconto(new
+                 * BigDecimal(valorDesconto).setScale(2,
+                 * BigDecimal.ROUND_HALF_UP));
+                 * orcamento.setFlagtipodesconto('A'); } else if
+                 * (valTotalProdutos <
+                 * psOrders.getTotalPaidTaxIncl().setScale(2,
+                 * RoundingMode.HALF_UP).doubleValue()) { valorDesconto =
+                 * psOrders.getTotalPaidTaxIncl().doubleValue() -
+                 * valTotalProdutos; valorTaxa = (valorDesconto /
+                 * valTotalProdutos) * 100.00; orcamento.setAliqacrescimo(new
+                 * BigDecimal(valorTaxa).setScale(2, RoundingMode.HALF_UP));
+                 * orcamento.setValoracrescimo(new
+                 * BigDecimal(valorDesconto).setScale(2,
+                 * BigDecimal.ROUND_HALF_UP));
+                 * orcamento.setFlagtipoacrescimo('A'); }
+                 */
+                if (valorDesconto.doubleValue() == 0.00) { //quando valor dos produtos for igual ao total
+                    //valorTaxa = valorDesconto.divide(valTotalProdutos, 2, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal("100.00"));
+                    orcamento.setAliqdesconto(BigDecimal.ZERO);
+                    orcamento.setValordesconto(BigDecimal.ZERO);
+                    //orcamento.setFlagtipodesconto('A');
+                }else if (valorDesconto.doubleValue() > 0) {//quando for desconto
+                    valorTaxa = valorDesconto.divide(valTotalProdutos, 6, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal("100.00"));
+                    orcamento.setAliqdesconto(valorTaxa);
+                    orcamento.setValordesconto(valorDesconto.setScale(2, BigDecimal.ROUND_HALF_UP));
                     orcamento.setFlagtipodesconto('A');
-                    ////////////
-                } else if (valTotalProdutos > psOrders.getTotalPaidTaxIncl().setScale(2, RoundingMode.HALF_UP).doubleValue()) {
-                    valorDesconto = valTotalProdutos - psOrders.getTotalPaidTaxIncl().doubleValue();
-                    valorTaxa = (valorDesconto / valTotalProdutos) * 100.00;
-                    orcamento.setAliqdesconto(new BigDecimal(valorTaxa).setScale(4, RoundingMode.HALF_UP));
-                    orcamento.setValordesconto(new BigDecimal(valorDesconto).setScale(2, BigDecimal.ROUND_HALF_UP));
-                    orcamento.setFlagtipodesconto('A');
-                } else if (valTotalProdutos < psOrders.getTotalPaidTaxIncl().setScale(2, RoundingMode.HALF_UP).doubleValue()) {
-                    valorDesconto = psOrders.getTotalPaidTaxIncl().doubleValue() - valTotalProdutos;
-                    valorTaxa = (valorDesconto / valTotalProdutos) * 100.00;
-                    orcamento.setAliqacrescimo(new BigDecimal(valorTaxa).setScale(2, RoundingMode.HALF_UP));
-                    orcamento.setValoracrescimo(new BigDecimal(valorDesconto).setScale(2, BigDecimal.ROUND_HALF_UP));
+                }else{//quando passar a ser acréscimo
+                    valorDesconto = psOrders.getTotalPaidTaxIncl().subtract(valTotalProdutos);
+                    valorTaxa = valorDesconto.divide(valTotalProdutos, 4, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal("100.00"));
+                    orcamento.setAliqacrescimo(valorTaxa);
+                    orcamento.setValoracrescimo(valorDesconto.setScale(2, BigDecimal.ROUND_HALF_UP));
                     orcamento.setFlagtipoacrescimo('A');
                 }
-            }
-            orcamento.setValortotalprodutos(new BigDecimal(valTotalProdutos - valorDesconto).setScale(2, RoundingMode.HALF_UP));
-            orcamento.setValortotalcofins(new BigDecimal(valCofins - valorDesconto).setScale(2, RoundingMode.HALF_UP));
-            orcamento.setValortotalpis(new BigDecimal(valPis - valorDesconto).setScale(2, RoundingMode.HALF_UP));
+            }          
+            // orcamento.setValortotalprodutos(new BigDecimal(valTotalProdutos - valorDesconto).setScale(2, RoundingMode.HALF_UP));
+            orcamento.setValortotalprodutos(valTotalProdutos);
+            orcamento.setValortotalcofins(new BigDecimal(valCofins).subtract(valorDesconto).setScale(2, RoundingMode.HALF_UP));
+            orcamento.setValortotalpis(new BigDecimal(valPis).subtract(valorDesconto).setScale(2, RoundingMode.HALF_UP));
+            orcamento.setValortotalorcamento(valTotalProdutos.subtract(valorDesconto));
         }
 
         try {

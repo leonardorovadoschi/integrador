@@ -973,7 +973,7 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
     /**
      * Função qeu controla pedido separado
      *
-     * @return true se já estiver separado false não separado ou não separado
+     * @return true se j� estiver separado false não separado ou não separado
      * completamente
      */
     private boolean pedidoSeparado() {

@@ -28,7 +28,7 @@ import query.prestaShop.QueryPrestaShop;
  */
 public class ValoresOrder {
 
-    public BigDecimal valorUnitario(BigDecimal valorUnitario) {
+    public BigDecimal valorUnitario1(BigDecimal valorUnitario) {
         // double total = valorTotalItem.doubleValue();
         // double quan = quantidadeItem.doubleValue();
 
@@ -36,10 +36,15 @@ public class ValoresOrder {
         // return new BigDecimal(valorFinal).setScale(var.casas_decimais_ARREDONDAMENTO, BigDecimal.ROUND_HALF_UP);
     }
 
-    public BigDecimal valorTotalItem(BigDecimal valorUnitario, Integer quantidade) {
+    public BigDecimal valorTotalItem1(BigDecimal valorUnitario, Integer quantidade) {
         return valorUnitario.multiply(new BigDecimal(quantidade)).setScale(2, BigDecimal.ROUND_HALF_DOWN);
     }
-    
+    /**
+     * Função que retorna o total de desconto do pedido, descontos de pagamento e descontos a vulsa
+     * @param managerPrestaShop
+     * @param order
+     * @return 
+     */
     public BigDecimal valorTotalDesconto (EntityManagerFactory managerPrestaShop, PsOrders order){
         BigDecimal valTotal;
         BigDecimal valDesconto = BigDecimal.ZERO;

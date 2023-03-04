@@ -57,12 +57,14 @@ public class ManutencaoVenda {
                     //prodCplus.setValortotal(item.getTotalPriceTaxIncl());
 
                     //prodCplus.setValorunitario(item.getUnitPriceTaxIncl());
-                    BigDecimal quanConvertida = new BigDecimal(item.getProductQuantity()).multiply(fatorConversaoBigDecimal(prodCplus.getCodprod(), managerCplus));
-                   BigDecimal valUni = item.getTotalPriceTaxIncl().divide(quanConvertida, 2, BigDecimal.ROUND_HALF_DOWN);
-                    valUni = new ValoresOrder().valorUnitario(valUni);
-                    BigDecimal valorTotal = new ValoresOrder().valorTotalItem(valUni, quanConvertida.intValue());
-                    prodCplus.setValorunitario(new ValoresOrder().valorUnitario(valUni));
-                    prodCplus.setValortotal(valorTotal);
+                   // BigDecimal quanConvertida = new BigDecimal(item.getProductQuantity()).multiply(fatorConversaoBigDecimal(prodCplus.getCodprod(), managerCplus));
+                   //BigDecimal valUni = item.getTotalPriceTaxIncl().divide(quanConvertida, 2, BigDecimal.ROUND_HALF_DOWN);
+                    BigDecimal valUni = item.getUnitPriceTaxIncl().divide(prodCplus.getQuantidade(), 2 , BigDecimal.ROUND_HALF_UP);
+                    //valUni = new ValoresOrder().valorUnitario(valUni);
+                    //BigDecimal valorTotal = new ValoresOrder().valorTotalItem(valUni, quanConvertida.intValue());
+                    //BigDecimal valorTotal = item.getTotalPriceTaxIncl();
+                    prodCplus.setValorunitario(valUni);
+                    prodCplus.setValortotal(item.getTotalPriceTaxIncl());
                 }
             }
             try {
@@ -73,16 +75,7 @@ public class ManutencaoVenda {
         }
         editaMovenda(queryCplus, movenda, new ValoresOrder().valorTotalPredido(order), managerCplus, managerIntegrador);
     }
-    
-    private BigDecimal fatorConversaoBigDecimal(Produto prodCplus, EntityManagerFactory managerCplus) {
-        BigDecimal quantidade = BigDecimal.ONE;
-        for (Unidade un : new QueryCplus(managerCplus).resultPorUnidadeProduto(prodCplus.getUnidade())) {
-            if (un.getFatorconversao().intValue() > 1) {
-                quantidade = un.getFatorconversao();
-            }
-        }
-        return quantidade;
-    }
+       
 
     private void editaMovenda(QueryCplus queryCplus, Movenda movenda, BigDecimal valorTotalPedido, EntityManagerFactory managerCplus, EntityManagerFactory managerIntegrador) {
         movenda.setValortotalnota(valorTotalPedido);
