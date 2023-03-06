@@ -391,7 +391,7 @@ public class PedidoDigimacroCplus {
                     valUni = orderItem.getUnitPriceTaxIncl().setScale(2, BigDecimal.ROUND_HALF_UP);
                     //valUni = new ValoresOrder().valorUnitario(valUni);
                     //valorTotal = new ValoresOrder().valorTotalItem(valUni, quanConvertida.intValue());
-                    valorTotal = orderItem.getTotalPriceTaxIncl();
+                    valorTotal = valUni.multiply(prod.getQuantidade());
                     prod.setValorunitario(valUni);
                 }
                 prod.setValortotal(valorTotal);
