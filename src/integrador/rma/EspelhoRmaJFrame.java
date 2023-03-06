@@ -442,8 +442,8 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
            }else{
                jTextFieldCnpj.setText(cliente.getCnpj());
                jTextFieldIe.setText(cliente.getInscr());
-               jTextFieldRazaoCliente.setText(cliente.getNomecli());
-               jTextFieldNomeFantasia.setText(cliente.getConjfantasia());
+               jTextFieldRazaoCliente.setText(cliente.getConjfantasia());
+               jTextFieldNomeFantasia.setText(cliente.getNomecli());
            } 
            jButtonOperacao.setEnabled(true);
            jRadioButtonDevolucao.setEnabled(true);

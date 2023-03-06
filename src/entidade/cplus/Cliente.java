@@ -17,8 +17,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -34,88 +32,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "CLIENTE", catalog = "", schema = "")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Cliente.findAll", query = "SELECT c FROM Cliente c")
-    , @NamedQuery(name = "Cliente.findByCodcli", query = "SELECT c FROM Cliente c WHERE c.codcli = :codcli")
-    , @NamedQuery(name = "Cliente.findByCodigo", query = "SELECT c FROM Cliente c WHERE c.codigo = :codigo")
-    , @NamedQuery(name = "Cliente.findByNomecli", query = "SELECT c FROM Cliente c WHERE c.nomecli = :nomecli")
-    , @NamedQuery(name = "Cliente.findByEndereco", query = "SELECT c FROM Cliente c WHERE c.endereco = :endereco")
-    , @NamedQuery(name = "Cliente.findByBairro", query = "SELECT c FROM Cliente c WHERE c.bairro = :bairro")
-    , @NamedQuery(name = "Cliente.findByCidade", query = "SELECT c FROM Cliente c WHERE c.cidade = :cidade")
-    , @NamedQuery(name = "Cliente.findByEstado", query = "SELECT c FROM Cliente c WHERE c.estado = :estado")
-    , @NamedQuery(name = "Cliente.findByCep", query = "SELECT c FROM Cliente c WHERE c.cep = :cep")
-    , @NamedQuery(name = "Cliente.findByTelefone", query = "SELECT c FROM Cliente c WHERE c.telefone = :telefone")
-    , @NamedQuery(name = "Cliente.findByFax", query = "SELECT c FROM Cliente c WHERE c.fax = :fax")
-    , @NamedQuery(name = "Cliente.findByRefban", query = "SELECT c FROM Cliente c WHERE c.refban = :refban")
-    , @NamedQuery(name = "Cliente.findByCnpj", query = "SELECT c FROM Cliente c WHERE c.cnpj = :cnpj")
-    , @NamedQuery(name = "Cliente.findByCpf", query = "SELECT c FROM Cliente c WHERE c.cpf = :cpf")
-    , @NamedQuery(name = "Cliente.findByLimitecred", query = "SELECT c FROM Cliente c WHERE c.limitecred = :limitecred")
-    , @NamedQuery(name = "Cliente.findByContato", query = "SELECT c FROM Cliente c WHERE c.contato = :contato")
-    , @NamedQuery(name = "Cliente.findByInscr", query = "SELECT c FROM Cliente c WHERE c.inscr = :inscr")
-    , @NamedQuery(name = "Cliente.findByAtividade", query = "SELECT c FROM Cliente c WHERE c.atividade = :atividade")
-    , @NamedQuery(name = "Cliente.findByRefcom", query = "SELECT c FROM Cliente c WHERE c.refcom = :refcom")
-    , @NamedQuery(name = "Cliente.findByFlagfisica", query = "SELECT c FROM Cliente c WHERE c.flagfisica = :flagfisica")
-    , @NamedQuery(name = "Cliente.findByIdentidade", query = "SELECT c FROM Cliente c WHERE c.identidade = :identidade")
-    , @NamedQuery(name = "Cliente.findByDatnasc", query = "SELECT c FROM Cliente c WHERE c.datnasc = :datnasc")
-    , @NamedQuery(name = "Cliente.findByFiliacao", query = "SELECT c FROM Cliente c WHERE c.filiacao = :filiacao")
-    , @NamedQuery(name = "Cliente.findByProfissao", query = "SELECT c FROM Cliente c WHERE c.profissao = :profissao")
-    , @NamedQuery(name = "Cliente.findByDatcad", query = "SELECT c FROM Cliente c WHERE c.datcad = :datcad")
-    , @NamedQuery(name = "Cliente.findByEmail", query = "SELECT c FROM Cliente c WHERE c.email = :email")
-    , @NamedQuery(name = "Cliente.findByNumcar", query = "SELECT c FROM Cliente c WHERE c.numcar = :numcar")
-    , @NamedQuery(name = "Cliente.findByValidade", query = "SELECT c FROM Cliente c WHERE c.validade = :validade")
-    , @NamedQuery(name = "Cliente.findByNomecar", query = "SELECT c FROM Cliente c WHERE c.nomecar = :nomecar")
-    , @NamedQuery(name = "Cliente.findByFlagnaovender", query = "SELECT c FROM Cliente c WHERE c.flagnaovender = :flagnaovender")
-    , @NamedQuery(name = "Cliente.findByWeb", query = "SELECT c FROM Cliente c WHERE c.web = :web")
-    , @NamedQuery(name = "Cliente.findByNaturalidade", query = "SELECT c FROM Cliente c WHERE c.naturalidade = :naturalidade")
-    , @NamedQuery(name = "Cliente.findByConjfantasia", query = "SELECT c FROM Cliente c WHERE c.conjfantasia = :conjfantasia")
-    , @NamedQuery(name = "Cliente.findByInscrmun", query = "SELECT c FROM Cliente c WHERE c.inscrmun = :inscrmun")
-    , @NamedQuery(name = "Cliente.findByDatemissao", query = "SELECT c FROM Cliente c WHERE c.datemissao = :datemissao")
-    , @NamedQuery(name = "Cliente.findByEstadocivil", query = "SELECT c FROM Cliente c WHERE c.estadocivil = :estadocivil")
-    , @NamedQuery(name = "Cliente.findBySexo", query = "SELECT c FROM Cliente c WHERE c.sexo = :sexo")
-    , @NamedQuery(name = "Cliente.findByLastChange", query = "SELECT c FROM Cliente c WHERE c.lastChange = :lastChange")
-    , @NamedQuery(name = "Cliente.findBySenha", query = "SELECT c FROM Cliente c WHERE c.senha = :senha")
-    , @NamedQuery(name = "Cliente.findByUltimaversao", query = "SELECT c FROM Cliente c WHERE c.ultimaversao = :ultimaversao")
-    , @NamedQuery(name = "Cliente.findByDiavencimento", query = "SELECT c FROM Cliente c WHERE c.diavencimento = :diavencimento")
-    , @NamedQuery(name = "Cliente.findByBloqueado", query = "SELECT c FROM Cliente c WHERE c.bloqueado = :bloqueado")
-    , @NamedQuery(name = "Cliente.findByMotivobloqueio", query = "SELECT c FROM Cliente c WHERE c.motivobloqueio = :motivobloqueio")
-    , @NamedQuery(name = "Cliente.findByLogin", query = "SELECT c FROM Cliente c WHERE c.login = :login")
-    , @NamedQuery(name = "Cliente.findByRenda", query = "SELECT c FROM Cliente c WHERE c.renda = :renda")
-    , @NamedQuery(name = "Cliente.findByFlaglojavirtual", query = "SELECT c FROM Cliente c WHERE c.flaglojavirtual = :flaglojavirtual")
-    , @NamedQuery(name = "Cliente.findByLiberalojavirtual", query = "SELECT c FROM Cliente c WHERE c.liberalojavirtual = :liberalojavirtual")
-    , @NamedQuery(name = "Cliente.findByLiberaprecoslojavirtual", query = "SELECT c FROM Cliente c WHERE c.liberaprecoslojavirtual = :liberaprecoslojavirtual")
-    , @NamedQuery(name = "Cliente.findByDiaaniversario", query = "SELECT c FROM Cliente c WHERE c.diaaniversario = :diaaniversario")
-    , @NamedQuery(name = "Cliente.findBySuframa", query = "SELECT c FROM Cliente c WHERE c.suframa = :suframa")
-    , @NamedQuery(name = "Cliente.findByFlagfrete", query = "SELECT c FROM Cliente c WHERE c.flagfrete = :flagfrete")
-    , @NamedQuery(name = "Cliente.findByFlagusaaliqicmsdiferenciada", query = "SELECT c FROM Cliente c WHERE c.flagusaaliqicmsdiferenciada = :flagusaaliqicmsdiferenciada")
-    , @NamedQuery(name = "Cliente.findByCodcontabancaria", query = "SELECT c FROM Cliente c WHERE c.codcontabancaria = :codcontabancaria")
-    , @NamedQuery(name = "Cliente.findByNumerologradouro", query = "SELECT c FROM Cliente c WHERE c.numerologradouro = :numerologradouro")
-    , @NamedQuery(name = "Cliente.findByComplementologradouro", query = "SELECT c FROM Cliente c WHERE c.complementologradouro = :complementologradouro")
-    , @NamedQuery(name = "Cliente.findByCodigointegracaofiscal", query = "SELECT c FROM Cliente c WHERE c.codigointegracaofiscal = :codigointegracaofiscal")
-    , @NamedQuery(name = "Cliente.findByFlagrevenda", query = "SELECT c FROM Cliente c WHERE c.flagrevenda = :flagrevenda")
-    , @NamedQuery(name = "Cliente.findByAliqcomissaorevenda", query = "SELECT c FROM Cliente c WHERE c.aliqcomissaorevenda = :aliqcomissaorevenda")
-    , @NamedQuery(name = "Cliente.findByCodclilojavirtual", query = "SELECT c FROM Cliente c WHERE c.codclilojavirtual = :codclilojavirtual")
-    , @NamedQuery(name = "Cliente.findByGuid", query = "SELECT c FROM Cliente c WHERE c.guid = :guid")
-    , @NamedQuery(name = "Cliente.findByEmaildanfe", query = "SELECT c FROM Cliente c WHERE c.emaildanfe = :emaildanfe")
-    , @NamedQuery(name = "Cliente.findByFlagmercado", query = "SELECT c FROM Cliente c WHERE c.flagmercado = :flagmercado")
-    , @NamedQuery(name = "Cliente.findByCei", query = "SELECT c FROM Cliente c WHERE c.cei = :cei")
-    , @NamedQuery(name = "Cliente.findByNit", query = "SELECT c FROM Cliente c WHERE c.nit = :nit")
-    , @NamedQuery(name = "Cliente.findByBloqtablet", query = "SELECT c FROM Cliente c WHERE c.bloqtablet = :bloqtablet")
-    , @NamedQuery(name = "Cliente.findByValorfidelizacao", query = "SELECT c FROM Cliente c WHERE c.valorfidelizacao = :valorfidelizacao")
-    , @NamedQuery(name = "Cliente.findByCodclifidelizacao", query = "SELECT c FROM Cliente c WHERE c.codclifidelizacao = :codclifidelizacao")
-    , @NamedQuery(name = "Cliente.findByAliqfidelizacao", query = "SELECT c FROM Cliente c WHERE c.aliqfidelizacao = :aliqfidelizacao")
-    , @NamedQuery(name = "Cliente.findByIndiedest", query = "SELECT c FROM Cliente c WHERE c.indiedest = :indiedest")
-    , @NamedQuery(name = "Cliente.findByFlagrevendamaster", query = "SELECT c FROM Cliente c WHERE c.flagrevendamaster = :flagrevendamaster")
-    , @NamedQuery(name = "Cliente.findByMensagemcrm", query = "SELECT c FROM Cliente c WHERE c.mensagemcrm = :mensagemcrm")
-    , @NamedQuery(name = "Cliente.findByFlagtransfer", query = "SELECT c FROM Cliente c WHERE c.flagtransfer = :flagtransfer")
-    , @NamedQuery(name = "Cliente.findByFlagsimplesnacional", query = "SELECT c FROM Cliente c WHERE c.flagsimplesnacional = :flagsimplesnacional")
-    , @NamedQuery(name = "Cliente.findByReferencia", query = "SELECT c FROM Cliente c WHERE c.referencia = :referencia")
-    , @NamedQuery(name = "Cliente.findByHorariofuncini", query = "SELECT c FROM Cliente c WHERE c.horariofuncini = :horariofuncini")
-    , @NamedQuery(name = "Cliente.findByHorariofuncintervaloini", query = "SELECT c FROM Cliente c WHERE c.horariofuncintervaloini = :horariofuncintervaloini")
-    , @NamedQuery(name = "Cliente.findByHorariofuncintervalofin", query = "SELECT c FROM Cliente c WHERE c.horariofuncintervalofin = :horariofuncintervalofin")
-    , @NamedQuery(name = "Cliente.findByHorariofuncfin", query = "SELECT c FROM Cliente c WHERE c.horariofuncfin = :horariofuncfin")
-    , @NamedQuery(name = "Cliente.findByFlagusaeannfe", query = "SELECT c FROM Cliente c WHERE c.flagusaeannfe = :flagusaeannfe")
-    , @NamedQuery(name = "Cliente.findByDatnascconjuge", query = "SELECT c FROM Cliente c WHERE c.datnascconjuge = :datnascconjuge")
-    , @NamedQuery(name = "Cliente.findByDatcasamento", query = "SELECT c FROM Cliente c WHERE c.datcasamento = :datcasamento")})
+
 public class Cliente implements Serializable {
 
     @Lob
@@ -1302,6 +1219,7 @@ public class Cliente implements Serializable {
     public void setMovendaCollection1(Collection<Movenda> movendaCollection1) {
         this.movendaCollection1 = movendaCollection1;
     }
+    
 
     @XmlTransient
     public Collection<Contatoscli> getContatoscliCollection() {

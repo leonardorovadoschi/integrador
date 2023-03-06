@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="5786a882-6f6e-495c-8989-32411d348f1b">
 	<property name="ireport.zoom" value="2.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="313"/>
+	<property name="ireport.y" value="0"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -100,6 +100,9 @@
 	</field>
 	<field name="obs" class="java.lang.String">
 		<fieldDescription><![CDATA[codmovenda.obs]]></fieldDescription>
+	</field>
+	<field name="conjfantasia" class="java.lang.String">
+		<fieldDescription><![CDATA[codmovenda.codcli.conjfantasia]]></fieldDescription>
 	</field>
 	<variable name="baseIcms" class="java.math.BigDecimal" calculation="Sum">
 		<variableExpression><![CDATA[$F{baseicms}]]></variableExpression>
@@ -260,7 +263,7 @@
 			</staticText>
 			<textField>
 				<reportElement x="-1" y="56" width="206" height="13" uuid="21f2f327-b959-44dc-9a82-81d1d33a6903"/>
-				<textFieldExpression><![CDATA[$F{nomecli}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{conjfantasia}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="1" y="91" width="174" height="13" uuid="9a6de683-2a56-4c8c-abeb-556badf5b051"/>
