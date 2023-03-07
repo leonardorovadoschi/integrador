@@ -76,8 +76,8 @@ public class IntegracaoJFrame extends javax.swing.JFrame {
         // var = var1;
 
         codCaracteristicaCliente = queryIntegrador.valorConfiguracao("cliente_CARACTERISTICA_CPLUS_DIGIMACRO");
-        shopUrl = queryIntegrador.valorConfiguracao("shopURL");
-        key = queryIntegrador.valorConfiguracao("shopKEY");
+        //shopUrl = queryIntegrador.valorConfiguracao("shopURL");
+        //key = queryIntegrador.valorConfiguracao("shopKEY");
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
         insereIpIntegrador();
     }
@@ -1060,10 +1060,6 @@ public class IntegracaoJFrame extends javax.swing.JFrame {
     private static EntityManagerFactory managerPrestaShop;
     private final String codCaracteristicaCliente;
 
-    private final String shopUrl;
-    private final String key;
-    //Executa executaManual;
-    //private QueryIntegrador queryIntegrador;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private java.util.List<entidade.integrador.IntLogs> intLogsList;
