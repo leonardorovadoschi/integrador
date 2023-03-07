@@ -906,9 +906,12 @@ public class IntegracaoJFrame extends javax.swing.JFrame {
                 jProgressBarIntegrador.setMaximum(numRegistro);
                 jLabelTotalRegistro.setText("0 de " + numRegistro + " Registros");
                 for (Produtoestoque pe : listProdEstoque) {
+                   List<Produtocaracteristica> lisCar = queryCplus.listCaracteristicaProduto(pe.getProduto().getCodprod());
+                    if (lisCar.size() == 1) {
                     if (new ProdutoCplusDigimacro().produtoCplusDigimacroEstoque(managerIntegrador, managerCplus, managerPrestaShop, pe.getProduto()) == false) {
                         condicaoErro = false;
                         criaLog(pe.getLastChange(), ", Erro ao Atualizar produto C-Plus Integrador Digimacro, Produto: " + pe.getProduto().getNomeprod(), "Erro Editar", managerIntegrador);
+                    }
                     }
                     jProgressBarIntegrador.setString(String.valueOf("Atualizando Produto: " + pe.getProduto().getNomeprod()));
                     jLabelTotalRegistro.setText(cont + " de " + numRegistro + " Registros");
