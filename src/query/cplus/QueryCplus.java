@@ -1735,6 +1735,13 @@ public List<Movendaproddevolucaocompra> listagemControlaDevolucaoPorSaida(String
         return query.getResultList();
     }
     
+    public List<Produtocaracteristica> listProdutoCaracteristicaDoProduto(String codProd) {
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery("SELECT ven FROM Produtocaracteristica ven WHERE ven.codprod.codprod =:codProd");
+        query.setParameter("codProd", codProd);        
+        return query.getResultList();
+    }
+    
      public List<Produtocaracteristica> listCaracteristicaProduto(String codProduto) {
         EntityManager em = getEntityManager();
         Query query = em.createQuery("SELECT ven.codprod FROM Produtocaracteristica ven WHERE ven.codprod.codprod =:codProduto AND ven.codcaracteristica = '000000005'");

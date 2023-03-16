@@ -154,7 +154,7 @@ public class ProdutoCplusDigimacro {
         pp1.setIdShopDefault(1);
         pp1.setIdTaxRulesGroup(taxRulesGroup(managerPrestaShop, proCplus));
         pp1.setOnSale(false);
-        pp1.setOnlineOnly(false);
+        //pp1.setOnlineOnly(false);
         pp1.setEan13(eanCplus(managerCplus, proCplus));
         pp1.setIsbn("");
         pp1.setUpc("");
@@ -203,17 +203,21 @@ public class ProdutoCplusDigimacro {
         }
         pp1.setRedirectType("301-category");
         pp1.setIdTypeRedirected(0);
-        pp1.setAvailableForOrder(true);
+        //pp1.setAvailableForOrder(true);
         pp1.setAvailableDate(null);
         pp1.setShowCondition(true);
         pp1.setCondition1("new");
-        pp1.setShowPrice(true);
+        //pp1.setShowPrice(true);
         if ("116".equals(proCplus.getCodsec().getClassificacao())) {
-            pp1.setIndexed(false);
+            //pp1.setIndexed(false);
             pp1.setVisibility("none");
+            pp1.setShowPrice(false);
+            pp1.setOnlineOnly(true);
         } else {
             // pp1.setIndexed(true);
             pp1.setVisibility("both");
+            pp1.setShowPrice(true);
+            pp1.setOnlineOnly(false);
         }
         pp1.setCacheIsPack(false);
         pp1.setCacheHasAttachments(false);
@@ -313,12 +317,23 @@ public class ProdutoCplusDigimacro {
         pp.setAvailableDate(new Date(System.currentTimeMillis()));
         pp.setShowCondition(false);
         pp.setCondition1("new");
-        pp.setShowPrice(true);
-        if (fatorConversao(proCplus, managerCplus) > 1) {
+        //pp.setShowPrice(true);
+       if ("116".equals(proCplus.getCodsec().getClassificacao())) {
+            //pp.setIndexed(false);
             pp.setVisibility("none");
+            pp.setShowPrice(false);
+            pp.setOnlineOnly(true);
         } else {
+            // pp1.setIndexed(true);
             pp.setVisibility("both");
+            pp.setShowPrice(true);
+            pp.setOnlineOnly(false);
         }
+        //if (fatorConversao(proCplus, managerCplus) > 1) {
+        //    pp.setVisibility("none");
+        //} else {
+        //    pp.setVisibility("both");
+        //}
         pp.setDateUpd(new Date(System.currentTimeMillis()));
         //pp.setWholesalePrice(proCplus.getCustoreal());
         pp.setWholesalePrice(BigDecimal.ZERO);
@@ -1174,7 +1189,7 @@ public class ProdutoCplusDigimacro {
             pps.setIdCategoryDefault(categoriaPadrao(managerPrestaShop, proCplus));
             pps.setIdTaxRulesGroup(taxRulesGroup(managerPrestaShop, proCplus));
             pps.setOnSale(false);
-            pps.setOnlineOnly(false);
+            //pps.setOnlineOnly(false);
             pps.setEcotax(BigDecimal.ZERO);
             pps.setMinimalQuantity(1);
             pps.setLowStockThreshold(0);
@@ -1196,20 +1211,26 @@ public class ProdutoCplusDigimacro {
             }
             pps.setRedirectType("301-category");
             pps.setIdTypeRedirected(0);
-            pps.setAvailableForOrder(true);
+            //pps.setAvailableForOrder(true);
             pps.setAvailableDate(null);
             pps.setShowCondition(false);
             pps.setCondition("new");
-            pps.setShowPrice(true);
+            //pps.setShowPrice(true);
             if ("116".equals(proCplus.getCodsec().getClassificacao())) {
+                pps.setShowPrice(false);
                 pps.setIndexed(false);
                 pps.setVisibility("none");
+                pps.setOnlineOnly(true);
+                pps.setAvailableForOrder(true);
             } else {
-                // pps.setIndexed(pps.getActive());
+                //pps.setIndexed(pps.getActive());
                 pps.setVisibility("both");
+                pps.setShowPrice(true);
+                pps.setOnlineOnly(false);
+                pps.setAvailableForOrder(false);
             }
             pps.setIndexed(pps.getActive());
-            pps.setVisibility("both");
+            //pps.setVisibility("both");
             pps.setCacheDefaultAttribute(0);
             pps.setAdvancedStockManagement(false);
             pps.setDateAdd(new Date(System.currentTimeMillis()));

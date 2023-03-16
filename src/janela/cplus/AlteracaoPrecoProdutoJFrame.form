@@ -157,7 +157,7 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jScrollPaneListagemProdutos" alignment="1" pref="1316" max="32767" attributes="0"/>
+                  <Component id="jScrollPaneListagemProdutos" alignment="1" pref="1058" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
@@ -767,7 +767,7 @@
                       <Component id="jPanelTiposdecalculos" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jPanelInformacaoEstoque" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="128" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="138" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1007,7 +1007,7 @@
                           <Component id="jCheckBoxSomenteCompras" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane3" pref="931" max="32767" attributes="0"/>
+                      <Component id="jScrollPane3" pref="907" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1391,7 +1391,7 @@
                           </Group>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" pref="907" max="32767" attributes="0"/>
+                      <Component id="jScrollPane1" pref="883" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1744,11 +1744,21 @@
               <Group type="102" alignment="1" attributes="0">
                   <Group type="103" groupAlignment="1" max="-2" attributes="0">
                       <Component id="jPanelOutros" max="-2" attributes="0"/>
-                      <Group type="102" alignment="1" attributes="0">
+                      <Group type="102" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jScrollPane4" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
-                          <Component id="jPanelArredondamentoVenda" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Group type="102" alignment="1" attributes="0">
+                                  <Component id="jScrollPane4" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="32767" attributes="0"/>
+                                  <Component id="jPanelArredondamentoVenda" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="jCheckBoxAtivo" min="-2" pref="69" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="jCheckBoxNoSite" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
                       </Group>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
@@ -1770,31 +1780,41 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jPanelDataMovimento" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <Component id="jPanelEstoque" max="32767" attributes="0"/>
-                          </Group>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jPanelPesquisa" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
                           <Component id="jPanelOutros" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="jCheckBoxAtivo" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jCheckBoxNoSite" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace pref="13" max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jPanelArredondamentoVenda" min="-2" max="-2" attributes="0"/>
+                              <Component id="jPanelArredondamentoVenda" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="jScrollPane4" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jPanelCustos" min="-2" max="-2" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="jPanelCustos" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Group type="102" attributes="0">
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="jPanelDataMovimento" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Component id="jPanelEstoque" max="32767" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="jPanelPesquisa" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace min="0" pref="33" max="32767" attributes="0"/>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -1948,7 +1968,7 @@
                           <Component id="jLabelPrecoCusto" alignment="1" max="32767" attributes="0"/>
                           <Component id="jLabelCustoReal" alignment="1" max="32767" attributes="0"/>
                           <Component id="jLabelValorSt" alignment="1" max="32767" attributes="0"/>
-                          <Component id="jLabelValorOutrosCustos" alignment="1" pref="0" max="32767" attributes="0"/>
+                          <Component id="jLabelValorOutrosCustos" alignment="1" pref="100" max="32767" attributes="0"/>
                           <Component id="jLabelCustoMedio" alignment="1" max="32767" attributes="0"/>
                           <Component id="jLabelValorIpi" alignment="1" max="32767" attributes="0"/>
                           <Component id="jLabelValorOutrasDespesas" alignment="1" pref="0" max="32767" attributes="0"/>
@@ -2264,8 +2284,6 @@
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jButtonGravar" min="-2" pref="120" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="jCheckBoxAtivo" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
                               <Component id="jButtonAtualizaMargemCusto" min="-2" pref="194" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
@@ -2294,7 +2312,6 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jButtonGravar" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jCheckBoxAtivo" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jButtonAtualizaMargemCusto" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -2336,6 +2353,7 @@
             </Component>
             <Component class="javax.swing.JCheckBox" name="jCheckBoxSomenteItensAtivosCplus">
               <Properties>
+                <Property name="selected" type="boolean" value="true"/>
                 <Property name="text" type="java.lang.String" value="Ativos:"/>
                 <Property name="focusable" type="boolean" value="false"/>
                 <Property name="requestFocusEnabled" type="boolean" value="false"/>
@@ -2467,14 +2485,6 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonGravarActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JCheckBox" name="jCheckBoxAtivo">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Ativo:"/>
-              </Properties>
-              <Events>
-                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jCheckBoxAtivoFocusLost"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="jButtonAtualizaMargemCusto">
@@ -2971,6 +2981,23 @@
             </Component>
           </SubComponents>
         </Container>
+        <Component class="javax.swing.JCheckBox" name="jCheckBoxAtivo">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Ativo:"/>
+          </Properties>
+          <Events>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jCheckBoxAtivoFocusLost"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBoxAtivoActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JCheckBox" name="jCheckBoxNoSite">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="No Site"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBoxNoSiteActionPerformed"/>
+          </Events>
+        </Component>
       </SubComponents>
     </Container>
   </SubComponents>

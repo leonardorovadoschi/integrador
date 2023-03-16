@@ -13,6 +13,7 @@ import entidade.cplus.Movendaprod;
 import entidade.cplus.Moventrada;
 import entidade.cplus.Moventradaprod;
 import entidade.cplus.Produto;
+import entidade.cplus.Produtocaracteristica;
 import entidade.cplus.Produtocodigo;
 import entidade.cplus.Produtoestoque;
 import entidade.cplus.Produtopreco;
@@ -43,6 +44,7 @@ import jpa.cplus.AuditoriaJpaController;
 import jpa.cplus.CampocustommasterJpaController;
 import jpa.cplus.CampocustomvalorJpaController;
 import jpa.cplus.ProdutoJpaController;
+import jpa.cplus.ProdutocaracteristicaJpaController;
 import jpa.cplus.ProdutoprecoJpaController;
 import jpa.cplus.exceptions.NonexistentEntityException;
 import jpa.integrador.IntLogsJpaController;
@@ -206,7 +208,6 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
         jTextFieldPrecoNormal = new javax.swing.JTextField();
         jLabelPrecoNormal = new javax.swing.JLabel();
         jButtonGravar = new javax.swing.JButton();
-        jCheckBoxAtivo = new javax.swing.JCheckBox();
         jButtonAtualizaMargemCusto = new javax.swing.JButton();
         jPanelOutros = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
@@ -247,6 +248,8 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
         jRadioButtonArredondamentoTresDecimal = new javax.swing.JRadioButton();
         jScrollPane4 = new javax.swing.JScrollPane();
         jTextAreaEan = new javax.swing.JTextArea();
+        jCheckBoxAtivo = new javax.swing.JCheckBox();
+        jCheckBoxNoSite = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Alteração de Preço ");
@@ -366,7 +369,7 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
         jPanelAbaListaProdutos.setLayout(jPanelAbaListaProdutosLayout);
         jPanelAbaListaProdutosLayout.setHorizontalGroup(
             jPanelAbaListaProdutosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPaneListagemProdutos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1316, Short.MAX_VALUE)
+            .addComponent(jScrollPaneListagemProdutos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1058, Short.MAX_VALUE)
         );
         jPanelAbaListaProdutosLayout.setVerticalGroup(
             jPanelAbaListaProdutosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -667,7 +670,7 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
                 .addComponent(jPanelTiposdecalculos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanelInformacaoEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 128, Short.MAX_VALUE))
+                .addGap(0, 138, Short.MAX_VALUE))
         );
         jPanelconfiguracoesAbaLayout.setVerticalGroup(
             jPanelconfiguracoesAbaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -826,7 +829,7 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
                         .addComponent(jTextFieldMaximoDeResultadosEntradas, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jCheckBoxSomenteCompras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 931, Short.MAX_VALUE))
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 907, Short.MAX_VALUE))
         );
         jPanelListagemEntradasLayout.setVerticalGroup(
             jPanelListagemEntradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -993,7 +996,7 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(jCheckBoxSomenteVendas)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 907, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 883, Short.MAX_VALUE))
         );
         jPanelListagemDeVendasLayout.setVerticalGroup(
             jPanelListagemDeVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1309,6 +1312,7 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
             }
         });
 
+        jCheckBoxSomenteItensAtivosCplus.setSelected(true);
         jCheckBoxSomenteItensAtivosCplus.setText("Ativos:");
         jCheckBoxSomenteItensAtivosCplus.setFocusable(false);
         jCheckBoxSomenteItensAtivosCplus.setRequestFocusEnabled(false);
@@ -1409,13 +1413,6 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
             }
         });
 
-        jCheckBoxAtivo.setText("Ativo:");
-        jCheckBoxAtivo.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                jCheckBoxAtivoFocusLost(evt);
-            }
-        });
-
         jButtonAtualizaMargemCusto.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jButtonAtualizaMargemCusto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/atualizar.png"))); // NOI18N
         jButtonAtualizaMargemCusto.setText("Atualiza Margem Custo");
@@ -1447,8 +1444,6 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
                         .addGap(8, 8, 8))
                     .addGroup(jPanelPesquisaLayout.createSequentialGroup()
                         .addComponent(jButtonGravar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jCheckBoxAtivo)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButtonAtualizaMargemCusto, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())))
@@ -1470,7 +1465,6 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelPesquisaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonGravar)
-                    .addComponent(jCheckBoxAtivo)
                     .addComponent(jButtonAtualizaMargemCusto)))
         );
 
@@ -1804,6 +1798,25 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
         jTextAreaEan.setRows(5);
         jScrollPane4.setViewportView(jTextAreaEan);
 
+        jCheckBoxAtivo.setText("Ativo:");
+        jCheckBoxAtivo.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jCheckBoxAtivoFocusLost(evt);
+            }
+        });
+        jCheckBoxAtivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxAtivoActionPerformed(evt);
+            }
+        });
+
+        jCheckBoxNoSite.setText("No Site");
+        jCheckBoxNoSite.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxNoSiteActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelControlesLayout = new javax.swing.GroupLayout(jPanelControles);
         jPanelControles.setLayout(jPanelControlesLayout);
         jPanelControlesLayout.setHorizontalGroup(
@@ -1813,9 +1826,16 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
                     .addComponent(jPanelOutros, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanelControlesLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanelArredondamentoVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanelControlesLayout.createSequentialGroup()
+                                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jPanelArredondamentoVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelControlesLayout.createSequentialGroup()
+                                .addComponent(jCheckBoxAtivo, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jCheckBoxNoSite)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanelControlesLayout.createSequentialGroup()
@@ -1832,23 +1852,30 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
             .addGroup(jPanelControlesLayout.createSequentialGroup()
                 .addGroup(jPanelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelControlesLayout.createSequentialGroup()
-                        .addGroup(jPanelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanelControlesLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jPanelDataMovimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jPanelEstoque, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanelPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanelControlesLayout.createSequentialGroup()
                         .addComponent(jPanelOutros, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jCheckBoxAtivo)
+                            .addComponent(jCheckBoxNoSite))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
                         .addGroup(jPanelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanelArredondamentoVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanelControlesLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanelCustos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 33, Short.MAX_VALUE))
+                        .addGroup(jPanelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanelControlesLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jPanelCustos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanelControlesLayout.createSequentialGroup()
+                                .addGroup(jPanelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(jPanelControlesLayout.createSequentialGroup()
+                                        .addContainerGap()
+                                        .addComponent(jPanelDataMovimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jPanelEstoque, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPanelPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -2211,6 +2238,14 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
         jButtonDesativarSite.setEnabled(true);
     }//GEN-LAST:event_jTableProdutoFornecedorMouseClicked
 
+    private void jCheckBoxNoSiteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxNoSiteActionPerformed
+        jButtonGravar.setEnabled(true);
+    }//GEN-LAST:event_jCheckBoxNoSiteActionPerformed
+
+    private void jCheckBoxAtivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxAtivoActionPerformed
+        jButtonGravar.setEnabled(true);
+    }//GEN-LAST:event_jCheckBoxAtivoActionPerformed
+
     private String tamanhoString(String str, int tamanhoString) {
         String str2 = "";
         if (str != null) {
@@ -2222,8 +2257,6 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
         }
         return str2;
     }
-    
-   
 
     private void calculaPorcentagemCusto() {
         int quantidadeEstoque = 0;
@@ -2311,7 +2344,7 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
                 condicaoSt = true;
             }
             listIcmsEstado = queryCplus.listcalculoIcmsEstadol("RS", "RS", "5102", produtoCplus.getCodcalculoicms().getCodcalculoicms());
-            if (listIcmsEstado.size() == 1) {               
+            if (listIcmsEstado.size() == 1) {
                 jTextFieldPercOutrosCustos.setText(formataCampo.bigDecimalParaString(new CalculoDeCusto().custoMediouUniComIpi(listIcmsEstado, produtoCplus, managerCplus), casasDecimais));
             } else {
                 condicaoIcms = true;
@@ -2366,13 +2399,13 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
     }
 
     private void gravaValores() {
-        try {     
+        try {
             gerarAuditoria();
             for (Produtopreco preco : listPrecoProduto) {
                 switch (preco.getCodpreco().getCodpreco()) {
                     case "000000001":
                         preco.setPreco(formataCampo.stringParaDecimal(jTextFieldPrecoNormal.getText(), decimaisArredondamento));
-                        preco.setMargem(calculaMargemPraGravarBanco(jTextFieldPrecoNormal.getText()));                      
+                        preco.setMargem(calculaMargemPraGravarBanco(jTextFieldPrecoNormal.getText()));
                         new ProdutoprecoJpaController(managerCplus).edit(preco);
                         break;
                 }
@@ -2391,6 +2424,23 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
                 produtoCplus.setFlaginativo('N');
             } else {
                 produtoCplus.setFlaginativo('Y');
+            }
+            List<Produtocaracteristica> listProdCaracteristica = queryCplus.listProdutoCaracteristicaDoProduto(produtoCplus.getCodprod());
+            if (jCheckBoxNoSite.isSelected()) {
+                // List<Produtocaracteristica> listProdCaracteristica = queryCplus.listProdutoCaracteristicaDoProduto(produtoCplus.getCodprod());
+                if (listProdCaracteristica.size() == 1) {
+                    for (Produtocaracteristica prodCar : listProdCaracteristica) {
+                        prodCar.setCodcaracteristica("000000005");
+                        new ProdutocaracteristicaJpaController(managerCplus).edit(prodCar);
+                    }
+                }
+            } else {
+                if (listProdCaracteristica.size() == 1) {
+                    for (Produtocaracteristica prodCar : listProdCaracteristica) {
+                        prodCar.setCodcaracteristica("000000001");
+                       new ProdutocaracteristicaJpaController(managerCplus).edit(prodCar);
+                    }
+                }
             }
             if (jComboBoxOrigemProduto.getSelectedIndex() != 9) {
                 char origem;
@@ -2426,9 +2476,9 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
                         origem = '0';
                 }
                 produtoCplus.setFlagorigemproduto(origem);
-            }         
+            }
             new ProdutoJpaController(managerCplus).edit(produtoCplus);
-            
+
             // List<ProdutoIntegracao> listProdIntegracao = queryIntegrador.resultCodigoProdutosCplus(produtoCplus.getCodprod());
             // if(listProdIntegracao.size() == 1){
             //       for (ProdutoIntegracao produtoIntegracao : listProdIntegracao) {
@@ -2455,7 +2505,7 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
         }
         carregarCampos();
     }
-    
+
     private void gerarAuditoria() {
         try {
             InetAddress addr = InetAddress.getLocalHost();
@@ -2477,8 +2527,8 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
             auditoria.setNomeentidadeorigem("PRODUTO");
             auditoria.setIdentidadeorigem(produtoCplus.getCodprod());
             auditoria.setCodacesso("000033241");
-            if(!"".equals(auditoria.getDetalhelog())){
-            new AuditoriaJpaController(managerCplus).create(auditoria);
+            if (!"".equals(auditoria.getDetalhelog())) {
+                new AuditoriaJpaController(managerCplus).create(auditoria);
             }
             queryIntegrador.atualizaValorConfiguracao("increment_tabela_auditoria", String.valueOf(cont));
 
@@ -2623,11 +2673,6 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
         for (ProdFornecedor proall : queryIntegrador.listProdFornecedor(produtoCplus.getCodprod())) {
             produtoFornecedorList.add(proall);
         }
-        //List<ProdutoIntegracao> listProdIntegracao = queryIntegrador.resultCodigoProdutosCplus(produtoCplus.getCodprod());
-        //  if (listProdIntegracao.size() == 1) {
-        //for (ProdutoIntegracao produtoIntegracao : listProdIntegracao) {
-        //   jTextFieldPartNumberSistema.setForeground(Color.black);
-        //   jTextFieldComplementoFiscal.setForeground(Color.black);
         List<PsProduct> listPp = queryPrestaShop.listPsProduct(codProdutoTabela);
         if (listPp.isEmpty()) {
             jTextFieldPartNumberSistema.setForeground(Color.red);
@@ -2639,22 +2684,6 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
         }
         jTextFieldPartNumberSistema.setText(partNumber());
         jTextFieldComplementoFiscal.setText(complemantoFiscal());
-
-        // }
-        //  } else {
-        //  jTextFieldPartNumberSistema.setForeground(Color.red);
-        //   jTextFieldComplementoFiscal.setForeground(Color.red);
-        //  jTextFieldPartNumberSistema.setText("Produto não existe no C-plus");
-        //  jTextFieldComplementoFiscal.setText("Produto não existe no C-plus");
-        //   }
-        //  if (jCheckBoxMostrarItensCarrinhoMagento.isSelected()) {
-        //    List< SalesFlatQuoteItem> listQuoteItem = queryPrestaShop.resultPorSKU(produtoCplus.getCodprod());
-        //    int quant = 0;
-        //     for (SalesFlatQuoteItem quoteItem : listQuoteItem) {
-        //          quant = quant + quoteItem.getQty().intValue();
-        //      }
-        //      jTextFieldQuntItensCarrinhoMagento.setText(String.valueOf(quant));
-        //  }// fim if que verifica se calcula itens no carrinho magento
         jTextFieldAltura.setText(formataCampo.bigDecimalParaString(produtoCplus.getAltura(), 4));
         jTextFieldLargura.setText(formataCampo.bigDecimalParaString(produtoCplus.getLargura(), 4));
         jTextFieldComprimento.setText(formataCampo.bigDecimalParaString(produtoCplus.getComprimento(), 4));
@@ -2662,6 +2691,16 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
             jCheckBoxAtivo.setSelected(true);
         } else {
             jCheckBoxAtivo.setSelected(false);
+        }
+        List<Produtocaracteristica> lisCar = queryCplus.listCaracteristicaProduto(produtoCplus.getCodprod());
+        if (lisCar.size() == 1) {
+            jCheckBoxNoSite.setSelected(true);
+        } else {
+            jCheckBoxNoSite.setSelected(false);
+        }
+        lisCar = queryCplus.listProdutoCaracteristicaDoProduto(produtoCplus.getCodprod());
+        if (lisCar.size() != 1) {
+             JOptionPane.showMessageDialog(null, "O produto: "+produtoCplus.getNomeprod()+" possui Erro nas caracteristicas, Favor Corrigir");
         }
         if (produtoCplus.getFlagorigemproduto() != null) {
             switch (produtoCplus.getFlagorigemproduto().toString()) {
@@ -2699,8 +2738,8 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
             jComboBoxOrigemProduto.setSelectedIndex(9);
         }
         String txt = "";
-        for(Produtocodigo ean : produtoCplus.getProdutocodigoCollection()){
-           txt =  txt + ean.getCodigo() + "\n";
+        for (Produtocodigo ean : produtoCplus.getProdutocodigoCollection()) {
+            txt = txt + ean.getCodigo() + "\n";
         }
         jTextAreaEan.setText(txt);
         jButtonGravar.setEnabled(false);
@@ -3035,6 +3074,7 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButtonRelacionarProdutoFornecedor;
     private javax.swing.JCheckBox jCheckBoxAtivo;
     private javax.swing.JCheckBox jCheckBoxMostrarItensCarrinhoMagento;
+    private javax.swing.JCheckBox jCheckBoxNoSite;
     private javax.swing.JCheckBox jCheckBoxSomenteCompras;
     private javax.swing.JCheckBox jCheckBoxSomenteItensAtivosCplus;
     private javax.swing.JCheckBox jCheckBoxSomenteVendas;

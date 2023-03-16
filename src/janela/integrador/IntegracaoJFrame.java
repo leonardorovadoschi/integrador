@@ -76,8 +76,8 @@ public class IntegracaoJFrame extends javax.swing.JFrame {
         // var = var1;
 
         codCaracteristicaCliente = queryIntegrador.valorConfiguracao("cliente_CARACTERISTICA_CPLUS_DIGIMACRO");
-        shopUrl = queryIntegrador.valorConfiguracao("shopURL");
-        key = queryIntegrador.valorConfiguracao("shopKEY");
+        //shopUrl = queryIntegrador.valorConfiguracao("shopURL");
+        //key = queryIntegrador.valorConfiguracao("shopKEY");
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
         insereIpIntegrador();
     }
@@ -906,9 +906,12 @@ public class IntegracaoJFrame extends javax.swing.JFrame {
                 jProgressBarIntegrador.setMaximum(numRegistro);
                 jLabelTotalRegistro.setText("0 de " + numRegistro + " Registros");
                 for (Produtoestoque pe : listProdEstoque) {
+                   List<Produtocaracteristica> lisCar = queryCplus.listCaracteristicaProduto(pe.getProduto().getCodprod());
+                    if (lisCar.size() == 1) {
                     if (new ProdutoCplusDigimacro().produtoCplusDigimacroEstoque(managerIntegrador, managerCplus, managerPrestaShop, pe.getProduto()) == false) {
                         condicaoErro = false;
                         criaLog(pe.getLastChange(), ", Erro ao Atualizar produto C-Plus Integrador Digimacro, Produto: " + pe.getProduto().getNomeprod(), "Erro Editar", managerIntegrador);
+                    }
                     }
                     jProgressBarIntegrador.setString(String.valueOf("Atualizando Produto: " + pe.getProduto().getNomeprod()));
                     jLabelTotalRegistro.setText(cont + " de " + numRegistro + " Registros");
@@ -1057,10 +1060,6 @@ public class IntegracaoJFrame extends javax.swing.JFrame {
     private static EntityManagerFactory managerPrestaShop;
     private final String codCaracteristicaCliente;
 
-    private final String shopUrl;
-    private final String key;
-    //Executa executaManual;
-    //private QueryIntegrador queryIntegrador;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private java.util.List<entidade.integrador.IntLogs> intLogsList;

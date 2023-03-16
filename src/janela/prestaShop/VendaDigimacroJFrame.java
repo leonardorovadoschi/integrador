@@ -5,7 +5,6 @@
  */
 package janela.prestaShop;
 
-import acesso.ConexaoPrestaShop;
 import entidade.cplus.Cliente;
 import entidade.cplus.Clientecaracteristica;
 import entidade.cplus.Produtoestoque;
@@ -15,8 +14,6 @@ import entidade.prestaShop.PsAddress;
 import entidade.prestaShop.PsCustomPaymentMethodLang;
 import entidade.prestaShop.PsCustomer;
 import entidade.prestaShop.PsOrderCarrier;
-import entidade.prestaShop.PsOrderCartRule;
-import entidade.prestaShop.PsOrderCommission;
 import entidade.prestaShop.PsOrderDetail;
 import entidade.prestaShop.PsOrderStateLang;
 import entidade.prestaShop.PsOrders;
@@ -30,10 +27,8 @@ import janela.cplus.FormataCampos;
 import janela.integrador.AtualizaExecucaoIntegrador;
 import janela.integrador.ClienteCplusDigimacro;
 import janela.integrador.ClienteDigimacroCplus;
-import static janela.prestaShop.EditOrderDetailsJDialog.managerCplus;
 import java.awt.Toolkit;
 import java.math.BigDecimal;
-import java.sql.Connection;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -45,7 +40,6 @@ import jpa.cplus.ProdutoestoqueJpaController;
 import jpa.integrador.IntExecucaoJpaController;
 import jpa.prestaShop.PsCustomerJpaController;
 import jpa.prestaShop.PsOrderCarrierJpaController;
-import jpa.prestaShop.PsOrderCartRuleJpaController;
 import jpa.prestaShop.PsOrderDetailJpaController;
 import jpa.prestaShop.PsOrdersJpaController;
 import jpa.prestaShop.PsProductJpaController;
