@@ -504,15 +504,15 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
 
     private void jButtonGravarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGravarActionPerformed
         gravaMoVendaSerial();
-        try {
-            alteraValorCupom();
-        } catch (SAXException ex) {
-            JOptionPane.showMessageDialog(null, "HOUVE UM ERRO AO IMPRIMIR NFC-e, Verifique!! \n" + ex, "Erro Finalizar", JOptionPane.ERROR_MESSAGE);
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, "HOUVE UM ERRO AO IMPRIMIR NFC-e, Verifique!! \n" + ex, "Erro Finalizar", JOptionPane.ERROR_MESSAGE);
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "HOUVE UM ERRO AO IMPRIMIR NFC-e, Verifique!! \n" + ex, "Erro Finalizar", JOptionPane.ERROR_MESSAGE);
-        }
+       // try {
+       //     alteraValorCupom();
+       // } catch (SAXException ex) {
+       //     JOptionPane.showMessageDialog(null, "HOUVE UM ERRO AO IMPRIMIR NFC-e, Verifique!! \n" + ex, "Erro Finalizar", JOptionPane.ERROR_MESSAGE);
+       // } catch (IOException ex) {
+        //    JOptionPane.showMessageDialog(null, "HOUVE UM ERRO AO IMPRIMIR NFC-e, Verifique!! \n" + ex, "Erro Finalizar", JOptionPane.ERROR_MESSAGE);
+       // } catch (Exception ex) {
+        //    JOptionPane.showMessageDialog(null, "HOUVE UM ERRO AO IMPRIMIR NFC-e, Verifique!! \n" + ex, "Erro Finalizar", JOptionPane.ERROR_MESSAGE);
+        //}
         pedidoSeparado();
 
 

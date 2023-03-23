@@ -196,14 +196,13 @@ public class PedidoDigimacroCplus {
                             lidtOrcamento = new QueryCplus(managerCplus).listOrcamentoEntregaTelefone(order.getReference());
                             boolean imprimir = false;
                             for (Orcamento orcamento : lidtOrcamento) {
-                                if (new QueryIntegrador(managerIntegrador).valorConfiguracao("cliente_CODIGO_PARA_CUPOM").equals(cliente.getCodcli())) {
-                                    int cancelar = JOptionPane.showConfirmDialog(null, " Modificar Valor Orçamento?", "Altera Valores", JOptionPane.YES_NO_OPTION);
-                                    if (cancelar == JOptionPane.YES_OPTION) {
-                                        imprimir = true;
-                                    }
-                                }
+                              //  if (new QueryIntegrador(managerIntegrador).valorConfiguracao("cliente_CODIGO_PARA_CUPOM").equals(cliente.getCodcli())) {
+                                   // int cancelar = JOptionPane.showConfirmDialog(null, " Modificar Valor Orçamento?", "Altera Valores", JOptionPane.YES_NO_OPTION);
+                                    //if (cancelar == JOptionPane.YES_OPTION) {
+                                     //   imprimir = true;
+                                   // }
+                              //  }
                                 for (PsOrderDetail orderItem : new QueryPrestaShop(managerPrestaShop).listPsOrderDetail(order.getIdOrder())) {
-
                                     if (new PsProductJpaController(managerPrestaShop).findPsProduct(orderItem.getProductId()).getCacheIsPack()) {
                                         //for (PsPack psP : new QueryPrestaShop(managerPrestaShop).listPack(new PsProductJpaController(managerPrestaShop).findPsProduct(orderItem.getProductId()).getIdProduct())) {
                                         PsCustomer C = new PsCustomerJpaController(managerPrestaShop).findPsCustomer(order.getIdCustomer());
