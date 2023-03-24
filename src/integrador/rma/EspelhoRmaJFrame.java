@@ -530,16 +530,16 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
             double baseIcms = prod.getBaseicms().doubleValue() / quanTotal;
             double basePis = prod.getBasepis().doubleValue() / quanTotal;
             
-            if("CUPOM".equals(prod.getCodmovenda().getNomecli())){
-            if(prod.getBasecofins().doubleValue() < prod.getValortotal().doubleValue()){                
-             double aliqAlteracao = ((prod.getValortotal().doubleValue() * 100) / prod.getBasecofins().doubleValue() / 100.00);
+            //if("CUPOM".equals(prod.getCodmovenda().getNomecli())){
+            //if(prod.getBasecofins().doubleValue() < prod.getValortotal().doubleValue()){                
+            // double aliqAlteracao = ((prod.getValortotal().doubleValue() * 100) / prod.getBasecofins().doubleValue() / 100.00);
                      //(1.00 - var.cupomPrecoAlterado.doubleValue()) + 1.00;
              
-             baseCofins = baseCofins * aliqAlteracao;
-             baseIcms = baseIcms * aliqAlteracao;
-             basePis = basePis * aliqAlteracao;
-            }
-            }            
+            // baseCofins = baseCofins * aliqAlteracao;
+            // baseIcms = baseIcms * aliqAlteracao;
+            // basePis = basePis * aliqAlteracao;
+            //}
+            //}            
             //double contQantidade = 1.00;
             double contQantidade = quantidadeConversaoSaida(prod);
             double valTotal = (prod.getValorunitario().doubleValue() - (prod.getValordescontorateado().doubleValue()/ prod.getQuantidade().doubleValue()))* contQantidade;
@@ -684,7 +684,7 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
     
     private String mensagemNota(Movendaprod movSaidaProd) {
         List<Documento> listDoc = new QueryCplus(managerCplus).resultDocumento(movSaidaProd.getCodmovenda().getNumped().toString());
-        if ("Y".equals(tipoMovimentoObjeto.getFlagdevolucao().toString())) {
+        if ("Y".equals(tipoMovimentoObjeto.getFlagdevolucao().toString())) {          
             for (Documento doc : listDoc) {
                 mensagem = mensagem + "Ref. Nota: " + doc.getNumnota() + ", Data: " + new FormataCampos().dataStringSoData(movSaidaProd.getCodmovenda().getData(), 0) + " "
                         + "Chave: " + doc.getChaveacessonfeletronica() + " \n";
