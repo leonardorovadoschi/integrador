@@ -17,9 +17,7 @@ import entidade.prestaShop.PsProduct;
 import entidade.prestaShop.PsSpecificPrice;
 import entidade.prestaShop.PsStockAvailable;
 import janela.cplus.FormataCampos;
-import static janela.prestaShop.AdicionarOrderDetailJDialog.managerPrestaShop;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
@@ -43,6 +41,7 @@ public class EditOrderDetailsJDialog extends javax.swing.JDialog {
      *
      * @param parent
      * @param modal
+     * @param managerPrestaShop1
      * @param managerCplus1
      * @param usuario1
      */
@@ -52,18 +51,13 @@ public class EditOrderDetailsJDialog extends javax.swing.JDialog {
         managerCplus = managerCplus1;
         managerPrestaShop = managerPrestaShop1;
         queryPrestaShop = new QueryPrestaShop(managerPrestaShop);
-        formataCampos = new FormataCampos();
-        //shopUrl = new QueryIntegrador(managerIntegrador).valorConfiguracao("shopURL");
-        //key = new QueryIntegrador(managerIntegrador).valorConfiguracao("shopKEY");
-        //this.ws = new ClienteWebService(shopUrl, key, false);
+        formataCampos = new FormataCampos();       
         usuario = usuario1;
         acesso = new ControleAcesso(managerCplus);
         if (acesso.verificaAcessoUsuario(usuario, "Alterar preço de venda")) {
             jTextFieldUnitarioComDesconto.setEnabled(true);
         }
-
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -351,31 +345,15 @@ public class EditOrderDetailsJDialog extends javax.swing.JDialog {
         eventoQuantidade();
     }//GEN-LAST:event_jTextFieldQuantidadeActionPerformed
 
-    private void eventoValorUnitario() {
-        //BigDecimal precUni = psProduct.getPrice();
-        //BigDecimal redGrup = psGroup.getReduction().divide(new BigDecimal("100.00"), BigDecimal.ROUND_HALF_UP);
-        //precUni = precUni.multiply(BigDecimal.ONE.subtract(redGrup));
-        //jTextFieldPriceOriginal.setText(formataCampos.bigDecimalParaString(precUni, 2));
-        // for (PsSpecificPrice sp : listSpecificPrice) {
-        //    if (sp.getFromQuantity() <= quantMod) {
-        //        reducaoMod = sp.getReduction();
-        //    }
-        //    if ("amount".equals(sp.getReductionType())) {
-        //        precUni = sp.getPrice().multiply(BigDecimal.ONE.subtract(redGrup));
-        //        jTextFieldPriceOriginal.setText(formataCampos.bigDecimalParaString(precUni, 2));
-        //  }
-        // }
+    private void eventoValorUnitario() {       
         reducaoMod = formataCampos.stringParaDecimal(jTextFieldPriceOriginal.getText(), 2).divide(
                 formataCampos.stringParaDecimal(jTextFieldUnitarioComDesconto.getText(), 2), 2, BigDecimal.ROUND_HALF_UP);
         reducaoMod = reducaoMod.subtract(BigDecimal.ONE).multiply(new BigDecimal("100.00"));
-
         jTextFieldDescontoQuantidade.setText(formataCampos.bigDecimalParaString(reducaoMod, 3));
-        unitMod = formataCampos.stringParaDecimal(jTextFieldUnitarioComDesconto.getText(), 2);
-        //jTextFieldUnitarioComDesconto.setText(formataCampos.bigDecimalParaString(precUni, 2));                
+        unitMod = formataCampos.stringParaDecimal(jTextFieldUnitarioComDesconto.getText(), 2);               
         quantMod = Integer.valueOf(jTextFieldQuantidade.getText());
         totalMod = unitMod.multiply(new BigDecimal(quantMod + ".00"));
         jTextFieldValorTotal.setText(formataCampos.bigDecimalParaString(totalMod, 2));
-
         if (Integer.valueOf(jTextFieldQuantidade.getText()) % quantidadeProdutoAgrupado() == 0) {
             jButtonGravar.setEnabled(true);
             jButtonGravar.requestFocus();
@@ -413,9 +391,8 @@ public class EditOrderDetailsJDialog extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(null, "Não Ha Estoque Suficiente!\n Estoque Disponível: " + estoqueDisponivel());
             }
         } else {
-            //jTextFieldQtyOrdered.setText(formataCampos.bigDecimalParaString(flatOrderItem.getQtyOrdered(), 0));
             jButtonGravar.setEnabled(false);
-            JOptionPane.showMessageDialog(null, "A quantidade deve ser multipla de: " + quantidadeProdutoAgrupado().intValue());
+            JOptionPane.showMessageDialog(null, "A quantidade deve ser multipla de: " + quantidadeProdutoAgrupado());
         }
     }
 
@@ -441,7 +418,6 @@ public class EditOrderDetailsJDialog extends javax.swing.JDialog {
             BigDecimal val = formataCampos.stringParaDecimal(jTextFieldUnitarioComDesconto.getText(), 2).add(BigDecimal.ONE);
             psOrderDetails.setProductQuantityDiscount(val);
             psOrderDetails.setProductQuantity(Integer.valueOf(jTextFieldQuantidade.getText()));
-
             if (psOrderDetails.getReductionPercent().doubleValue() > 0.00) {
                 psOrderDetails.setDiscountQuantityApplied(true);
             } else {
@@ -466,7 +442,6 @@ public class EditOrderDetailsJDialog extends javax.swing.JDialog {
         int quantidadeRequerida = quantidadeAtual - quantOrderDetails;
         int stockNovo = stok.getQuantity() - quantidadeRequerida;
         stok.setQuantity(stockNovo);
-        //stok.setPhysicalQuantity(stockNovo);
         int reser = stok.getPhysicalQuantity() - stok.getQuantity();
         stok.setReservedQuantity(reser);
         try {
@@ -497,24 +472,7 @@ public class EditOrderDetailsJDialog extends javax.swing.JDialog {
     }
 
     private int estoqueDisponivel() {
-        int quantidadeDisponivel = 0;
-        //PsStockAvailable stok = null;
-        /**
-         * try { HashMap<String, Object> getSchemaOpt = new HashMap();
-         * getSchemaOpt.put("url", shopUrl +
-         * "/api/stock_availables?filter[id_product]=" +
-         * psOrderDetails.getProductId()); Document document; document =
-         * ws.getFuncao(getSchemaOpt); NodeList nList =
-         * document.getElementsByTagName("stock_available"); for (String id :
-         * ws.retornaListaId(nList)) { getSchemaOpt.put("url", shopUrl +
-         * "/api/stock_availables/" + id); document =
-         * ws.getFuncao(getSchemaOpt); stok = new
-         * WebStockAvailable().xmlParaEntidade(document, ws);
-         * quantidadeDisponivel = stok.getQuantity(); } } catch
-         * (PrestaShopWebserviceException ex) {
-         * JOptionPane.showMessageDialog(null, "Erro ao consultar Web Service:
-         * \n" + ex); }
-         */
+        int quantidadeDisponivel = 0;        
         for (PsStockAvailable e : queryPrestaShop.listEstoqueProduto(psOrderDetails.getProductId())) {
             stok = e;
             quantidadeDisponivel = e.getQuantity();
@@ -525,10 +483,8 @@ public class EditOrderDetailsJDialog extends javax.swing.JDialog {
     private boolean verificaEstoqueDisponivel(int quantidadeAtual) {
         int quantidadeRequerida = quantidadeAtual - quantOrderDetails;
         boolean condicao = true;
-        // PsStockAvailable stok = null;
         if (quantidadeRequerida > 0) {
             int quantidadeDisponivel = estoqueDisponivel();
-            // }//fim for estoque magento
             if (quantidadeDisponivel >= quantidadeRequerida) {
                 condicao = true;
             } else {
@@ -546,41 +502,13 @@ public class EditOrderDetailsJDialog extends javax.swing.JDialog {
         jTextFieldReducaoGrupo.setText(formataCampos.bigDecimalParaString(psOrderDetails.getGroupReduction(), 2));
         jTextFieldValorTotal.setText(formataCampos.bigDecimalParaString(psOrderDetails.getTotalPriceTaxIncl(), 2));
         jTextFieldQuantidade.setText(String.valueOf(psOrderDetails.getProductQuantity()));
-
-        quantOrderDetails = psOrderDetails.getProductQuantity();
-        // listSpecificPrice = new ArrayList<>();      
+        quantOrderDetails = psOrderDetails.getProductQuantity();      
         psCustomer = new PsCustomerJpaController(managerPrestaShop).findPsCustomer(psOrder.getIdCustomer());
         psProduct = new PsProductJpaController(managerPrestaShop).findPsProduct(psOrderDetails.getProductId());
         psGroup = new PsGroupJpaController(managerPrestaShop).findPsGroup(psCustomer.getIdDefaultGroup());
         listSpecificPrice = queryPrestaShop.listPsSpecificPrice(psOrderDetails.getProductId(), psCustomer.getIdDefaultGroup());
         estoqueDisponivel(); // carrega variavel globla
-
-        jTextFieldEan.setText(psProduct.getEan13());
-        /**
-         * try { HashMap<String, Object> getSchemaOpt = new HashMap(); Document
-         * document; getSchemaOpt.put("url", shopUrl + "/api/customers/" +
-         * psOrder.getIdCustomer()); document = ws.getFuncao(getSchemaOpt);
-         * psCustomer = new WebCustomer().xmlParaEntidade(document, ws);
-         * getSchemaOpt.put("url", shopUrl +
-         * "/api/specific_prices?sort=[from_quantity_ASC]&filter[id_product]=" +
-         * psOrderDetails.getProductId() + "&filter[id_group]=" +
-         * psCustomer.getIdDefaultGroup());
-         *
-         * document = ws.getFuncao(getSchemaOpt); NodeList nList =
-         * document.getElementsByTagName("specific_price"); for (String id :
-         * ws.retornaListaId(nList)) { getSchemaOpt.put("url", shopUrl +
-         * "/api/specific_prices/" + id); document = ws.getFuncao(getSchemaOpt);
-         * listSpecificPrice.add(new
-         * WebSpecificPrice().xmlParaEntidade(document, ws)); }
-         * getSchemaOpt.put("url", shopUrl + "/api/products/" +
-         * psOrderDetails.getProductId()); document =
-         * ws.getFuncao(getSchemaOpt); psProduct = new
-         * WebProducts().xmlParaEntidade(document, ws); } catch
-         * (PrestaShopWebserviceException ex) {
-         * JOptionPane.showMessageDialog(null, "Erro ao consultar Web Service:
-         * \n" + ex); }
-         */
-
+        jTextFieldEan.setText(psProduct.getEan13());       
         String txt = " Quant.\t  % \tValor\n";
         for (PsSpecificPrice sp : listSpecificPrice) {
             txt = txt + " " + sp.getFromQuantity() + " \t" + formataCampos.bigDecimalParaString(sp.getReduction().multiply(new BigDecimal("100.00")), 2) + "% \t"

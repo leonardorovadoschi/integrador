@@ -5,7 +5,6 @@
  */
 package pedido;
 
-import acesso.ConexaoPrestaShop;
 import entidade.prestaShop.PsCustomer;
 import entidade.prestaShop.PsGroup;
 import entidade.prestaShop.PsOrderDetail;
@@ -14,7 +13,6 @@ import entidade.prestaShop.PsPack;
 import entidade.prestaShop.PsProduct;
 import entidade.prestaShop.PsSpecificPrice;
 import java.math.BigDecimal;
-import java.sql.Connection;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import jpa.prestaShop.PsCustomerJpaController;
@@ -28,12 +26,8 @@ import query.prestaShop.QueryPrestaShop;
  */
 public class ValoresOrder {
 
-    public BigDecimal valorUnitario1(BigDecimal valorUnitario) {
-        // double total = valorTotalItem.doubleValue();
-        // double quan = quantidadeItem.doubleValue();
-
-        return valorUnitario.setScale(2, BigDecimal.ROUND_HALF_DOWN);
-        // return new BigDecimal(valorFinal).setScale(var.casas_decimais_ARREDONDAMENTO, BigDecimal.ROUND_HALF_UP);
+    public BigDecimal valorUnitario1(BigDecimal valorUnitario) {       
+        return valorUnitario.setScale(2, BigDecimal.ROUND_HALF_DOWN);       
     }
 
     public BigDecimal valorTotalItem1(BigDecimal valorUnitario, Integer quantidade) {
@@ -49,15 +43,9 @@ public class ValoresOrder {
         BigDecimal valTotal;
         BigDecimal valDesconto = BigDecimal.ZERO;
         BigDecimal totProd = totalProdutos(managerPrestaShop, order);
-        if ("custompaymentmethod_3".equals(order.getModule())) { //se o metodo de pagamento for com desconto
-            //valTotal = valTotal.add(valorDescontoFormaPagamento());
-            valTotal = totProd.multiply(new BigDecimal("0.985")).setScale(2, BigDecimal.ROUND_HALF_UP);
-            //editar o valor da commission
-           // Connection conn = new ConexaoPrestaShop().getConnection();
-            valDesconto = totProd.subtract(valTotal).setScale(2, BigDecimal.ROUND_HALF_UP);
-            //new ConexaoPrestaShop().editaPsOrderCommission(conn, order.getIdOrder(), valDesconto.doubleValue());
-            //new ConexaoPrestaShop().closeConnection();
-            //valTotal = valTotal.subtract(order.getTotalDiscountsTaxIncl()).setScale(2, BigDecimal.ROUND_HALF_UP);
+        if ("custompaymentmethod_3".equals(order.getModule())) { //se o metodo de pagamento for com desconto            
+            valTotal = totProd.multiply(new BigDecimal("0.985")).setScale(2, BigDecimal.ROUND_HALF_UP);          
+            valDesconto = totProd.subtract(valTotal).setScale(2, BigDecimal.ROUND_HALF_UP);           
         } 
         valDesconto = valDesconto.add(order.getTotalDiscountsTaxIncl()).setScale(2, BigDecimal.ROUND_HALF_UP);
         return valDesconto;
@@ -66,20 +54,19 @@ public class ValoresOrder {
     public BigDecimal valorTotalComDesconto(EntityManagerFactory managerPrestaShop, PsOrders order){
         return totalProdutos(managerPrestaShop, order).subtract(valorTotalDesconto(managerPrestaShop, order));
     }
-    
+    /**
+     * Função que dá 1.5% de desconto, pelo método de pagamento á vista 
+     * @param managerPrestaShop
+     * @param order
+     * @return 
+     */
     public BigDecimal valorTotalComDescontoSemPacote(EntityManagerFactory managerPrestaShop, PsOrders order){
        BigDecimal valTotal;
         BigDecimal valDesconto = BigDecimal.ZERO;
         BigDecimal totProd = totalProdutosSemPacote(managerPrestaShop, order);
-        if ("custompaymentmethod_3".equals(order.getModule())) { //se o metodo de pagamento for com desconto
-            //valTotal = valTotal.add(valorDescontoFormaPagamento());
-            valTotal = totProd.multiply(new BigDecimal("0.985")).setScale(2, BigDecimal.ROUND_HALF_UP);
-            //editar o valor da commission
-           // Connection conn = new ConexaoPrestaShop().getConnection();
-            valDesconto = totProd.subtract(valTotal).setScale(2, BigDecimal.ROUND_HALF_UP);
-            //new ConexaoPrestaShop().editaPsOrderCommission(conn, order.getIdOrder(), valDesconto.doubleValue());
-            //new ConexaoPrestaShop().closeConnection();
-            //valTotal = valTotal.subtract(order.getTotalDiscountsTaxIncl()).setScale(2, BigDecimal.ROUND_HALF_UP);
+        if ("custompaymentmethod_3".equals(order.getModule())) { //se o metodo de pagamento for com desconto           
+            valTotal = totProd.multiply(new BigDecimal("0.985")).setScale(2, BigDecimal.ROUND_HALF_UP);        
+            valDesconto = totProd.subtract(valTotal).setScale(2, BigDecimal.ROUND_HALF_UP);           
         } 
         valDesconto = valDesconto.add(order.getTotalDiscountsTaxIncl()).setScale(2, BigDecimal.ROUND_HALF_UP);
         valTotal = totProd.subtract(valDesconto);

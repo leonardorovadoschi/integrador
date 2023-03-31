@@ -507,15 +507,6 @@ public class ProdutoCplusDigimacro {
         return preco.setScale(2, BigDecimal.ROUND_HALF_UP);
     }
 
-    private BigDecimal precoPrincipalDiferenciado(EntityManagerFactory managerCplus, Produto proCplus) {
-        BigDecimal preco = BigDecimal.ZERO;
-        List<Produtopreco> listPreco = new QueryCplus(managerCplus).listPrecos(proCplus.getCodprod(), "000000001");
-        for (Produtopreco pr : listPreco) {
-            preco = pr.getPreco().multiply(new BigDecimal("1.18"));
-        }
-        return preco.setScale(2, BigDecimal.ROUND_HALF_UP);
-    }
-
     private boolean produtoAtivo(Produto proCplus) {
         boolean condicao = false;
         if ("N".equals(proCplus.getFlaginativo().toString())) {
