@@ -50,6 +50,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
      */
     public PrincipalJFrame() {
         initComponents();
+        jLabelVersao.setText("2.2.1");
         // var = new VariavelStatica();
         managerCplus = Persistence.createEntityManagerFactory("cplusPU");
         managerIntegrador = Persistence.createEntityManagerFactory("integradorPU");
@@ -94,6 +95,8 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         jButtonFechar = new javax.swing.JButton();
         jLabelHostLocal = new javax.swing.JLabel();
         jLabelUsuario = new javax.swing.JLabel();
+        jLabelV = new javax.swing.JLabel();
+        jLabelVersao = new javax.swing.JLabel();
         jMenuBar = new javax.swing.JMenuBar();
         jMenuImpostos = new javax.swing.JMenu();
         jMenuIntegracao = new javax.swing.JMenuItem();
@@ -125,6 +128,8 @@ public class PrincipalJFrame extends javax.swing.JFrame {
                 jButtonFecharActionPerformed(evt);
             }
         });
+
+        jLabelV.setText("Versão:");
 
         jMenuImpostos.setText("Integrador");
 
@@ -260,10 +265,14 @@ public class PrincipalJFrame extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButtonFechar))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelHostLocal, javax.swing.GroupLayout.PREFERRED_SIZE, 610, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabelUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(jLabelHostLocal, javax.swing.GroupLayout.PREFERRED_SIZE, 610, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabelV)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabelVersao, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabelUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -271,9 +280,14 @@ public class PrincipalJFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jButtonFechar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 396, Short.MAX_VALUE)
-                .addComponent(jLabelUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabelHostLocal, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabelUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabelHostLocal, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabelV)
+                        .addComponent(jLabelVersao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -586,6 +600,8 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButtonFechar;
     private javax.swing.JLabel jLabelHostLocal;
     private javax.swing.JLabel jLabelUsuario;
+    private javax.swing.JLabel jLabelV;
+    private javax.swing.JLabel jLabelVersao;
     private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JMenu jMenuImpostos;
     private javax.swing.JMenuItem jMenuIntegracao;

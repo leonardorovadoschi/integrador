@@ -91,14 +91,14 @@ public class ProdutoCplusDigimacro {
         // List<PsProduct> listProdSite = new QueryPrestaShop(managerPrestaShop).listagemProdutoSite("000001942");
         switch (listProdSite.size()) {
             case 0:
-                criarProdutoDigimacro(managerIntegrador, managerCplus, managerPrestaShop, proCplus);
+                criarProdutoSite(managerIntegrador, managerCplus, managerPrestaShop, proCplus);
                 if (fatorConversao(proCplus, managerCplus) > 1) {
                     new PackProduto().produtoCplusDigimacro(managerIntegrador, managerCplus, managerPrestaShop, proCplus);
                 }
                 break;
             case 1:
                 for (PsProduct pp : listProdSite) {
-                    editaProdutoDigimacro(managerCplus, managerIntegrador, managerPrestaShop, proCplus, pp);
+                    editaProdutoSite(managerCplus, managerIntegrador, managerPrestaShop, proCplus, pp);
                     if (fatorConversao(proCplus, managerCplus) > 1) {
                         new PackProduto().produtoCplusDigimacro(managerIntegrador, managerCplus, managerPrestaShop, proCplus);
                     }
@@ -121,7 +121,7 @@ public class ProdutoCplusDigimacro {
         List<PsProduct> listProdSite = new QueryPrestaShop(managerPrestaShop).listagemProdutoSite(proCplus.getCodprod());
         if (listProdSite.size() == 1) {
             for (PsProduct pp : listProdSite) {
-                editaProdutoDigimacro(managerCplus, managerIntegrador, managerPrestaShop, proCplus, pp);
+                editaProdutoSite(managerCplus, managerIntegrador, managerPrestaShop, proCplus, pp);
                 if (fatorConversao(proCplus, managerCplus) > 1) {
                     new PackProduto().produtoCplusDigimacro(managerIntegrador, managerCplus, managerPrestaShop, proCplus);
                 }
@@ -145,7 +145,7 @@ public class ProdutoCplusDigimacro {
      * @param proCplus
      * @return
      */
-    private boolean criarProdutoDigimacro(EntityManagerFactory managerIntegrador, EntityManagerFactory managerCplus, EntityManagerFactory managerPrestaShop, Produto proCplus) {
+    private boolean criarProdutoSite(EntityManagerFactory managerIntegrador, EntityManagerFactory managerCplus, EntityManagerFactory managerPrestaShop, Produto proCplus) {
         boolean condicao = true;
         PsProduct pp1 = new PsProduct();
         pp1.setIdSupplier(0);
@@ -213,11 +213,14 @@ public class ProdutoCplusDigimacro {
             pp1.setVisibility("none");
             pp1.setShowPrice(false);
             pp1.setOnlineOnly(true);
+            pp1.setAvailableForOrder(false);
+
         } else {
             // pp1.setIndexed(true);
             pp1.setVisibility("both");
             pp1.setShowPrice(true);
             pp1.setOnlineOnly(false);
+            pp1.setAvailableForOrder(true);
         }
         pp1.setCacheIsPack(false);
         pp1.setCacheHasAttachments(false);
@@ -241,8 +244,8 @@ public class ProdutoCplusDigimacro {
                 if (fatorConversao(proCplus, managerCplus) == 1) {
                     precoQuntidade(proCplus, pp, managerPrestaShop, managerIntegrador, managerCplus);
                     gerenciaTags(managerPrestaShop, managerIntegrador, proCplus, pp);
-                    categoriaProduto(promo, pp, proCplus, managerPrestaShop, managerIntegrador);                    
-                }else{
+                    categoriaProduto(promo, pp, proCplus, managerPrestaShop, managerIntegrador);
+                } else {
                     categoriaProdutoPack(pp, proCplus, managerPrestaShop, managerIntegrador);
                 }
                 produtoTransportadora(pp, managerPrestaShop, managerIntegrador);
@@ -277,7 +280,7 @@ public class ProdutoCplusDigimacro {
      * @param proCplus
      * @param pp produto prestaShop
      */
-    private void editaProdutoDigimacro(EntityManagerFactory managerCplus, EntityManagerFactory managerIntegrador, EntityManagerFactory managerPrestaShop, Produto proCplus, PsProduct pp) {
+    private void editaProdutoSite(EntityManagerFactory managerCplus, EntityManagerFactory managerIntegrador, EntityManagerFactory managerPrestaShop, Produto proCplus, PsProduct pp) {
         pp.setIdManufacturer(marcaFabricante(managerPrestaShop, managerIntegrador, proCplus));
         pp.setIdCategoryDefault(categoriaPadrao(managerPrestaShop, proCplus));
         pp.setIdTaxRulesGroup(taxRulesGroup(managerPrestaShop, proCplus));
@@ -318,16 +321,18 @@ public class ProdutoCplusDigimacro {
         pp.setShowCondition(false);
         pp.setCondition1("new");
         //pp.setShowPrice(true);
-       if ("116".equals(proCplus.getCodsec().getClassificacao())) {
+        if ("116".equals(proCplus.getCodsec().getClassificacao())) {
             //pp.setIndexed(false);
             pp.setVisibility("none");
             pp.setShowPrice(false);
             pp.setOnlineOnly(true);
+            pp.setAvailableForOrder(true);
         } else {
             // pp1.setIndexed(true);
             pp.setVisibility("both");
             pp.setShowPrice(true);
             pp.setOnlineOnly(false);
+            pp.setAvailableForOrder(false);
         }
         //if (fatorConversao(proCplus, managerCplus) > 1) {
         //    pp.setVisibility("none");
@@ -346,15 +351,15 @@ public class ProdutoCplusDigimacro {
                 precoQuntidade(proCplus, pp, managerPrestaShop, managerIntegrador, managerCplus);
                 gerenciaTags(managerPrestaShop, managerIntegrador, proCplus, pp);
                 categoriaProduto(promo, pp, proCplus, managerPrestaShop, managerIntegrador);
-                 new PackProduto().atualizarPackProdutoCriado(managerIntegrador, managerPrestaShop, pp);
-            }else{
+                new PackProduto().atualizarPackProdutoCriado(managerIntegrador, managerPrestaShop, pp);
+            } else {
                 categoriaProdutoPack(pp, proCplus, managerPrestaShop, managerIntegrador);
             }
             //categoriaProduto(promo, pp, proCplus, managerPrestaShop, managerIntegrador);
             produtoTransportadora(pp, managerPrestaShop, managerIntegrador);
             //atualizar pacote de produto criado
-           // new PackProduto().atualizarPackProdutoCriado(managerIntegrador, managerPrestaShop, pp);
-            
+            // new PackProduto().atualizarPackProdutoCriado(managerIntegrador, managerPrestaShop, pp);
+
         } catch (Exception ex) {
             criaLog(managerIntegrador, "Houve um erro ao criar PsProductLang ex. " + ex, "ERRO EDITAR");
         }
@@ -665,8 +670,8 @@ public class ProdutoCplusDigimacro {
                 }
             }
         }
-        */
-        
+         */
+
         List<BigDecimal> listBigDecimal = new ArrayList<>();
         listBigDecimal.add(new BigDecimal("0.5"));
         listBigDecimal.add(new BigDecimal("1.0"));
@@ -674,7 +679,7 @@ public class ProdutoCplusDigimacro {
         listBigDecimal.add(new BigDecimal("3.0"));
         for (BigDecimal bd : listBigDecimal) {
             //PsSpecificPrice psSP = new PsSpecificPrice();
-            List<PsSpecificPrice> listPSSP = new QueryPrestaShop(managerPrestaShop).listPsSpecificPrice(pp.getIdProduct(), bd.divide(new BigDecimal("100.0"), 7 ,BigDecimal.ROUND_HALF_UP), 7);
+            List<PsSpecificPrice> listPSSP = new QueryPrestaShop(managerPrestaShop).listPsSpecificPrice(pp.getIdProduct(), bd.divide(new BigDecimal("100.0"), 7, BigDecimal.ROUND_HALF_UP), 7);
             if (listPSSP.isEmpty()) {
                 PsSpecificPrice psSP = new PsSpecificPrice();
                 psSP.setIdSpecificPriceRule(0);
@@ -690,7 +695,7 @@ public class ProdutoCplusDigimacro {
                 psSP.setPrice(new BigDecimal("-1.0"));
                 //psSP.setPrice(precoDiferenciado.multiply(new BigDecimal("0.9")));
                 psSP.setFromQuantity(defineQuantidadePreco(pp, bd));
-                psSP.setReduction(bd.divide(new BigDecimal("100.0"), 7 ,BigDecimal.ROUND_HALF_UP));
+                psSP.setReduction(bd.divide(new BigDecimal("100.0"), 7, BigDecimal.ROUND_HALF_UP));
                 psSP.setReductionTax(true);
                 psSP.setReductionType("percentage");
                 psSP.setFrom(new Date(System.currentTimeMillis()));
@@ -742,7 +747,7 @@ public class ProdutoCplusDigimacro {
         listBigDecimal.add(new BigDecimal("3.0"));
         for (BigDecimal bd : listBigDecimal) {
             //PsSpecificPrice psSP = new PsSpecificPrice();
-            List<PsSpecificPrice> listPSSP = new QueryPrestaShop(managerPrestaShop).listPsSpecificPrice(pp.getIdProduct(), bd.divide(new BigDecimal("100.0"), 4 ,BigDecimal.ROUND_HALF_UP), 4);
+            List<PsSpecificPrice> listPSSP = new QueryPrestaShop(managerPrestaShop).listPsSpecificPrice(pp.getIdProduct(), bd.divide(new BigDecimal("100.0"), 4, BigDecimal.ROUND_HALF_UP), 4);
             if (listPSSP.isEmpty()) {
                 PsSpecificPrice psSP = new PsSpecificPrice();
                 psSP.setIdSpecificPriceRule(0);
@@ -757,7 +762,7 @@ public class ProdutoCplusDigimacro {
                 psSP.setIdProductAttribute(0);
                 psSP.setPrice(new BigDecimal("-1.0"));
                 psSP.setFromQuantity(defineQuantidadePreco(pp, bd));
-                psSP.setReduction(bd.divide(new BigDecimal("100.0"), 4 ,BigDecimal.ROUND_HALF_UP));
+                psSP.setReduction(bd.divide(new BigDecimal("100.0"), 4, BigDecimal.ROUND_HALF_UP));
                 psSP.setReductionTax(true);
                 psSP.setReductionType("percentage");
                 psSP.setFrom(new Date(System.currentTimeMillis()));
@@ -908,7 +913,7 @@ public class ProdutoCplusDigimacro {
             }
         }
     }
-    
+
     private void categoriaProdutoPack(PsProduct pp, Produto proCplus, EntityManagerFactory managerPrestaShop, EntityManagerFactory managerIntegrador) {
         //String[] listSecaoIntegrador = proCplus.getCodsec().getClassificacao().split("\\.");
         String[] listSecaoIntegrador = "116".split("\\.");
@@ -1098,7 +1103,7 @@ public class ProdutoCplusDigimacro {
                     criaLog(managerIntegrador, "Houve um erro ao editar PsManufacturerLang ex. " + ex, "ERRO EDITAR");
                 }
             }
-        } 
+        }
         return idManuf;
     }
 
@@ -1141,7 +1146,7 @@ public class ProdutoCplusDigimacro {
             condicao = true;
         }
         return condicao;
-    }   
+    }
 
     private boolean tirarPrecoPromocao(PsProductShop entity) {
         boolean condicao = false;
@@ -1209,16 +1214,16 @@ public class ProdutoCplusDigimacro {
             //pps.setShowPrice(true);
             if ("116".equals(proCplus.getCodsec().getClassificacao())) {
                 pps.setShowPrice(false);
-                pps.setIndexed(false);
+                //pps.setIndexed(false);
                 pps.setVisibility("none");
                 pps.setOnlineOnly(true);
-                pps.setAvailableForOrder(true);
+                pps.setAvailableForOrder(false);
             } else {
                 //pps.setIndexed(pps.getActive());
                 pps.setVisibility("both");
                 pps.setShowPrice(true);
                 pps.setOnlineOnly(false);
-                pps.setAvailableForOrder(false);
+                pps.setAvailableForOrder(true);
             }
             pps.setIndexed(pps.getActive());
             //pps.setVisibility("both");
@@ -1261,12 +1266,25 @@ public class ProdutoCplusDigimacro {
                         pps.setIndexed(false);
                     }
                 }
-                if (fatorConversao(proCplus, managerCplus) > 1) {
+               // if (fatorConversao(proCplus, managerCplus) > 1) {
+               //     pps.setIndexed(false);
+               //     pps.setVisibility("none");
+                //} else {
+                    //pps.setIndexed(pps.getActive());
+               //     pps.setVisibility("both");
+               // }
+                if ("116".equals(proCplus.getCodsec().getClassificacao())) {
+                    pps.setShowPrice(false);
                     pps.setIndexed(false);
                     pps.setVisibility("none");
+                    pps.setOnlineOnly(true);
+                    pps.setAvailableForOrder(false);
                 } else {
                     //pps.setIndexed(pps.getActive());
                     pps.setVisibility("both");
+                    pps.setShowPrice(true);
+                    pps.setOnlineOnly(false);
+                    pps.setAvailableForOrder(true);
                 }
                 pps.setCacheDefaultAttribute(0);
                 pps.setAdvancedStockManagement(false);
@@ -1373,7 +1391,7 @@ public class ProdutoCplusDigimacro {
         boolean condicao = false;
         for (ProdFornecedor pro : listFor) {
             if (pro.getAtivo() == 1 && pro.getDisponivel() == 1) {
-               // Se for usar encomenda condicao = true;
+                // Se for usar encomenda condicao = true;
             }
         }
         return condicao;

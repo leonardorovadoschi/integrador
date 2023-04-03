@@ -127,7 +127,7 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Component id="jPanelControles" max="-2" attributes="0"/>
-          <Component id="jTabbedPaneAlteracaoPrecoProdutoCplus" alignment="0" pref="0" max="32767" attributes="0"/>
+          <Component id="jTabbedPaneAlteracaoPrecoProdutoCplus" alignment="0" pref="1257" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -135,7 +135,7 @@
           <Group type="102" alignment="1" attributes="0">
               <Component id="jPanelControles" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jTabbedPaneAlteracaoPrecoProdutoCplus" pref="218" max="32767" attributes="0"/>
+              <Component id="jTabbedPaneAlteracaoPrecoProdutoCplus" pref="310" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -157,12 +157,12 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jScrollPaneListagemProdutos" alignment="1" pref="1058" max="32767" attributes="0"/>
+                  <Component id="jScrollPaneListagemProdutos" alignment="1" pref="1252" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jScrollPaneListagemProdutos" alignment="1" pref="190" max="32767" attributes="0"/>
+                  <Component id="jScrollPaneListagemProdutos" alignment="1" pref="282" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>
@@ -435,7 +435,7 @@
                   <Group type="102" attributes="0">
                       <Component id="jPanelControleFornecedor" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" max="-2" attributes="0"/>
-                      <Component id="jScrollPane2" pref="148" max="32767" attributes="0"/>
+                      <Component id="jScrollPane2" pref="240" max="32767" attributes="0"/>
                       <EmptySpace min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -767,7 +767,7 @@
                       <Component id="jPanelTiposdecalculos" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jPanelInformacaoEstoque" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="138" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="332" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1007,7 +1007,7 @@
                           <Component id="jCheckBoxSomenteCompras" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane3" pref="907" max="32767" attributes="0"/>
+                      <Component id="jScrollPane3" pref="1101" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1391,7 +1391,7 @@
                           </Group>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" pref="883" max="32767" attributes="0"/>
+                      <Component id="jScrollPane1" pref="1077" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
