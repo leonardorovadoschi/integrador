@@ -208,7 +208,7 @@ public class ProdutoCplusDigimacro {
         pp1.setShowCondition(true);
         pp1.setCondition1("new");
         //pp1.setShowPrice(true);
-        if ("116".equals(proCplus.getCodsec().getClassificacao())) {
+        if ("116".equals(proCplus.getCodsec().getClassificacao())|| fatorConversao(proCplus, managerCplus) > 1) {
             //pp1.setIndexed(false);
             pp1.setVisibility("none");
             pp1.setShowPrice(false);
@@ -1212,7 +1212,7 @@ public class ProdutoCplusDigimacro {
             pps.setShowCondition(false);
             pps.setCondition("new");
             //pps.setShowPrice(true);
-            if ("116".equals(proCplus.getCodsec().getClassificacao())) {
+            if ("116".equals(proCplus.getCodsec().getClassificacao()) || fatorConversao(proCplus, managerCplus) > 1) {
                 pps.setShowPrice(false);
                 //pps.setIndexed(false);
                 pps.setVisibility("none");
@@ -1273,7 +1273,7 @@ public class ProdutoCplusDigimacro {
                     //pps.setIndexed(pps.getActive());
                //     pps.setVisibility("both");
                // }
-                if ("116".equals(proCplus.getCodsec().getClassificacao())) {
+                if ("116".equals(proCplus.getCodsec().getClassificacao())|| fatorConversao(proCplus, managerCplus) > 1) {
                     pps.setShowPrice(false);
                     pps.setIndexed(false);
                     pps.setVisibility("none");
