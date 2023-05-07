@@ -25,7 +25,7 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
-              <EmptySpace pref="95" max="32767" attributes="0"/>
+              <EmptySpace pref="215" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
                   <Group type="102" attributes="0">
                       <Component id="jButtonGravar" min="-2" max="-2" attributes="0"/>
@@ -51,7 +51,7 @@
                   <Component id="jButtonGravar" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jButtonCancelar" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="97" max="32767" attributes="0"/>
+              <EmptySpace pref="184" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -174,22 +174,22 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="jTextFieldPriceOriginal" alignment="0" pref="80" max="32767" attributes="0"/>
-                              <Component id="jTextFieldDescontoQuantidade" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jTextFieldDesconto" alignment="0" max="32767" attributes="0"/>
                               <Component id="jTextFieldUnitarioComDesconto" alignment="0" max="32767" attributes="0"/>
                               <Component id="jTextFieldValorTotal" alignment="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
-                  <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Group type="102" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
                           <Component id="jLabelTaxParcent" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
                           <Component id="jTextFieldReducaoGrupo" min="-2" pref="80" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="jScrollPane1" max="32767" attributes="0"/>
+                      <Component id="jScrollPane1" min="-2" pref="267" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="0" pref="125" max="32767" attributes="0"/>
+                  <EmptySpace min="-2" pref="113" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -207,7 +207,7 @@
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabelDiscontParcent" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jTextFieldDescontoQuantidade" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jTextFieldDesconto" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -263,7 +263,7 @@
             <Property name="text" type="java.lang.String" value="Desconto: %"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextFieldDescontoQuantidade">
+        <Component class="javax.swing.JTextField" name="jTextFieldDesconto">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="4"/>
             <Property name="enabled" type="boolean" value="false"/>
@@ -293,7 +293,6 @@
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <Events>
-            <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTextFieldUnitarioComDescontoFocusGained"/>
             <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTextFieldUnitarioComDescontoFocusLost"/>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextFieldUnitarioComDescontoActionPerformed"/>
           </Events>

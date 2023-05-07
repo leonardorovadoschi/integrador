@@ -412,7 +412,7 @@ public class ListPsProductJDialog extends javax.swing.JDialog {
                     psProductList.clear();
                     List<PsProduct> listProductEntity = queryPrestaShop.listProductNomeOuEan(jTextFieldTermoPesquisa.getText());
                     for (PsProduct entity : listProductEntity) {
-                        if (!"none".equals(entity.getVisibility())) {
+                        if (!"none".equals(entity.getVisibility()) || entity.getAvailableForOrder() == true) {
                         psProductList.add(entity);
                         }
                     }

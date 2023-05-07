@@ -42,7 +42,7 @@ public class ValoresOrder {
     public BigDecimal valorTotalDesconto (EntityManagerFactory managerPrestaShop, PsOrders order){
         BigDecimal valTotal;
         BigDecimal valDesconto = BigDecimal.ZERO;
-        BigDecimal totProd = totalProdutos(managerPrestaShop, order);
+        BigDecimal totProd = totalProdOrder(managerPrestaShop, order);
         if ("custompaymentmethod_3".equals(order.getModule())) { //se o metodo de pagamento for com desconto            
             valTotal = totProd.multiply(new BigDecimal("0.985")).setScale(2, BigDecimal.ROUND_HALF_UP);          
             valDesconto = totProd.subtract(valTotal).setScale(2, BigDecimal.ROUND_HALF_UP);           
@@ -52,7 +52,7 @@ public class ValoresOrder {
     }
     
     public BigDecimal valorTotalComDesconto(EntityManagerFactory managerPrestaShop, PsOrders order){
-        return totalProdutos(managerPrestaShop, order).subtract(valorTotalDesconto(managerPrestaShop, order));
+        return totalProdOrder(managerPrestaShop, order).subtract(valorTotalDesconto(managerPrestaShop, order));
     }
     /**
      * Função que dá 1.5% de desconto, pelo método de pagamento á vista 
@@ -60,10 +60,10 @@ public class ValoresOrder {
      * @param order
      * @return 
      */
-    public BigDecimal valorTotalComDescontoSemPacote(EntityManagerFactory managerPrestaShop, PsOrders order){
+    private BigDecimal totalOrderComDescontoSemPacote(EntityManagerFactory managerPrestaShop, PsOrders order){
        BigDecimal valTotal;
         BigDecimal valDesconto = BigDecimal.ZERO;
-        BigDecimal totProd = totalProdutosSemPacote(managerPrestaShop, order);
+        BigDecimal totProd = totalOrderSemPacote(managerPrestaShop, order);
         if ("custompaymentmethod_3".equals(order.getModule())) { //se o metodo de pagamento for com desconto           
             valTotal = totProd.multiply(new BigDecimal("0.985")).setScale(2, BigDecimal.ROUND_HALF_UP);        
             valDesconto = totProd.subtract(valTotal).setScale(2, BigDecimal.ROUND_HALF_UP);           
@@ -73,7 +73,7 @@ public class ValoresOrder {
         return valTotal;
     }
     
-    public BigDecimal totalProdutosSemPacote(EntityManagerFactory managerPrestaShop, PsOrders order){
+    private BigDecimal totalOrderSemPacote(EntityManagerFactory managerPrestaShop, PsOrders order){
         BigDecimal totProd =  BigDecimal.ZERO;
         for (PsOrderDetail od : new QueryPrestaShop(managerPrestaShop).listOrderDetail(order.getIdOrder())) {
            totProd = totProd.add(od.getTotalPriceTaxIncl());
@@ -89,7 +89,7 @@ public class ValoresOrder {
      * @param order
      * @return 
      */
-    public BigDecimal totalProdutos(EntityManagerFactory managerPrestaShop, PsOrders order) {
+    private BigDecimal totalProdOrder(EntityManagerFactory managerPrestaShop, PsOrders order) {
         BigDecimal totProd = BigDecimal.ZERO;
         for (PsOrderDetail orderItem : new QueryPrestaShop(managerPrestaShop).listPsOrderDetail(order.getIdOrder())) {
             if (new PsProductJpaController(managerPrestaShop).findPsProduct(orderItem.getProductId()).getCacheIsPack()) {

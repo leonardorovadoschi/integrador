@@ -148,7 +148,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="jTextFieldPriceOriginal" pref="80" max="32767" attributes="0"/>
-                              <Component id="jTextFieldDescontoQuantidade" max="32767" attributes="0"/>
+                              <Component id="jTextFieldDesconto" max="32767" attributes="0"/>
                               <Component id="jTextFieldUnitarioComDesconto" alignment="0" max="32767" attributes="0"/>
                               <Component id="jTextFieldValorTotal" max="32767" attributes="0"/>
                           </Group>
@@ -181,7 +181,7 @@
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabelDiscontParcent" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jTextFieldDescontoQuantidade" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jTextFieldDesconto" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -237,7 +237,7 @@
             <Property name="text" type="java.lang.String" value="Desconto: %"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextFieldDescontoQuantidade">
+        <Component class="javax.swing.JTextField" name="jTextFieldDesconto">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="4"/>
             <Property name="enabled" type="boolean" value="false"/>

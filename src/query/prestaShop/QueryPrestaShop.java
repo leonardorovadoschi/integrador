@@ -23,6 +23,7 @@ import entidade.prestaShop.PsMessage;
 import entidade.prestaShop.PsModuloCpf;
 import entidade.prestaShop.PsOrderCarrier;
 import entidade.prestaShop.PsOrderCartRule;
+import entidade.prestaShop.PsOrderCommission;
 import entidade.prestaShop.PsOrderDetail;
 import entidade.prestaShop.PsOrderInvoice;
 import entidade.prestaShop.PsOrderPayment;
@@ -137,6 +138,13 @@ public class QueryPrestaShop implements Serializable {
         query.setParameter("idCart", idCart);
         return query.getResultList();
     }
+    public List<PsCartProduct> listCarProduct(Integer idCart, Integer idProduct) {
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery("SELECT c FROM PsCartProduct c WHERE c.psCartProductPK.idCart = :idCart and c.psCartProductPK.idProduct = :idProduct");
+        query.setParameter("idCart", idCart);
+        query.setParameter("idProduct", idProduct);
+        return query.getResultList();
+    }
     
     public List<PsCartCartRule> listCartCartRule(Integer idCart) {
         EntityManager em = getEntityManager();
@@ -149,6 +157,13 @@ public class QueryPrestaShop implements Serializable {
         EntityManager em = getEntityManager();
         Query query = em.createQuery("SELECT c FROM PsCartRule c WHERE c.idCartRule =:idCartRule");
         query.setParameter("idCartRule", idCartRule);
+        return query.getResultList();
+    }
+     
+     public List<PsCartRule> listCartRule(String description) {
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery("SELECT c FROM PsCartRule c WHERE c.description =:description");
+        query.setParameter("description", description);
         return query.getResultList();
     }
          
@@ -345,6 +360,15 @@ public class QueryPrestaShop implements Serializable {
         Query query = em.createQuery("SELECT c FROM PsSpecificPrice c WHERE c.idProduct =:idProduct AND c.reduction =:reduction AND c.idGroup =:idGroup");
         query.setParameter("idProduct", idProduct);
         query.setParameter("reduction", reduction);
+        query.setParameter("idGroup", idGroup);
+        return query.getResultList();
+    }
+    
+     public List<PsSpecificPrice> listPsSpecificPriceAllGroup(Integer idProduct, Integer idGroup) {
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery("SELECT c FROM PsSpecificPrice c WHERE c.idProduct =:idProduct AND (c.idGroup =:idGroup OR c.idGroup =:idGroupAll)");
+        query.setParameter("idProduct", idProduct);
+        query.setParameter("idGroupAll", 0);
         query.setParameter("idGroup", idGroup);
         return query.getResultList();
     }
@@ -648,6 +672,13 @@ public class QueryPrestaShop implements Serializable {
         EntityManager em = getEntityManager();
         Query query = em.createQuery("SELECT c FROM PsPack c WHERE c.psPackPK.idProductItem =:idProductItem");
         query.setParameter("idProductItem", idProductItem);
+        return query.getResultList();
+    }
+
+    public List<PsOrderCommission> listPsOrderCommission(Integer idOrder) {
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery("SELECT c FROM PsOrderCommission c WHERE c.idOrder =:idOrder");
+        query.setParameter("idOrder", idOrder);
         return query.getResultList();
     }
 

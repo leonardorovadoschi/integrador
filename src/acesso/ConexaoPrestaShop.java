@@ -141,6 +141,27 @@ public class ConexaoPrestaShop {
 
     }
     
+    public void criaPsOrderCommission(Connection conn, int idOrder, int idCurrency, double commission, double commissionTaxExcl, double discount, double discountTaxExcl) {
+       // Connection conn = getConnection();
+        String sql = "INSERT INTO ps_order_commission(id_order, id_currency, commission, commission_tax_excl, discount, discount_tax_excl) VALUES (?,?,?,?,?,?)";
+        //PsAccessory pa = new PsAccessory();
+        PreparedStatement stmt;
+        try {
+            stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, idOrder);
+            stmt.setInt(2, idCurrency);
+            stmt.setDouble(3, commission);
+            stmt.setDouble(4, commissionTaxExcl);
+            stmt.setDouble(5, discount);
+            stmt.setDouble(6, discountTaxExcl);
+            stmt.execute();
+           // stmt.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(ConexaoPrestaShop.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+    
     public void editaPsOrderCommission(Connection conn,int idOrder, double valorCommission){
         String sql = "UPDATE ps_order_commission SET discount=?,discount_tax_excl=? WHERE id_order=?";
         PreparedStatement stmt;

@@ -5,18 +5,27 @@
  */
 package janela.prestaShop;
 
+import acesso.ConexaoPrestaShop;
 import entidade.cplus.Cliente;
 import entidade.cplus.Clientecaracteristica;
 import entidade.cplus.Produtoestoque;
 import entidade.cplus.Usuario;
 import entidade.integrador.IntExecucao;
 import entidade.prestaShop.PsAddress;
+import entidade.prestaShop.PsCartProduct;
+import entidade.prestaShop.PsCartProductPK;
+import entidade.prestaShop.PsCartRule;
+import entidade.prestaShop.PsCartRuleLang;
+import entidade.prestaShop.PsCartRuleLangPK;
 import entidade.prestaShop.PsCustomPaymentMethodLang;
 import entidade.prestaShop.PsCustomer;
 import entidade.prestaShop.PsOrderCarrier;
+import entidade.prestaShop.PsOrderCartRule;
+import entidade.prestaShop.PsOrderCommission;
 import entidade.prestaShop.PsOrderDetail;
 import entidade.prestaShop.PsOrderStateLang;
 import entidade.prestaShop.PsOrders;
+import entidade.prestaShop.PsPack;
 import entidade.prestaShop.PsProduct;
 import entidade.prestaShop.PsStockAvailable;
 import integrador.render.RenderCnpjCpf;
@@ -27,19 +36,28 @@ import janela.cplus.FormataCampos;
 import janela.integrador.AtualizaExecucaoIntegrador;
 import janela.integrador.ClienteCplusDigimacro;
 import janela.integrador.ClienteDigimacroCplus;
+import static janela.prestaShop.AdicionarOrderDetailJDialog.managerPrestaShop;
 import java.awt.Toolkit;
 import java.math.BigDecimal;
+import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import jpa.cplus.ProdutoestoqueJpaController;
 import jpa.integrador.IntExecucaoJpaController;
+import jpa.prestaShop.PsCartProductJpaController;
+import jpa.prestaShop.PsCartRuleJpaController;
+import jpa.prestaShop.PsCartRuleLangJpaController;
 import jpa.prestaShop.PsCustomerJpaController;
 import jpa.prestaShop.PsOrderCarrierJpaController;
+import jpa.prestaShop.PsOrderCartRuleJpaController;
 import jpa.prestaShop.PsOrderDetailJpaController;
 import jpa.prestaShop.PsOrdersJpaController;
 import jpa.prestaShop.PsProductJpaController;
@@ -103,6 +121,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         for (PsOrderStateLang st : queryPrestaShop.listPsOrderStateLang(2)) {
             ((DefaultComboBoxModel) jComboBoxState.getModel()).addElement(st.getName()); // Adiciona o Objeto
         }
+        valDescontoAvulso = BigDecimal.ZERO;
     }
 
     /**
@@ -149,6 +168,9 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         jButtonAlteraPagamento = new javax.swing.JButton();
         jComboBoxPagamento = new javax.swing.JComboBox<String>();
         jComboBoxState = new javax.swing.JComboBox();
+        jLabel1 = new javax.swing.JLabel();
+        jTextFieldDescontoAvulso = new javax.swing.JTextField();
+        jButtonDescontoAvulso = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jPanelClienteDigimacro = new javax.swing.JPanel();
@@ -255,7 +277,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         jLabelValorTotal.setText("Valor Total:");
 
         jLabelDesconto.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabelDesconto.setText("Desconto:");
+        jLabelDesconto.setText("Desc. Produtos:");
 
         jLabelFrete.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabelFrete.setText("Total Produtos");
@@ -274,8 +296,23 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         });
 
         jComboBoxPagamento.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " " }));
+        jComboBoxPagamento.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jComboBoxPagamentoMouseClicked(evt);
+            }
+        });
 
         jComboBoxState.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " " }));
+
+        jLabel1.setText("Desc Avulso:");
+
+        jButtonDescontoAvulso.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jButtonDescontoAvulso.setText("Dar Desconto Avuso");
+        jButtonDescontoAvulso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDescontoAvulsoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelInformacoesLayout = new javax.swing.GroupLayout(jPanelInformacoes);
         jPanelInformacoes.setLayout(jPanelInformacoesLayout);
@@ -297,26 +334,31 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
                     .addComponent(jTextFieldStatus)
                     .addComponent(jTextFieldEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 284, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabelValorTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabelDesconto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabelFrete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabelTaxa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabelValorTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabelDesconto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabelFrete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabelTaxa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jTextFieldValorTotal)
                     .addComponent(jTextFieldDesconto)
                     .addComponent(jTextFieldTotalProdutos)
-                    .addComponent(jTextFieldTaxa, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE))
+                    .addComponent(jTextFieldTaxa, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE)
+                    .addComponent(jTextFieldDescontoAvulso))
                 .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelInformacoesLayout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addComponent(jComboBoxPagamento, 0, 256, Short.MAX_VALUE))
+                        .addComponent(jComboBoxPagamento, 0, 248, Short.MAX_VALUE))
                     .addGroup(jPanelInformacoesLayout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(jComboBoxState, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonAlteraPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButtonAlteraPagamento, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
+                    .addComponent(jButtonDescontoAvulso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(69, 69, 69))
         );
         jPanelInformacoesLayout.setVerticalGroup(
@@ -334,14 +376,15 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
                     .addComponent(jLabelCpfCnpj)
                     .addComponent(jTextFieldCpfCnpj, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelDesconto)
-                    .addComponent(jTextFieldDesconto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldDesconto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBoxState, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonDescontoAvulso))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelRgIe)
                     .addComponent(jTextFieldRgIe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelFrete)
-                    .addComponent(jTextFieldTotalProdutos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBoxState, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldTotalProdutos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelStaus)
@@ -351,7 +394,9 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelEmail)
-                    .addComponent(jTextFieldEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jTextFieldEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1)
+                    .addComponent(jTextFieldDescontoAvulso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         jTable1.setAutoCreateRowSorter(true);
@@ -748,18 +793,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPesquisarActionPerformed
-        limpaCampos();
-        this.listagemSaidasMagentoJDialog.pesquisas();
-        this.listagemSaidasMagentoJDialog.setVisible(true);
-        if (this.listagemSaidasMagentoJDialog.isCancelamento() == false) {
-            psOrders = this.listagemSaidasMagentoJDialog.getSalesFlatOrder();
-        }
-        if (psOrders != null) {
-            carregaCampos();
-            jButtonImportarPedido.setEnabled(true);
-            jButtonAdicionar.setEnabled(true);
-
-        }
+        pesquisarOrders();
     }//GEN-LAST:event_jButtonPesquisarActionPerformed
 
     private void jButtonImportarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonImportarPedidoActionPerformed
@@ -821,12 +855,13 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
                 psOrders.setPayment("Boleto (R$300,00 Min.)");
             }
             //new PsOrdersJpaController(managerPrestaShop).edit(psOrders);
-            editaOrders();
+            //editaOrders();
+            desativarDescontoAvulso();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Houve um erro ao trocar meio de pagamento\n VERIFIQUE!!! \n" + ex);
         }
-        limpaCampos();
-        carregaCampos();
+        //limpaCampos();
+        //carregaCampos();
         jButtonImportarPedido.setEnabled(true);
 
     }//GEN-LAST:event_jButtonAlteraPagamentoActionPerformed
@@ -839,8 +874,9 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
             this.editOrderDetailsJDialog.setVisible(true);
             if (this.editOrderDetailsJDialog.isCancelamento() == false) {
                 //atualizaListOrderDetail(); //atualizar o list para garantir que valores atulizados sejam retornados                    
-                editaOrders(); //editar orders com valores atualizados
-                carregaCampos();
+                //editaOrders(); //editar orders com valores atualizados
+                desativarDescontoAvulso();
+                //carregaCampos();
             }
         }
     }//GEN-LAST:event_jButtonEditarActionPerformed
@@ -865,8 +901,9 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
                 } else {
                     this.adicionarOrderDetailJDialog.setObjetos(this.listPsProductJDialog.getProductEntity(), psOrders);
                     this.adicionarOrderDetailJDialog.setVisible(true);
-                    editaOrders();
-                    carregaCampos();
+                    //editaOrders();
+                    desativarDescontoAvulso();
+                    //carregaCampos();
                     // carregaCamposSalesFlatOrder();
                 }
             }
@@ -880,9 +917,37 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
     private void jButtonRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRemoverActionPerformed
         if (condicaoPedido()) {
             removePsOrderDetail();
+            desativarDescontoAvulso();
             carregaCampos();
         }
     }//GEN-LAST:event_jButtonRemoverActionPerformed
+
+    private void jButtonDescontoAvulsoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDescontoAvulsoActionPerformed
+        String msg = JOptionPane.showInputDialog("Digite o Valor!");
+        if (msg != null) {
+            valDescontoAvulso = formataCampos.stringParaDecimal(msg, 2);
+            descontoAvulso();
+        }
+    }//GEN-LAST:event_jButtonDescontoAvulsoActionPerformed
+
+    private void jComboBoxPagamentoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBoxPagamentoMouseClicked
+        jButtonAlteraPagamento.setEnabled(true);
+    }//GEN-LAST:event_jComboBoxPagamentoMouseClicked
+
+    private void pesquisarOrders() {
+        limpaCampos();
+        this.listagemSaidasMagentoJDialog.pesquisas();
+        this.listagemSaidasMagentoJDialog.setVisible(true);
+        if (this.listagemSaidasMagentoJDialog.isCancelamento() == false) {
+            psOrders = this.listagemSaidasMagentoJDialog.getSalesFlatOrder();
+        }
+        if (psOrders != null) {
+            valDescontoAvulso =  psOrders.getTotalDiscountsTaxIncl();
+            carregaCampos();
+            jButtonImportarPedido.setEnabled(true);
+            jButtonAdicionar.setEnabled(true);
+        }
+    }
 
     private boolean condicaoPedido() {
         boolean condicao = false;
@@ -908,20 +973,15 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
                     s.setQuantity(s.getQuantity() + qn);
                     s.setReservedQuantity(s.getReservedQuantity() - qn);
                     s.setPhysicalQuantity(s.getQuantity() + s.getReservedQuantity());
-
                     try {
                         new PsStockAvailableJpaController(managerPrestaShop).edit(s);
-                        PsProduct pp = new PsProductJpaController(managerPrestaShop).findPsProduct(s.getIdProduct());
-                        List<Produtoestoque> listestoque = queryCplus.listagemProdutoEstoque(pp.getReference());
-                        for (Produtoestoque estoque : listestoque) {
-                            estoque.setLastChange(formataCampos.dataAtual());
-                            try {
-                                new ProdutoestoqueJpaController(managerCplus).edit(estoque);
-                            } catch (Exception ex) {
-                                JOptionPane.showMessageDialog(null, "Houve um erro ao Atualizar Estoque C-Plus!!!\n " + ex);
-                            }
+
+                        List<PsCartProduct> listCartProduct = queryPrestaShop.listCarProduct(psOrders.getIdCart(), item.getProductId());
+                        for (PsCartProduct cartProd : listCartProduct) {
+                            new PsCartProductJpaController(managerPrestaShop).destroy(new PsCartProductPK(cartProd.getPsCartProductPK().getIdCart(), cartProd.getPsCartProductPK().getIdProduct(), cartProd.getPsCartProductPK().getIdAddressDelivery(), 0, 0));
                         }
                         new PsOrderDetailJpaController(managerPrestaShop).destroy(item.getIdOrderDetail());
+                        atualizaCplus(new PsProductJpaController(managerPrestaShop).findPsProduct(s.getIdProduct()));
                     } catch (Exception ex) {
                         JOptionPane.showMessageDialog(null, "Houve um erro ao Atualizar Estoque PrestaShop!!!\n " + ex);
                     }
@@ -930,26 +990,50 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         }
     }
 
+    private void atualizaCplus(PsProduct pp) {
+        List<Produtoestoque> listestoque = new ArrayList<>();
+        if (pp.getCacheIsPack()) {
+            for (PsPack psP : new QueryPrestaShop(managerPrestaShop).listPack(pp.getIdProduct())) {
+                listestoque = new QueryCplus(managerCplus).listagemProdutoEstoque(new PsProductJpaController(managerPrestaShop).findPsProduct(psP.getPsPackPK().getIdProductItem()).getReference());
+            }
+        } else {
+            listestoque = new QueryCplus(managerCplus).listagemProdutoEstoque(pp.getReference());
+        }
+        for (Produtoestoque estoque : listestoque) {
+            estoque.setLastChange(formataCampos.dataAtual());
+            try {
+                new ProdutoestoqueJpaController(managerCplus).edit(estoque);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Houve um erro ao Atualizar Estoque C-Plus!!!\n " + ex);
+            }
+        }
+    }
+
     private void editaOrders() {
-        BigDecimal totProd = new ValoresOrder().totalProdutosSemPacote(managerPrestaShop, psOrders);
+        //BigDecimal totProd = new ValoresOrder().totalOrderSemPacote(managerPrestaShop, psOrders);
+        BigDecimal totProd = BigDecimal.ZERO;
         BigDecimal totPeso = BigDecimal.ZERO;
         for (PsOrderDetail od : queryPrestaShop.listOrderDetail(psOrders.getIdOrder())) {
-          // totProd = totProd.add(od.getTotalPriceTaxIncl());
+            totProd = totProd.add(od.getTotalPriceTaxIncl());
             totPeso = totPeso.add(od.getProductWeight());
         }
         psOrders.setTotalProducts(totProd);
         psOrders.setTotalProductsWt(totProd);
-        BigDecimal valTotal = new ValoresOrder().valorTotalComDescontoSemPacote(managerPrestaShop, psOrders);
-        
-        //psOrders.setTotalDiscounts(valDesconto);
-        //psOrders.setTotalDiscountsTaxIncl(valDesconto);
-        //psOrders.setTotalDiscountsTaxExcl(valDesconto);
+        BigDecimal valTotal = BigDecimal.ZERO;
+
+        BigDecimal valDesconto = BigDecimal.ZERO;
+        //BigDecimal totProd = totalOrderSemPacote(managerPrestaShop, order);
+        if ("custompaymentmethod_3".equals(psOrders.getModule())) { //se o metodo de pagamento for com desconto           
+            valTotal = totProd.multiply(new BigDecimal("0.985")).setScale(2, BigDecimal.ROUND_HALF_UP);
+            valDesconto = totProd.subtract(valTotal).setScale(2, BigDecimal.ROUND_HALF_UP);
+        }
+        valDesconto = valDesconto.add(psOrders.getTotalDiscountsTaxIncl()).setScale(2, BigDecimal.ROUND_HALF_UP);
+        valTotal = totProd.subtract(valDesconto);
         psOrders.setTotalPaid(valTotal);
         psOrders.setTotalPaidTaxIncl(valTotal);
         psOrders.setTotalPaidTaxExcl(valTotal);
         try {
             new PsOrdersJpaController(managerPrestaShop).edit(psOrders);
-
             for (PsOrderCarrier orderCarrier : queryPrestaShop.listPsOrderCarrier(psOrders.getIdOrder())) {
                 orderCarrier.setWeight(totPeso);
                 try {
@@ -957,10 +1041,145 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, "Não foi possível editar PsOrderCarrier" + ex);
                 }
-            }            
+            }
+            Connection conn = new ConexaoPrestaShop().getConnection();
+            List<PsOrderCommission> lisyOrderCommissions = new ConexaoPrestaShop().listPsOrderCommission(conn, psOrders.getIdOrder());
+            if (lisyOrderCommissions.isEmpty()) {
+                new ConexaoPrestaShop().criaPsOrderCommission(conn, psOrders.getIdOrder(), 1, 0.0, 0.0, valDesconto.doubleValue(), valDesconto.doubleValue());
 
+            } else {
+                new ConexaoPrestaShop().editaPsOrderCommission(conn, psOrders.getIdOrder(), valDesconto.doubleValue());
+            }
+            new ConexaoPrestaShop().closeConnection();           
+            carregaCampos();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Erro ao editar psOrders \n" + ex);
+        }
+    }
+
+    private void desativarDescontoAvulso() {
+        List<PsOrderCartRule> listOrderCartRule = queryPrestaShop.listPsOrderCartRule(psOrders.getIdOrder());
+        for (PsOrderCartRule ocr : listOrderCartRule) {
+                //ocr.setName("Desconto Avulso feito por: " + usuario.getNome());
+            //ocr.setValue(valDescontoAvulso);
+            //ocr.setValueTaxExcl(valDescontoAvulso);
+            ocr.setDeleted((short) 1);
+            try {
+                new PsOrderCartRuleJpaController(managerPrestaShop).edit(ocr);
+                valDescontoAvulso = BigDecimal.ZERO;
+                psOrders.setTotalDiscounts(valDescontoAvulso);
+                psOrders.setTotalDiscountsTaxExcl(valDescontoAvulso);
+                psOrders.setTotalDiscountsTaxIncl(valDescontoAvulso);
+
+               //psOrders.setTotalPaid(psOrders.getTotalPaid().subtract(valDescontoAvulso));
+                //psOrders.setTotalPaidTaxIncl(psOrders.getTotalPaidTaxIncl().subtract(valDescontoAvulso));
+                //psOrders.setTotalPaidTaxExcl(psOrders.getTotalPaidTaxExcl().subtract(valDescontoAvulso));
+
+                    new PsOrdersJpaController(managerPrestaShop).edit(psOrders);
+                    editaOrders();
+                
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Erro ao editar psOrders \n" + ex);
+            }
+        }
+    }
+
+    private void descontoAvulso() {
+        List<PsOrderCartRule> listOrderCartRule = queryPrestaShop.listPsOrderCartRule(psOrders.getIdOrder());
+        if (listOrderCartRule.isEmpty()) {
+            PsCartRule cr = new PsCartRule();
+            cr.setIdCustomer(psOrders.getIdCustomer());
+            cr.setDateFrom(formataCampos.dataAtual());
+            cr.setDateTo(formataCampos.alteraDiaData(formataCampos.dataAtual(), 2));
+            cr.setDescription(String.valueOf(psOrders.getIdOrder()));
+            cr.setQuantity(1);
+            cr.setQuantityPerUser(1);
+            cr.setPriority(1);
+            cr.setPartialUse(true);
+            cr.setMinimumAmount(BigDecimal.ZERO);
+            cr.setMinimumAmountTax(false);
+            cr.setMinimumAmountCurrency(0);
+            cr.setMinimumAmountShipping(false);
+            cr.setCountryRestriction(false);
+            cr.setCarrierRestriction(false);
+            cr.setGroupRestriction(false);
+            cr.setCartRuleRestriction(false);
+            cr.setProductRestriction(false);
+            cr.setShopRestriction(false);
+            cr.setFreeShipping(false);
+            cr.setReductionPercent(BigDecimal.ZERO);
+            cr.setReductionAmount(valDescontoAvulso);
+            cr.setReductionTax(false);
+            cr.setReductionCurrency(1);
+            cr.setReductionProduct(0);
+            cr.setReductionExcludeSpecial(false);
+            cr.setGiftProduct(0);
+            cr.setGiftProductAttribute(0);
+            cr.setHighlight(false);
+            cr.setActive(false);
+            cr.setDateAdd(formataCampos.dataAtual());
+            cr.setDateUpd(formataCampos.dataAtual());
+            cr.setCode("");
+            new PsCartRuleJpaController(managerPrestaShop).create(cr);
+
+            List<PsCartRule> listCartRule = queryPrestaShop.listCartRule(String.valueOf(psOrders.getIdOrder()));
+            for (PsCartRule cartR : listCartRule) {
+                PsOrderCartRule ocr = new PsOrderCartRule();
+                ocr.setIdOrder(psOrders.getIdOrder());
+                ocr.setIdCartRule(cartR.getIdCartRule());
+                ocr.setIdOrderInvoice(0);
+                ocr.setName("Desconto Avulso feito por: " + usuario.getNome());
+                ocr.setValue(valDescontoAvulso);
+                ocr.setValueTaxExcl(valDescontoAvulso);
+                ocr.setFreeShipping(false);
+                ocr.setDeleted((short) 0);
+                new PsOrderCartRuleJpaController(managerPrestaShop).create(ocr);
+
+                try {
+                    PsCartRuleLang g = new PsCartRuleLang();
+                    g.setName("Desconto Avulso feito por: " + usuario.getNome());
+                    g.setPsCartRuleLangPK(new PsCartRuleLangPK(cartR.getIdCartRule(), 2));
+                    new PsCartRuleLangJpaController(managerPrestaShop).create(g);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, "Erro ao criar PsCartRuleLang \n" + ex);
+                }
+            }
+        } else {
+            for (PsOrderCartRule ocr : listOrderCartRule) {
+                ocr.setName("Desconto Avulso feito por: " + usuario.getNome());
+                ocr.setValue(valDescontoAvulso);
+                ocr.setValueTaxExcl(valDescontoAvulso);
+                ocr.setDeleted((short) 0);
+                try {
+                    new PsOrderCartRuleJpaController(managerPrestaShop).edit(ocr);
+
+                    List<PsCartRule> listCartRule = queryPrestaShop.listCartRule(ocr.getIdCartRule());
+                    for (PsCartRule cr : listCartRule) {
+                        cr.setDateTo(formataCampos.alteraDiaData(formataCampos.dataAtual(), 2));
+                        cr.setDescription(String.valueOf(psOrders.getIdOrder()));
+                        cr.setReductionAmount(valDescontoAvulso);
+                        cr.setDateUpd(formataCampos.dataAtual());
+                        new PsCartRuleJpaController(managerPrestaShop).edit(cr);
+                    }
+
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, "Erro ao editar PsOrderCartRule \n" + ex);
+                }
+            }
+        }
+        psOrders.setTotalDiscounts(valDescontoAvulso);
+        psOrders.setTotalDiscountsTaxExcl(valDescontoAvulso);
+        psOrders.setTotalDiscountsTaxIncl(valDescontoAvulso);
+
+        psOrders.setTotalPaid(psOrders.getTotalPaid().subtract(valDescontoAvulso));
+        psOrders.setTotalPaidTaxIncl(psOrders.getTotalPaidTaxIncl().subtract(valDescontoAvulso));
+        psOrders.setTotalPaidTaxExcl(psOrders.getTotalPaidTaxExcl().subtract(valDescontoAvulso));
+
+        try {
+            new PsOrdersJpaController(managerPrestaShop).edit(psOrders);
+            editaOrders();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao editar PsOrders \n" + ex);
         }
     }
 
@@ -1051,12 +1270,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
 
     private void carregaCampos() {
         PsCustomer psCustomer = new PsCustomerJpaController(managerPrestaShop).findPsCustomer(psOrders.getIdCustomer());
-        //PsAddress psAddress = new PsAddressJpaController(managerPrestaShop).findPsAddress(psCustomer.get)
-        //jTextFieldCpfCnpj.setText(psCustomer.getSiret());
-
-        // valorDescontoFormaPagamento().add(psOrders.getTotalDiscountsTaxIncl());
-        //jTextFieldDesconto.setText(formataCampos.bigDecimalParaString(valorDescontoFormaPagamento().add(psOrders.getTotalDiscountsTaxIncl()), 2));
-        jTextFieldDesconto.setText(formataCampos.bigDecimalParaString(new ValoresOrder().valorTotalDesconto(managerPrestaShop, psOrders) , 3));
+        jTextFieldDesconto.setText(formataCampos.bigDecimalParaString(new ValoresOrder().valorTotalDesconto(managerPrestaShop, psOrders), 3));
         jTextFieldEmail.setText(psCustomer.getEmail());
         jTextFieldTotalProdutos.setText(formataCampos.bigDecimalParaString(psOrders.getTotalProducts(), 2));
         jTextFieldNome.setText(psCustomer.getFirstname() + " " + psCustomer.getLastname());
@@ -1070,8 +1284,6 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         }
         jTextFieldTaxa.setText(formataCampos.bigDecimalParaString(psOrders.getTotalPaidTaxIncl().subtract(psOrders.getTotalPaidTaxExcl()), 3));
         jTextFieldValorTotal.setText(formataCampos.bigDecimalParaString(psOrders.getTotalPaidTaxIncl(), 2));
-
-        //String produto= (String)((DefaultComboBoxModel) jComboBoxPagamento.getModel()).getSelectedItem();
         jComboBoxPagamento.setSelectedItem(psOrders.getPayment());
 
         if (null != psOrders.getModule()) {
@@ -1133,52 +1345,16 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
                 break;
         }
         jButtonAtualizaCliente.setEnabled(true);
-        jButtonAlteraPagamento.setEnabled(true);
+        //jButtonAlteraPagamento.setEnabled(true);
         jButtonEditar.setEnabled(false);
         jButtonRemover.setEnabled(false);
         psOrderDetailList.clear();
         for (PsOrderDetail orDetail : queryPrestaShop.listPsOrderDetail(psOrders.getIdOrder())) {
             psOrderDetailList.add(orDetail);
         }
+        jTextFieldDescontoAvulso.setText(formataCampos.bigDecimalParaString(psOrders.getTotalDiscountsTaxIncl(), 2));
     }
 
-    /**
-     * Retorna um valor positivo, recebe um negativo para melhorar o calculo
-     *
-     * @return
-     */
-    //private BigDecimal valorDescontoFormaPagamento() {
-        //Connection conn = new ConexaoPrestaShop().getConnection();
-     //   BigDecimal totalDesconto = BigDecimal.ZERO;
-        //String texPosi;
-        //for (PsOrderCommission comm : new ConexaoPrestaShop().listPsOrderCommission(conn, psOrders.getIdOrder())) {
-        //    texPosi = String.valueOf(comm.getDiscount());
-        //    texPosi = texPosi.replaceAll("-", "");
-        //    totalDesconto = totalDesconto.add(new BigDecimal(texPosi)).setScale(4, BigDecimal.ROUND_HALF_UP);
-        //}
-       // new ConexaoPrestaShop().closeConnection();
-       // return totalDesconto;
-    //}
-
-   // private void atualizaListOrderDetail() {
-    //    psOrderDetailList.clear();
-    //  for (PsOrderDetail item : queryPrestaShop.listOrderDetail(psOrders.getIdOrder())) {
-    //     psOrderDetailList.add(item);
-    // }
-    /**
-     * try { HashMap<String, Object> getSchemaOpt = new HashMap();
-     * getSchemaOpt.put("url", shopUrl + "/api/order_details?filter[id_order]="
-     * + psOrders.getIdOrder()); Document document; document =
-     * ws.getFuncao(getSchemaOpt); NodeList nList =
-     * document.getElementsByTagName("order_detail"); for (String id :
-     * ws.retornaListaId(nList)) { getSchemaOpt.put("url", shopUrl +
-     * "/api/order_details/" + id); document = ws.getFuncao(getSchemaOpt);
-     * psOrderDetailList.add(new WebOrderDetails().xmlParaEntidade(document,
-     * ws)); } } catch (PrestaShopWebserviceException ex) {
-     * JOptionPane.showMessageDialog(null, "Erro ao consultar Web Service: \n" +
-     * ex); }
-     */
-    //}
     private void limpaCampos() {
         jButtonImportarPedido.setEnabled(false);
         //jButtonAtualizaCliente.setEnabled(false);
@@ -1200,6 +1376,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         jComboBoxPagamento.setSelectedIndex(0);
         jComboBoxState.setSelectedIndex(0);
         psOrderDetailList.clear();
+        jTextFieldDescontoAvulso.setText("");
 
     }
 
@@ -1254,13 +1431,9 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
     private final EditOrderDetailsJDialog editOrderDetailsJDialog;
     private final AdicionarOrderDetailJDialog adicionarOrderDetailJDialog;
     private static Usuario usuario;
-    //private final ControleAcesso acesso;
     private final int colunaCustomerId;
     private final int colunaOrderDetail;
-    //private int colunaCarrinhoId;
-    //private final String shopUrl;
-    //private final String key;
-    //private ClienteWebService ws;
+    private BigDecimal valDescontoAvulso;
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1269,6 +1442,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButtonAdicionar;
     private javax.swing.JButton jButtonAlteraPagamento;
     private javax.swing.JButton jButtonAtualizaCliente;
+    private javax.swing.JButton jButtonDescontoAvulso;
     private javax.swing.JButton jButtonEditar;
     private javax.swing.JButton jButtonImportarCliente;
     private javax.swing.JButton jButtonImportarPedido;
@@ -1280,6 +1454,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
     private javax.swing.JComboBox jComboBoxTermoPesquisa;
     private com.toedter.calendar.JDateChooser jDateChooserDataFinalCustomer;
     private com.toedter.calendar.JDateChooser jDateChooserDataInicialCustomer;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabelCpfCnpj;
     private javax.swing.JLabel jLabelDataFinalCustomer;
     private javax.swing.JLabel jLabelDataInicialCustomer;
@@ -1303,6 +1478,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
     private javax.swing.JTable jTableCustomer;
     private javax.swing.JTextField jTextFieldCpfCnpj;
     private javax.swing.JTextField jTextFieldDesconto;
+    private javax.swing.JTextField jTextFieldDescontoAvulso;
     private javax.swing.JTextField jTextFieldEmail;
     private javax.swing.JTextField jTextFieldNome;
     private javax.swing.JTextField jTextFieldPesquisaCustomer;

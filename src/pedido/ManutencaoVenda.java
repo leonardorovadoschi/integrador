@@ -50,25 +50,25 @@ import query.prestaShop.QueryPrestaShop;
 public class ManutencaoVenda {
 
     public void alteraValorProdutos(QueryCplus queryCplus, Movenda movenda, PsOrders order, EntityManagerFactory managerCplus, EntityManagerFactory managerPrestaShop, EntityManagerFactory managerIntegrador) {
-        for (Movendaprod prodCplus : movenda.getMovendaprodCollection()) {
+        for (Movendaprod movProdCplus : movenda.getMovendaprodCollection()) {
             for (PsOrderDetail item : new QueryPrestaShop(managerPrestaShop).listPsOrderDetail(order.getIdOrder())) {
-                if (prodCplus.getCodprod().getCodprod().equals(new PsProductJpaController(managerPrestaShop).findPsProduct(item.getProductId()).getReference())) {
+                if (movProdCplus.getCodprod().getCodprod().equals(new PsProductJpaController(managerPrestaShop).findPsProduct(item.getProductId()).getReference())) {
 
                     //prodCplus.setValortotal(item.getTotalPriceTaxIncl());
 
                     //prodCplus.setValorunitario(item.getUnitPriceTaxIncl());
-                   // BigDecimal quanConvertida = new BigDecimal(item.getProductQuantity()).multiply(fatorConversaoBigDecimal(prodCplus.getCodprod(), managerCplus));
+                   // BigDecimal quanConvertida = new BigDecimal(item.getProductQuantity()).multiply(fatorConversaoBigDecimal(movProdCplus.getCodprod(), managerCplus));
                    //BigDecimal valUni = item.getTotalPriceTaxIncl().divide(quanConvertida, 2, BigDecimal.ROUND_HALF_DOWN);
-                    BigDecimal valUni = item.getUnitPriceTaxIncl().divide(prodCplus.getQuantidade(), 2 , BigDecimal.ROUND_HALF_UP);
+                    BigDecimal valUni = item.getUnitPriceTaxIncl().divide(movProdCplus.getQuantidade(), 2 , BigDecimal.ROUND_HALF_UP);
                     //valUni = new ValoresOrder().valorUnitario(valUni);
                     //BigDecimal valorTotal = new ValoresOrder().valorTotalItem(valUni, quanConvertida.intValue());
                     //BigDecimal valorTotal = item.getTotalPriceTaxIncl();
-                    prodCplus.setValorunitario(valUni);
-                    prodCplus.setValortotal(item.getTotalPriceTaxIncl());
+                    movProdCplus.setValorunitario(valUni);
+                    movProdCplus.setValortotal(item.getTotalPriceTaxIncl());
                 }
             }
             try {
-                new MovendaprodJpaController(managerCplus).edit(prodCplus);
+                new MovendaprodJpaController(managerCplus).edit(movProdCplus);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, "Erro ao editar!!!\n" + ex);
             }
