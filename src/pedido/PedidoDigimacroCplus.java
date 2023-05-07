@@ -576,42 +576,7 @@ public class PedidoDigimacroCplus {
             //double valorTaxa = 0.00;
             BigDecimal valorDesconto = valTotalProdutos.subtract(psOrders.getTotalPaidTaxIncl());
             BigDecimal valorTaxa = BigDecimal.ZERO;
-            if (alteraValor == false) {
-                /**
-                 * if (psOrders.getTotalDiscountsTaxIncl().doubleValue() > 0.00)
-                 * {
-                 * orcamento.setValordesconto(psOrders.getTotalDiscountsTaxIncl());
-                 * //////// valorDesconto =
-                 * psOrders.getTotalDiscountsTaxIncl().doubleValue(); valorTaxa
-                 * = (valorDesconto / valTotalProdutos) * 100.00;
-                 * orcamento.setAliqdesconto(new
-                 * BigDecimal(valorTaxa).setScale(4,
-                 * BigDecimal.ROUND_HALF_EVEN));
-                 * orcamento.setFlagtipodesconto('A'); //////////// } else if
-                 * (valTotalProdutos >
-                 * psOrders.getTotalPaidTaxIncl().setScale(2,
-                 * RoundingMode.HALF_UP).doubleValue()) { valorDesconto =
-                 * valTotalProdutos -
-                 * psOrders.getTotalPaidTaxIncl().doubleValue(); valorTaxa =
-                 * (valorDesconto / valTotalProdutos) * 100.00;
-                 * orcamento.setAliqdesconto(new
-                 * BigDecimal(valorTaxa).setScale(4, RoundingMode.HALF_UP));
-                 * orcamento.setValordesconto(new
-                 * BigDecimal(valorDesconto).setScale(2,
-                 * BigDecimal.ROUND_HALF_UP));
-                 * orcamento.setFlagtipodesconto('A'); } else if
-                 * (valTotalProdutos <
-                 * psOrders.getTotalPaidTaxIncl().setScale(2,
-                 * RoundingMode.HALF_UP).doubleValue()) { valorDesconto =
-                 * psOrders.getTotalPaidTaxIncl().doubleValue() -
-                 * valTotalProdutos; valorTaxa = (valorDesconto /
-                 * valTotalProdutos) * 100.00; orcamento.setAliqacrescimo(new
-                 * BigDecimal(valorTaxa).setScale(2, RoundingMode.HALF_UP));
-                 * orcamento.setValoracrescimo(new
-                 * BigDecimal(valorDesconto).setScale(2,
-                 * BigDecimal.ROUND_HALF_UP));
-                 * orcamento.setFlagtipoacrescimo('A'); }
-                 */
+            if (alteraValor == false) {              
                 if (valorDesconto.doubleValue() == 0.00) { //quando valor dos produtos for igual ao total
                     //valorTaxa = valorDesconto.divide(valTotalProdutos, 2, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal("100.00"));
                     orcamento.setAliqdesconto(BigDecimal.ZERO);

@@ -273,17 +273,39 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         jLabelRgIe.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabelRgIe.setText("RG/IE:");
 
+        jTextFieldNome.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+
+        jTextFieldCpfCnpj.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+
+        jTextFieldRgIe.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+
+        jTextFieldStatus.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+
+        jTextFieldEmail.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+
         jLabelValorTotal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabelValorTotal.setText("Valor Total:");
 
         jLabelDesconto.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabelDesconto.setText("Desc. Produtos:");
+        jLabelDesconto.setText("Desc. Total:");
 
         jLabelFrete.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabelFrete.setText("Total Produtos");
 
         jLabelTaxa.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabelTaxa.setText("Taxa:");
+
+        jTextFieldValorTotal.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jTextFieldValorTotal.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+        jTextFieldDesconto.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jTextFieldDesconto.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+        jTextFieldTotalProdutos.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jTextFieldTotalProdutos.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+        jTextFieldTaxa.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jTextFieldTaxa.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
         jButtonAlteraPagamento.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jButtonAlteraPagamento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/Edit.png"))); // NOI18N
@@ -305,6 +327,9 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         jComboBoxState.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " " }));
 
         jLabel1.setText("Desc Avulso:");
+
+        jTextFieldDescontoAvulso.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jTextFieldDescontoAvulso.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
         jButtonDescontoAvulso.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jButtonDescontoAvulso.setText("Dar Desconto Avuso");
@@ -351,7 +376,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
                 .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelInformacoesLayout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addComponent(jComboBoxPagamento, 0, 248, Short.MAX_VALUE))
+                        .addComponent(jComboBoxPagamento, 0, 256, Short.MAX_VALUE))
                     .addGroup(jPanelInformacoesLayout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(jComboBoxState, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
@@ -377,7 +402,6 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
                     .addComponent(jTextFieldCpfCnpj, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelDesconto)
                     .addComponent(jTextFieldDesconto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBoxState, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonDescontoAvulso))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -396,10 +420,13 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
                     .addComponent(jLabelEmail)
                     .addComponent(jTextFieldEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextFieldDescontoAvulso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jTextFieldDescontoAvulso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBoxState, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         jTable1.setAutoCreateRowSorter(true);
+        jTable1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jTable1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jTable1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
 
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, psOrderDetailList, jTable1);
@@ -1020,12 +1047,13 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         psOrders.setTotalProducts(totProd);
         psOrders.setTotalProductsWt(totProd);
         BigDecimal valTotal = BigDecimal.ZERO;
-
+        double desFormaPagamento = 0.0;
         BigDecimal valDesconto = BigDecimal.ZERO;
         //BigDecimal totProd = totalOrderSemPacote(managerPrestaShop, order);
         if ("custompaymentmethod_3".equals(psOrders.getModule())) { //se o metodo de pagamento for com desconto           
             valTotal = totProd.multiply(new BigDecimal("0.985")).setScale(2, BigDecimal.ROUND_HALF_UP);
             valDesconto = totProd.subtract(valTotal).setScale(2, BigDecimal.ROUND_HALF_UP);
+            desFormaPagamento = valDesconto.doubleValue();
         }
         valDesconto = valDesconto.add(psOrders.getTotalDiscountsTaxIncl()).setScale(2, BigDecimal.ROUND_HALF_UP);
         valTotal = totProd.subtract(valDesconto);
@@ -1045,10 +1073,10 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
             Connection conn = new ConexaoPrestaShop().getConnection();
             List<PsOrderCommission> lisyOrderCommissions = new ConexaoPrestaShop().listPsOrderCommission(conn, psOrders.getIdOrder());
             if (lisyOrderCommissions.isEmpty()) {
-                new ConexaoPrestaShop().criaPsOrderCommission(conn, psOrders.getIdOrder(), 1, 0.0, 0.0, valDesconto.doubleValue(), valDesconto.doubleValue());
+                new ConexaoPrestaShop().criaPsOrderCommission(conn, psOrders.getIdOrder(), 1, 0.0, 0.0, desFormaPagamento, desFormaPagamento);
 
             } else {
-                new ConexaoPrestaShop().editaPsOrderCommission(conn, psOrders.getIdOrder(), valDesconto.doubleValue());
+                new ConexaoPrestaShop().editaPsOrderCommission(conn, psOrders.getIdOrder(), desFormaPagamento);
             }
             new ConexaoPrestaShop().closeConnection();           
             carregaCampos();
@@ -1276,7 +1304,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         jTextFieldNome.setText(psCustomer.getFirstname() + " " + psCustomer.getLastname());
 
         for (PsAddress psAddress : queryPrestaShop.listAddress(false, psCustomer.getIdCustomer())) {
-            jTextFieldCpfCnpj.setText(psAddress.getVatNumber());
+            jTextFieldCpfCnpj.setText(formataCampos.mascaraCNPJouCPF(psAddress.getVatNumber()));
             jTextFieldRgIe.setText(psAddress.getDni());
         }
         for (PsOrderStateLang psOSL : queryPrestaShop.lisPsOrderStateLang(psOrders.getCurrentState(), 2)) {
