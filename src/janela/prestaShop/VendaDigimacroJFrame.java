@@ -23,6 +23,7 @@ import entidade.prestaShop.PsOrderCarrier;
 import entidade.prestaShop.PsOrderCartRule;
 import entidade.prestaShop.PsOrderCommission;
 import entidade.prestaShop.PsOrderDetail;
+import entidade.prestaShop.PsOrderHistory;
 import entidade.prestaShop.PsOrderStateLang;
 import entidade.prestaShop.PsOrders;
 import entidade.prestaShop.PsPack;
@@ -36,7 +37,6 @@ import janela.cplus.FormataCampos;
 import janela.integrador.AtualizaExecucaoIntegrador;
 import janela.integrador.ClienteCplusDigimacro;
 import janela.integrador.ClienteDigimacroCplus;
-import static janela.prestaShop.AdicionarOrderDetailJDialog.managerPrestaShop;
 import java.awt.Toolkit;
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -45,8 +45,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
@@ -59,6 +57,7 @@ import jpa.prestaShop.PsCustomerJpaController;
 import jpa.prestaShop.PsOrderCarrierJpaController;
 import jpa.prestaShop.PsOrderCartRuleJpaController;
 import jpa.prestaShop.PsOrderDetailJpaController;
+import jpa.prestaShop.PsOrderHistoryJpaController;
 import jpa.prestaShop.PsOrdersJpaController;
 import jpa.prestaShop.PsProductJpaController;
 import jpa.prestaShop.PsStockAvailableJpaController;
@@ -166,11 +165,12 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         jTextFieldTotalProdutos = new javax.swing.JTextField();
         jTextFieldTaxa = new javax.swing.JTextField();
         jButtonAlteraPagamento = new javax.swing.JButton();
-        jComboBoxPagamento = new javax.swing.JComboBox<String>();
+        jComboBoxPagamento = new javax.swing.JComboBox<>();
         jComboBoxState = new javax.swing.JComboBox();
         jLabel1 = new javax.swing.JLabel();
         jTextFieldDescontoAvulso = new javax.swing.JTextField();
         jButtonDescontoAvulso = new javax.swing.JButton();
+        jButtonCancelarOrders = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jPanelClienteDigimacro = new javax.swing.JPanel();
@@ -287,7 +287,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         jLabelValorTotal.setText("Valor Total:");
 
         jLabelDesconto.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabelDesconto.setText("Desc. Total:");
+        jLabelDesconto.setText("Desconto:");
 
         jLabelFrete.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabelFrete.setText("Total Produtos");
@@ -317,7 +317,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
             }
         });
 
-        jComboBoxPagamento.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " " }));
+        jComboBoxPagamento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " " }));
         jComboBoxPagamento.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jComboBoxPagamentoMouseClicked(evt);
@@ -333,9 +333,19 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
 
         jButtonDescontoAvulso.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jButtonDescontoAvulso.setText("Dar Desconto Avuso");
+        jButtonDescontoAvulso.setEnabled(false);
         jButtonDescontoAvulso.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonDescontoAvulsoActionPerformed(evt);
+            }
+        });
+
+        jButtonCancelarOrders.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jButtonCancelarOrders.setText("Cancelar Pedido");
+        jButtonCancelarOrders.setEnabled(false);
+        jButtonCancelarOrders.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCancelarOrdersActionPerformed(evt);
             }
         });
 
@@ -358,32 +368,48 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
                     .addComponent(jTextFieldRgIe)
                     .addComponent(jTextFieldStatus)
                     .addComponent(jTextFieldEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 284, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLabelValorTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabelDesconto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabelFrete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabelTaxa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextFieldValorTotal)
-                    .addComponent(jTextFieldDesconto)
-                    .addComponent(jTextFieldTotalProdutos)
-                    .addComponent(jTextFieldTaxa, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE)
-                    .addComponent(jTextFieldDescontoAvulso))
+                    .addGroup(jPanelInformacoesLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabelValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1))
+                        .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanelInformacoesLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextFieldDescontoAvulso, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE))
+                            .addGroup(jPanelInformacoesLayout.createSequentialGroup()
+                                .addGap(3, 3, 3)
+                                .addComponent(jTextFieldValorTotal))))
+                    .addGroup(jPanelInformacoesLayout.createSequentialGroup()
+                        .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanelInformacoesLayout.createSequentialGroup()
+                                .addGap(4, 4, 4)
+                                .addComponent(jLabelFrete, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanelInformacoesLayout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabelTaxa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextFieldTaxa)
+                            .addComponent(jTextFieldTotalProdutos)))
+                    .addGroup(jPanelInformacoesLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabelDesconto, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextFieldDesconto)))
                 .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelInformacoesLayout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addComponent(jComboBoxPagamento, 0, 256, Short.MAX_VALUE))
+                        .addComponent(jComboBoxPagamento, 0, 324, Short.MAX_VALUE))
                     .addGroup(jPanelInformacoesLayout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addComponent(jComboBoxState, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(jComboBoxState, 0, 324, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButtonAlteraPagamento, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
-                    .addComponent(jButtonDescontoAvulso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButtonDescontoAvulso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonCancelarOrders, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(69, 69, 69))
         );
         jPanelInformacoesLayout.setVerticalGroup(
@@ -400,28 +426,32 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
                 .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelCpfCnpj)
                     .addComponent(jTextFieldCpfCnpj, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelDesconto)
-                    .addComponent(jTextFieldDesconto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonDescontoAvulso))
+                    .addComponent(jButtonDescontoAvulso)
+                    .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabelFrete)
+                        .addComponent(jTextFieldTotalProdutos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelRgIe)
                     .addComponent(jTextFieldRgIe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelFrete)
-                    .addComponent(jTextFieldTotalProdutos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabelTaxa)
+                        .addComponent(jTextFieldTaxa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelStaus)
                     .addComponent(jTextFieldStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelTaxa)
-                    .addComponent(jTextFieldTaxa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jTextFieldDesconto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabelDesconto)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelEmail)
                     .addComponent(jTextFieldEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
                     .addComponent(jTextFieldDescontoAvulso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBoxState, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jComboBoxState, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonCancelarOrders)))
         );
 
         jTable1.setAutoCreateRowSorter(true);
@@ -881,6 +911,10 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
                 psOrders.setModule("custompaymentmethod_5");
                 psOrders.setPayment("Boleto (R$300,00 Min.)");
             }
+            if (jComboBoxPagamento.getSelectedIndex() == 5) {
+                psOrders.setModule("custompaymentmethod_6");
+                psOrders.setPayment("Cartão de Crédito");
+            }
             //new PsOrdersJpaController(managerPrestaShop).edit(psOrders);
             //editaOrders();
             desativarDescontoAvulso();
@@ -889,6 +923,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         }
         //limpaCampos();
         //carregaCampos();
+        jButtonAlteraPagamento.setEnabled(false);
         jButtonImportarPedido.setEnabled(true);
 
     }//GEN-LAST:event_jButtonAlteraPagamentoActionPerformed
@@ -945,7 +980,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         if (condicaoPedido()) {
             removePsOrderDetail();
             desativarDescontoAvulso();
-            carregaCampos();
+            //carregaCampos();
         }
     }//GEN-LAST:event_jButtonRemoverActionPerformed
 
@@ -961,6 +996,14 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         jButtonAlteraPagamento.setEnabled(true);
     }//GEN-LAST:event_jComboBoxPagamentoMouseClicked
 
+    private void jButtonCancelarOrdersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarOrdersActionPerformed
+        int cancelar = JOptionPane.showConfirmDialog(null, " Deseja realmente cancelar? \n A ação não pode ser revertida!!", "Cancelar", JOptionPane.YES_NO_CANCEL_OPTION);
+        if (cancelar == JOptionPane.YES_OPTION) {
+            cancelarStateOrders();
+            jButtonCancelarOrders.setEnabled(false);
+        }
+    }//GEN-LAST:event_jButtonCancelarOrdersActionPerformed
+
     private void pesquisarOrders() {
         limpaCampos();
         this.listagemSaidasMagentoJDialog.pesquisas();
@@ -969,7 +1012,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
             psOrders = this.listagemSaidasMagentoJDialog.getSalesFlatOrder();
         }
         if (psOrders != null) {
-            valDescontoAvulso =  psOrders.getTotalDiscountsTaxIncl();
+            valDescontoAvulso = psOrders.getTotalDiscountsTaxIncl();
             carregaCampos();
             jButtonImportarPedido.setEnabled(true);
             jButtonAdicionar.setEnabled(true);
@@ -984,6 +1027,38 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Não pode ser feito alterações com pedidos neste Status!! \n Tente outra opção!");
         }
         return condicao;
+    }
+
+    private void cancelarStateOrders() {
+        // if(psOrders.getCurrentState() == jComboBoxState.getSelectedIndex()){
+        for (PsOrderDetail item : queryPrestaShop.listOrderDetail(psOrders.getIdOrder())) {
+            int qn = item.getProductQuantity();
+            for (PsStockAvailable s : queryPrestaShop.listEstoqueProduto(item.getProductId())) {
+                s.setQuantity(s.getQuantity() + qn);
+                s.setReservedQuantity(s.getReservedQuantity() - qn);
+                s.setPhysicalQuantity(s.getQuantity() + s.getReservedQuantity());
+                try {
+                    new PsStockAvailableJpaController(managerPrestaShop).edit(s);
+                    atualizaCplus(new PsProductJpaController(managerPrestaShop).findPsProduct(s.getIdProduct()));
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, "Houve um erro ao Atualizar Estoque PrestaShop!!!\n " + ex);
+                }
+            }
+        }
+        PsOrderHistory history = new PsOrderHistory();
+        history.setIdEmployee(0);
+        history.setIdOrder(psOrders.getIdOrder());
+        history.setIdOrderState(6);
+        history.setDateAdd(formataCampos.dataAtual());
+        new PsOrderHistoryJpaController(managerPrestaShop).create(history);
+        psOrders.setCurrentState(6);
+        try {
+            new PsOrdersJpaController(managerPrestaShop).edit(psOrders);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Houve um erro ao cancelar orders !!!\n " + ex);
+        }
+        carregaCampos();
+        //  }
     }
 
     private void removePsOrderDetail() {
@@ -1037,7 +1112,6 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
     }
 
     private void editaOrders() {
-        //BigDecimal totProd = new ValoresOrder().totalOrderSemPacote(managerPrestaShop, psOrders);
         BigDecimal totProd = BigDecimal.ZERO;
         BigDecimal totPeso = BigDecimal.ZERO;
         for (PsOrderDetail od : queryPrestaShop.listOrderDetail(psOrders.getIdOrder())) {
@@ -1046,17 +1120,37 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         }
         psOrders.setTotalProducts(totProd);
         psOrders.setTotalProductsWt(totProd);
-        BigDecimal valTotal = BigDecimal.ZERO;
+        BigDecimal valTotal;
         double desFormaPagamento = 0.0;
         BigDecimal valDesconto = BigDecimal.ZERO;
-        //BigDecimal totProd = totalOrderSemPacote(managerPrestaShop, order);
+        BigDecimal valAcrecimo = BigDecimal.ZERO;
+        Connection conn = new ConexaoPrestaShop().getConnection();
+        List<PsOrderCommission> lisyOrderCommissions = new ConexaoPrestaShop().listPsOrderCommission(conn, psOrders.getIdOrder());
         if ("custompaymentmethod_3".equals(psOrders.getModule())) { //se o metodo de pagamento for com desconto           
-            valTotal = totProd.multiply(new BigDecimal("0.985")).setScale(2, BigDecimal.ROUND_HALF_UP);
-            valDesconto = totProd.subtract(valTotal).setScale(2, BigDecimal.ROUND_HALF_UP);
+            //valTotal = totProd.multiply(new BigDecimal("0.985")).setScale(2, BigDecimal.ROUND_HALF_UP);
+            valDesconto = totProd.multiply(new BigDecimal("0.015")).setScale(2, BigDecimal.ROUND_HALF_UP);
             desFormaPagamento = valDesconto.doubleValue();
+            if (lisyOrderCommissions.isEmpty()) {
+                new ConexaoPrestaShop().criaPsOrderCommission(conn, psOrders.getIdOrder(), 1, 0.0, 0.0, desFormaPagamento, desFormaPagamento);
+            } else {
+                new ConexaoPrestaShop().editaDescontoPsOrderCommission(conn, psOrders.getIdOrder(), 0.00, desFormaPagamento);
+            }
+        } else if ("custompaymentmethod_6".equals(psOrders.getModule())) { //se o metodo de pagamento for com acrécimo           
+            valAcrecimo = totProd.multiply(new BigDecimal("0.0379")).setScale(2, BigDecimal.ROUND_HALF_UP);
+            if (lisyOrderCommissions.isEmpty()) {
+                new ConexaoPrestaShop().criaPsOrderCommission(conn, psOrders.getIdOrder(), 1, valAcrecimo.doubleValue(), valAcrecimo.doubleValue(), 0.00, 0.00);
+            } else {
+                new ConexaoPrestaShop().editaDescontoPsOrderCommission(conn, psOrders.getIdOrder(), valAcrecimo.doubleValue(), 0.00);
+            }
+        } else {
+            if (lisyOrderCommissions.size() > 0) {
+                new ConexaoPrestaShop().editaDescontoPsOrderCommission(conn, psOrders.getIdOrder(), 0.00, 0.00);
+            }
         }
+        new ConexaoPrestaShop().closeConnection();
         valDesconto = valDesconto.add(psOrders.getTotalDiscountsTaxIncl()).setScale(2, BigDecimal.ROUND_HALF_UP);
         valTotal = totProd.subtract(valDesconto);
+        valTotal = valTotal.add(valAcrecimo);
         psOrders.setTotalPaid(valTotal);
         psOrders.setTotalPaidTaxIncl(valTotal);
         psOrders.setTotalPaidTaxExcl(valTotal);
@@ -1070,15 +1164,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Não foi possível editar PsOrderCarrier" + ex);
                 }
             }
-            Connection conn = new ConexaoPrestaShop().getConnection();
-            List<PsOrderCommission> lisyOrderCommissions = new ConexaoPrestaShop().listPsOrderCommission(conn, psOrders.getIdOrder());
-            if (lisyOrderCommissions.isEmpty()) {
-                new ConexaoPrestaShop().criaPsOrderCommission(conn, psOrders.getIdOrder(), 1, 0.0, 0.0, desFormaPagamento, desFormaPagamento);
 
-            } else {
-                new ConexaoPrestaShop().editaPsOrderCommission(conn, psOrders.getIdOrder(), desFormaPagamento);
-            }
-            new ConexaoPrestaShop().closeConnection();           
             carregaCampos();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Erro ao editar psOrders \n" + ex);
@@ -1088,9 +1174,6 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
     private void desativarDescontoAvulso() {
         List<PsOrderCartRule> listOrderCartRule = queryPrestaShop.listPsOrderCartRule(psOrders.getIdOrder());
         for (PsOrderCartRule ocr : listOrderCartRule) {
-                //ocr.setName("Desconto Avulso feito por: " + usuario.getNome());
-            //ocr.setValue(valDescontoAvulso);
-            //ocr.setValueTaxExcl(valDescontoAvulso);
             ocr.setDeleted((short) 1);
             try {
                 new PsOrderCartRuleJpaController(managerPrestaShop).edit(ocr);
@@ -1098,18 +1181,12 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
                 psOrders.setTotalDiscounts(valDescontoAvulso);
                 psOrders.setTotalDiscountsTaxExcl(valDescontoAvulso);
                 psOrders.setTotalDiscountsTaxIncl(valDescontoAvulso);
-
-               //psOrders.setTotalPaid(psOrders.getTotalPaid().subtract(valDescontoAvulso));
-                //psOrders.setTotalPaidTaxIncl(psOrders.getTotalPaidTaxIncl().subtract(valDescontoAvulso));
-                //psOrders.setTotalPaidTaxExcl(psOrders.getTotalPaidTaxExcl().subtract(valDescontoAvulso));
-
-                    new PsOrdersJpaController(managerPrestaShop).edit(psOrders);
-                    editaOrders();
-                
+                new PsOrdersJpaController(managerPrestaShop).edit(psOrders);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, "Erro ao editar psOrders \n" + ex);
             }
         }
+        editaOrders();
     }
 
     private void descontoAvulso() {
@@ -1298,7 +1375,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
 
     private void carregaCampos() {
         PsCustomer psCustomer = new PsCustomerJpaController(managerPrestaShop).findPsCustomer(psOrders.getIdCustomer());
-        jTextFieldDesconto.setText(formataCampos.bigDecimalParaString(new ValoresOrder().valorTotalDesconto(managerPrestaShop, psOrders), 3));
+        //jTextFieldDesconto.setText(formataCampos.bigDecimalParaString(new ValoresOrder().valorTotalDesconto(managerPrestaShop, psOrders), 3));
         jTextFieldEmail.setText(psCustomer.getEmail());
         jTextFieldTotalProdutos.setText(formataCampos.bigDecimalParaString(psOrders.getTotalProducts(), 2));
         jTextFieldNome.setText(psCustomer.getFirstname() + " " + psCustomer.getLastname());
@@ -1310,7 +1387,14 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         for (PsOrderStateLang psOSL : queryPrestaShop.lisPsOrderStateLang(psOrders.getCurrentState(), 2)) {
             jTextFieldStatus.setText(psOSL.getName());
         }
-        jTextFieldTaxa.setText(formataCampos.bigDecimalParaString(psOrders.getTotalPaidTaxIncl().subtract(psOrders.getTotalPaidTaxExcl()), 3));
+        Connection conn = new ConexaoPrestaShop().getConnection();
+        List<PsOrderCommission> lisyOrderCommissions = new ConexaoPrestaShop().listPsOrderCommission(conn, psOrders.getIdOrder());
+        for(PsOrderCommission com : lisyOrderCommissions){
+            jTextFieldTaxa.setText(formataCampos.bigDecimalParaString(new BigDecimal(com.getCommissionTaxExcl()), 2));
+            jTextFieldDesconto.setText(formataCampos.bigDecimalParaString(new BigDecimal(com.getDiscountTaxExcl()), 2));
+        }
+        new ConexaoPrestaShop().closeConnection();
+       // jTextFieldTaxa.setText(formataCampos.bigDecimalParaString(valorComissao, 2));
         jTextFieldValorTotal.setText(formataCampos.bigDecimalParaString(psOrders.getTotalPaidTaxIncl(), 2));
         jComboBoxPagamento.setSelectedItem(psOrders.getPayment());
 
@@ -1327,6 +1411,9 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
                     break;
                 case "custompaymentmethod_5":
                     jComboBoxPagamento.setSelectedIndex(4);
+                    break;
+                case "custompaymentmethod_6":
+                    jComboBoxPagamento.setSelectedIndex(5);
                     break;
             }
         }
@@ -1376,6 +1463,10 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         //jButtonAlteraPagamento.setEnabled(true);
         jButtonEditar.setEnabled(false);
         jButtonRemover.setEnabled(false);
+        jButtonDescontoAvulso.setEnabled(true);
+        if (psOrders.getCurrentState() != 6) {
+            jButtonCancelarOrders.setEnabled(true);
+        }
         psOrderDetailList.clear();
         for (PsOrderDetail orDetail : queryPrestaShop.listPsOrderDetail(psOrders.getIdOrder())) {
             psOrderDetailList.add(orDetail);
@@ -1394,17 +1485,19 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         jTextFieldRgIe.setText("");
         jTextFieldStatus.setText("");
         jTextFieldEmail.setText("");
-        jTextFieldValorTotal.setText("");
-        jTextFieldDesconto.setText("");
-        jTextFieldTotalProdutos.setText("");
-        jTextFieldTaxa.setText("");
+        jTextFieldValorTotal.setText("0,00");
+        jTextFieldDesconto.setText("0,00");
+        jTextFieldTotalProdutos.setText("0.00");
+        jTextFieldTaxa.setText("0,00");
         psCustomerList.clear();
         //jButtonPesquisarCustomer.setText("");
         jButtonImportarCliente.setEnabled(false);
         jComboBoxPagamento.setSelectedIndex(0);
         jComboBoxState.setSelectedIndex(0);
         psOrderDetailList.clear();
-        jTextFieldDescontoAvulso.setText("");
+        jTextFieldDescontoAvulso.setText("0,00");
+        jButtonDescontoAvulso.setEnabled(false);
+        jButtonCancelarOrders.setEnabled(false);
 
     }
 
@@ -1422,16 +1515,24 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VendaDigimacroJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VendaDigimacroJFrame.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VendaDigimacroJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VendaDigimacroJFrame.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VendaDigimacroJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VendaDigimacroJFrame.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VendaDigimacroJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VendaDigimacroJFrame.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -1462,6 +1563,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
     private final int colunaCustomerId;
     private final int colunaOrderDetail;
     private BigDecimal valDescontoAvulso;
+   // private BigDecimal valorComissao;
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1470,6 +1572,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButtonAdicionar;
     private javax.swing.JButton jButtonAlteraPagamento;
     private javax.swing.JButton jButtonAtualizaCliente;
+    private javax.swing.JButton jButtonCancelarOrders;
     private javax.swing.JButton jButtonDescontoAvulso;
     private javax.swing.JButton jButtonEditar;
     private javax.swing.JButton jButtonImportarCliente;

@@ -119,7 +119,7 @@ public class ConexaoPrestaShop {
             comando.close();
             //conn.close();
         } catch (SQLException ex) {
-            Logger.getLogger(ConexaoDB.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Erro na conexão PrestaShop \n" + ex);
         }
         return str;
     }
@@ -136,7 +136,7 @@ public class ConexaoPrestaShop {
             stmt.execute();
            // stmt.close();
         } catch (SQLException ex) {
-            Logger.getLogger(ConexaoPrestaShop.class.getName()).log(Level.SEVERE, null, ex);
+           JOptionPane.showMessageDialog(null, "Erro na conexão PrestaShop \n" + ex);
         }
 
     }
@@ -157,26 +157,30 @@ public class ConexaoPrestaShop {
             stmt.execute();
            // stmt.close();
         } catch (SQLException ex) {
-            Logger.getLogger(ConexaoPrestaShop.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Erro na conexão PrestaShop \n" + ex);
         }
 
     }
     
-    public void editaPsOrderCommission(Connection conn,int idOrder, double valorCommission){
-        String sql = "UPDATE ps_order_commission SET discount=?,discount_tax_excl=? WHERE id_order=?";
+    public void editaDescontoPsOrderCommission(Connection conn,int idOrder, double valorAcrecimo, double valorDesconto ){
+        String sql = "UPDATE ps_order_commission SET discount=?,discount_tax_excl=?,commission=?,commission_tax_excl=? WHERE id_order=?";
         PreparedStatement stmt;
         try {
             stmt = conn.prepareStatement(sql);
-            stmt.setDouble(1, valorCommission);
-            stmt.setDouble(2, valorCommission);
-            stmt.setInt(3, idOrder);
+            stmt.setDouble(1, valorDesconto);
+            stmt.setDouble(2, valorDesconto);
+            stmt.setDouble(3, valorAcrecimo);
+            stmt.setDouble(4, valorAcrecimo);
+            stmt.setInt(5, idOrder);
             stmt.execute();
            
             //stmt.close();
         } catch (SQLException ex) {
-            Logger.getLogger(ConexaoPrestaShop.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Erro na conexão PrestaShop \n" + ex);
         }
     }
+    
+    
 
     public List<PsOrderCommission> listPsOrderCommission(Connection conn, Integer idOrder) {
          StringBuilder sql = new StringBuilder();
@@ -211,7 +215,7 @@ public class ConexaoPrestaShop {
             comando.close();
             //conn.close();
         } catch (SQLException ex) {
-            Logger.getLogger(ConexaoDB.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Erro na conexão PrestaShop \n" + ex);
         }
         return str;
     }

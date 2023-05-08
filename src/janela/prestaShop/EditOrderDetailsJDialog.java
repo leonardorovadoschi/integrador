@@ -366,22 +366,13 @@ public class EditOrderDetailsJDialog extends javax.swing.JDialog {
         eventoQuantidade();
     }//GEN-LAST:event_jTextFieldQuantidadeActionPerformed
 
-    private void eventoValorUnitario() {
-       // reducaoMod = formataCampos.stringParaDecimal(jTextFieldPriceOriginal.getText(), 2).divide(
-        //        formataCampos.stringParaDecimal(jTextFieldUnitarioComDesconto.getText(), 2), 2, BigDecimal.ROUND_HALF_UP);
-        //reducaoMod = reducaoMod.subtract(BigDecimal.ONE).multiply(new BigDecimal("100.00"));
-        //jTextFieldDesconto.setText(formataCampos.bigDecimalParaString(reducaoMod, 3));
-        // unitMod = formataCampos.stringParaDecimal(jTextFieldUnitarioComDesconto.getText(), 2);               
-        // quantMod = Integer.valueOf(jTextFieldQuantidade.getText());
-        //totalMod = unitMod.multiply(new BigDecimal(quantMod + ".00"));
-        //jTextFieldValorTotal.setText(formataCampos.bigDecimalParaString(totalMod, 2));
+    private void eventoValorUnitario() {     
         BigDecimal precoAlterado = formataCampos.stringParaDecimal(jTextFieldUnitarioComDesconto.getText(), 2);
         jTextFieldDesconto.setText(formataCampos.bigDecimalParaString(porcentagemDesconto(precoAlterado), 2));
         jTextFieldValorTotal.setText(formataCampos.bigDecimalParaString(new BigDecimal(quantMod).multiply(precoAlterado), 2));
         jTextFieldUnitarioComDesconto.setForeground(Color.red);
         jButtonGravar.setEnabled(true);
         jButtonGravar.requestFocus();
-
     }
 
     private void eventoQuantidade() {

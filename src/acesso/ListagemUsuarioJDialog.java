@@ -122,7 +122,7 @@ public class ListagemUsuarioJDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_jButtonCancelarActionPerformed
 
      private void cancelamento(){
-        int cancelar = JOptionPane.showConfirmDialog(null, " Deseja realmente cancelar? \n O processo serï¿½ encerrado!!", "Cancelar", JOptionPane.YES_NO_CANCEL_OPTION);
+        int cancelar = JOptionPane.showConfirmDialog(null, " Deseja realmente cancelar? \n O processo será encerrado!!", "Cancelar", JOptionPane.YES_NO_CANCEL_OPTION);
             if (cancelar == JOptionPane.YES_OPTION) {
                 setCancelamento(true);
                 dispose();
