@@ -364,6 +364,16 @@ public class QueryPrestaShop implements Serializable {
         return query.getResultList();
     }
     
+     public List<PsSpecificPrice> listPsSpecificPriceAllGroup(Integer idProduct, String reductionType, Integer idGroup) {
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery("SELECT c FROM PsSpecificPrice c WHERE c.idProduct =:idProduct AND c.reductionType =:reductionType AND (c.idGroup =:idGroup OR c.idGroup =:idGroupAll) ORDER BY c.fromQuantity ASC");
+        query.setParameter("idProduct", idProduct);
+        query.setParameter("idGroupAll", 0);
+        query.setParameter("idGroup", idGroup);
+        query.setParameter("reductionType", reductionType);
+        return query.getResultList();
+    }
+     
      public List<PsSpecificPrice> listPsSpecificPriceAllGroup(Integer idProduct, Integer idGroup) {
         EntityManager em = getEntityManager();
         Query query = em.createQuery("SELECT c FROM PsSpecificPrice c WHERE c.idProduct =:idProduct AND (c.idGroup =:idGroup OR c.idGroup =:idGroupAll)");
@@ -645,7 +655,7 @@ public class QueryPrestaShop implements Serializable {
 
     public List<PsSpecificPrice> listPsSpecificPrice(Integer idProduct, String reducionTipe, int idGroup) {
         EntityManager em = getEntityManager();
-        Query query = em.createQuery("SELECT c FROM PsSpecificPrice c WHERE c.idProduct =:idProduct AND c.reductionType =:reducionTipe AND c.idGroup =:idGroup");
+        Query query = em.createQuery("SELECT c FROM PsSpecificPrice c WHERE c.idProduct =:idProduct AND c.reductionType =:reducionTipe AND c.idGroup =:idGroup ORDER BY c.fromQuantity ASC");
         query.setParameter("idProduct", idProduct);
         query.setParameter("reducionTipe", reducionTipe);
         query.setParameter("idGroup", idGroup);

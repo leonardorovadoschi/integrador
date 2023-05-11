@@ -203,7 +203,7 @@
                       <Component id="jLabelPrecoOriginal" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabelDiscontParcent" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -224,10 +224,10 @@
                               <Component id="jLabelQuantidade" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jTextFieldQuantidade" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
                           </Group>
+                          <EmptySpace pref="30" max="32767" attributes="0"/>
                       </Group>
                       <Component id="jScrollPane1" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="30" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>

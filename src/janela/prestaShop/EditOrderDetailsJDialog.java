@@ -248,7 +248,7 @@ public class EditOrderDetailsJDialog extends javax.swing.JDialog {
                     .addComponent(jTextFieldReducaoGrupo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelPrecoOriginal))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelValorProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanelValorProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelValorProdutoLayout.createSequentialGroup()
                         .addGroup(jPanelValorProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabelDiscontParcent)
@@ -264,9 +264,9 @@ public class EditOrderDetailsJDialog extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanelValorProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabelQuantidade)
-                            .addComponent(jTextFieldQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jScrollPane1))
-                .addContainerGap(30, Short.MAX_VALUE))
+                            .addComponent(jTextFieldQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(30, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1)))
         );
 
         jButtonGravar.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
@@ -519,6 +519,7 @@ public class EditOrderDetailsJDialog extends javax.swing.JDialog {
         jTextFieldEan.setText(psProduct.getEan13());
         jButtonGravar.setEnabled(true);
         estoqueDisponivel(); // carrega variavel globla
+        /**
         String txt = " Quant.\t  % \tValor\n";
         for (PsSpecificPrice sp : listSpecificPrice) {
             if ("amount".equals(sp.getReductionType())) {
@@ -543,11 +544,46 @@ public class EditOrderDetailsJDialog extends javax.swing.JDialog {
                                         formataCampos.stringParaDecimal(jTextFieldPriceOriginal.getText(), 4)), 2) + "\n";
              }
             }
-            jTextAreaPrecoQuantidade.setText(txt);
+            */
+            jTextAreaPrecoQuantidade.setText(textPreco(psGroup.getIdGroup()));
             quantOrderDetails = psOrderDetails.getProductQuantity();
         }
      
-     
+     private String textPreco(Integer idGroup) {
+        String txtNormal = " Quant.\t  % \tValor\n";
+        PsGroup psGroup = new PsGroupJpaController(managerPrestaShop).findPsGroup(idGroup);
+        BigDecimal redGrup = psGroup.getReduction().divide(new BigDecimal("100.00"), BigDecimal.ROUND_HALF_UP);
+        BigDecimal valRedGrupo = psProduct.getPrice().multiply(BigDecimal.ONE.subtract(redGrup));
+        psGroup = new PsGroupJpaController(managerPrestaShop).findPsGroup(idGroup);
+        redGrup = psGroup.getReduction().divide(new BigDecimal("100.00"), BigDecimal.ROUND_HALF_UP);
+        valRedGrupo = psProduct.getPrice().multiply(BigDecimal.ONE.subtract(redGrup));
+        txtNormal = "Quant.\t  % \tValor\n";
+        txtNormal = txtNormal + "  1" + " \t" + "0.00% \t" + formataCampos.bigDecimalParaString(valRedGrupo, 2) + "  \n";
+        for (PsSpecificPrice sp : queryPrestaShop.listPsSpecificPriceAllGroup(psProduct.getIdProduct(), "amount", idGroup)) {
+            if (sp.getTo() == null) {
+                //valRedGrupo = valRedGrupo.subtract(sp.getReduction());
+                txtNormal = txtNormal + " - " + sp.getFromQuantity() + " \t" + formataCampos.bigDecimalParaString(sp.getReduction(), 2) + " \t"
+                        + formataCampos.bigDecimalParaString(valRedGrupo.subtract(sp.getReduction()), 2) + "\n";
+            } else {
+                Calendar dataAtual = Calendar.getInstance();
+                dataAtual.setTime(new Date(System.currentTimeMillis()));
+                Calendar dataBanco = Calendar.getInstance();
+                dataBanco.setTime(sp.getTo());
+                if (dataAtual.before(dataBanco)) {
+                    if ("amount".equals(sp.getReductionType())) {
+                        //valRedGrupo = valRedGrupo.subtract(sp.getReduction());
+                        txtNormal = txtNormal + " " + sp.getFromQuantity() + " \t - " + formataCampos.bigDecimalParaString(sp.getReduction(), 2) + " \t"
+                                + formataCampos.bigDecimalParaString(valRedGrupo.subtract(sp.getReduction()), 2) + "\n";
+                    }
+                }
+            }
+        }
+        for (PsSpecificPrice sp : queryPrestaShop.listPsSpecificPriceAllGroup(psProduct.getIdProduct(), "percentage", idGroup)) {
+            txtNormal = txtNormal + " " + sp.getFromQuantity() + " \t" + formataCampos.bigDecimalParaString(sp.getReduction().multiply(new BigDecimal("100.00")), 2) + "% \t"
+                    + formataCampos.bigDecimalParaString(valRedGrupo.multiply(BigDecimal.ONE.subtract(sp.getReduction())).setScale(2, BigDecimal.ROUND_HALF_UP), 2) + "\n";
+        }
+        return txtNormal;
+    }
 
     private BigDecimal valorOriginal() {
         BigDecimal val = psProduct.getPrice().multiply(BigDecimal.ONE.subtract(reducaoGroup()));

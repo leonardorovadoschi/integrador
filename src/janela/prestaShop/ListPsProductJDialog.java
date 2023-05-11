@@ -18,6 +18,8 @@ import integrador.render.produto.RenderPsStockDisponivel;
 import janela.cplus.FormataCampos;
 import java.awt.Toolkit;
 import java.math.BigDecimal;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
@@ -61,7 +63,7 @@ public class ListPsProductJDialog extends javax.swing.JDialog {
         //new RenderPsStockDisponivel(managerPrestaShop);
         //new RenderPreco();
         //new RenderPsProductPeso();
-        
+
     }
 
     /**
@@ -342,7 +344,7 @@ public class ListPsProductJDialog extends javax.swing.JDialog {
 
     private void jTablePsProductMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTablePsProductMouseClicked
 
-       carregaCampos();
+        carregaCampos();
     }//GEN-LAST:event_jTablePsProductMouseClicked
 
     private void limpaCampos() {
@@ -355,78 +357,118 @@ public class ListPsProductJDialog extends javax.swing.JDialog {
         colunaEntityId = jTablePsProduct.getColumnModel().getColumnIndex("Id Product");
         int idProduto = Integer.valueOf(jTablePsProduct.getValueAt(jTablePsProduct.getSelectedRow(), colunaEntityId).toString());
         psProduct = new PsProductJpaController(managerPrestaShop).findPsProduct(idProduto);
-        if(estoqueDisponivel() > 0){
+        if (estoqueDisponivel() > 0) {
             jButtonOk.setEnabled(true);
-        }else{
+        } else {
             jButtonOk.setEnabled(false);
         }
-        
-        String txtNormal = "Quant.\t  % \tValor\n";        
-        PsGroup psGroup = new PsGroupJpaController(managerPrestaShop).findPsGroup(4);
+        /*
+         String txtNormal = "Quant.\t  % \tValor\n";        
+         PsGroup psGroup = new PsGroupJpaController(managerPrestaShop).findPsGroup(4);
+         BigDecimal redGrup = psGroup.getReduction().divide(new BigDecimal("100.00"), BigDecimal.ROUND_HALF_UP);
+         BigDecimal valRedGrupo = psProduct.getPrice().multiply(BigDecimal.ONE.subtract(redGrup));
+         txtNormal = txtNormal + " 1" + " \t" + "0.00% \t" + formataCampos.bigDecimalParaString(valRedGrupo, 2) + "  \n";
+         for (PsSpecificPrice sp : queryPrestaShop.listPsSpecificPrice(psProduct.getIdProduct(), 4)) {
+         if ("amount".equals(sp.getReductionType())) {
+         valRedGrupo = sp.getPrice().multiply(BigDecimal.ONE.subtract(redGrup));
+         txtNormal = "";
+         txtNormal = "Quant.\t  % \tValor\n";
+         txtNormal = txtNormal + " 1" + " \t" + "0.00% \t" + formataCampos.bigDecimalParaString(valRedGrupo, 2) + "  \n";
+         }else{
+         txtNormal = txtNormal + " " + sp.getFromQuantity() + " \t" + formataCampos.bigDecimalParaString(sp.getReduction().multiply(new BigDecimal("100.00")), 2) + "% \t"
+         + formataCampos.bigDecimalParaString((BigDecimal.ONE.subtract(sp.getReduction())).multiply(valRedGrupo), 2) + "  \n";
+         }
+         }
+         jTextAreaPrecoNormal.setText(txtNormal);
+         // jTextAreaPrecoNormal.setForeground(Color.GREEN);
+
+         psGroup = new PsGroupJpaController(managerPrestaShop).findPsGroup(7);
+         redGrup = psGroup.getReduction().divide(new BigDecimal("100.00"), BigDecimal.ROUND_HALF_UP);
+         valRedGrupo = psProduct.getPrice().multiply(BigDecimal.ONE.subtract(redGrup));
+         txtNormal = "Quant.\t  % \tValor\n";
+         txtNormal = txtNormal + " 1" + " \t" + "0.00% \t" + formataCampos.bigDecimalParaString(valRedGrupo, 2) + "  \n";
+         for (PsSpecificPrice sp : queryPrestaShop.listPsSpecificPrice(psProduct.getIdProduct(), 7)) {
+         if ("amount".equals(sp.getReductionType())) {
+         valRedGrupo = sp.getPrice().multiply(BigDecimal.ONE.subtract(redGrup));
+         txtNormal = "";
+         txtNormal = "Quant.\t  % \tValor\n";
+         txtNormal = txtNormal + " 1" + " \t" + "0.00% \t" + formataCampos.bigDecimalParaString(valRedGrupo, 2) + "  \n";
+         }else{
+         txtNormal = txtNormal + " " + sp.getFromQuantity() + " \t" + formataCampos.bigDecimalParaString(sp.getReduction().multiply(new BigDecimal("100.00")), 2) + "% \t"
+         + formataCampos.bigDecimalParaString((BigDecimal.ONE.subtract(sp.getReduction())).multiply(valRedGrupo), 2) + "  \n";
+         }
+         }
+
+         jTextAreaPrecoSemIe.setText(txtNormal);
+         //jTextAreaPrecoSemIe.setForeground(Color.BLUE);
+         psGroup = new PsGroupJpaController(managerPrestaShop).findPsGroup(5);
+         redGrup = psGroup.getReduction().divide(new BigDecimal("100.00"), BigDecimal.ROUND_HALF_UP);
+         valRedGrupo = psProduct.getPrice().multiply(BigDecimal.ONE.subtract(redGrup));
+         txtNormal = "Quant.\t  % \tValor\n";
+         txtNormal = txtNormal + "  1" + " \t" + "0.00% \t" + formataCampos.bigDecimalParaString(valRedGrupo, 2) + "  \n";
+         for (PsSpecificPrice sp : queryPrestaShop.listPsSpecificPrice(psProduct.getIdProduct(), 5)) {
+         if ("amount".equals(sp.getReductionType())) {
+         valRedGrupo = sp.getPrice().multiply(BigDecimal.ONE.subtract(redGrup));
+         txtNormal = "";
+         txtNormal = "Quant.\t  % \tValor\n";
+         txtNormal = txtNormal + " 1" + " \t" + "0.00% \t" + formataCampos.bigDecimalParaString(valRedGrupo, 2) + "  \n";
+         }else{
+         txtNormal = txtNormal + " " + sp.getFromQuantity() + "  \t" + formataCampos.bigDecimalParaString(sp.getReduction().multiply(new BigDecimal("100.00")), 2) + "% \t"
+         + formataCampos.bigDecimalParaString((BigDecimal.ONE.subtract(sp.getReduction())).multiply(valRedGrupo), 2) + "  \n";
+         }
+         }
+         */
+        jTextAreaPrecoRuim.setText(textPreco(5));
+        jTextAreaPrecoNormal.setText(textPreco(4));
+        jTextAreaPrecoSemIe.setText(textPreco(7));
+        //jTextAreaPrecoRuim.setForeground(Color.RED);
+    }
+
+    private String textPreco(Integer idGroup) {
+        String txtNormal = " Quant.\t  % \tValor\n";
+        PsGroup psGroup = new PsGroupJpaController(managerPrestaShop).findPsGroup(idGroup);
         BigDecimal redGrup = psGroup.getReduction().divide(new BigDecimal("100.00"), BigDecimal.ROUND_HALF_UP);
         BigDecimal valRedGrupo = psProduct.getPrice().multiply(BigDecimal.ONE.subtract(redGrup));
-        txtNormal = txtNormal + " 1" + " \t" + "0.00% \t" + formataCampos.bigDecimalParaString(valRedGrupo, 2) + "  \n";
-        for (PsSpecificPrice sp : queryPrestaShop.listPsSpecificPrice(psProduct.getIdProduct(), 4)) {
-            if ("amount".equals(sp.getReductionType())) {
-                valRedGrupo = sp.getPrice().multiply(BigDecimal.ONE.subtract(redGrup));
-                txtNormal = "";
-                txtNormal = "Quant.\t  % \tValor\n";
-                txtNormal = txtNormal + " 1" + " \t" + "0.00% \t" + formataCampos.bigDecimalParaString(valRedGrupo, 2) + "  \n";
-            }else{
-            txtNormal = txtNormal + " " + sp.getFromQuantity() + " \t" + formataCampos.bigDecimalParaString(sp.getReduction().multiply(new BigDecimal("100.00")), 2) + "% \t"
-                    + formataCampos.bigDecimalParaString((BigDecimal.ONE.subtract(sp.getReduction())).multiply(valRedGrupo), 2) + "  \n";
-        }
-        }
-        jTextAreaPrecoNormal.setText(txtNormal);
-        // jTextAreaPrecoNormal.setForeground(Color.GREEN);
-
-        psGroup = new PsGroupJpaController(managerPrestaShop).findPsGroup(7);
-        redGrup = psGroup.getReduction().divide(new BigDecimal("100.00"), BigDecimal.ROUND_HALF_UP);
-        valRedGrupo = psProduct.getPrice().multiply(BigDecimal.ONE.subtract(redGrup));
-        txtNormal = "Quant.\t  % \tValor\n";
-        txtNormal = txtNormal + " 1" + " \t" + "0.00% \t" + formataCampos.bigDecimalParaString(valRedGrupo, 2) + "  \n";
-        for (PsSpecificPrice sp : queryPrestaShop.listPsSpecificPrice(psProduct.getIdProduct(), 7)) {
-            if ("amount".equals(sp.getReductionType())) {
-                valRedGrupo = sp.getPrice().multiply(BigDecimal.ONE.subtract(redGrup));
-                txtNormal = "";
-                txtNormal = "Quant.\t  % \tValor\n";
-                txtNormal = txtNormal + " 1" + " \t" + "0.00% \t" + formataCampos.bigDecimalParaString(valRedGrupo, 2) + "  \n";
-            }else{
-            txtNormal = txtNormal + " " + sp.getFromQuantity() + " \t" + formataCampos.bigDecimalParaString(sp.getReduction().multiply(new BigDecimal("100.00")), 2) + "% \t"
-                    + formataCampos.bigDecimalParaString((BigDecimal.ONE.subtract(sp.getReduction())).multiply(valRedGrupo), 2) + "  \n";
-            }
-            }
-
-        jTextAreaPrecoSemIe.setText(txtNormal);
-        //jTextAreaPrecoSemIe.setForeground(Color.BLUE);
-        psGroup = new PsGroupJpaController(managerPrestaShop).findPsGroup(5);
+        psGroup = new PsGroupJpaController(managerPrestaShop).findPsGroup(idGroup);
         redGrup = psGroup.getReduction().divide(new BigDecimal("100.00"), BigDecimal.ROUND_HALF_UP);
         valRedGrupo = psProduct.getPrice().multiply(BigDecimal.ONE.subtract(redGrup));
         txtNormal = "Quant.\t  % \tValor\n";
         txtNormal = txtNormal + "  1" + " \t" + "0.00% \t" + formataCampos.bigDecimalParaString(valRedGrupo, 2) + "  \n";
-        for (PsSpecificPrice sp : queryPrestaShop.listPsSpecificPrice(psProduct.getIdProduct(), 5)) {
-            if ("amount".equals(sp.getReductionType())) {
-                valRedGrupo = sp.getPrice().multiply(BigDecimal.ONE.subtract(redGrup));
-                txtNormal = "";
-                txtNormal = "Quant.\t  % \tValor\n";
-                txtNormal = txtNormal + " 1" + " \t" + "0.00% \t" + formataCampos.bigDecimalParaString(valRedGrupo, 2) + "  \n";
-            }else{
-            txtNormal = txtNormal + " " + sp.getFromQuantity() + "  \t" + formataCampos.bigDecimalParaString(sp.getReduction().multiply(new BigDecimal("100.00")), 2) + "% \t"
-                    + formataCampos.bigDecimalParaString((BigDecimal.ONE.subtract(sp.getReduction())).multiply(valRedGrupo), 2) + "  \n";
+        for (PsSpecificPrice sp : queryPrestaShop.listPsSpecificPriceAllGroup(psProduct.getIdProduct(), "amount", idGroup)) {
+            if (sp.getTo() == null) {
+                //valRedGrupo = valRedGrupo.subtract(sp.getReduction());
+                txtNormal = txtNormal + " - " + sp.getFromQuantity() + " \t" + formataCampos.bigDecimalParaString(sp.getReduction(), 2) + " \t"
+                        + formataCampos.bigDecimalParaString(valRedGrupo.subtract(sp.getReduction()), 2) + "\n";
+            } else {
+                Calendar dataAtual = Calendar.getInstance();
+                dataAtual.setTime(new Date(System.currentTimeMillis()));
+                Calendar dataBanco = Calendar.getInstance();
+                dataBanco.setTime(sp.getTo());
+                if (dataAtual.before(dataBanco)) {
+                    if ("amount".equals(sp.getReductionType())) {
+                        //valRedGrupo = valRedGrupo.subtract(sp.getReduction());
+                        txtNormal = txtNormal + " " + sp.getFromQuantity() + " \t - " + formataCampos.bigDecimalParaString(sp.getReduction(), 2) + " \t"
+                                + formataCampos.bigDecimalParaString(valRedGrupo.subtract(sp.getReduction()), 2) + "\n";
+                    }
+                }
+            }
         }
+        for (PsSpecificPrice sp : queryPrestaShop.listPsSpecificPriceAllGroup(psProduct.getIdProduct(), "percentage", idGroup)) {
+            txtNormal = txtNormal + " " + sp.getFromQuantity() + " \t" + formataCampos.bigDecimalParaString(sp.getReduction().multiply(new BigDecimal("100.00")), 2) + "% \t"
+                    + formataCampos.bigDecimalParaString(valRedGrupo.multiply(BigDecimal.ONE.subtract(sp.getReduction())).setScale(2, BigDecimal.ROUND_HALF_UP), 2) + "\n";
         }
-        jTextAreaPrecoRuim.setText(txtNormal);
-        //jTextAreaPrecoRuim.setForeground(Color.RED);
+        return txtNormal;
     }
 
     private int estoqueDisponivel() {
-        int quantidadeDisponivel = 0;      
+        int quantidadeDisponivel = 0;
         for (PsStockAvailable e : queryPrestaShop.listEstoqueProduto(psProduct.getIdProduct())) {
             //tok = e;
             quantidadeDisponivel = e.getQuantity();
         }
         return quantidadeDisponivel;
     }
+
     private void retornaObjeto() {
         colunaEntityId = jTablePsProduct.getColumnModel().getColumnIndex("Id Product");
         int idProduto = Integer.valueOf(jTablePsProduct.getValueAt(jTablePsProduct.getSelectedRow(), colunaEntityId).toString());
@@ -446,7 +488,7 @@ public class ListPsProductJDialog extends javax.swing.JDialog {
                     List<PsProduct> listProductEntity = queryPrestaShop.listProductNomeOuEan(jTextFieldTermoPesquisa.getText());
                     for (PsProduct entity : listProductEntity) {
                         if (!"none".equals(entity.getVisibility()) || entity.getAvailableForOrder() == true) {
-                        psProductList.add(entity);
+                            psProductList.add(entity);
                         }
                     }
                     break;
