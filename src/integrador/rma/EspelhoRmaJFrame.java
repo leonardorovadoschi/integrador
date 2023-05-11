@@ -35,6 +35,7 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
 
     /**
      * Creates new form EspelhoRmaJFrame
+     *
      * @param managerCplus1
      * @param managerIntegrador1
      */
@@ -49,7 +50,7 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
         mensagem = "";
         queryIntegrador = new QueryIntegrador(managerIntegrador);
         //var = var1;
-        decimaisArredondamento =  Integer.valueOf(queryIntegrador.valorConfiguracao("casas_decimais_ARREDONDAMENTO"));
+        decimaisArredondamento = Integer.valueOf(queryIntegrador.valorConfiguracao("casas_decimais_ARREDONDAMENTO"));
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
     }
 
@@ -432,23 +433,23 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonPesquisaClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPesquisaClienteActionPerformed
-       this.listagemClientesJDialog.setVisible(true);
-       if(this.listagemClientesJDialog.isCancelamento() == false){
-           cliente = this.listagemClientesJDialog.getCliente();           
-           if("Y".equals(cliente.getFlagfisica().toString())){
-               jTextFieldCnpj.setText(cliente.getCpf());
-               jTextFieldIe.setText(cliente.getIdentidade());
-               jTextFieldNomeFantasia.setText(cliente.getNomecli());
-           }else{
-               jTextFieldCnpj.setText(cliente.getCnpj());
-               jTextFieldIe.setText(cliente.getInscr());
-               jTextFieldRazaoCliente.setText(cliente.getConjfantasia());
-               jTextFieldNomeFantasia.setText(cliente.getNomecli());
-           } 
-           jButtonOperacao.setEnabled(true);
-           jRadioButtonDevolucao.setEnabled(true);
-           jRadioButtonTrocaEmGarantia.setEnabled(true);
-       }
+        this.listagemClientesJDialog.setVisible(true);
+        if (this.listagemClientesJDialog.isCancelamento() == false) {
+            cliente = this.listagemClientesJDialog.getCliente();            
+            if ("Y".equals(cliente.getFlagfisica().toString())) {
+                jTextFieldCnpj.setText(cliente.getCpf());
+                jTextFieldIe.setText(cliente.getIdentidade());
+                jTextFieldNomeFantasia.setText(cliente.getNomecli());
+            } else {
+                jTextFieldCnpj.setText(cliente.getCnpj());
+                jTextFieldIe.setText(cliente.getInscr());
+                jTextFieldRazaoCliente.setText(cliente.getConjfantasia());
+                jTextFieldNomeFantasia.setText(cliente.getNomecli());
+            }            
+            jButtonOperacao.setEnabled(true);
+            jRadioButtonDevolucao.setEnabled(true);
+            jRadioButtonTrocaEmGarantia.setEnabled(true);
+        }
     }//GEN-LAST:event_jButtonPesquisaClienteActionPerformed
 
     private void jButtonInserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonInserirActionPerformed
@@ -485,19 +486,19 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonOperacaoActionPerformed
 
     private void jButtonImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonImprimirActionPerformed
-      new ImprimeRelatorio().imprimeRelatorio(queryIntegrador.valorConfiguracao("caminho_RELATORIO_ESPELHO_RMA"), movendaprodList);       
+        new ImprimeRelatorio().imprimeRelatorio(queryIntegrador.valorConfiguracao("caminho_RELATORIO_ESPELHO_RMA"), movendaprodList);        
     }//GEN-LAST:event_jButtonImprimirActionPerformed
 
     private void jButtonRemoverProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRemoverProdutoActionPerformed
-     colunaCodMovendaProd = jTableItensEspelho.getColumnModel().getColumnIndex("Codmovprod");
+        colunaCodMovendaProd = jTableItensEspelho.getColumnModel().getColumnIndex("Codmovprod");
         String codMovendaProd = jTableItensEspelho.getValueAt(jTableItensEspelho.getSelectedRow(), colunaCodMovendaProd).toString();
         for (Movendaprod prodFor : movendaprodList) {
-          if(prodFor.getCodmovprod() == null ? codMovendaProd == null : prodFor.getCodmovprod().equals(codMovendaProd)){
-              jTableItensEspelho.clearSelection();
-              movendaprodList.remove(prodFor);
-              jButtonRemoverProduto.setEnabled(false);
-          }
-      }
+            if (prodFor.getCodmovprod() == null ? codMovendaProd == null : prodFor.getCodmovprod().equals(codMovendaProd)) {
+                jTableItensEspelho.clearSelection();
+                movendaprodList.remove(prodFor);
+                jButtonRemoverProduto.setEnabled(false);
+            }
+        }
     }//GEN-LAST:event_jButtonRemoverProdutoActionPerformed
 
     private void jTableItensEspelhoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableItensEspelhoMouseClicked
@@ -513,81 +514,101 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
             prodFor.getCodmovenda().setObs(jTextAreaObservacos.getText());
         }
     }//GEN-LAST:event_jButtonEditarMensagemActionPerformed
-
+    
+    private BigDecimal valorUnitarioCompra(Movendaprod prod) {
+        BigDecimal val = prod.getValortotal().subtract(prod.getValordescontorateado());
+        val = val.divide(prod.getQuantidade(), 4, BigDecimal.ROUND_HALF_UP);
+        return val;
+    }
+    
+    private BigDecimal valorSTEspelho(Movendaprod prod, BigDecimal quantidadeEspelho) {
+        BigDecimal val = prod.getValorsubsttributaria().divide(prod.getQuantidade(), 4, BigDecimal.ROUND_HALF_UP);
+        val = val.multiply(quantidadeEspelho).setScale(2, BigDecimal.ROUND_HALF_UP);
+        return val;
+    }
+    
+    private BigDecimal valorBaseCofinsEspelho(Movendaprod prod, BigDecimal quantidadeEspelho) {
+        BigDecimal val = prod.getBasecofins().divide(prod.getQuantidade(), 4, BigDecimal.ROUND_HALF_UP);
+        val = val.multiply(quantidadeEspelho).setScale(2, BigDecimal.ROUND_HALF_UP);
+        return val;
+    }
+    
+    private BigDecimal valorBasePisEspelho(Movendaprod prod, BigDecimal quantidadeEspelho) {
+        BigDecimal val = prod.getBasepis().divide(prod.getQuantidade(), 4, BigDecimal.ROUND_HALF_UP);
+        val = val.multiply(quantidadeEspelho).setScale(2, BigDecimal.ROUND_HALF_UP);
+        return val;
+    }
+    
+    private BigDecimal valorCofinsEspelho(Movendaprod prod, BigDecimal quantidadeEspelho) {
+        BigDecimal val = prod.getValorcofins().divide(prod.getQuantidade(), 4, BigDecimal.ROUND_HALF_UP);
+        val = val.multiply(quantidadeEspelho).setScale(2, BigDecimal.ROUND_HALF_UP);
+        return val;
+    }
+    
+    private BigDecimal valorPisEspelho(Movendaprod prod, BigDecimal quantidadeEspelho) {
+        BigDecimal val = prod.getValorpis().divide(prod.getQuantidade(), 4, BigDecimal.ROUND_HALF_UP);
+        val = val.multiply(quantidadeEspelho).setScale(2, BigDecimal.ROUND_HALF_UP);
+        return val;
+    }
+    
+    private BigDecimal valorBaseIcmsEspelho(Movendaprod prod, BigDecimal quantidadeEspelho) {
+        BigDecimal val = prod.getBaseicms().divide(prod.getQuantidade(), 4, BigDecimal.ROUND_HALF_UP);
+        val = val.multiply(quantidadeEspelho).setScale(2, BigDecimal.ROUND_HALF_UP);
+        return val;
+    }
+    
+    private BigDecimal valorIcmsEspelho(Movendaprod prod, BigDecimal quantidadeEspelho) {
+        BigDecimal val = prod.getValoricms().divide(prod.getQuantidade(), 4, BigDecimal.ROUND_HALF_UP);
+        val = val.multiply(quantidadeEspelho).setScale(2, BigDecimal.ROUND_HALF_UP);
+        return val;
+    }
+    
+    private BigDecimal valorTotalProdutoEspelho(Movendaprod prod, BigDecimal quantidadeEspelho) {
+        BigDecimal val = valorUnitarioCompra(prod).multiply(quantidadeEspelho).setScale(2, BigDecimal.ROUND_HALF_UP);        
+        return val;
+    }
+    
     private void insereSerial() {
         this.listagemSerialSaidaJDialog.setVisible(true);
         if (this.listagemSerialSaidaJDialog.isCancelamento() == false) {
             Movendaprodserial serial = this.listagemSerialSaidaJDialog.getMovendaprodserial();
             Movendaprod prod = new MovendaprodJpaController(managerCplus).findMovendaprod(serial.getCodmovprod().getCodmovprod());
-            boolean condicao = true;
-            double quanTotal = prod.getQuantidade().doubleValue();
-            double valST = prod.getValorsubsttributaria().doubleValue();
-            double sTUnitario = valST / quanTotal;            
-            double aliCofins = prod.getAliqcofins().doubleValue();
-            double aliIcms = prod.getAliqicms().doubleValue();
-            double aliPis = prod.getAliqpis().doubleValue();
-            double baseCofins = prod.getBasecofins().doubleValue() / quanTotal;
-            double baseIcms = prod.getBaseicms().doubleValue() / quanTotal;
-            double basePis = prod.getBasepis().doubleValue() / quanTotal;
-            
-            //if("CUPOM".equals(prod.getCodmovenda().getNomecli())){
-            //if(prod.getBasecofins().doubleValue() < prod.getValortotal().doubleValue()){                
-            // double aliqAlteracao = ((prod.getValortotal().doubleValue() * 100) / prod.getBasecofins().doubleValue() / 100.00);
-                     //(1.00 - var.cupomPrecoAlterado.doubleValue()) + 1.00;
-             
-            // baseCofins = baseCofins * aliqAlteracao;
-            // baseIcms = baseIcms * aliqAlteracao;
-            // basePis = basePis * aliqAlteracao;
-            //}
-            //}            
-            //double contQantidade = 1.00;
-            double contQantidade = quantidadeConversaoSaida(prod);
-            double valTotal = (prod.getValorunitario().doubleValue() - (prod.getValordescontorateado().doubleValue()/ prod.getQuantidade().doubleValue()))* contQantidade;
+            Movendaprod prod1 = new MovendaprodJpaController(managerCplus).findMovendaprod(serial.getCodmovprod().getCodmovprod());;
+            boolean condicao = true;            
+            BigDecimal quantidadeEspelho = quantidadeConversaoSaida(prod);
             for (Movendaprod vendaProd : movendaprodList) {
-                if (prod.getCodprod().getCodprod().equals(vendaProd.getCodprod().getCodprod()) && prod.getValorunitario().doubleValue() == vendaProd.getValorunitario().doubleValue()) {
+                // if (prod.getCodprod().getCodprod().equals(vendaProd.getCodprod().getCodprod()) && prod.getValorunitario().doubleValue() == vendaProd.getValorunitario().doubleValue()) {
+                if (prod.getCodprod().getCodprod().equals(vendaProd.getCodprod().getCodprod()) && valorUnitarioCompra(prod).doubleValue() == vendaProd.getValorunitario().doubleValue()) {
                     movendaprodList.remove(vendaProd);
                     //valor original + 1
-                    contQantidade = vendaProd.getQuantidade().doubleValue() + contQantidade;
-                    
-                    prod.setQuantidade(new BigDecimal(contQantidade));
+                    quantidadeEspelho = vendaProd.getQuantidade().add(quantidadeEspelho);                    
+                    prod.setQuantidade(quantidadeEspelho);
                     if ("Y".equals(tipoMovimentoObjeto.getFlagdevolucao().toString())) {
-                        valTotal = (prod.getValorunitario().doubleValue()- (prod.getValordescontorateado().doubleValue()/ prod.getQuantidade().doubleValue())) * contQantidade ;
-                        //valTotal = baseCofins * contQantidade ;
-                        prod.setValortotal(new BigDecimal(valTotal).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
-                        prod.setValorsubsttributaria(new BigDecimal(sTUnitario * contQantidade).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
-                        prod.setAliqcofins(new BigDecimal(aliCofins).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
-                        prod.setAliqicms(new BigDecimal(aliIcms).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
-                        prod.setAliqpis(new BigDecimal(aliPis).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
-                        prod.setBasecofins(new BigDecimal(baseCofins * contQantidade).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
-                        prod.setBaseicms(new BigDecimal(baseIcms * contQantidade).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
-                        prod.setBasepis(new BigDecimal(basePis * contQantidade).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
-                        prod.setValorcofins(new BigDecimal(((baseCofins * contQantidade) * aliCofins) / 100).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
-                        prod.setValoricms(new BigDecimal(((baseIcms * contQantidade) * aliIcms) / 100).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
-                        prod.setValorpis(new BigDecimal(((basePis * contQantidade) * aliPis) / 100).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
-                                                
+                        prod.setValorunitario(valorUnitarioCompra(prod1));
+                        prod.setValortotal(valorTotalProdutoEspelho(prod1, quantidadeEspelho));
+                        prod.setValorsubsttributaria(valorSTEspelho(prod1, quantidadeEspelho));
+                        prod.setAliqcofins(prod1.getAliqcofins());
+                        prod.setAliqicms(prod1.getAliqicms());
+                        prod.setAliqpis(prod1.getAliqpis());
+                        prod.setBasecofins(valorBaseCofinsEspelho(prod1, quantidadeEspelho));
+                        prod.setBaseicms(valorBaseIcmsEspelho(prod1, quantidadeEspelho));
+                        prod.setBasepis(valorBasePisEspelho(prod1, quantidadeEspelho));
+                        prod.setValorcofins(valorCofinsEspelho(prod1, quantidadeEspelho));
+                        prod.setValoricms(valorIcmsEspelho(prod1, quantidadeEspelho));
+                        prod.setValorpis(valorPisEspelho(prod1, quantidadeEspelho));                        
                         prod.getCodmovenda().setCodcli(cliente);
                         if ("RS".equals(cliente.getEstado())) {
-                           // if ("405".equals(prod.getCodprod().getCfopdentrouf())) {
-                            if ("5405".equals(prod.getCodcfop().getCodcfop()) ) {
-                                prod.setCodcfop(new CfopJpaController(managerCplus).findCfop("5411"));                               
-                            } else {
-                                if("51".equals(prod.getCodsituacaotributaria())){
-                                  prod.setValoricms(prod.getValoricms().multiply(new BigDecimal("0.70588")).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP)) ; 
-                                }
+                            if ("5405".equals(prod.getCodcfop().getCodcfop())) {
+                                prod.setCodcfop(new CfopJpaController(managerCplus).findCfop("5411"));                                
+                            } else {                                
                                 prod.setCodcfop(new CfopJpaController(managerCplus).findCfop("5202"));
                             }
                         } else {
-                            //if ("405".equals(prod.getCodprod().getCfopdentrouf())) {
-                            //   prod.setCodcfop(new CfopJpaController(managerCplus).findCfop("6411"));
-                            //} else {
-                                prod.setCodcfop(new CfopJpaController(managerCplus).findCfop("6202"));
-                           // }
+                            prod.setCodcfop(new CfopJpaController(managerCplus).findCfop("6202"));
                         }
-                       // prod.getCodmovenda().setObs(mensagemNota(prod));
                     } else {
-                        valTotal = (prod.getValorunitario().doubleValue() - (prod.getValordescontorateado().doubleValue()/ prod.getQuantidade().doubleValue())) * contQantidade;
-                        //valTotal = baseCofins * contQantidade;
-                        prod.setValortotal(new BigDecimal(valTotal).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
+                        prod.setValorunitario(valorUnitarioCompra(prod1));
+                        prod.setValortotal(valorTotalProdutoEspelho(prod1, quantidadeEspelho));
                         prod.setValorsubsttributaria(BigDecimal.ZERO);
                         prod.setAliqcofins(BigDecimal.ZERO);
                         prod.setAliqicms(BigDecimal.ZERO);
@@ -597,11 +618,9 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
                         prod.setBasepis(BigDecimal.ZERO);
                         prod.setValorcofins(BigDecimal.ZERO);
                         prod.setValoricms(BigDecimal.ZERO);
-                        prod.setValorpis(BigDecimal.ZERO);
-                        
-                        prod.getCodmovenda().setCodcli(cliente);
-                        
-                         if ("RS".equals(cliente.getEstado())) {
+                        prod.setValorpis(BigDecimal.ZERO);                        
+                        prod.getCodmovenda().setCodcli(cliente);                        
+                        if ("RS".equals(cliente.getEstado())) {
                             prod.setCodcfop(new CfopJpaController(managerCplus).findCfop("5949"));
                             prod.setCstcofins("49");
                             prod.setCstpis("49");
@@ -611,48 +630,41 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
                             prod.setCstcofins("49");
                             prod.setCstpis("49");
                         }
-                         prod.getCodmovenda().setObs(mensagemNota(prod));
+                        prod.getCodmovenda().setObs(mensagemNota(prod));
                     }
                     movendaprodList.add(prod);
                     condicao = false;
                 }                
             }
             if (condicao) {
-                prod.setQuantidade(new BigDecimal(contQantidade));
+                prod.setQuantidade(quantidadeEspelho);
                 if ("Y".equals(tipoMovimentoObjeto.getFlagdevolucao().toString())) {
-                    prod.setValortotal(new BigDecimal(valTotal).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
-                    prod.setValorsubsttributaria(new BigDecimal(sTUnitario * contQantidade).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
-                    prod.setAliqcofins(new BigDecimal(aliCofins).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
-                    prod.setAliqicms(new BigDecimal(aliIcms).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
-                    prod.setAliqpis(new BigDecimal(aliPis).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
-                    prod.setBasecofins(new BigDecimal(baseCofins * contQantidade).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
-                    prod.setBaseicms(new BigDecimal(baseIcms * contQantidade).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
-                    prod.setBasepis(new BigDecimal(basePis * contQantidade).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
-                    prod.setValorcofins(new BigDecimal(((baseCofins * contQantidade) * aliCofins) / 100).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
-                    prod.setValoricms(new BigDecimal(((baseIcms * contQantidade) * aliIcms) / 100).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
-                    prod.setValorpis(new BigDecimal(((basePis * contQantidade) * aliPis) / 100).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
-                    
+                    prod.setValorunitario(valorUnitarioCompra(prod1));
+                    prod.setValortotal(valorTotalProdutoEspelho(prod1, quantidadeEspelho));
+                    prod.setValorsubsttributaria(valorSTEspelho(prod1, quantidadeEspelho));
+                    prod.setAliqcofins(prod1.getAliqcofins());
+                    prod.setAliqicms(prod1.getAliqicms());
+                    prod.setAliqpis(prod1.getAliqpis());
+                    prod.setBasecofins(valorBaseCofinsEspelho(prod1, quantidadeEspelho));
+                    prod.setBaseicms(valorBaseIcmsEspelho(prod1, quantidadeEspelho));
+                    prod.setBasepis(valorBasePisEspelho(prod1, quantidadeEspelho));
+                    prod.setValorcofins(valorCofinsEspelho(prod1, quantidadeEspelho));
+                    prod.setValoricms(valorIcmsEspelho(prod1, quantidadeEspelho));
+                    prod.setValorpis(valorPisEspelho(prod1, quantidadeEspelho));                    
                     prod.getCodmovenda().setCodcli(cliente);
-                     if ("RS".equals(cliente.getEstado())) {
-                            // if ("405".equals(prod.getCodprod().getCfopdentrouf())) {
-                            if ("5405".equals(prod.getCodcfop().getCodcfop()) ) {
-                                prod.setCodcfop(new CfopJpaController(managerCplus).findCfop("5411"));                               
-                            } else {
-                                if("51".equals(prod.getCodsituacaotributaria())){
-                                  prod.setValoricms(prod.getValoricms().multiply(new BigDecimal("0.70588")).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP)) ; 
-                                }
-                                prod.setCodcfop(new CfopJpaController(managerCplus).findCfop("5202"));
-                            }
+                    if ("RS".equals(cliente.getEstado())) {
+                        if ("5405".equals(prod1.getCodcfop().getCodcfop())) {
+                            prod.setCodcfop(new CfopJpaController(managerCplus).findCfop("5411"));                            
                         } else {
-                            //if ("405".equals(prod.getCodprod().getCfopdentrouf())) {
-                            //   prod.setCodcfop(new CfopJpaController(managerCplus).findCfop("6411"));
-                            //} else {
-                                prod.setCodcfop(new CfopJpaController(managerCplus).findCfop("6202"));
-                           // }
+                            prod.setCodcfop(new CfopJpaController(managerCplus).findCfop("5202"));
                         }
-                     prod.getCodmovenda().setObs(mensagemNota(prod));
+                    } else {
+                        prod.setCodcfop(new CfopJpaController(managerCplus).findCfop("6202"));
+                    }
+                    prod.getCodmovenda().setObs(mensagemNota(prod));
                 } else {
-                    prod.setValortotal(new BigDecimal(valTotal));
+                    prod.setValorunitario(valorUnitarioCompra(prod1));
+                    prod.setValortotal(valorTotalProdutoEspelho(prod1, quantidadeEspelho));
                     prod.setValorsubsttributaria(BigDecimal.ZERO);
                     prod.setAliqcofins(BigDecimal.ZERO);
                     prod.setAliqicms(BigDecimal.ZERO);
@@ -663,28 +675,181 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
                     prod.setValorcofins(BigDecimal.ZERO);
                     prod.setValoricms(BigDecimal.ZERO);
                     prod.setValorpis(BigDecimal.ZERO);                    
-                    prod.getCodmovenda().setCodcli(cliente);
-                    
+                    prod.getCodmovenda().setCodcli(cliente);                    
                     if ("RS".equals(cliente.getEstado())) {
-                            prod.setCodcfop(new CfopJpaController(managerCplus).findCfop("5949"));
-                            prod.setCstcofins("49");
-                            prod.setCstpis("49");
-                            prod.setCodsituacaotributaria("41");
-                        } else {
-                            prod.setCodcfop(new CfopJpaController(managerCplus).findCfop("6949"));
-                            prod.setCstcofins("49");
-                            prod.setCstpis("49");
-                        }
+                        prod.setCodcfop(new CfopJpaController(managerCplus).findCfop("5949"));
+                        prod.setCstcofins("49");
+                        prod.setCstpis("49");
+                        prod.setCodsituacaotributaria("41");
+                    } else {
+                        prod.setCodcfop(new CfopJpaController(managerCplus).findCfop("6949"));
+                        prod.setCstcofins("49");
+                        prod.setCstpis("49");
+                    }
                     prod.getCodmovenda().setObs(mensagemNota(prod));
                 }
                 movendaprodList.add(prod);
             }
-        }
+        }        
     }
-    
+
+    /**
+     * private void insereSerial() {
+     * this.listagemSerialSaidaJDialog.setVisible(true); if
+     * (this.listagemSerialSaidaJDialog.isCancelamento() == false) {
+     * Movendaprodserial serial =
+     * this.listagemSerialSaidaJDialog.getMovendaprodserial(); Movendaprod prod
+     * = new
+     * MovendaprodJpaController(managerCplus).findMovendaprod(serial.getCodmovprod().getCodmovprod());
+     * boolean condicao = true; double quanTotal =
+     * prod.getQuantidade().doubleValue(); double valST =
+     * prod.getValorsubsttributaria().doubleValue(); double sTUnitario = valST /
+     * quanTotal; double aliCofins = prod.getAliqcofins().doubleValue(); double
+     * aliIcms = prod.getAliqicms().doubleValue(); double aliPis =
+     * prod.getAliqpis().doubleValue(); double baseCofins =
+     * prod.getBasecofins().doubleValue() / quanTotal; double baseIcms =
+     * prod.getBaseicms().doubleValue() / quanTotal; double basePis =
+     * prod.getBasepis().doubleValue() / quanTotal; double contQantidade =
+     * quantidadeConversaoSaida(prod); double valTotal =
+     * (prod.getValorunitario().doubleValue() -
+     * (prod.getValordescontorateado().doubleValue()/
+     * prod.getQuantidade().doubleValue()))* contQantidade; for (Movendaprod
+     * vendaProd : movendaprodList) { if
+     * (prod.getCodprod().getCodprod().equals(vendaProd.getCodprod().getCodprod())
+     * && prod.getValorunitario().doubleValue() ==
+     * vendaProd.getValorunitario().doubleValue()) {
+     * movendaprodList.remove(vendaProd); //valor original + 1 contQantidade =
+     * vendaProd.getQuantidade().doubleValue() + contQantidade;
+     *
+     * prod.setQuantidade(new BigDecimal(contQantidade)); if
+     * ("Y".equals(tipoMovimentoObjeto.getFlagdevolucao().toString())) {
+     * valTotal = (prod.getValorunitario().doubleValue()-
+     * (prod.getValordescontorateado().doubleValue()/
+     * prod.getQuantidade().doubleValue())) * contQantidade ; //valTotal =
+     * baseCofins * contQantidade ; prod.setValortotal(new
+     * BigDecimal(valTotal).setScale(decimaisArredondamento,
+     * BigDecimal.ROUND_HALF_UP)); prod.setValorsubsttributaria(new
+     * BigDecimal(sTUnitario * contQantidade).setScale(decimaisArredondamento,
+     * BigDecimal.ROUND_HALF_UP)); prod.setAliqcofins(new
+     * BigDecimal(aliCofins).setScale(decimaisArredondamento,
+     * BigDecimal.ROUND_HALF_UP)); prod.setAliqicms(new
+     * BigDecimal(aliIcms).setScale(decimaisArredondamento,
+     * BigDecimal.ROUND_HALF_UP)); prod.setAliqpis(new
+     * BigDecimal(aliPis).setScale(decimaisArredondamento,
+     * BigDecimal.ROUND_HALF_UP)); prod.setBasecofins(new BigDecimal(baseCofins
+     * * contQantidade).setScale(decimaisArredondamento,
+     * BigDecimal.ROUND_HALF_UP)); prod.setBaseicms(new BigDecimal(baseIcms *
+     * contQantidade).setScale(decimaisArredondamento,
+     * BigDecimal.ROUND_HALF_UP)); prod.setBasepis(new BigDecimal(basePis *
+     * contQantidade).setScale(decimaisArredondamento,
+     * BigDecimal.ROUND_HALF_UP)); prod.setValorcofins(new
+     * BigDecimal(((baseCofins * contQantidade) * aliCofins) /
+     * 100).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
+     * prod.setValoricms(new BigDecimal(((baseIcms * contQantidade) * aliIcms) /
+     * 100).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
+     * prod.setValorpis(new BigDecimal(((basePis * contQantidade) * aliPis) /
+     * 100).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
+     *
+     * prod.getCodmovenda().setCodcli(cliente); if
+     * ("RS".equals(cliente.getEstado())) { // if
+     * ("405".equals(prod.getCodprod().getCfopdentrouf())) { if
+     * ("5405".equals(prod.getCodcfop().getCodcfop()) ) { prod.setCodcfop(new
+     * CfopJpaController(managerCplus).findCfop("5411")); } else {
+     * if("51".equals(prod.getCodsituacaotributaria())){
+     * prod.setValoricms(prod.getValoricms().multiply(new
+     * BigDecimal("0.70588")).setScale(decimaisArredondamento,
+     * BigDecimal.ROUND_HALF_UP)) ; } prod.setCodcfop(new
+     * CfopJpaController(managerCplus).findCfop("5202")); } } else { //if
+     * ("405".equals(prod.getCodprod().getCfopdentrouf())) { //
+     * prod.setCodcfop(new CfopJpaController(managerCplus).findCfop("6411"));
+     * //} else { prod.setCodcfop(new
+     * CfopJpaController(managerCplus).findCfop("6202")); // } } //
+     * prod.getCodmovenda().setObs(mensagemNota(prod)); } else { valTotal =
+     * (prod.getValorunitario().doubleValue() -
+     * (prod.getValordescontorateado().doubleValue()/
+     * prod.getQuantidade().doubleValue())) * contQantidade; //valTotal =
+     * baseCofins * contQantidade; prod.setValortotal(new
+     * BigDecimal(valTotal).setScale(decimaisArredondamento,
+     * BigDecimal.ROUND_HALF_UP));
+     * prod.setValorsubsttributaria(BigDecimal.ZERO);
+     * prod.setAliqcofins(BigDecimal.ZERO); prod.setAliqicms(BigDecimal.ZERO);
+     * prod.setAliqpis(BigDecimal.ZERO); prod.setBasecofins(BigDecimal.ZERO);
+     * prod.setBaseicms(BigDecimal.ZERO); prod.setBasepis(BigDecimal.ZERO);
+     * prod.setValorcofins(BigDecimal.ZERO); prod.setValoricms(BigDecimal.ZERO);
+     * prod.setValorpis(BigDecimal.ZERO);
+     *
+     * prod.getCodmovenda().setCodcli(cliente);
+     *
+     * if ("RS".equals(cliente.getEstado())) { prod.setCodcfop(new
+     * CfopJpaController(managerCplus).findCfop("5949"));
+     * prod.setCstcofins("49"); prod.setCstpis("49");
+     * prod.setCodsituacaotributaria("41"); } else { prod.setCodcfop(new
+     * CfopJpaController(managerCplus).findCfop("6949"));
+     * prod.setCstcofins("49"); prod.setCstpis("49"); }
+     * prod.getCodmovenda().setObs(mensagemNota(prod)); }
+     * movendaprodList.add(prod); condicao = false; } } if (condicao) {
+     * prod.setQuantidade(new BigDecimal(contQantidade)); if
+     * ("Y".equals(tipoMovimentoObjeto.getFlagdevolucao().toString())) {
+     * prod.setValortotal(new
+     * BigDecimal(valTotal).setScale(decimaisArredondamento,
+     * BigDecimal.ROUND_HALF_UP)); prod.setValorsubsttributaria(new
+     * BigDecimal(sTUnitario * contQantidade).setScale(decimaisArredondamento,
+     * BigDecimal.ROUND_HALF_UP)); prod.setAliqcofins(new
+     * BigDecimal(aliCofins).setScale(decimaisArredondamento,
+     * BigDecimal.ROUND_HALF_UP)); prod.setAliqicms(new
+     * BigDecimal(aliIcms).setScale(decimaisArredondamento,
+     * BigDecimal.ROUND_HALF_UP)); prod.setAliqpis(new
+     * BigDecimal(aliPis).setScale(decimaisArredondamento,
+     * BigDecimal.ROUND_HALF_UP)); prod.setBasecofins(new BigDecimal(baseCofins
+     * * contQantidade).setScale(decimaisArredondamento,
+     * BigDecimal.ROUND_HALF_UP)); prod.setBaseicms(new BigDecimal(baseIcms *
+     * contQantidade).setScale(decimaisArredondamento,
+     * BigDecimal.ROUND_HALF_UP)); prod.setBasepis(new BigDecimal(basePis *
+     * contQantidade).setScale(decimaisArredondamento,
+     * BigDecimal.ROUND_HALF_UP)); prod.setValorcofins(new
+     * BigDecimal(((baseCofins * contQantidade) * aliCofins) /
+     * 100).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
+     * prod.setValoricms(new BigDecimal(((baseIcms * contQantidade) * aliIcms) /
+     * 100).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
+     * prod.setValorpis(new BigDecimal(((basePis * contQantidade) * aliPis) /
+     * 100).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
+     *
+     * prod.getCodmovenda().setCodcli(cliente); if
+     * ("RS".equals(cliente.getEstado())) { // if
+     * ("405".equals(prod.getCodprod().getCfopdentrouf())) { if
+     * ("5405".equals(prod.getCodcfop().getCodcfop()) ) { prod.setCodcfop(new
+     * CfopJpaController(managerCplus).findCfop("5411")); } else {
+     * if("51".equals(prod.getCodsituacaotributaria())){
+     * prod.setValoricms(prod.getValoricms().multiply(new
+     * BigDecimal("0.70588")).setScale(decimaisArredondamento,
+     * BigDecimal.ROUND_HALF_UP)) ; } prod.setCodcfop(new
+     * CfopJpaController(managerCplus).findCfop("5202")); } } else { //if
+     * ("405".equals(prod.getCodprod().getCfopdentrouf())) { //
+     * prod.setCodcfop(new CfopJpaController(managerCplus).findCfop("6411"));
+     * //} else { prod.setCodcfop(new
+     * CfopJpaController(managerCplus).findCfop("6202")); // } }
+     * prod.getCodmovenda().setObs(mensagemNota(prod)); } else {
+     * prod.setValortotal(new BigDecimal(valTotal));
+     * prod.setValorsubsttributaria(BigDecimal.ZERO);
+     * prod.setAliqcofins(BigDecimal.ZERO); prod.setAliqicms(BigDecimal.ZERO);
+     * prod.setAliqpis(BigDecimal.ZERO); prod.setBasecofins(BigDecimal.ZERO);
+     * prod.setBaseicms(BigDecimal.ZERO); prod.setBasepis(BigDecimal.ZERO);
+     * prod.setValorcofins(BigDecimal.ZERO); prod.setValoricms(BigDecimal.ZERO);
+     * prod.setValorpis(BigDecimal.ZERO);
+     * prod.getCodmovenda().setCodcli(cliente);
+     *
+     * if ("RS".equals(cliente.getEstado())) { prod.setCodcfop(new
+     * CfopJpaController(managerCplus).findCfop("5949"));
+     * prod.setCstcofins("49"); prod.setCstpis("49");
+     * prod.setCodsituacaotributaria("41"); } else { prod.setCodcfop(new
+     * CfopJpaController(managerCplus).findCfop("6949"));
+     * prod.setCstcofins("49"); prod.setCstpis("49"); }
+     * prod.getCodmovenda().setObs(mensagemNota(prod)); }
+     * movendaprodList.add(prod); } } }
+     */
     private String mensagemNota(Movendaprod movSaidaProd) {
         List<Documento> listDoc = new QueryCplus(managerCplus).resultDocumento(movSaidaProd.getCodmovenda().getNumped().toString());
-        if ("Y".equals(tipoMovimentoObjeto.getFlagdevolucao().toString())) {          
+        if ("Y".equals(tipoMovimentoObjeto.getFlagdevolucao().toString())) {            
             for (Documento doc : listDoc) {
                 mensagem = mensagem + "Ref. Nota: " + doc.getNumnota() + ", Data: " + new FormataCampos().dataStringSoData(movSaidaProd.getCodmovenda().getData(), 0) + " "
                         + "Chave: " + doc.getChaveacessonfeletronica() + " \n";
@@ -702,15 +867,25 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
         jTextAreaObservacos.setText(mensagem);
         return mensagem;
     }
-    
-     /**
-     * funï¿½ï¿½o que traz o fator de converï¿½ï¿½o especificado na unidade do produto
+
+    /**
+     * função que traz o fator de converção especificado na unidade do produto
      */
-    private double quantidadeConversaoSaida(Movendaprod movSaidaProd) {
+    private double quantidadeConversaoSaidaff(Movendaprod movSaidaProd) {
         double quantidade = 1.00;
         for (Unidade un : new QueryCplus(managerCplus).resultPorUnidadeProduto(movSaidaProd.getCodprod().getUnidade())) {
             if (un.getFatorconversao().intValue() > 1) {
                 quantidade = un.getFatorconversao().doubleValue();
+            }
+        }
+        return quantidade;
+    }
+    
+    private BigDecimal quantidadeConversaoSaida(Movendaprod movSaidaProd) {
+        BigDecimal quantidade = BigDecimal.ONE;
+        for (Unidade un : new QueryCplus(managerCplus).resultPorUnidadeProduto(movSaidaProd.getCodprod().getUnidade())) {
+            if (un.getFatorconversao().intValue() > 1) {
+                quantidade = un.getFatorconversao();
             }
         }
         return quantidade;
@@ -734,6 +909,7 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
         jButtonRemoverProduto.setEnabled(false);
         jButtonInserir.setEnabled(false);
     }
+
     /**
      * @param args the command line arguments
      */
@@ -770,15 +946,15 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
     }
     
     private Cliente cliente;
-    private  Tipomovimento tipoMovimentoObjeto;
+    private Tipomovimento tipoMovimentoObjeto;
     int colunaCodMovendaProd;
     ListagemClientesJDialog listagemClientesJDialog;
     ListagemOperacaoJDialog listagemOperacaoJDialog;
     ListagemSerialSaidaJDialog listagemSerialSaidaJDialog;
-    static EntityManagerFactory managerCplus;   
-    static EntityManagerFactory managerIntegrador; 
+    static EntityManagerFactory managerCplus;    
+    static EntityManagerFactory managerIntegrador;    
     private String mensagem;
-    private final QueryIntegrador queryIntegrador; 
+    private final QueryIntegrador queryIntegrador;    
     private final int decimaisArredondamento;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -816,5 +992,4 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
-   
 }
