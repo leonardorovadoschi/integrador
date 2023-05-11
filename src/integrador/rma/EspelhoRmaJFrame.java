@@ -713,19 +713,6 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
         jTextAreaObservacos.setText(mensagem);
         return mensagem;
     }
-
-    /**
-     * função que traz o fator de converção especificado na unidade do produto
-     */
-    private double quantidadeConversaoSaidaff(Movendaprod movSaidaProd) {
-        double quantidade = 1.00;
-        for (Unidade un : new QueryCplus(managerCplus).resultPorUnidadeProduto(movSaidaProd.getCodprod().getUnidade())) {
-            if (un.getFatorconversao().intValue() > 1) {
-                quantidade = un.getFatorconversao().doubleValue();
-            }
-        }
-        return quantidade;
-    }
     
     private BigDecimal quantidadeConversaoSaida(Movendaprod movSaidaProd) {
         BigDecimal quantidade = BigDecimal.ONE;
