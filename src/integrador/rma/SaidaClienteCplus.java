@@ -39,12 +39,12 @@ import query.integrador.QueryIntegrador;
 public class SaidaClienteCplus {
     private QueryCplus queryCplus;
     private QueryIntegrador queryIntegrador;
-    private int decimaisArredondamento;
+    //private int decimaisArredondamento;
     public boolean saidaClienteCplus(boolean controlaEstoque, Tipomovimento movimentoSaidaCliente, Calculoicmsestado calculoIcmsEstado, Cliente cliente, Movendaprod movSaidaProd,
             String serial, Usuario usuario, EntityManagerFactory managerCplus, EntityManagerFactory managerIntegrador) {
         queryCplus = new QueryCplus(managerCplus);
         queryIntegrador = new QueryIntegrador(managerIntegrador);
-        decimaisArredondamento =  Integer.valueOf(queryIntegrador.valorConfiguracao("casas_decimais_ARREDONDAMENTO"));
+        //decimaisArredondamento =  Integer.valueOf(queryIntegrador.valorConfiguracao("casas_decimais_ARREDONDAMENTO"));
         boolean condicao = true;           
         if (condicao) {
             List<Movenda> listMovenda = queryCplus.listagemMovendaCliente(movimentoSaidaCliente.getCodigo(), cliente.getCodcli());
@@ -53,7 +53,7 @@ public class SaidaClienteCplus {
                 List<Movenda> listSaida = queryCplus.listagemMovendaCliente(movimentoSaidaCliente.getCodigo(), cliente.getCodcli());
                 if (listSaida.size() == 1) {
                     for (Movenda saida : listSaida) {
-                        if(criaSaidaProd(controlaEstoque, movimentoSaidaCliente, calculoIcmsEstado, saida, movSaidaProd, serial, managerIntegrador, managerCplus) == false){
+                        if(criaSaidaProd(controlaEstoque, calculoIcmsEstado, saida, movSaidaProd, serial, managerCplus) == false){
                             condicao = false;
                         }
                     }
@@ -67,12 +67,12 @@ public class SaidaClienteCplus {
                     for (Movenda saida : listSaida) {
                         List<Movendaprod> listMovSaidaProd = queryCplus.listagemMovSaidaProd(saida.getCodmovenda(), movSaidaProd.getCodprod().getCodprod(), movSaidaProd.getValorunitario());
                         if (listMovSaidaProd.isEmpty()) {
-                            if(criaSaidaProd(controlaEstoque, movimentoSaidaCliente, calculoIcmsEstado, saida, movSaidaProd, serial, managerIntegrador, managerCplus) ==false){
+                            if(criaSaidaProd(controlaEstoque, calculoIcmsEstado, saida, movSaidaProd, serial, managerCplus) == false){
                                 condicao = false;
                             }
                         } else {
                             for (Movendaprod prod : listMovSaidaProd) {
-                                if(editaSaidaProd(controlaEstoque, movimentoSaidaCliente, calculoIcmsEstado, movSaidaProd, saida, prod , serial, managerCplus, managerIntegrador) == false){
+                                if(editaSaidaProd(controlaEstoque, movSaidaProd, saida, prod , serial, managerCplus) == false){
                                     condicao = false;
                                 }
                             }
@@ -82,7 +82,7 @@ public class SaidaClienteCplus {
                 JOptionPane.showMessageDialog(null, "O Sistema acho mais que um resultado para essa transação!!!");
                 condicao = false;
             }
-        }//if que verifica se localizou operaï¿½ï¿½o
+        }//if que verifica se localizou operação
         return condicao;
     }
 
@@ -159,9 +159,20 @@ public class SaidaClienteCplus {
             }   
         return condicao;
     }
+    
+     private BigDecimal valorUnitario(Movendaprod prod) {
+        BigDecimal val = prod.getValortotal().subtract(prod.getValordescontorateado());
+        val = val.divide(prod.getQuantidade(), 4, BigDecimal.ROUND_HALF_UP);
+        return val;
+    }
+     
+      private BigDecimal valorTotalProduto(Movendaprod prod, BigDecimal quantidadeEspelho) {
+        BigDecimal val = valorUnitario(prod).multiply(quantidadeEspelho).setScale(2, BigDecimal.ROUND_HALF_UP);
+        return val;
+    }
 
-    private boolean criaSaidaProd(Boolean controlaEstoque, Tipomovimento movimento, Calculoicmsestado calculoIcmsEstado, Movenda saida, Movendaprod movSaidaProd, 
-            String serial, EntityManagerFactory managerIntegrador, EntityManagerFactory managerCplus) {
+    private boolean criaSaidaProd(Boolean controlaEstoque, Calculoicmsestado calculoIcmsEstado, Movenda saida, Movendaprod movSaidaProd, 
+            String serial, EntityManagerFactory managerCplus) {
         boolean condicao = true;
         Movendaprod saidaProd = new Movendaprod();
         //IntConfiguracao configuracao = Integer.valueOf(queryIntegrador.valorCinfiguracao("increment_tabela_movenda_prod"));
@@ -176,7 +187,9 @@ public class SaidaClienteCplus {
         }
        if(condicao){
             //double quant = 1.00;
-            double quant = quantidadeConversaoSaida(movSaidaProd);
+            BigDecimal quant = quantidadeConversaoSaida(movSaidaProd.getCodprod());
+           /*
+           
             double valorUnitario = movSaidaProd.getValorunitario().setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP).doubleValue();
             double valorTotal = valorUnitario * quant;
             double aliqIpi;
@@ -305,28 +318,28 @@ public class SaidaClienteCplus {
                 aliqPis = 0.00;
                 valorPis = 0.00;
             }
+            */
             String configString = String.format("%09d", configCont);
             saidaProd.setCodmovprod(configString);
             saidaProd.setCodmovenda(saida);
             saidaProd.setCodprod(movSaidaProd.getCodprod());
-            saidaProd.setQuantidade(new BigDecimal(quant));
-            //saidaProd.setQuantidadeembalagem(movSaidaProd.getCodprod().getQuantidadeembalagem());
-            saidaProd.setValorunitario(movSaidaProd.getValorunitario());
+            saidaProd.setQuantidade(quant);
+            saidaProd.setValorunitario(valorUnitario(saidaProd));
             saidaProd.setFlagtipoacrescimoitem(movSaidaProd.getFlagtipoacrescimoitem());
-            saidaProd.setAliqacrescimoitem(movSaidaProd.getAliqacrescimoitem());
-            saidaProd.setValoracrescimoitem(movSaidaProd.getValoracrescimoitem());
+            saidaProd.setAliqacrescimoitem(BigDecimal.ZERO);
+            saidaProd.setValoracrescimoitem(BigDecimal.ZERO);
             saidaProd.setFlagtipodescontoitem(movSaidaProd.getFlagtipodescontoitem());
-            saidaProd.setAliqdescontoitem(movSaidaProd.getAliqdescontoitem());
-            saidaProd.setValordescontoitem(movSaidaProd.getValordescontoitem());
-            saidaProd.setValortotal(new BigDecimal(valorTotal));
-            saidaProd.setBaseipi(new BigDecimal(baseIpi).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
+            saidaProd.setAliqdescontoitem(BigDecimal.ZERO);
+            saidaProd.setValordescontoitem(BigDecimal.ZERO);
+            saidaProd.setValortotal(valorTotalProduto(saidaProd, quant));
+            saidaProd.setBaseipi(BigDecimal.ZERO);
             saidaProd.setAliqipi(movSaidaProd.getAliqipi());
-            saidaProd.setValoripi(new BigDecimal(valorIpi).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
-            saidaProd.setBaseicms(new BigDecimal(baseIcms).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
-            saidaProd.setAliqicms(new BigDecimal(aliqIcms));
-            saidaProd.setValoricms(new BigDecimal(valorIcms).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
-            saidaProd.setBasesubsttributaria(new BigDecimal(baseSt).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
-            saidaProd.setValorsubsttributaria(new BigDecimal(valorST).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
+            saidaProd.setValoripi(BigDecimal.ZERO);
+            saidaProd.setBaseicms(BigDecimal.ZERO);
+            saidaProd.setAliqicms(movSaidaProd.getAliqicms());
+            saidaProd.setValoricms(BigDecimal.ZERO);
+            saidaProd.setBasesubsttributaria(BigDecimal.ZERO);
+            saidaProd.setValorsubsttributaria(BigDecimal.ZERO);
             saidaProd.setCodcfop(calculoIcmsEstado.getCodcfop());
             saidaProd.setFlagorigemproduto(movSaidaProd.getFlagorigemproduto());
             saidaProd.setCodsituacaotributaria(calculoIcmsEstado.getCodsituacaotributaria());
@@ -344,23 +357,20 @@ public class SaidaClienteCplus {
             saidaProd.setValorsegurorateado(movSaidaProd.getValorsegurorateado());
             saidaProd.setValoroutrasdesprateado(movSaidaProd.getValoroutrasdesprateado());
             saidaProd.setCodsetorestoque("000000001");
-            saidaProd.setBaseii(movSaidaProd.getBaseii());
-            saidaProd.setAliqii(movSaidaProd.getAliqii());
-            saidaProd.setValorii(movSaidaProd.getValorii());
-            //saidaProd.setCodmovproddevolucao(movSaidaProd.getCodmovprod());
-            saidaProd.setBasecofins(new BigDecimal(baseCofins).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
-            saidaProd.setAliqcofins(new BigDecimal(aliqCofins));
-            saidaProd.setValorcofins(new BigDecimal(valorCofins).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
-            saidaProd.setBasepis(new BigDecimal(basePis).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
-            saidaProd.setAliqpis(new BigDecimal(aliqPis));
-            saidaProd.setValorpis(new BigDecimal(valorPis).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
-            //saidaProd.setFatorconversao(BigDecimal.ONE);
+            saidaProd.setBaseii(BigDecimal.ZERO);
+            saidaProd.setAliqii(BigDecimal.ZERO);
+            saidaProd.setValorii(BigDecimal.ZERO);
+            saidaProd.setBasecofins(BigDecimal.ZERO);
+            saidaProd.setAliqcofins(movSaidaProd.getAliqcofins());
+            saidaProd.setValorcofins(BigDecimal.ZERO);
+            saidaProd.setBasepis(BigDecimal.ZERO);
+            saidaProd.setAliqpis(movSaidaProd.getAliqpis());
+            saidaProd.setValorpis(BigDecimal.ZERO);
             saidaProd.setCstpis(calculoIcmsEstado.getCstpis());
             saidaProd.setCstcofins(calculoIcmsEstado.getCstcofins());
             try {
                 new MovendaprodJpaController(managerCplus).create(saidaProd);
-               
-                 
+                               
             if(controlaEstoque){
                 atualizaEstoque(movSaidaProd.getCodprod(), managerCplus);
             }
@@ -375,12 +385,13 @@ public class SaidaClienteCplus {
         return condicao;
     }
 
-    private boolean editaSaidaProd(Boolean controlaEstoque, Tipomovimento movimento, Calculoicmsestado calculoIcmsEstado, Movendaprod movSaidaProdVenda, Movenda saida, 
-            Movendaprod movSaidaProdNovo, String serial, EntityManagerFactory managerCplus, EntityManagerFactory managerIntegrador) {
+    private boolean editaSaidaProd(Boolean controlaEstoque, Movendaprod movSaidaProdVenda, Movenda saida, 
+            Movendaprod movSaidaProdNovo, String serial, EntityManagerFactory managerCplus) {
         boolean condicao = true;
-        double quant = movSaidaProdNovo.getQuantidade().doubleValue();
+        BigDecimal quant = movSaidaProdNovo.getQuantidade();
        // quant = quant + 1.00;
-        quant = quant + quantidadeConversaoSaida(movSaidaProdNovo);
+        quant = quant.add(quantidadeConversaoSaida(movSaidaProdNovo.getCodprod()));
+        /*
         double valorUnitario = movSaidaProdVenda.getValorunitario().setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP).doubleValue();
         double valorTotal = valorUnitario * quant;
         double aliqIpi = movSaidaProdVenda.getAliqipi().doubleValue();
@@ -465,24 +476,25 @@ public class SaidaClienteCplus {
             basePis = 0.00;
             aliqPis = 0.00;
             valorPis = 0.00;
-        }           
-        movSaidaProdNovo.setQuantidade(new BigDecimal(quant));       
-        movSaidaProdNovo.setValorunitario(new BigDecimal(valorUnitario));       
-        movSaidaProdNovo.setValortotal(new BigDecimal(valorTotal));
-        movSaidaProdNovo.setBaseipi(new BigDecimal(baseIpi).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
+        }  
+        */
+        movSaidaProdNovo.setQuantidade(quant);       
+        movSaidaProdNovo.setValorunitario(valorUnitario(movSaidaProdVenda));       
+        movSaidaProdNovo.setValortotal(valorTotalProduto(movSaidaProdVenda, quant));
+        movSaidaProdNovo.setBaseipi(BigDecimal.ZERO);
         movSaidaProdNovo.setAliqipi(movSaidaProdVenda.getAliqipi());
-        movSaidaProdNovo.setValoripi(new BigDecimal(valorIpi).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
-        movSaidaProdNovo.setBaseicms(new BigDecimal(baseIcms).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
-        movSaidaProdNovo.setAliqicms(new BigDecimal(aliqIcms));
-        movSaidaProdNovo.setValoricms(new BigDecimal(valorIcms).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
-        movSaidaProdNovo.setBasesubsttributaria(new BigDecimal(baseSt).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
-        movSaidaProdNovo.setValorsubsttributaria(new BigDecimal(valorST).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));     
-        movSaidaProdNovo.setBasecofins(new BigDecimal(baseCofins).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
-        movSaidaProdNovo.setAliqcofins(new BigDecimal(aliqCofins));
-        movSaidaProdNovo.setValorcofins(new BigDecimal(valorCofins).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
-        movSaidaProdNovo.setBasepis(new BigDecimal(basePis).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
-        movSaidaProdNovo.setAliqpis(new BigDecimal(aliqPis));
-        movSaidaProdNovo.setValorpis(new BigDecimal(valorPis).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));         
+        movSaidaProdNovo.setValoripi(BigDecimal.ZERO);
+        movSaidaProdNovo.setBaseicms(BigDecimal.ZERO);
+        movSaidaProdNovo.setAliqicms(movSaidaProdVenda.getAliqicms());
+        movSaidaProdNovo.setValoricms(BigDecimal.ZERO);
+        movSaidaProdNovo.setBasesubsttributaria(BigDecimal.ZERO);
+        movSaidaProdNovo.setValorsubsttributaria(BigDecimal.ZERO);     
+        movSaidaProdNovo.setBasecofins(BigDecimal.ZERO);
+        movSaidaProdNovo.setAliqcofins(movSaidaProdVenda.getAliqcofins());
+        movSaidaProdNovo.setValorcofins(BigDecimal.ZERO);
+        movSaidaProdNovo.setBasepis(BigDecimal.ZERO);
+        movSaidaProdNovo.setAliqpis(movSaidaProdVenda.getAliqpis());
+        movSaidaProdNovo.setValorpis(BigDecimal.ZERO);         
         try {
             new MovendaprodJpaController(managerCplus).edit(movSaidaProdNovo);
             editaSaida(saida, managerCplus);          
@@ -504,7 +516,7 @@ public class SaidaClienteCplus {
         List<Produtoestoque> listestoque = queryCplus.listagemProdutoEstoque(produto.getCodprod());
         for(Produtoestoque estoque : listestoque){
             BigDecimal estoqueNovo = estoque.getEstatu();
-            estoqueNovo.subtract(new BigDecimal(quantidadeConversaoSaida(produto)));
+            estoqueNovo.subtract(quantidadeConversaoSaida(produto));
             estoque.setEstatu(estoqueNovo);
             estoque.setLastChange(new Date(System.currentTimeMillis()));
             try {
@@ -592,27 +604,15 @@ public class SaidaClienteCplus {
             JOptionPane.showMessageDialog(null, "Houve um erro ao Criar Mensagem de entrada!!!\n " + ex);
         }
     }
-     /**
-     * funï¿½ï¿½o que traz o fator de converï¿½ï¿½o especificado na unidade do produto
-     */
-    private double quantidadeConversaoSaida(Movendaprod movSaidaProd) {
-        double quantidade = 1.00;
-        for (Unidade un : queryCplus.resultPorUnidadeProduto(movSaidaProd.getCodprod().getUnidade())) {
-            if (un.getFatorconversao().intValue() > 1) {
-                quantidade = un.getFatorconversao().doubleValue();
-            }
-        }
-        return quantidade;
-    }
     
      /**
-     * funï¿½ï¿½o que traz o fator de converï¿½ï¿½o especificado na unidade do produto
+     * função que traz o fator de conversão especificado na unidade do produto
      */
-    private double quantidadeConversaoSaida(Produto produto) {
-        double quantidade = 1.00;
+    private BigDecimal quantidadeConversaoSaida(Produto produto) {
+        BigDecimal quantidade = BigDecimal.ONE;
         for (Unidade un : queryCplus.resultPorUnidadeProduto(produto.getUnidade())) {
             if (un.getFatorconversao().intValue() > 1) {
-                quantidade = un.getFatorconversao().doubleValue();
+                quantidade = un.getFatorconversao();
             }
         }
         return quantidade;

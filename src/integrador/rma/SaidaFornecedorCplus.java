@@ -51,7 +51,7 @@ public class SaidaFornecedorCplus {
     QueryCplus queryCplus;
 
     /**
-     * Funï¿½ï¿½o que trada de uma saida de cliente
+     * Função que trada de uma saida de cliente
      *
      * @param controlaEstoque
      * @param movimentoSaidaFornecedor
@@ -93,7 +93,7 @@ public class SaidaFornecedorCplus {
                             }
                         } else {
                             for (Movendaprod prod : listMovSaidaProd) {
-                                if(editaSaidaProd(controlaEstoque, fornecedor, movimentoSaidaFornecedor, calculoIcmsEstado, prod, saida, movEntradaProd, serial, managerCplus, managerIntegrador) == false){
+                                if(editaSaidaProd(controlaEstoque, fornecedor, movimentoSaidaFornecedor, prod, saida, movEntradaProd, serial, managerCplus, managerIntegrador) == false){
                                     condicao = false;
                                 }
                             }
@@ -116,15 +116,11 @@ public class SaidaFornecedorCplus {
      */
     private boolean criaSaidaProd(boolean controlaEstoque, Fornecedor fornecedor, Tipomovimento movimento, Calculoicmsestado calculoIcmsEstado, Movenda movSaida, Moventradaprod movEntradaProd, 
                                   String serial, EntityManagerFactory managerIntegrador, EntityManagerFactory managerCplus) {
-        int decimaisArredondamento =  Integer.valueOf(new QueryIntegrador(managerIntegrador).valorConfiguracao("casas_decimais_ARREDONDAMENTO"));
         boolean condicao = true;
         Movendaprod saidaProd = new Movendaprod();
-        //IntConfiguracao configuracao = new QueryIntegrador(managerIntegrador).valorConfiguracao("increment_tabela_movenda_prod");
         Integer configCont = Integer.valueOf(new QueryIntegrador(managerIntegrador).valorConfiguracao("increment_tabela_movenda_prod"));
         configCont--;
-        //configuracao.setValorConfiguracao(Integer.toString(configCont));
         try {
-           // new ConfiguracaoJpaController(managerIntegrador).edit(configuracao);
            new QueryIntegrador(managerIntegrador).atualizaValorConfiguracao("increment_tabela_movenda_prod", String.valueOf(configCont));
             } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Houve um erro ao Gravar Configuraçãode Entrada Produto!!!\n " + ex);
@@ -132,159 +128,29 @@ public class SaidaFornecedorCplus {
         }
         if(condicao){
             //double quant = 1.00;
-            double quant = quantidadeConversaoSaida(movEntradaProd);
-            double valorUnitario = movEntradaProd.getValorunitario().setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP).doubleValue();
-            double valorTotal = valorUnitario * quant;
-            double aliqIpi;
-            if(movEntradaProd.getAliqipi() == null){
-                aliqIpi = 0.00;
-            }else{
-            aliqIpi = movEntradaProd.getAliqipi().doubleValue();
-            }
-            double quantidadeMovEntrada = movEntradaProd.getQuantidade().doubleValue();
-            double baseIpiMovEntrada;
-            double baseIpi = 0.00;
-            if(movEntradaProd.getBaseipi() == null){
-                baseIpiMovEntrada = 0.00;
-            }else{
-            baseIpiMovEntrada = movEntradaProd.getBaseipi().doubleValue();
-            if(baseIpiMovEntrada == 0.00 && aliqIpi > 0.00){
-                baseIpiMovEntrada = valorTotal;
-                baseIpi = baseIpiMovEntrada;
-            }else{
-                baseIpi = baseIpiMovEntrada / quantidadeMovEntrada * quant;
-            }
-            }
-            
-            double valorIpi = baseIpi * aliqIpi / 100;
-            double icmsAliqEstado;
-            if(calculoIcmsEstado.getAliqicms() == null){
-                icmsAliqEstado = 0.00;
-            }else{
-            icmsAliqEstado = calculoIcmsEstado.getAliqicms().doubleValue();
-            }
-            double aliqIcms;
-            double baseIcms;
-            double valorIcms;
-            if (icmsAliqEstado > 0.00) {
-                if(movEntradaProd.getAliqicms() == null){
-                    aliqIcms = 0.00;
-                }else{
-                aliqIcms = movEntradaProd.getAliqicms().doubleValue();
-                }
-                double baseIcmsMovenda;
-                if(movEntradaProd.getBaseicms() == null){
-                    baseIcmsMovenda =0.00;
-                }else{
-                baseIcmsMovenda = movEntradaProd.getBaseicms().doubleValue();
-                }
-                baseIcms = baseIcmsMovenda / quantidadeMovEntrada * quant;
-               // valorIcms = baseIcms * aliqIcms / 100;
-                valorIcms = movEntradaProd.getValoricms().doubleValue() / quantidadeMovEntrada * quant;
-            } else {
-                aliqIcms = 0.00;
-                baseIcms = 0.00;
-                valorIcms = 0.00;
-            }
-            double baseSt;
-            double valorST;
-            if (calculoIcmsEstado.getFlagcalculasubsttributaria() == 'Y') {
-                double baseSTMovenda;
-                if(movEntradaProd.getBasesubsttributaria() == null){
-                   baseSTMovenda = 0.00; 
-                }else{
-                baseSTMovenda = movEntradaProd.getBasesubsttributaria().doubleValue();
-                }
-                baseSt = baseSTMovenda / quantidadeMovEntrada * quant;
-                double valorSTMovenda;
-                if(movEntradaProd.getValorsubsttributaria() == null){
-                    valorSTMovenda = 0.00;
-                }else{
-                     valorSTMovenda  = movEntradaProd.getValorsubsttributaria().doubleValue();
-                }
-                valorST = valorSTMovenda / quantidadeMovEntrada * quant;
-            } else {
-                baseSt = 0.00;
-                valorST = 0.00;
-            }
-            double cofinsIcmsEstado;
-            if(calculoIcmsEstado.getAliqcofins() == null){
-                cofinsIcmsEstado = 0.00;
-            }else{
-                  cofinsIcmsEstado  = calculoIcmsEstado.getAliqcofins().doubleValue();
-            }
-            double baseCofins;
-            double aliqCofins;
-            double valorCofins;
-            if (cofinsIcmsEstado > 0.00) {
-                double baseCofinsMovenda; 
-                        if(movEntradaProd.getBasecofins() == null){
-                            baseCofinsMovenda = 0.00;
-                        }else{
-                       baseCofinsMovenda = movEntradaProd.getBasecofins().doubleValue();
-                        }
-                baseCofins = baseCofinsMovenda / quantidadeMovEntrada * quant;
-                if(movEntradaProd.getAliqcofins() == null){
-                    aliqCofins = 0.00;
-                }else{
-                aliqCofins = movEntradaProd.getAliqcofins().doubleValue();
-                }
-                valorCofins = baseCofins * aliqCofins / 100;
-            } else {
-                baseCofins = 0.00;
-                aliqCofins = 0.00;
-                valorCofins = 0.00;
-            }
-            double pisIcmsEstado;
-            if(calculoIcmsEstado.getAliqpis() == null){
-                pisIcmsEstado = 0.00;
-            }else{
-                pisIcmsEstado = calculoIcmsEstado.getAliqpis().doubleValue();
-            }
-            double basePis;
-            double aliqPis;
-            double valorPis;
-            if (pisIcmsEstado > 0.00) {
-                double basePisMovenda;
-                if(movEntradaProd.getBasepis() == null){
-                    basePisMovenda = 0.00;
-                }else{
-                      basePisMovenda = movEntradaProd.getBasepis().doubleValue();
-                }
-                basePis = basePisMovenda / quantidadeMovEntrada * quant;
-                if(movEntradaProd.getAliqpis() == null){
-                    aliqPis = 0.00;
-                }else{
-                aliqPis = movEntradaProd.getAliqpis().doubleValue();
-                }
-                valorPis = basePis * aliqPis / 100;
-            } else {
-                basePis = 0.00;
-                aliqPis = 0.00;
-                valorPis = 0.00;
-            }
+            BigDecimal quant = quantidadeConversao(movEntradaProd.getCodprod());
+           
             String configString = String.format("%09d", configCont);
             saidaProd.setCodmovprod(configString);
             saidaProd.setCodmovenda(movSaida);
             saidaProd.setCodprod(movEntradaProd.getCodprod());
-            saidaProd.setQuantidade(new BigDecimal(quant));
-            //saidaProd.setQuantidadeembalagem(movEntradaProd.getCodprod().getQuantidadeembalagem());
-            saidaProd.setValorunitario(movEntradaProd.getValorunitario());
+            saidaProd.setQuantidade(quant);
+            saidaProd.setValorunitario(valorUnitarioVenda(movEntradaProd));
             saidaProd.setFlagtipoacrescimoitem('V');
             saidaProd.setAliqacrescimoitem(BigDecimal.ZERO);
             saidaProd.setValoracrescimoitem(BigDecimal.ZERO);
             saidaProd.setFlagtipodescontoitem('V');
-            saidaProd.setAliqdescontoitem(movEntradaProd.getAliqdescontoitem());
-            saidaProd.setValordescontoitem(movEntradaProd.getValordescontoitem());
-            saidaProd.setValortotal(new BigDecimal(valorTotal));
-            saidaProd.setBaseipi(new BigDecimal(baseIpi).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
+            saidaProd.setAliqdescontoitem(BigDecimal.ZERO);
+            saidaProd.setValordescontoitem(BigDecimal.ZERO);
+            saidaProd.setValortotal(valorTotalProdutoEntradao(movEntradaProd, quant));
+            saidaProd.setBaseipi(valorBaseIpiEntrada(movEntradaProd, quant));
             saidaProd.setAliqipi(movEntradaProd.getAliqipi());
-            saidaProd.setValoripi(new BigDecimal(valorIpi).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
-            saidaProd.setBaseicms(new BigDecimal(baseIcms).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
-            saidaProd.setAliqicms(new BigDecimal(aliqIcms));
-            saidaProd.setValoricms(new BigDecimal(valorIcms).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
-            saidaProd.setBasesubsttributaria(new BigDecimal(baseSt).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
-            saidaProd.setValorsubsttributaria(new BigDecimal(valorST).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
+            saidaProd.setValoripi(valorIpiEntrada(movEntradaProd, quant));
+            saidaProd.setBaseicms(valorBaseIcmsEntrada(movEntradaProd, quant));
+            saidaProd.setAliqicms(movEntradaProd.getAliqicms());
+            saidaProd.setValoricms(valorIcmsEntrada(movEntradaProd, quant));
+            saidaProd.setBasesubsttributaria(valorBaseSTEntrada(movEntradaProd, quant));
+            saidaProd.setValorsubsttributaria(valorSTEntrada(movEntradaProd, quant));
             saidaProd.setCodcfop(calculoIcmsEstado.getCodcfop());
            
             saidaProd.setCodsituacaotributaria(calculoIcmsEstado.getCodsituacaotributaria());
@@ -325,22 +191,16 @@ public class SaidaFornecedorCplus {
             saidaProd.setAliqii(BigDecimal.ZERO);
             saidaProd.setValorii(BigDecimal.ZERO);
             //saidaProd.setCodmovproddevolucao(movEntradaProd.getCodmovprod());
-            saidaProd.setBasecofins(new BigDecimal(baseCofins).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
-            saidaProd.setAliqcofins(new BigDecimal(aliqCofins));
-            saidaProd.setValorcofins(new BigDecimal(valorCofins).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
-            saidaProd.setBasepis(new BigDecimal(basePis).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
-            saidaProd.setAliqpis(new BigDecimal(aliqPis));
-            saidaProd.setValorpis(new BigDecimal(valorPis).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
-            //saidaProd.setFatorconversao(BigDecimal.ONE);
+            saidaProd.setBasecofins(valorBaseCofinsEntrada(movEntradaProd, quant));
+            saidaProd.setAliqcofins(movEntradaProd.getAliqcofins());
+            saidaProd.setValorcofins(valorCofinsEntrada(movEntradaProd, quant));
+            saidaProd.setBasepis(valorBasePisEntrada(movEntradaProd, quant));
+            saidaProd.setAliqpis(movEntradaProd.getAliqpis());
+            saidaProd.setValorpis(valorPisEntrada(movEntradaProd, quant));
             saidaProd.setCstpis(calculoIcmsEstado.getCstpis());
             saidaProd.setCstcofins(calculoIcmsEstado.getCstcofins());
             try {
-                new MovendaprodJpaController(managerCplus).create(saidaProd);
-              //  editaSeriaSaida(serial, new MovendaprodJpaController(managerCplus).findMovendaprod(configString), managerCplus);
-               // String devolucao = movimento.getFlagdevolucao().toString();
-               // if("Y".equals(devolucao)){
-               // relacaoNotaParaDevolucaoFornecedor(movSaida, movEntradaProd.getCodmoventr(), managerCplus, managerIntegrador);
-               // }
+                new MovendaprodJpaController(managerCplus).create(saidaProd);              
                 String controlaDevolucao = movimento.getFlagdevolucaocompra().toString();
                 if("Y".equals(controlaDevolucao) ){
                     controleDevolucaofornecedor(fornecedor, new MovendaprodJpaController(managerCplus).findMovendaprod(configString), managerCplus, managerIntegrador);
@@ -357,8 +217,95 @@ public class SaidaFornecedorCplus {
         }
         return condicao;
     }
+    
+     private BigDecimal valorUnitarioVenda(Moventradaprod prod) {
+        BigDecimal val = prod.getValortotal().subtract(prod.getValordescontorateado());
+        val = val.divide(prod.getQuantidade(), 4, BigDecimal.ROUND_HALF_UP);
+        return val;
+    }
+
+    private BigDecimal valorSTEntrada(Moventradaprod prod, BigDecimal quantidadeEspelho) {
+        BigDecimal val = BigDecimal.ZERO;      
+         val = prod.getValorsubsttributaria().divide(prod.getQuantidade(), 4, BigDecimal.ROUND_HALF_UP);
+        val = val.multiply(quantidadeEspelho).setScale(2, BigDecimal.ROUND_HALF_UP);
+        
+        return val;
+    }
+
+    private BigDecimal valorBaseSTEntrada(Moventradaprod prod, BigDecimal quantidadeEspelho) {      
+        BigDecimal val = BigDecimal.ZERO;
+        val = prod.getBasesubsttributaria().divide(prod.getQuantidade(), 4, BigDecimal.ROUND_HALF_UP);
+        val = val.multiply(quantidadeEspelho).setScale(2, BigDecimal.ROUND_HALF_UP);
+        return val;
+    }
+
+    private BigDecimal valorBaseCofinsEntrada(Moventradaprod prod, BigDecimal quantidadeEspelho) {
+        BigDecimal val = BigDecimal.ZERO;
+        val = prod.getBasecofins().divide(prod.getQuantidade(), 4, BigDecimal.ROUND_HALF_UP);
+        val = val.multiply(quantidadeEspelho).setScale(2, BigDecimal.ROUND_HALF_UP);
+        return val;
+    }
+
+    private BigDecimal valorBasePisEntrada(Moventradaprod prod, BigDecimal quantidadeEspelho) {
+        BigDecimal val = BigDecimal.ZERO;
+        val = prod.getBasepis().divide(prod.getQuantidade(), 4, BigDecimal.ROUND_HALF_UP);
+        val = val.multiply(quantidadeEspelho).setScale(2, BigDecimal.ROUND_HALF_UP);       
+        return val;
+    }
+
+    private BigDecimal valorCofinsEntrada(Moventradaprod prod, BigDecimal quantidadeEspelho) {
+        BigDecimal val = BigDecimal.ZERO;
+        val = prod.getValorcofins().divide(prod.getQuantidade(), 4, BigDecimal.ROUND_HALF_UP);
+        val = val.multiply(quantidadeEspelho).setScale(2, BigDecimal.ROUND_HALF_UP);
+        return val;
+    }
+
+    private BigDecimal valorPisEntrada(Moventradaprod prod, BigDecimal quantidadeEspelho) {
+        BigDecimal val = BigDecimal.ZERO;
+        val = prod.getValorpis().divide(prod.getQuantidade(), 4, BigDecimal.ROUND_HALF_UP);
+        val = val.multiply(quantidadeEspelho).setScale(2, BigDecimal.ROUND_HALF_UP);
+        return val;
+    }
+
+    private BigDecimal valorBaseIpiEntrada(Moventradaprod prod, BigDecimal quantidadeEspelho) {
+        BigDecimal val = BigDecimal.ZERO;
+        if (prod.getBaseipi() != null) {
+            val = prod.getBaseipi().divide(prod.getQuantidade(), 4, BigDecimal.ROUND_HALF_UP);
+            val = val.multiply(quantidadeEspelho).setScale(2, BigDecimal.ROUND_HALF_UP);
+        }
+        return val;
+    }
+
+    private BigDecimal valorIpiEntrada(Moventradaprod prod, BigDecimal quantidadeEspelho) {
+        BigDecimal val = BigDecimal.ZERO;
+        if (prod.getBaseipi() != null) {
+            val = prod.getValoripi().divide(prod.getQuantidade(), 4, BigDecimal.ROUND_HALF_UP);
+            val = val.multiply(quantidadeEspelho).setScale(2, BigDecimal.ROUND_HALF_UP);
+        }
+        return val;
+    }
+
+    private BigDecimal valorBaseIcmsEntrada(Moventradaprod prod, BigDecimal quantidadeEspelho) {
+        BigDecimal val = BigDecimal.ZERO;
+         val = prod.getBaseicms().divide(prod.getQuantidade(), 4, BigDecimal.ROUND_HALF_UP);
+        val = val.multiply(quantidadeEspelho).setScale(2, BigDecimal.ROUND_HALF_UP);
+        return val;
+    }
+
+    private BigDecimal valorIcmsEntrada(Moventradaprod prod, BigDecimal quantidadeEspelho) {
+        BigDecimal val = BigDecimal.ZERO;
+            val = prod.getValoricms().divide(prod.getQuantidade(), 4, BigDecimal.ROUND_HALF_UP);
+            val = val.multiply(quantidadeEspelho).setScale(2, BigDecimal.ROUND_HALF_UP);
+        return val;
+    }
+
+    private BigDecimal valorTotalProdutoEntradao(Moventradaprod prod, BigDecimal quantidadeEspelho) {
+        BigDecimal val = valorUnitarioVenda(prod).multiply(quantidadeEspelho).setScale(2, BigDecimal.ROUND_HALF_UP);
+        return val;
+    }
+    
     /**
-     * Funï¿½ï¿½o que cria ou edita o controle para devoluï¿½ï¿½od e compra
+     * Função que cria ou edita o controle para devolução de compra
      * @param fornecedor
      * @param saidaProd
      * @param managerCplus
@@ -367,12 +314,9 @@ public class SaidaFornecedorCplus {
     private void controleDevolucaofornecedor(Fornecedor fornecedor, Movendaprod saidaProd, EntityManagerFactory managerCplus, EntityManagerFactory managerIntegrador) {
         List<Movendaproddevolucaocompra> listDevProd = queryCplus.listagemControlaDevolucaoPorSaidaProd(saidaProd.getCodmovprod());
         if (listDevProd.isEmpty()) {
-            //Configuracao configuracao = new QueryIntegrador(managerIntegrador).valorConfiguracao("increment_tabela_movenda_controla_devolucao");
             Integer configCont = Integer.valueOf(new QueryIntegrador(managerIntegrador).valorConfiguracao("increment_tabela_movenda_controla_devolucao"));
             configCont--;
-            //configuracao.setValorConfiguracao(Integer.toString(configCont));
             try {
-               // new ConfiguracaoJpaController(managerIntegrador).edit(configuracao);
                new QueryIntegrador(managerIntegrador).atualizaValorConfiguracao("increment_tabela_movenda_controla_devolucao", String.valueOf(configCont));
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, "Houve um erro ao Gravar Configuração de Entrada Produto!!!\n " + ex);
@@ -408,7 +352,7 @@ public class SaidaFornecedorCplus {
         }
     }   
     /**
-     * Funï¿½ï¿½o que relaciona a nota de compra com a devoluï¿½ï¿½o para fornecedor
+     * Função que relaciona a nota de compra com a devolução para fornecedor
      * @param movSaida
      * @param movEntrada
      * @param managerCplus
@@ -417,10 +361,8 @@ public class SaidaFornecedorCplus {
     private void relacaoNotaParaDevolucaoFornecedor(Movenda movSaida, Moventrada movEntrada, EntityManagerFactory managerCplus, EntityManagerFactory managerIntegrador) {
         List<Movdocreferenciado> lisNota = queryCplus.relacaoNotaDevolucaoFornecedor(movEntrada.getCodmoventr(), movSaida.getCodmovenda());
         if (lisNota.isEmpty()) {
-            //Configuracao configuracao = new ConfiguracaoJpaController(managerIntegrador).findConfiguracao("increment_tabela_movenda_doc_referencia");
             Integer configCont = Integer.valueOf(new QueryIntegrador(managerIntegrador).valorConfiguracao("increment_tabela_movenda_doc_referencia"));
             configCont--;
-           // configuracao.setValorConfiguracao(Integer.toString(configCont));
             try {
                 new QueryIntegrador(managerIntegrador).atualizaValorConfiguracao("increment_tabela_movenda_doc_referencia", String.valueOf(configCont));
             } catch (Exception ex) {
@@ -452,116 +394,30 @@ public class SaidaFornecedorCplus {
      * @param serial
      * @param managerCplus 
      */
-    private boolean editaSaidaProd(boolean controlaEstoque, Fornecedor fornecedor, Tipomovimento movimento, Calculoicmsestado calculoIcmsEstado,Movendaprod movSaidaProd, Movenda movSaida, 
+    private boolean editaSaidaProd(boolean controlaEstoque, Fornecedor fornecedor, Tipomovimento movimento, Movendaprod movSaidaProd, Movenda movSaida, 
             Moventradaprod movEntradaProd, String serial, EntityManagerFactory managerCplus, EntityManagerFactory managerIntegrador) {
-        boolean condicao = true;
-        int decimaisArredondamento =  Integer.valueOf(new QueryIntegrador(managerIntegrador).valorConfiguracao("casas_decimais_ARREDONDAMENTO"));
-        double quant = movSaidaProd.getQuantidade().doubleValue();
+        boolean condicao = true;       
+        BigDecimal quant = movSaidaProd.getQuantidade();
         //quant = quant + 1.00;
-        quant = quant + quantidadeConversaoSaida(movEntradaProd);
-        double valorUnitario = movEntradaProd.getValorunitario().setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP).doubleValue();
-        double valorTotal = valorUnitario * quant;
-        double aliqIpi = movEntradaProd.getAliqipi().doubleValue();
-        double quantidadeMovEntrada = movEntradaProd.getQuantidade().doubleValue();
-        double baseIpiMovEntrada = movEntradaProd.getBaseipi().doubleValue();
-        if(baseIpiMovEntrada == 0.00 && aliqIpi > 0.00){
-                baseIpiMovEntrada = valorTotal;
-            }
-        double baseIpi = 0.00;
-            if(movEntradaProd.getBaseipi() == null){
-                baseIpiMovEntrada = 0.00;
-            }else{
-            baseIpiMovEntrada = movEntradaProd.getBaseipi().setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP).doubleValue();
-            if(baseIpiMovEntrada == 0.00 && aliqIpi > 0.00){
-                baseIpiMovEntrada = valorTotal;
-                baseIpi = baseIpiMovEntrada;
-            }else{
-                baseIpi = baseIpiMovEntrada / quantidadeMovEntrada * quant;
-            }
-            }
-        
-        double valorIpi = baseIpi * aliqIpi / 100;
-        double icmsAliqEstado = calculoIcmsEstado.getAliqicms().doubleValue();
-        double aliqIcms;
-        double baseIcms;
-        double valorIcms;
-        if (icmsAliqEstado > 0.00) {
-            aliqIcms = movEntradaProd.getAliqicms().doubleValue();
-            double baseIcmsMovenda = movEntradaProd.getBaseicms().setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP).doubleValue();
-            baseIcms = baseIcmsMovenda / quantidadeMovEntrada * quant;
-            //valorIcms = baseIcms * aliqIcms / 100;
-            valorIcms = movEntradaProd.getValoricms().doubleValue() / quantidadeMovEntrada * quant;
-        } else {
-            aliqIcms = 0.00;
-            baseIcms = 0.00;
-            valorIcms = 0.00;
-        }
-        double baseSt;
-        double valorST;
-        if (calculoIcmsEstado.getFlagcalculasubsttributaria() == 'Y') {
-            double baseSTMovenda = movEntradaProd.getBasesubsttributaria().doubleValue();
-            baseSt = baseSTMovenda / quantidadeMovEntrada * quant;
-            double valorSTMovenda = movEntradaProd.getValorsubsttributaria().doubleValue();
-            valorST = valorSTMovenda / quantidadeMovEntrada * quant;
-        } else {
-            baseSt = 0.00;
-            valorST = 0.00;
-        }
-        double cofinsIcmsEstado;
-            if(calculoIcmsEstado.getAliqcofins() == null){
-                cofinsIcmsEstado = 0.00;
-            }else{
-                  cofinsIcmsEstado  = calculoIcmsEstado.getAliqcofins().doubleValue();
-            }
-        double baseCofins;
-        double aliqCofins;
-        double valorCofins;
-        if (cofinsIcmsEstado > 0.00) {
-            double baseCofinsMovenda = movEntradaProd.getBasecofins().doubleValue();
-            baseCofins = baseCofinsMovenda / quantidadeMovEntrada * quant;
-            aliqCofins = movEntradaProd.getAliqcofins().doubleValue();
-            valorCofins = baseCofins * aliqCofins / 100;
-        } else {
-            baseCofins = 0.00;
-            aliqCofins = 0.00;
-            valorCofins = 0.00;
-        }
-        double pisIcmsEstado;
-            if(calculoIcmsEstado.getAliqpis() == null){
-                pisIcmsEstado = 0.00;
-            }else{
-                pisIcmsEstado = calculoIcmsEstado.getAliqpis().doubleValue();
-            }
-        double basePis;
-        double aliqPis;
-        double valorPis;
-        if (pisIcmsEstado > 0.00) {
-            double basePisMovenda = movEntradaProd.getBasepis().doubleValue();
-            basePis = basePisMovenda / quantidadeMovEntrada * quant;
-            aliqPis = movEntradaProd.getAliqpis().doubleValue();
-            valorPis = basePis * aliqPis / 100;
-        } else {
-            basePis = 0.00;
-            aliqPis = 0.00;
-            valorPis = 0.00;
-        }           
-        movSaidaProd.setQuantidade(new BigDecimal(quant));       
-        movSaidaProd.setValorunitario(movEntradaProd.getValorunitario());       
-        movSaidaProd.setValortotal(new BigDecimal(valorTotal));
-        movSaidaProd.setBaseipi(new BigDecimal(baseIpi));
+        quant = quant.add(quantidadeConversao(movEntradaProd.getCodprod()));
+      
+        movSaidaProd.setQuantidade(quant);       
+        movSaidaProd.setValorunitario(valorUnitarioVenda(movEntradaProd));       
+        movSaidaProd.setValortotal(valorTotalProdutoEntradao(movEntradaProd, quant));
+        movSaidaProd.setBaseipi(valorBaseIpiEntrada(movEntradaProd, quant));
         movSaidaProd.setAliqipi(movEntradaProd.getAliqipi());
-        movSaidaProd.setValoripi(new BigDecimal(valorIpi).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
-        movSaidaProd.setBaseicms(new BigDecimal(baseIcms));
-        movSaidaProd.setAliqicms(new BigDecimal(aliqIcms));
-        movSaidaProd.setValoricms(new BigDecimal(valorIcms).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
-        movSaidaProd.setBasesubsttributaria(new BigDecimal(baseSt).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
-        movSaidaProd.setValorsubsttributaria(new BigDecimal(valorST).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));     
-        movSaidaProd.setBasecofins(new BigDecimal(baseCofins).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
-        movSaidaProd.setAliqcofins(new BigDecimal(aliqCofins));
-        movSaidaProd.setValorcofins(new BigDecimal(valorCofins).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
-        movSaidaProd.setBasepis(new BigDecimal(basePis).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
-        movSaidaProd.setAliqpis(new BigDecimal(aliqPis));
-        movSaidaProd.setValorpis(new BigDecimal(valorPis).setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));         
+        movSaidaProd.setValoripi(valorIpiEntrada(movEntradaProd, quant));
+        movSaidaProd.setBaseicms(valorBaseIcmsEntrada(movEntradaProd, quant));
+        movSaidaProd.setAliqicms(movEntradaProd.getAliqicms());
+        movSaidaProd.setValoricms(valorIcmsEntrada(movEntradaProd, quant));
+        movSaidaProd.setBasesubsttributaria(valorBaseSTEntrada(movEntradaProd, quant));
+        movSaidaProd.setValorsubsttributaria(valorSTEntrada(movEntradaProd, quant));     
+        movSaidaProd.setBasecofins(valorBaseCofinsEntrada(movEntradaProd, quant));
+        movSaidaProd.setAliqcofins(movEntradaProd.getAliqcofins());
+        movSaidaProd.setValorcofins(valorCofinsEntrada(movEntradaProd, quant));
+        movSaidaProd.setBasepis(valorBasePisEntrada(movEntradaProd, quant));
+        movSaidaProd.setAliqpis(movEntradaProd.getAliqpis());
+        movSaidaProd.setValorpis(valorPisEntrada(movEntradaProd, quant));         
         try {
             new MovendaprodJpaController(managerCplus).edit(movSaidaProd);
             editaSaida(movimento, movSaida, managerCplus);
@@ -593,7 +449,7 @@ public class SaidaFornecedorCplus {
         List<Produtoestoque> listestoque = queryCplus.listagemProdutoEstoque(produto.getCodprod());
         for(Produtoestoque estoque : listestoque){
             BigDecimal estoqueNovo = estoque.getEstatu();
-            estoqueNovo.subtract(new BigDecimal(quantidadeConversaoSaida(produto)));
+            estoqueNovo.subtract(quantidadeConversao(produto));
             estoque.setEstatu(estoqueNovo);
             estoque.setLastChange(new Date(System.currentTimeMillis()));
             try {
@@ -605,7 +461,7 @@ public class SaidaFornecedorCplus {
     }
 
     /**
-     * Cria saida para cliente nas funï¿½ï¿½es de devoluï¿½ï¿½o e remessa somente
+     * Cria saida para cliente nas funções de devolução e remessa somente
      * @param cliente
      * @param movenda
      * @param usuario
@@ -647,9 +503,7 @@ public class SaidaFornecedorCplus {
             saida.setCodmovenda(String.format("%09d", numCodMovenda));
             saida.setFlagcli('N');
             saida.setCoduser(usuario.getCoduser());
-            //saida.setCodcli(cliente);
-            saida.setCodForn(fornecedor);
-            
+            saida.setCodForn(fornecedor);           
             saida.setCodempresa(new Empresa(1));
             saida.setCodsetorestoque(new Setorestoque("000000001"));
             saida.setData(new Date(System.currentTimeMillis()));
@@ -845,27 +699,12 @@ public class SaidaFornecedorCplus {
             JOptionPane.showMessageDialog(null, "Houve um erro ao Criar Mensagem de entrada!!!\n " + ex);
         }
     }
-     /**
-     * funï¿½ï¿½o que traz o fator de converï¿½ï¿½o especificado na unidade do produto
-     */
-    private double quantidadeConversaoSaida(Moventradaprod movEntradaProd) {
-        double quantidade = 1.00;
-        for (Unidade un : queryCplus.resultPorUnidadeProduto(movEntradaProd.getCodprod().getUnidade())) {
-            if (un.getFatorconversao().intValue() > 1) {
-                quantidade = un.getFatorconversao().doubleValue();
-            }
-        }
-        return quantidade;
-    }
-    
-    /**
-     * funï¿½ï¿½o que traz o fator de converï¿½ï¿½o especificado na unidade do produto
-     */
-    private double quantidadeConversaoSaida(Produto produto) {
-        double quantidade = 1.00;
+          
+     private BigDecimal quantidadeConversao(Produto produto) {
+        BigDecimal quantidade = BigDecimal.ONE;
         for (Unidade un : queryCplus.resultPorUnidadeProduto(produto.getUnidade())) {
             if (un.getFatorconversao().intValue() > 1) {
-                quantidade = un.getFatorconversao().doubleValue();
+                quantidade = un.getFatorconversao();
             }
         }
         return quantidade;

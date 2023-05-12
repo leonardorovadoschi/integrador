@@ -30,22 +30,17 @@ import integrador.render.RenderNumeroNFCe;
 import java.awt.Toolkit;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
 import jpa.cplus.CalculoicmsestadoJpaController;
 import jpa.cplus.MovendaprodJpaController;
 import jpa.cplus.MovendaprodserialJpaController;
 import jpa.cplus.MoventradaprodJpaController;
-import jpa.cplus.MoventradaprodserialJpaController;
 import jpa.cplus.OrcamentoprodserialJpaController;
 import jpa.cplus.ProdutoserialJpaController;
-import jpa.cplus.exceptions.IllegalOrphanException;
 import jpa.cplus.exceptions.NonexistentEntityException;
 import produto.ProdutoCplusDigimacro;
 import query.integrador.QueryIntegrador;
-import query.prestaShop.QueryPrestaShop;
 
 /**
  *
@@ -70,7 +65,6 @@ public class RmaJFrame extends javax.swing.JFrame {
         user = usuario;
         queryIntegrador = new QueryIntegrador(managerIntegrador);
         queryCplus = new QueryCplus(managerCplus);
-        queryPrestaShop = new QueryPrestaShop(managerPrestaShop);
         formatacaoDeCampos = new FormataCampos();
         this.listagemEntradasJDialog = new ListagemEntradasJDialog(this, true, managerCplus);
         this.listagemSaidasJDialog = new ListagemSaidasJDialog(this, true, managerCplus);
@@ -607,38 +601,20 @@ public class RmaJFrame extends javax.swing.JFrame {
         } else {
             for (Produtoserial proSer : listProdSerial) {
                 List<Movendaprodserial> vendaSerial = queryCplus.listagemSaidaSerialExato(ser);
-                //if (vendaSerial.isEmpty()) {
                 for (Movendaprodserial veSerial : vendaSerial) {
                     try {
                         new MovendaprodserialJpaController(managerCplus).destroy(veSerial.getCodmovendaprodserial());
                     } catch (NonexistentEntityException ex) {
                         JOptionPane.showMessageDialog(null, "Houve um Erro ao Excluir o Serial da Saída \n" + ex);
                     }
-                }
-                    //List<Moventradaprodserial> entradaSerial = querySerial.listagemEntradaSerial(ser);
-                //for (Moventradaprodserial entSer : proSer.getMoventradaprodserialCollection()) {
-                //   try {
-                //       new MoventradaprodserialJpaController(managerCplus).destroy(entSer.getCodmoventradaprodserial());
-                //    } catch (NonexistentEntityException ex) {
-                //        JOptionPane.showMessageDialog(null, "Houve um Erro ao Excluir Entrada Serial \n" + ex);
-                //   }
-                //}//for
+                }                    
                 for (Orcamentoprodserial orSer : proSer.getOrcamentoprodserialCollection()) {
                     try {
                         new OrcamentoprodserialJpaController(managerCplus).destroy(orSer.getCodorcprodser());
                     } catch (NonexistentEntityException ex) {
                         JOptionPane.showMessageDialog(null, "Houve um Erro ao Excluir Orçamento Serial \n" + ex);
                     }
-                }//for
-                //try {
-                //    new ProdutoserialJpaController(managerCplus).destroy(proSer.getCodprodutoserial());
-                //   tipoDePesquisa();
-                //} catch (IllegalOrphanException | NonexistentEntityException ex) {
-                //   JOptionPane.showMessageDialog(null, "Houve um Erro ao Excluir Produto Serial \n" + ex);
-                // }
-                // } else {
-                //    JOptionPane.showMessageDialog(null, "O serial " + ser + " Não pode ser Excluido pois já tem Saida, Verifique!!!");
-                // }//else
+                }//for              
             }//for
         }//else
     }
@@ -651,7 +627,6 @@ public class RmaJFrame extends javax.swing.JFrame {
         if (!"".equals(serialNovo)) {
             List<Produtoserial> listProdSerialNovo = queryCplus.pesquisaSerialExato(serialNovo);
             if (listProdSerialNovo.isEmpty()) {
-                // List<Produtoserial> listProdSerialAntigo = queryCplus.pesquisaSerialExato(jTableProdutoSerial.getValueAt(jTableProdutoSerial.getSelectedRow(), colunaSerial).toString());
                 List<Produtoserial> listProdSerialAntigo = queryCplus.pesquisaCodProdutoSerial(jTableProdutoSerial.getValueAt(jTableProdutoSerial.getSelectedRow(), codSerialProd).toString());
                 for (Produtoserial serialAntigo : listProdSerialAntigo) {
                     serialAntigo.setSerial(serialNovo);
@@ -756,11 +731,9 @@ public class RmaJFrame extends javax.swing.JFrame {
      */
     private boolean saidaFornecedor(boolean controlaEstoque) {
         boolean cancelaSaidaFornecedor = false;
-        // boolean achou = true;
         Tipomovimento movimentoSaidaFornecedor = null;
         Fornecedor fornecedor = null;
         Calculoicmsestado calculoIcmsEstado = null;
-        //Moventradaprod entradaProd ;
         String nomeFornecedor = "";
         String codMovProdEntrada = "";
         Moventradaprod entradaProd;
@@ -769,10 +742,8 @@ public class RmaJFrame extends javax.swing.JFrame {
             colunaMovProdutoEntrada = jTableListagemEntradaSerial.getColumnModel().getColumnIndex("CodMovProdutoEntrada");
             codMovProdEntrada = jTableListagemEntradaSerial.getValueAt(jTableListagemEntradaSerial.getSelectedRow(), colunaMovProdutoEntrada).toString();
             entradaProd = new MoventradaprodJpaController(managerCplus).findMoventradaprod(codMovProdEntrada);
-
             cancelaSaidaFornecedor = false;
             colunaNomeFornecedorEntrada = jTableListagemEntradaSerial.getColumnModel().getColumnIndex("Nome Fornecedor");
-            //colunaCodFornecedorEntrada = jTableListagemEntradaSerial.getColumnModel().getColumnIndex("codFornecedor");
             nomeFornecedor = jTableListagemEntradaSerial.getValueAt(jTableListagemEntradaSerial.getSelectedRow(), colunaNomeFornecedorEntrada).toString();
             if (!"".equals(nomeFornecedor)) {
                 this.listagemFornecedorJDialog.setTermoPesquisa(nomeFornecedor);
@@ -862,7 +833,7 @@ public class RmaJFrame extends javax.swing.JFrame {
         }
         return cancelaSaidaFornecedor;
     }
-
+    
     /**
      * Função que cuida da coleta de dados para entrada no estoque por cliente
      *
@@ -1197,11 +1168,9 @@ public class RmaJFrame extends javax.swing.JFrame {
     int colunaSerial;
     static EntityManagerFactory managerCplus;
     static EntityManagerFactory managerPrestaShop;
-    // static EntityManagerFactory managerLegiao;
     static EntityManagerFactory managerIntegrador;
     private final QueryIntegrador queryIntegrador;
     private final QueryCplus queryCplus;
-    private final QueryPrestaShop queryPrestaShop;
     FormataCampos formatacaoDeCampos;
     String serial;
     int colunaCodClienteSaida;
