@@ -188,150 +188,20 @@ public class SaidaClienteCplus {
        if(condicao){
             //double quant = 1.00;
             BigDecimal quant = quantidadeConversaoSaida(movSaidaProd.getCodprod());
-           /*
            
-            double valorUnitario = movSaidaProd.getValorunitario().setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP).doubleValue();
-            double valorTotal = valorUnitario * quant;
-            double aliqIpi;
-            if(movSaidaProd.getAliqipi() == null){
-                aliqIpi = 0.00;
-            }else{
-            aliqIpi = movSaidaProd.getAliqipi().doubleValue();
-            }
-            double quantidadeMovEntrada = movSaidaProd.getQuantidade().doubleValue();
-            double baseIpiMovEntrada;
-            double baseIpi = 0.00;
-            if(movSaidaProd.getBaseipi() == null){
-                baseIpiMovEntrada = 0.00;
-            }else{
-            baseIpiMovEntrada = movSaidaProd.getBaseipi().doubleValue();
-            if(baseIpiMovEntrada == 0.00 && aliqIpi > 0.00){
-                baseIpiMovEntrada = valorTotal;
-                baseIpi = baseIpiMovEntrada;
-            }else{
-                baseIpi = baseIpiMovEntrada / quantidadeMovEntrada * quant;
-            }
-            }           
-            double valorIpi = baseIpi * aliqIpi / 100;
-            double icmsAliqEstado;
-            if(calculoIcmsEstado.getAliqicms() == null){
-                icmsAliqEstado = 0.00;
-            }else{
-            icmsAliqEstado = calculoIcmsEstado.getAliqicms().doubleValue();
-            }
-            double aliqIcms;
-            double baseIcms;
-            double valorIcms;
-            if (icmsAliqEstado > 0.00) {
-                if(movSaidaProd.getAliqicms() == null){
-                    aliqIcms = 0.00;
-                }else{
-                aliqIcms = movSaidaProd.getAliqicms().doubleValue();
-                }
-                double baseIcmsMovenda;
-                if(movSaidaProd.getBaseicms() == null){
-                    baseIcmsMovenda =0.00;
-                }else{
-                baseIcmsMovenda = movSaidaProd.getBaseicms().doubleValue();
-                }
-                baseIcms = baseIcmsMovenda / quantidadeMovEntrada * quant;
-                valorIcms = baseIcms * aliqIcms / 100;
-            } else {
-                aliqIcms = 0.00;
-                baseIcms = 0.00;
-                valorIcms = 0.00;
-            }
-            double baseSt;
-            double valorST;
-            if (calculoIcmsEstado.getFlagcalculasubsttributaria() == 'Y') {
-                double baseSTMovenda;
-                if(movSaidaProd.getBasesubsttributaria() == null){
-                   baseSTMovenda = 0.00; 
-                }else{
-                baseSTMovenda = movSaidaProd.getBasesubsttributaria().doubleValue();
-                }
-                baseSt = baseSTMovenda / quantidadeMovEntrada * quant;
-                double valorSTMovenda;
-                if(movSaidaProd.getValorsubsttributaria() == null){
-                    valorSTMovenda = 0.00;
-                }else{
-                     valorSTMovenda  = movSaidaProd.getValorsubsttributaria().doubleValue();
-                }
-                valorST = valorSTMovenda / quantidadeMovEntrada * quant;
-            } else {
-                baseSt = 0.00;
-                valorST = 0.00;
-            }
-            double cofinsIcmsEstado;
-            if(calculoIcmsEstado.getAliqcofins() == null){
-                cofinsIcmsEstado = 0.00;
-            }else{
-                  cofinsIcmsEstado  = calculoIcmsEstado.getAliqcofins().doubleValue();
-            }
-            double baseCofins;
-            double aliqCofins;
-            double valorCofins;
-            if (cofinsIcmsEstado > 0.00) {
-                double baseCofinsMovenda; 
-                        if(movSaidaProd.getBasecofins() == null){
-                            baseCofinsMovenda = 0.00;
-                        }else{
-                       baseCofinsMovenda = movSaidaProd.getBasecofins().doubleValue();
-                        }
-                baseCofins = baseCofinsMovenda / quantidadeMovEntrada * quant;
-                if(movSaidaProd.getAliqcofins() == null){
-                    aliqCofins = 0.00;
-                }else{
-                aliqCofins = movSaidaProd.getAliqcofins().doubleValue();
-                }
-                valorCofins = baseCofins * aliqCofins / 100;
-            } else {
-                baseCofins = 0.00;
-                aliqCofins = 0.00;
-                valorCofins = 0.00;
-            }
-            double pisIcmsEstado;
-            if(calculoIcmsEstado.getAliqpis() == null){
-                pisIcmsEstado = 0.00;
-            }else{
-                pisIcmsEstado = calculoIcmsEstado.getAliqpis().doubleValue();
-            }
-            double basePis;
-            double aliqPis;
-            double valorPis;
-            if (pisIcmsEstado > 0.00) {
-                double basePisMovenda;
-                if(movSaidaProd.getBasepis() == null){
-                    basePisMovenda = 0.00;
-                }else{
-                      basePisMovenda = movSaidaProd.getBasepis().doubleValue();
-                }
-                basePis = basePisMovenda / quantidadeMovEntrada * quant;
-                if(movSaidaProd.getAliqpis() == null){
-                    aliqPis = 0.00;
-                }else{
-                aliqPis = movSaidaProd.getAliqpis().doubleValue();
-                }
-                valorPis = basePis * aliqPis / 100;
-            } else {
-                basePis = 0.00;
-                aliqPis = 0.00;
-                valorPis = 0.00;
-            }
-            */
             String configString = String.format("%09d", configCont);
             saidaProd.setCodmovprod(configString);
             saidaProd.setCodmovenda(saida);
             saidaProd.setCodprod(movSaidaProd.getCodprod());
             saidaProd.setQuantidade(quant);
-            saidaProd.setValorunitario(valorUnitario(saidaProd));
+            saidaProd.setValorunitario(valorUnitario(movSaidaProd));
             saidaProd.setFlagtipoacrescimoitem(movSaidaProd.getFlagtipoacrescimoitem());
             saidaProd.setAliqacrescimoitem(BigDecimal.ZERO);
             saidaProd.setValoracrescimoitem(BigDecimal.ZERO);
             saidaProd.setFlagtipodescontoitem(movSaidaProd.getFlagtipodescontoitem());
             saidaProd.setAliqdescontoitem(BigDecimal.ZERO);
             saidaProd.setValordescontoitem(BigDecimal.ZERO);
-            saidaProd.setValortotal(valorTotalProduto(saidaProd, quant));
+            saidaProd.setValortotal(valorTotalProduto(movSaidaProd, quant));
             saidaProd.setBaseipi(BigDecimal.ZERO);
             saidaProd.setAliqipi(movSaidaProd.getAliqipi());
             saidaProd.setValoripi(BigDecimal.ZERO);
@@ -391,93 +261,7 @@ public class SaidaClienteCplus {
         BigDecimal quant = movSaidaProdNovo.getQuantidade();
        // quant = quant + 1.00;
         quant = quant.add(quantidadeConversaoSaida(movSaidaProdNovo.getCodprod()));
-        /*
-        double valorUnitario = movSaidaProdVenda.getValorunitario().setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP).doubleValue();
-        double valorTotal = valorUnitario * quant;
-        double aliqIpi = movSaidaProdVenda.getAliqipi().doubleValue();
-        double quantidadeMovEntrada = movSaidaProdVenda.getQuantidade().doubleValue();
-        double baseIpiMovEntrada = movSaidaProdVenda.getBaseipi().doubleValue();
-        if(baseIpiMovEntrada == 0.00 && aliqIpi > 0.00){
-                baseIpiMovEntrada = valorTotal;
-            }
-        double baseIpi = 0.00;
-            if(movSaidaProdVenda.getBaseipi() == null){
-                baseIpiMovEntrada = 0.00;
-            }else{
-            baseIpiMovEntrada = movSaidaProdVenda.getBaseipi().doubleValue();
-            if(baseIpiMovEntrada == 0.00 && aliqIpi > 0.00){
-                baseIpiMovEntrada = valorTotal;
-                baseIpi = baseIpiMovEntrada;
-            }else{
-                baseIpi = baseIpiMovEntrada / quantidadeMovEntrada * quant;
-            }
-            }
-        
-        double valorIpi = baseIpi * aliqIpi / 100;
-        double icmsAliqEstado = calculoIcmsEstado.getAliqicms().doubleValue();
-        double aliqIcms;
-        double baseIcms;
-        double valorIcms;
-        if (icmsAliqEstado > 0.00) {
-            aliqIcms = movSaidaProdVenda.getAliqicms().doubleValue();
-            double baseIcmsMovenda = movSaidaProdVenda.getBaseicms().doubleValue();
-            baseIcms = baseIcmsMovenda / quantidadeMovEntrada * quant;
-            valorIcms = baseIcms * aliqIcms / 100;
-        } else {
-            aliqIcms = 0.00;
-            baseIcms = 0.00;
-            valorIcms = 0.00;
-        }
-        double baseSt;
-        double valorST;
-        if (calculoIcmsEstado.getFlagcalculasubsttributaria() == 'Y') {
-            double baseSTMovenda = movSaidaProdVenda.getBasesubsttributaria().doubleValue();
-            baseSt = baseSTMovenda / quantidadeMovEntrada * quant;
-            double valorSTMovenda = movSaidaProdVenda.getValorsubsttributaria().doubleValue();
-            valorST = valorSTMovenda / quantidadeMovEntrada * quant;
-        } else {
-            baseSt = 0.00;
-            valorST = 0.00;
-        }
-        double cofinsIcmsEstado;
-            if(calculoIcmsEstado.getAliqcofins() == null){
-                cofinsIcmsEstado = 0.00;
-            }else{
-                  cofinsIcmsEstado  = calculoIcmsEstado.getAliqcofins().doubleValue();
-            }
-        double baseCofins;
-        double aliqCofins;
-        double valorCofins;
-        if (cofinsIcmsEstado > 0.00) {
-            double baseCofinsMovenda = movSaidaProdVenda.getBasecofins().doubleValue();
-            baseCofins = baseCofinsMovenda / quantidadeMovEntrada * quant;
-            aliqCofins = movSaidaProdVenda.getAliqcofins().doubleValue();
-            valorCofins = baseCofins * aliqCofins / 100;
-        } else {
-            baseCofins = 0.00;
-            aliqCofins = 0.00;
-            valorCofins = 0.00;
-        }
-        double pisIcmsEstado;
-            if(calculoIcmsEstado.getAliqpis() == null){
-                pisIcmsEstado = 0.00;
-            }else{
-                pisIcmsEstado = calculoIcmsEstado.getAliqpis().doubleValue();
-            }
-        double basePis;
-        double aliqPis;
-        double valorPis;
-        if (pisIcmsEstado > 0.00) {
-            double basePisMovenda = movSaidaProdVenda.getBasepis().doubleValue();
-            basePis = basePisMovenda / quantidadeMovEntrada * quant;
-            aliqPis = movSaidaProdVenda.getAliqpis().doubleValue();
-            valorPis = basePis * aliqPis / 100;
-        } else {
-            basePis = 0.00;
-            aliqPis = 0.00;
-            valorPis = 0.00;
-        }  
-        */
+       
         movSaidaProdNovo.setQuantidade(quant);       
         movSaidaProdNovo.setValorunitario(valorUnitario(movSaidaProdVenda));       
         movSaidaProdNovo.setValortotal(valorTotalProduto(movSaidaProdVenda, quant));
