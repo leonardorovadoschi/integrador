@@ -5,52 +5,37 @@
  */
 package integrador.separacao;
 
-import acesso.ConexaoDB;
+import acesso.ListagemUsuarioJDialog;
 import entidade.cplus.Movenda;
 import entidade.cplus.Movendaprod;
 import entidade.cplus.Movendaprodserial;
-import entidade.cplus.Nfceletronica;
-import entidade.cplus.Produto;
-import entidade.cplus.Produtocodigo;
-import entidade.cplus.Produtoserial;
+//import entidade.cplus.Produtoserial;
 import entidade.cplus.Unidade;
 import entidade.integrador.IntConfiguracao;
 import entidade.integrador.IntLogs;
-import acesso.ListagemUsuarioJDialog;
-import entidade.prestaShop.PsOrders;
-import janela.cplus.FormataCampos;
-import janela.cplus.ListagemSaidasJDialog;
-import query.cplus.QueryCplus;
-import query.integrador.QueryIntegrador;
-//import integrador.pedido.ValoresOrder;
+import entidade.integrador.SaidaSerial;
+import entidade.integrador.SerialProduto;
 import integrador.relatorio.ImprimeRelatorio;
-import integrador.render.RenderNumeroInteiro;
-import integrador.render.RenderPreco;
-import integrador.render.RenderSerialSaidaGreenRed;
+import janela.cplus.ListagemSaidasJDialog;
 import java.awt.Color;
 import java.awt.Toolkit;
 import java.io.File;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
-import javax.xml.parsers.ParserConfigurationException;
-import jpa.cplus.MovendaJpaController;
-import jpa.cplus.MovendaprodJpaController;
-import jpa.cplus.MovendaprodserialJpaController;
-import jpa.cplus.ProdutoJpaController;
-import jpa.cplus.exceptions.NonexistentEntityException;
+import javax.swing.table.DefaultTableModel;
 import jpa.integrador.IntConfiguracaoJpaController;
 import jpa.integrador.IntLogsJpaController;
+import jpa.integrador.SaidaSerialJpaController;
 //import jpa.integracao.PedidoIntegradorJpaController;
 //import jpa.magento.SalesFlatOrderJpaController;
-import org.xml.sax.SAXException;
-import pedido.ManutencaoVenda;
-import pedido.ValoresOrder;
+import query.cplus.QueryCplus;
+import query.integrador.QueryIntegrador;
 import query.prestaShop.QueryPrestaShop;
 
 /**
@@ -81,9 +66,9 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
         // this.serialJDialog = new SerialJDialog(this, true);
         this.listagemUsuarioJDialog.requestFocusInWindow();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
-        colunaCodMovProdutoSaida = jTableProdutosPedido.getColumnModel().getColumnIndex("Codmovprod");
+        //colunaCodMovProdutoSaida = jTableProdutosPedido.getColumnModel().getColumnIndex("Codmovprod");
         //colunaQuantidadeConferida = jTableProdutosPedido.getColumnModel().getColumnIndex("Quant Conferida");   
-        colunaCodMovProdutoSerial = jTableSerialSaida.getColumnModel().getColumnIndex("Codmovendaprodserial");
+        //colunaCodMovProdutoSerial = jTableSerialSaida.getColumnModel().getColumnIndex("Codmovendaprodserial");
 
     }
 
@@ -95,15 +80,7 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        cplusPUEntityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("cplusPU").createEntityManager();
-        movendaprodQuery = java.beans.Beans.isDesignTime() ? null : cplusPUEntityManager.createQuery("SELECT m FROM Movendaprod m where m.codmovenda.codmovenda = \"55555555\"");
-        movendaprodList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(new java.util.LinkedList(movendaprodQuery.getResultList()));
-        movendaprodserialQuery = java.beans.Beans.isDesignTime() ? null : cplusPUEntityManager.createQuery("SELECT ven FROM Movendaprodserial ven WHERE ven.codprodutoserial.serial =\"555555555\"");
-        movendaprodserialList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(new java.util.LinkedList(movendaprodserialQuery.getResultList()));
-        jScrollPaneProdutosPedido = new javax.swing.JScrollPane();
-        jTableProdutosPedido = new javax.swing.JTable();
         jPanelConfiguracaoLista = new javax.swing.JPanel();
         jButtonImprimirRomaneio = new javax.swing.JButton();
         jButtonExcluirSeria = new javax.swing.JButton();
@@ -121,65 +98,13 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
         jButtonSepararPedido = new javax.swing.JButton();
         jButtonCancelarSeparacao = new javax.swing.JButton();
         jButtonFechar = new javax.swing.JButton();
-        jScrollPaneSerialSaida = new javax.swing.JScrollPane();
-        jTableSerialSaida = new javax.swing.JTable();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTableSaidaProd = new javax.swing.JTable();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTableSeriasSeparados = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("SeparaÁ„o Serial");
-
-        jScrollPaneProdutosPedido.setAutoscrolls(true);
-
-        jTableProdutosPedido.setAutoCreateRowSorter(true);
-        jTableProdutosPedido.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
-
-        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, movendaprodList, jTableProdutosPedido);
-        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codprod.codigo}"));
-        columnBinding.setColumnName("CÛdigo Produto");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codprod.nomeprod}"));
-        columnBinding.setColumnName("Nome Produto");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${quantidade}"));
-        columnBinding.setColumnName("Quantidade");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${quantidadeconferida}"));
-        columnBinding.setColumnName("Quant Conferida");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${quantidadedevolvida}"));
-        columnBinding.setColumnName("Quantidadedevolvida");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valorunitario}"));
-        columnBinding.setColumnName("Valorunitario");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valortotal}"));
-        columnBinding.setColumnName("Valortotal");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmovprod}"));
-        columnBinding.setColumnName("Codmovprod");
-        columnBinding.setColumnClass(String.class);
-        bindingGroup.addBinding(jTableBinding);
-        jTableBinding.bind();
-        jTableProdutosPedido.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTableProdutosPedidoMouseClicked(evt);
-            }
-        });
-        jScrollPaneProdutosPedido.setViewportView(jTableProdutosPedido);
-        if (jTableProdutosPedido.getColumnModel().getColumnCount() > 0) {
-            jTableProdutosPedido.getColumnModel().getColumn(0).setMinWidth(100);
-            jTableProdutosPedido.getColumnModel().getColumn(0).setPreferredWidth(150);
-            jTableProdutosPedido.getColumnModel().getColumn(0).setMaxWidth(250);
-            jTableProdutosPedido.getColumnModel().getColumn(0).setCellRenderer(new RenderSerialSaidaGreenRed());
-            jTableProdutosPedido.getColumnModel().getColumn(1).setMinWidth(200);
-            jTableProdutosPedido.getColumnModel().getColumn(1).setPreferredWidth(350);
-            jTableProdutosPedido.getColumnModel().getColumn(1).setMaxWidth(500);
-            jTableProdutosPedido.getColumnModel().getColumn(1).setCellRenderer(new RenderSerialSaidaGreenRed());
-            jTableProdutosPedido.getColumnModel().getColumn(2).setCellRenderer(new RenderNumeroInteiro());
-            jTableProdutosPedido.getColumnModel().getColumn(3).setCellRenderer(new RenderNumeroInteiro());
-            jTableProdutosPedido.getColumnModel().getColumn(4).setCellRenderer(new RenderNumeroInteiro());
-            jTableProdutosPedido.getColumnModel().getColumn(5).setCellRenderer(new RenderPreco());
-            jTableProdutosPedido.getColumnModel().getColumn(6).setCellRenderer(new RenderPreco());
-        }
 
         jPanelConfiguracaoLista.setBorder(javax.swing.BorderFactory.createTitledBorder("ConfiguraÁıes Listagem Serial"));
 
@@ -216,11 +141,12 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
         jPanelConfiguracaoListaLayout.setHorizontalGroup(
             jPanelConfiguracaoListaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelConfiguracaoListaLayout.createSequentialGroup()
-                .addGap(225, 225, 225)
+                .addGap(171, 171, 171)
                 .addGroup(jPanelConfiguracaoListaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonImprimirRomaneio, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                    .addComponent(jButtonImprimirRomaneio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButtonExcluirSeria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonGravar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jButtonGravar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(54, 54, 54))
         );
         jPanelConfiguracaoListaLayout.setVerticalGroup(
             jPanelConfiguracaoListaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -362,44 +288,60 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
                     .addComponent(jButtonCancelarSeparacao)))
         );
 
-        jScrollPaneSerialSaida.setAutoscrolls(true);
+        jTableSaidaProd.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
 
-        jTableSerialSaida.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+            },
+            new String [] {
+                "CÛdigo", "Nome Produto", "Quantidade", "Separado", "Cod. MovProd"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class
+            };
 
-        jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, movendaprodserialList, jTableSerialSaida);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codprodutoserial.serial}"));
-        columnBinding.setColumnName("Serial");
-        columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codprodutoserial.codprod.nomeprod}"));
-        columnBinding.setColumnName("DescriÁ„o");
-        columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codprodutoserial.codprod.codigo}"));
-        columnBinding.setColumnName("CÛdigo");
-        columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmovendaprodserial}"));
-        columnBinding.setColumnName("Codmovendaprodserial");
-        columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmovprod.codmovprod}"));
-        columnBinding.setColumnName("Codmovprod");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codprodutoserial.codprodutoserial}"));
-        columnBinding.setColumnName("Codprodutoserial");
-        columnBinding.setColumnClass(String.class);
-        bindingGroup.addBinding(jTableBinding);
-        jTableBinding.bind();
-        jTableSerialSaida.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTableSerialSaidaMouseClicked(evt);
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
             }
         });
-        jScrollPaneSerialSaida.setViewportView(jTableSerialSaida);
-        if (jTableSerialSaida.getColumnModel().getColumnCount() > 0) {
-            jTableSerialSaida.getColumnModel().getColumn(0).setPreferredWidth(150);
-            jTableSerialSaida.getColumnModel().getColumn(1).setPreferredWidth(250);
+        jTableSaidaProd.setColumnSelectionAllowed(true);
+        jTableSaidaProd.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(jTableSaidaProd);
+        jTableSaidaProd.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        if (jTableSaidaProd.getColumnModel().getColumnCount() > 0) {
+            jTableSaidaProd.getColumnModel().getColumn(0).setPreferredWidth(80);
+            jTableSaidaProd.getColumnModel().getColumn(1).setPreferredWidth(350);
+        }
+
+        jTableSeriasSeparados.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "CÛdigo", "Nome", "Serial", "ID Saida Serial"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jTableSeriasSeparados.setColumnSelectionAllowed(true);
+        jTableSeriasSeparados.getTableHeader().setReorderingAllowed(false);
+        jTableSeriasSeparados.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableSeriasSeparadosMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(jTableSeriasSeparados);
+        jTableSeriasSeparados.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        if (jTableSeriasSeparados.getColumnModel().getColumnCount() > 0) {
+            jTableSeriasSeparados.getColumnModel().getColumn(0).setPreferredWidth(80);
+            jTableSeriasSeparados.getColumnModel().getColumn(1).setPreferredWidth(350);
+            jTableSeriasSeparados.getColumnModel().getColumn(2).setPreferredWidth(80);
         }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -408,21 +350,19 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jPanelPesquisas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanelInformacoes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanelConfiguracaoLista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jPanelConfiguracaoLista, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jScrollPaneProdutosPedido, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(jTextFieldTextoAviso, javax.swing.GroupLayout.PREFERRED_SIZE, 780, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPaneSerialSaida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(10, 10, 10)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jTextFieldTextoAviso, javax.swing.GroupLayout.DEFAULT_SIZE, 780, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 531, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -437,13 +377,10 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
                     .addComponent(jPanelConfiguracaoLista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextFieldTextoAviso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(7, 7, 7)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPaneSerialSaida, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jScrollPaneProdutosPedido, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 453, Short.MAX_VALUE))
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
         );
-
-        bindingGroup.bind();
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -463,12 +400,6 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
         //tratamentoCampos();
     }//GEN-LAST:event_jButtonSepararPedidoActionPerformed
 
-    private void jTableProdutosPedidoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableProdutosPedidoMouseClicked
-        //if(jCheckBoxProdutoSelecionado.isSelected()){
-        // atualizaListaSerial();
-        // }
-    }//GEN-LAST:event_jTableProdutosPedidoMouseClicked
-
     private void jButtonFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFecharActionPerformed
         fechar();
     }//GEN-LAST:event_jButtonFecharActionPerformed
@@ -484,7 +415,6 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
             jButtonPesquisaSaida.setEnabled(true);
             jButtonCancelarSeparacao.setEnabled(false);
             jButtonGravar.setEnabled(false);
-            removerSeriaisPedido();
             buscaPedido();
         }
     }//GEN-LAST:event_jButtonCancelarSeparacaoActionPerformed
@@ -496,112 +426,102 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
 
     private void jButtonImprimirRomaneioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonImprimirRomaneioActionPerformed
         if (movenda != null) {
-            // ImprimirRelatorio rel = new ImprimirRelatorio();
-            // rel.imprimirRomaneio(movenda.getNumped());
-            new ImprimeRelatorio().imprimeRelatorio(queryIntegrador.valorConfiguracao("caminho_RELATORIO_ROMANEIO_SERIAIS"), movendaprodList);
+
+            // new ImprimeRelatorio().imprimeRelatorio(queryIntegrador.valorConfiguracao("caminho_RELATORIO_ROMANEIO_SERIAIS"), movendaprodList);
         }
     }//GEN-LAST:event_jButtonImprimirRomaneioActionPerformed
 
     private void jButtonGravarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGravarActionPerformed
-        gravaMoVendaSerial();
-       // try {
-       //     alteraValorCupom();
-       // } catch (SAXException ex) {
-       //     JOptionPane.showMessageDialog(null, "HOUVE UM ERRO AO IMPRIMIR NFC-e, Verifique!! \n" + ex, "Erro Finalizar", JOptionPane.ERROR_MESSAGE);
-       // } catch (IOException ex) {
-        //    JOptionPane.showMessageDialog(null, "HOUVE UM ERRO AO IMPRIMIR NFC-e, Verifique!! \n" + ex, "Erro Finalizar", JOptionPane.ERROR_MESSAGE);
-       // } catch (Exception ex) {
-        //    JOptionPane.showMessageDialog(null, "HOUVE UM ERRO AO IMPRIMIR NFC-e, Verifique!! \n" + ex, "Erro Finalizar", JOptionPane.ERROR_MESSAGE);
-        //}
+
         pedidoSeparado();
 
 
     }//GEN-LAST:event_jButtonGravarActionPerformed
 
-    private void jTableSerialSaidaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableSerialSaidaMouseClicked
-        jButtonExcluirSeria.setEnabled(true);
-    }//GEN-LAST:event_jTableSerialSaidaMouseClicked
-
-    private void alteraValorCupom() throws ParserConfigurationException, SAXException, IOException, Exception {
-        List<Nfceletronica> listNFCE = queryCplus.resultPorCodMovenda(movenda.getCodmovenda());
-        for (Nfceletronica nfc : listNFCE) {
-            if ("A".equals(nfc.getStatusnfceletronica())) {
-                // List<PedidoIntegrador> listPedidoIntegrador = new PedidoIntegradorJpaController(managerIntegrador).codigoTelefone(movenda.getEntregatelefone());
-                // for (PedidoIntegrador pedidoIntegrador : listPedidoIntegrador) {
-                List<PsOrders> listOrder = queryPrestaShop.listPsOrders(movenda.getEntregatelefone());
-                for (PsOrders order : listOrder) {
-                    if (movenda.getValortotalnota().doubleValue() < new ValoresOrder().valorTotalPredido(order).doubleValue()) {
-                        // new ManutencaoVenda().alteraValorProdutos(var, queryCplus, movenda, pedidoIntegrador, managerCplus);
-                        new ManutencaoVenda().alteraValorProdutos(queryCplus, movenda, order, managerCplus, managerPrestaShop, managerIntegrador);
-                        movenda = new MovendaJpaController(managerCplus).findMovenda(movenda.getCodmovenda());
-                        new ImprimeRelatorio().imprimeRelatorio("/integrador/relatorio/CupomNFCe.jrxml", new ManutencaoVenda().listaRelatorio(movenda, nfc));
-                    }
-                }
-            }
-        }
-    }
+    private void jTableSeriasSeparadosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableSeriasSeparadosMouseClicked
+       jButtonExcluirSeria.setEnabled(true);
+    }//GEN-LAST:event_jTableSeriasSeparadosMouseClicked
 
     private void adicionarSerial() {
         if (!"".equals(jTextFieldSerial.getText())) {
-            if (separarPedido(jTextFieldSerial.getText().toUpperCase().trim())) {
-                quantidadeSaidas++;
+            List<SerialProduto> listSer = queryIntegrador.listSerialExato(jTextFieldSerial.getText().toUpperCase().trim());
+            List<SaidaSerial> listSS = new ArrayList<>();
+            SerialProduto serialProduto = new SerialProduto();
+            Movendaprod movendaprod = new Movendaprod();
+            boolean condicao = false;
+            boolean noPedido = false;
+            if (listSer.size() == 1) {
+                if (queryCplus.resultEanProduto(jTextFieldSerial.getText().toUpperCase().trim()).size() < 1) {
+                    for (SerialProduto ser : listSer) {
+                        int quantVenda = 0;
+                        for (Movendaprod movProd : listaProdutoPedido) {
+                            if (ser.getCodProduto() == null ? movProd.getCodprod().getCodprod() == null : ser.getCodProduto().equals(movProd.getCodprod().getCodprod())) {
+                                noPedido = true;
+                                quantVenda = quantidadePacote(movProd);
+                                listSS = queryIntegrador.listPorSaidaProd(movProd.getCodmovprod());
+                                if (quantVenda > listSS.size()) {                                  
+                                    serialProduto = ser;
+                                    movendaprod = movProd;
+                                    condicao = true;
+                                } else {
+                                    JOptionPane.showMessageDialog(null, "O produto: " + ser.getNomeProduto() + ", est· totalmente separado!!");
+                                    criaLog(new Date(System.currentTimeMillis()), "O produto: " + ser.getNomeProduto() + ", est· totalmente separado!!", "Erro", managerIntegrador);
+                                }
+                            }//if que verifica o prodoto no pedido                   
+                        } //forMoveProd
+                        if (noPedido == false) {
+                            JOptionPane.showMessageDialog(null, "O produto: " + ser.getNomeProduto() + ", n„o est· no pedido!!");
+                            criaLog(new Date(System.currentTimeMillis()), "O produto: " + ser.getNomeProduto() + ", n„o est· no pedido!!", "Erro", managerIntegrador);
+                        }
+                    }//for ser
+                    if (condicao) {
+                        for (SaidaSerial ss : listSS) {
+                            if (ss.getIdSerial().getSerial() == null ? jTextFieldSerial.getText().toUpperCase().trim() == null : ss.getIdSerial().getSerial().equals(jTextFieldSerial.getText().toUpperCase().trim())) {
+                                condicao = false;
+                                JOptionPane.showMessageDialog(null, "O produto: " + ss.getIdSerial().getNomeProduto() + ", j· est· no pedido!!");
+                                criaLog(new Date(System.currentTimeMillis()), "O produto: " + ss.getIdSerial().getNomeProduto() + ", j· est· no pedido!!", "Erro", managerIntegrador);
+                            }
+                        }
+                    }
+                } else {
+                    condicao = false;
+                    JOptionPane.showMessageDialog(null, "O serial n„o pode ser o EAN, Verifique!!");
+                    criaLog(new Date(System.currentTimeMillis()), "O serial n„o pode ser o EAN, Verifique!!", "Erro", managerIntegrador);
+                }
             } else {
-                pedidoSeparado();
-                jButtonSepararPedido.setEnabled(false);
+                JOptionPane.showMessageDialog(null, "Serial encontrados: " + listSer.size() + " Verifique!!");
+                criaLog(new Date(System.currentTimeMillis()), "Serial encontrados: " + listSer.size() + " Verifique!!", "Erro", managerIntegrador);
+            }
+            if (condicao) {
+                gravarSaidaSerial(serialProduto, movendaprod);
             }
         }
-        int tot = quantidadTotalPedido - quantidadeSaidas;
-        jTextFieldItensFaltando.setText(String.valueOf(tot));
-        if (quantidadTotalPedido == quantidadeSaidas) {
-            //pedidoSeparado(); 
-            jButtonGravar.setEnabled(true);
-            //jTextFieldSerial.setText("");
-            jTextFieldTextoAviso.setText("Pedido Totalmente Separago Aguardando GravaÁ„o!");
-            jTextFieldTextoAviso.setBackground(Color.YELLOW);
-            tocarSomFinalizado();
-            //jButtonPesquisaSaida.requestFocus();
-        }
+        carregaTabelas();
         jTextFieldSerial.selectAll();
         jTextFieldSerial.setText("");
         jTextFieldSerial.requestFocus();
     }
 
     private void removerSerialSelecionado() {
-        colunaCodMovProdutoSerial = jTableSerialSaida.getColumnModel().getColumnIndex("Codmovendaprodserial");
-        String cod = jTableSerialSaida.getValueAt(jTableSerialSaida.getSelectedRow(), colunaCodMovProdutoSerial).toString();
-        int index = 0;
-        for (Movendaprodserial ser : movendaprodserialList) {
-            if (ser.getCodmovendaprodserial() == null ? cod == null : ser.getCodmovendaprodserial().equals(cod)) {
-                movendaprodserialList.remove(index);
-
-                List<Movendaprodserial> listSerial = queryCplus.listagemSaidaSerialExato(ser.getCodprodutoserial().getSerial());
-                for (Movendaprodserial serialBanco : listSerial) {
-
-                    try {
-                        new MovendaprodserialJpaController(managerCplus).destroy(serialBanco.getCodmovendaprodserial());
-
-                    } catch (NonexistentEntityException ex) {
-                        JOptionPane.showMessageDialog(null, "HOUVE UM ERRO AO EXCLUIR O SERIA NO BANCO, Verifique!! \n" + ex, "Erro Excluir", JOptionPane.ERROR_MESSAGE);
-                    }
-                }
-                Movendaprod prod = ser.getCodmovprod();
-                prod.setQuantidadeconferida(prod.getQuantidadeconferida().subtract(BigDecimal.ONE));
+       // if (pedidoSeparado()) {
+            //jButtonExcluirSeria.setEnabled(true);
+            if (jTableSeriasSeparados.getSelectedRow() >= 0) {
+                int coluna = jTableSeriasSeparados.getColumnModel().getColumnIndex("ID Saida Serial");
+                int id = (int) jTableSeriasSeparados.getValueAt(jTableSeriasSeparados.getSelectedRow(), coluna);
                 try {
-                    new MovendaprodJpaController(managerCplus).edit(prod);
-                } catch (NonexistentEntityException ex) {
-                    JOptionPane.showMessageDialog(null, "HOUVE UM ERRO AO EDITAR QUANTIDADE CONFERIDA, Verifique!! \n" + ex, "Erro Separar", JOptionPane.ERROR_MESSAGE);
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(null, "HOUVE UM ERRO AO EDITAR QUANTIDADE CONFERIDA, Verifique!! \n" + ex, "Erro Separar", JOptionPane.ERROR_MESSAGE);
+                    new SaidaSerialJpaController(managerIntegrador).destroy(id);
+                } catch (jpa.integrador.exceptions.NonexistentEntityException ex) {
+                    JOptionPane.showMessageDialog(null, "Erro ao excluir serial!! \n" + ex);
                 }
-                break;
+            } else {
+                JOptionPane.showMessageDialog(null, "Favor selecionar uma linha");
             }
-            index++;
-        }
-        pedidoSeparado();
+        //}
         jTextFieldSerial.selectAll();
         jTextFieldSerial.setText("");
         jTextFieldSerial.requestFocus();
         jButtonExcluirSeria.setEnabled(false);
+        carregaTabelas();
     }
 
     private void fechar() {
@@ -641,7 +561,7 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
                     ex = ex + config.getTipo() + "\n";
                 }
             }
-            JOptionPane.showMessageDialog(null, "O PEDIDO J√Å EST√Å ABERTO EM OUTRA MAQUINA, Verifique!! \n" + ex, "Erro Separar", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "O PEDIDO J¡ EST¡ ABERTO EM OUTRA MAQUINA, Verifique!! \n" + ex, "Erro Separar", JOptionPane.ERROR_MESSAGE);
             condicao = false;
         }
         return condicao;
@@ -689,240 +609,49 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
         return condicao;
     }
 
-    private void removerSeriaisPedido() {
-        List<Movendaprodserial> listSerial = queryCplus.listSerialSaida(movenda.getCodmovenda());
-        for (Movendaprodserial mvs : listSerial) {
-            try {
-                new MovendaprodserialJpaController(managerCplus).destroy(mvs.getCodmovendaprodserial());
-            } catch (NonexistentEntityException ex) {
-                JOptionPane.showMessageDialog(null, "HOUVE UM ERRO AO REMOVER SERIAIS, Verifique!! \n" + ex, "Erro Separar", JOptionPane.ERROR_MESSAGE);
-            }
+    private void carregaTabelas() {
+        DefaultTableModel tab = (DefaultTableModel) jTableSaidaProd.getModel();
+        while (jTableSaidaProd.getModel().getRowCount() > 0) {
+            ((DefaultTableModel) jTableSaidaProd.getModel()).removeRow(0);
         }
-        for (Movendaprod moVendaProd : queryCplus.listMovendaProd(movenda.getCodmovenda())) {
-            moVendaProd.setQuantidadeconferida(BigDecimal.ZERO);
-            try {
-                new MovendaprodJpaController(managerCplus).edit(moVendaProd);
-            } catch (NonexistentEntityException ex) {
-                JOptionPane.showMessageDialog(null, "HOUVE UM ERRO AO EDITAR QUANTIDADE CONFERIDA, Verifique!! \n" + ex, "Erro Separar", JOptionPane.ERROR_MESSAGE);
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, "HOUVE UM ERRO AO EDITAR QUANTIDADE CONFERIDA, Verifique!! \n" + ex, "Erro Separar", JOptionPane.ERROR_MESSAGE);
-            }
+        for (Movendaprod e : listaProdutoPedido) {
+            tab.addRow(new Object[]{e.getCodprod().getCodigo(), e.getCodprod().getNomeprod(), quantidadePacote(e), queryIntegrador.listPorSaidaProd(e.getCodmovprod()).size(), e.getCodmovprod()});
         }
-        pedidoSeparado();
-    }
-
-    private void atualizaListaProdutosPedido() {
-        movendaprodList.clear();
-        listaProdutoPedido = queryCplus.listMovendaProd(movenda.getCodmovenda());
-        for (Movendaprod v : listaProdutoPedido) {
-            movendaprodList.add(v);
+        DefaultTableModel tabSerial = (DefaultTableModel) jTableSeriasSeparados.getModel();
+        while (jTableSeriasSeparados.getModel().getRowCount() > 0) {
+            ((DefaultTableModel) jTableSeriasSeparados.getModel()).removeRow(0);
         }
-    }
-
-    private void atualizaListaSerial() {
-        movendaprodserialList.clear();
-        List<Movendaprodserial> list = queryCplus.listSerialSaida(movenda.getCodmovenda());
-        for (Movendaprodserial v : list) {
-            movendaprodserialList.add(v);
+        for (SaidaSerial s : queryIntegrador.listPorSaida(movenda.getCodmovenda())) {
+            tabSerial.addRow(new Object[]{s.getIdSerial().getCodigoProduto(), s.getIdSerial().getNomeProduto(), s.getIdSerial().getSerial(), s.getIdSaidaSerial()});
+        }
+        if(jTableSeriasSeparados.getRowCount() != 0){
+        jTableSeriasSeparados.setRowSelectionInterval(jTableSeriasSeparados.getRowCount() - 1, jTableSeriasSeparados.getRowCount() - 1);//seleciona ultima linha   
         }
     }
 
     private void buscaPedido() {
-        movendaprodList.clear();//limpa lista 
         jTextFieldSerial.setText("");
-        movendaprodserialList.clear();
         jTextFieldSerial.setEnabled(false);
         jButtonExcluirSeria.setEnabled(false);
         this.listagemSaidasJDialog.setVisible(true);
         if (this.listagemSaidasJDialog.isCancelamento() == false) {
             movenda = this.listagemSaidasJDialog.getMoVenda();
+            listaProdutoPedido = queryCplus.listMovendaProd(movenda.getCodmovenda());
             String str = movenda.getFlagcancelada().toString();
             if ("N".equals(str)) {
                 if (insereConfiguracaoParaSeparacao()) {
                     if (verificaPedidoAberto()) {
-                        atualizaListaProdutosPedido();
-                        atualizaListaSerial();
-                        //if (jTableProdutosPedido.getRowCount() > 0) {//verifica se ha listagem
-                        //jTableProdutosPedido.setRowSelectionInterval(0, 0);//Seleciona a primeira linha da tabela                           
-                        // }//fim if que seleciona primeira linha da tabela
+                        carregaTabelas();
                         pedidoSeparado();
                     }
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "O pedido est· cancelado, verifique!!! ", "Erro Separar", JOptionPane.ERROR_MESSAGE);
             }
-
             jButtonCancelarSeparacao.setEnabled(false);
             jButtonPesquisaSaida.setEnabled(true);
             jButtonFechar.setEnabled(true);
-
         }//fim if adialog cancelado
-    }
-
-    private boolean separarPedido(String serial) {
-        boolean condicao = true;
-        boolean condicao1 = true;
-        String mensagem = "";
-        String msgLog = "";
-        Produto produto = null;
-        boolean condicaoProdutoNoPedido = true;
-        for (Produto prod : queryCplus.listagemProdutoPorSerial(serial)) {
-            produto = prod;
-        }
-        List<Produtoserial> moProdutoSerial = queryCplus.pesquisaSerialExato(serial);
-        if (moProdutoSerial.size() == 1) {//verifica se tem mais que um resultado a pesquisa
-            for (Produtoserial produtoSerial : moProdutoSerial) {//Cria objeto da tabeal
-                //produto = produtoSerial.getCodprod();
-                condicao1 = true;
-                List<Produtocodigo> listProdCodigo = queryCplus.listProdutoCodigo(produtoSerial.getCodprod().getCodprod());
-                for (Produtocodigo cod : listProdCodigo) {
-                    if (cod.getCodigo().equals(serial) || produtoSerial.getCodprod().getCodigo().equals(serial)) {
-                        condicao1 = false;
-                    }
-                }
-                if (condicao1) {
-                    condicaoProdutoNoPedido = true;
-                    for (Movendaprod moVendaProd : listaProdutoPedido) {
-                        if (moVendaProd.getCodprod().getCodprod().equals(produtoSerial.getCodprod().getCodprod())) {
-                            int quantidadeSeparada = 0;
-                            // moVendaProd.setQuantidadeconferida(BigDecimal.ZERO);
-                            boolean serialSeparado = false;
-                            for (Movendaprodserial serialEmSeparacao : movendaprodserialList) {
-                                if (serialEmSeparacao.getCodprodutoserial().getCodprodutoserial().equals(produtoSerial.getCodprodutoserial())) {
-                                    serialSeparado = true;
-                                    break;
-                                }
-                                if (moVendaProd.getCodmovprod().equals(serialEmSeparacao.getCodmovprod().getCodmovprod())) {
-                                    quantidadeSeparada = quantidadeSeparada + 1;
-                                }
-                            }
-                            if (serialSeparado == false) {
-                                int quantidadeDevolvida;
-                                if (moVendaProd.getQuantidadedevolvida() == null) {
-                                    quantidadeDevolvida = 0;
-                                } else {
-                                    quantidadeDevolvida = moVendaProd.getQuantidadedevolvida().intValue();
-                                }
-                                int quantidadePedido = quantidadeSaida(moVendaProd) - quantidadeDevolvida;
-                                boolean condicaoItensSeparados = false;
-                                if (quantidadeSeparada < quantidadePedido) {
-                                    condicaoItensSeparados = true;
-                                }
-                                if (condicaoItensSeparados) {//if que controla a mensagem de erro para quantidade separada
-                                    Movendaprodserial movSerial = new Movendaprodserial();
-                                    //movSerial.setCodmovendaprodserial(incrementTabelaMovProdSerial());
-                                    Integer numCodMovendaSerial = new ConexaoDB().ultimoCodigo("MOVENDAPRODSERIAL", "CODMOVENDAPRODSERIAL");
-                                    movSerial.setCodmovendaprodserial(String.format("%09d", numCodMovendaSerial));
-                                    movSerial.setCodmovprod(moVendaProd);
-                                    movSerial.setCodprodutoserial(produtoSerial);
-                                    movSerial.setAltura(BigDecimal.ONE);
-                                    movendaprodserialList.add(movSerial);
-                                    String qntSep = String.valueOf(quantidadeSeparada + 1) + ".00";
-                                    moVendaProd.setQuantidadeconferida(new BigDecimal(qntSep));
-                                    try {
-                                        new MovendaprodJpaController(managerCplus).edit(moVendaProd);
-                                        numCodMovendaSerial++;
-                                        new ConexaoDB().atualizarCodigo("MOVENDAPRODSERIAL", "CODMOVENDAPRODSERIAL", numCodMovendaSerial);
-                                        movendaprodList.clear();                                       
-                                        for (Movendaprod v : queryCplus.listMovendaProd(movenda.getCodmovenda())) {
-                                            movendaprodList.add(v);
-                                        }
-                                        if (quantidadePedido == (quantidadeSeparada + 1)) {
-                                            for (int cont = 0; cont < jTableProdutosPedido.getRowCount(); cont++) {
-                                                if (moVendaProd.getCodmovprod() == jTableProdutosPedido.getValueAt(cont, colunaCodMovProdutoSaida)) {
-                                                    jTableProdutosPedido.setRowSelectionInterval(cont, cont);
-
-                                                }
-                                            }
-                                        }
-                                    } catch (NonexistentEntityException ex) {
-                                        JOptionPane.showMessageDialog(null, "Houve um erro ao editar pedido \n" + ex, "Erro Separar", JOptionPane.ERROR_MESSAGE);
-                                    } catch (Exception ex) {
-                                        JOptionPane.showMessageDialog(null, "Houve um erro ao editar pedido \n" + ex, "Erro Separar", JOptionPane.ERROR_MESSAGE);
-                                    }
-                                    condicaoProdutoNoPedido = false;
-                                    break;
-                                } else {
-                                    condicaoProdutoNoPedido = false;
-                                    condicao = false;
-                                    mensagem = "ESTE PRODUTO J¡ EST¡ TOTALMENTE SEPARADO, \n Se houver produtos iguais no pedido descarte a informaÁ„o! \n  verifique!!! \n";
-                                    msgLog = ", O produto: " + moVendaProd.getCodprod().getNomeprod() + ", est· totalmente separado. Serial: " + produtoSerial.getSerial() + ", Data: " + new FormataCampos().dataStringDataCompleta(new Date(System.currentTimeMillis()), 0);
-
-                                }
-                            } else {
-                                condicao = false;
-                                condicaoProdutoNoPedido = false;
-                                mensagem = "ESTE SERIAL J¡Å EST¡Å NO PEDIDO, verifique!!! \n" + produtoSerial.getSerial();
-                                msgLog = ", O produto: " + moVendaProd.getCodprod().getNomeprod() + ", o serial j·° est·° no pedido. Serial: " + produtoSerial.getSerial() + ", Data: " + new FormataCampos().dataStringDataCompleta(new Date(System.currentTimeMillis()), 0);
-                            }
-                        }// fim if que ferifica se o produto estÔøΩ no pedido                         
-                    }//fim for Movendaprod 
-                    if (condicaoProdutoNoPedido) {
-                        condicao = false;
-                        mensagem = "O PRODUTO: " + produto.getNomeprod() + "\n N√O EST¡Å NO PEDIDO Verifique!!!!!";
-                        msgLog = ", O produto: " + produto.getNomeprod() + ", m„o est· no pedido " + produtoSerial.getSerial() + ", Data: " + new FormataCampos().dataStringDataCompleta(new Date(System.currentTimeMillis()), 0);
-                    }
-                } else {//que verifica se foi digitado o EAN
-                    condicao = false;
-                    mensagem = "O SERIAL N√O PODE SER O EAN OU O CODIGO DO PRODUTO, Verifique!!!!!";
-                    // msgLog = "O produto: "+produto.getNomeprod()+", o serial jÔøΩ estÔøΩ no pedido. Serial: "+ produtoSerial.getSerial();
-                }
-            }
-        } else {//fim if que verifica se encontrou serial
-            if (moProdutoSerial.isEmpty()) {// se igual a zero coloca serial n√£o encontrado, se diferente mensagem abaixo 
-                condicao = false;
-                mensagem = "SERIAL N√O ENCONTRADO!! " + moProdutoSerial.size() + " RESULTADOS";
-            } else {
-                condicao = false;
-                mensagem = "FOI ENCONTRADO: " + moProdutoSerial.size() + " RESULTADOS, verifique!!!";
-            }//fim else que encontrou mais de um serial
-        }//fim else messagem de erro de encontrou seria
-        if (condicao == false) {
-            tocarSomErro();
-            JOptionPane.showMessageDialog(null, mensagem, "Erro Separar", JOptionPane.ERROR_MESSAGE);
-            this.listagemUsuarioJDialog.setVisible(true);
-            String getStr = "";
-            if (condicaoProdutoNoPedido == false && condicao1) {
-                if (movenda.getObs() != null) {
-                    getStr = movenda.getObs();
-                }
-                movenda.setObs(getStr + "Usu·rio: " + this.listagemUsuarioJDialog.getUsuario().getNome() + msgLog + "\n");
-                try {
-                    new MovendaJpaController(managerCplus).edit(movenda);
-                } catch (NonexistentEntityException ex) {
-                    criaLog(new Date(System.currentTimeMillis()), "Erro ao editar Pedido: " + ex, "Erro editar", managerIntegrador);
-                } catch (Exception ex) {
-                    criaLog(new Date(System.currentTimeMillis()), "Erro ao editar Pedido: " + ex, "Erro editar", managerIntegrador);
-                }
-                criaLog(new Date(System.currentTimeMillis()), "Erro separarar, pedido: " + movenda.getNumped() + ", Usu·rio: " + this.listagemUsuarioJDialog.getUsuario().getNome() + msgLog + "\n", "Erro SeparaÔøΩÔøΩo", managerIntegrador);
-            } else if (moProdutoSerial.size() == 1 && condicao1) {
-                if (movenda.getObs() != null) {
-                    getStr = movenda.getObs();
-                }
-                movenda.setObs(getStr + "Usu·rio: " + this.listagemUsuarioJDialog.getUsuario().getNome() + msgLog + "\n");
-                try {
-                    new MovendaJpaController(managerCplus).edit(movenda);
-                } catch (NonexistentEntityException ex) {
-                    criaLog(new Date(System.currentTimeMillis()), "Erro ao editar Pedido: " + ex, "Erro editar", managerIntegrador);
-                } catch (Exception ex) {
-                    criaLog(new Date(System.currentTimeMillis()), "Erro ao editar Pedido: " + ex, "Erro editar", managerIntegrador);
-                }
-
-                if (produto.getDescricaoweb() != null) {
-                    getStr = produto.getDescricaoweb();
-                }
-                produto.setDescricaoweb(getStr + "Usu·rio: " + this.listagemUsuarioJDialog.getUsuario().getNome() + msgLog + "\n");
-                try {
-                    new ProdutoJpaController(managerCplus).edit(produto);
-                } catch (NonexistentEntityException ex) {
-                    criaLog(new Date(System.currentTimeMillis()), "Erro ao editar Produto: " + ex, "Erro editar", managerIntegrador);
-                } catch (Exception ex) {
-                    criaLog(new Date(System.currentTimeMillis()), "Erro ao editar Produto: " + ex, "Erro editar", managerIntegrador);
-                }
-                criaLog(new Date(System.currentTimeMillis()), "Erro separar, pedido: " + movenda.getNumped() + ", Usu·rio: " + this.listagemUsuarioJDialog.getUsuario().getNome() + msgLog + "\n", "Erro SeparaÔøΩÔøΩo", managerIntegrador);
-            }
-        }
-        return condicao;
     }
 
     private void criaLog(Date dataExecucao, String mensagem, String tipoLog, EntityManagerFactory managerIntegrador) {
@@ -934,28 +663,23 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
         new IntLogsJpaController(managerIntegrador).create(log);
     }
 
-    private void gravaMoVendaSerial() {
-        for (Movendaprodserial prodSerial : movendaprodserialList) {
-            if (prodSerial.getAltura().doubleValue() > 0.00) {
-                Movendaprodserial mvps = new Movendaprodserial();
-                mvps.setCodmovendaprodserial(prodSerial.getCodmovendaprodserial());
-                mvps.setCodprodutoserial(prodSerial.getCodprodutoserial());
-                mvps.setCodmovprod(prodSerial.getCodmovprod());
-                mvps.setAltura(BigDecimal.ZERO);
-                try {
-                    new MovendaprodserialJpaController(managerCplus).create(mvps);
-                    prodSerial.setAltura(BigDecimal.ZERO);
-                    jButtonGravar.setEnabled(false);
-                    jTextFieldSerial.setEnabled(false);
-                } catch (Exception ex) {
-                    tocarSomErro();
-                    pedidoSeparado();
-                    JOptionPane.showMessageDialog(null, "ERRO AO GRAVAR SERIAL, Verifique!! \n" + ex, "Erro Separar", JOptionPane.ERROR_MESSAGE);
-                    this.listagemUsuarioJDialog.setVisible(true);
-                }
-            }
+    private void gravarSaidaSerial(SerialProduto ser, Movendaprod movProd) {
+        SaidaSerial mvps = new SaidaSerial();
+        mvps.setCodSaida(movProd.getCodmovenda().getCodmovenda());
+        mvps.setCodSaidaProd(movProd.getCodmovprod());
+        mvps.setDataSaida(new Date(System.currentTimeMillis()));
+        mvps.setDevolvido(false);
+        mvps.setIdSerial(ser);
+        try {
+            new SaidaSerialJpaController(managerIntegrador).create(mvps);
+            jButtonGravar.setEnabled(false);
+            //jTextFieldSerial.setEnabled(false);         
+        } catch (Exception ex) {
+            tocarSomErro();
+            pedidoSeparado();
+            JOptionPane.showMessageDialog(null, "ERRO AO GRAVAR SERIAL, Verifique!! \n" + ex, "Erro Separar", JOptionPane.ERROR_MESSAGE);
+            this.listagemUsuarioJDialog.setVisible(true);
         }
-
     }
 
     private void tocarSomErro() {
@@ -966,30 +690,35 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
         File mp3File = new File(path);
         //Instancia do Objeto ReproduzirAudio, a qual criamos a classe.
         ReproduzirAudio musica = new ReproduzirAudio(mp3File);
-        //Finalmente a chamada do mÔøΩtodo que toca a mÔøΩsica
+        //Finalmente a chamada do mÈtodo que toca a m˙sica
         musica.play();
     }
 
     /**
-     * Fun√ß√£o qeu controla pedido separado
+     * FunÁ„o verifica se o pedido est· separado
      *
-     * @return true se j· estiver separado false n√£o separado ou n√£o separado
+     * @return true se j· estiver separado false n„o separado ou n„o separado
      * completamente
      */
     private boolean pedidoSeparado() {
-
         boolean condicao = false;
-        List<Movendaprod> listMovendaProd = queryCplus.listMovendaProd(movenda.getCodmovenda());
+        //List<Movendaprod> listaProdutoPedido = queryCplus.listMovendaProd(movenda.getCodmovenda());
         int quanMovendaProd = 0;
-        for (Movendaprod prod : listMovendaProd) {
-            quanMovendaProd = quanMovendaProd + quantidadeSaida(prod);
+        int quantidadeSerial = queryIntegrador.listPorSaida(movenda.getCodmovenda()).size();
+        for (Movendaprod movProd : listaProdutoPedido) {
+            //soma quantidades do pedido
+            quanMovendaProd = quanMovendaProd + quantidadePacote(movProd);
+            //soma seriais
+            //quantidadeSerial = quantidadeSerial + queryIntegrador.listPorSaidaProd(movProd.getCodmovprod()).size();
         }
+
         jButtonExcluirSeria.setEnabled(false);
-        quantidadeSaidas = movendaprodserialList.size();
-        quantidadTotalPedido = quanMovendaProd;
-        int tot = quantidadTotalPedido - quantidadeSaidas;
+        // quantidadeSaidas = movendaprodserialList.size();
+        // quantidadTotalPedido = quanMovendaProd;
+        int tot = quanMovendaProd - quantidadeSerial;
         jTextFieldItensFaltando.setText(String.valueOf(tot));
-        if (quanMovendaProd == quantidadeSaidas && !movendaprodserialList.isEmpty()) {
+
+        if (quanMovendaProd == quantidadeSerial) {
             jTextFieldItensFaltando.setText(String.valueOf(tot));
             jTextFieldTextoAviso.setText("Pedido Totalmente Separado!");
             jTextFieldTextoAviso.setBackground(Color.GREEN);
@@ -998,8 +727,7 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
             jButtonImprimirRomaneio.setEnabled(true);
             jButtonPesquisaSaida.setEnabled(true);
             jButtonFechar.setEnabled(true);
-            //jTextFieldSerial.setEnabled(false);
-
+            jTextFieldSerial.setEnabled(false);
             condicao = true;
         } else {
             jTextFieldTextoAviso.setText("Aguardando SeparaÁ„o de Produtos!");
@@ -1009,29 +737,11 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
             jButtonCancelarSeparacao.setEnabled(true);
             jButtonFechar.setEnabled(false);
             jButtonPesquisaSaida.setEnabled(false);
-            boolean multiplo = false;
-            String texto = "ERRO CORRIJA ANTES DE PROSSEGUIR !! \n";
-            for (Movendaprod prod : listMovendaProd) {
-                //int quantidade = prod.getQuantidade().intValue();
-                for (Unidade un : queryCplus.resultPorUnidadeProduto(prod.getCodprod().getUnidade())) {
-                    // if (un.getFatorconversao().intValue() > 1) {
-                    //        quantidade = quantidade / un.getFatorconversao().intValue();
-                    //   }
-                    if ((prod.getQuantidade().intValue() % un.getFatorconversao().intValue()) != 0) {
-                        texto = texto + "O produto: " + prod.getCodprod().getNomeprod() + " deve ser multiplo de: " + un.getFatorconversao().intValue() + "\n";
-                        multiplo = true;
-                        jButtonSepararPedido.setEnabled(false);
-                    }
-                }
-            }
-            if (multiplo) {
-                JOptionPane.showMessageDialog(null, texto);
-            }
         }
         return condicao;
     }
 
-    private int quantidadeSaida(Movendaprod movendaProd) {
+    private int quantidadePacote(Movendaprod movendaProd) {
         int quantidade = movendaProd.getQuantidade().intValue();
         for (Unidade un : queryCplus.resultPorUnidadeProduto(movendaProd.getCodprod().getUnidade())) {
             if (un.getFatorconversao().intValue() > 1) {
@@ -1049,11 +759,11 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
         //String com o caminho do arquivo ReproduzirAudio a ser tocado
         String path = queryIntegrador.valorConfiguracao("caminho_ARQUIVO_AUDIO_ERRO");
         // new VariavelStatica().caminho_ARQUIVO_AUDIO_FINALIZADO;
-        //InstanciaÔøΩÔøΩo de um objeto File com o arquivo ReproduzirAudio
+        //Instancia de um objeto File com o arquivo ReproduzirAudio
         File mp3File = new File(path);
-        //InstanciaÔøΩÔøΩo do Objeto ReproduzirAudio, a qual criamos a classe.
+        //Instancia do Objeto ReproduzirAudio, a qual criamos a classe.
         ReproduzirAudio musica = new ReproduzirAudio(mp3File);
-        //Finalmente a chamada do mÔøΩtodo que toca a mÔøΩsica
+        //Finalmente a chamada do mÈtodo que toca a m˙sica
         musica.play();
     }
 
@@ -1095,8 +805,8 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
     private final ListagemSaidasJDialog listagemSaidasJDialog;
 
     ListagemUsuarioJDialog listagemUsuarioJDialog;
-    int colunaCodMovProdutoSerial;
-    List<Movendaprod> listaProdutoPedido;
+    //int colunaCodMovProdutoSerial;
+    private List<Movendaprod> listaProdutoPedido;
     private static EntityManagerFactory managerCplus;
     private static EntityManagerFactory managerPrestaShop;
     private static EntityManagerFactory managerIntegrador;
@@ -1104,13 +814,12 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
     private final QueryCplus queryCplus;
     private final QueryIntegrador queryIntegrador;
     private final QueryPrestaShop queryPrestaShop;
-    int colunaCodMovProdutoSaida;
+    //int colunaCodMovProdutoSaida;
     //int colunaQuantidadeConferida;
-    int quantidadeSaidas;
-    int quantidadTotalPedido;
+    //int quantidadeSaidas;
+    //int quantidadTotalPedido;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.persistence.EntityManager cplusPUEntityManager;
     private javax.swing.JButton jButtonCancelarSeparacao;
     private javax.swing.JButton jButtonExcluirSeria;
     private javax.swing.JButton jButtonFechar;
@@ -1124,19 +833,14 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanelConfiguracaoLista;
     private javax.swing.JPanel jPanelInformacoes;
     private javax.swing.JPanel jPanelPesquisas;
-    private javax.swing.JScrollPane jScrollPaneProdutosPedido;
-    private javax.swing.JScrollPane jScrollPaneSerialSaida;
-    private javax.swing.JTable jTableProdutosPedido;
-    private javax.swing.JTable jTableSerialSaida;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTableSaidaProd;
+    private javax.swing.JTable jTableSeriasSeparados;
     private javax.swing.JTextField jTextFieldItensFaltando;
     private javax.swing.JTextField jTextFieldMultiplo;
     private javax.swing.JTextField jTextFieldSerial;
     private javax.swing.JTextField jTextFieldTextoAviso;
-    private java.util.List<entidade.cplus.Movendaprod> movendaprodList;
-    private javax.persistence.Query movendaprodQuery;
-    private java.util.List<entidade.cplus.Movendaprodserial> movendaprodserialList;
-    private javax.persistence.Query movendaprodserialQuery;
-    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
 }

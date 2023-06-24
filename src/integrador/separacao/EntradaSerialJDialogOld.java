@@ -3,50 +3,49 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package integrador.separacao;
 
-import acesso.ListagemUsuarioJDialog;
 import entidade.cplus.Moventradaprod;
+import entidade.cplus.Moventradaprodserial;
 import entidade.cplus.Produto;
 import entidade.cplus.Produtocodigo;
+import entidade.cplus.Produtoserial;
 import entidade.cplus.Unidade;
-import entidade.integrador.EntradaSerial;
-import entidade.integrador.SerialProduto;
+//import integrador.statico.VariavelStatica;
+import acesso.ListagemUsuarioJDialog;
 import java.awt.Toolkit;
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import jpa.integrador.EntradaSerialJpaController;
-import jpa.integrador.SerialProdutoJpaController;
-import jpa.integrador.exceptions.NonexistentEntityException;
+import jpa.cplus.MoventradaprodserialJpaController;
+import jpa.cplus.ProdutoserialJpaController;
+import jpa.cplus.exceptions.IllegalOrphanException;
+import jpa.cplus.exceptions.NonexistentEntityException;
 import query.cplus.QueryCplus;
 import query.integrador.QueryIntegrador;
 
 /**
- *
+ * 
  * @author leonardo
  */
-public class EntradaSerialJDialog extends javax.swing.JDialog {
+public class EntradaSerialJDialogOld extends javax.swing.JDialog {
 
     /**
      * Creates new form EntradaSerialJDialog
-     *
      * @param parent
      * @param modal
      * @param managerCplus1
      * @param managerIntegrador1
      */
-    public EntradaSerialJDialog(java.awt.Frame parent, boolean modal, EntityManagerFactory managerCplus1, EntityManagerFactory managerIntegrador1) {
+    public EntradaSerialJDialogOld(java.awt.Frame parent, boolean modal, EntityManagerFactory managerCplus1, EntityManagerFactory managerIntegrador1) {
         super(parent, modal);
         initComponents();
-        managerCplus = managerCplus1;
+        managerCplus = managerCplus1; 
         managerIntegrador = managerIntegrador1;
         queryIntegrador = new QueryIntegrador(managerIntegrador);
         queryCplus = new QueryCplus(managerCplus);
@@ -55,9 +54,9 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
         colunaSerial = jTableSerialDigitado.getColumnModel().getColumnIndex("Serial");
         //var = var1;
         //produto = new ProdutoJpaController(managerCplus).findProduto(movEntradaProd.getCodprod().getCodprod());
-        //listCodigo = querySerial.listagemProdutoCodigo(produto.getCodprod());
-        //confereQuantidadeDigitada();
-
+       //listCodigo = querySerial.listagemProdutoCodigo(produto.getCodprod());
+       //confereQuantidadeDigitada();
+      
     }
 
     /**
@@ -176,7 +175,7 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
                     .addGroup(jPanelControleLayout.createSequentialGroup()
                         .addGroup(jPanelControleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabelDigiteSerial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabelQuantidadeFaltando, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
+                            .addComponent(jLabelQuantidadeFaltando, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanelControleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextFieldSerial)
@@ -283,20 +282,20 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonGravarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGravarActionPerformed
-        //if (gravarProdutoSerial() == false) {
-        //    DefaultTableModel tabelaEntradaSerial = (DefaultTableModel) jTableSerialDigitado.getModel();
-         //   int cont = jTableSerialDigitado.getRowCount();
-         //   for (int a = 0; a < cont; a++) {
-         //       tabelaEntradaSerial.removeRow(0);
-         //   }
+        if (gravarProdutoSerial() == false) {
+            DefaultTableModel tabelaEntradaSerial = (DefaultTableModel) jTableSerialDigitado.getModel();
+            int cont = jTableSerialDigitado.getRowCount();
+            for (int a = 0; a < cont; a++) {
+                tabelaEntradaSerial.removeRow(0);
+            }
             dispose();
             setVisible(false);
-       // }
+        }
     }//GEN-LAST:event_jButtonGravarActionPerformed
 
     private void jTextFieldSerialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldSerialActionPerformed
-        verificaSerial();
-
+       verificaSerial();
+       
     }//GEN-LAST:event_jTextFieldSerialActionPerformed
 
     private void jButtonGerarSeriaisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGerarSeriaisActionPerformed
@@ -315,105 +314,72 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_jTableSerialDigitadoMouseClicked
 
     private void jButtonExcluirTodosSeriaisDigitadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirTodosSeriaisDigitadosActionPerformed
-        int cancelar = JOptionPane.showConfirmDialog(null, "CUIDADO!! \n DESEJA REMOVER TODOS OS SERIAIS DA TABELA??", "Excluir", JOptionPane.YES_NO_CANCEL_OPTION);
+         int cancelar = JOptionPane.showConfirmDialog(null, "CUIDADO!! \n DESEJA REMOVER TODOS OS SERIAIS DA TABELA??", "Excluir", JOptionPane.YES_NO_CANCEL_OPTION);
         if (cancelar == JOptionPane.YES_NO_OPTION) {
             DefaultTableModel tabelaEntradaSerial = (DefaultTableModel) jTableSerialDigitado.getModel();
             int cont = jTableSerialDigitado.getRowCount();
             for (int a = 0; a < cont; a++) {
                 tabelaEntradaSerial.removeRow(0);
-            }
+            }            
             confereQuantidadeDigitada();
         }
     }//GEN-LAST:event_jButtonExcluirTodosSeriaisDigitadosActionPerformed
 
     private void jButtonCancelarEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarEntradaActionPerformed
-        int cancelar = JOptionPane.showConfirmDialog(null, "CUIDADO!! \n SERÁ EXCLUIDO TODOS OS SERIAIS", "Cancelar", JOptionPane.YES_NO_CANCEL_OPTION);
+        int cancelar = JOptionPane.showConfirmDialog(null, "CUIDADO!! \n SERï¿½ CANCELADO A ENTRADA DE SERIAIS DESSE PRODUTO", "Cancelar", JOptionPane.YES_NO_CANCEL_OPTION);
         if (cancelar == JOptionPane.YES_NO_OPTION) {
-            excluirSeriaisDoBanco();
-            dispose();
-            setVisible(false);
+             dispose();
+       setVisible(false);
         }
     }//GEN-LAST:event_jButtonCancelarEntradaActionPerformed
-    
-    private void excluirSerialSelecionado() {
+
+    private void excluirSerialSelecionado(){
         DefaultTableModel tabelaEntradaSerial = (DefaultTableModel) jTableSerialDigitado.getModel();
-        int row = jTableSerialDigitado.getSelectedRow();
-        int coluna = jTableSerialDigitado.getColumnModel().getColumnIndex("Serial");
-        tabelaEntradaSerial.removeRow(row);
-        for (SerialProduto sp : queryIntegrador.listSerialExato((String) jTableSerialDigitado.getValueAt(row, coluna))) {
-            for (EntradaSerial es : sp.getEntradaSerialCollection()) {
-                try {
-                    new EntradaSerialJpaController(managerIntegrador).destroy(es.getIdEntradaSerial());
-                    
-                } catch (NonexistentEntityException ex) {
-                    tocarSomErro();
-                    JOptionPane.showMessageDialog(null, "\n Erro ao Excluir Entrada Serial.\n " + ex);
-                }
-            }
-            try {
-                new SerialProdutoJpaController(managerIntegrador).destroy(sp.getIdSerial());
-            } catch (NonexistentEntityException ex) {
-                tocarSomErro();
-                JOptionPane.showMessageDialog(null, "\n Erro ao Excluir Serial Produto.\n " + ex);
-            }
-        }
+        tabelaEntradaSerial.removeRow(jTableSerialDigitado.getSelectedRow());
         jButtonExcluirSerialSelecionado.setEnabled(false);
         confereQuantidadeDigitada();
     }
     
-    private void criarTabela(List<String> listTex) {
-        DefaultTableModel tabelaEntradaSerial = (DefaultTableModel) jTableSerialDigitado.getModel();
-        int cont = jTableSerialDigitado.getRowCount();
-        for (int a = 0; a < cont; a++) {
-            tabelaEntradaSerial.removeRow(0);
-        }
-        for (String s : listTex) {
-            tabelaEntradaSerial.addRow(new Object[]{String.valueOf(s)});           
-        }
-        if(jTableSerialDigitado.getRowCount() != 0){
-        jTableSerialDigitado.setRowSelectionInterval(jTableSerialDigitado.getRowCount() - 1, jTableSerialDigitado.getRowCount() - 1);//seleciona ultima linha   
-        }
-    }
-    
     private void gerarSeriais() {
-        if (queryIntegrador.listPorEntradaProd(movEntradaProd.getCodmoveprod()).isEmpty()) {
-            String gerarSerialPorData = new SimpleDateFormat("ddMMyyHHmmss").format(new Date());
-            gerarSerialPorData = gerarSerialPorData + "001";
-            int quantidadeEntrada = quantidadePacote;
-            queryIntegrador.listPorEntradaProd(movEntradaProd.getCodmoveprod());
-            List<String> listTex = new ArrayList<>();
-            long cont = Long.parseLong(gerarSerialPorData);
-            for (int increment = 0; increment < quantidadeEntrada; increment++) {
-                cont++;
-                jTableSerialDigitado.clearSelection(); //Tira linha selecionada      
-                listTex.add(String.valueOf(cont));
-                gravarProdutoSerial(String.valueOf(cont));                      
+        gerarSerialPorData = new SimpleDateFormat("ddMMyyHHmmss").format(new Date());
+        gerarSerialPorData = gerarSerialPorData + "001";
+        int quantidadeEntrada = quantidadeEntrada(movEntradaProd);
+        long cont = Long.parseLong(gerarSerialPorData);
+        DefaultTableModel tabelaEntradaSerial = (DefaultTableModel) jTableSerialDigitado.getModel();
+        for (int increment = 0; increment < quantidadeEntrada; increment++) {
+            cont++;
+            List<Produtoserial> produtoSerial = queryCplus.pesquisaSerialExato(String.valueOf(cont));
+            if (produtoSerial.isEmpty()) {
+                jTableSerialDigitado.clearSelection(); //Tira linha selecionada
+                tabelaEntradaSerial.addRow(new Object[]{String.valueOf(cont)});
+                jTableSerialDigitado.setRowSelectionInterval(jTableSerialDigitado.getRowCount() - 1, jTableSerialDigitado.getRowCount() - 1);//seleciona ultima linha
+            } else {
+                increment --;
+                tocarSomErro();
+                JOptionPane.showMessageDialog(null, "O Serial digitado jï¿½ estï¿½ cadastrado!!! \n" + produtoSerial.size() + " Resultados encontrados");
+                this.listagemUsuarioJDialog.setVisible(true);
             }
-            criarTabela(listTex);
-            confereQuantidadeDigitada();
-            tocarSomFinalizado();
-        } else {
-            tocarSomErro();
-            JOptionPane.showMessageDialog(null, "JÁ EXISTEM ALGUNS SERIAIS GRAVADOS IMPOSSIVEL EXECUTAR A TAREFA!!");
         }
+        confereQuantidadeDigitada();
+        tocarSomFinalizado();
     }
     
-    public void confereQuantidadeDigitada() {
-        if (jTableSerialDigitado.getRowCount() == quantidadePacote) {
+    public void confereQuantidadeDigitada(){           
+        if(jTableSerialDigitado.getRowCount() == quantidadeEntrada(movEntradaProd)){
             jButtonGravar.setEnabled(true);
             jTextFieldSerial.setEnabled(false);
             jTextFieldSerial.setText("");
             jButtonGerarSeriais.setEnabled(false);
             jTextFieldQuantidadeFaltando.setText("0");
             jButtonExcluirTodosSeriaisDigitados.setEnabled(true);
-        } else {
-            int quantFaltando = quantidadePacote - jTableSerialDigitado.getRowCount();
-            jTextFieldQuantidadeFaltando.setText(String.valueOf(quantFaltando));
-            if (jTableSerialDigitado.getRowCount() < 1) {
+        }else{
+            int quantFaltando = quantidadeEntrada(movEntradaProd) - jTableSerialDigitado.getRowCount();
+            jTextFieldQuantidadeFaltando.setText(String.valueOf(quantFaltando));           
+            if(jTableSerialDigitado.getRowCount() < 1){
                 jButtonGerarSeriais.setEnabled(true);
                 jButtonExcluirSerialSelecionado.setEnabled(false);
                 jButtonExcluirTodosSeriaisDigitados.setEnabled(false);
-            } else {
+            }else{
                 jButtonExcluirTodosSeriaisDigitados.setEnabled(true);
                 jButtonGerarSeriais.setEnabled(false);
             }
@@ -424,52 +390,48 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
         }
     }
     
-    private boolean gravarProdutoSerial(String serial) {
+    private boolean gravarProdutoSerial() {      
         boolean condicao = false;
-        //int contTabela = jTableSerialDigitado.getRowCount();
-        //int contProdSerial = queryCplus.incrementProdutoSerial();
-        //int contMovProdSerial = queryCplus.incrementMovEntradaProdSerial();
-        //for (int cont = 0; cont < contTabela; cont++) {//Percore todos os registros da tabela
-        //contProdSerial++;
-        //contMovProdSerial++;
-        // jTableSerialDigitado.setRowSelectionInterval(cont, cont);
-        SerialProduto serialProd = new SerialProduto();//instancia classe
-        serialProd.setCodProduto(produto.getCodprod());
-        serialProd.setSerial(serial);//pega valor de jTable Serial
-        //produtoSerial.setCodprodutoserial(String.format("%09d", contProdSerial));
-        serialProd.setCodigoProduto(produto.getCodigo());
-        serialProd.setNomeProduto(produto.getNomeprod());
-        serialProd.setData(new Date(System.currentTimeMillis()));
-        try {
-            new SerialProdutoJpaController(managerIntegrador).create(serialProd);//Cria objeto no banco de dados
-            if (gravarEntradaSerial(new SerialProdutoJpaController(managerIntegrador).findSerialProduto(serialProd.getIdSerial()))) {
-                // condicao = true;
+        int contTabela = jTableSerialDigitado.getRowCount();
+        int contProdSerial = queryCplus.incrementProdutoSerial();
+        int contMovProdSerial = queryCplus.incrementMovEntradaProdSerial();
+        for (int cont = 0; cont < contTabela; cont++) {//Percore todos os registros da tabela
+            contProdSerial++;
+            contMovProdSerial++;
+            jTableSerialDigitado.setRowSelectionInterval(cont, cont);
+            Produtoserial produtoSerial = new Produtoserial();//instancia classe
+            produtoSerial.setCodprod(produto);
+            produtoSerial.setSerial(jTableSerialDigitado.getValueAt(cont, colunaSerial).toString());//pega valor de jTable Serial
+            produtoSerial.setCodprodutoserial(String.format("%09d", contProdSerial));
+            produtoSerial.setDataentrada(new Date(System.currentTimeMillis()));
+            try {
+                new ProdutoserialJpaController(managerCplus).create(produtoSerial);//Cria objeto no banco de dados
+                if(gravarMovProdSerial(new ProdutoserialJpaController(managerCplus).findProdutoserial(produtoSerial.getCodprodutoserial()), contMovProdSerial)){
+                    condicao = true;
+                }
+            } catch (Exception ex) {
+                tocarSomErro();
+                JOptionPane.showMessageDialog(null, "\n Erro ao gravar produto Serial.\n " + ex);
+                condicao = true;
             }
-        } catch (Exception ex) {
-            tocarSomErro();
-            JOptionPane.showMessageDialog(null, "\n Erro ao gravar produto Serial.\n " + ex);
-            // condicao = true;
+            if(condicao){
+                excluirEntradaSerialBanco();
+                JOptionPane.showMessageDialog(null, "OS REGISTROS FORAM EXCLUIDOS TENTE NOVAMENTE!!" );
+                break;
+            }
         }
-        //if (condicao) {
-        //    excluirEntradaSerialBanco();
-        //   JOptionPane.showMessageDialog(null, "OS REGISTROS FORAM EXCLUIDOS TENTE NOVAMENTE!!");
-        //break;
-        // }
-        // }
-        //jButtonGravar.setEnabled(false);
+        jButtonGravar.setEnabled(false);
         return condicao;
     }
     
-    private boolean gravarEntradaSerial(SerialProduto produtoSerial) {
+    private boolean gravarMovProdSerial(Produtoserial produtoSerial, int cont) {
         boolean condicao = false;
-        EntradaSerial ent = new EntradaSerial();
-        ent.setIdSerial(produtoSerial);
-        ent.setCodEntradaProd(movEntradaProd.getCodmoveprod());
-        ent.setCodEntrada(movEntradaProd.getCodmoventr().getCodmoventr());
-        ent.setDevolvido(false);
-        ent.setDataEntrada(new Date(System.currentTimeMillis()));
+        Moventradaprodserial movEntradaSerial = new Moventradaprodserial();                
+        movEntradaSerial.setCodprodutoserial(produtoSerial);                           
+        movEntradaSerial.setCodmoveprod(movEntradaProd);
+        movEntradaSerial.setCodmoventradaprodserial(String.format("%09d", cont));
         try {
-            new EntradaSerialJpaController(managerIntegrador).create(ent);
+            new MoventradaprodserialJpaController(managerCplus).create(movEntradaSerial);  
         } catch (Exception ex) {
             tocarSomErro();
             JOptionPane.showMessageDialog(null, "\n Erro ao gravar Entrada Serial.\n " + ex);
@@ -478,15 +440,20 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
         return condicao;
     }
     
-    private void excluirSeriaisDoBanco() {
-        List<EntradaSerial> listMovProdSerial = queryIntegrador.listPorEntradaProd(movEntradaProd.getCodmoveprod());
-        for (EntradaSerial ent : listMovProdSerial) {
+    private void excluirEntradaSerialBanco(){
+        List<Moventradaprodserial> listMovProdSerial = queryCplus.listagemSerialEntradaProd(movEntradaProd.getCodmoveprod());
+        for(Moventradaprodserial movProdSerial : listMovProdSerial){
             try {
-                new EntradaSerialJpaController(managerIntegrador).destroy(ent.getIdEntradaSerial());
-                new SerialProdutoJpaController(managerIntegrador).destroy(ent.getIdSerial().getIdSerial());
+                new MoventradaprodserialJpaController(managerCplus).destroy(movProdSerial.getCodmoventradaprodserial());
             } catch (NonexistentEntityException ex) {
                 tocarSomErro();
                 JOptionPane.showMessageDialog(null, "\n Erro ao Excluir Entrada Serial.\n " + ex);
+            }
+            try {
+                new ProdutoserialJpaController(managerCplus).destroy(movProdSerial.getCodprodutoserial().getCodprodutoserial());
+            } catch (IllegalOrphanException | NonexistentEntityException ex) {
+                tocarSomErro();
+                JOptionPane.showMessageDialog(null, "\n Erro ao Excluir Produto Serial.\n " + ex);
             }
         }
         jButtonGravar.setEnabled(true);
@@ -494,34 +461,33 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
     
     private void verificaSerial() {
         String textoDigitado = jTextFieldSerial.getText().toUpperCase().trim();
-        List<SerialProduto> produtoSerial = queryIntegrador.listSerialExato(textoDigitado);
-        if (produtoSerial.isEmpty()) {//if que verifica se o serial já existe no banco
-            if (serialCadastroEntrada(textoDigitado)) {//if que verifica se o serial já está na tabela
+        List<Produtoserial> produtoSerial = queryCplus.pesquisaSerialExato(textoDigitado);
+        if (produtoSerial.isEmpty()) {//if que verifica se o serial jï¿½ estï¿½ no banco
+            if (serialCadastroEntrada(textoDigitado)) {//if que verifica se o serial jï¿½ estï¿½ na tabela
                 if (verificaQuantidade()) {//if que verifica se a quantidade digitada foi exedida
                     if (verificaCodigos(textoDigitado)) {
                         DefaultTableModel tabelaEntradaSerial = (DefaultTableModel) jTableSerialDigitado.getModel();
                         jTableSerialDigitado.clearSelection(); //Tira linha selecionada
                         tabelaEntradaSerial.addRow(new Object[]{textoDigitado});
-                        gravarProdutoSerial(textoDigitado);
                         jTableSerialDigitado.setRowSelectionInterval(jTableSerialDigitado.getRowCount() - 1, jTableSerialDigitado.getRowCount() - 1);//seleciona ultima linha                        
                     } else {
                         tocarSomErro();
-                        JOptionPane.showMessageDialog(null, "Não pode ser EAN ou outros Códigos!!!");
+                        JOptionPane.showMessageDialog(null, "NÃ£o pode ser EAN ou outros CÃ³digos!!!");
                         this.listagemUsuarioJDialog.setVisible(true);
                     }
                 } else {
                     tocarSomErro();
-                    JOptionPane.showMessageDialog(null, "A Entrada de Serial desse Produto já está completa!!!!!");
+                    JOptionPane.showMessageDialog(null, "A Entrada de Serial desse Produto jÃ¡ estÃ¡ completa!!!!!");
                     this.listagemUsuarioJDialog.setVisible(true);
                 }
             } else {
                 tocarSomErro();
-                JOptionPane.showMessageDialog(null, "O Serial já está na tabela!!! \n Serial: " + textoDigitado);
+                JOptionPane.showMessageDialog(null, "O Serial jÃ¡ estÃ¡ na tabela!!! \n Serial: " + textoDigitado);
                 this.listagemUsuarioJDialog.setVisible(true);
             }
         } else {//else que verifica se ha serial cadastrado
             tocarSomErro();
-            JOptionPane.showMessageDialog(null, "O Serial digitado já está cadastrado!!! \n" + produtoSerial.size() + " Resultados encontrados");
+            JOptionPane.showMessageDialog(null, "O Serial digitado jÃ¡ estÃ¡ cadastrado!!! \n" + produtoSerial.size() + " Resultados encontrados");
             this.listagemUsuarioJDialog.setVisible(true);
         }
         confereQuantidadeDigitada();
@@ -541,13 +507,13 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
         return condicao;
     }
     
-    private boolean verificaQuantidade() {
-        boolean condicao = true;
-        // int cont = jTableSerialDigitado.getRowCount();
-        if (jTableSerialDigitado.getRowCount() > quantidadePacote) {
-            condicao = false;
-        }
-        return condicao;
+    private boolean verificaQuantidade(){
+        boolean condicao = true;   
+       // int cont = jTableSerialDigitado.getRowCount();
+        if(jTableSerialDigitado.getRowCount() > quantidadeEntrada(movEntradaProd)){           
+            condicao = false;           
+        }        
+        return condicao;      
     }
     
     private boolean serialCadastroEntrada(String textoDigitado) {
@@ -555,18 +521,18 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
         int totalLinhaSerial = jTableSerialDigitado.getRowCount();
         String serialTabela;
         colunaSerial = jTableSerialDigitado.getColumnModel().getColumnIndex("Serial");
-        for (int linhaSerial = 0; linhaSerial < totalLinhaSerial; linhaSerial++) {
+        for (int linhaSerial = 0; linhaSerial < totalLinhaSerial; linhaSerial++) {           
             serialTabela = jTableSerialDigitado.getValueAt(linhaSerial, colunaSerial).toString();
             if (serialTabela.equals(textoDigitado)) {
                 jTableSerialDigitado.setRowSelectionInterval(linhaSerial, linhaSerial);
-                condicao = false;
+                condicao = false;              
                 break;
             }
         }
         return condicao;
     }
     
-    private int quantidadePacote(Moventradaprod prodEnt) {
+    private int quantidadeEntrada(Moventradaprod prodEnt) {
         int quantidade = prodEnt.getQuantidade().intValue();
         List<Unidade> listUn = queryCplus.resultPorUnidadeProduto(prodEnt.getCodprod().getUnidade());
         for (Unidade un : listUn) {
@@ -574,7 +540,7 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
                 quantidade = quantidade / un.getFatorconversao().intValue();
             }
         }
-        //quantidade = quantidade - queryCplus.listagemSerialEntradaProd(prodEnt.getCodmoveprod()).size();
+        quantidade = quantidade - queryCplus.listagemSerialEntradaProd(prodEnt.getCodmoveprod()).size();
         return quantidade;
     }
     
@@ -584,32 +550,29 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
         ReproduzirAudio musica = new ReproduzirAudio(mp3File);
         musica.play();
     }
-    
+
     private void tocarSomFinalizado() {
         String path = queryIntegrador.valorConfiguracao("caminho_ARQUIVO_AUDIO_FINALIZADO");
         File mp3File = new File(path);
         ReproduzirAudio musica = new ReproduzirAudio(mp3File);
         musica.play();
     }
-    
+       
     public void setMovEntradaProd(Moventradaprod movEntradaProd) {
-        this.quantidadePacote = quantidadePacote(movEntradaProd);
         this.movEntradaProd = movEntradaProd;
-        List<String> listTex = new ArrayList<>();
-        for(EntradaSerial s : queryIntegrador.listPorEntradaProd(movEntradaProd.getCodmoveprod())){
-            listTex.add(s.getIdSerial().getSerial());
-        }
-        criarTabela(listTex);
     }
-    
+
     public void setListCodigo(List<Produtocodigo> listCodigo) {
         this.listCodigo = listCodigo;
     }
-    
+
     public void setProduto(Produto produto) {
         this.produto = produto;
     }
+    
+    
 
+    
     /**
      * @param args the command line arguments
      */
@@ -651,18 +614,19 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
             }
         });
     }
-    
-    private final QueryCplus queryCplus;
-    private final QueryIntegrador queryIntegrador;
-    private static EntityManagerFactory managerCplus;
-    private static EntityManagerFactory managerIntegrador;
+
+     QueryCplus queryCplus;
+     QueryIntegrador queryIntegrador;
+    static EntityManagerFactory managerCplus;
+    static EntityManagerFactory managerIntegrador;
     private Moventradaprod movEntradaProd;
-    private final ListagemUsuarioJDialog listagemUsuarioJDialog;
+    ListagemUsuarioJDialog listagemUsuarioJDialog;
     private int colunaSerial;
     private List<Produtocodigo> listCodigo;
     private Produto produto;
-    private int quantidadePacote;
-
+    private String gerarSerialPorData;
+    //static VariavelStatica var;
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCancelarEntrada;
     private javax.swing.JButton jButtonExcluirSerialSelecionado;

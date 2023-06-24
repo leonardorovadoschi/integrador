@@ -5,9 +5,12 @@
  */
 package query.integrador;
 
+import entidade.integrador.EntradaSerial;
 import entidade.integrador.IntConfiguracao;
 import entidade.integrador.IntLogs;
 import entidade.integrador.ProdFornecedor;
+import entidade.integrador.SaidaSerial;
+import entidade.integrador.SerialProduto;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -175,5 +178,33 @@ public class QueryIntegrador {
         Query query = em.createQuery("SELECT c FROM ProdFornecedor c WHERE c.idProdutos =:idProdutos");
         query.setParameter("idProdutos", idProdutos);
          return query.getResultList();
+    }
+    
+    public List<SerialProduto> listSerialExato(String serial) {
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery("SELECT ven FROM SerialProduto ven WHERE ven.serial =:serial");
+        query.setParameter("serial", serial);
+        return query.getResultList();
+    }
+
+    public List<EntradaSerial> listPorEntradaProd(String codmoveprod) {
+         EntityManager em = getEntityManager();
+        Query query = em.createQuery("SELECT ven FROM EntradaSerial ven WHERE ven.codEntradaProd =:codmoveprod");
+        query.setParameter("codmoveprod", codmoveprod);
+        return query.getResultList();
+    }
+    
+     public List<SaidaSerial> listPorSaidaProd(String codmovprod) {
+         EntityManager em = getEntityManager();
+        Query query = em.createQuery("SELECT ven FROM SaidaSerial ven WHERE ven.codSaidaProd =:codmovprod");
+        query.setParameter("codmovprod", codmovprod);
+        return query.getResultList();
+    }
+     
+     public List<SaidaSerial> listPorSaida(String codmov) {
+         EntityManager em = getEntityManager();
+        Query query = em.createQuery("SELECT ven FROM SaidaSerial ven WHERE ven.codSaida =:codmov");
+        query.setParameter("codmov", codmov);
+        return query.getResultList();
     }
 }

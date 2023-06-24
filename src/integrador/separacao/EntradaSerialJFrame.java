@@ -3,22 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package integrador.separacao;
 
 import entidade.cplus.Moventrada;
 import entidade.cplus.Moventradaprod;
-import entidade.cplus.Moventradaprodserial;
 import entidade.cplus.Unidade;
 import entidade.integrador.IntConfiguracao;
-import acesso.ListagemUsuarioJDialog;
 import janela.cplus.ListagemEntradasJDialog;
-import query.cplus.QueryCplus;
-import query.integrador.QueryIntegrador;
-import integrador.render.RenderNumeroInteiro;
-import integrador.render.RenderPreco;
-import integrador.render.RenderSerialEntradaGreenRed;
-import integrador.render.RenderSerialEntrada;
 import java.awt.Color;
 import java.awt.Toolkit;
 import java.net.InetAddress;
@@ -27,9 +18,12 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import jpa.cplus.MoventradaprodJpaController;
 import jpa.integrador.IntConfiguracaoJpaController;
-
+import query.cplus.QueryCplus;
+import query.integrador.QueryIntegrador;
 
 /**
  *
@@ -39,22 +33,23 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
 
     /**
      * Creates new form EntradaSerialJFrame
+     *
      * @param managerCplus1
      * @param managerIntegrador1
      */
     public EntradaSerialJFrame(EntityManagerFactory managerCplus1, EntityManagerFactory managerIntegrador1) {
         initComponents();
         managerCplus = managerCplus1;
-        managerIntegrador = managerIntegrador1;       
+        managerIntegrador = managerIntegrador1;
         this.listagemEntradasJDialog = new ListagemEntradasJDialog(this, true, managerCplus);
-        this.listagemUsuarioJDialog = new ListagemUsuarioJDialog(this, true, managerCplus);
+        //this.listagemUsuarioJDialog = new ListagemUsuarioJDialog(this, true, managerCplus);
         this.entradaSerialJDialog = new EntradaSerialJDialog(this, true, managerCplus, managerIntegrador1);
-        this.listagemSerialEntradaJDialog = new ListagemSerialEntradaJDialog(this, true, managerCplus);
+        this.listagemSerialEntradaJDialog = new ListagemSerialEntradaJDialog(this, true, managerCplus, managerIntegrador);
         //querySerial = new QuerySerial(managerCplus);
         queryIntegrador = new QueryIntegrador(managerIntegrador);
         queryCplus = new QueryCplus(managerCplus);
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
-        colunaCodMovProd = jTableEntradaProdutos.getColumnModel().getColumnIndex("Codmoveprod");
+        colunaCodMovProd = jTableEntradaProd.getColumnModel().getColumnIndex("Codmoveprod");
         //new RenderNumeroInteiro();
         //new RenderPreco();
     }
@@ -67,18 +62,14 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        cplusPUEntityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("cplusPU").createEntityManager();
-        moventradaprodQuery = java.beans.Beans.isDesignTime() ? null : cplusPUEntityManager.createQuery("SELECT p FROM Moventradaprod p WHERE p.codmoveprod =\"55555555\"");
-        moventradaprodList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(moventradaprodQuery.getResultList());
         jButtonPesquisaEntrada = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTableEntradaProdutos = new javax.swing.JTable();
         jLabelStatusEntrada = new javax.swing.JLabel();
         jButtonEntradaDeSeriais = new javax.swing.JButton();
         jButtonFechar = new javax.swing.JButton();
         jButtonListaSerialEntrada = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTableEntradaProd = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Seriais de Entrada");
@@ -92,57 +83,11 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
             }
         });
 
-        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, moventradaprodList, jTableEntradaProdutos);
-        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codprod.codigo}"));
-        columnBinding.setColumnName("Código");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codprod.nomeprod}"));
-        columnBinding.setColumnName("Nome Produto");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${quantidade}"));
-        columnBinding.setColumnName("Quantidade");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valorunitario}"));
-        columnBinding.setColumnName("Valor Unit.");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valortotal}"));
-        columnBinding.setColumnName("Valor Total");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${moventradaprodserialCollection}"));
-        columnBinding.setColumnName("Seriais Entrada");
-        columnBinding.setColumnClass(java.util.Collection.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmoveprod}"));
-        columnBinding.setColumnName("Codmoveprod");
-        columnBinding.setColumnClass(String.class);
-        bindingGroup.addBinding(jTableBinding);
-        jTableBinding.bind();
-        jTableEntradaProdutos.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTableEntradaProdutosMouseClicked(evt);
-            }
-        });
-        jScrollPane1.setViewportView(jTableEntradaProdutos);
-        if (jTableEntradaProdutos.getColumnModel().getColumnCount() > 0) {
-            jTableEntradaProdutos.getColumnModel().getColumn(0).setMinWidth(50);
-            jTableEntradaProdutos.getColumnModel().getColumn(0).setPreferredWidth(150);
-            jTableEntradaProdutos.getColumnModel().getColumn(0).setMaxWidth(300);
-            jTableEntradaProdutos.getColumnModel().getColumn(0).setCellRenderer(new RenderSerialEntradaGreenRed ());
-            jTableEntradaProdutos.getColumnModel().getColumn(1).setMinWidth(100);
-            jTableEntradaProdutos.getColumnModel().getColumn(1).setPreferredWidth(350);
-            jTableEntradaProdutos.getColumnModel().getColumn(1).setMaxWidth(500);
-            jTableEntradaProdutos.getColumnModel().getColumn(1).setCellRenderer(new RenderSerialEntradaGreenRed());
-            jTableEntradaProdutos.getColumnModel().getColumn(2).setCellRenderer(new RenderNumeroInteiro());
-            jTableEntradaProdutos.getColumnModel().getColumn(3).setCellRenderer(new RenderPreco());
-            jTableEntradaProdutos.getColumnModel().getColumn(4).setCellRenderer(new RenderPreco());
-            jTableEntradaProdutos.getColumnModel().getColumn(5).setCellRenderer(new RenderSerialEntrada ());
-        }
-
         jLabelStatusEntrada.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
 
         jButtonEntradaDeSeriais.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jButtonEntradaDeSeriais.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/add.png"))); // NOI18N
         jButtonEntradaDeSeriais.setText("Entrada de Seriais");
-        jButtonEntradaDeSeriais.setEnabled(false);
         jButtonEntradaDeSeriais.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonEntradaDeSeriaisActionPerformed(evt);
@@ -161,56 +106,73 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
         jButtonListaSerialEntrada.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jButtonListaSerialEntrada.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/info.png"))); // NOI18N
         jButtonListaSerialEntrada.setText("Lista Seriais Entrada");
+        jButtonListaSerialEntrada.setEnabled(false);
         jButtonListaSerialEntrada.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonListaSerialEntradaActionPerformed(evt);
             }
         });
 
+        jTableEntradaProd.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Código", "Nome Produto", "Quantidade", "Completo", "Codmoveprod"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jTableEntradaProd.setColumnSelectionAllowed(true);
+        jTableEntradaProd.getTableHeader().setReorderingAllowed(false);
+        jTableEntradaProd.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableEntradaProdMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(jTableEntradaProd);
+        jTableEntradaProd.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        if (jTableEntradaProd.getColumnModel().getColumnCount() > 0) {
+            jTableEntradaProd.getColumnModel().getColumn(0).setPreferredWidth(80);
+            jTableEntradaProd.getColumnModel().getColumn(1).setPreferredWidth(350);
+        }
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButtonPesquisaEntrada)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(353, 353, 353)
-                                .addComponent(jLabelStatusEntrada, javax.swing.GroupLayout.DEFAULT_SIZE, 301, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButtonFechar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButtonListaSerialEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtonEntradaDeSeriais)))
-                .addContainerGap())
+                .addComponent(jButtonPesquisaEntrada)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonListaSerialEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButtonEntradaDeSeriais)
+                .addGap(18, 18, 18)
+                .addComponent(jLabelStatusEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addComponent(jButtonFechar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButtonFechar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabelStatusEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButtonPesquisaEntrada))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jButtonFechar)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButtonPesquisaEntrada)
+                        .addComponent(jButtonListaSerialEntrada)
                         .addComponent(jButtonEntradaDeSeriais))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addComponent(jButtonListaSerialEntrada)))
-                .addGap(0, 102, Short.MAX_VALUE))
+                    .addComponent(jLabelStatusEntrada, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 487, Short.MAX_VALUE))
         );
-
-        bindingGroup.bind();
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -219,18 +181,22 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
         pesquisarEntrada();
     }//GEN-LAST:event_jButtonPesquisaEntradaActionPerformed
 
-    private void jTableEntradaProdutosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableEntradaProdutosMouseClicked
-        verificaEntradaProdutoCompleta();
-    }//GEN-LAST:event_jTableEntradaProdutosMouseClicked
-
     private void jButtonEntradaDeSeriaisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEntradaDeSeriaisActionPerformed
-        this.entradaSerialJDialog.setProduto(movEntradaProd.getCodprod());
-        this.entradaSerialJDialog.setListCodigo(queryCplus.listagemProdutoCodigo(movEntradaProd.getCodprod().getCodprod()));
-        this.entradaSerialJDialog.setMovEntradaProd(movEntradaProd);
-        this.entradaSerialJDialog.confereQuantidadeDigitada();
-        this.entradaSerialJDialog.setVisible(true);
-        verificaEntradaCompleta();
-        verificaEntradaProdutoCompleta();
+        if (jTableEntradaProd.getRowCount() > 0 && jTableEntradaProd.getSelectedRow() != -1) {
+            colunaCodMovProd = jTableEntradaProd.getColumnModel().getColumnIndex("Codmoveprod");
+            String codMovProd = jTableEntradaProd.getValueAt(jTableEntradaProd.getSelectedRow(), colunaCodMovProd).toString();
+            movEntradaProd = new MoventradaprodJpaController(managerCplus).findMoventradaprod(codMovProd);
+            this.entradaSerialJDialog.setProduto(movEntradaProd.getCodprod());
+            this.entradaSerialJDialog.setListCodigo(queryCplus.listagemProdutoCodigo(movEntradaProd.getCodprod().getCodprod()));
+            this.entradaSerialJDialog.setMovEntradaProd(movEntradaProd);
+            this.entradaSerialJDialog.confereQuantidadeDigitada();
+            this.entradaSerialJDialog.setVisible(true);
+            verificaEntradaCompleta();
+            verificaEntradaProdutoCompleta();
+            carregarTabela();
+        } else {
+            JOptionPane.showMessageDialog(null, "Selecione uma linha");
+        }
     }//GEN-LAST:event_jButtonEntradaDeSeriaisActionPerformed
 
     private void jButtonFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFecharActionPerformed
@@ -238,80 +204,94 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonFecharActionPerformed
 
     private void jButtonListaSerialEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonListaSerialEntradaActionPerformed
-        if(jTableEntradaProdutos.getRowCount() > 0){
+        if (jTableEntradaProd.getRowCount() > 0) {
             this.listagemSerialEntradaJDialog.setMovEntrada(movEntrada);
             this.listagemSerialEntradaJDialog.setVisible(true);
+            carregarTabela();
         }
     }//GEN-LAST:event_jButtonListaSerialEntradaActionPerformed
 
+    private void jTableEntradaProdMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableEntradaProdMouseClicked
+       verificaEntradaProdutoCompleta();
+    }//GEN-LAST:event_jTableEntradaProdMouseClicked
+
     private void verificaEntradaProdutoCompleta() {
-        jButtonEntradaDeSeriais.setEnabled(false);
+        //jButtonEntradaDeSeriais.setEnabled(false);
         if (verificaEntradaAberta()) {
-            colunaCodMovProd = jTableEntradaProdutos.getColumnModel().getColumnIndex("Codmoveprod");
-            String codMovProd = jTableEntradaProdutos.getValueAt(jTableEntradaProdutos.getSelectedRow(), colunaCodMovProd).toString();
+            colunaCodMovProd = jTableEntradaProd.getColumnModel().getColumnIndex("Codmoveprod");
+            String codMovProd = jTableEntradaProd.getValueAt(jTableEntradaProd.getSelectedRow(), colunaCodMovProd).toString();
             movEntradaProd = new MoventradaprodJpaController(managerCplus).findMoventradaprod(codMovProd);
             if (movEntradaProd.getCodmoveprod() != null || !"".equals(movEntradaProd.getCodmoveprod())) {
-                List<Moventradaprodserial> listSerial = queryCplus.listagemSerialEntradaProd(movEntradaProd.getCodmoveprod());
-                if (quantidadeEntrada(movEntradaProd) != listSerial.size()) {
-                    jButtonEntradaDeSeriais.setEnabled(true);
+                int completo = queryIntegrador.listPorEntradaProd(movEntradaProd.getCodmoveprod()).size();
+                if (quanPacote(movEntradaProd) != completo) {
+                    //jButtonEntradaDeSeriais.setEnabled(true);
                 } else {
-                    moventradaprodList.clear();
-                    List<Moventradaprod> moEntradaProduto = queryCplus.listagemMovEntradaProdPorEntrada(movEntrada.getCodmoventr());
-                    for (Moventradaprod e : moEntradaProduto) {
-                        moventradaprodList.add(e);
-                    }
-                    for (int cont = 0; cont < jTableEntradaProdutos.getRowCount(); cont++) {
-                        if (movEntradaProd.getCodmoveprod() == jTableEntradaProdutos.getValueAt(cont, colunaCodMovProd)) {
-                            jTableEntradaProdutos.setRowSelectionInterval(cont, cont);
+                    //jButtonEntradaDeSeriais.setEnabled(false);
+                    for (int cont = 0; cont < jTableEntradaProd.getRowCount(); cont++) {
+                        if (movEntradaProd.getCodmoveprod() == jTableEntradaProd.getValueAt(cont, colunaCodMovProd)) {
+                            jTableEntradaProd.setRowSelectionInterval(cont, cont);
                         }
                     }
                 }
             }
         }
     }
-    
-     private void pesquisarEntrada() {
-        moventradaprodList.clear();
+
+    public void carregarTabela() {
+        List<Moventradaprod> moEntradaProduto = queryCplus.listagemMovEntradaProdPorEntrada(movEntrada.getCodmoventr());
+        DefaultTableModel tab = (DefaultTableModel) jTableEntradaProd.getModel();
+        while (jTableEntradaProd.getModel().getRowCount() > 0) {
+            ((DefaultTableModel) jTableEntradaProd.getModel()).removeRow(0);
+        }
+        for (Moventradaprod e : moEntradaProduto) {
+            int comp = queryIntegrador.listPorEntradaProd(e.getCodmoveprod()).size();
+            tab.addRow(new Object[]{e.getCodprod().getCodigo(), e.getCodprod().getNomeprod(), quanPacote(e), comp, e.getCodmoveprod()});
+            //corLinha(comp);
+        }
+        colorirLinha();
+    }
+
+    private void pesquisarEntrada() {
+        //moventradaprodList.clear();
         this.listagemEntradasJDialog.setVisible(true);
-        if (this.listagemEntradasJDialog.isCancelamento() == false) {            
+        if (this.listagemEntradasJDialog.isCancelamento() == false) {
             movEntrada = this.listagemEntradasJDialog.getMovEntrada();
-            List<Moventradaprod> moEntradaProduto = queryCplus.listagemMovEntradaProdPorEntrada(movEntrada.getCodmoventr());
-            for (Moventradaprod e : moEntradaProduto) {
-                moventradaprodList.add(e);
-            }
+            carregarTabela();
             verificaEntradaCompleta();
+            jButtonListaSerialEntrada.setEnabled(true);
         }//fim if pesquisa entrada cancelada
     }
-     
-     
-    private void verificaEntradaCompleta(){
-        List<Moventradaprodserial> listSerial = queryCplus.listagemSerialEntrada(movEntrada.getCodmoventr());
+
+    private void verificaEntradaCompleta() {
+        int entSerial = 0;
         List<Moventradaprod> listProdEntrada = queryCplus.listagemMovEntradaProdPorEntrada(movEntrada.getCodmoventr());
         int totalProdutos = 0;
-        for(Moventradaprod prod : listProdEntrada){
-            totalProdutos = totalProdutos + (quantidadeEntrada(prod));
+        for (Moventradaprod prod : listProdEntrada) {
+            totalProdutos = totalProdutos + (quanPacote(prod));
+            entSerial = entSerial + queryIntegrador.listPorEntradaProd(prod.getCodmoveprod()).size();
         }
-        if(listSerial.size() == totalProdutos){
+        if (entSerial == totalProdutos) {
             jLabelStatusEntrada.setForeground(Color.GREEN);
             jLabelStatusEntrada.setText("Entrada de Serial Completa");
-            jButtonEntradaDeSeriais.setEnabled(false);
-        }else{
-            insereConfiguracaoParaGravacaoEntrada();           
+            //jButtonEntradaDeSeriais.setEnabled(false);
+        } else {
+            insereConfiguracaoParaGravacaoEntrada();
             jLabelStatusEntrada.setForeground(Color.RED);
             jLabelStatusEntrada.setText("Entrada de Serial Incompleta");
+            //jButtonEntradaDeSeriais.setEnabled(true);
         }
     }
-    
+
     private String retornaIpLocal() {
         InetAddress ia = null;
         try {
             ia = InetAddress.getLocalHost();
         } catch (UnknownHostException e) {
             JOptionPane.showMessageDialog(null, "HOUVE UM ERRO AO OBTER IP LOCAL, Verifique!! \n" + e, "Erro Entrada", JOptionPane.ERROR_MESSAGE);
-        }       
-        return "entrada_serial_"+ia.getHostAddress()+"_"+ia.getHostName();
+        }
+        return "entrada_serial_" + ia.getHostAddress() + "_" + ia.getHostName();
     }
-    
+
     private boolean insereConfiguracaoParaGravacaoEntrada() {
         boolean condicao = true;
         List<IntConfiguracao> listConfig = queryIntegrador.listagemConfiguracaoproTipoConfiguracao(retornaIpLocal());
@@ -322,12 +302,12 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
             c.setDataCriacao(new Date(System.currentTimeMillis()));
             c.setDataAtualizacao(new Date(System.currentTimeMillis()));
             c.setValor(movEntrada.getCodmoventr());
-            
+
             try {
                 new IntConfiguracaoJpaController(managerIntegrador).create(c);
             } catch (Exception ex) {
                 condicao = false;
-                JOptionPane.showMessageDialog(null, "HOUVE UM ERRO AO CRIAR CONFIGURAÇÃOO, Verifique!! \n" + ex, "Erro Entrada", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "HOUVE UM ERRO AO CRIAR CONFIGURAÇÃO, Verifique!! \n" + ex, "Erro Entrada", JOptionPane.ERROR_MESSAGE);
             }
         } else if (listConfig.size() == 1) {
             for (IntConfiguracao config : listConfig) {
@@ -355,7 +335,7 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
         }
         return condicao;
     }
-     
+
     private void removeConfiguracao() {
         boolean condicao = true;
         List<IntConfiguracao> listConfig = queryIntegrador.listagemConfiguracaoproTipoConfiguracao(retornaIpLocal());
@@ -366,39 +346,46 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "HOUVE UM ERRO AO EXCLUIR CONFIGURACAO, Verifique!! \n" + ex, "Erro Separação", JOptionPane.ERROR_MESSAGE);
             }
         }
-        if(condicao){
+        if (condicao) {
             dispose();
             setVisible(false);
         }
     }
-    
-    private int quantidadeEntrada( Moventradaprod prodEnt){
-       int quantidade = prodEnt.getQuantidade().intValue();
-        List <Unidade> listUn = queryCplus.resultPorUnidadeProduto(prodEnt.getCodprod().getUnidade());
-         for(Unidade un : listUn){
-        if (un.getFatorconversao().intValue() > 1){
-           quantidade = quantidade / un.getFatorconversao().intValue();
+
+    private int quanPacote(Moventradaprod prodEnt) {
+        int quantidade = prodEnt.getQuantidade().intValue();
+        List<Unidade> listUn = queryCplus.resultPorUnidadeProduto(prodEnt.getCodprod().getUnidade());
+        for (Unidade un : listUn) {
+            if (un.getFatorconversao().intValue() > 1) {
+                quantidade = quantidade / un.getFatorconversao().intValue();
+            }
         }
-         }
         return quantidade;
     }
-    
-    private boolean verificaEntradaAberta(){
+
+    private boolean verificaEntradaAberta() {
         boolean condicao = true;
         List<IntConfiguracao> listConfig = queryIntegrador.listagemConfiguracaoPorValor(movEntrada.getCodmoventr());
-        if(listConfig.size() > 1){
-            String ex ="";
-             for (IntConfiguracao config : listConfig) {
-                 if(!config.getTipo().equals(retornaIpLocal())){
-                 ex = ex + config.getTipo()+"\n";
-                 }
-             }
-            JOptionPane.showMessageDialog(null, "A NOTA JÃ ESTÃ ABERTO EM OUTRA MAQUINA, Verifique!! \n" + ex, "Erro Separação", JOptionPane.ERROR_MESSAGE);
+        if (listConfig.size() > 1) {
+            String ex = "";
+            for (IntConfiguracao config : listConfig) {
+                if (!config.getTipo().equals(retornaIpLocal())) {
+                    ex = ex + config.getTipo() + "\n";
+                }
+            }
+            JOptionPane.showMessageDialog(null, "A NOTA ESTÁ ABERTA EM OUTRA MAQUINA, Verifique!! \n" + ex, "Erro Separação", JOptionPane.ERROR_MESSAGE);
             condicao = false;
         }
         return condicao;
     }
-       
+
+    private void colorirLinha() {
+        TableCellRenderer renderer = new ColorirTabelaEntradaSerial();
+        for (int c = 0; c < jTableEntradaProd.getColumnCount(); c++) {
+            jTableEntradaProd.setDefaultRenderer(jTableEntradaProd.getColumnClass(c), renderer);
+        }
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -433,31 +420,27 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
             }
         });
     }
-    
+
     //QuerySerial querySerial;
-    static EntityManagerFactory managerCplus;
-    ListagemEntradasJDialog listagemEntradasJDialog;
-    ListagemUsuarioJDialog listagemUsuarioJDialog;
-    ListagemSerialEntradaJDialog listagemSerialEntradaJDialog;
-    EntradaSerialJDialog entradaSerialJDialog;
-    static EntityManagerFactory managerIntegrador;
-    QueryCplus queryCplus;
-    QueryIntegrador queryIntegrador;
-    Moventrada movEntrada;
-    Moventradaprod movEntradaProd;
-    int colunaCodMovProd;   
+    private static EntityManagerFactory managerCplus;
+    private final ListagemEntradasJDialog listagemEntradasJDialog;
+    //private final ListagemUsuarioJDialog listagemUsuarioJDialog;
+    private final ListagemSerialEntradaJDialog listagemSerialEntradaJDialog;
+    private final EntradaSerialJDialog entradaSerialJDialog;
+    private static EntityManagerFactory managerIntegrador;
+    private final QueryCplus queryCplus;
+    private final QueryIntegrador queryIntegrador;
+    private Moventrada movEntrada;
+    private Moventradaprod movEntradaProd;
+    private int colunaCodMovProd;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.persistence.EntityManager cplusPUEntityManager;
     private javax.swing.JButton jButtonEntradaDeSeriais;
     private javax.swing.JButton jButtonFechar;
     private javax.swing.JButton jButtonListaSerialEntrada;
     private javax.swing.JButton jButtonPesquisaEntrada;
     private javax.swing.JLabel jLabelStatusEntrada;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTableEntradaProdutos;
-    private java.util.List<entidade.cplus.Moventradaprod> moventradaprodList;
-    private javax.persistence.Query moventradaprodQuery;
-    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTableEntradaProd;
     // End of variables declaration//GEN-END:variables
 }

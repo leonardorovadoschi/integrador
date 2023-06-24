@@ -208,7 +208,7 @@ public class ListagemUsuarioJDialog extends javax.swing.JDialog {
     
    private Usuario usuario;
    private boolean cancelamento;
-   private QueryCplus queryCplus;
+   private final QueryCplus queryCplus;
    // VariavelStatica variavelStatica;
     static EntityManagerFactory managerCplus;
     //static EntityManagerFactory managerPrestaShop;

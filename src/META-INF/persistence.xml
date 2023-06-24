@@ -767,6 +767,9 @@
     <class>entidade.integrador.IntExecucao</class>
     <class>entidade.integrador.IntLogs</class>
     <class>entidade.integrador.ProdFornecedor</class>
+    <class>entidade.integrador.SerialProduto</class>
+    <class>entidade.integrador.SaidaSerial</class>
+    <class>entidade.integrador.EntradaSerial</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://192.168.10.190:3306/integrador?zeroDateTimeBehavior=CONVERT_TO_NULL"/>
       <property name="javax.persistence.jdbc.user" value="leonardo"/>
