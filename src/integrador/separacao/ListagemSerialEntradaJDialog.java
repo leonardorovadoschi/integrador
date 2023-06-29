@@ -156,14 +156,9 @@ public class ListagemSerialEntradaJDialog extends javax.swing.JDialog {
 
     private void jButtonEditarSerialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarSerialActionPerformed
         int cancelar = JOptionPane.showConfirmDialog(null, "DESEJA EDITAR O SERIAL??", "Editar", JOptionPane.YES_NO_CANCEL_OPTION);
-        if (cancelar == JOptionPane.YES_NO_OPTION) {//Verifica se ha uma linha selecionada
-            if (!"".equals(jTextFieldSerial.getText())) {
+        if (cancelar == JOptionPane.YES_NO_OPTION) {//Verifica se ha uma linha selecionada         
                 editaSerial();
-                jButtonEditarSerial.setEnabled(false);
-            } else {
-                JOptionPane.showMessageDialog(null, "O campo serial deve estar preenchido!! \n, Verifique!! \n", "Erro Editar", JOptionPane.ERROR_MESSAGE);
-                jTextFieldSerial.requestFocus();
-            }
+                jButtonEditarSerial.setEnabled(false);           
         }
     }//GEN-LAST:event_jButtonEditarSerialActionPerformed
 
@@ -214,7 +209,8 @@ public class ListagemSerialEntradaJDialog extends javax.swing.JDialog {
     }
 
     private void editaSerial() {
-        String textoDigitado = jTextFieldSerial.getText().toUpperCase().trim();
+        String textoDigitado = JOptionPane.showInputDialog("Digite o Serial novo! ").toUpperCase().trim();
+        if(!"".equals(textoDigitado)){
         List<SerialProduto> produtoSerial = queryIntegrador.listSerialExato(textoDigitado);
         if (produtoSerial.isEmpty()) {
             //colunaIdEntradaSerial = jTableEntradaSerial.getColumnModel().getColumnIndex("ID Entrada Serial");
@@ -232,6 +228,9 @@ public class ListagemSerialEntradaJDialog extends javax.swing.JDialog {
             }
         } else {
             JOptionPane.showMessageDialog(null, "ESTE SERIAL JÁ ESTA CADASTRADO!! \n, Verifique!! \n", "Erro Editar", JOptionPane.ERROR_MESSAGE);
+        }
+        }else{
+         JOptionPane.showMessageDialog(null, "O campo serial deve estar preenchido!! \n, Verifique!! \n", "Erro Editar", JOptionPane.ERROR_MESSAGE);   
         }
     }
 

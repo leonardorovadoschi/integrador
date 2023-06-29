@@ -303,10 +303,25 @@ public class ListagemEntradasJDialog extends javax.swing.JDialog {
                 dispose();
             }
     }
+    
+    private boolean verificaSeForNumero(String txt) {
+        boolean condicao = true;
+        if (txt == null || txt.equals("")) {
+            return false;
+        }
+        for (int i = 0; i < txt.length(); i++) {
+            char c = txt.charAt(i);
+            if (c < '0' || c > '9') {
+                return false;
+            }
+        }
+        return condicao;
+    }
+    
     private void tipoPesquisa() {
         switch (jComboBoxTipoPesquisa1.getSelectedIndex()) {
             case 0:
-                if (!"".equals(jTextFieldTermoPesquisa.getText())) {
+                if (verificaSeForNumero(jTextFieldTermoPesquisa.getText())) {
                     List<Moventrada> listMoventrada = queryCplus.resultadoPelaNotaEntrada(Integer.parseInt(this.jTextFieldTermoPesquisa.getText()));
                     moventradaList.clear();
                     if (listMoventrada.size() < 1) {
@@ -316,6 +331,8 @@ public class ListagemEntradasJDialog extends javax.swing.JDialog {
                             moventradaList.add(ent);
                         }
                     }
+                 }else{
+                    JOptionPane.showMessageDialog(null, "São aceitos apenas numeros!!! ");
                 }
                 break;
             case 1:

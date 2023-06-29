@@ -185,12 +185,27 @@ public class QueryIntegrador {
         Query query = em.createQuery("SELECT ven FROM SerialProduto ven WHERE ven.serial =:serial");
         query.setParameter("serial", serial);
         return query.getResultList();
+    }   
+    
+     public List<SerialProduto> listSerialLike(String serial) {
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery("SELECT prodSerial FROM SerialProduto prodSerial WHERE prodSerial.serial LIKE :serialProduto");
+        query.setParameter("serialProduto", "%" + serial + "%");//primeiro parametro
+        query.setMaxResults(200);
+        return query.getResultList();
     }
 
     public List<EntradaSerial> listPorEntradaProd(String codmoveprod) {
          EntityManager em = getEntityManager();
         Query query = em.createQuery("SELECT ven FROM EntradaSerial ven WHERE ven.codEntradaProd =:codmoveprod");
         query.setParameter("codmoveprod", codmoveprod);
+        return query.getResultList();
+    }
+    
+     public List<EntradaSerial> listPorIdEntradaProd(Integer idEntradaSerial) {
+         EntityManager em = getEntityManager();
+        Query query = em.createQuery("SELECT ven FROM EntradaSerial ven WHERE ven.idEntradaSerial =:idEntradaSerial");
+        query.setParameter("idEntradaSerial", idEntradaSerial);
         return query.getResultList();
     }
     
@@ -205,6 +220,34 @@ public class QueryIntegrador {
          EntityManager em = getEntityManager();
         Query query = em.createQuery("SELECT ven FROM SaidaSerial ven WHERE ven.codSaida =:codmov");
         query.setParameter("codmov", codmov);
+        return query.getResultList();
+    }
+     
+     public List<SaidaSerial> listPorSaida(Integer idSaidaSerial) {
+         EntityManager em = getEntityManager();
+        Query query = em.createQuery("SELECT ven FROM SaidaSerial ven WHERE ven.idSaidaSerial =:idSaidaSerial");
+        query.setParameter("idSaidaSerial", idSaidaSerial);
+        return query.getResultList();
+    }
+     
+     public List<SerialProduto> listCodProdSemSaida(String codProd) {
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery("SELECT ven FROM SerialProduto ven WHERE ven.codProduto =:codProd AND ven.saidaSerialCollection IS EMPTY");
+        query.setParameter("codProd", codProd);
+        return query.getResultList();
+    }  
+      public List<SaidaSerial> listSaidaSerialLike(String serial) {
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery("SELECT prodSerial FROM SaidaSerial prodSerial WHERE prodSerial.idSerial.serial LIKE :serialProduto");
+        query.setParameter("serialProduto", "%" + serial + "%");//primeiro parametro
+        query.setMaxResults(200);
+        return query.getResultList();
+    }
+      public List<SaidaSerial> listSaidaSerial(String serial) {
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery("SELECT prodSerial FROM SaidaSerial prodSerial WHERE prodSerial.idSerial.serial =:serialProduto");
+        query.setParameter("serialProduto", serial);//primeiro parametro
+        //query.setMaxResults(200);
         return query.getResultList();
     }
 }

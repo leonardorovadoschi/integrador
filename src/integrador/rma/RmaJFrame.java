@@ -10,36 +10,42 @@ import entidade.cplus.Cliente;
 import entidade.cplus.Fornecedor;
 import entidade.cplus.Movenda;
 import entidade.cplus.Movendaprod;
-import entidade.cplus.Movendaprodserial;
+import entidade.cplus.Moventrada;
 import entidade.cplus.Moventradaprod;
-import entidade.cplus.Moventradaprodserial;
-import entidade.cplus.Orcamentoprodserial;
 import entidade.cplus.Produto;
 import entidade.cplus.Produtoestoque;
-import entidade.cplus.Produtoserial;
 import entidade.cplus.Tipomovimento;
 import entidade.cplus.Usuario;
+import entidade.integrador.EntradaSerial;
+import entidade.integrador.SaidaSerial;
+import entidade.integrador.SerialProduto;
+import integrador.separacao.ColorirLinhaImpar;
 import janela.cplus.FormataCampos;
 import janela.cplus.ListagemClientesJDialog;
 import janela.cplus.ListagemEntradasJDialog;
 import janela.cplus.ListagemFornecedorJDialog;
 import janela.cplus.ListagemOperacaoJDialog;
+import janela.cplus.ListagemProdutoJDialog;
 import janela.cplus.ListagemSaidasJDialog;
-import query.cplus.QueryCplus;
-import integrador.render.RenderNumeroNFCe;
 import java.awt.Toolkit;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import jpa.cplus.CalculoicmsestadoJpaController;
+import jpa.cplus.MovendaJpaController;
 import jpa.cplus.MovendaprodJpaController;
-import jpa.cplus.MovendaprodserialJpaController;
+import jpa.cplus.MoventradaJpaController;
 import jpa.cplus.MoventradaprodJpaController;
-import jpa.cplus.OrcamentoprodserialJpaController;
-import jpa.cplus.ProdutoserialJpaController;
 import jpa.cplus.exceptions.NonexistentEntityException;
+import jpa.integrador.EntradaSerialJpaController;
+import jpa.integrador.SaidaSerialJpaController;
+import jpa.integrador.SerialProdutoJpaController;
 import produto.ProdutoCplusDigimacro;
+import query.cplus.QueryCplus;
 import query.integrador.QueryIntegrador;
 
 /**
@@ -68,18 +74,19 @@ public class RmaJFrame extends javax.swing.JFrame {
         formatacaoDeCampos = new FormataCampos();
         this.listagemEntradasJDialog = new ListagemEntradasJDialog(this, true, managerCplus);
         this.listagemSaidasJDialog = new ListagemSaidasJDialog(this, true, managerCplus);
-        this.numeroNotaJDialog = new NumeroNotaJDialog(this, true);
+        //this.numeroNotaJDialog = new NumeroNotaJDialog(this, true);
         this.listagemClientesJDialog = new ListagemClientesJDialog(this, true, managerCplus);
         this.listagemOperacaoJDialog = new ListagemOperacaoJDialog(this, true, managerCplus);
         this.listagemFornecedorJDialog = new ListagemFornecedorJDialog(this, true, managerCplus);
+        this.listagemProdutoJDialog = new ListagemProdutoJDialog(this, rootPaneCheckingEnabled, managerCplus);
         colunaSerial = jTableProdutoSerial.getColumnModel().getColumnIndex("Serial");
-        colunaCodMovProdutoSaida = jTableListagemSaidasSerial.getColumnModel().getColumnIndex("Codmovprod");
-        colunaCodClienteSaida = jTableListagemSaidasSerial.getColumnModel().getColumnIndex("CodCliente");
-        colunaCodFornecedorEntrada = jTableListagemEntradaSerial.getColumnModel().getColumnIndex("codFornecedor");
-        colunaNomeFornecedorEntrada = jTableListagemEntradaSerial.getColumnModel().getColumnIndex("Nome Fornecedor");
-        colunaNomeClienteSaida = jTableListagemSaidasSerial.getColumnModel().getColumnIndex("Nome Cliente");
-        colunaMovProdutoEntrada = jTableListagemEntradaSerial.getColumnModel().getColumnIndex("CodMovProdutoEntrada");
-        colunaCodProd = jTableProdutoSerial.getColumnModel().getColumnIndex("Codprod");
+        //colunaCodMovProdutoSaida = jTableSaidaSerial.getColumnModel().getColumnIndex("id Saida Serial");
+        //colunaCodClienteSaida = jTableSaidaSerial.getColumnModel().getColumnIndex("CodCliente");
+        //colunaCodFornecedorEntrada = jTableEntradaSerial.getColumnModel().getColumnIndex("codFornecedor");
+        //colunaNomeFornecedorEntrada = jTableEntradaSerial.getColumnModel().getColumnIndex("Nome Fornecedor");
+        //colunaNomeClienteSaida = jTableSaidaSerial.getColumnModel().getColumnIndex("Nome Cliente");
+        //colunaMovProdutoEntrada = jTableEntradaSerial.getColumnModel().getColumnIndex("CodMovProdutoEntrada");
+        //colunaCodProd = jTableProdutoSerial.getColumnModel().getColumnIndex("Cod Produto");
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
         // new RenderNumeroNFCe();
         clienteCupom = queryIntegrador.valorConfiguracao("cliente_CODIGO_PARA_CUPOM");
@@ -95,26 +102,21 @@ public class RmaJFrame extends javax.swing.JFrame {
     private void initComponents() {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        cplusPUEntityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("cplusPU").createEntityManager();
-        produtoserialQuery = java.beans.Beans.isDesignTime() ? null : cplusPUEntityManager.createQuery("SELECT p FROM Produtoserial p WHERE p.serial = \"7777777\"").setMaxResults(200);
-        produtoserialList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(produtoserialQuery.getResultList());
-        moventradaprodserialQuery = java.beans.Beans.isDesignTime() ? null : cplusPUEntityManager.createQuery("SELECT ven FROM Movendaprodserial ven WHERE ven.codmovendaprodserial = \"9999\"");
-        moventradaprodserialList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(moventradaprodserialQuery.getResultList());
-        movendaprodserialQuery = java.beans.Beans.isDesignTime() ? null : cplusPUEntityManager.createQuery("SELECT ven FROM Movendaprodserial ven WHERE ven.codmovendaprodserial = \"99999\"");
-        movendaprodserialList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(movendaprodserialQuery.getResultList());
+        entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("integradorPU").createEntityManager();
+        serialProdutoQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT ven FROM SerialProduto ven WHERE ven.serial =9999999999");
+        serialProdutoList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(serialProdutoQuery.getResultList());
         jPanelPesquisa = new javax.swing.JPanel();
         jComboBoxTermoPesquisa = new javax.swing.JComboBox();
         jTextFieldArgumentoPesquisa = new javax.swing.JTextField();
         jButtonPesquisar = new javax.swing.JButton();
-        jButtonListagemEntradas = new javax.swing.JButton();
         jScrollPaneProdutoSerial = new javax.swing.JScrollPane();
         jTableProdutoSerial = new javax.swing.JTable();
         jPanelListagemEntradas = new javax.swing.JPanel();
         jScrollPaneListagemEntradas = new javax.swing.JScrollPane();
-        jTableListagemEntradaSerial = new javax.swing.JTable();
+        jTableEntradaSerial = new javax.swing.JTable();
         jPanelListagemSaidas = new javax.swing.JPanel();
         jScrollPaneListagemSaidas = new javax.swing.JScrollPane();
-        jTableListagemSaidasSerial = new javax.swing.JTable();
+        jTableSaidaSerial = new javax.swing.JTable();
         jPanelManutencaoSerial = new javax.swing.JPanel();
         jLabelOqueDesejafazer = new javax.swing.JLabel();
         jComboBoxManutencao = new javax.swing.JComboBox();
@@ -133,7 +135,7 @@ public class RmaJFrame extends javax.swing.JFrame {
         jPanelPesquisa.setToolTipText("");
 
         jComboBoxTermoPesquisa.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        jComboBoxTermoPesquisa.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Serial", "Nota Entrada", "Pedido Saida" }));
+        jComboBoxTermoPesquisa.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Serial", "Nota Entrada", "Pedido Saida", "Serial do Produto" }));
         jComboBoxTermoPesquisa.setToolTipText("Selecione aqui o tipo da pesquisa que desejar!");
         jComboBoxTermoPesquisa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -158,28 +160,17 @@ public class RmaJFrame extends javax.swing.JFrame {
             }
         });
 
-        jButtonListagemEntradas.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        jButtonListagemEntradas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/info.png"))); // NOI18N
-        jButtonListagemEntradas.setText("Listagem Entradas");
-        jButtonListagemEntradas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonListagemEntradasActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanelPesquisaLayout = new javax.swing.GroupLayout(jPanelPesquisa);
         jPanelPesquisa.setLayout(jPanelPesquisaLayout);
         jPanelPesquisaLayout.setHorizontalGroup(
             jPanelPesquisaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelPesquisaLayout.createSequentialGroup()
-                .addComponent(jComboBoxTermoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addContainerGap()
+                .addComponent(jComboBoxTermoPesquisa, 0, 297, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextFieldArgumentoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButtonPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButtonListagemEntradas, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanelPesquisaLayout.setVerticalGroup(
             jPanelPesquisaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -187,34 +178,36 @@ public class RmaJFrame extends javax.swing.JFrame {
                 .addGroup(jPanelPesquisaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBoxTermoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextFieldArgumentoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonPesquisar)
-                    .addComponent(jButtonListagemEntradas))
+                    .addComponent(jButtonPesquisar))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTableProdutoSerial.setAutoCreateRowSorter(true);
         jTableProdutoSerial.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         jTableProdutoSerial.setColumnSelectionAllowed(true);
+        jTableProdutoSerial.getTableHeader().setReorderingAllowed(false);
 
-        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, produtoserialList, jTableProdutoSerial);
-        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codprod.codigo}"));
-        columnBinding.setColumnName("Cod Produto");
+        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, serialProdutoList, jTableProdutoSerial);
+        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${idSerial}"));
+        columnBinding.setColumnName("Id Serial");
+        columnBinding.setColumnClass(Integer.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${nomeProduto}"));
+        columnBinding.setColumnName("Nome Produto");
         columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codprod.nomeprod}"));
-        columnBinding.setColumnName("Descrição");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${dataentrada}"));
-        columnBinding.setColumnName("Data de Entrada");
-        columnBinding.setColumnClass(java.util.Date.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${serial}"));
         columnBinding.setColumnName("Serial");
         columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codprodutoserial}"));
-        columnBinding.setColumnName("Cod Serial");
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codigoProduto}"));
+        columnBinding.setColumnName("Codigo Produto");
         columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codprod.codprod}"));
-        columnBinding.setColumnName("Codprod");
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codProduto}"));
+        columnBinding.setColumnName("Cod Produto");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
         jTableProdutoSerial.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -225,78 +218,52 @@ public class RmaJFrame extends javax.swing.JFrame {
         jScrollPaneProdutoSerial.setViewportView(jTableProdutoSerial);
         jTableProdutoSerial.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         if (jTableProdutoSerial.getColumnModel().getColumnCount() > 0) {
-            jTableProdutoSerial.getColumnModel().getColumn(0).setMinWidth(60);
-            jTableProdutoSerial.getColumnModel().getColumn(0).setPreferredWidth(120);
-            jTableProdutoSerial.getColumnModel().getColumn(0).setMaxWidth(240);
-            jTableProdutoSerial.getColumnModel().getColumn(1).setMinWidth(250);
+            jTableProdutoSerial.getColumnModel().getColumn(0).setPreferredWidth(60);
             jTableProdutoSerial.getColumnModel().getColumn(1).setPreferredWidth(350);
-            jTableProdutoSerial.getColumnModel().getColumn(1).setMaxWidth(500);
-            jTableProdutoSerial.getColumnModel().getColumn(2).setMinWidth(80);
-            jTableProdutoSerial.getColumnModel().getColumn(2).setPreferredWidth(100);
-            jTableProdutoSerial.getColumnModel().getColumn(2).setMaxWidth(150);
-            jTableProdutoSerial.getColumnModel().getColumn(3).setMinWidth(100);
-            jTableProdutoSerial.getColumnModel().getColumn(3).setPreferredWidth(150);
-            jTableProdutoSerial.getColumnModel().getColumn(3).setMaxWidth(250);
+            jTableProdutoSerial.getColumnModel().getColumn(2).setPreferredWidth(140);
+            jTableProdutoSerial.getColumnModel().getColumn(3).setPreferredWidth(120);
         }
 
         jPanelListagemEntradas.setBorder(javax.swing.BorderFactory.createTitledBorder("listagem de Entradas Serial"));
 
-        jTableListagemEntradaSerial.setAutoCreateRowSorter(true);
-        jTableListagemEntradaSerial.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        jTableEntradaSerial.setAutoCreateRowSorter(true);
+        jTableEntradaSerial.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
 
-        jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, moventradaprodserialList, jTableListagemEntradaSerial);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codprodutoserial.serial}"));
-        columnBinding.setColumnName("Serial");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmoveprod.codmoventr.codForn.nomeforn}"));
-        columnBinding.setColumnName("Nome Fornecedor");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmoveprod.codmoventr.codForn.estado}"));
-        columnBinding.setColumnName("UF Forn.");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmoveprod.codmoventr.codcli.nomecli}"));
-        columnBinding.setColumnName("Nome Cliente");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmoveprod.codmoventr.numnota}"));
-        columnBinding.setColumnName("Numero Nota");
-        columnBinding.setColumnClass(Integer.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmoveprod.codmoventr.data}"));
-        columnBinding.setColumnName("Data Entrada");
-        columnBinding.setColumnClass(java.util.Date.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmoveprod.codmoventr.codtipomovimento.nometipomovimento}"));
-        columnBinding.setColumnName("Operação");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmoventradaprodserial}"));
-        columnBinding.setColumnName("Codmoventradaprodserial");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmoveprod.codmoveprod}"));
-        columnBinding.setColumnName("CodMovProdutoEntrada");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmoveprod.codmoventr.codForn.codforn}"));
-        columnBinding.setColumnName("codFornecedor");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmoveprod.codcfop.codcfop}"));
-        columnBinding.setColumnName("CFOP");
-        columnBinding.setColumnClass(String.class);
-        bindingGroup.addBinding(jTableBinding);
-        jTableBinding.bind();
-        jScrollPaneListagemEntradas.setViewportView(jTableListagemEntradaSerial);
-        if (jTableListagemEntradaSerial.getColumnModel().getColumnCount() > 0) {
-            jTableListagemEntradaSerial.getColumnModel().getColumn(0).setMinWidth(80);
-            jTableListagemEntradaSerial.getColumnModel().getColumn(0).setPreferredWidth(140);
-            jTableListagemEntradaSerial.getColumnModel().getColumn(0).setMaxWidth(240);
-            jTableListagemEntradaSerial.getColumnModel().getColumn(1).setMinWidth(150);
-            jTableListagemEntradaSerial.getColumnModel().getColumn(1).setPreferredWidth(350);
-            jTableListagemEntradaSerial.getColumnModel().getColumn(1).setMaxWidth(450);
-            jTableListagemEntradaSerial.getColumnModel().getColumn(4).setMinWidth(10);
-            jTableListagemEntradaSerial.getColumnModel().getColumn(4).setPreferredWidth(60);
-            jTableListagemEntradaSerial.getColumnModel().getColumn(4).setMaxWidth(150);
-            jTableListagemEntradaSerial.getColumnModel().getColumn(5).setMinWidth(50);
-            jTableListagemEntradaSerial.getColumnModel().getColumn(5).setPreferredWidth(120);
-            jTableListagemEntradaSerial.getColumnModel().getColumn(5).setMaxWidth(200);
-            jTableListagemEntradaSerial.getColumnModel().getColumn(6).setMinWidth(100);
-            jTableListagemEntradaSerial.getColumnModel().getColumn(6).setPreferredWidth(250);
-            jTableListagemEntradaSerial.getColumnModel().getColumn(6).setMaxWidth(500);
+            },
+            new String [] {
+                "Id Entrada Serial", "Nome", "Data", "CPF/CNPJ", "Num Nota", "Operação"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTableEntradaSerial.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        jTableEntradaSerial.getTableHeader().setReorderingAllowed(false);
+        jTableEntradaSerial.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableEntradaSerialMouseClicked(evt);
+            }
+        });
+        jScrollPaneListagemEntradas.setViewportView(jTableEntradaSerial);
+        if (jTableEntradaSerial.getColumnModel().getColumnCount() > 0) {
+            jTableEntradaSerial.getColumnModel().getColumn(1).setPreferredWidth(340);
+            jTableEntradaSerial.getColumnModel().getColumn(2).setPreferredWidth(80);
+            jTableEntradaSerial.getColumnModel().getColumn(3).setPreferredWidth(120);
+            jTableEntradaSerial.getColumnModel().getColumn(4).setPreferredWidth(60);
+            jTableEntradaSerial.getColumnModel().getColumn(5).setPreferredWidth(300);
         }
 
         javax.swing.GroupLayout jPanelListagemEntradasLayout = new javax.swing.GroupLayout(jPanelListagemEntradas);
@@ -312,76 +279,44 @@ public class RmaJFrame extends javax.swing.JFrame {
 
         jPanelListagemSaidas.setBorder(javax.swing.BorderFactory.createTitledBorder("Listagem de Saídas Serial"));
 
-        jTableListagemSaidasSerial.setAutoCreateRowSorter(true);
-        jTableListagemSaidasSerial.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        jTableSaidaSerial.setAutoCreateRowSorter(true);
+        jTableSaidaSerial.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
 
-        jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, movendaprodserialList, jTableListagemSaidasSerial);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codprodutoserial.serial}"));
-        columnBinding.setColumnName("Serial");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmovprod.codmovenda.codcli.nomecli}"));
-        columnBinding.setColumnName("Nome Cliente");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmovprod.codmovenda.codForn.nomeforn}"));
-        columnBinding.setColumnName("Nome Fornecedor");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmovprod.codmovenda.datalancamento}"));
-        columnBinding.setColumnName("Data Saida");
-        columnBinding.setColumnClass(java.util.Date.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmovprod.codmovenda.numped}"));
-        columnBinding.setColumnName("Num. Pedido");
-        columnBinding.setColumnClass(Integer.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmovprod.codmovenda.numnota}"));
-        columnBinding.setColumnName("Num. Nota");
-        columnBinding.setColumnClass(Integer.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmovprod.codmovenda.numcupom}"));
-        columnBinding.setColumnName("Num Cupom");
-        columnBinding.setColumnClass(Integer.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmovprod.codmovenda.nfceletronicaCollection}"));
-        columnBinding.setColumnName("NFC-e");
-        columnBinding.setColumnClass(java.util.Collection.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmovprod.codmovenda.codtipomovimento.nometipomovimento}"));
-        columnBinding.setColumnName("Operação");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmovprod.codmovenda.codcli.cnpj}"));
-        columnBinding.setColumnName("CNPJ Cliemte");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmovprod.codmovenda.codvended.nomevended}"));
-        columnBinding.setColumnName("Vendedor");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmovendaprodserial}"));
-        columnBinding.setColumnName("Codmovendaprodserial");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmovprod.codmovprod}"));
-        columnBinding.setColumnName("Codmovprod");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codprodutoserial.codprodutoserial}"));
-        columnBinding.setColumnName("Codprodutoserial");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmovprod.codmovenda.codcli.codcli}"));
-        columnBinding.setColumnName("CodCliente");
-        columnBinding.setColumnClass(String.class);
-        bindingGroup.addBinding(jTableBinding);
-        jTableBinding.bind();
-        jScrollPaneListagemSaidas.setViewportView(jTableListagemSaidasSerial);
-        if (jTableListagemSaidasSerial.getColumnModel().getColumnCount() > 0) {
-            jTableListagemSaidasSerial.getColumnModel().getColumn(0).setMinWidth(80);
-            jTableListagemSaidasSerial.getColumnModel().getColumn(0).setPreferredWidth(150);
-            jTableListagemSaidasSerial.getColumnModel().getColumn(0).setMaxWidth(240);
-            jTableListagemSaidasSerial.getColumnModel().getColumn(1).setMinWidth(120);
-            jTableListagemSaidasSerial.getColumnModel().getColumn(1).setPreferredWidth(250);
-            jTableListagemSaidasSerial.getColumnModel().getColumn(1).setMaxWidth(450);
-            jTableListagemSaidasSerial.getColumnModel().getColumn(3).setMinWidth(50);
-            jTableListagemSaidasSerial.getColumnModel().getColumn(3).setPreferredWidth(100);
-            jTableListagemSaidasSerial.getColumnModel().getColumn(3).setMaxWidth(200);
-            jTableListagemSaidasSerial.getColumnModel().getColumn(3).setCellRenderer(new integrador.render.RenderDataEHora());
-            jTableListagemSaidasSerial.getColumnModel().getColumn(7).setCellRenderer(new RenderNumeroNFCe());
-            jTableListagemSaidasSerial.getColumnModel().getColumn(8).setMinWidth(100);
-            jTableListagemSaidasSerial.getColumnModel().getColumn(8).setPreferredWidth(250);
-            jTableListagemSaidasSerial.getColumnModel().getColumn(8).setMaxWidth(500);
-            jTableListagemSaidasSerial.getColumnModel().getColumn(9).setMinWidth(50);
-            jTableListagemSaidasSerial.getColumnModel().getColumn(9).setPreferredWidth(140);
-            jTableListagemSaidasSerial.getColumnModel().getColumn(9).setMaxWidth(250);
+            },
+            new String [] {
+                "id Saida Serial", "Nome", "Data", "CPF/CNPJ", "Num Pedido", "Operaçao"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTableSaidaSerial.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        jTableSaidaSerial.getTableHeader().setReorderingAllowed(false);
+        jTableSaidaSerial.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableSaidaSerialMouseClicked(evt);
+            }
+        });
+        jScrollPaneListagemSaidas.setViewportView(jTableSaidaSerial);
+        if (jTableSaidaSerial.getColumnModel().getColumnCount() > 0) {
+            jTableSaidaSerial.getColumnModel().getColumn(1).setPreferredWidth(360);
+            jTableSaidaSerial.getColumnModel().getColumn(2).setPreferredWidth(80);
+            jTableSaidaSerial.getColumnModel().getColumn(3).setPreferredWidth(120);
+            jTableSaidaSerial.getColumnModel().getColumn(4).setPreferredWidth(60);
+            jTableSaidaSerial.getColumnModel().getColumn(5).setPreferredWidth(300);
         }
 
         javax.swing.GroupLayout jPanelListagemSaidasLayout = new javax.swing.GroupLayout(jPanelListagemSaidas);
@@ -400,7 +335,7 @@ public class RmaJFrame extends javax.swing.JFrame {
         jLabelOqueDesejafazer.setText("O que deseja fazer?");
 
         jComboBoxManutencao.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        jComboBoxManutencao.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Entrada Cliente Produto COM Defeito", "Entrada Cliente Produto SEM Defeito", "Produto com defeito do Fornecedor", "Item 4" }));
+        jComboBoxManutencao.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Entrada Cliente Produto COM Defeito", "Entrada Cliente Produto SEM Defeito", "Produto com defeito do Fornecedor" }));
         jComboBoxManutencao.setToolTipText("Selecione qual o tipo de RMA a ser feito");
 
         jCheckBoxDevolucao.setText("Devolução pelo Cliente");
@@ -458,7 +393,7 @@ public class RmaJFrame extends javax.swing.JFrame {
 
         jPanelManutençãoSerial.setBorder(javax.swing.BorderFactory.createTitledBorder("Manutenção Serial"));
 
-        jButtonEditarSerial.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jButtonEditarSerial.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jButtonEditarSerial.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/Edit.png"))); // NOI18N
         jButtonEditarSerial.setText("Editar Serial");
         jButtonEditarSerial.addActionListener(new java.awt.event.ActionListener() {
@@ -467,6 +402,7 @@ public class RmaJFrame extends javax.swing.JFrame {
             }
         });
 
+        jButtonExcluiSerial.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jButtonExcluiSerial.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/delete.png"))); // NOI18N
         jButtonExcluiSerial.setText("Excluir Serial da Saída");
         jButtonExcluiSerial.addActionListener(new java.awt.event.ActionListener() {
@@ -481,17 +417,16 @@ public class RmaJFrame extends javax.swing.JFrame {
             jPanelManutençãoSerialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelManutençãoSerialLayout.createSequentialGroup()
                 .addGroup(jPanelManutençãoSerialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelManutençãoSerialLayout.createSequentialGroup()
-                        .addComponent(jButtonEditarSerial, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 157, Short.MAX_VALUE))
-                    .addComponent(jButtonExcluiSerial, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE))
+                    .addComponent(jButtonExcluiSerial, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
+                    .addComponent(jButtonEditarSerial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanelManutençãoSerialLayout.setVerticalGroup(
             jPanelManutençãoSerialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelManutençãoSerialLayout.createSequentialGroup()
+                .addContainerGap(61, Short.MAX_VALUE)
                 .addComponent(jButtonEditarSerial)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonExcluiSerial))
         );
 
@@ -538,20 +473,13 @@ public class RmaJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextFieldArgumentoPesquisaActionPerformed
 
     private void jTableProdutoSerialMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableProdutoSerialMouseClicked
-        movendaprodserialList.clear();
-        moventradaprodserialList.clear();
         colunaSerial = jTableProdutoSerial.getColumnModel().getColumnIndex("Serial");
-        colunaCodProd = jTableProdutoSerial.getColumnModel().getColumnIndex("Codprod");
         serial = jTableProdutoSerial.getValueAt(jTableProdutoSerial.getSelectedRow(), colunaSerial).toString();
-        List<Moventradaprodserial> listEntradaSerial = queryCplus.listagemEntradaSerial(serial);
-        for (Moventradaprodserial entSerial : listEntradaSerial) {
-            moventradaprodserialList.add(entSerial);
+        for (SerialProduto ser : queryIntegrador.listSerialExato(serial)) {
+            carregaTabelaEntradaSerial(ser);
+            mostraEstoque(ser.getCodProduto());
         }
-        List<Movendaprodserial> listSaidaSerial = queryCplus.listagemSaidaSerialExato(serial);
-        for (Movendaprodserial saidaSerial : listSaidaSerial) {
-            movendaprodserialList.add(saidaSerial);
-        }
-        mostraEstoque(jTableProdutoSerial.getValueAt(jTableProdutoSerial.getSelectedRow(), colunaCodProd).toString());
+        //mostraEstoque(jTableProdutoSerial.getValueAt(jTableProdutoSerial.getSelectedRow(), colunaCodProd).toString());
     }//GEN-LAST:event_jTableProdutoSerialMouseClicked
 
     private void jButtonPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPesquisarActionPerformed
@@ -561,10 +489,6 @@ public class RmaJFrame extends javax.swing.JFrame {
     private void jButtonExecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExecutarActionPerformed
         decisaoRma();
     }//GEN-LAST:event_jButtonExecutarActionPerformed
-
-    private void jButtonListagemEntradasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonListagemEntradasActionPerformed
-        this.listagemEntradasJDialog.setVisible(true);
-    }//GEN-LAST:event_jButtonListagemEntradasActionPerformed
 
     private void jButtonEditarSerialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarSerialActionPerformed
         if (jTableProdutoSerial.getSelectedRow() == -1) {
@@ -582,7 +506,7 @@ public class RmaJFrame extends javax.swing.JFrame {
     private void jButtonExcluiSerialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluiSerialActionPerformed
         if (jTableProdutoSerial.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(null, "Você deve selecionar o serial para Excluir!!");
-        } else if (jTableListagemEntradaSerial.getSelectedRow() != -1 || jTableListagemEntradaSerial.getRowCount() == 0) {
+        } else if (jTableEntradaSerial.getSelectedRow() != -1 || jTableEntradaSerial.getRowCount() == 0) {
             int cancelar = JOptionPane.showConfirmDialog(null, " Deseja realmente Excluir o Serial Selecionado\n A AÇÃO NÃO PODE SER DISFEITA!!!", "Excluir", JOptionPane.YES_NO_CANCEL_OPTION);
             if (cancelar == JOptionPane.YES_OPTION) {
                 excluiSerial();
@@ -592,46 +516,125 @@ public class RmaJFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButtonExcluiSerialActionPerformed
 
+    private void jTableEntradaSerialMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableEntradaSerialMouseClicked
+        int colIdEnt = jTableEntradaSerial.getColumnModel().getColumnIndex("Id Entrada Serial");
+        int id = Integer.valueOf(jTableEntradaSerial.getValueAt(jTableEntradaSerial.getSelectedRow(), colIdEnt).toString());
+        EntradaSerial ent = new EntradaSerialJpaController(managerIntegrador).findEntradaSerial(id);
+        entrada = new MoventradaJpaController(managerCplus).findMoventrada(ent.getCodEntrada());
+        entradaProd = new MoventradaprodJpaController(managerCplus).findMoventradaprod(ent.getCodEntradaProd());
+    }//GEN-LAST:event_jTableEntradaSerialMouseClicked
+
+    private void jTableSaidaSerialMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableSaidaSerialMouseClicked
+        int colIdSaida = jTableSaidaSerial.getColumnModel().getColumnIndex("id Saida Serial");
+        int id = Integer.valueOf(jTableSaidaSerial.getValueAt(jTableSaidaSerial.getSelectedRow(), colIdSaida).toString());
+        SaidaSerial sai = new SaidaSerialJpaController(managerIntegrador).findSaidaSerial(id);
+        venda = new MovendaJpaController(managerCplus).findMovenda(sai.getCodSaida());
+        vendaProd = new MovendaprodJpaController(managerCplus).findMovendaprod(sai.getCodSaidaProd());
+    }//GEN-LAST:event_jTableSaidaSerialMouseClicked
+
+    private void limpaTabelas() {
+        //DefaultTableModel tab = (DefaultTableModel) jTableEntradaSerial.getModel();
+        while (jTableEntradaSerial.getModel().getRowCount() > 0) {
+            ((DefaultTableModel) jTableEntradaSerial.getModel()).removeRow(0);
+        }
+
+        //DefaultTableModel tab1 = (DefaultTableModel) jTableSaidaSerial.getModel();
+        while (jTableSaidaSerial.getModel().getRowCount() > 0) {
+            ((DefaultTableModel) jTableSaidaSerial.getModel()).removeRow(0);
+        }
+    }
+
+    private void carregaTabelaEntradaSerial(SerialProduto serial) {
+        // List<Moventradaprod> moEntradaProduto = queryCplus.listagemMovEntradaProdPorEntrada(movEntrada.getCodmoventr());
+        DefaultTableModel tab = (DefaultTableModel) jTableEntradaSerial.getModel();
+        while (jTableEntradaSerial.getModel().getRowCount() > 0) {
+            ((DefaultTableModel) jTableEntradaSerial.getModel()).removeRow(0);
+        }
+        for (EntradaSerial e : serial.getEntradaSerialCollection()) {
+            //int comp = queryIntegrador.listPorEntradaProd(e.getCodmoveprod()).size();          
+            String txt = "";
+            String CNPJ = "";
+            entrada = new MoventradaJpaController(managerCplus).findMoventrada(e.getCodEntrada());
+            entradaProd = new MoventradaprodJpaController(managerCplus).findMoventradaprod(e.getCodEntradaProd());
+            if (entrada.getCodForn() != null) {
+                txt = entrada.getCodForn().getNomeforn();
+                CNPJ = formatacaoDeCampos.mascaraCNPJ(entrada.getCodForn().getCnpj());
+            } else if (entrada.getCodcli() != null) {
+                txt = entrada.getCodcli().getNomecli();
+                CNPJ = cpfCnpj(entrada.getCodcli());
+            }
+            tab.addRow(new Object[]{e.getIdEntradaSerial(), txt, formatacaoDeCampos.dataStringSoData(entrada.getData(), 0), CNPJ, entrada.getNumnota(), entrada.getCodtipomovimento().getNometipomovimento()});
+            //corLinha(comp);
+        }
+        DefaultTableModel tab1 = (DefaultTableModel) jTableSaidaSerial.getModel();
+        while (jTableSaidaSerial.getModel().getRowCount() > 0) {
+            ((DefaultTableModel) jTableSaidaSerial.getModel()).removeRow(0);
+        }
+        for (SaidaSerial s : serial.getSaidaSerialCollection()) {
+            //venda = new MovendaJpaController(managerCplus).findMovenda(e.getCodSaida());
+            String txt = "";
+            String CNPJ = "";
+            venda = new MovendaJpaController(managerCplus).findMovenda(s.getCodSaida());
+            vendaProd = new MovendaprodJpaController(managerCplus).findMovendaprod(s.getCodSaidaProd());
+            if (venda.getCodForn() != null) {
+                txt = venda.getCodForn().getNomeforn();
+                CNPJ = formatacaoDeCampos.mascaraCNPJ(venda.getCodForn().getCnpj());
+            } else if (venda.getCodcli() != null) {
+                txt = venda.getCodcli().getNomecli();
+                CNPJ = cpfCnpj(venda.getCodcli());
+            }
+            tab1.addRow(new Object[]{s.getIdSaidaSerial(), txt, new FormataCampos().dataStringSoData(venda.getData(), 0), CNPJ, venda.getNumped(), venda.getCodtipomovimento().getNometipomovimento()});
+        }
+    }
+
+    private String cpfCnpj(Cliente clienteCplus) {
+        String str;
+        if ("N".equals(clienteCplus.getFlagfisica().toString())) {
+            //str = clienteCplus.getCnpj();
+            str = new FormataCampos().mascaraCNPJ(clienteCplus.getCnpj());
+        } else {
+            //  str = new FormataCampos().mascaraCPF(clienteCplus.getCpf());
+            str = new FormataCampos().mascaraCPF(clienteCplus.getCpf());
+
+        }
+        return str;
+    }
+
     private void excluiSerial() {
         colunaSerial = jTableProdutoSerial.getColumnModel().getColumnIndex("Serial");
         String ser = jTableProdutoSerial.getValueAt(jTableProdutoSerial.getSelectedRow(), colunaSerial).toString();
-        List<Produtoserial> listProdSerial = queryCplus.pesquisaSerialExato(ser);
+        List<SerialProduto> listProdSerial = queryIntegrador.listSerialExato(ser);
         if (listProdSerial.size() < 1) {
             JOptionPane.showMessageDialog(null, "O serial " + ser + " Não existe, Verifique!!!");
         } else {
-            for (Produtoserial proSer : listProdSerial) {
-                List<Movendaprodserial> vendaSerial = queryCplus.listagemSaidaSerialExato(ser);
-                for (Movendaprodserial veSerial : vendaSerial) {
+            for (SerialProduto proSer : listProdSerial) {
+                //List<Movendaprodserial> vendaSerial = queryCplus.listagemSaidaSerialExato(ser);
+                for (SaidaSerial veSerial : proSer.getSaidaSerialCollection()) {
                     try {
-                        new MovendaprodserialJpaController(managerCplus).destroy(veSerial.getCodmovendaprodserial());
-                    } catch (NonexistentEntityException ex) {
-                        JOptionPane.showMessageDialog(null, "Houve um Erro ao Excluir o Serial da Saída \n" + ex);
+                        new SaidaSerialJpaController(managerIntegrador).destroy(veSerial.getIdSaidaSerial());
+                        tipoDePesquisa();
+                    } catch (jpa.integrador.exceptions.NonexistentEntityException ex) {
+                        JOptionPane.showMessageDialog(null, "Houve um erro ao excluir o serial da saida!!");
                     }
-                }                    
-                for (Orcamentoprodserial orSer : proSer.getOrcamentoprodserialCollection()) {
-                    try {
-                        new OrcamentoprodserialJpaController(managerCplus).destroy(orSer.getCodorcprodser());
-                    } catch (NonexistentEntityException ex) {
-                        JOptionPane.showMessageDialog(null, "Houve um Erro ao Excluir Orçamento Serial \n" + ex);
-                    }
-                }//for              
+                }
             }//for
         }//else
     }
 
     private void verificaSerialCadastrado() {
         colunaSerial = jTableProdutoSerial.getColumnModel().getColumnIndex("Serial");
-        int codSerialProd = jTableProdutoSerial.getColumnModel().getColumnIndex("Cod Serial");
+        //int codSerialProd = jTableProdutoSerial.getColumnModel().getColumnIndex("Id Serial");
         String serialNovo = "";
-        serialNovo = JOptionPane.showInputDialog("Digite o Serial novo! ").toUpperCase();
-        if (!"".equals(serialNovo)) {
-            List<Produtoserial> listProdSerialNovo = queryCplus.pesquisaSerialExato(serialNovo);
+        serialNovo = JOptionPane.showInputDialog("Digite o Serial novo! ");
+        if (!"".equals(serialNovo) && serialNovo != null) {
+            serialNovo = serialNovo.toUpperCase();
+            List<SerialProduto> listProdSerialNovo = queryIntegrador.listSerialExato(serialNovo);
             if (listProdSerialNovo.isEmpty()) {
-                List<Produtoserial> listProdSerialAntigo = queryCplus.pesquisaCodProdutoSerial(jTableProdutoSerial.getValueAt(jTableProdutoSerial.getSelectedRow(), codSerialProd).toString());
-                for (Produtoserial serialAntigo : listProdSerialAntigo) {
+                List<SerialProduto> listProdSerialAntigo = queryIntegrador.listSerialExato(jTableProdutoSerial.getValueAt(jTableProdutoSerial.getSelectedRow(), colunaSerial).toString());
+                for (SerialProduto serialAntigo : listProdSerialAntigo) {
                     serialAntigo.setSerial(serialNovo);
                     try {
-                        new ProdutoserialJpaController(managerCplus).edit(serialAntigo);
+                        new SerialProdutoJpaController(managerIntegrador).edit(serialAntigo);
                         JOptionPane.showMessageDialog(null, "Serial editado com sucesso!!");
                         jTextFieldArgumentoPesquisa.setText(serialNovo);
                         tipoDePesquisa();
@@ -645,7 +648,9 @@ public class RmaJFrame extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "O serial " + serialNovo + " Já está cadastrado, Verifique!!!");
             }
         } else {//FIM IF QUR VERIFICA SE NOVO SERIAL DIGITADO É NULLO
-            JOptionPane.showMessageDialog(null, "O serial Novo deve ser digitado!!");
+            if ("".equals(serialNovo)) {
+                JOptionPane.showMessageDialog(null, "O serial Novo deve ser digitado!!");
+            }
         }
     }
 
@@ -665,19 +670,19 @@ public class RmaJFrame extends javax.swing.JFrame {
      * Função que atualiza o estoque no magento pelo codProduto da tabela
      * ProdutoSerial
      */
-    private void atualizaEstoque() {
-        List<Produto> listProd = queryCplus.listProdutoSerial(jTableProdutoSerial.getValueAt(jTableProdutoSerial.getSelectedRow(), colunaCodProd).toString());
-        for (Produto prodestoque : listProd) {
-            new ProdutoCplusDigimacro().produtoCplusDigimacro(managerIntegrador, managerCplus, managerPrestaShop, prodestoque);
-        }
+    private void atualizaEstoque(Produto prod) {
+        //List<Produto> listProd = queryCplus.listProdutoSerial(jTableProdutoSerial.getValueAt(jTableProdutoSerial.getSelectedRow(), colunaCodProd).toString());
+        //for (Produto prod : listProd) {
+        new ProdutoCplusDigimacro().produtoCplusDigimacro(managerIntegrador, managerCplus, managerPrestaShop, prod);
+        //}
     }
 
     private void decisaoRma() {
         switch (jComboBoxManutencao.getSelectedIndex()) {
             case 0:
-                if (jTableListagemSaidasSerial.getSelectedRow() == -1) {
+                if (jTableSaidaSerial.getSelectedRow() == -1) {
                     JOptionPane.showMessageDialog(null, "Você deve selecionar uma linha na tabela Listagem de Saidas serial!!! ");
-                } else if (jTableListagemEntradaSerial.getSelectedRow() == -1) {
+                } else if (jTableEntradaSerial.getSelectedRow() == -1) {
                     JOptionPane.showMessageDialog(null, "Você deve selecionar uma linha na tabela Listagem de Entrada serial!!! ");
                 } else {
                     if (entradaCliente() == false) {
@@ -695,9 +700,9 @@ public class RmaJFrame extends javax.swing.JFrame {
                 }
                 break;
             case 1:
-                if (jTableListagemSaidasSerial.getSelectedRow() == -1) {
+                if (jTableSaidaSerial.getSelectedRow() == -1) {
                     JOptionPane.showMessageDialog(null, "Você deve selecionar uma linha na tabela Listagem de Saidas serial!!! ");
-                } else if (jTableListagemEntradaSerial.getSelectedRow() == -1) {
+                } else if (jTableEntradaSerial.getSelectedRow() == -1) {
                     JOptionPane.showMessageDialog(null, "Você deve selecionar uma linha na tabela Listagem de Entrada serial!!! ");
                 } else {
                     if (entradaCliente() == false) {
@@ -711,7 +716,7 @@ public class RmaJFrame extends javax.swing.JFrame {
                 }
                 break;
             case 2:
-                if (jTableListagemEntradaSerial.getSelectedRow() == -1) {
+                if (jTableEntradaSerial.getSelectedRow() == -1) {
                     JOptionPane.showMessageDialog(null, "Você deve selecionar uma linha na tabela Listagem de Entrada serial!!! ");
                 } else {
                     if (saidaFornecedor(true) == true) {
@@ -735,16 +740,19 @@ public class RmaJFrame extends javax.swing.JFrame {
         Fornecedor fornecedor = null;
         Calculoicmsestado calculoIcmsEstado = null;
         String nomeFornecedor = "";
-        String codMovProdEntrada = "";
-        Moventradaprod entradaProd;
+        // String codMovProdEntrada = "";
+        //Moventradaprod entradaProd = new Moventradaprod();
+        //int idEnt = Integer.valueOf(jTableEntradaSerial.getValueAt(jTableEntradaSerial.getSelectedRow(), jTableEntradaSerial.getColumnModel().getColumnIndex("CId Entrada Serial")).toString());
+        //for(EntradaSerial entSer : queryIntegrador.listPorIdEntradaProd(idEnt)){
         // localização da entrada do produto
         do {//licalização calculo ICMS por estado 
-            colunaMovProdutoEntrada = jTableListagemEntradaSerial.getColumnModel().getColumnIndex("CodMovProdutoEntrada");
-            codMovProdEntrada = jTableListagemEntradaSerial.getValueAt(jTableListagemEntradaSerial.getSelectedRow(), colunaMovProdutoEntrada).toString();
-            entradaProd = new MoventradaprodJpaController(managerCplus).findMoventradaprod(codMovProdEntrada);
+            //colunaMovProdutoEntrada = jTableEntradaSerial.getColumnModel().getColumnIndex("CodMovProdutoEntrada");
+            //codMovProdEntrada = jTableEntradaSerial.getValueAt(jTableEntradaSerial.getSelectedRow(), colunaMovProdutoEntrada).toString();
+
+            //entradaProd = new MoventradaprodJpaController(managerCplus).findMoventradaprod(entSer.getCodEntradaProd());
             cancelaSaidaFornecedor = false;
-            colunaNomeFornecedorEntrada = jTableListagemEntradaSerial.getColumnModel().getColumnIndex("Nome Fornecedor");
-            nomeFornecedor = jTableListagemEntradaSerial.getValueAt(jTableListagemEntradaSerial.getSelectedRow(), colunaNomeFornecedorEntrada).toString();
+            //colunaNomeFornecedorEntrada = jTableEntradaSerial.getColumnModel().getColumnIndex("Nome");
+            nomeFornecedor = jTableEntradaSerial.getValueAt(jTableEntradaSerial.getSelectedRow(), jTableEntradaSerial.getColumnModel().getColumnIndex("Nome")).toString();
             if (!"".equals(nomeFornecedor)) {
                 this.listagemFornecedorJDialog.setTermoPesquisa(nomeFornecedor);
                 this.listagemFornecedorJDialog.listarFornecedorPorNome();
@@ -826,6 +834,7 @@ public class RmaJFrame extends javax.swing.JFrame {
                 }
             }//fim if cancelamento
         } while (cancelaSaidaFornecedor);
+        // }
         if (cancelaSaidaFornecedor == false) {
             if (new SaidaFornecedorCplus().saidaFornecedorCplus(controlaEstoque, movimentoSaidaFornecedor, calculoIcmsEstado, fornecedor, entradaProd, serial, user, managerCplus, managerIntegrador) == false) {
                 cancelaSaidaFornecedor = true;
@@ -833,7 +842,7 @@ public class RmaJFrame extends javax.swing.JFrame {
         }
         return cancelaSaidaFornecedor;
     }
-    
+
     /**
      * Função que cuida da coleta de dados para entrada no estoque por cliente
      *
@@ -842,14 +851,14 @@ public class RmaJFrame extends javax.swing.JFrame {
     private boolean entradaCliente() {
         boolean cancelaEntradaCliente = false;
         String codigoCliente = "";
-        String codMovProdSaida = "";
+        //String codMovProdSaida = "";
         Cliente cliente = null;
-        Movendaprod vendaProd = null;
+        //Movendaprod vendaProd = null;
         Tipomovimento movimentoEntradaCliente = null;
         Calculoicmsestado calculoIcmsEstado = null;
-        colunaCodClienteSaida = jTableListagemSaidasSerial.getColumnModel().getColumnIndex("CodCliente");
-        if (jTableListagemSaidasSerial.getValueAt(jTableListagemSaidasSerial.getSelectedRow(), colunaCodClienteSaida) != null) {
-            codigoCliente = jTableListagemSaidasSerial.getValueAt(jTableListagemSaidasSerial.getSelectedRow(), colunaCodClienteSaida).toString();
+        // colunaCodClienteSaida = jTableSaidaSerial.getColumnModel().getColumnIndex("CodCliente");
+        if (venda.getCodcli() != null) {
+            codigoCliente = venda.getCodcli().getCodcli();
         } else {
             codigoCliente = clienteCupom;
         }
@@ -862,8 +871,8 @@ public class RmaJFrame extends javax.swing.JFrame {
                 cancelaEntradaCliente = true;
             }
         } else {//fim if que verifica se cliente é cupom abre seleção de cliente
-            colunaNomeClienteSaida = jTableListagemSaidasSerial.getColumnModel().getColumnIndex("Nome Cliente");
-            this.listagemClientesJDialog.setTermoPesquisa(jTableListagemSaidasSerial.getValueAt(jTableListagemSaidasSerial.getSelectedRow(), colunaNomeClienteSaida).toString());
+            int colNome = jTableSaidaSerial.getColumnModel().getColumnIndex("Nome");
+            this.listagemClientesJDialog.setTermoPesquisa(jTableSaidaSerial.getValueAt(jTableSaidaSerial.getSelectedRow(), colNome).toString());
             this.listagemClientesJDialog.listarClientes();
             this.listagemClientesJDialog.setVisible(true);
             if (this.listagemClientesJDialog.isCancelamento() == false) {
@@ -892,9 +901,9 @@ public class RmaJFrame extends javax.swing.JFrame {
         }
         if (cancelaEntradaCliente == false) {
             //movimento de saida cliente
-            colunaCodMovProdutoSaida = jTableListagemSaidasSerial.getColumnModel().getColumnIndex("Codmovprod");
-            codMovProdSaida = jTableListagemSaidasSerial.getValueAt(jTableListagemSaidasSerial.getSelectedRow(), colunaCodMovProdutoSaida).toString();
-            vendaProd = new MovendaprodJpaController(managerCplus).findMovendaprod(codMovProdSaida);
+            //colunaCodMovProdutoSaida = jTableSaidaSerial.getColumnModel().getColumnIndex("Codmovprod");
+            //codMovProdSaida = jTableSaidaSerial.getValueAt(jTableSaidaSerial.getSelectedRow(), colunaCodMovProdutoSaida).toString();
+            //vendaProd = new MovendaprodJpaController(managerCplus).findMovendaprod(codMovProdSaida);
         }
         if (cancelaEntradaCliente == false) {
             //licalização calculo ICMS por estado                    
@@ -950,13 +959,13 @@ public class RmaJFrame extends javax.swing.JFrame {
         String codigoCliente = "";
         String codMovProdSaida = "";
         Cliente cliente = null;
-        Movendaprod vendaProd = null;
+        //Movendaprod vendaProd = null;
         Tipomovimento movimentoSaidaCliente = null;
         Calculoicmsestado calculoIcmsEstado = null;
 
-        colunaCodClienteSaida = jTableListagemSaidasSerial.getColumnModel().getColumnIndex("CodCliente");
-        if (jTableListagemSaidasSerial.getValueAt(jTableListagemSaidasSerial.getSelectedRow(), colunaCodClienteSaida) != null) {
-            codigoCliente = jTableListagemSaidasSerial.getValueAt(jTableListagemSaidasSerial.getSelectedRow(), colunaCodClienteSaida).toString();
+        //colunaCodClienteSaida = jTableSaidaSerial.getColumnModel().getColumnIndex("CodCliente");
+        if (venda.getCodcli() != null) {
+            codigoCliente = venda.getCodcli().getCodcli();
         } else {
             codigoCliente = clienteCupom;
         }
@@ -970,8 +979,8 @@ public class RmaJFrame extends javax.swing.JFrame {
                     cancelaSaidaCliente = true;
                 }
             } else {//fim if que verifica se cliente é cupom abre seleção de cliente
-                colunaNomeClienteSaida = jTableListagemSaidasSerial.getColumnModel().getColumnIndex("Nome Cliente");
-                this.listagemClientesJDialog.setTermoPesquisa(jTableListagemSaidasSerial.getValueAt(jTableListagemSaidasSerial.getSelectedRow(), colunaNomeClienteSaida).toString());
+                int colNome = jTableSaidaSerial.getColumnModel().getColumnIndex("Nome");
+                this.listagemClientesJDialog.setTermoPesquisa(jTableSaidaSerial.getValueAt(jTableSaidaSerial.getSelectedRow(), colNome).toString());
                 this.listagemClientesJDialog.listarClientes();
                 this.listagemClientesJDialog.setVisible(true);
                 if (this.listagemClientesJDialog.isCancelamento() == false) {
@@ -994,8 +1003,8 @@ public class RmaJFrame extends javax.swing.JFrame {
             }
             if (cancelaSaidaCliente == false) {
                 //movimento de saida cliente
-                colunaCodMovProdutoSaida = jTableListagemSaidasSerial.getColumnModel().getColumnIndex("Codmovprod");
-                codMovProdSaida = jTableListagemSaidasSerial.getValueAt(jTableListagemSaidasSerial.getSelectedRow(), colunaCodMovProdutoSaida).toString();
+                //colunaCodMovProdutoSaida = jTableSaidaSerial.getColumnModel().getColumnIndex("id Saida Serial");
+                //codMovProdSaida = jTableSaidaSerial.getValueAt(jTableSaidaSerial.getSelectedRow(), colunaCodMovProdutoSaida).toString();
                 vendaProd = new MovendaprodJpaController(managerCplus).findMovendaprod(codMovProdSaida);
             }
             if (cancelaSaidaCliente == false) {
@@ -1059,7 +1068,7 @@ public class RmaJFrame extends javax.swing.JFrame {
             if (new SaidaClienteCplus().saidaClienteCplus(controlaEstoque, movimentoSaidaCliente, calculoIcmsEstado, cliente, vendaProd, serial, user, managerCplus, managerIntegrador) == false) {
                 cancelaSaidaCliente = true;
             } else {
-                atualizaEstoque();
+                atualizaEstoque(vendaProd.getCodprod());
             }
         }
     }
@@ -1068,34 +1077,50 @@ public class RmaJFrame extends javax.swing.JFrame {
      * Função que combina o combo Box e carrega resultados
      */
     private void tipoDePesquisa() {
-        movendaprodserialList.clear();
-        moventradaprodserialList.clear();
-        produtoserialList.clear();
-        List<Produtoserial> listProdSerial;
+        //movendaprodserialList.clear();
+        //moventradaprodserialList.clear();
+        serialProdutoList.clear();
+        List<SerialProduto> listProdSerial;
+        limpaTabelas();
         switch (jComboBoxTermoPesquisa.getSelectedIndex()) {
             case 0:
-                produtoserialList.clear();
+                serialProdutoList.clear();
                 if (!"".equals(jTextFieldArgumentoPesquisa.getText())) {
-                    listProdSerial = queryCplus.resultadoSerialLike(jTextFieldArgumentoPesquisa.getText());
-                    for (Produtoserial p : listProdSerial) {
-                        produtoserialList.add(p);
+                    listProdSerial = queryIntegrador.listSerialLike(jTextFieldArgumentoPesquisa.getText());
+                    for (SerialProduto p : listProdSerial) {
+                        serialProdutoList.add(p);
+                        //colore as linhas da tabela
+                        TableCellRenderer renderer = new ColorirLinhaImpar();
+                        for (int c = 0; c < jTableProdutoSerial.getColumnCount(); c++) {
+                            jTableProdutoSerial.setDefaultRenderer(jTableProdutoSerial.getColumnClass(c), renderer);
+                        }
+                        //**********************
                     }
                 } else {
                     JOptionPane.showMessageDialog(null, "Não há valor para pesquisa!!! ");
                 }
                 break;
             case 1:
-                produtoserialList.clear();
+                serialProdutoList.clear();
                 if (!"".equals(jTextFieldArgumentoPesquisa.getText())) {
                     if (this.listagemEntradasJDialog.isCancelamento() == false) {
                         this.listagemEntradasJDialog.setTermoPesquisa(jTextFieldArgumentoPesquisa.getText());
                         this.listagemEntradasJDialog.setVisible(true);
-                        String cod = this.listagemEntradasJDialog.getMovEntrada().getCodmoventr();
-
-                        if (cod != null) {
-                            listProdSerial = queryCplus.resultadoPorCodigoEntrada(cod);
-                            for (Produtoserial p : listProdSerial) {
-                                produtoserialList.add(p);
+                        entrada = this.listagemEntradasJDialog.getMovEntrada();
+                        //int cod = Integer.valueOf(jTextFieldArgumentoPesquisa.getText());
+                        if (entrada != null) {
+                            List<EntradaSerial> listEnt = new ArrayList<>();
+                            for (Moventradaprod p : entrada.getMoventradaprodCollection()) {
+                                listEnt = queryIntegrador.listPorEntradaProd(p.getCodmoveprod());
+                                for (EntradaSerial e : listEnt) {
+                                    serialProdutoList.add(e.getIdSerial());
+                                    //colore as linhas da tabela
+                                    TableCellRenderer renderer = new ColorirLinhaImpar();
+                                    for (int c = 0; c < jTableProdutoSerial.getColumnCount(); c++) {
+                                        jTableProdutoSerial.setDefaultRenderer(jTableProdutoSerial.getColumnClass(c), renderer);
+                                    }
+                                    //**********************
+                                }
                             }
                         }
                     }
@@ -1104,17 +1129,48 @@ public class RmaJFrame extends javax.swing.JFrame {
                 }
                 break;
             case 2:
-                produtoserialList.clear();
+                serialProdutoList.clear();
                 if (!"".equals(jTextFieldArgumentoPesquisa.getText())) {
                     if (this.listagemSaidasJDialog.isCancelamento() == false) {
                         this.listagemSaidasJDialog.setTermoPesquisa(jTextFieldArgumentoPesquisa.getText());
                         this.listagemSaidasJDialog.setVisible(true);
-                        String cod = this.listagemSaidasJDialog.getMoVenda().getCodmovenda();
-
+                        Movenda cod = this.listagemSaidasJDialog.getMoVenda();
                         if (cod != null) {
-                            listProdSerial = queryCplus.resultadoPorCodigoSaida(cod);
-                            for (Produtoserial p : listProdSerial) {
-                                produtoserialList.add(p);
+                            List<SaidaSerial> listSaida = new ArrayList<>();
+                            for (Movendaprod p : queryCplus.listMovendaProd(cod.getCodmovenda())) {
+                                listSaida = queryIntegrador.listPorSaidaProd(p.getCodmovprod());
+                                for (SaidaSerial e : listSaida) {
+                                    serialProdutoList.add(e.getIdSerial());
+                                    //colore as linhas da tabela
+                                    TableCellRenderer renderer = new ColorirLinhaImpar();
+                                    for (int c = 0; c < jTableProdutoSerial.getColumnCount(); c++) {
+                                        jTableProdutoSerial.setDefaultRenderer(jTableProdutoSerial.getColumnClass(c), renderer);
+                                    }
+                                    //**********************
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Não há valor para pesquisa!!! ");
+                }
+                break;
+            case 3:
+                serialProdutoList.clear();
+                if (!"".equals(jTextFieldArgumentoPesquisa.getText())) {
+                    if (this.listagemProdutoJDialog.isCancelamento() == false) {
+                        this.listagemProdutoJDialog.setTermoPesquisa(jTextFieldArgumentoPesquisa.getText());
+                        this.listagemProdutoJDialog.setVisible(true);
+                        Produto cod = this.listagemProdutoJDialog.getProduto();
+                        if (cod != null) {
+                            for (SerialProduto sp : queryIntegrador.listCodProdSemSaida(cod.getCodprod())) {
+                                serialProdutoList.add(sp);
+                                //colore as linhas da tabela
+                                TableCellRenderer renderer = new ColorirLinhaImpar();
+                                for (int c = 0; c < jTableProdutoSerial.getColumnCount(); c++) {
+                                    jTableProdutoSerial.setDefaultRenderer(jTableProdutoSerial.getColumnClass(c), renderer);
+                                }
+                                //**********************
                             }
                         }
                     }
@@ -1165,33 +1221,37 @@ public class RmaJFrame extends javax.swing.JFrame {
     private final ListagemClientesJDialog listagemClientesJDialog;
     private final ListagemOperacaoJDialog listagemOperacaoJDialog;
     private final ListagemFornecedorJDialog listagemFornecedorJDialog;
-    int colunaSerial;
-    static EntityManagerFactory managerCplus;
-    static EntityManagerFactory managerPrestaShop;
-    static EntityManagerFactory managerIntegrador;
+    private final ListagemProdutoJDialog listagemProdutoJDialog;
+    private int colunaSerial;
+    private static EntityManagerFactory managerCplus;
+    private static EntityManagerFactory managerPrestaShop;
+    private static EntityManagerFactory managerIntegrador;
     private final QueryIntegrador queryIntegrador;
     private final QueryCplus queryCplus;
-    FormataCampos formatacaoDeCampos;
-    String serial;
-    int colunaCodClienteSaida;
-    int colunaCodFornecedorEntrada;
-    int colunaCodMovProdutoSaida;
-    int colunaCodMovendaProdutoSerial;
-    int colunaMovProdutoEntrada;
-    int colunaNomeFornecedorEntrada;
-    int colunaNomeClienteSaida;
-    int colunaCodProd;
+    private final FormataCampos formatacaoDeCampos;
+    private String serial;
+    private Moventrada entrada;
+    private Moventradaprod entradaProd;
+    private Movenda venda;
+    private Movendaprod vendaProd;
+    //int colunaCodClienteSaida;
+    //int colunaCodFornecedorEntrada;
+    //int colunaCodMovProdutoSaida;
+    //int colunaCodMovendaProdutoSerial;
+    //int colunaMovProdutoEntrada;
+    //int colunaNomeFornecedorEntrada;
+    //int colunaNomeClienteSaida;
+    //int colunaCodProd;
     private final String clienteCupom;
 
-    private final NumeroNotaJDialog numeroNotaJDialog;
+    //private final NumeroNotaJDialog numeroNotaJDialog;
     static Usuario user;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.persistence.EntityManager cplusPUEntityManager;
+    private javax.persistence.EntityManager entityManager;
     private javax.swing.JButton jButtonEditarSerial;
     private javax.swing.JButton jButtonExcluiSerial;
     private javax.swing.JButton jButtonExecutar;
-    private javax.swing.JButton jButtonListagemEntradas;
     private javax.swing.JButton jButtonPesquisar;
     private javax.swing.JCheckBox jCheckBoxDevolucao;
     private javax.swing.JComboBox jComboBoxManutencao;
@@ -1206,17 +1266,13 @@ public class RmaJFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPaneListagemEntradas;
     private javax.swing.JScrollPane jScrollPaneListagemSaidas;
     private javax.swing.JScrollPane jScrollPaneProdutoSerial;
-    private javax.swing.JTable jTableListagemEntradaSerial;
-    private javax.swing.JTable jTableListagemSaidasSerial;
+    private javax.swing.JTable jTableEntradaSerial;
     private javax.swing.JTable jTableProdutoSerial;
+    private javax.swing.JTable jTableSaidaSerial;
     private javax.swing.JTextField jTextFieldArgumentoPesquisa;
     private javax.swing.JTextField jTextFieldEstoqueCplus;
-    private java.util.List<entidade.cplus.Movendaprodserial> movendaprodserialList;
-    private javax.persistence.Query movendaprodserialQuery;
-    private java.util.List<entidade.cplus.Moventradaprodserial> moventradaprodserialList;
-    private javax.persistence.Query moventradaprodserialQuery;
-    private java.util.List<entidade.cplus.Produtoserial> produtoserialList;
-    private javax.persistence.Query produtoserialQuery;
+    private java.util.List<entidade.integrador.SerialProduto> serialProdutoList;
+    private javax.persistence.Query serialProdutoQuery;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }

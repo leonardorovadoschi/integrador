@@ -6,12 +6,15 @@
 
 package integrador.rma;
 
-import entidade.cplus.Movendaprodserial;
+//import entidade.cplus.Movendaprodserial;
+import entidade.integrador.SaidaSerial;
 import java.awt.Toolkit;
 import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
 import jpa.cplus.MovendaprodserialJpaController;
+import jpa.integrador.SaidaSerialJpaController;
 import query.cplus.QueryCplus;
+import query.integrador.QueryIntegrador;
 
 /**
  *
@@ -23,14 +26,17 @@ public class ListagemSerialSaidaJDialog extends javax.swing.JDialog {
      * Creates new form ListagemSerialSaidaJDialog
      * @param parent
      * @param modal
+     * @param managerIntegrador1
      * @param managerCplus1
      */
-    public ListagemSerialSaidaJDialog(java.awt.Frame parent, boolean modal, EntityManagerFactory managerCplus1) {
+    public ListagemSerialSaidaJDialog(java.awt.Frame parent, boolean modal, EntityManagerFactory managerIntegrador1) {
         super(parent, modal);
         initComponents();
-        managerCplus = managerCplus1;
-        queryCplus = new QueryCplus(managerCplus);
-        colunaCodMovProdSerial = jTableSaidaSerial.getColumnModel().getColumnIndex("Codmovendaprodserial");
+        //managerCplus = managerCplus1;
+        managerIntegrador = managerIntegrador1;
+        //queryCplus = new QueryCplus(managerCplus);
+        queryIntegrador = new QueryIntegrador(managerIntegrador);
+        colunaIdSaidaSerial = jTableSaidaSerial.getColumnModel().getColumnIndex("Id Saida Serial");
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
        // setCancelamento(true);
     }
@@ -45,9 +51,9 @@ public class ListagemSerialSaidaJDialog extends javax.swing.JDialog {
     private void initComponents() {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        cplusPUEntityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("cplusPU").createEntityManager();
-        movendaprodserialQuery = java.beans.Beans.isDesignTime() ? null : cplusPUEntityManager.createQuery("SELECT m FROM Movendaprodserial m where m.codmovendaprodserial = \"9999999\"");
-        movendaprodserialList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(movendaprodserialQuery.getResultList());
+        entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("integrador?zeroDateTimeBehavior=convertToNullPU").createEntityManager();
+        saidaSerialQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT s FROM SaidaSerial s where s.idSaidaSerial =1");
+        saidaSerialList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(saidaSerialQuery.getResultList());
         jLabelSerial = new javax.swing.JLabel();
         jTextFieldSerial = new javax.swing.JTextField();
         jCheckBoxSerialExato = new javax.swing.JCheckBox();
@@ -71,23 +77,36 @@ public class ListagemSerialSaidaJDialog extends javax.swing.JDialog {
 
         jTableSaidaSerial.setAutoCreateRowSorter(true);
         jTableSaidaSerial.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        jTableSaidaSerial.getTableHeader().setReorderingAllowed(false);
 
-        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, movendaprodserialList, jTableSaidaSerial);
-        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmovprod.codprod.nomeprod}"));
-        columnBinding.setColumnName("Descrição");
+        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, saidaSerialList, jTableSaidaSerial);
+        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${idSaidaSerial}"));
+        columnBinding.setColumnName("Id Saida Serial");
+        columnBinding.setColumnClass(Integer.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${idSerial.serial}"));
+        columnBinding.setColumnName("Id Serial");
         columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codprodutoserial.serial}"));
-        columnBinding.setColumnName("Serial");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmovprod.codmovenda.data}"));
-        columnBinding.setColumnName("Data");
-        columnBinding.setColumnClass(java.util.Date.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmovprod.codmovenda.nomecli}"));
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${idSerial.nomeProduto}"));
         columnBinding.setColumnName("Nome");
         columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmovendaprodserial}"));
-        columnBinding.setColumnName("Codmovendaprodserial");
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${dataSaida}"));
+        columnBinding.setColumnName("Data Saida");
+        columnBinding.setColumnClass(java.util.Date.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codSaidaProd}"));
+        columnBinding.setColumnName("Cod Saida Prod");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codSaida}"));
+        columnBinding.setColumnName("Cod Saida");
+        columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${devolvido}"));
+        columnBinding.setColumnName("Devolvido");
+        columnBinding.setColumnClass(Boolean.class);
         columnBinding.setEditable(false);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
@@ -100,7 +119,8 @@ public class ListagemSerialSaidaJDialog extends javax.swing.JDialog {
         if (jTableSaidaSerial.getColumnModel().getColumnCount() > 0) {
             jTableSaidaSerial.getColumnModel().getColumn(0).setPreferredWidth(300);
             jTableSaidaSerial.getColumnModel().getColumn(1).setPreferredWidth(200);
-            jTableSaidaSerial.getColumnModel().getColumn(3).setPreferredWidth(300);
+            jTableSaidaSerial.getColumnModel().getColumn(2).setPreferredWidth(350);
+            jTableSaidaSerial.getColumnModel().getColumn(4).setPreferredWidth(300);
         }
 
         jButtonCancelar.setText("Cancelar");
@@ -124,19 +144,17 @@ public class ListagemSerialSaidaJDialog extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabelSerial)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextFieldSerial, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jCheckBoxSerialExato, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 443, Short.MAX_VALUE)
-                        .addComponent(jButtonOk, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButtonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addComponent(jLabelSerial)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jTextFieldSerial, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jCheckBoxSerialExato, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 381, Short.MAX_VALUE)
+                .addComponent(jButtonOk, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButtonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -149,8 +167,7 @@ public class ListagemSerialSaidaJDialog extends javax.swing.JDialog {
                     .addComponent(jButtonCancelar)
                     .addComponent(jButtonOk))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE))
         );
 
         bindingGroup.bind();
@@ -159,13 +176,17 @@ public class ListagemSerialSaidaJDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextFieldSerialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldSerialActionPerformed
-      if(jCheckBoxSerialExato.isSelected()){
+      if(!"".equals(jTextFieldSerial.getText())){
+        if(jCheckBoxSerialExato.isSelected()){
           pesquisaSerialExato();
       }else{
           pesquisaSerial();
       }
       jButtonOk.setEnabled(false);
       jTextFieldSerial.setText("");
+      }else{
+          JOptionPane.showMessageDialog(null, "Deve ser digitado o serial!!! ");
+      }
     }//GEN-LAST:event_jTextFieldSerialActionPerformed
 
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
@@ -181,12 +202,12 @@ public class ListagemSerialSaidaJDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_jButtonOkActionPerformed
 
     private void finalizacao(){
-        colunaCodMovProdSerial = jTableSaidaSerial.getColumnModel().getColumnIndex("Codmovendaprodserial");        
-            String cod = jTableSaidaSerial.getValueAt(jTableSaidaSerial.getSelectedRow(), colunaCodMovProdSerial).toString();
+        colunaIdSaidaSerial = jTableSaidaSerial.getColumnModel().getColumnIndex("Id Saida Serial");        
+            String cod = jTableSaidaSerial.getValueAt(jTableSaidaSerial.getSelectedRow(), colunaIdSaidaSerial).toString();
             if (cod != null) {
-                setMovendaprodserial(new MovendaprodserialJpaController(managerCplus).findMovendaprodserial(cod));
+                setSaidaSerial(new SaidaSerialJpaController(managerIntegrador).findSaidaSerial(Integer.valueOf(cod)));
                 setCancelamento(false);
-                movendaprodserialList.clear();
+                saidaSerialList.clear();
                 dispose();
             } else {
                 JOptionPane.showMessageDialog(null, "O Código está nullo por favor verifique!!! ");
@@ -202,16 +223,16 @@ public class ListagemSerialSaidaJDialog extends javax.swing.JDialog {
     }
      
      private void pesquisaSerial(){
-        movendaprodserialList.clear();
-        for(Movendaprodserial vendaserial : queryCplus.listagemSaidaSerial(jTextFieldSerial.getText())){
-            movendaprodserialList.add(vendaserial);
+        saidaSerialList.clear();
+        for(SaidaSerial vendaserial : queryIntegrador.listSaidaSerialLike(jTextFieldSerial.getText())){
+            saidaSerialList.add(vendaserial);
         }
     }
      
     private void pesquisaSerialExato(){
-        movendaprodserialList.clear();
-        for(Movendaprodserial vendaserial : queryCplus.listagemSaidaSerialExato(jTextFieldSerial.getText())){
-            movendaprodserialList.add(vendaserial);
+         saidaSerialList.clear();
+        for(SaidaSerial vendaserial : queryIntegrador.listSaidaSerial(jTextFieldSerial.getText())){
+            saidaSerialList.add(vendaserial);
         }
     }
     /**
@@ -244,7 +265,7 @@ public class ListagemSerialSaidaJDialog extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                ListagemSerialSaidaJDialog dialog = new ListagemSerialSaidaJDialog(new javax.swing.JFrame(), true, managerCplus);
+                ListagemSerialSaidaJDialog dialog = new ListagemSerialSaidaJDialog(new javax.swing.JFrame(), true, managerIntegrador);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -256,11 +277,13 @@ public class ListagemSerialSaidaJDialog extends javax.swing.JDialog {
         });
     }
     
-    private Movendaprodserial movendaprodserial;
-    private QueryCplus queryCplus;
-    static EntityManagerFactory managerCplus;
+    private SaidaSerial saidaSerial;
+    //private final QueryCplus queryCplus;
+    private final QueryIntegrador queryIntegrador;
+    //private static EntityManagerFactory managerCplus;
+    private static EntityManagerFactory managerIntegrador;
     private boolean cancelamento;
-    private int colunaCodMovProdSerial;
+    private int colunaIdSaidaSerial;
 
     public boolean isCancelamento() {
         return cancelamento;
@@ -269,23 +292,21 @@ public class ListagemSerialSaidaJDialog extends javax.swing.JDialog {
     private void setCancelamento(boolean cancelamento) {
         this.cancelamento = cancelamento;
     }  
-    
-    /**
-     * Funï¿½ï¿½o que retorna objeto MovendaProdSerial
-     * @return 
-     */
-    public Movendaprodserial getMovendaprodserial() {
-        return movendaprodserial;
+
+    public SaidaSerial getSaidaSerial() {
+        return saidaSerial;
     }
 
-    public void setMovendaprodserial(Movendaprodserial movendaprodserial) {
-        this.movendaprodserial = movendaprodserial;
+    public void setSaidaSerial(SaidaSerial saidaSerial) {
+        this.saidaSerial = saidaSerial;
     }
+    
+   
     
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.persistence.EntityManager cplusPUEntityManager;
+    private javax.persistence.EntityManager entityManager;
     private javax.swing.JButton jButtonCancelar;
     private javax.swing.JButton jButtonOk;
     private javax.swing.JCheckBox jCheckBoxSerialExato;
@@ -293,8 +314,8 @@ public class ListagemSerialSaidaJDialog extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableSaidaSerial;
     private javax.swing.JTextField jTextFieldSerial;
-    private java.util.List<entidade.cplus.Movendaprodserial> movendaprodserialList;
-    private javax.persistence.Query movendaprodserialQuery;
+    private java.util.List<entidade.integrador.SaidaSerial> saidaSerialList;
+    private javax.persistence.Query saidaSerialQuery;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }

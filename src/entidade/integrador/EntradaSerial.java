@@ -5,6 +5,8 @@
  */
 
 package entidade.integrador;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -18,6 +20,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -29,6 +32,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 
 public class EntradaSerial implements Serializable {
+    @Transient
+    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -60,7 +65,9 @@ public class EntradaSerial implements Serializable {
     }
 
     public void setIdEntradaSerial(Integer idEntradaSerial) {
+        Integer oldIdEntradaSerial = this.idEntradaSerial;
         this.idEntradaSerial = idEntradaSerial;
+        changeSupport.firePropertyChange("idEntradaSerial", oldIdEntradaSerial, idEntradaSerial);
     }
 
     public String getCodEntrada() {
@@ -68,7 +75,9 @@ public class EntradaSerial implements Serializable {
     }
 
     public void setCodEntrada(String codEntrada) {
+        String oldCodEntrada = this.codEntrada;
         this.codEntrada = codEntrada;
+        changeSupport.firePropertyChange("codEntrada", oldCodEntrada, codEntrada);
     }
 
     public String getCodEntradaProd() {
@@ -76,7 +85,9 @@ public class EntradaSerial implements Serializable {
     }
 
     public void setCodEntradaProd(String codEntradaProd) {
+        String oldCodEntradaProd = this.codEntradaProd;
         this.codEntradaProd = codEntradaProd;
+        changeSupport.firePropertyChange("codEntradaProd", oldCodEntradaProd, codEntradaProd);
     }
 
     public Date getDataEntrada() {
@@ -84,7 +95,9 @@ public class EntradaSerial implements Serializable {
     }
 
     public void setDataEntrada(Date dataEntrada) {
+        Date oldDataEntrada = this.dataEntrada;
         this.dataEntrada = dataEntrada;
+        changeSupport.firePropertyChange("dataEntrada", oldDataEntrada, dataEntrada);
     }
 
     public Boolean getDevolvido() {
@@ -92,7 +105,9 @@ public class EntradaSerial implements Serializable {
     }
 
     public void setDevolvido(Boolean devolvido) {
+        Boolean oldDevolvido = this.devolvido;
         this.devolvido = devolvido;
+        changeSupport.firePropertyChange("devolvido", oldDevolvido, devolvido);
     }
 
     public SerialProduto getIdSerial() {
@@ -100,7 +115,9 @@ public class EntradaSerial implements Serializable {
     }
 
     public void setIdSerial(SerialProduto idSerial) {
+        SerialProduto oldIdSerial = this.idSerial;
         this.idSerial = idSerial;
+        changeSupport.firePropertyChange("idSerial", oldIdSerial, idSerial);
     }
 
     @Override
@@ -126,6 +143,14 @@ public class EntradaSerial implements Serializable {
     @Override
     public String toString() {
         return "jpa.integrador.EntradaSerial[ idEntradaSerial=" + idEntradaSerial + " ]";
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.removePropertyChangeListener(listener);
     }
     
 }

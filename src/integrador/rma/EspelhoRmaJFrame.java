@@ -9,22 +9,22 @@ package integrador.rma;
 import entidade.cplus.Cliente;
 import entidade.cplus.Documento;
 import entidade.cplus.Movendaprod;
-import entidade.cplus.Movendaprodserial;
 import entidade.cplus.Tipomovimento;
 import entidade.cplus.Unidade;
-import janela.cplus.FormataCampos;
-import janela.cplus.ListagemClientesJDialog;
-import janela.cplus.ListagemOperacaoJDialog;
-import query.cplus.QueryCplus;
+import entidade.integrador.SaidaSerial;
 import integrador.relatorio.ImprimeRelatorio;
 import integrador.render.RenderPorcentagem;
 import integrador.render.RenderPreco;
+import janela.cplus.FormataCampos;
+import janela.cplus.ListagemClientesJDialog;
+import janela.cplus.ListagemOperacaoJDialog;
 import java.awt.Toolkit;
 import java.math.BigDecimal;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import jpa.cplus.CfopJpaController;
 import jpa.cplus.MovendaprodJpaController;
+import query.cplus.QueryCplus;
 import query.integrador.QueryIntegrador;
 
 /**
@@ -45,12 +45,12 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
         managerIntegrador = managerIntegrador1;
         this.listagemClientesJDialog = new ListagemClientesJDialog(this, true, managerCplus);
         this.listagemOperacaoJDialog = new ListagemOperacaoJDialog(this, true, managerCplus);
-        this.listagemSerialSaidaJDialog = new ListagemSerialSaidaJDialog(this, true, managerCplus);
+        this.listagemSerialSaidaJDialog = new ListagemSerialSaidaJDialog(this, true, managerIntegrador);
         colunaCodMovendaProd = jTableItensEspelho.getColumnModel().getColumnIndex("Codmovprod");
         mensagem = "";
         queryIntegrador = new QueryIntegrador(managerIntegrador);
         //var = var1;
-        decimaisArredondamento = Integer.valueOf(queryIntegrador.valorConfiguracao("casas_decimais_ARREDONDAMENTO"));
+        //decimaisArredondamento = Integer.valueOf(queryIntegrador.valorConfiguracao("casas_decimais_ARREDONDAMENTO"));
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
     }
 
@@ -190,7 +190,7 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
             .addGroup(jPanelControleLayout.createSequentialGroup()
                 .addGap(0, 0, 0)
                 .addGroup(jPanelControleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonRemoverProduto, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
+                    .addComponent(jButtonRemoverProduto, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
                     .addComponent(jButtonInserir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButtonImprimir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButtonNovo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
@@ -230,11 +230,11 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
                             .addComponent(jTextFieldRazaoCliente, javax.swing.GroupLayout.DEFAULT_SIZE, 327, Short.MAX_VALUE)
                             .addComponent(jTextFieldNomeOperacao))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelDadosModeloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanelDadosModeloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanelDadosModeloLayout.createSequentialGroup()
                         .addGroup(jPanelDadosModeloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelCnpj, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabelIe, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabelCnpj, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabelIe, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanelDadosModeloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextFieldIe, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -260,7 +260,7 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
                 .addGroup(jPanelDadosModeloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonPesquisaCliente)
                     .addComponent(jButtonOperacao))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
                 .addGroup(jPanelDadosModeloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldNomeOperacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelDescricaoOperacao)
@@ -285,7 +285,7 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextFieldIe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
-            .addComponent(jPanelControle, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 121, Short.MAX_VALUE)
+            .addComponent(jPanelControle, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         jTableItensEspelho.setAutoCreateRowSorter(true);
@@ -424,7 +424,7 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonEditarMensagem))
-                .addContainerGap(65, Short.MAX_VALUE))
+                .addContainerGap(75, Short.MAX_VALUE))
         );
 
         bindingGroup.bind();
@@ -441,11 +441,11 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
                 jTextFieldIe.setText(cliente.getIdentidade());
                 jTextFieldNomeFantasia.setText(cliente.getNomecli());
             } else {
-                jTextFieldCnpj.setText(cliente.getCnpj());
+                jTextFieldCnpj.setText(new FormataCampos().mascaraCNPJ(cliente.getCnpj()));
                 jTextFieldIe.setText(cliente.getInscr());
                 jTextFieldRazaoCliente.setText(cliente.getConjfantasia());
                 jTextFieldNomeFantasia.setText(cliente.getNomecli());
-            }            
+            } 
             jButtonOperacao.setEnabled(true);
             jRadioButtonDevolucao.setEnabled(true);
             jRadioButtonTrocaEmGarantia.setEnabled(true);
@@ -571,9 +571,9 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
     private void insereSerial() {
         this.listagemSerialSaidaJDialog.setVisible(true);
         if (this.listagemSerialSaidaJDialog.isCancelamento() == false) {
-            Movendaprodserial serial = this.listagemSerialSaidaJDialog.getMovendaprodserial();
-            Movendaprod prod = new MovendaprodJpaController(managerCplus).findMovendaprod(serial.getCodmovprod().getCodmovprod());
-            Movendaprod prod1 = new MovendaprodJpaController(managerCplus).findMovendaprod(serial.getCodmovprod().getCodmovprod());;
+            SaidaSerial serial = this.listagemSerialSaidaJDialog.getSaidaSerial();
+            Movendaprod prod = new MovendaprodJpaController(managerCplus).findMovendaprod(serial.getCodSaidaProd());
+            Movendaprod prod1 = new MovendaprodJpaController(managerCplus).findMovendaprod(serial.getCodSaidaProd());;
             boolean condicao = true;            
             BigDecimal quantidadeEspelho = quantidadeConversaoSaida(prod);
             for (Movendaprod vendaProd : movendaprodList) {
@@ -630,8 +630,9 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
                             prod.setCstcofins("49");
                             prod.setCstpis("49");
                         }
-                        prod.getCodmovenda().setObs(mensagemNota(prod));
+                        prod.getCodmovenda().setObs(mensagemNota(prod));                      
                     }
+                    prod.getCodmovenda().setCodcli(cliente);
                     movendaprodList.add(prod);
                     condicao = false;
                 }                
@@ -780,15 +781,14 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
     
     private Cliente cliente;
     private Tipomovimento tipoMovimentoObjeto;
-    int colunaCodMovendaProd;
-    ListagemClientesJDialog listagemClientesJDialog;
-    ListagemOperacaoJDialog listagemOperacaoJDialog;
-    ListagemSerialSaidaJDialog listagemSerialSaidaJDialog;
-    static EntityManagerFactory managerCplus;    
-    static EntityManagerFactory managerIntegrador;    
+    private int colunaCodMovendaProd;
+    private final ListagemClientesJDialog listagemClientesJDialog;
+    private final ListagemOperacaoJDialog listagemOperacaoJDialog;
+    private final ListagemSerialSaidaJDialog listagemSerialSaidaJDialog;
+    private static EntityManagerFactory managerCplus;    
+    private static EntityManagerFactory managerIntegrador;    
     private String mensagem;
     private final QueryIntegrador queryIntegrador;    
-    private final int decimaisArredondamento;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroupOperacao;

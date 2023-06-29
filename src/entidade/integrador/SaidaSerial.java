@@ -6,6 +6,8 @@
 
 package entidade.integrador;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -19,6 +21,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -30,6 +33,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 
 public class SaidaSerial implements Serializable {
+    @Transient
+    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -61,7 +66,9 @@ public class SaidaSerial implements Serializable {
     }
 
     public void setIdSaidaSerial(Integer idSaidaSerial) {
+        Integer oldIdSaidaSerial = this.idSaidaSerial;
         this.idSaidaSerial = idSaidaSerial;
+        changeSupport.firePropertyChange("idSaidaSerial", oldIdSaidaSerial, idSaidaSerial);
     }
 
     public String getCodSaida() {
@@ -69,7 +76,9 @@ public class SaidaSerial implements Serializable {
     }
 
     public void setCodSaida(String codSaida) {
+        String oldCodSaida = this.codSaida;
         this.codSaida = codSaida;
+        changeSupport.firePropertyChange("codSaida", oldCodSaida, codSaida);
     }
 
     public String getCodSaidaProd() {
@@ -77,7 +86,9 @@ public class SaidaSerial implements Serializable {
     }
 
     public void setCodSaidaProd(String codSaidaProd) {
+        String oldCodSaidaProd = this.codSaidaProd;
         this.codSaidaProd = codSaidaProd;
+        changeSupport.firePropertyChange("codSaidaProd", oldCodSaidaProd, codSaidaProd);
     }
 
     public Date getDataSaida() {
@@ -85,7 +96,9 @@ public class SaidaSerial implements Serializable {
     }
 
     public void setDataSaida(Date dataSaida) {
+        Date oldDataSaida = this.dataSaida;
         this.dataSaida = dataSaida;
+        changeSupport.firePropertyChange("dataSaida", oldDataSaida, dataSaida);
     }
 
     public Boolean getDevolvido() {
@@ -93,7 +106,9 @@ public class SaidaSerial implements Serializable {
     }
 
     public void setDevolvido(Boolean devolvido) {
+        Boolean oldDevolvido = this.devolvido;
         this.devolvido = devolvido;
+        changeSupport.firePropertyChange("devolvido", oldDevolvido, devolvido);
     }
 
     public SerialProduto getIdSerial() {
@@ -101,7 +116,9 @@ public class SaidaSerial implements Serializable {
     }
 
     public void setIdSerial(SerialProduto idSerial) {
+        SerialProduto oldIdSerial = this.idSerial;
         this.idSerial = idSerial;
+        changeSupport.firePropertyChange("idSerial", oldIdSerial, idSerial);
     }
 
     @Override
@@ -127,6 +144,14 @@ public class SaidaSerial implements Serializable {
     @Override
     public String toString() {
         return "jpa.integrador.SaidaSerial[ idSaidaSerial=" + idSaidaSerial + " ]";
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.removePropertyChangeListener(listener);
     }
     
 }

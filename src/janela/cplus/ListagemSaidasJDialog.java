@@ -365,13 +365,27 @@ public class ListagemSaidasJDialog extends javax.swing.JDialog {
             }
     }
     
+    private boolean verificaSeForNumero(String txt) {
+        boolean condicao = true;
+        if (txt == null || txt.equals("")) {
+            return false;
+        }
+        for (int i = 0; i < txt.length(); i++) {
+            char c = txt.charAt(i);
+            if (c < '0' || c > '9') {
+                return false;
+            }
+        }
+        return condicao;
+    }
+    
     private void pesquisas(){           
         jLabelMensagem.setText("");
         List<Movenda> listMovenda;
          switch (jComboBoxTipoPesquisa.getSelectedIndex()) {
             case 0://por numero do pedido 
                 movendaList.clear();
-                if (!"".equals(jTextFieldTermoPesquisa.getText())) {
+                if (verificaSeForNumero(jTextFieldTermoPesquisa.getText())) {
                     listMovenda = queryCplus.listaMovendaPorNumeroPedido(Integer.parseInt(jTextFieldTermoPesquisa.getText()));
                      
                     if (listMovenda.size() < 1) {
@@ -381,6 +395,8 @@ public class ListagemSaidasJDialog extends javax.swing.JDialog {
                             movendaList.add(sai);
                         }
                     }  
+                }else{
+                    JOptionPane.showMessageDialog(null, "São aceitos apenas numeros!!! ");
                 }
                 break;
             case 1://por numero da nota
@@ -503,8 +519,8 @@ public class ListagemSaidasJDialog extends javax.swing.JDialog {
     }
   
     /**
-     * Funï¿½ï¿½o que retorna listagem cancelada pelo usuario
-     * @return true se estiver cancelado false se nï¿½o for cancelado
+     * Função que retorna listagem cancelada pelo usuario
+     * @return true se estiver cancelado false se não for cancelado
      */
     public boolean isCancelamento() {
         return cancelamento;

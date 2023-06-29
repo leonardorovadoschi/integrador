@@ -436,17 +436,17 @@ public class ControleRmaJFrame extends javax.swing.JFrame {
         List<Movendaproddevolucaocompra> lisSolucao;
         if(jRadioButtonSolucinarValorParcial.isSelected()){
             if(jTableControleRma.getSelectedRow() == -1){
-               JOptionPane.showMessageDialog(null, "Vocï¿½ deve selecionar uma linha na Tabela!!! ");
+               JOptionPane.showMessageDialog(null, "Você deve selecionar uma linha na Tabela!!! ");
             }else{
                 if("".equals(jTextFieldValorSolucionado.getText()) || "0".equals(jTextFieldValorSolucionado.getText())){
-                    JOptionPane.showMessageDialog(null, "Vocï¿½ deve Informar o valor");
+                    JOptionPane.showMessageDialog(null, "Você deve Informar o valor");
                 }else{
                 colunaCodDevolucao = jTableControleRma.getColumnModel().getColumnIndex("Codmovendaproddevolucaocompra");
                  lisSolucao = querySerial.listagemporcodigoMovProdDevolucao(jTableControleRma.getValueAt(jTableControleRma.getSelectedRow(), colunaCodDevolucao).toString());
                 for(Movendaproddevolucaocompra dev : lisSolucao){
                     BigDecimal valorTexto = formatacaoDeCampos.stringParaDecimal(jTextFieldValorSolucionado.getText(), decimaisArredondamento);
                     if(valorTexto.doubleValue() > dev.getValorcusto().doubleValue() || valorTexto.doubleValue() == 0.00){
-                        JOptionPane.showMessageDialog(null, "O valor nï¿½o pode ser maior que o valor pendente ou igual a 0.00!!! ");
+                        JOptionPane.showMessageDialog(null, "O valor não pode ser maior que o valor pendente ou igual a 0.00!!! ");
                     }else{
                    dev.setValorretornado(valorTexto);
                         try {
@@ -460,17 +460,17 @@ public class ControleRmaJFrame extends javax.swing.JFrame {
             }//fim else que verifica linha digitada
         }else if(jRadioButtonSolucionarItemParcial.isSelected()){
             if(jTableControleRma.getSelectedRow() == -1){
-               JOptionPane.showMessageDialog(null, "Vocï¿½ deve selecionar uma linha na Tabela!!! ");
+               JOptionPane.showMessageDialog(null, "Você deve selecionar uma linha na Tabela!!! ");
             }else{
                 if("".equals(jTextFieldQuantidadeSolucionada.getText()) || "0".equals(jTextFieldQuantidadeSolucionada.getText())){
-                    JOptionPane.showMessageDialog(null, "Vocï¿½ deve Informar o valor");
+                    JOptionPane.showMessageDialog(null, "Você deve Informar o valor");
                 }else{
                 colunaCodDevolucao = jTableControleRma.getColumnModel().getColumnIndex("Codmovendaproddevolucaocompra");
                 lisSolucao = querySerial.listagemporcodigoMovProdDevolucao(jTableControleRma.getValueAt(jTableControleRma.getSelectedRow(), colunaCodDevolucao).toString());
                 for(Movendaproddevolucaocompra dev : lisSolucao){
                     BigDecimal quantItens = formatacaoDeCampos.stringParaDecimal(jTextFieldQuantidadeSolucionada.getText(), decimaisArredondamento);
                     if(quantItens.doubleValue() > dev.getQuantidade().doubleValue()){
-                         JOptionPane.showMessageDialog(null, "A quantidade retornada nï¿½o pode ser maior que a quantidade enviada!!! ");
+                         JOptionPane.showMessageDialog(null, "A quantidade retornada não pode ser maior que a quantidade enviada!!! ");
                     }else{//fim if que verifica a quantidade digitada
                         dev.setQuantidaderetornada(quantItens);
                         BigDecimal valorRet = dev.getValorcusto().divide(dev.getQuantidade(), 3 ,BigDecimal.ROUND_HALF_UP);

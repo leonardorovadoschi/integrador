@@ -79,7 +79,7 @@
                   <Component id="jScrollPane1" min="-2" max="-2" attributes="0"/>
                   <Component id="jButtonEditarMensagem" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="65" max="32767" attributes="0"/>
+              <EmptySpace pref="75" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -119,11 +119,11 @@
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jLabelCnpj" min="-2" pref="41" max="-2" attributes="0"/>
-                              <Component id="jLabelIe" min="-2" pref="41" max="-2" attributes="0"/>
+                              <Component id="jLabelCnpj" max="32767" attributes="0"/>
+                              <Component id="jLabelIe" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
@@ -159,7 +159,7 @@
                       <Component id="jButtonPesquisaCliente" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jButtonOperacao" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="9" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jTextFieldNomeOperacao" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabelDescricaoOperacao" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -298,7 +298,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="0" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jButtonRemoverProduto" alignment="0" pref="159" max="32767" attributes="0"/>
+                          <Component id="jButtonRemoverProduto" alignment="0" pref="174" max="32767" attributes="0"/>
                           <Component id="jButtonInserir" max="32767" attributes="0"/>
                           <Component id="jButtonImprimir" max="32767" attributes="0"/>
                           <Component id="jButtonNovo" alignment="0" max="32767" attributes="0"/>
