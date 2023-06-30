@@ -44,8 +44,8 @@ public class ColorirTabelaEntradaSerial implements TableCellRenderer {
             foreground = Color.BLACK;
             background = Color.GREEN;
         } else {
-            foreground = Color.BLACK;
-            background = Color.RED;
+            foreground = Color.RED;
+            background = Color.WHITE;
         }
         /**
          * valor = String.valueOf(value); if (isSelected) { foreground =

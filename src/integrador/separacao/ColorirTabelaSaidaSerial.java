@@ -43,10 +43,10 @@ class ColorirTabelaSaidaSerial implements TableCellRenderer {
 
         if (quant == quant1) {
             foreground = Color.BLACK;
-            background = Color.GREEN;
+            background = Color.green;
         } else {
-            foreground = Color.BLACK;
-            background = Color.RED;
+            foreground = Color.RED;
+            background = Color.WHITE;
         }
         /**
          * valor = String.valueOf(value); if (isSelected) { foreground =

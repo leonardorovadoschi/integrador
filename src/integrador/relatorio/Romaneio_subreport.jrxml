@@ -11,7 +11,7 @@
 	</queryString>
 	<field name="serial" class="java.lang.String">
 		<fieldDescription><![CDATA[codprodutoserial.serial]]></fieldDescription>
-	</field>	
+	</field>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -34,7 +34,7 @@
 			<line>
 				<reportElement x="-1" y="-11" width="1" height="25" uuid="1020cbcd-0ddd-455d-8c29-2b303ddbf42b"/>
 			</line>
-			<textField>
+			<textField isStretchWithOverflow="true">
 				<reportElement x="11" y="0" width="530" height="11" isRemoveLineWhenBlank="true" uuid="eebfbd6e-ff46-4229-b365-f1b0eefa584b"/>
 				<textElement>
 					<font fontName="Arial" size="8"/>
