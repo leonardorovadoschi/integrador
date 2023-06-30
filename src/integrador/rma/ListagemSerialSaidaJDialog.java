@@ -11,9 +11,7 @@ import entidade.integrador.SaidaSerial;
 import java.awt.Toolkit;
 import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
-import jpa.cplus.MovendaprodserialJpaController;
 import jpa.integrador.SaidaSerialJpaController;
-import query.cplus.QueryCplus;
 import query.integrador.QueryIntegrador;
 
 /**
@@ -27,7 +25,6 @@ public class ListagemSerialSaidaJDialog extends javax.swing.JDialog {
      * @param parent
      * @param modal
      * @param managerIntegrador1
-     * @param managerCplus1
      */
     public ListagemSerialSaidaJDialog(java.awt.Frame parent, boolean modal, EntityManagerFactory managerIntegrador1) {
         super(parent, modal);

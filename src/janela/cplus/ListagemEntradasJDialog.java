@@ -297,7 +297,7 @@ public class ListagemEntradasJDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_jButtonCancelarActionPerformed
 
     private void cancelamento(){
-        int cancelar = JOptionPane.showConfirmDialog(null, " Deseja realmente cancelar? \n O processo ser√° encerrado!!", "Cancelar", JOptionPane.YES_NO_CANCEL_OPTION);
+        int cancelar = JOptionPane.showConfirmDialog(null, " Deseja realmente cancelar? \n O processo ser· encerrado!!", "Cancelar", JOptionPane.YES_NO_CANCEL_OPTION);
             if (cancelar == JOptionPane.YES_OPTION) {
                 setCancelamento(true);
                 dispose();
@@ -325,7 +325,7 @@ public class ListagemEntradasJDialog extends javax.swing.JDialog {
                     List<Moventrada> listMoventrada = queryCplus.resultadoPelaNotaEntrada(Integer.parseInt(this.jTextFieldTermoPesquisa.getText()));
                     moventradaList.clear();
                     if (listMoventrada.size() < 1) {
-                        JOptionPane.showMessageDialog(null, "N√£o foi encontrado resultado para essa pesquisa!!! ");
+                        JOptionPane.showMessageDialog(null, "N„o foi encontrado resultado para essa pesquisa!!! ");
                     } else {
                         for (Moventrada ent : listMoventrada) {
                             moventradaList.add(ent);
@@ -344,7 +344,7 @@ public class ListagemEntradasJDialog extends javax.swing.JDialog {
                         List<Moventrada> listMoventrada = queryCplus.resultadoPeloClienteEntrada(this.listagemClientesJDialog.getCliente().getCodcli());
                         moventradaList.clear();
                         if (listMoventrada.size() < 1) {
-                            JOptionPane.showMessageDialog(null, "N√£o foi encontrado resultado para essa pesquisa!!! ");
+                            JOptionPane.showMessageDialog(null, "N„o foi encontrado resultado para essa pesquisa!!! ");
                         } else {
                             for (Moventrada ent : listMoventrada) {
                                 moventradaList.add(ent);
@@ -366,7 +366,7 @@ public class ListagemEntradasJDialog extends javax.swing.JDialog {
     private void finalizacao(){
         colunaCodMovEntrada = jTableListagemEntradas.getColumnModel().getColumnIndex("Codmoventr");
         if (jTableListagemEntradas.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(null, "Voc√™ deve selecionar uma linha na tabela!!! ");
+            JOptionPane.showMessageDialog(null, "VocÍ deve selecionar uma linha na tabela!!! ");
         } else {
             String cod = jTableListagemEntradas.getValueAt(jTableListagemEntradas.getSelectedRow(), colunaCodMovEntrada).toString();
             if (cod != null) {
@@ -374,7 +374,7 @@ public class ListagemEntradasJDialog extends javax.swing.JDialog {
                 setCancelamento(false);
                 dispose();
             } else {
-                JOptionPane.showMessageDialog(null, "O C√≥digo est√° nullo por favor verifique!!! ");
+                JOptionPane.showMessageDialog(null, "O CÛdigo est· nullo por favor verifique!!! ");
             }
         }
     }

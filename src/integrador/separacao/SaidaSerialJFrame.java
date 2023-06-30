@@ -9,6 +9,8 @@ import acesso.ListagemUsuarioJDialog;
 import entidade.cplus.Movenda;
 import entidade.cplus.Movendaprod;
 import entidade.cplus.Movendaprodserial;
+import entidade.cplus.Produto;
+import entidade.cplus.Produtocodigo;
 import entidade.cplus.Produtoserial;
 import entidade.cplus.Unidade;
 import entidade.integrador.IntConfiguracao;
@@ -30,6 +32,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import jpa.cplus.MovendaJpaController;
+import jpa.cplus.ProdutoJpaController;
 import jpa.cplus.exceptions.NonexistentEntityException;
 import jpa.integrador.IntConfiguracaoJpaController;
 import jpa.integrador.IntLogsJpaController;
@@ -413,10 +416,10 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
     private void jButtonImprimirRomaneioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonImprimirRomaneioActionPerformed
         if (movenda != null) {
             List<Movendaprod> movendaprodList = new ArrayList<>();
-            for(Movendaprod movProd : movenda.getMovendaprodCollection()){               
+            for (Movendaprod movProd : movenda.getMovendaprodCollection()) {
                 movendaprodList.add(movProd);
                 List<Movendaprodserial> listMovSerial = new ArrayList<>();
-                for(SaidaSerial sai : queryIntegrador.listPorSaidaProd(movProd.getCodmovprod())){
+                for (SaidaSerial sai : queryIntegrador.listPorSaidaProd(movProd.getCodmovprod())) {
                     Produtoserial serp = new Produtoserial();
                     serp.setCodprodutoserial(sai.getIdSerial().getIdSerial().toString());
                     serp.setCodprod(movProd.getCodprod());
@@ -424,12 +427,12 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
                     Movendaprodserial sp = new Movendaprodserial();
                     sp.setCodmovendaprodserial(sai.getIdSaidaSerial().toString());
                     sp.setCodmovprod(movProd);
-                    sp.setCodprodutoserial(serp);                  
+                    sp.setCodprodutoserial(serp);
                     listMovSerial.add(sp);
                 }
                 movProd.setMovendaprodserialCollection(listMovSerial);
             }
-             new ImprimeRelatorio().imprimeRelatorio(queryIntegrador.valorConfiguracao("caminho_RELATORIO_ROMANEIO_SERIAIS"), movendaprodList);
+            new ImprimeRelatorio().imprimeRelatorio(queryIntegrador.valorConfiguracao("caminho_RELATORIO_ROMANEIO_SERIAIS"), movendaprodList);
         }
     }//GEN-LAST:event_jButtonImprimirRomaneioActionPerformed
 
@@ -446,7 +449,7 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
             boolean condicao = false;
             boolean noPedido = false;
             if (listSer.size() == 1) {
-                if (queryCplus.resultPorEanProduto(jTextFieldSerial.getText().toUpperCase().trim()).size() < 1) {
+                if (verificaCodigos(listSer, jTextFieldSerial.getText().toUpperCase().trim())) {
                     for (SerialProduto ser : listSer) {
                         int quantVenda = 0;
                         for (Movendaprod movProd : listaProdutoPedido) {
@@ -490,6 +493,23 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
         jTextFieldSerial.selectAll();
         jTextFieldSerial.setText("");
         jTextFieldSerial.requestFocus();
+    }
+
+    private boolean verificaCodigos(List<SerialProduto> listSer, String textoDigitado) {
+        boolean condicao = true;
+        for (SerialProduto ser : listSer) {
+            Produto produto = new ProdutoJpaController(managerCplus).findProduto(ser.getCodProduto());
+            if (produto.getCodigo() == null ? textoDigitado == null : produto.getCodigo().equals(textoDigitado)) {
+                condicao = false;
+            } else {
+                for (Produtocodigo cod : produto.getProdutocodigoCollection()) {
+                    if (cod.getCodigo() == null ? textoDigitado == null : cod.getCodigo().equals(textoDigitado)) {
+                        condicao = false;
+                    }
+                }
+            }
+        }
+        return condicao;
     }
 
     private void manutencaoDeErro(String mensagem) {
@@ -769,13 +789,13 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
                 for (SaidaSerial sai : queryIntegrador.listPorSaidaProd(vend.getCodmovprod())) {
                     romaneio = romaneio + sai.getIdSerial().getSerial() + ", ";
                 }
-                romaneio = romaneio + "\n";
+                romaneio = romaneio + "  ";
             }
             movenda.setObsnotafiscal(romaneio);
             try {
                 new MovendaJpaController(managerCplus).edit(movenda);
             } catch (NonexistentEntityException ex) {
-               JOptionPane.showMessageDialog(null, "ERRO AO EDITAR MOVENDA, Verifique!! \n" + ex, "Erro Separar", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "ERRO AO EDITAR MOVENDA, Verifique!! \n" + ex, "Erro Separar", JOptionPane.ERROR_MESSAGE);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, "ERRO AO EDITAR MOVENDA, Verifique!! \n" + ex, "Erro Separar", JOptionPane.ERROR_MESSAGE);
             }
