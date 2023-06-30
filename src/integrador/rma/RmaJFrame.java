@@ -836,9 +836,13 @@ public class RmaJFrame extends javax.swing.JFrame {
         } while (cancelaSaidaFornecedor);
         // }
         if (cancelaSaidaFornecedor == false) {
+            
+
             if (new SaidaFornecedorCplus().saidaFornecedorCplus(controlaEstoque, movimentoSaidaFornecedor, calculoIcmsEstado, fornecedor, entradaProd, serial, user, managerCplus, managerIntegrador) == false) {
                 cancelaSaidaFornecedor = true;
             }
+            
+            
         }
         return cancelaSaidaFornecedor;
     }
@@ -943,9 +947,13 @@ public class RmaJFrame extends javax.swing.JFrame {
         }//fim if cancelamento                     
         //Cliente clien = new ClienteJpaController(managerCplus).findCliente(codigoCliente);
         if (cancelaEntradaCliente == false) {
+          
+            
             if (new EntradaClienteCplus().entradaClienteCplus(movimentoEntradaCliente, calculoIcmsEstado, cliente, vendaProd, serial, user, managerCplus, managerIntegrador) == false) {
                 cancelaEntradaCliente = true;
             }
+            
+            
         }
         return cancelaEntradaCliente;
     }
@@ -957,7 +965,7 @@ public class RmaJFrame extends javax.swing.JFrame {
     private void saidaClienteRma(boolean controlaEstoque) {
         boolean cancelaSaidaCliente = false;
         String codigoCliente = "";
-        String codMovProdSaida = "";
+       // String codMovProdSaida = "";
         Cliente cliente = null;
         //Movendaprod vendaProd = null;
         Tipomovimento movimentoSaidaCliente = null;
@@ -1001,12 +1009,12 @@ public class RmaJFrame extends javax.swing.JFrame {
             } else {
                 cancelaSaidaCliente = true;
             }
-            if (cancelaSaidaCliente == false) {
+            //if (cancelaSaidaCliente == false) {
                 //movimento de saida cliente
                 //colunaCodMovProdutoSaida = jTableSaidaSerial.getColumnModel().getColumnIndex("id Saida Serial");
                 //codMovProdSaida = jTableSaidaSerial.getValueAt(jTableSaidaSerial.getSelectedRow(), colunaCodMovProdutoSaida).toString();
-                vendaProd = new MovendaprodJpaController(managerCplus).findMovendaprod(codMovProdSaida);
-            }
+               // vendaProd = new MovendaprodJpaController(managerCplus).findMovendaprod(codMovProdSaida);
+            //}
             if (cancelaSaidaCliente == false) {
                 //licalização calculo ICMS por estado                    
                 List<Calculoicmsestado> listIcmsPorEstado;
