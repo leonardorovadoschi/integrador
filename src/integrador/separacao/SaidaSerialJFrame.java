@@ -765,7 +765,7 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
         if (quanMovendaProd == quantidadeSerial && separando) {
             String romaneio = "";
             for (Movendaprod vend : listaProdutoPedido) {
-                romaneio = romaneio + vend.getCodprod().getCodigo() + "-";
+                romaneio = romaneio + vend.getCodprod().getCodigo() + ": ";
                 for (SaidaSerial sai : queryIntegrador.listPorSaidaProd(vend.getCodmovprod())) {
                     romaneio = romaneio + sai.getIdSerial().getSerial() + ", ";
                 }

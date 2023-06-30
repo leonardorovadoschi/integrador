@@ -12,6 +12,7 @@ import entidade.cplus.Produtocodigo;
 import entidade.cplus.Unidade;
 import entidade.integrador.EntradaSerial;
 import entidade.integrador.SerialProduto;
+import integrador.relatorio.ImprimeRelatorio;
 import java.awt.Toolkit;
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -82,6 +83,7 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
         jPanelInformacoes = new javax.swing.JPanel();
         jButtonExcluirTodosSeriaisDigitados = new javax.swing.JButton();
         jButtonExcluirSerialSelecionado = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Processo de Entrada de Seriais");
@@ -233,22 +235,33 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
             }
         });
 
+        jButton1.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jButton1.setText("Imprimir Seriais");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelInformacoesLayout = new javax.swing.GroupLayout(jPanelInformacoes);
         jPanelInformacoes.setLayout(jPanelInformacoesLayout);
         jPanelInformacoesLayout.setHorizontalGroup(
             jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelInformacoesLayout.createSequentialGroup()
-                .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButtonExcluirTodosSeriaisDigitados, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jButtonExcluirSerialSelecionado, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE))
+            .addGroup(jPanelInformacoesLayout.createSequentialGroup()
+                .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonExcluirTodosSeriaisDigitados, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 207, Short.MAX_VALUE)
+                    .addComponent(jButtonExcluirSerialSelecionado, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanelInformacoesLayout.setVerticalGroup(
             jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelInformacoesLayout.createSequentialGroup()
-                .addGap(21, 21, 21)
+                .addContainerGap(21, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonExcluirSerialSelecionado)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonExcluirTodosSeriaisDigitados))
         );
 
@@ -273,7 +286,7 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
                 .addComponent(jPanelControle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 374, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanelInformacoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))))
@@ -334,6 +347,14 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
             setVisible(false);
         }
     }//GEN-LAST:event_jButtonCancelarEntradaActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+       List<SerialProduto> listText = new ArrayList<>();
+        for(EntradaSerial s : queryIntegrador.listPorEntradaProd(movEntradaProd.getCodmoveprod())){
+            listText.add(s.getIdSerial());
+        }
+        new ImprimeRelatorio().imprimeRelatorio(queryIntegrador.valorConfiguracao("caminho_ENTRADA_SERIAL"), listText);
+    }//GEN-LAST:event_jButton1ActionPerformed
     
     private void excluirSerialSelecionado() {
         DefaultTableModel tabelaEntradaSerial = (DefaultTableModel) jTableSerialDigitado.getModel();
@@ -664,6 +685,7 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
     private int quantidadePacote;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonCancelarEntrada;
     private javax.swing.JButton jButtonExcluirSerialSelecionado;
     private javax.swing.JButton jButtonExcluirTodosSeriaisDigitados;

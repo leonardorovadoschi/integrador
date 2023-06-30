@@ -201,6 +201,7 @@ public class ListagemClientesJDialog extends javax.swing.JDialog {
             jTablelistagemClientes.getColumnModel().getColumn(1).setMinWidth(150);
             jTablelistagemClientes.getColumnModel().getColumn(1).setPreferredWidth(350);
             jTablelistagemClientes.getColumnModel().getColumn(1).setMaxWidth(500);
+            jTablelistagemClientes.getColumnModel().getColumn(2).setPreferredWidth(120);
             jTablelistagemClientes.getColumnModel().getColumn(5).setPreferredWidth(200);
             jTablelistagemClientes.getColumnModel().getColumn(6).setCellRenderer(new RenderVendasCliente ());
         }
