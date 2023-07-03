@@ -20,15 +20,15 @@
 			<textField isStretchWithOverflow="true">
 				<reportElement x="0" y="0" width="210" height="30" uuid="0381dc07-4b4c-43a2-8915-8e48fe95c73f"/>
 				<textElement textAlignment="Center">
-					<font fontName="Arial Black" size="11" isBold="true" isItalic="false" isUnderline="false"/>
+					<font fontName="DejaVu Sans" size="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 					<paragraph lineSpacing="Proportional"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{nomeProduto}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[" "+$F{nomeProduto}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="0" y="84" width="210" height="16" uuid="283a965e-adcb-4a9c-afc2-6f7178d1d093"/>
 				<textElement textAlignment="Center">
-					<font fontName="Arial Black" size="9" isBold="false"/>
+					<font fontName="DejaVu Sans" size="9" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{serial}]]></textFieldExpression>
 			</textField>
