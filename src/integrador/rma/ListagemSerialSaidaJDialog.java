@@ -48,7 +48,7 @@ public class ListagemSerialSaidaJDialog extends javax.swing.JDialog {
     private void initComponents() {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("integrador?zeroDateTimeBehavior=convertToNullPU").createEntityManager();
+        entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("integradorPU").createEntityManager();
         saidaSerialQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT s FROM SaidaSerial s where s.idSaidaSerial =1");
         saidaSerialList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(saidaSerialQuery.getResultList());
         jLabelSerial = new javax.swing.JLabel();

@@ -33,10 +33,10 @@
 				<textFieldExpression><![CDATA[$F{serial}]]></textFieldExpression>
 			</textField>
 			<componentElement>
-				<reportElement mode="Transparent" x="0" y="34" width="210" height="50" uuid="1245d7dc-07de-4e2b-ad50-ea83f9b4d8d9"/>
-				<jr:barbecue xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" type="Code128C" drawText="false" checksumRequired="false" barWidth="0" barHeight="32">
+				<reportElement x="0" y="30" width="210" height="50" uuid="bd8b7a27-edd7-47c1-8b27-f52c8dcd6781"/>
+				<jr:Code128 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" moduleWidth="1.5" textPosition="none">
 					<jr:codeExpression><![CDATA[$F{serial}]]></jr:codeExpression>
-				</jr:barbecue>
+				</jr:Code128>
 			</componentElement>
 		</band>
 	</detail>

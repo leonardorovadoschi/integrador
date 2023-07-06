@@ -39,7 +39,6 @@ import jpa.cplus.exceptions.NonexistentEntityException;
 import jpa.integrador.IntConfiguracaoJpaController;
 import jpa.integrador.IntExecucaoJpaController;
 import jpa.integrador.IntLogsJpaController;
-import jpa.prestaShop.PsCustomerJpaController;
 import pedido.AtualizaPedidoCplusDigimacro;
 import pedido.ManutencaoCarrinhoSite;
 import produto.ProdutoCplusDigimacro;

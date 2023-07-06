@@ -8,9 +8,10 @@ package pedido;
 import entidade.cplus.Contareceber;
 import entidade.cplus.Movenda;
 import entidade.cplus.Movendaprod;
-import entidade.cplus.Movendaprodserial;
+//import entidade.cplus.Movendaprodserial;
 import entidade.cplus.Unidade;
 import entidade.integrador.IntLogs;
+import entidade.integrador.SaidaSerial;
 import entidade.prestaShop.PsOrderDetail;
 import entidade.prestaShop.PsOrderHistory;
 import entidade.prestaShop.PsOrderInvoice;
@@ -33,6 +34,7 @@ import jpa.prestaShop.PsOrderPaymentJpaController;
 import jpa.prestaShop.PsOrdersJpaController;
 import jpa.prestaShop.PsProductJpaController;
 import jpa.prestaShop.PsStockAvailableJpaController;
+import query.integrador.QueryIntegrador;
 import query.prestaShop.QueryPrestaShop;
 
 /**
@@ -55,28 +57,28 @@ public class AtualizaPedidoCplusDigimacro {
      * Função que cuida da atualização do pedido, faz as operações no integrador
      * e no Magento
      *
-     * @param managerIntegracao
+     * @param managerIntegrador
      * @param managerDigimacro seria da loja em que vai ser atualizado
      * @param managerCplus
      * @param order
      * @return false se houve erros
      */
-    public boolean atualizarPedido(EntityManagerFactory managerIntegracao, EntityManagerFactory managerDigimacro, EntityManagerFactory managerCplus, PsOrders order) {
+    public boolean atualizarPedido(EntityManagerFactory managerIntegrador, EntityManagerFactory managerDigimacro, EntityManagerFactory managerCplus, PsOrders order) {
         setCondicaoErro(true);
         List<Movenda> listmovenda = new QueryCplus(managerCplus).resultMovendaPorEntregaTelefone(order.getReference(), 'N');
         if (listmovenda.size() == 1) {
             for (Movenda movenda : listmovenda) {
-                if (pedidoSeparado(movenda, managerCplus)) {//if que verifica se pedido já foi separado    
-                    criaLog(new Date(System.currentTimeMillis()), ", Pedido Atualizado Nº Pedido: " + movenda.getNumped(), "Edição", managerIntegracao);
-                    atualizaPedido(true, managerCplus, managerDigimacro, managerIntegracao, order, movenda);
+                if (pedidoSeparado(movenda, managerCplus, managerIntegrador)) {//if que verifica se pedido já foi separado    
+                    criaLog(new Date(System.currentTimeMillis()), ", Pedido Atualizado Nº Pedido: " + movenda.getNumped(), "Edição", managerIntegrador);
+                    atualizaPedido(true, managerCplus, managerDigimacro, managerIntegrador, order, movenda);
                 } else {//fim if que verifica se o pedido já foi separado
-                    criaLog(new Date(System.currentTimeMillis()), ", Pedido não Separado Nº pedido: " + movenda.getNumped(), "Erro Edição", managerIntegracao);
-                    atualizaPedido(false, managerCplus, managerDigimacro, managerIntegracao, order, movenda);
+                    criaLog(new Date(System.currentTimeMillis()), ", Pedido não Separado Nº pedido: " + movenda.getNumped(), "Erro Edição", managerIntegrador);
+                    atualizaPedido(false, managerCplus, managerDigimacro, managerIntegrador, order, movenda);
                 }
             }//fim for movenda
         } else if (listmovenda.size() > 1) {
             for (Movenda movenda : listmovenda) {
-                criaLog(new Date(System.currentTimeMillis()), ", Existe mais que um pedido com o memo ENTREGATELEFONE, pedido C-Plus: " + movenda.getNumped(), "Erro Atualização Pedido", managerIntegracao);
+                criaLog(new Date(System.currentTimeMillis()), ", Existe mais que um pedido com o memo ENTREGATELEFONE, pedido C-Plus: " + movenda.getNumped(), "Erro Atualização Pedido", managerIntegrador);
             }
         }
         return isCondicaoErro();
@@ -148,19 +150,19 @@ public class AtualizaPedidoCplusDigimacro {
         }
     }
 
-    private String mensagemEntrega(EntityManagerFactory managerCplus, PsOrders order) {
+    private String mensagemEntrega(EntityManagerFactory managerIntegrador, EntityManagerFactory managerCplus, PsOrders order) {
         String mensagem = "Seriais Dos Produtos: <br/>";
-        QueryCplus querySerial = new QueryCplus(managerCplus);
-        List<Movendaprod> listProdSaida = querySerial.listMovendaProdEntregaTelefone(order.getReference());
+        //QueryCplus querySerial = new QueryCplus(managerCplus);
+        List<Movendaprod> listProdSaida = new QueryCplus(managerCplus).listMovendaProdEntregaTelefone(order.getReference());
         for (Movendaprod prod : listProdSaida) {
             mensagem = mensagem + prod.getCodprod().getNomeprod() + ": <br/>";
             int contSerial = 0;
-            for (Movendaprodserial ser : querySerial.listagemSaidaSerialPorMovProduto(prod.getCodmovprod())) {
+            for (SaidaSerial ser : new QueryIntegrador(managerIntegrador).listPorSaidaProd(prod.getCodmovprod())) {
                 contSerial++;
                 if (contSerial == 1) {
-                    mensagem = mensagem + ser.getCodprodutoserial().getSerial();
+                    mensagem = mensagem + ser.getIdSerial().getSerial();
                 } else {
-                    mensagem = mensagem + ", " + ser.getCodprodutoserial().getSerial();
+                    mensagem = mensagem + ", " + ser.getIdSerial().getSerial();
                 }
                 if (contSerial > 5) {
                     contSerial = 0;
@@ -172,14 +174,14 @@ public class AtualizaPedidoCplusDigimacro {
         return mensagem;
     }
 
-    private boolean pedidoSeparado(Movenda movenda, EntityManagerFactory managerCplus) {
+    private boolean pedidoSeparado(Movenda movenda, EntityManagerFactory managerCplus, EntityManagerFactory managerIntegrador) {
         boolean condicao = false;
         List<Movendaprod> listMovendaProd = new QueryCplus(managerCplus).listMovendaProd(movenda.getCodmovenda());
         int quanMovendaProd = 0;
         for (Movendaprod prod : listMovendaProd) {
             quanMovendaProd = quanMovendaProd + quantidadeSaida(prod, managerCplus);
         }
-        List<Movendaprodserial> listSerial = new QueryCplus(managerCplus).listSerialSaida(movenda.getCodmovenda());
+        List<SaidaSerial> listSerial = new QueryIntegrador(managerIntegrador).listPorSaida(movenda.getCodmovenda());
         if (quanMovendaProd == listSerial.size()) {
             condicao = true;
         }
