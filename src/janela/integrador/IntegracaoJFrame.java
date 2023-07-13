@@ -733,7 +733,7 @@ public class IntegracaoJFrame extends javax.swing.JFrame {
                     if (1 == order.getCurrentState()) {
                         jProgressBarIntegrador.setString(String.valueOf("Atualizando Pedido: " + text + " Não Faturado"));
                     } else {
-                        jProgressBarIntegrador.setString(String.valueOf("Atualizando Pedido: " + order.getReference() + " Numero Pedido: " + order.getReference()));
+                        jProgressBarIntegrador.setString(String.valueOf("Atualizando Pedido: " + order.getReference() + " Numero Pedido: " + order.getIdOrder()));
                     }
                     new AtualizaPedidoCplusDigimacro().atualizarPedido(managerIntegrador, managerPrestaShop, managerCplus, order);
                     cont++;

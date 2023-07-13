@@ -84,43 +84,6 @@ public class AtualizaPedidoCplusDigimacro {
         return isCondicaoErro();
     }
 
-    private String mensagemInvoice(Contareceber contaCplus) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        String mens = "";
-        if (contaCplus.getDatpag() != null) {
-            mens = "Fatura Nº " + contaCplus.getNumdoc() + ", Quitada: " + simpleDateFormat.format(contaCplus.getDatpag());
-        } else {
-            if (contaCplus.getNossonumero() == null) {
-                mens = "Fatura Nº " + contaCplus.getNumdoc() + ", Vencimento: " + simpleDateFormat.format(contaCplus.getDatvenc());
-            } else {
-                if ("000003".equals(contaCplus.getCodcontabancaria().getCodigo())) {//referente a cobrança sicredi
-                    CalculoBoletoSicredi cbs = new CalculoBoletoSicredi();
-                    cbs.atualizandoCalculos(contaCplus);
-                    mens = "Fatura Nº " + contaCplus.getNumdoc() + ", Vencimento: " + simpleDateFormat.format(contaCplus.getDatvenc()) + " <br/><br/>"
-                            + "Nosso Número: " + cbs.getNossoNumeroCompleto() + " <br/><br/>"
-                            + "Linha Digitável: <br/>" + cbs.getLinhaDigitalizavel() + " <br/><br/>"
-                            + "<p><a title=\"boleto sicredi\" href=\"https://si-web.sicredi.com.br/boletoweb/BoletoWeb.servicos.Index.task\" target=\"_blank\"><span style=\"font-size: medium;\">2&ordm; Via do Boleto</span></a></p>"
-                            + "CPF/CNPJ do Beneficiário: 14097248/0001-27 <br/>CPF/CNPJ do Pagador: " + contaCplus.getCodcli().getCnpj() + " <br/>Nosso Número: " + cbs.getNossoNumeroCompleto() + " <br/><br/>";
-                } else if ("000002".equals(contaCplus.getCodcontabancaria().getCodigo())) {//referente cobrança banco do brasil
-                    mens = "Nº Documento: " + contaCplus.getNumdoc() + ", Vencimento: " + simpleDateFormat.format(contaCplus.getDatvenc()) + " <br/><br/>"
-                            + "<p><a title=\"boleto sicredi\" href=\"https://www63.bb.com.br/portalbb/boleto/boletos/hc21e,802,3322,10343.bbx?_ga=2.141079474.1457188320.1534447224-369634774.1533134572\" target=\"_blank\"><span style=\"font-size: medium;\">2&ordm; Via do Boleto</span></a></p>"
-                            + "CPF/CNPJ do Cedente: 14.097.248/0001-27 <br/>CPF/CNPJ do Sacado: " + contaCplus.getCodcli().getCnpj() + " <br/>Nosso Número: " + contaCplus.getNossonumero().toString() + " <br/><br/>";
-                }
-            }
-        }
-        return mens;
-    }
-
-    private Integer calculaState(Contareceber contasReceber) {
-        int valor;
-        if ("Y".equals(contasReceber.getFlagpago().toString())) {
-            valor = 2;
-        } else {
-            valor = 1;
-        }
-        return valor;
-    }
-
     private void atualizaPedido(boolean separado, EntityManagerFactory managerCplus, EntityManagerFactory managerDigimacro, EntityManagerFactory managerIntegracao, PsOrders order, Movenda movenda) {
         int currentState;
         if (separado) {
@@ -150,30 +113,6 @@ public class AtualizaPedidoCplusDigimacro {
         }
     }
 
-    private String mensagemEntrega(EntityManagerFactory managerIntegrador, EntityManagerFactory managerCplus, PsOrders order) {
-        String mensagem = "Seriais Dos Produtos: <br/>";
-        //QueryCplus querySerial = new QueryCplus(managerCplus);
-        List<Movendaprod> listProdSaida = new QueryCplus(managerCplus).listMovendaProdEntregaTelefone(order.getReference());
-        for (Movendaprod prod : listProdSaida) {
-            mensagem = mensagem + prod.getCodprod().getNomeprod() + ": <br/>";
-            int contSerial = 0;
-            for (SaidaSerial ser : new QueryIntegrador(managerIntegrador).listPorSaidaProd(prod.getCodmovprod())) {
-                contSerial++;
-                if (contSerial == 1) {
-                    mensagem = mensagem + ser.getIdSerial().getSerial();
-                } else {
-                    mensagem = mensagem + ", " + ser.getIdSerial().getSerial();
-                }
-                if (contSerial > 5) {
-                    contSerial = 0;
-                    mensagem = mensagem + " <br/>";
-                }
-            }
-            mensagem = mensagem + " <br/> <br/>";
-        }
-        return mensagem;
-    }
-
     private boolean pedidoSeparado(Movenda movenda, EntityManagerFactory managerCplus, EntityManagerFactory managerIntegrador) {
         boolean condicao = false;
         List<Movendaprod> listMovendaProd = new QueryCplus(managerCplus).listMovendaProd(movenda.getCodmovenda());
@@ -182,7 +121,7 @@ public class AtualizaPedidoCplusDigimacro {
             quanMovendaProd = quanMovendaProd + quantidadeSaida(prod, managerCplus);
         }
         List<SaidaSerial> listSerial = new QueryIntegrador(managerIntegrador).listPorSaida(movenda.getCodmovenda());
-        if (quanMovendaProd == listSerial.size()) {
+        if (quanMovendaProd == listSerial.size()) {         
             condicao = true;
         }
         return condicao;
