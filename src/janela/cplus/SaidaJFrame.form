@@ -7,25 +7,6 @@
         <Property name="persistenceUnit" type="java.lang.String" value="cplusPU"/>
       </Properties>
     </Component>
-    <Component class="javax.persistence.Query" name="movendaQuery">
-      <Properties>
-        <Property name="query" type="java.lang.String" value="SELECT ven FROM Movenda ven WHERE ven.numped =99999"/>
-        <Property name="entityManager" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$EMProperty$EntityManagerEditor">
-          <ComponentRef name="entityManager"/>
-        </Property>
-      </Properties>
-    </Component>
-    <Component class="java.util.List" name="movendaList">
-      <Properties>
-        <Property name="query" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$QueryBeanProperty$QueryEditor">
-          <ComponentRef name="movendaQuery"/>
-        </Property>
-        <Property name="observable" type="boolean" value="true"/>
-      </Properties>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;entidade.cplus.Movenda&gt;"/>
-      </AuxValues>
-    </Component>
     <Component class="javax.persistence.Query" name="movendaprodQuery">
       <Properties>
         <Property name="query" type="java.lang.String" value="SELECT ven FROM Movendaprod ven WHERE ven.codmovenda.codmovenda = &quot;5555555&quot;"/>
@@ -914,7 +895,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jPanelEdicao" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane2" max="32767" attributes="0"/>
+                      <Component id="jScrollPane2" pref="459" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -934,21 +915,22 @@
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace min="-2" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                              <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Group type="102" alignment="1" attributes="0">
                                   <Component id="jPanelValorProduto" pref="0" max="32767" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Component id="jPanelIPI" min="-2" pref="165" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jPanelSubsTrib" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="95" max="-2" attributes="0"/>
                               </Group>
-                              <Group type="102" attributes="0">
+                              <Group type="102" alignment="1" attributes="0">
                                   <Component id="jPanelPisCofins" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
-                                  <Component id="jPanelIcms" min="-2" pref="481" max="-2" attributes="0"/>
+                                  <Component id="jPanelIcms" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <EmptySpace min="-2" pref="95" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -1354,12 +1336,12 @@
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                                      <Component id="jTextFieldCfopProduto" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabelCfop" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="jTextFieldValorSTProd" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabelValorSTProd" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Group type="103" alignment="3" groupAlignment="3" attributes="0">
-                                          <Component id="jTextFieldCfopProduto" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jLabelCfop" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      </Group>
                                   </Group>
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="jLabelBaseSTProd" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -1488,10 +1470,13 @@
                           <Group type="102" attributes="0">
                               <Component id="jLabelCstIcms" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jComboBoxCstIcms" max="32767" attributes="0"/>
-                              <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
+                              <Component id="jComboBoxCstIcms" min="-2" pref="198" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jLabel4" max="32767" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jTextFieldCodBeneficioFiscal" min="-2" pref="122" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" alignment="0" attributes="0">
+                          <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="1" max="-2" attributes="0">
                                   <Component id="jLabel3" max="32767" attributes="0"/>
                                   <Component id="jLabelAliquotaIcmsProduto" pref="90" max="32767" attributes="0"/>
@@ -1517,16 +1502,16 @@
                                   <Component id="jLabelValorIcmsDeferimento" min="-2" pref="90" max="-2" attributes="0"/>
                               </Group>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="jTextFieldValorIcmsDeferimento" min="-2" pref="55" max="-2" attributes="0"/>
                                   </Group>
-                                  <Group type="102" alignment="0" attributes="0">
+                                  <Group type="102" alignment="1" attributes="0">
                                       <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
-                                      <Component id="jTextFieldValorIcmsProduto" max="32767" attributes="0"/>
+                                      <Component id="jTextFieldValorIcmsProduto" min="-2" pref="56" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -1554,6 +1539,8 @@
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jLabelCstIcms" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jComboBoxCstIcms" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jTextFieldCodBeneficioFiscal" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -1637,6 +1624,7 @@
                     <Component class="javax.swing.JTextField" name="jTextFieldAliqDeferimento">
                       <Properties>
                         <Property name="toolTipText" type="java.lang.String" value="&#xc9; a aliquota do deferimento caso haja"/>
+                        <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabelValorIcmsOperacao">
@@ -1667,6 +1655,13 @@
                         <Property name="toolTipText" type="java.lang.String" value="&#xc9; o valor do ICMS da Opera&#xe7;&#xe3;o multiplo pela alicota do deferimento"/>
                         <Property name="enabled" type="boolean" value="false"/>
                         <Property name="focusable" type="boolean" value="false"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JTextField" name="jTextFieldCodBeneficioFiscal">
+                    </Component>
+                    <Component class="javax.swing.JLabel" name="jLabel4">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Cod Beneficio Fiscal:"/>
                       </Properties>
                     </Component>
                   </SubComponents>

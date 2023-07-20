@@ -79,8 +79,6 @@ public class SaidaJFrame extends javax.swing.JFrame {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("cplusPU").createEntityManager();
-        movendaQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT ven FROM Movenda ven WHERE ven.numped =99999");
-        movendaList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(movendaQuery.getResultList());
         movendaprodQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT ven FROM Movendaprod ven WHERE ven.codmovenda.codmovenda = \"5555555\"");
         movendaprodList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(movendaprodQuery.getResultList());
         movdocreferenciadoQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT m FROM Movdocreferenciado m WHERE m.identidadeorigem =\"009999999\"");
@@ -212,6 +210,8 @@ public class SaidaJFrame extends javax.swing.JFrame {
         jTextFieldValorIcmsOperacao = new javax.swing.JTextField();
         jLabelValorIcmsDeferimento = new javax.swing.JLabel();
         jTextFieldValorIcmsDeferimento = new javax.swing.JTextField();
+        jTextFieldCodBeneficioFiscal = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
         jPanelValorProduto = new javax.swing.JPanel();
         jLabelValorUnitario = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
@@ -1038,11 +1038,11 @@ public class SaidaJFrame extends javax.swing.JFrame {
             .addGroup(jPanelSubsTribLayout.createSequentialGroup()
                 .addGroup(jPanelSubsTribLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelSubsTribLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jTextFieldCfopProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabelCfop))
+                    .addGroup(jPanelSubsTribLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jTextFieldValorSTProd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabelValorSTProd)
-                        .addGroup(jPanelSubsTribLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextFieldCfopProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabelCfop)))
+                        .addComponent(jLabelValorSTProd))
                     .addGroup(jPanelSubsTribLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabelBaseSTProd)
                         .addComponent(jTextFieldBaseSTProd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -1120,6 +1120,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
         jLabel3.setText("Ali. Def.:");
 
         jTextFieldAliqDeferimento.setToolTipText("É a aliquota do deferimento caso haja");
+        jTextFieldAliqDeferimento.setEnabled(false);
 
         jLabelValorIcmsOperacao.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabelValorIcmsOperacao.setText("ICMS Oper:");
@@ -1147,6 +1148,8 @@ public class SaidaJFrame extends javax.swing.JFrame {
         jTextFieldValorIcmsDeferimento.setEnabled(false);
         jTextFieldValorIcmsDeferimento.setFocusable(false);
 
+        jLabel4.setText("Cod Beneficio Fiscal:");
+
         javax.swing.GroupLayout jPanelIcmsLayout = new javax.swing.GroupLayout(jPanelIcms);
         jPanelIcms.setLayout(jPanelIcmsLayout);
         jPanelIcmsLayout.setHorizontalGroup(
@@ -1154,8 +1157,11 @@ public class SaidaJFrame extends javax.swing.JFrame {
             .addGroup(jPanelIcmsLayout.createSequentialGroup()
                 .addComponent(jLabelCstIcms)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBoxCstIcms, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(70, 70, 70))
+                .addComponent(jComboBoxCstIcms, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextFieldCodBeneficioFiscal, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(jPanelIcmsLayout.createSequentialGroup()
                 .addGroup(jPanelIcmsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1180,10 +1186,10 @@ public class SaidaJFrame extends javax.swing.JFrame {
                     .addGroup(jPanelIcmsLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextFieldValorIcmsDeferimento, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanelIcmsLayout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelIcmsLayout.createSequentialGroup()
                         .addGap(5, 5, 5)
-                        .addComponent(jTextFieldValorIcmsProduto)))
-                .addGap(24, 24, 24))
+                        .addComponent(jTextFieldValorIcmsProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelIcmsLayout.setVerticalGroup(
             jPanelIcmsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1206,7 +1212,9 @@ public class SaidaJFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelIcmsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelCstIcms)
-                    .addComponent(jComboBoxCstIcms, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jComboBoxCstIcms, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldCodBeneficioFiscal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)))
         );
 
         jPanelValorProduto.setBorder(javax.swing.BorderFactory.createTitledBorder("Valor Produto"));
@@ -1318,18 +1326,19 @@ public class SaidaJFrame extends javax.swing.JFrame {
                 .addGap(280, 280, 280))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelEdicaoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanelEdicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(jPanelEdicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanelEdicaoLayout.createSequentialGroup()
                         .addComponent(jPanelValorProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jPanelIPI, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanelSubsTrib, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jPanelSubsTrib, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(95, 95, 95))
                     .addGroup(jPanelEdicaoLayout.createSequentialGroup()
                         .addComponent(jPanelPisCofins, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(2, 2, 2)
-                        .addComponent(jPanelIcms, javax.swing.GroupLayout.PREFERRED_SIZE, 481, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(95, 95, 95))
+                        .addComponent(jPanelIcms, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
         );
         jPanelEdicaoLayout.setVerticalGroup(
             jPanelEdicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1502,7 +1511,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanelEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 459, Short.MAX_VALUE))
         );
 
         jTabbedPaneMovenda.addTab("Produtos Pedido", jPanelProdutosPedido);
@@ -1791,9 +1800,15 @@ public class SaidaJFrame extends javax.swing.JFrame {
         BigDecimal aliq = formataCampos.stringParaDecimal(jTextFieldAliqIcmsProduto.getText(), decimaisArredondamento);
         BigDecimal base = formataCampos.stringParaDecimal(jTextFieldBaseIcmsProduto.getText(), decimaisArredondamento);
         if (jComboBoxCstIcms.getSelectedIndex() == 7) {
-            base = base.multiply(new BigDecimal("0.70588"));
-        }
+            BigDecimal valorIcmsOperacao = calculodeValores(aliq, base);
+            jTextFieldValorIcmsOperacao.setText(formataCampos.bigDecimalParaString(valorIcmsOperacao, decimaisArredondamento));          
+            jTextFieldAliqDeferimento.setText(formataCampos.bigDecimalParaString(new BigDecimal("29.412"), 3));            
+            jTextFieldValorIcmsDeferimento.setText(formataCampos.bigDecimalParaString(valorIcmsOperacao.multiply(new BigDecimal("0.29412")), decimaisArredondamento));   
+            jTextFieldValorIcmsProduto.setText(formataCampos.bigDecimalParaString(valorIcmsOperacao.multiply(new BigDecimal("0.70588")), decimaisArredondamento));
+            jTextFieldCodBeneficioFiscal.setText("RS052158");
+        }else{
         jTextFieldValorIcmsProduto.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base), decimaisArredondamento));
+        }
         // jTextFieldBaseIcmsProduto.requestFocus();
     }//GEN-LAST:event_jTextFieldAliqIcmsProdutoFocusLost
 
@@ -1804,9 +1819,15 @@ public class SaidaJFrame extends javax.swing.JFrame {
         BigDecimal aliq = formataCampos.stringParaDecimal(jTextFieldAliqIcmsProduto.getText(), decimaisArredondamento);
         BigDecimal base = formataCampos.stringParaDecimal(jTextFieldBaseIcmsProduto.getText(), decimaisArredondamento);
         if (jComboBoxCstIcms.getSelectedIndex() == 7) {
-            base = base.multiply(new BigDecimal("0.70588"));
-        }
+            BigDecimal valorIcmsOperacao = calculodeValores(aliq, base);
+            jTextFieldValorIcmsOperacao.setText(formataCampos.bigDecimalParaString(valorIcmsOperacao, decimaisArredondamento));          
+            jTextFieldAliqDeferimento.setText(formataCampos.bigDecimalParaString(new BigDecimal("29.412"), 3));            
+            jTextFieldValorIcmsDeferimento.setText(formataCampos.bigDecimalParaString(valorIcmsOperacao.multiply(new BigDecimal("0.29412")), decimaisArredondamento));   
+            jTextFieldValorIcmsProduto.setText(formataCampos.bigDecimalParaString(valorIcmsOperacao.multiply(new BigDecimal("0.70588")), decimaisArredondamento));
+            jTextFieldCodBeneficioFiscal.setText("RS052158");
+        }else{
         jTextFieldValorIcmsProduto.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base), decimaisArredondamento));
+        }
         jTextFieldBaseSTProd.requestFocus();
     }//GEN-LAST:event_jTextFieldBaseIcmsProdutoActionPerformed
 
@@ -2511,6 +2532,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
         jTextFieldAliqDeferimento.setText("");
         jTextFieldValorIcmsDeferimento.setText("");
         jTextFieldValorIcmsOperacao.setText("");
+        jTextFieldCodBeneficioFiscal.setText("");
 
     }
 
@@ -2605,6 +2627,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
         jTextFieldAliqDeferimento.setText(formataCampos.bigDecimalParaString(prod.getAliqdiferimento(), 3));
         jTextFieldValorIcmsDeferimento.setText(formataCampos.bigDecimalParaString(prod.getValoricmsdiferimento(), decimaisArredondamento));
         jTextFieldValorIcmsOperacao.setText(formataCampos.bigDecimalParaString(prod.getValoricmsoperacao(), decimaisArredondamento));
+        jTextFieldCodBeneficioFiscal.setText(prod.getCodbeneficiofiscal());
         if (prod.getCodsituacaotributaria() == null) {
             jComboBoxCstIcms.setSelectedIndex(0);
         } else {
@@ -2778,6 +2801,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
             if (!"".equals(jTextFieldAliqMva.getText())) {
                 prod.setAliqmva(formataCampos.stringParaDecimal(jTextFieldAliqMva.getText(), decimaisArredondamento));
             }
+            prod.setCodbeneficiofiscal(jTextFieldCodBeneficioFiscal.getText());
             if (jComboBoxCstIcms.getSelectedIndex() != 11) {
                 switch (jComboBoxCstIcms.getSelectedIndex()) {
                     case 0:
@@ -3048,6 +3072,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabelAliqCofinsProd;
     private javax.swing.JLabel jLabelAliqIpiProd;
     private javax.swing.JLabel jLabelAliqMva;
@@ -3142,6 +3167,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldChaveNFCe;
     private javax.swing.JTextField jTextFieldChaveNFe;
     private javax.swing.JTextField jTextFieldCidade;
+    private javax.swing.JTextField jTextFieldCodBeneficioFiscal;
     private javax.swing.JTextField jTextFieldDataSaida;
     private javax.swing.JTextField jTextFieldEndereco;
     private javax.swing.JTextField jTextFieldEntregaTelefone;
@@ -3174,8 +3200,6 @@ public class SaidaJFrame extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldValorUnitarioProduto;
     private java.util.List<entidade.cplus.Movdocreferenciado> movdocreferenciadoList;
     private javax.persistence.Query movdocreferenciadoQuery;
-    private java.util.List<entidade.cplus.Movenda> movendaList;
-    private javax.persistence.Query movendaQuery;
     private java.util.List<entidade.cplus.Movendaprod> movendaprodList;
     private javax.persistence.Query movendaprodQuery;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
