@@ -1112,7 +1112,7 @@ public class RmaJFrame extends javax.swing.JFrame {
                 serialProdutoList.clear();
                 if (!"".equals(jTextFieldArgumentoPesquisa.getText())) {
                     if (this.listagemEntradasJDialog.isCancelamento() == false) {
-                        this.listagemEntradasJDialog.setTermoPesquisa(jTextFieldArgumentoPesquisa.getText());
+                        this.listagemEntradasJDialog.setTermoPesquisa(jTextFieldArgumentoPesquisa.getText(), 0);
                         this.listagemEntradasJDialog.setVisible(true);
                         entrada = this.listagemEntradasJDialog.getMovEntrada();
                         //int cod = Integer.valueOf(jTextFieldArgumentoPesquisa.getText());

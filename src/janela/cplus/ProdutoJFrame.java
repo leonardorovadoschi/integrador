@@ -8,6 +8,7 @@ package janela.cplus;
 import entidade.cplus.Auditoria;
 import entidade.cplus.Calculoicmsestado;
 import entidade.cplus.Campocustomvalor;
+import entidade.cplus.Fornproduto;
 import entidade.cplus.Movenda;
 import entidade.cplus.Movendaprod;
 import entidade.cplus.Moventrada;
@@ -61,7 +62,7 @@ import query.prestaShop.QueryPrestaShop;
  *
  * @author leonardo
  */
-public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
+public class ProdutoJFrame extends javax.swing.JFrame {
 
     /**
      * Creates new form AlteracaoPrecoProdutoJFrame
@@ -70,7 +71,7 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
      * @param managerIntegracao1
      * @param managerPrestaShop1
      */
-    public AlteracaoPrecoProdutoJFrame(EntityManagerFactory managerCplus1, EntityManagerFactory managerIntegracao1, EntityManagerFactory managerPrestaShop1) {
+    public ProdutoJFrame(EntityManagerFactory managerCplus1, EntityManagerFactory managerIntegracao1, EntityManagerFactory managerPrestaShop1) {
         formataCampo = new FormataCampos();
         managerIntegrador = managerIntegracao1;
         managerPrestaShop = managerPrestaShop1;
@@ -91,10 +92,10 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
         }
         colunaCodprod = jTableListagemProdutos.getColumnModel().getColumnIndex("Codprod");
         colunaProdutoFornecedor = jTableProdutoFornecedor.getColumnModel().getColumnIndex("Id Produtos");
-        colunaCodigo = jTableListagemProdutos.getColumnModel().getColumnIndex("Codigo");
-        colunaCodmoventradaprod = jTableListagemEntradas.getColumnModel().getColumnIndex("Codmoveprod");
+        //colunaCodigo = jTableListagemProdutos.getColumnModel().getColumnIndex("Codigo");
+       // colunaCodmoventradaprod = jTableListagemEntradas.getColumnModel().getColumnIndex("Codmoveprod");
         jTextFieldMaximoResultadosSaida.setText(queryIntegrador.valorConfiguracao("maximo_resultados_listagem_saidas"));
-        jTextFieldMaximoDeResultadosEntradas.setText(queryIntegrador.valorConfiguracao("maximo_resultados_listagem_entradas"));
+        //jTextFieldMaximoDeResultadosEntradas.setText(queryIntegrador.valorConfiguracao("maximo_resultados_listagem_entradas"));
         this.listagemEntradasJDialog = new ListagemEntradasJDialog(this, true, managerCplus);
         jTextFieldNomeCplus.setDocument(new LimiteDigitos(50));//limite de digitos no campo
         jTextFieldNomeSite.setDocument(new LimiteDigitos(100));//limite digitos no campo
@@ -125,8 +126,8 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
         buttonGroupArredondamentoPrecoVenda = new javax.swing.ButtonGroup();
         movendaprodQuery = java.beans.Beans.isDesignTime() ? null : cplusPUEntityManager.createQuery("SELECT m FROM Movendaprod m where m.codmovprod =\"999999\"");
         movendaprodList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(new java.util.LinkedList(movendaprodQuery.getResultList()));
-        moventradaprodQuery = java.beans.Beans.isDesignTime() ? null : cplusPUEntityManager.createQuery("SELECT m FROM Moventradaprod m where m.codmoveprod = \"99999\"");
-        moventradaprodList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(new java.util.LinkedList(moventradaprodQuery.getResultList()));
+        fornprodutoQuery = java.beans.Beans.isDesignTime() ? null : cplusPUEntityManager.createQuery("SELECT m FROM Fornproduto m where m.codigoproduto='999999'");
+        fornprodutoList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(fornprodutoQuery.getResultList());
         jTabbedPaneAlteracaoPrecoProdutoCplus = new javax.swing.JTabbedPane();
         jPanelAbaListaProdutos = new javax.swing.JPanel();
         jScrollPaneListagemProdutos = new javax.swing.JScrollPane();
@@ -153,13 +154,6 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
         jRadioButtonMargemSobreCustoUltimaCompra = new javax.swing.JRadioButton();
         jPanelInformacaoEstoque = new javax.swing.JPanel();
         jCheckBoxMostrarItensCarrinhoMagento = new javax.swing.JCheckBox();
-        jPanelListagemEntradas = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTableListagemEntradas = new javax.swing.JTable();
-        jButtonAtualizaListagemEntradas = new javax.swing.JButton();
-        jLabelMaximoderesultadosEntradas = new javax.swing.JLabel();
-        jTextFieldMaximoDeResultadosEntradas = new javax.swing.JTextField();
-        jCheckBoxSomenteCompras = new javax.swing.JCheckBox();
         jPanelListagemDeVendas = new javax.swing.JPanel();
         jButtonAtualizaListagemSaidas = new javax.swing.JButton();
         jTextFieldMaximoResultadosSaida = new javax.swing.JTextField();
@@ -167,6 +161,10 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
         jCheckBoxSomenteVendas = new javax.swing.JCheckBox();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableListagemDeVendas = new javax.swing.JTable();
+        jPanelListagemEntradas = new javax.swing.JPanel();
+        jButtonAtualizaListagemEntradas = new javax.swing.JButton();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jTableFornProd = new javax.swing.JTable();
         jPanelControles = new javax.swing.JPanel();
         jPanelEstoque = new javax.swing.JPanel();
         jTextFieldEstoqueAtual = new javax.swing.JTextField();
@@ -369,11 +367,11 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
         jPanelAbaListaProdutos.setLayout(jPanelAbaListaProdutosLayout);
         jPanelAbaListaProdutosLayout.setHorizontalGroup(
             jPanelAbaListaProdutosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPaneListagemProdutos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1252, Short.MAX_VALUE)
+            .addComponent(jScrollPaneListagemProdutos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1222, Short.MAX_VALUE)
         );
         jPanelAbaListaProdutosLayout.setVerticalGroup(
             jPanelAbaListaProdutosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPaneListagemProdutos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE)
+            .addComponent(jScrollPaneListagemProdutos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
         );
 
         jTabbedPaneAlteracaoPrecoProdutoCplus.addTab("Listagem Produtos C-Plus", jPanelAbaListaProdutos);
@@ -546,7 +544,7 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
             .addGroup(jPanelComparacaoProdutosAllnationsLayout.createSequentialGroup()
                 .addComponent(jPanelControleFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -670,7 +668,7 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
                 .addComponent(jPanelTiposdecalculos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanelInformacaoEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 332, Short.MAX_VALUE))
+                .addGap(0, 302, Short.MAX_VALUE))
         );
         jPanelconfiguracoesAbaLayout.setVerticalGroup(
             jPanelconfiguracoesAbaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -685,167 +683,6 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
         );
 
         jTabbedPaneAlteracaoPrecoProdutoCplus.addTab("Configurações De Calculos", jPanelconfiguracoesAba);
-
-        jTableListagemEntradas.setAutoCreateRowSorter(true);
-        jTableListagemEntradas.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
-        jTableListagemEntradas.setColumnSelectionAllowed(true);
-
-        jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, moventradaprodList, jTableListagemEntradas);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmoventr.data}"));
-        columnBinding.setColumnName("Data");
-        columnBinding.setColumnClass(java.util.Date.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmoventr.codForn.nomeforn}"));
-        columnBinding.setColumnName("Fornecedor");
-        columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${quantidade}"));
-        columnBinding.setColumnName("Quantidade");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valorunitario}"));
-        columnBinding.setColumnName("Valor Unitario");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valortotal}"));
-        columnBinding.setColumnName("Valor Total");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${aliqicms}"));
-        columnBinding.setColumnName("Aliq ICMS");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valoripi}"));
-        columnBinding.setColumnName("Valor IPI");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valorsubsttributaria}"));
-        columnBinding.setColumnName("Valor ST");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmoventr.numnota}"));
-        columnBinding.setColumnName("Num. Nota");
-        columnBinding.setColumnClass(Integer.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${flagorigemproduto}"));
-        columnBinding.setColumnName("Origem");
-        columnBinding.setColumnClass(Character.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmoventr.codForn.cnpj}"));
-        columnBinding.setColumnName("CNPJ");
-        columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmoventr.codForn.estado}"));
-        columnBinding.setColumnName("Estado");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmoventr.hora}"));
-        columnBinding.setColumnName("Hora");
-        columnBinding.setColumnClass(java.util.Date.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valorpis}"));
-        columnBinding.setColumnName("Valor PIS");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valorcofins}"));
-        columnBinding.setColumnName("Valor COFINS");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${basesubsttributaria}"));
-        columnBinding.setColumnName("Base ST");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codsituacaotributaria}"));
-        columnBinding.setColumnName("Cod ST");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${aliqicmsStUfDestino}"));
-        columnBinding.setColumnName("Aliq ICMS St Uf Des");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${aliqreducaobaseicms}"));
-        columnBinding.setColumnName("Aliq Redu. Base ICMS");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${aliqpis}"));
-        columnBinding.setColumnName("Aliq PIS");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${basepis}"));
-        columnBinding.setColumnName("Base PIS");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${aliqcofins}"));
-        columnBinding.setColumnName("Aliq COFINS");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${basecofins}"));
-        columnBinding.setColumnName("Base COFINS");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${baseicms}"));
-        columnBinding.setColumnName("Base ICMS");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${aliqipi}"));
-        columnBinding.setColumnName("Aliq IPI");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmoventr.dataemissao}"));
-        columnBinding.setColumnName("Data Emissão");
-        columnBinding.setColumnClass(java.util.Date.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmoveprod}"));
-        columnBinding.setColumnName("Codmoveprod");
-        columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
-        bindingGroup.addBinding(jTableBinding);
-        jTableBinding.bind();
-        jScrollPane3.setViewportView(jTableListagemEntradas);
-        jTableListagemEntradas.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        if (jTableListagemEntradas.getColumnModel().getColumnCount() > 0) {
-            jTableListagemEntradas.getColumnModel().getColumn(0).setPreferredWidth(90);
-            jTableListagemEntradas.getColumnModel().getColumn(1).setPreferredWidth(250);
-            jTableListagemEntradas.getColumnModel().getColumn(2).setCellRenderer(new RenderNumeroInteiro());
-            jTableListagemEntradas.getColumnModel().getColumn(3).setCellRenderer(new integrador.render.RenderPreco());
-            jTableListagemEntradas.getColumnModel().getColumn(4).setCellRenderer(new integrador.render.RenderPreco());
-            jTableListagemEntradas.getColumnModel().getColumn(5).setCellRenderer( new RenderPorcentagem());
-            jTableListagemEntradas.getColumnModel().getColumn(6).setCellRenderer(new integrador.render.RenderPreco());
-            jTableListagemEntradas.getColumnModel().getColumn(7).setCellRenderer(new integrador.render.RenderPreco());
-            jTableListagemEntradas.getColumnModel().getColumn(10).setPreferredWidth(120);
-            jTableListagemEntradas.getColumnModel().getColumn(12).setCellRenderer(new integrador.render.RenderHora());
-            jTableListagemEntradas.getColumnModel().getColumn(13).setCellRenderer(new integrador.render.RenderPreco());
-            jTableListagemEntradas.getColumnModel().getColumn(14).setCellRenderer(new integrador.render.RenderPreco());
-            jTableListagemEntradas.getColumnModel().getColumn(15).setCellRenderer(new integrador.render.RenderPreco());
-            jTableListagemEntradas.getColumnModel().getColumn(17).setCellRenderer( new RenderPorcentagem());
-            jTableListagemEntradas.getColumnModel().getColumn(18).setCellRenderer( new RenderPorcentagem());
-            jTableListagemEntradas.getColumnModel().getColumn(19).setCellRenderer( new RenderPorcentagem());
-            jTableListagemEntradas.getColumnModel().getColumn(20).setCellRenderer(new integrador.render.RenderPreco());
-            jTableListagemEntradas.getColumnModel().getColumn(21).setCellRenderer( new RenderPorcentagem());
-            jTableListagemEntradas.getColumnModel().getColumn(22).setCellRenderer(new integrador.render.RenderPreco());
-            jTableListagemEntradas.getColumnModel().getColumn(23).setCellRenderer(new integrador.render.RenderPreco());
-            jTableListagemEntradas.getColumnModel().getColumn(24).setCellRenderer( new RenderPorcentagem());
-        }
-
-        jButtonAtualizaListagemEntradas.setText("Atualiza Entradas");
-        jButtonAtualizaListagemEntradas.setEnabled(false);
-        jButtonAtualizaListagemEntradas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonAtualizaListagemEntradasActionPerformed(evt);
-            }
-        });
-
-        jLabelMaximoderesultadosEntradas.setText("Máximo de Resultados:");
-
-        jCheckBoxSomenteCompras.setSelected(true);
-        jCheckBoxSomenteCompras.setText("Somente Compras");
-
-        javax.swing.GroupLayout jPanelListagemEntradasLayout = new javax.swing.GroupLayout(jPanelListagemEntradas);
-        jPanelListagemEntradas.setLayout(jPanelListagemEntradasLayout);
-        jPanelListagemEntradasLayout.setHorizontalGroup(
-            jPanelListagemEntradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelListagemEntradasLayout.createSequentialGroup()
-                .addGroup(jPanelListagemEntradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButtonAtualizaListagemEntradas)
-                    .addGroup(jPanelListagemEntradasLayout.createSequentialGroup()
-                        .addComponent(jLabelMaximoderesultadosEntradas)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldMaximoDeResultadosEntradas, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jCheckBoxSomenteCompras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 1101, Short.MAX_VALUE))
-        );
-        jPanelListagemEntradasLayout.setVerticalGroup(
-            jPanelListagemEntradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelListagemEntradasLayout.createSequentialGroup()
-                .addComponent(jButtonAtualizaListagemEntradas)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelListagemEntradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelMaximoderesultadosEntradas)
-                    .addComponent(jTextFieldMaximoDeResultadosEntradas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBoxSomenteCompras)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-        );
-
-        jTabbedPaneAlteracaoPrecoProdutoCplus.addTab("Listagem de Entradas", jPanelListagemEntradas);
 
         jButtonAtualizaListagemSaidas.setText("Atualiza Listagem de Saidas");
         jButtonAtualizaListagemSaidas.setEnabled(false);
@@ -996,7 +833,7 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(jCheckBoxSomenteVendas)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1077, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1047, Short.MAX_VALUE))
         );
         jPanelListagemDeVendasLayout.setVerticalGroup(
             jPanelListagemDeVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1013,6 +850,64 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
         );
 
         jTabbedPaneAlteracaoPrecoProdutoCplus.addTab("Listagem de Vendas", jPanelListagemDeVendas);
+
+        jButtonAtualizaListagemEntradas.setText("Atualiza Entradas");
+        jButtonAtualizaListagemEntradas.setEnabled(false);
+        jButtonAtualizaListagemEntradas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAtualizaListagemEntradasActionPerformed(evt);
+            }
+        });
+
+        jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, fornprodutoList, jTableFornProd);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codigoproduto}"));
+        columnBinding.setColumnName("Cod Prod Forn");
+        columnBinding.setColumnClass(String.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${nomeproduto}"));
+        columnBinding.setColumnName("Nome Prod Fornecedor");
+        columnBinding.setColumnClass(String.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${aliqicms}"));
+        columnBinding.setColumnName("Aliq. ICMS");
+        columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${datatu}"));
+        columnBinding.setColumnName("Datatu");
+        columnBinding.setColumnClass(java.util.Date.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${custoreal}"));
+        columnBinding.setColumnName("Custoreal");
+        columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${aliqipi}"));
+        columnBinding.setColumnName("Aliq.IPI");
+        columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${fornprodutoPK.codforn}"));
+        columnBinding.setColumnName("Cod Forn");
+        columnBinding.setColumnClass(String.class);
+        bindingGroup.addBinding(jTableBinding);
+        jTableBinding.bind();
+        jScrollPane5.setViewportView(jTableFornProd);
+        if (jTableFornProd.getColumnModel().getColumnCount() > 0) {
+            jTableFornProd.getColumnModel().getColumn(0).setPreferredWidth(120);
+            jTableFornProd.getColumnModel().getColumn(1).setPreferredWidth(350);
+        }
+
+        javax.swing.GroupLayout jPanelListagemEntradasLayout = new javax.swing.GroupLayout(jPanelListagemEntradas);
+        jPanelListagemEntradas.setLayout(jPanelListagemEntradasLayout);
+        jPanelListagemEntradasLayout.setHorizontalGroup(
+            jPanelListagemEntradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelListagemEntradasLayout.createSequentialGroup()
+                .addComponent(jButtonAtualizaListagemEntradas)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 851, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(236, Short.MAX_VALUE))
+        );
+        jPanelListagemEntradasLayout.setVerticalGroup(
+            jPanelListagemEntradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelListagemEntradasLayout.createSequentialGroup()
+                .addComponent(jButtonAtualizaListagemEntradas)
+                .addContainerGap(192, Short.MAX_VALUE))
+            .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+        );
+
+        jTabbedPaneAlteracaoPrecoProdutoCplus.addTab("Listagem de Entradas", jPanelListagemEntradas);
 
         jPanelControles.setBorder(javax.swing.BorderFactory.createTitledBorder("Controles"));
 
@@ -1883,14 +1778,14 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanelControles, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(jTabbedPaneAlteracaoPrecoProdutoCplus, javax.swing.GroupLayout.DEFAULT_SIZE, 1257, Short.MAX_VALUE)
+            .addComponent(jTabbedPaneAlteracaoPrecoProdutoCplus)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(jPanelControles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPaneAlteracaoPrecoProdutoCplus, javax.swing.GroupLayout.DEFAULT_SIZE, 310, Short.MAX_VALUE))
+                .addComponent(jTabbedPaneAlteracaoPrecoProdutoCplus))
         );
 
         bindingGroup.bind();
@@ -2030,13 +1925,6 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
             movendaprodList.add(movProd);
         }
     }//GEN-LAST:event_jButtonAtualizaListagemSaidasActionPerformed
-
-    private void jButtonAtualizaListagemEntradasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAtualizaListagemEntradasActionPerformed
-        moventradaprodList.clear();
-        for (Moventradaprod movProd : queryCplus.resultProdutoEntrada(produtoCplus.getCodprod(), jCheckBoxSomenteCompras.isSelected(), Integer.valueOf(jTextFieldMaximoDeResultadosEntradas.getText()))) {
-            moventradaprodList.add(movProd);
-        }
-    }//GEN-LAST:event_jButtonAtualizaListagemEntradasActionPerformed
 
     private void jTextFieldPartNumberSistemaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldPartNumberSistemaFocusGained
         jButtonGravar.setEnabled(true);
@@ -2245,6 +2133,17 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
     private void jCheckBoxAtivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxAtivoActionPerformed
         jButtonGravar.setEnabled(true);
     }//GEN-LAST:event_jCheckBoxAtivoActionPerformed
+
+    private void jButtonAtualizaListagemEntradasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAtualizaListagemEntradasActionPerformed
+       // moventradaprodList.clear();
+        // for (Moventradaprod movProd : queryCplus.resultProdutoEntrada(produtoCplus.getCodprod(), jCheckBoxSomenteCompras.isSelected(), Integer.valueOf(jTextFieldMaximoDeResultadosEntradas.getText()))) {
+            //     moventradaprodList.add(movProd);
+            // }
+        //if (this.listagemEntradasJDialog.isCancelamento() == false) {
+            this.listagemEntradasJDialog.setTermoPesquisa(produtoCplus.getCodigo(), 3);
+            this.listagemEntradasJDialog.setVisible(true);
+            // }
+    }//GEN-LAST:event_jButtonAtualizaListagemEntradasActionPerformed
 
     private String tamanhoString(String str, int tamanhoString) {
         String str2 = "";
@@ -2623,7 +2522,6 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
                     jTextFieldPrecoCusto.setText(formataCampo.bigDecimalParaString(movPro.getValorunitario(), casasDecimais));
                     jTextFieldValorSubstituicaoTributaria.setText(formataCampo.bigDecimalParaString(new BigDecimal(valorST / quantidade), casasDecimais));
                     jTextFieldValorIpi.setText(formataCampo.bigDecimalParaString(new BigDecimal(valorIpi / quantidade), casasDecimais));
-
                     jTextFieldCustoReal.setText(formataCampo.bigDecimalParaString(totalCusto, casasDecimais));
                 }
             }
@@ -2741,6 +2639,10 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
         for (Produtocodigo ean : produtoCplus.getProdutocodigoCollection()) {
             txt = txt + ean.getCodigo() + "\n";
         }
+        fornprodutoList.clear();
+        for(Fornproduto f : produtoCplus.getFornprodutoCollection()){
+            fornprodutoList.add(f);
+        }
         jTextAreaEan.setText(txt);
         jButtonGravar.setEnabled(false);
     }
@@ -2789,6 +2691,7 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
         jTextFieldLargura.setText("");
         jTextFieldComprimento.setText("");
         jComboBoxOrigemProduto.setSelectedIndex(9);
+        fornprodutoList.clear();
     }
 
     private BigDecimal calculaValorVenda(BigDecimal margemLucro) {
@@ -2844,12 +2747,11 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
     }
 
     private void pesquisaNumeroNota() {
-
         if ("".equals(jTextFieldTermoPesquisa.getText())) {
             JOptionPane.showMessageDialog(null, "você deve informar o número da Nota!!!");
         } else {
             produtoList.clear();
-            this.listagemEntradasJDialog.setTermoPesquisa(jTextFieldTermoPesquisa.getText());
+            this.listagemEntradasJDialog.setTermoPesquisa(jTextFieldTermoPesquisa.getText(), 0);
             this.listagemEntradasJDialog.setVisible(true);
             Moventrada movEntrada = this.listagemEntradasJDialog.getMovEntrada();
             if (movEntrada.getCodmoventr() != null) {
@@ -3011,21 +2913,23 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AlteracaoPrecoProdutoJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ProdutoJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AlteracaoPrecoProdutoJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ProdutoJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AlteracaoPrecoProdutoJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ProdutoJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AlteracaoPrecoProdutoJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ProdutoJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AlteracaoPrecoProdutoJFrame(managerCplus, managerIntegrador, managerPrestaShop).setVisible(true);
+                new ProdutoJFrame(managerCplus, managerIntegrador, managerPrestaShop).setVisible(true);
             }
         });
     }
@@ -3035,14 +2939,11 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
     private static EntityManagerFactory managerCplus;
     private final QueryCplus queryCplus;
     private final QueryIntegrador queryIntegrador;
-    private QueryPrestaShop queryPrestaShop;
+    private final QueryPrestaShop queryPrestaShop;
     private final FormataCampos formataCampo;
-    private int colunaCodigo;
-    private int colunaEan;
-    private int colunaCodprod;
+    private final int colunaCodprod;
     private int casasDecimais;
-    private int colunaCodmoventradaprod;
-    private int colunaProdutoFornecedor;
+    private final int colunaProdutoFornecedor;
 
     private Produto produtoCplus;
     private BigDecimal precoCustoRealSistema;
@@ -3061,6 +2962,8 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroupCustoProduto;
     private javax.swing.ButtonGroup buttonGroupTiposDeMargem;
     private javax.persistence.EntityManager cplusPUEntityManager;
+    private java.util.List<entidade.cplus.Fornproduto> fornprodutoList;
+    private javax.persistence.Query fornprodutoQuery;
     private javax.persistence.EntityManager integradorPUEntityManager;
     private javax.swing.JButton jButtonAtivarNoSite;
     private javax.swing.JButton jButtonAtualizaListagemEntradas;
@@ -3075,7 +2978,6 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
     private javax.swing.JCheckBox jCheckBoxAtivo;
     private javax.swing.JCheckBox jCheckBoxMostrarItensCarrinhoMagento;
     private javax.swing.JCheckBox jCheckBoxNoSite;
-    private javax.swing.JCheckBox jCheckBoxSomenteCompras;
     private javax.swing.JCheckBox jCheckBoxSomenteItensAtivosCplus;
     private javax.swing.JCheckBox jCheckBoxSomenteVendas;
     private javax.swing.JComboBox jComboBoxOrigemProduto;
@@ -3099,7 +3001,6 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelLargura;
     private javax.swing.JLabel jLabelMargemNormal;
     private javax.swing.JLabel jLabelMaximoDeResultadosSaida;
-    private javax.swing.JLabel jLabelMaximoderesultadosEntradas;
     private javax.swing.JLabel jLabelOrigemProduto;
     private javax.swing.JLabel jLabelPartNumberSistema;
     private javax.swing.JLabel jLabelPrecoCusto;
@@ -3144,12 +3045,12 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
     private javax.swing.JRadioButton jRadioButtonUmaDecimal;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPaneListagemProdutos;
     private javax.swing.JTabbedPane jTabbedPaneAlteracaoPrecoProdutoCplus;
+    private javax.swing.JTable jTableFornProd;
     private javax.swing.JTable jTableListagemDeVendas;
-    private javax.swing.JTable jTableListagemEntradas;
     private javax.swing.JTable jTableListagemProdutos;
     private javax.swing.JTable jTableProdutoFornecedor;
     private javax.swing.JTextArea jTextAreaEan;
@@ -3167,7 +3068,6 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldFornecedor;
     private javax.swing.JTextField jTextFieldLargura;
     private javax.swing.JTextField jTextFieldMargemNormal;
-    private javax.swing.JTextField jTextFieldMaximoDeResultadosEntradas;
     private javax.swing.JTextField jTextFieldMaximoResultadosSaida;
     private javax.swing.JTextField jTextFieldNomeCplus;
     private javax.swing.JTextField jTextFieldNomeSite;
@@ -3187,8 +3087,6 @@ public class AlteracaoPrecoProdutoJFrame extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldValorSubstituicaoTributaria;
     private java.util.List<entidade.cplus.Movendaprod> movendaprodList;
     private javax.persistence.Query movendaprodQuery;
-    private java.util.List<entidade.cplus.Moventradaprod> moventradaprodList;
-    private javax.persistence.Query moventradaprodQuery;
     private java.util.List<entidade.integrador.ProdFornecedor> produtoFornecedorList;
     private javax.persistence.Query produtoFornecedorQuery;
     private java.util.List<entidade.cplus.Produto> produtoList;

@@ -5,6 +5,8 @@
  */
 package entidade.cplus;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -19,6 +21,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -36,6 +39,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Moventradaprodcomp.findByCustomedio", query = "SELECT m FROM Moventradaprodcomp m WHERE m.customedio = :customedio")
     , @NamedQuery(name = "Moventradaprodcomp.findByLastChange", query = "SELECT m FROM Moventradaprodcomp m WHERE m.lastChange = :lastChange")})
 public class Moventradaprodcomp implements Serializable {
+
+    @Transient
+    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -77,7 +83,9 @@ public class Moventradaprodcomp implements Serializable {
     }
 
     public void setCodmoventradaprodcomp(Integer codmoventradaprodcomp) {
+        Integer oldCodmoventradaprodcomp = this.codmoventradaprodcomp;
         this.codmoventradaprodcomp = codmoventradaprodcomp;
+        changeSupport.firePropertyChange("codmoventradaprodcomp", oldCodmoventradaprodcomp, codmoventradaprodcomp);
     }
 
     public BigDecimal getQuantidade() {
@@ -85,7 +93,9 @@ public class Moventradaprodcomp implements Serializable {
     }
 
     public void setQuantidade(BigDecimal quantidade) {
+        BigDecimal oldQuantidade = this.quantidade;
         this.quantidade = quantidade;
+        changeSupport.firePropertyChange("quantidade", oldQuantidade, quantidade);
     }
 
     public BigDecimal getCustoreal() {
@@ -93,7 +103,9 @@ public class Moventradaprodcomp implements Serializable {
     }
 
     public void setCustoreal(BigDecimal custoreal) {
+        BigDecimal oldCustoreal = this.custoreal;
         this.custoreal = custoreal;
+        changeSupport.firePropertyChange("custoreal", oldCustoreal, custoreal);
     }
 
     public BigDecimal getCustomedio() {
@@ -101,7 +113,9 @@ public class Moventradaprodcomp implements Serializable {
     }
 
     public void setCustomedio(BigDecimal customedio) {
+        BigDecimal oldCustomedio = this.customedio;
         this.customedio = customedio;
+        changeSupport.firePropertyChange("customedio", oldCustomedio, customedio);
     }
 
     public Date getLastChange() {
@@ -109,7 +123,9 @@ public class Moventradaprodcomp implements Serializable {
     }
 
     public void setLastChange(Date lastChange) {
+        Date oldLastChange = this.lastChange;
         this.lastChange = lastChange;
+        changeSupport.firePropertyChange("lastChange", oldLastChange, lastChange);
     }
 
     public Moventradaprod getCodmoveprod() {
@@ -117,7 +133,9 @@ public class Moventradaprodcomp implements Serializable {
     }
 
     public void setCodmoveprod(Moventradaprod codmoveprod) {
+        Moventradaprod oldCodmoveprod = this.codmoveprod;
         this.codmoveprod = codmoveprod;
+        changeSupport.firePropertyChange("codmoveprod", oldCodmoveprod, codmoveprod);
     }
 
     public Produto getCodprod() {
@@ -125,7 +143,9 @@ public class Moventradaprodcomp implements Serializable {
     }
 
     public void setCodprod(Produto codprod) {
+        Produto oldCodprod = this.codprod;
         this.codprod = codprod;
+        changeSupport.firePropertyChange("codprod", oldCodprod, codprod);
     }
 
     @Override
@@ -151,6 +171,14 @@ public class Moventradaprodcomp implements Serializable {
     @Override
     public String toString() {
         return "entidade.cplus.Moventradaprodcomp[ codmoventradaprodcomp=" + codmoventradaprodcomp + " ]";
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.removePropertyChangeListener(listener);
     }
     
 }

@@ -5,6 +5,8 @@
  */
 package entidade.cplus;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -18,6 +20,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -44,6 +47,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Fornproduto.findByNomeproduto", query = "SELECT f FROM Fornproduto f WHERE f.nomeproduto = :nomeproduto")
     , @NamedQuery(name = "Fornproduto.findByOperacao", query = "SELECT f FROM Fornproduto f WHERE f.operacao = :operacao")})
 public class Fornproduto implements Serializable {
+
+    @Transient
+    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
 
     private static final long serialVersionUID = 1L;
     @EmbeddedId
@@ -102,7 +108,9 @@ public class Fornproduto implements Serializable {
     }
 
     public void setCustoreal(BigDecimal custoreal) {
+        BigDecimal oldCustoreal = this.custoreal;
         this.custoreal = custoreal;
+        changeSupport.firePropertyChange("custoreal", oldCustoreal, custoreal);
     }
 
     public Date getDatatu() {
@@ -110,7 +118,9 @@ public class Fornproduto implements Serializable {
     }
 
     public void setDatatu(Date datatu) {
+        Date oldDatatu = this.datatu;
         this.datatu = datatu;
+        changeSupport.firePropertyChange("datatu", oldDatatu, datatu);
     }
 
     public String getCodigoproduto() {
@@ -118,7 +128,9 @@ public class Fornproduto implements Serializable {
     }
 
     public void setCodigoproduto(String codigoproduto) {
+        String oldCodigoproduto = this.codigoproduto;
         this.codigoproduto = codigoproduto;
+        changeSupport.firePropertyChange("codigoproduto", oldCodigoproduto, codigoproduto);
     }
 
     public BigDecimal getAliqicms() {
@@ -126,7 +138,9 @@ public class Fornproduto implements Serializable {
     }
 
     public void setAliqicms(BigDecimal aliqicms) {
+        BigDecimal oldAliqicms = this.aliqicms;
         this.aliqicms = aliqicms;
+        changeSupport.firePropertyChange("aliqicms", oldAliqicms, aliqicms);
     }
 
     public BigDecimal getAliqipi() {
@@ -134,7 +148,9 @@ public class Fornproduto implements Serializable {
     }
 
     public void setAliqipi(BigDecimal aliqipi) {
+        BigDecimal oldAliqipi = this.aliqipi;
         this.aliqipi = aliqipi;
+        changeSupport.firePropertyChange("aliqipi", oldAliqipi, aliqipi);
     }
 
     public String getCst() {
@@ -142,7 +158,9 @@ public class Fornproduto implements Serializable {
     }
 
     public void setCst(String cst) {
+        String oldCst = this.cst;
         this.cst = cst;
+        changeSupport.firePropertyChange("cst", oldCst, cst);
     }
 
     public BigDecimal getMargem() {
@@ -150,7 +168,9 @@ public class Fornproduto implements Serializable {
     }
 
     public void setMargem(BigDecimal margem) {
+        BigDecimal oldMargem = this.margem;
         this.margem = margem;
+        changeSupport.firePropertyChange("margem", oldMargem, margem);
     }
 
     public BigDecimal getOutros() {
@@ -158,7 +178,9 @@ public class Fornproduto implements Serializable {
     }
 
     public void setOutros(BigDecimal outros) {
+        BigDecimal oldOutros = this.outros;
         this.outros = outros;
+        changeSupport.firePropertyChange("outros", oldOutros, outros);
     }
 
     public BigDecimal getPrevenda() {
@@ -166,7 +188,9 @@ public class Fornproduto implements Serializable {
     }
 
     public void setPrevenda(BigDecimal prevenda) {
+        BigDecimal oldPrevenda = this.prevenda;
         this.prevenda = prevenda;
+        changeSupport.firePropertyChange("prevenda", oldPrevenda, prevenda);
     }
 
     public BigDecimal getQuantidadeembalagem() {
@@ -174,7 +198,9 @@ public class Fornproduto implements Serializable {
     }
 
     public void setQuantidadeembalagem(BigDecimal quantidadeembalagem) {
+        BigDecimal oldQuantidadeembalagem = this.quantidadeembalagem;
         this.quantidadeembalagem = quantidadeembalagem;
+        changeSupport.firePropertyChange("quantidadeembalagem", oldQuantidadeembalagem, quantidadeembalagem);
     }
 
     public String getNomeproduto() {
@@ -182,7 +208,9 @@ public class Fornproduto implements Serializable {
     }
 
     public void setNomeproduto(String nomeproduto) {
+        String oldNomeproduto = this.nomeproduto;
         this.nomeproduto = nomeproduto;
+        changeSupport.firePropertyChange("nomeproduto", oldNomeproduto, nomeproduto);
     }
 
     public Character getOperacao() {
@@ -190,7 +218,9 @@ public class Fornproduto implements Serializable {
     }
 
     public void setOperacao(Character operacao) {
+        Character oldOperacao = this.operacao;
         this.operacao = operacao;
+        changeSupport.firePropertyChange("operacao", oldOperacao, operacao);
     }
 
     public Produto getProduto() {
@@ -198,7 +228,9 @@ public class Fornproduto implements Serializable {
     }
 
     public void setProduto(Produto produto) {
+        Produto oldProduto = this.produto;
         this.produto = produto;
+        changeSupport.firePropertyChange("produto", oldProduto, produto);
     }
 
     @Override
@@ -224,6 +256,14 @@ public class Fornproduto implements Serializable {
     @Override
     public String toString() {
         return "entidade.cplus.Fornproduto[ fornprodutoPK=" + fornprodutoPK + " ]";
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.removePropertyChangeListener(listener);
     }
     
 }

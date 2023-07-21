@@ -15,7 +15,7 @@ import integrador.rma.EspelhoRmaJFrame;
 import integrador.rma.RmaJFrame;
 import integrador.separacao.EntradaSerialJFrame;
 import integrador.separacao.SaidaSerialJFrame;
-import janela.cplus.AlteracaoPrecoProdutoJFrame;
+import janela.cplus.ProdutoJFrame;
 import janela.cplus.EntradasCplusJFrame;
 import janela.cplus.RelatorioComprasJFrame;
 import janela.cplus.RelatorioEstoqueJFrame;
@@ -232,6 +232,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
 
         jMenuManutencaoProdutosCplus.setText("Manutenção Produtos C-Plus");
 
+        jMenuItemAlteracaoDePreco.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItemAlteracaoDePreco.setText("Alteração de Preços");
         jMenuItemAlteracaoDePreco.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -270,9 +271,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
                         .addComponent(jLabelV)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabelVersao, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabelUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jLabelUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -329,7 +328,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
 
     private void jMenuItemAlteracaoDePrecoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemAlteracaoDePrecoActionPerformed
         if (alteracaoPrecoProduto == null || !alteracaoPrecoProduto.isDisplayable()) {
-            alteracaoPrecoProduto = new AlteracaoPrecoProdutoJFrame(managerCplus, managerIntegrador, managerPrestaShop);
+            alteracaoPrecoProduto = new ProdutoJFrame(managerCplus, managerIntegrador, managerPrestaShop);
             alteracaoPrecoProduto.setLocationRelativeTo(this); //opcional  
         } else {
             alteracaoPrecoProduto.setExtendedState(JFrame.NORMAL);
@@ -531,7 +530,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     private EntradasCplusJFrame frameEntradaCplus;
     private IntegracaoJFrame frameIntegracao;
     private EspelhoRmaJFrame espelhoRmaJFrame;
-    private AlteracaoPrecoProdutoJFrame alteracaoPrecoProduto;
+    private ProdutoJFrame alteracaoPrecoProduto;
     private EntradaSerialJFrame entradaSerialJframe;
     private ListaFornecedorJFrame listaFornecedorJFrame;
 
