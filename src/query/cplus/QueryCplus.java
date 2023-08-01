@@ -15,6 +15,7 @@ import entidade.cplus.Contareceber;
 import entidade.cplus.Documento;
 import entidade.cplus.Documentodocref;
 import entidade.cplus.Fornecedor;
+import entidade.cplus.Fornproduto;
 import entidade.cplus.Moentrega;
 import entidade.cplus.Moentregaprod;
 import entidade.cplus.Movdocreferenciado;
@@ -1796,5 +1797,17 @@ public List<Movendaproddevolucaocompra> listagemControlaDevolucaoPorSaida(String
         return query.getResultList();
     }
 
+    public List<Fornproduto> resultForProduto(String codProd) {
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery("SELECT mov FROM Fornproduto mov WHERE mov.produto.codprod =:codProd ORDER BY mov.datatu Desc");
+        query.setParameter("codProd", codProd);//primeiro parametro      
+        return query.getResultList();
+    }
     
+    public List<Fornecedor> resultFornecedor(String codFor) {
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery("SELECT mov FROM Fornecedor mov WHERE mov.codforn =:codFor");
+        query.setParameter("codFor", codFor);//primeiro parametro      
+        return query.getResultList();
+    }
 }

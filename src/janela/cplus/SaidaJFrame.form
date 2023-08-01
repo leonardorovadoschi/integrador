@@ -917,7 +917,7 @@
                           <EmptySpace min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
                               <Group type="102" alignment="1" attributes="0">
-                                  <Component id="jPanelValorProduto" pref="0" max="32767" attributes="0"/>
+                                  <Component id="jPanelValorProduto" max="32767" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Component id="jPanelIPI" min="-2" pref="165" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
@@ -943,7 +943,7 @@
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="jPanelValorProduto" pref="134" max="32767" attributes="0"/>
+                              <Component id="jPanelValorProduto" max="32767" attributes="0"/>
                               <Component id="jPanelSubsTrib" max="32767" attributes="0"/>
                               <Component id="jPanelIPI" max="32767" attributes="0"/>
                           </Group>
@@ -1348,7 +1348,7 @@
                                       <Component id="jTextFieldBaseSTProd" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace max="32767" attributes="0"/>
+                              <EmptySpace pref="34" max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jLabelAliqMva" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jTextFieldAliqMva" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -1568,8 +1568,6 @@
                     </Component>
                     <Component class="javax.swing.JTextField" name="jTextFieldBaseIcmsProduto">
                       <Events>
-                        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTextFieldBaseIcmsProdutoFocusGained"/>
-                        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTextFieldBaseIcmsProdutoFocusLost"/>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextFieldBaseIcmsProdutoActionPerformed"/>
                       </Events>
                     </Component>

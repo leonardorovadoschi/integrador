@@ -24,6 +24,7 @@ import integrador.render.RenderPorcentagem;
 import pedido.ManutencaoVenda;
 import java.awt.Color;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
@@ -149,7 +150,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
         jTextAreaObservacoesFiscal = new javax.swing.JTextArea();
         jPanel2 = new javax.swing.JPanel();
         jLabelIdentificadorDestino = new javax.swing.JLabel();
-        jComboBoxIdentificadorDeDestino = new javax.swing.JComboBox<String>();
+        jComboBoxIdentificadorDeDestino = new javax.swing.JComboBox<>();
         jButtonPesquisar = new javax.swing.JButton();
         jLabelMensagem = new javax.swing.JLabel();
         jButtonExcluirSaida = new javax.swing.JButton();
@@ -584,7 +585,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
 
         jLabelIdentificadorDestino.setText("Identificador de Destino:");
 
-        jComboBoxIdentificadorDeDestino.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1 - Operação Interna", "2 - Operação Interestadual", "3 - Operação com Exterior" }));
+        jComboBoxIdentificadorDeDestino.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1 - Operação Interna", "2 - Operação Interestadual", "3 - Operação com Exterior" }));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -1046,7 +1047,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
                     .addGroup(jPanelSubsTribLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabelBaseSTProd)
                         .addComponent(jTextFieldBaseSTProd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                 .addGroup(jPanelSubsTribLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelAliqMva)
                     .addComponent(jTextFieldAliqMva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1089,14 +1090,6 @@ public class SaidaJFrame extends javax.swing.JFrame {
         jLabelBaseIcmsProduto.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabelBaseIcmsProduto.setText("Base ICMS:");
 
-        jTextFieldBaseIcmsProduto.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                jTextFieldBaseIcmsProdutoFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                jTextFieldBaseIcmsProdutoFocusLost(evt);
-            }
-        });
         jTextFieldBaseIcmsProduto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldBaseIcmsProdutoActionPerformed(evt);
@@ -1328,7 +1321,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanelEdicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanelEdicaoLayout.createSequentialGroup()
-                        .addComponent(jPanelValorProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addComponent(jPanelValorProduto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jPanelIPI, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1348,7 +1341,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
                     .addComponent(jPanelIcms, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelEdicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanelValorProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 134, Short.MAX_VALUE)
+                    .addComponent(jPanelValorProduto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanelSubsTrib, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanelIPI, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1639,9 +1632,9 @@ public class SaidaJFrame extends javax.swing.JFrame {
         this.listagemSaidasJDialog.setVisible(true);
         if (this.listagemSaidasJDialog.isCancelamento() == false) {
             movenda = this.listagemSaidasJDialog.getMoVenda();
-
+            
             carregaCamposSaida();
-
+            
         }
         jTabbedPaneMovenda.setSelectedIndex(0);
     }//GEN-LAST:event_jButtonPesquisarActionPerformed
@@ -1703,7 +1696,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
     private void jTextFieldBasePisProdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldBasePisProdFocusLost
         String text = jTextFieldBasePisProd.getText();
         jTextFieldBasePisProd.setText(formataCampos.stringParaStringMoeda(text, decimaisArredondamento));
-
+        
         BigDecimal aliq = formataCampos.stringParaDecimal(jTextFieldAliqPisProd.getText(), decimaisArredondamento);
         BigDecimal base = formataCampos.stringParaDecimal(jTextFieldBasePisProd.getText(), decimaisArredondamento);
         jTextFieldValorPis.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base), decimaisArredondamento));
@@ -1713,7 +1706,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
     private void jTextFieldAliqCofinsProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldAliqCofinsProdActionPerformed
         String text = jTextFieldAliqCofinsProd.getText();
         jTextFieldAliqCofinsProd.setText(formataCampos.stringParaStringMoeda(text, decimaisArredondamento));
-
+        
         BigDecimal aliq = formataCampos.stringParaDecimal(jTextFieldAliqCofinsProd.getText(), decimaisArredondamento);
         BigDecimal base = formataCampos.stringParaDecimal(jTextFieldBaseCofinsProd.getText(), decimaisArredondamento);
         jTextFieldValorCofinsProd.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base), decimaisArredondamento));
@@ -1723,7 +1716,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
     private void jTextFieldAliqCofinsProdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldAliqCofinsProdFocusLost
         String text = jTextFieldAliqCofinsProd.getText();
         jTextFieldAliqCofinsProd.setText(formataCampos.stringParaStringMoeda(text, decimaisArredondamento));
-
+        
         BigDecimal aliq = formataCampos.stringParaDecimal(jTextFieldAliqCofinsProd.getText(), decimaisArredondamento);
         BigDecimal base = formataCampos.stringParaDecimal(jTextFieldBaseCofinsProd.getText(), decimaisArredondamento);
         jTextFieldValorCofinsProd.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base), decimaisArredondamento));
@@ -1733,7 +1726,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
     private void jTextFieldBaseCofinsProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldBaseCofinsProdActionPerformed
         String text = jTextFieldBaseCofinsProd.getText();
         jTextFieldBaseCofinsProd.setText(formataCampos.stringParaStringMoeda(text, decimaisArredondamento));
-
+        
         BigDecimal aliq = formataCampos.stringParaDecimal(jTextFieldAliqCofinsProd.getText(), decimaisArredondamento);
         BigDecimal base = formataCampos.stringParaDecimal(jTextFieldBaseCofinsProd.getText(), decimaisArredondamento);
         jTextFieldValorCofinsProd.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base), decimaisArredondamento));
@@ -1743,7 +1736,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
     private void jTextFieldAliqIpiProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldAliqIpiProdActionPerformed
         String text = jTextFieldAliqIpiProd.getText();
         jTextFieldAliqIpiProd.setText(formataCampos.stringParaStringMoeda(text, decimaisArredondamento));
-
+        
         BigDecimal aliq = formataCampos.stringParaDecimal(jTextFieldAliqIpiProd.getText(), decimaisArredondamento);
         BigDecimal base = formataCampos.stringParaDecimal(jTextFieldBaseIpiProd.getText(), decimaisArredondamento);
         jTextFieldValorIpiProd.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base), decimaisArredondamento));
@@ -1753,7 +1746,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
     private void jTextFieldAliqIpiProdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldAliqIpiProdFocusLost
         String text = jTextFieldAliqIpiProd.getText();
         jTextFieldAliqIpiProd.setText(formataCampos.stringParaStringMoeda(text, decimaisArredondamento));
-
+        
         BigDecimal aliq = formataCampos.stringParaDecimal(jTextFieldAliqIpiProd.getText(), decimaisArredondamento);
         BigDecimal base = formataCampos.stringParaDecimal(jTextFieldBaseIpiProd.getText(), decimaisArredondamento);
         jTextFieldValorIpiProd.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base), decimaisArredondamento));
@@ -1763,7 +1756,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
     private void jTextFieldBaseIpiProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldBaseIpiProdActionPerformed
         String text = jTextFieldBaseIpiProd.getText();
         jTextFieldBaseIpiProd.setText(formataCampos.stringParaStringMoeda(text, decimaisArredondamento));
-
+        
         BigDecimal aliq = formataCampos.stringParaDecimal(jTextFieldAliqIpiProd.getText(), decimaisArredondamento);
         BigDecimal base = formataCampos.stringParaDecimal(jTextFieldBaseIpiProd.getText(), decimaisArredondamento);
         jTextFieldValorIpiProd.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base), decimaisArredondamento));
@@ -1773,7 +1766,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
     private void jTextFieldBaseIpiProdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldBaseIpiProdFocusLost
         String text = jTextFieldBaseIpiProd.getText();
         jTextFieldBaseIpiProd.setText(formataCampos.stringParaStringMoeda(text, decimaisArredondamento));
-
+        
         BigDecimal aliq = formataCampos.stringParaDecimal(jTextFieldAliqIpiProd.getText(), decimaisArredondamento);
         BigDecimal base = formataCampos.stringParaDecimal(jTextFieldBaseIpiProd.getText(), decimaisArredondamento);
         jTextFieldValorIpiProd.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base), decimaisArredondamento));
@@ -1783,11 +1776,18 @@ public class SaidaJFrame extends javax.swing.JFrame {
     private void jTextFieldAliqIcmsProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldAliqIcmsProdutoActionPerformed
         String text = jTextFieldAliqIcmsProduto.getText();
         jTextFieldAliqIcmsProduto.setText(formataCampos.stringParaStringMoeda(text, decimaisArredondamento));
-
+        
         BigDecimal aliq = formataCampos.stringParaDecimal(jTextFieldAliqIcmsProduto.getText(), decimaisArredondamento);
         BigDecimal base = formataCampos.stringParaDecimal(jTextFieldBaseIcmsProduto.getText(), decimaisArredondamento);
         if (jComboBoxCstIcms.getSelectedIndex() == 7) {
-            base = base.multiply(new BigDecimal("0.70588"));
+            //base = base.multiply(new BigDecimal("0.70588"));
+            //BigDecimal valorIcmsOperacao = calculodeValores(aliq, base);
+            //jTextFieldValorIcmsOperacao.setText(formataCampos.bigDecimalParaString(valorIcmsOperacao, decimaisArredondamento));          
+            // jTextFieldAliqDeferimento.setText(formataCampos.bigDecimalParaString(new BigDecimal("29.412"), 3));            
+            //jTextFieldValorIcmsDeferimento.setText(formataCampos.bigDecimalParaString(valorIcmsOperacao.multiply(new BigDecimal("0.29412")), decimaisArredondamento));   
+            //jTextFieldValorIcmsProduto.setText(formataCampos.bigDecimalParaString(valorIcmsOperacao.multiply(new BigDecimal("0.70588")), decimaisArredondamento));
+            //jTextFieldCodBeneficioFiscal.setText("RS052158");
+            calculaDeferimento();
         }
         jTextFieldValorIcmsProduto.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base), decimaisArredondamento));
         jTextFieldBaseIcmsProduto.requestFocus();
@@ -1796,18 +1796,19 @@ public class SaidaJFrame extends javax.swing.JFrame {
     private void jTextFieldAliqIcmsProdutoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldAliqIcmsProdutoFocusLost
         String text = jTextFieldAliqIcmsProduto.getText();
         jTextFieldAliqIcmsProduto.setText(formataCampos.stringParaStringMoeda(text, decimaisArredondamento));
-
+        
         BigDecimal aliq = formataCampos.stringParaDecimal(jTextFieldAliqIcmsProduto.getText(), decimaisArredondamento);
         BigDecimal base = formataCampos.stringParaDecimal(jTextFieldBaseIcmsProduto.getText(), decimaisArredondamento);
         if (jComboBoxCstIcms.getSelectedIndex() == 7) {
-            BigDecimal valorIcmsOperacao = calculodeValores(aliq, base);
-            jTextFieldValorIcmsOperacao.setText(formataCampos.bigDecimalParaString(valorIcmsOperacao, decimaisArredondamento));          
-            jTextFieldAliqDeferimento.setText(formataCampos.bigDecimalParaString(new BigDecimal("29.412"), 3));            
-            jTextFieldValorIcmsDeferimento.setText(formataCampos.bigDecimalParaString(valorIcmsOperacao.multiply(new BigDecimal("0.29412")), decimaisArredondamento));   
-            jTextFieldValorIcmsProduto.setText(formataCampos.bigDecimalParaString(valorIcmsOperacao.multiply(new BigDecimal("0.70588")), decimaisArredondamento));
-            jTextFieldCodBeneficioFiscal.setText("RS052158");
-        }else{
-        jTextFieldValorIcmsProduto.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base), decimaisArredondamento));
+            //BigDecimal valorIcmsOperacao = calculodeValores(aliq, base);
+            //jTextFieldValorIcmsOperacao.setText(formataCampos.bigDecimalParaString(valorIcmsOperacao, decimaisArredondamento));          
+            // jTextFieldAliqDeferimento.setText(formataCampos.bigDecimalParaString(new BigDecimal("29.412"), 3));            
+            //jTextFieldValorIcmsDeferimento.setText(formataCampos.bigDecimalParaString(valorIcmsOperacao.multiply(new BigDecimal("0.29412")), decimaisArredondamento));   
+            //jTextFieldValorIcmsProduto.setText(formataCampos.bigDecimalParaString(valorIcmsOperacao.multiply(new BigDecimal("0.70588")), decimaisArredondamento));
+            //jTextFieldCodBeneficioFiscal.setText("RS052158");
+            calculaDeferimento();
+        } else {
+            jTextFieldValorIcmsProduto.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base), decimaisArredondamento));
         }
         // jTextFieldBaseIcmsProduto.requestFocus();
     }//GEN-LAST:event_jTextFieldAliqIcmsProdutoFocusLost
@@ -1815,34 +1816,22 @@ public class SaidaJFrame extends javax.swing.JFrame {
     private void jTextFieldBaseIcmsProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldBaseIcmsProdutoActionPerformed
         String text = jTextFieldBaseIcmsProduto.getText();
         jTextFieldBaseIcmsProduto.setText(formataCampos.stringParaStringMoeda(text, decimaisArredondamento));
-
+        
         BigDecimal aliq = formataCampos.stringParaDecimal(jTextFieldAliqIcmsProduto.getText(), decimaisArredondamento);
         BigDecimal base = formataCampos.stringParaDecimal(jTextFieldBaseIcmsProduto.getText(), decimaisArredondamento);
         if (jComboBoxCstIcms.getSelectedIndex() == 7) {
-            BigDecimal valorIcmsOperacao = calculodeValores(aliq, base);
-            jTextFieldValorIcmsOperacao.setText(formataCampos.bigDecimalParaString(valorIcmsOperacao, decimaisArredondamento));          
-            jTextFieldAliqDeferimento.setText(formataCampos.bigDecimalParaString(new BigDecimal("29.412"), 3));            
-            jTextFieldValorIcmsDeferimento.setText(formataCampos.bigDecimalParaString(valorIcmsOperacao.multiply(new BigDecimal("0.29412")), decimaisArredondamento));   
-            jTextFieldValorIcmsProduto.setText(formataCampos.bigDecimalParaString(valorIcmsOperacao.multiply(new BigDecimal("0.70588")), decimaisArredondamento));
-            jTextFieldCodBeneficioFiscal.setText("RS052158");
-        }else{
-        jTextFieldValorIcmsProduto.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base), decimaisArredondamento));
+            //BigDecimal valorIcmsOperacao = calculodeValores(aliq, base);
+            //jTextFieldValorIcmsOperacao.setText(formataCampos.bigDecimalParaString(valorIcmsOperacao, decimaisArredondamento));          
+            // jTextFieldAliqDeferimento.setText(formataCampos.bigDecimalParaString(new BigDecimal("29.412"), 3));            
+            //jTextFieldValorIcmsDeferimento.setText(formataCampos.bigDecimalParaString(valorIcmsOperacao.multiply(new BigDecimal("0.29412")), decimaisArredondamento));   
+            //jTextFieldValorIcmsProduto.setText(formataCampos.bigDecimalParaString(valorIcmsOperacao.multiply(new BigDecimal("0.70588")), decimaisArredondamento));
+            //jTextFieldCodBeneficioFiscal.setText("RS052158");
+            calculaDeferimento();
+        } else {
+            jTextFieldValorIcmsProduto.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base), decimaisArredondamento));
         }
         jTextFieldBaseSTProd.requestFocus();
     }//GEN-LAST:event_jTextFieldBaseIcmsProdutoActionPerformed
-
-    private void jTextFieldBaseIcmsProdutoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldBaseIcmsProdutoFocusLost
-        String text = jTextFieldBaseIcmsProduto.getText();
-        jTextFieldBaseIcmsProduto.setText(formataCampos.stringParaStringMoeda(text, decimaisArredondamento));
-
-        BigDecimal aliq = formataCampos.stringParaDecimal(jTextFieldAliqIcmsProduto.getText(), decimaisArredondamento);
-        BigDecimal base = formataCampos.stringParaDecimal(jTextFieldBaseIcmsProduto.getText(), decimaisArredondamento);
-        if (jComboBoxCstIcms.getSelectedIndex() == 7) {
-            base = base.multiply(new BigDecimal("0.70588"));
-        }
-        jTextFieldValorIcmsProduto.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base), decimaisArredondamento));
-        //jTextFieldBaseSTProd.requestFocus();
-    }//GEN-LAST:event_jTextFieldBaseIcmsProdutoFocusLost
 
     private void jTextFieldBaseSTProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldBaseSTProdActionPerformed
         String text = jTextFieldBaseSTProd.getText();
@@ -1883,7 +1872,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
     private void jTextFieldBaseCofinsProdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldBaseCofinsProdFocusLost
         String text = jTextFieldBaseCofinsProd.getText();
         jTextFieldBaseCofinsProd.setText(formataCampos.stringParaStringMoeda(text, decimaisArredondamento));
-
+        
         BigDecimal aliq = formataCampos.stringParaDecimal(jTextFieldAliqCofinsProd.getText(), decimaisArredondamento);
         BigDecimal base = formataCampos.stringParaDecimal(jTextFieldBaseCofinsProd.getText(), decimaisArredondamento);
         jTextFieldValorCofinsProd.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, base), decimaisArredondamento));
@@ -1897,10 +1886,6 @@ public class SaidaJFrame extends javax.swing.JFrame {
     private void jTextFieldAliqIcmsProdutoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldAliqIcmsProdutoFocusGained
         jTextFieldAliqIcmsProduto.selectAll();
     }//GEN-LAST:event_jTextFieldAliqIcmsProdutoFocusGained
-
-    private void jTextFieldBaseIcmsProdutoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldBaseIcmsProdutoFocusGained
-        jTextFieldBaseIcmsProduto.selectAll();
-    }//GEN-LAST:event_jTextFieldBaseIcmsProdutoFocusGained
 
     private void jTextFieldBaseSTProdFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldBaseSTProdFocusGained
         jTextFieldBaseSTProd.selectAll();
@@ -1941,7 +1926,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextFieldValorUnitarioProdutoFocusLost
 
     private void jCheckBoxAtualizaBaseIcmsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxAtualizaBaseIcmsActionPerformed
-
+        
         if (jCheckBoxAtualizaBaseIcms.isSelected()) {
             jTextFieldBaseIcmsProduto.setEnabled(false);
         } else {
@@ -1980,7 +1965,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonTrocarClienteActionPerformed
 
     private void jButtonImprimeNFCeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonImprimeNFCeActionPerformed
-
+        
         new ImprimeRelatorio().imprimeRelatorio("/integrador/relatorio/CupomNFCe.jrxml", new ManutencaoVenda().listaRelatorio(movenda, nfc));
     }//GEN-LAST:event_jButtonImprimeNFCeActionPerformed
 
@@ -2007,7 +1992,28 @@ public class SaidaJFrame extends javax.swing.JFrame {
     private void jTextFieldValorIcmsOperacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldValorIcmsOperacaoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldValorIcmsOperacaoActionPerformed
-
+    
+    private void calculaDeferimento() {
+        String estadoFornecedorOuCliente = "";
+        if (movProd.getCodmovenda().getCodForn() == null) {
+            estadoFornecedorOuCliente = movProd.getCodmovenda().getCodcli().getEstado();
+        } else {
+            estadoFornecedorOuCliente = movProd.getCodmovenda().getCodForn().getEstado();
+        }
+        List<Calculoicmsestado> listIcmsPorEstado = queryCplus.listcalculoIcmsEstadol("RS", estadoFornecedorOuCliente, movProd.getCodcfop().getCodcfop(), movProd.getCodprod().getCodcalculoicms().getCodcalculoicms());
+        for (Calculoicmsestado icms : listIcmsPorEstado) {
+            BigDecimal base = formataCampos.stringParaDecimal(jTextFieldBaseIcmsProduto.getText(), decimaisArredondamento);
+            BigDecimal aliIcms = formataCampos.stringParaDecimal(jTextFieldAliqIcmsProduto.getText(), decimaisArredondamento);
+            BigDecimal valorIcmsOperacao = calculodeValores(aliIcms, base).setScale(2, RoundingMode.UP);
+            jTextFieldValorIcmsOperacao.setText(formataCampos.bigDecimalParaString(valorIcmsOperacao, decimaisArredondamento));            
+            jTextFieldAliqDeferimento.setText(formataCampos.bigDecimalParaString(icms.getAliqdiferimento(), 3));            
+            BigDecimal valorDeferimento = valorIcmsOperacao.multiply(icms.getAliqdiferimento().divide(new BigDecimal("100.00"))).setScale(2, RoundingMode.UP);
+            jTextFieldValorIcmsDeferimento.setText(formataCampos.bigDecimalParaString(valorDeferimento, decimaisArredondamento));            
+            jTextFieldValorIcmsProduto.setText(formataCampos.bigDecimalParaString(valorIcmsOperacao.subtract(valorDeferimento), decimaisArredondamento));
+            jTextFieldCodBeneficioFiscal.setText("RS052158");
+        }
+    }
+    
     private void alteraValorProduto() {
         String text = jTextFieldValorUnitarioProduto.getText();
         jTextFieldValorUnitarioProduto.setText(formataCampos.stringParaStringMoeda(text, decimaisArredondamento));
@@ -2021,11 +2027,11 @@ public class SaidaJFrame extends javax.swing.JFrame {
         BigDecimal quantidade = new BigDecimal(jTextFieldQuantidadeProduto.getText());
         valorTotalProduto = valUnitario.multiply(quantidade);
         jTextFieldValorProdutos.setText(formataCampos.bigDecimalParaString(valorTotalProduto, decimaisArredondamento));
-
+        
         if (jCheckBoxAtualizaBaseIcms.isSelected()) {
             //text = jTextFieldValorProdutos.getText();
             jTextFieldBaseIcmsProduto.setText(formataCampos.bigDecimalParaString(valorTotalProduto, decimaisArredondamento));
-
+            
             aliq = formataCampos.stringParaDecimal(jTextFieldAliqIcmsProduto.getText(), decimaisArredondamento);
             //base = formataCampos.stringParaDecimal(jTextFieldBaseIcmsProduto.getText(), decimaisArredondamento);
             if (jComboBoxCstIcms.getSelectedIndex() == 7) {
@@ -2044,7 +2050,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
         if (jCheckBoxAtualizaBaseIPI.isSelected()) {
             //text = jTextFieldValorProdutos.getText();
             jTextFieldBaseIpiProd.setText(formataCampos.bigDecimalParaString(valorTotalProduto, decimaisArredondamento));
-
+            
             aliq = formataCampos.stringParaDecimal(jTextFieldAliqIpiProd.getText(), decimaisArredondamento);
             //base = formataCampos.stringParaDecimal(jTextFieldBaseIpiProd.getText(), decimaisArredondamento);
             jTextFieldValorIpiProd.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, valorTotalProduto), decimaisArredondamento));
@@ -2065,10 +2071,10 @@ public class SaidaJFrame extends javax.swing.JFrame {
             aliq = formataCampos.stringParaDecimal(jTextFieldAliqPisProd.getText(), decimaisArredondamento);
             //base = formataCampos.stringParaDecimal(jTextFieldBasePisProd.getText(), decimaisArredondamento);
             jTextFieldValorPis.setText(formataCampos.bigDecimalParaString(calculodeValores(aliq, basePisCofins), decimaisArredondamento));
-
+            
         }//fim fi Base pis e cofins
     }
-
+    
     private void trocarClienteSaida() {
         boolean condicaoIcms = true;
         this.listagemClientesJDialog.setVisible(true);
@@ -2164,7 +2170,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
                             prod.setCodcfop(calculoIcmsEstado.getCodcfop());
                             //prod.setFlagorigemproduto(origem);
                             double aliqIcms;
-
+                            
                             if (calculoIcmsEstado.getAliqicms() == null) {
                                 aliqIcms = 0.00;
                             } else {
@@ -2212,7 +2218,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
         }//if que verifica se a pesquisa cliente foi cancelada
 
     }
-
+    
     private void excluirDocDevolucaoFornecedor() {
         if (jTableDocDevolucaoFornecedor.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(null, "Vocï¿½ deve selecionar uma linha na tabela abaixo!!!");
@@ -2227,7 +2233,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
             }
         }
     }
-
+    
     private void criaDocDevolucaoFornecedor() {
         this.listagemEntradasJDialog.setVisible(true);
         if (this.listagemEntradasJDialog.isCancelamento() == false) {
@@ -2267,7 +2273,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
             }
         }//fim if que verifica se a saida foi cancelada
     }
-
+    
     private void deletaDevolucaoDeCompra() {
         if (jTableMovendaProd.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(null, "Você deve selecionar um produto na listagem!!!");
@@ -2284,15 +2290,15 @@ public class SaidaJFrame extends javax.swing.JFrame {
             }
         }
     }
-
+    
     private BigDecimal calculodeValores(BigDecimal aliquota, BigDecimal base) {
         double aliq = aliquota.doubleValue();
         double bas = base.doubleValue();
         double valor = (aliq * bas) / 100;
         return new BigDecimal(valor);
-
+        
     }
-
+    
     private void trocaProdutoDePedido() {
         if (jTableMovendaProd.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(null, "Você deve selecionar um produto na listagem!!!");
@@ -2304,13 +2310,13 @@ public class SaidaJFrame extends javax.swing.JFrame {
                 colunaCodMovendaProduto = jTableMovendaProd.getColumnModel().getColumnIndex("Codmovprod");
                 Movendaprod prod = new MovendaprodJpaController(managerCplus).findMovendaprod(jTableMovendaProd.getValueAt(jTableMovendaProd.getSelectedRow(), colunaCodMovendaProduto).toString());
                 prod.setCodmovenda(movendaAlterado);
-
+                
                 if (!"C".equals(movendaAlterado.getFlagcli().toString())) {
                     List<Movendaproddevolucaocompra> listDevProd = queryCplus.listagemControlaDevolucaoPorSaidaProd(prod.getCodmovprod());
                     if (listDevProd.isEmpty()) {
                         //Configuracao configuracao = new ConfiguracaoJpaController(managerIntegrador).findConfiguracao("increment_tabela_movenda_controla_devolucao");
                         Integer configCont = new ConexaoDB().ultimoCodigo("MOVENDAPRODDEVOLUCAOCOMPRA", "CODMOVENDAPRODDEVOLUCAOCOMPRA");
-
+                        
                         Movendaproddevolucaocompra devProd = new Movendaproddevolucaocompra();
                         devProd.setCodmovendaproddevolucaocompra(String.format("%09d", configCont));
                         devProd.setCodprod(prod.getCodprod());
@@ -2350,7 +2356,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, "Houve um erro ao trocar Produto de Pedido!!!\n " + ex);
                 }
-
+                
                 editaMovenda(movendaAlterado, managerCplus);
                 editaMovenda(movenda, managerCplus);
                 movendaprodList.clear();
@@ -2360,7 +2366,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
             }
         }//fim else que verifica se a produto selecionado na lista
     }
-
+    
     private void carregaCamposSaida() {
         limpacampos();
         movendaprodList.clear();
@@ -2467,7 +2473,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
             }
         }
     }
-
+    
     private void carregaLitaReferenciaDoc(Movenda saida) {
         movdocreferenciadoList.clear();
         List<Movdocreferenciado> listDocs = queryCplus.relacaoNotaDevolucaoFornecedorSaida(saida.getCodmovenda());
@@ -2475,7 +2481,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
             movdocreferenciadoList.add(doc);
         }
     }
-
+    
     private void limpacampos() {
         jTextFieldAliqCofinsProd.setText("");
         jTextFieldAliqIpiProd.setText("");
@@ -2511,38 +2517,38 @@ public class SaidaJFrame extends javax.swing.JFrame {
         jComboBoxCstCofinsProd.setSelectedIndex(3);
         jComboBoxCstPisProd.setSelectedIndex(3);
         jComboBoxCstIcms.setSelectedIndex(11);
-
+        
         jButtonEditarMovendaProd.setEnabled(false);
         jButtonTrocaProdutoPedido.setEnabled(false);
         jButtonDeletarDevolucao.setEnabled(false);
         jButtonImprimeNFCe.setEnabled(false);
         jButtonTrocaVendedor.setEnabled(false);
         jButtonTrocarCliente.setEnabled(false);
-
+        
         jTextFieldAliqIcmsProduto.setText("");
         jTextFieldBaseIcmsProduto.setText("");
         jTextFieldValorIcmsProduto.setText("");
-
+        
         jTextFieldValorProdutos.setText("");//produtos pedido
         jTextFieldValorUnitarioProduto.setText("");//produtos pedido
         jTextFieldQuantidadeProduto.setText("");
         jTextFieldAliqStDestino.setText("");
         jTextFieldAliqMva.setText("");
-
+        
         jTextFieldAliqDeferimento.setText("");
         jTextFieldValorIcmsDeferimento.setText("");
         jTextFieldValorIcmsOperacao.setText("");
         jTextFieldCodBeneficioFiscal.setText("");
-
+        
     }
-
+    
     private void carregarCamposSaidaProduto() {
         colunaCodMovendaProduto = jTableMovendaProd.getColumnModel().getColumnIndex("Codmovprod");
-        Movendaprod prod = new MovendaprodJpaController(managerCplus).findMovendaprod(jTableMovendaProd.getValueAt(jTableMovendaProd.getSelectedRow(), colunaCodMovendaProduto).toString());
-        if (prod.getCstpis() == null) {
+        movProd = new MovendaprodJpaController(managerCplus).findMovendaprod(jTableMovendaProd.getValueAt(jTableMovendaProd.getSelectedRow(), colunaCodMovendaProduto).toString());
+        if (movProd.getCstpis() == null) {
             jComboBoxCstPisProd.setSelectedIndex(0);
         } else {
-            switch (prod.getCstpis()) {
+            switch (movProd.getCstpis()) {
                 case "01":
                     jComboBoxCstPisProd.setSelectedIndex(0);
                     break;
@@ -2554,10 +2560,10 @@ public class SaidaJFrame extends javax.swing.JFrame {
                     break;
             }
         }
-        if (prod.getCstcofins() == null) {
+        if (movProd.getCstcofins() == null) {
             jComboBoxCstCofinsProd.setSelectedIndex(0);
         } else {
-            switch (prod.getCstcofins()) {
+            switch (movProd.getCstcofins()) {
                 case "01":
                     jComboBoxCstCofinsProd.setSelectedIndex(0);
                     break;
@@ -2571,22 +2577,22 @@ public class SaidaJFrame extends javax.swing.JFrame {
                     jComboBoxCstCofinsProd.setSelectedIndex(0);
             }
         }
-        jTextFieldBasePisProd.setText(formataCampos.bigDecimalParaString(prod.getBasepis(), decimaisArredondamento));
-        jTextFieldAliqPisProd.setText(formataCampos.bigDecimalParaString(prod.getAliqpis(), decimaisArredondamento));
-        jTextFieldValorPis.setText(formataCampos.bigDecimalParaString(prod.getValorpis(), decimaisArredondamento));
-        jTextFieldBaseCofinsProd.setText(formataCampos.bigDecimalParaString(prod.getBasecofins(), decimaisArredondamento));
-        jTextFieldAliqCofinsProd.setText(formataCampos.bigDecimalParaString(prod.getAliqcofins(), decimaisArredondamento));
-        jTextFieldValorCofinsProd.setText(formataCampos.bigDecimalParaString(prod.getValorcofins(), decimaisArredondamento));
-        jTextFieldBaseIpiProd.setText(formataCampos.bigDecimalParaString(prod.getBaseipi(), decimaisArredondamento));
-        jTextFieldAliqIpiProd.setText(formataCampos.bigDecimalParaString(prod.getAliqipi(), decimaisArredondamento));
-        jTextFieldValorIpiProd.setText(formataCampos.bigDecimalParaString(prod.getValoripi(), decimaisArredondamento));
-        jTextFieldBaseSTProd.setText(formataCampos.bigDecimalParaString(prod.getBasesubsttributaria(), decimaisArredondamento));
-        jTextFieldValorSTProd.setText(formataCampos.bigDecimalParaString(prod.getValorsubsttributaria(), decimaisArredondamento));
-        if (prod.getCodcfop() != null) {
-            jTextFieldCfopProduto.setText(prod.getCodcfop().getCodcfop());
+        jTextFieldBasePisProd.setText(formataCampos.bigDecimalParaString(movProd.getBasepis(), decimaisArredondamento));
+        jTextFieldAliqPisProd.setText(formataCampos.bigDecimalParaString(movProd.getAliqpis(), decimaisArredondamento));
+        jTextFieldValorPis.setText(formataCampos.bigDecimalParaString(movProd.getValorpis(), decimaisArredondamento));
+        jTextFieldBaseCofinsProd.setText(formataCampos.bigDecimalParaString(movProd.getBasecofins(), decimaisArredondamento));
+        jTextFieldAliqCofinsProd.setText(formataCampos.bigDecimalParaString(movProd.getAliqcofins(), decimaisArredondamento));
+        jTextFieldValorCofinsProd.setText(formataCampos.bigDecimalParaString(movProd.getValorcofins(), decimaisArredondamento));
+        jTextFieldBaseIpiProd.setText(formataCampos.bigDecimalParaString(movProd.getBaseipi(), decimaisArredondamento));
+        jTextFieldAliqIpiProd.setText(formataCampos.bigDecimalParaString(movProd.getAliqipi(), decimaisArredondamento));
+        jTextFieldValorIpiProd.setText(formataCampos.bigDecimalParaString(movProd.getValoripi(), decimaisArredondamento));
+        jTextFieldBaseSTProd.setText(formataCampos.bigDecimalParaString(movProd.getBasesubsttributaria(), decimaisArredondamento));
+        jTextFieldValorSTProd.setText(formataCampos.bigDecimalParaString(movProd.getValorsubsttributaria(), decimaisArredondamento));
+        if (movProd.getCodcfop() != null) {
+            jTextFieldCfopProduto.setText(movProd.getCodcfop().getCodcfop());
         }
-        if (prod.getFlagorigemproduto() != null) {
-            switch (prod.getFlagorigemproduto().toString()) {
+        if (movProd.getFlagorigemproduto() != null) {
+            switch (movProd.getFlagorigemproduto().toString()) {
                 case "0":
                     jComboBoxOrigemProduto.setSelectedIndex(0);
                     break;
@@ -2620,18 +2626,18 @@ public class SaidaJFrame extends javax.swing.JFrame {
         } else {
             jComboBoxOrigemProduto.setSelectedIndex(9);
         }
-        jTextFieldAliqIcmsProduto.setText(formataCampos.bigDecimalParaString(prod.getAliqicms(), decimaisArredondamento));
-        jTextFieldBaseIcmsProduto.setText(formataCampos.bigDecimalParaString(prod.getBaseicms(), decimaisArredondamento));
-        jTextFieldValorIcmsProduto.setText(formataCampos.bigDecimalParaString(prod.getValoricms(), decimaisArredondamento));
-
-        jTextFieldAliqDeferimento.setText(formataCampos.bigDecimalParaString(prod.getAliqdiferimento(), 3));
-        jTextFieldValorIcmsDeferimento.setText(formataCampos.bigDecimalParaString(prod.getValoricmsdiferimento(), decimaisArredondamento));
-        jTextFieldValorIcmsOperacao.setText(formataCampos.bigDecimalParaString(prod.getValoricmsoperacao(), decimaisArredondamento));
-        jTextFieldCodBeneficioFiscal.setText(prod.getCodbeneficiofiscal());
-        if (prod.getCodsituacaotributaria() == null) {
+        jTextFieldAliqIcmsProduto.setText(formataCampos.bigDecimalParaString(movProd.getAliqicms(), decimaisArredondamento));
+        jTextFieldBaseIcmsProduto.setText(formataCampos.bigDecimalParaString(movProd.getBaseicms(), decimaisArredondamento));
+        jTextFieldValorIcmsProduto.setText(formataCampos.bigDecimalParaString(movProd.getValoricms(), decimaisArredondamento));
+        
+        jTextFieldAliqDeferimento.setText(formataCampos.bigDecimalParaString(movProd.getAliqdiferimento(), 3));
+        jTextFieldValorIcmsDeferimento.setText(formataCampos.bigDecimalParaString(movProd.getValoricmsdiferimento(), decimaisArredondamento));
+        jTextFieldValorIcmsOperacao.setText(formataCampos.bigDecimalParaString(movProd.getValoricmsoperacao(), decimaisArredondamento));
+        jTextFieldCodBeneficioFiscal.setText(movProd.getCodbeneficiofiscal());
+        if (movProd.getCodsituacaotributaria() == null) {
             jComboBoxCstIcms.setSelectedIndex(0);
         } else {
-            switch (prod.getCodsituacaotributaria()) {
+            switch (movProd.getCodsituacaotributaria()) {
                 case "00":
                     jComboBoxCstIcms.setSelectedIndex(0);
                     break;
@@ -2670,7 +2676,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
                     break;
             }
         }
-        if ("Y".equals(prod.getCodmovenda().getCodtipomovimento().getFlagdevolucao().toString())) {
+        if ("Y".equals(movProd.getCodmovenda().getCodtipomovimento().getFlagdevolucao().toString())) {
             jCheckBoxAtualizaBaseIPI.setSelected(true);
             jCheckBoxAtualizaBaseIcms.setSelected(true);
             jCheckBoxAtualizaBasePisCofins.setSelected(true);
@@ -2696,20 +2702,20 @@ public class SaidaJFrame extends javax.swing.JFrame {
             jTextFieldBasePisProd.setEnabled(true);
             jTextFieldBaseCofinsProd.setEnabled(true);
         }
-        jTextFieldValorProdutos.setText(formataCampos.bigDecimalParaString(prod.getValortotal(), decimaisArredondamento));
-        jTextFieldValorUnitarioProduto.setText(formataCampos.bigDecimalParaString(prod.getValorunitario(), decimaisArredondamento));
-        jTextFieldQuantidadeProduto.setText(formataCampos.bigDecimalParaString(prod.getQuantidade(), 0));
-        jTextFieldAliqStDestino.setText(formataCampos.bigDecimalParaString(prod.getAliqicmsStUfDestino(), decimaisArredondamento));
-        if (prod.getAliqmva() == null) {
+        jTextFieldValorProdutos.setText(formataCampos.bigDecimalParaString(movProd.getValortotal(), decimaisArredondamento));
+        jTextFieldValorUnitarioProduto.setText(formataCampos.bigDecimalParaString(movProd.getValorunitario(), decimaisArredondamento));
+        jTextFieldQuantidadeProduto.setText(formataCampos.bigDecimalParaString(movProd.getQuantidade(), 0));
+        jTextFieldAliqStDestino.setText(formataCampos.bigDecimalParaString(movProd.getAliqicmsStUfDestino(), decimaisArredondamento));
+        if (movProd.getAliqmva() == null) {
             jTextFieldAliqMva.setText("");
         } else {
-            jTextFieldAliqMva.setText(formataCampos.bigDecimalParaString(prod.getAliqmva(), decimaisArredondamento));
+            jTextFieldAliqMva.setText(formataCampos.bigDecimalParaString(movProd.getAliqmva(), decimaisArredondamento));
         }
         jButtonDeletarDevolucao.setEnabled(true);
         jButtonEditarMovendaProd.setEnabled(true);
         jButtonTrocaProdutoPedido.setEnabled(true);
     }
-
+    
     private void editaMovendaProduto() {
         if (jTableMovendaProd.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(null, "Voce deve selecionar uma linha na tabela!!!");
@@ -2849,10 +2855,10 @@ public class SaidaJFrame extends javax.swing.JFrame {
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, "Erro ao editar!!!\n" + ex);
             }
-
+            
         }
     }
-
+    
     private boolean editaMovendaCliente(Cliente cli, Movenda saida, EntityManagerFactory managerCplus) {
         boolean condicao = true;
         List<Movendaprod> listMovProd = queryCplus.listMovendaProd(saida.getCodmovenda());
@@ -2896,9 +2902,9 @@ public class SaidaJFrame extends javax.swing.JFrame {
             saida.setValorsubsttributaria(new BigDecimal(valSt));
             saida.setValortotalcofins(new BigDecimal(valCofins));
             saida.setValortotalpis(new BigDecimal(valPis));
-
+            
             valTotalNota = valFrete + valotrasDespesas + valSt + valIpi;
-
+            
             saida.setValortotalprodutos(new BigDecimal(valTotalProdutos));
             saida.setValortotalnota(new BigDecimal(valTotalNota));
             saida.setValortotalipi(new BigDecimal(valIpi));
@@ -2923,7 +2929,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
         }
         return condicao;
     }
-
+    
     private boolean editaMovenda(Movenda saida, EntityManagerFactory managerCplus) {
         boolean condicao = true;
         List<Movendaprod> listMovProd = queryCplus.listMovendaProd(saida.getCodmovenda());
@@ -2967,9 +2973,9 @@ public class SaidaJFrame extends javax.swing.JFrame {
             saida.setValorsubsttributaria(new BigDecimal(valSt));
             saida.setValortotalcofins(new BigDecimal(valCofins));
             saida.setValortotalpis(new BigDecimal(valPis));
-
+            
             valTotalNota = valFrete + valotrasDespesas + valSt + valIpi;
-
+            
             saida.setValortotalprodutos(new BigDecimal(valTotalProdutos));
             saida.setValortotalnota(new BigDecimal(valTotalNota));
             saida.setValortotalipi(new BigDecimal(valIpi));
@@ -3030,7 +3036,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
             }
         });
     }
-
+    
     int colunaCodMovendaProduto;
     int codMovenda = 0;
     int colunaMovDocReferenciado;
@@ -3043,7 +3049,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
     ListagemClientesJDialog listagemClientesJDialog;
     ListagemVendedorJDialog listagemVendedor;
     private Movenda movenda;
-    //private final QuerySerial querySerial;
+    private Movendaprod movProd;
     private final QueryIntegrador queryIntegrador;
     private static EntityManagerFactory managerIntegrador;
     private Nfceletronica nfc;

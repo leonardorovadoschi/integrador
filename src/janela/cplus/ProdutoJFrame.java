@@ -21,6 +21,7 @@ import entidade.cplus.Produtopreco;
 import entidade.integrador.IntLogs;
 import entidade.integrador.ProdFornecedor;
 import entidade.prestaShop.PsProduct;
+import integrador.render.RenderNomeFornecedor;
 import integrador.render.RenderNumeroInteiro;
 import integrador.render.RenderPorcentagem;
 import integrador.render.produto.RenderAllAtivo;
@@ -863,30 +864,31 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codigoproduto}"));
         columnBinding.setColumnName("Cod Prod Forn");
         columnBinding.setColumnClass(String.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${fornprodutoPK.codforn}"));
+        columnBinding.setColumnName("Fornecedor");
+        columnBinding.setColumnClass(String.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${datatu}"));
+        columnBinding.setColumnName("Data");
+        columnBinding.setColumnClass(java.util.Date.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${nomeproduto}"));
         columnBinding.setColumnName("Nome Prod Fornecedor");
         columnBinding.setColumnClass(String.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${aliqicms}"));
         columnBinding.setColumnName("Aliq. ICMS");
         columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${datatu}"));
-        columnBinding.setColumnName("Datatu");
-        columnBinding.setColumnClass(java.util.Date.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${custoreal}"));
         columnBinding.setColumnName("Custoreal");
         columnBinding.setColumnClass(java.math.BigDecimal.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${aliqipi}"));
         columnBinding.setColumnName("Aliq.IPI");
         columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${fornprodutoPK.codforn}"));
-        columnBinding.setColumnName("Cod Forn");
-        columnBinding.setColumnClass(String.class);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
         jScrollPane5.setViewportView(jTableFornProd);
         if (jTableFornProd.getColumnModel().getColumnCount() > 0) {
             jTableFornProd.getColumnModel().getColumn(0).setPreferredWidth(120);
-            jTableFornProd.getColumnModel().getColumn(1).setPreferredWidth(350);
+            jTableFornProd.getColumnModel().getColumn(1).setCellRenderer(new RenderNomeFornecedor(managerCplus));
+            jTableFornProd.getColumnModel().getColumn(3).setPreferredWidth(350);
         }
 
         javax.swing.GroupLayout jPanelListagemEntradasLayout = new javax.swing.GroupLayout(jPanelListagemEntradas);
@@ -896,8 +898,8 @@ public class ProdutoJFrame extends javax.swing.JFrame {
             .addGroup(jPanelListagemEntradasLayout.createSequentialGroup()
                 .addComponent(jButtonAtualizaListagemEntradas)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 851, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(236, Short.MAX_VALUE))
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 1077, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanelListagemEntradasLayout.setVerticalGroup(
             jPanelListagemEntradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2640,7 +2642,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
             txt = txt + ean.getCodigo() + "\n";
         }
         fornprodutoList.clear();
-        for(Fornproduto f : produtoCplus.getFornprodutoCollection()){
+        for(Fornproduto f : queryCplus.resultForProduto(produtoCplus.getCodprod())){
             fornprodutoList.add(f);
         }
         jTextAreaEan.setText(txt);
