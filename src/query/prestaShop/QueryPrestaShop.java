@@ -118,6 +118,14 @@ public class QueryPrestaShop implements Serializable {
         return query.getResultList();
     }
     
+    public List<PsCarrier> listPsCarrier(boolean active, boolean deleted) {
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery("SELECT c FROM PsCarrier c WHERE c.active = :active And c.deleted =:deleted");
+        query.setParameter("active", active);
+        query.setParameter("deleted", deleted);
+        return query.getResultList();
+    }
+    
     public List<PsOrderCartRule> listPsOrderCartRule(Integer idOrder) {
         EntityManager em = getEntityManager();
         Query query = em.createQuery("SELECT c FROM PsOrderCartRule c WHERE c.idOrder = :idOrder");
@@ -565,7 +573,7 @@ public class QueryPrestaShop implements Serializable {
 
     public List<PsOrders> listPsOrders(int currentState, int currentState2, Date dataInicial, Date dataFinal) {
         EntityManager em = getEntityManager();
-        Query query = em.createQuery("SELECT c FROM PsOrders c WHERE c.currentState =:currentState OR c.currentState =:currentState2 AND c.dateAdd BETWEEN :dataInicial AND :dataFinal");
+        Query query = em.createQuery("SELECT c FROM PsOrders c WHERE c.currentState =:currentState OR c.currentState =:currentState2 AND c.dateAdd BETWEEN :dataInicial AND :dataFinal ORDER BY C.idOrder DESC");
         query.setParameter("currentState", currentState);
         query.setParameter("currentState2", currentState2);
         query.setParameter("dataInicial", dataInicial);
@@ -596,7 +604,7 @@ public class QueryPrestaShop implements Serializable {
 
     public List<PsOrders> listPsOrders(List<Integer> listCurrentState, Date dataInicial, Date dataFinal) {
         EntityManager em = getEntityManager();
-        Query query = em.createQuery("SELECT c FROM PsOrders c WHERE c.currentState IN :currentState AND c.dateAdd BETWEEN :dataInicial AND :dataFinal");
+        Query query = em.createQuery("SELECT c FROM PsOrders c WHERE c.currentState IN :currentState AND c.dateAdd BETWEEN :dataInicial AND :dataFinal ORDER BY C.idOrder DESC");
         query.setParameter("currentState", listCurrentState);
        // query.setParameter("currentState2", currentState2);
         //  query.setParameter("currentState3", currentState3);

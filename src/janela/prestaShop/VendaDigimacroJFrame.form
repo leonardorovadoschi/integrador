@@ -121,7 +121,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
                               <Component id="jPanelPesquisa" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="316" max="32767" attributes="0"/>
+                              <EmptySpace min="0" pref="345" max="32767" attributes="0"/>
                           </Group>
                           <Component id="jScrollPane2" alignment="1" max="32767" attributes="0"/>
                           <Component id="jPanelInformacoes" max="32767" attributes="0"/>
@@ -137,7 +137,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jPanelInformacoes" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane2" min="-2" pref="365" max="-2" attributes="0"/>
+                      <Component id="jScrollPane2" min="-2" pref="344" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -270,116 +270,126 @@
                               <Component id="jTextFieldStatus" alignment="0" max="32767" attributes="0"/>
                               <Component id="jTextFieldEmail" alignment="0" pref="284" max="32767" attributes="0"/>
                           </Group>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="1" attributes="0">
-                                      <Component id="jLabelValorTotal" min="-2" pref="70" max="-2" attributes="0"/>
-                                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Group type="102" attributes="0">
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="jTextFieldDescontoAvulso" pref="83" max="32767" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" attributes="0">
-                                          <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
-                                          <Component id="jTextFieldValorTotal" max="32767" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Group type="102" attributes="0">
-                                          <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
-                                          <Component id="jLabelFrete" min="-2" pref="83" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" attributes="0">
-                                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                                          <Component id="jLabelTaxa" max="32767" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jTextFieldTaxa" max="32767" attributes="0"/>
-                                      <Component id="jTextFieldTotalProdutos" max="32767" attributes="0"/>
-                                  </Group>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                                  <Component id="jLabelDesconto" min="-2" pref="70" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jTextFieldDesconto" max="32767" attributes="0"/>
-                              </Group>
-                          </Group>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="jComboBoxPagamento" pref="324" max="32767" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                                  <Component id="jComboBoxState" pref="324" max="32767" attributes="0"/>
-                              </Group>
+                              <Component id="jLabelTaxa" max="32767" attributes="0"/>
+                              <Component id="jLabelFrete" max="32767" attributes="0"/>
+                              <Component id="jLabelValorTotal" max="32767" attributes="0"/>
+                              <Component id="jLabelDesconto" alignment="1" max="32767" attributes="0"/>
+                              <Component id="jLabel1" max="32767" attributes="0"/>
+                              <Component id="jLabel2" alignment="1" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="jButtonAlteraPagamento" pref="222" max="32767" attributes="0"/>
+                              <Component id="jTextFieldValorFrete" pref="108" max="32767" attributes="0"/>
+                              <Component id="jTextFieldDesconto" alignment="1" max="32767" attributes="0"/>
+                              <Component id="jTextFieldTaxa" alignment="1" max="32767" attributes="0"/>
+                              <Component id="jTextFieldTotalProdutos" alignment="1" max="32767" attributes="0"/>
+                              <Component id="jTextFieldValorTotal" alignment="1" max="32767" attributes="0"/>
+                              <Component id="jTextFieldDescontoAvulso" max="32767" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="jComboBoxPagamento" alignment="0" pref="323" max="32767" attributes="0"/>
+                              <Component id="jComboBoxState" alignment="0" pref="323" max="32767" attributes="0"/>
+                              <Component id="jComboBoxShipping" alignment="0" max="32767" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="jButtonAlteraPagamento" max="32767" attributes="0"/>
                               <Component id="jButtonDescontoAvulso" max="32767" attributes="0"/>
                               <Component id="jButtonCancelarOrders" max="32767" attributes="0"/>
+                              <Component id="jButtonShipping" alignment="0" min="-2" pref="222" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="-2" pref="69" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="jComboBoxPagamento" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jButtonAlteraPagamento" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="jComboBoxShipping" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jButtonShipping" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <EmptySpace min="32" pref="32" max="-2" attributes="0"/>
+                                          <Component id="jButtonDescontoAvulso" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="jButtonCancelarOrders" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Component id="jComboBoxState" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <Group type="102" attributes="0">
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="jLabelNome" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jTextFieldNome" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="jLabelCpfCnpj" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jTextFieldCpfCnpj" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="jLabelRgIe" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jTextFieldRgIe" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="jLabelStaus" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jTextFieldStatus" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="jLabelEmail" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jTextFieldEmail" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                          </Group>
+                          <EmptySpace max="32767" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabelNome" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jTextFieldNome" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabelValorTotal" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jTextFieldValorTotal" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jComboBoxPagamento" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jButtonAlteraPagamento" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabelValorTotal" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabelCpfCnpj" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jTextFieldCpfCnpj" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jButtonDescontoAvulso" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Group type="103" alignment="3" groupAlignment="3" attributes="0">
-                                  <Component id="jLabelFrete" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jTextFieldTotalProdutos" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="jTextFieldTotalProdutos" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabelFrete" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabelRgIe" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jTextFieldRgIe" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Group type="103" alignment="3" groupAlignment="3" attributes="0">
-                                  <Component id="jLabelTaxa" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jTextFieldTaxa" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="jTextFieldTaxa" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabelTaxa" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabelStaus" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jTextFieldStatus" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Group type="103" alignment="3" groupAlignment="3" attributes="0">
-                                  <Component id="jTextFieldDesconto" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabelDesconto" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="jTextFieldDesconto" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabelDesconto" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabelEmail" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jTextFieldEmail" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jTextFieldDescontoAvulso" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jComboBoxState" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jButtonCancelarOrders" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="jTextFieldValorFrete" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -465,7 +475,7 @@
                 <Component class="javax.swing.JLabel" name="jLabelFrete">
                   <Properties>
                     <Property name="horizontalAlignment" type="int" value="4"/>
-                    <Property name="text" type="java.lang.String" value="Total Produtos"/>
+                    <Property name="text" type="java.lang.String" value="Total Produtos:"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabelTaxa">
@@ -581,6 +591,45 @@
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonCancelarOrdersActionPerformed"/>
                   </Events>
+                </Component>
+                <Component class="javax.swing.JComboBox" name="jComboBoxShipping">
+                  <Properties>
+                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                      <StringArray count="1">
+                        <StringItem index="0" value=" "/>
+                      </StringArray>
+                    </Property>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jComboBoxShippingMouseClicked"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JButton" name="jButtonShipping">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Arial" size="12" style="1"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Mudar Entrega"/>
+                    <Property name="enabled" type="boolean" value="false"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonShippingActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JTextField" name="jTextFieldValorFrete">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Arial" size="14" style="1"/>
+                    </Property>
+                    <Property name="horizontalAlignment" type="int" value="4"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel2">
+                  <Properties>
+                    <Property name="horizontalAlignment" type="int" value="4"/>
+                    <Property name="text" type="java.lang.String" value="Valor Frete:"/>
+                    <Property name="horizontalTextPosition" type="int" value="4"/>
+                  </Properties>
                 </Component>
               </SubComponents>
             </Container>
@@ -804,7 +853,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="jTextFieldPesquisaCustomer" min="-2" pref="264" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="jButtonPesquisarCustomer" pref="312" max="32767" attributes="0"/>
+                                  <Component id="jButtonPesquisarCustomer" pref="341" max="32767" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Component id="jButtonImportarCliente" min="-2" pref="183" max="-2" attributes="0"/>
                               </Group>

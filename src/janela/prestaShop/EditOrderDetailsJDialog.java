@@ -518,33 +518,7 @@ public class EditOrderDetailsJDialog extends javax.swing.JDialog {
         jTextFieldQuantidade.setText(String.valueOf(quantMod));
         jTextFieldEan.setText(psProduct.getEan13());
         jButtonGravar.setEnabled(true);
-        estoqueDisponivel(); // carrega variavel globla
-        /**
-        String txt = " Quant.\t  % \tValor\n";
-        for (PsSpecificPrice sp : listSpecificPrice) {
-            if ("amount".equals(sp.getReductionType())) {
-                if (sp.getTo() == null) {
-                    txt = txt + " - " + sp.getFromQuantity() + " \t" + formataCampos.bigDecimalParaString(sp.getReduction(), 2) + " \t"
-                            + formataCampos.bigDecimalParaString(formataCampos.stringParaDecimal(jTextFieldPriceOriginal.getText(), 4).subtract(sp.getReduction()), 2) + "\n";
-                } else {
-                    Calendar dataAtual = Calendar.getInstance();
-                    dataAtual.setTime(new Date(System.currentTimeMillis()));
-                    Calendar dataBanco = Calendar.getInstance();
-                    dataBanco.setTime(sp.getTo());
-                    if (dataAtual.before(dataBanco)) {
-                        if ("amount".equals(sp.getReductionType())) {
-                            txt = txt + " " + sp.getFromQuantity() + " \t - " + formataCampos.bigDecimalParaString(sp.getReduction(), 2) + " \t"
-                            + formataCampos.bigDecimalParaString(formataCampos.stringParaDecimal(jTextFieldPriceOriginal.getText(), 4).subtract(sp.getReduction()), 2) + "\n";
-                        } 
-                        }
-                    }
-                }else{
-                txt = txt + " " + sp.getFromQuantity() + " \t" + formataCampos.bigDecimalParaString(sp.getReduction().multiply(new BigDecimal("100.00")), 2) + "% \t"
-                        + formataCampos.bigDecimalParaString((BigDecimal.ONE.subtract(sp.getReduction())).multiply(
-                                        formataCampos.stringParaDecimal(jTextFieldPriceOriginal.getText(), 4)), 2) + "\n";
-             }
-            }
-            */
+        estoqueDisponivel(); // carrega variavel globla       
             jTextAreaPrecoQuantidade.setText(textPreco(psGroup.getIdGroup()));
             quantOrderDetails = psOrderDetails.getProductQuantity();
         }

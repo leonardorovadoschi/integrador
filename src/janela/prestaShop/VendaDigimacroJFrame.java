@@ -12,6 +12,7 @@ import entidade.cplus.Produtoestoque;
 import entidade.cplus.Usuario;
 import entidade.integrador.IntExecucao;
 import entidade.prestaShop.PsAddress;
+import entidade.prestaShop.PsCarrier;
 import entidade.prestaShop.PsCartProduct;
 import entidade.prestaShop.PsCartProductPK;
 import entidade.prestaShop.PsCartRule;
@@ -120,6 +121,9 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         for (PsOrderStateLang st : queryPrestaShop.listPsOrderStateLang(2)) {
             ((DefaultComboBoxModel) jComboBoxState.getModel()).addElement(st.getName()); // Adiciona o Objeto
         }
+        for (PsCarrier st : queryPrestaShop.listPsCarrier(true, false)) {
+            ((DefaultComboBoxModel) jComboBoxShipping.getModel()).addElement(st.getName()); // Adiciona o Objeto
+        }
         valDescontoAvulso = BigDecimal.ZERO;
     }
 
@@ -165,12 +169,16 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         jTextFieldTotalProdutos = new javax.swing.JTextField();
         jTextFieldTaxa = new javax.swing.JTextField();
         jButtonAlteraPagamento = new javax.swing.JButton();
-        jComboBoxPagamento = new javax.swing.JComboBox<>();
+        jComboBoxPagamento = new javax.swing.JComboBox<String>();
         jComboBoxState = new javax.swing.JComboBox();
         jLabel1 = new javax.swing.JLabel();
         jTextFieldDescontoAvulso = new javax.swing.JTextField();
         jButtonDescontoAvulso = new javax.swing.JButton();
         jButtonCancelarOrders = new javax.swing.JButton();
+        jComboBoxShipping = new javax.swing.JComboBox();
+        jButtonShipping = new javax.swing.JButton();
+        jTextFieldValorFrete = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jPanelClienteDigimacro = new javax.swing.JPanel();
@@ -290,7 +298,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         jLabelDesconto.setText("Desconto:");
 
         jLabelFrete.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabelFrete.setText("Total Produtos");
+        jLabelFrete.setText("Total Produtos:");
 
         jLabelTaxa.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabelTaxa.setText("Taxa:");
@@ -317,7 +325,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
             }
         });
 
-        jComboBoxPagamento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " " }));
+        jComboBoxPagamento.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " " }));
         jComboBoxPagamento.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jComboBoxPagamentoMouseClicked(evt);
@@ -349,6 +357,29 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
             }
         });
 
+        jComboBoxShipping.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " " }));
+        jComboBoxShipping.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jComboBoxShippingMouseClicked(evt);
+            }
+        });
+
+        jButtonShipping.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jButtonShipping.setText("Mudar Entrega");
+        jButtonShipping.setEnabled(false);
+        jButtonShipping.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonShippingActionPerformed(evt);
+            }
+        });
+
+        jTextFieldValorFrete.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jTextFieldValorFrete.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel2.setText("Valor Frete:");
+        jLabel2.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+
         javax.swing.GroupLayout jPanelInformacoesLayout = new javax.swing.GroupLayout(jPanelInformacoes);
         jPanelInformacoes.setLayout(jPanelInformacoesLayout);
         jPanelInformacoesLayout.setHorizontalGroup(
@@ -368,90 +399,101 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
                     .addComponent(jTextFieldRgIe)
                     .addComponent(jTextFieldStatus)
                     .addComponent(jTextFieldEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 284, Short.MAX_VALUE))
-                .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanelInformacoesLayout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabelValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1))
-                        .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanelInformacoesLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextFieldDescontoAvulso, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE))
-                            .addGroup(jPanelInformacoesLayout.createSequentialGroup()
-                                .addGap(3, 3, 3)
-                                .addComponent(jTextFieldValorTotal))))
-                    .addGroup(jPanelInformacoesLayout.createSequentialGroup()
-                        .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanelInformacoesLayout.createSequentialGroup()
-                                .addGap(4, 4, 4)
-                                .addComponent(jLabelFrete, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanelInformacoesLayout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabelTaxa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextFieldTaxa)
-                            .addComponent(jTextFieldTotalProdutos)))
-                    .addGroup(jPanelInformacoesLayout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabelDesconto, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldDesconto)))
+                .addGap(18, 18, 18)
                 .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelInformacoesLayout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jComboBoxPagamento, 0, 324, Short.MAX_VALUE))
-                    .addGroup(jPanelInformacoesLayout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jComboBoxState, 0, 324, Short.MAX_VALUE)))
+                    .addComponent(jLabelTaxa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabelFrete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabelValorTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabelDesconto, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButtonAlteraPagamento, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
+                    .addComponent(jTextFieldValorFrete, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
+                    .addComponent(jTextFieldDesconto, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jTextFieldTaxa, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jTextFieldTotalProdutos, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jTextFieldValorTotal, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jTextFieldDescontoAvulso))
+                .addGap(18, 18, 18)
+                .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jComboBoxPagamento, 0, 323, Short.MAX_VALUE)
+                    .addComponent(jComboBoxState, 0, 323, Short.MAX_VALUE)
+                    .addComponent(jComboBoxShipping, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButtonAlteraPagamento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButtonDescontoAvulso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonCancelarOrders, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(69, 69, 69))
+                    .addComponent(jButtonCancelarOrders, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonShipping, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
         jPanelInformacoesLayout.setVerticalGroup(
             jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelInformacoesLayout.createSequentialGroup()
+                .addGap(7, 7, 7)
+                .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelInformacoesLayout.createSequentialGroup()
+                        .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jComboBoxPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonAlteraPagamento))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jComboBoxShipping, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonShipping))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanelInformacoesLayout.createSequentialGroup()
+                                .addGap(32, 32, 32)
+                                .addComponent(jButtonDescontoAvulso)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButtonCancelarOrders))
+                            .addComponent(jComboBoxState, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanelInformacoesLayout.createSequentialGroup()
+                        .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabelNome)
+                            .addComponent(jTextFieldNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabelCpfCnpj)
+                            .addComponent(jTextFieldCpfCnpj, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabelRgIe)
+                            .addComponent(jTextFieldRgIe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabelStaus)
+                            .addComponent(jTextFieldStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabelEmail)
+                            .addComponent(jTextFieldEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanelInformacoesLayout.createSequentialGroup()
                 .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelNome)
-                    .addComponent(jTextFieldNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelValorTotal)
                     .addComponent(jTextFieldValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBoxPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonAlteraPagamento))
+                    .addComponent(jLabelValorTotal))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelCpfCnpj)
-                    .addComponent(jTextFieldCpfCnpj, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonDescontoAvulso)
-                    .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabelFrete)
-                        .addComponent(jTextFieldTotalProdutos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jTextFieldTotalProdutos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelFrete))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelRgIe)
-                    .addComponent(jTextFieldRgIe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabelTaxa)
-                        .addComponent(jTextFieldTaxa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jTextFieldTaxa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelTaxa))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelStaus)
-                    .addComponent(jTextFieldStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jTextFieldDesconto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabelDesconto)))
+                    .addComponent(jTextFieldDesconto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelDesconto))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelEmail)
-                    .addComponent(jTextFieldEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1)
                     .addComponent(jTextFieldDescontoAvulso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBoxState, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonCancelarOrders)))
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldValorFrete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         jTable1.setAutoCreateRowSorter(true);
@@ -541,7 +583,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
                 .addGroup(jPanelVendasMagentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelVendasMagentoLayout.createSequentialGroup()
                         .addComponent(jPanelPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 316, Short.MAX_VALUE))
+                        .addGap(0, 345, Short.MAX_VALUE))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanelInformacoes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -553,7 +595,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanelInformacoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -595,7 +637,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
                     .addGroup(jPanelControleClienteDigimacroLayout.createSequentialGroup()
                         .addComponent(jTextFieldPesquisaCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButtonPesquisarCustomer, javax.swing.GroupLayout.DEFAULT_SIZE, 312, Short.MAX_VALUE)
+                        .addComponent(jButtonPesquisarCustomer, javax.swing.GroupLayout.DEFAULT_SIZE, 341, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
                         .addComponent(jButtonImportarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanelControleClienteDigimacroLayout.createSequentialGroup()
@@ -1004,6 +1046,27 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButtonCancelarOrdersActionPerformed
 
+    private void jButtonShippingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonShippingActionPerformed
+        try {
+            if (jComboBoxShipping.getSelectedIndex() == 1) {
+                psOrders.setIdCarrier(19);
+            }
+            if (jComboBoxShipping.getSelectedIndex() == 2) {
+                psOrders.setIdCarrier(32);
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Houve um erro ao trocatipo de Frete\n VERIFIQUE!!! \n" + ex);
+        }
+        editaOrders();
+        carregaCampos();       
+        jButtonShipping.setEnabled(false);
+        jButtonImportarPedido.setEnabled(true);
+    }//GEN-LAST:event_jButtonShippingActionPerformed
+
+    private void jComboBoxShippingMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBoxShippingMouseClicked
+        jButtonShipping.setEnabled(true);
+    }//GEN-LAST:event_jComboBoxShippingMouseClicked
+
     private void pesquisarOrders() {
         limpaCampos();
         this.listagemSaidasMagentoJDialog.pesquisas();
@@ -1151,13 +1214,19 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         valDesconto = valDesconto.add(psOrders.getTotalDiscountsTaxIncl()).setScale(2, BigDecimal.ROUND_HALF_UP);
         valTotal = totProd.subtract(valDesconto);
         valTotal = valTotal.add(valAcrecimo);
-        psOrders.setTotalPaid(valTotal);
-        psOrders.setTotalPaidTaxIncl(valTotal);
-        psOrders.setTotalPaidTaxExcl(valTotal);
+        BigDecimal valFrete = valorFrete(valTotal);
+        psOrders.setTotalShipping(valFrete);
+        psOrders.setTotalShippingTaxExcl(valFrete);
+        psOrders.setTotalShippingTaxIncl(valFrete);
+        psOrders.setTotalPaid(valTotal.add(valFrete));
+        psOrders.setTotalPaidTaxIncl(valTotal.add(valFrete));
+        psOrders.setTotalPaidTaxExcl(valTotal.add(valFrete));
         try {
             new PsOrdersJpaController(managerPrestaShop).edit(psOrders);
             for (PsOrderCarrier orderCarrier : queryPrestaShop.listPsOrderCarrier(psOrders.getIdOrder())) {
                 orderCarrier.setWeight(totPeso);
+                orderCarrier.setShippingCostTaxExcl(valFrete);
+                orderCarrier.setShippingCostTaxIncl(valFrete);
                 try {
                     new PsOrderCarrierJpaController(managerPrestaShop).edit(orderCarrier);
                 } catch (Exception ex) {
@@ -1169,6 +1238,22 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Erro ao editar psOrders \n" + ex);
         }
+    }
+
+    private BigDecimal valorFrete(BigDecimal valTotal) {
+        BigDecimal val = BigDecimal.ZERO;
+        if (psOrders.getIdCarrier() == 32) {
+            if (valTotal.doubleValue() < 2000.00) {
+                val = new BigDecimal("20.00");
+            }
+            if (valTotal.doubleValue() < 1000.00) {
+                val = new BigDecimal("30.00");
+            }
+            if (valTotal.doubleValue() < 500.00) {
+                val = new BigDecimal("40.00");
+            }
+        }
+        return val;
     }
 
     private void desativarDescontoAvulso() {
@@ -1389,12 +1474,12 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         }
         Connection conn = new ConexaoPrestaShop().getConnection();
         List<PsOrderCommission> lisyOrderCommissions = new ConexaoPrestaShop().listPsOrderCommission(conn, psOrders.getIdOrder());
-        for(PsOrderCommission com : lisyOrderCommissions){
+        for (PsOrderCommission com : lisyOrderCommissions) {
             jTextFieldTaxa.setText(formataCampos.bigDecimalParaString(new BigDecimal(com.getCommissionTaxExcl()), 2));
             jTextFieldDesconto.setText(formataCampos.bigDecimalParaString(new BigDecimal(com.getDiscountTaxExcl()), 2));
         }
         new ConexaoPrestaShop().closeConnection();
-       // jTextFieldTaxa.setText(formataCampos.bigDecimalParaString(valorComissao, 2));
+        // jTextFieldTaxa.setText(formataCampos.bigDecimalParaString(valorComissao, 2));
         jTextFieldValorTotal.setText(formataCampos.bigDecimalParaString(psOrders.getTotalPaidTaxIncl(), 2));
         jComboBoxPagamento.setSelectedItem(psOrders.getPayment());
 
@@ -1416,6 +1501,16 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
                     jComboBoxPagamento.setSelectedIndex(5);
                     break;
             }
+        }
+
+        switch (psOrders.getIdCarrier()) {
+            case 19:
+                jComboBoxShipping.setSelectedIndex(1);
+                break;
+            case 32:
+                jComboBoxShipping.setSelectedIndex(2);
+                break;
+
         }
 
         switch (psOrders.getCurrentState()) {
@@ -1472,6 +1567,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
             psOrderDetailList.add(orDetail);
         }
         jTextFieldDescontoAvulso.setText(formataCampos.bigDecimalParaString(psOrders.getTotalDiscountsTaxIncl(), 2));
+        jTextFieldValorFrete.setText(formataCampos.bigDecimalParaString(psOrders.getTotalShippingTaxIncl(), 2));
     }
 
     private void limpaCampos() {
@@ -1494,10 +1590,12 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         jButtonImportarCliente.setEnabled(false);
         jComboBoxPagamento.setSelectedIndex(0);
         jComboBoxState.setSelectedIndex(0);
+        jComboBoxShipping.setSelectedIndex(0);
         psOrderDetailList.clear();
         jTextFieldDescontoAvulso.setText("0,00");
         jButtonDescontoAvulso.setEnabled(false);
         jButtonCancelarOrders.setEnabled(false);
+        jTextFieldValorFrete.setText("0,00");
 
     }
 
@@ -1580,12 +1678,15 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButtonPesquisar;
     private javax.swing.JButton jButtonPesquisarCustomer;
     private javax.swing.JButton jButtonRemover;
+    private javax.swing.JButton jButtonShipping;
     private javax.swing.JComboBox<String> jComboBoxPagamento;
+    private javax.swing.JComboBox jComboBoxShipping;
     private javax.swing.JComboBox jComboBoxState;
     private javax.swing.JComboBox jComboBoxTermoPesquisa;
     private com.toedter.calendar.JDateChooser jDateChooserDataFinalCustomer;
     private com.toedter.calendar.JDateChooser jDateChooserDataInicialCustomer;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabelCpfCnpj;
     private javax.swing.JLabel jLabelDataFinalCustomer;
     private javax.swing.JLabel jLabelDataInicialCustomer;
@@ -1617,6 +1718,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldStatus;
     private javax.swing.JTextField jTextFieldTaxa;
     private javax.swing.JTextField jTextFieldTotalProdutos;
+    private javax.swing.JTextField jTextFieldValorFrete;
     private javax.swing.JTextField jTextFieldValorTotal;
     private java.util.List<entidade.prestaShop.PsCustomer> psCustomerList;
     private javax.persistence.Query psCustomerQuery;
