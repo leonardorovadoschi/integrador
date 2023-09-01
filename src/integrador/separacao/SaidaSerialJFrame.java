@@ -666,7 +666,7 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
                 jTableSeriasSeparados.setDefaultRenderer(jTableSeriasSeparados.getColumnClass(c), rendererSeparado);
             }
             //**********************
-        }
+        }       
         if (jTableSeriasSeparados.getRowCount() != 0) {
             jTableSeriasSeparados.setRowSelectionInterval(jTableSeriasSeparados.getRowCount() - 1, jTableSeriasSeparados.getRowCount() - 1);//seleciona ultima linha   
         }
