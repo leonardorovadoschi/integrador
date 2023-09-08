@@ -19,8 +19,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -285,12 +283,7 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonGravarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGravarActionPerformed
-        //if (gravarProdutoSerial() == false) {
-        //    DefaultTableModel tabelaEntradaSerial = (DefaultTableModel) jTableSerialDigitado.getModel();
-        //   int cont = jTableSerialDigitado.getRowCount();
-        //   for (int a = 0; a < cont; a++) {
-        //       tabelaEntradaSerial.removeRow(0);
-        //   }
+    
         dispose();
         setVisible(false);
         // }

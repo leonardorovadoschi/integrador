@@ -1797,10 +1797,11 @@ public List<Movendaproddevolucaocompra> listagemControlaDevolucaoPorSaida(String
         return query.getResultList();
     }
 
-    public List<Fornproduto> resultForProduto(String codProd) {
+    public List<Fornproduto> resultForProduto(String codProd, String codFor) {
         EntityManager em = getEntityManager();
-        Query query = em.createQuery("SELECT mov FROM Fornproduto mov WHERE mov.produto.codprod =:codProd ORDER BY mov.datatu Desc");
-        query.setParameter("codProd", codProd);//primeiro parametro      
+        Query query = em.createQuery("SELECT mov FROM Fornproduto mov WHERE mov.fornprodutoPK.codprod =:codProd AND mov.fornprodutoPK.codforn =:codFor ORDER BY mov.datatu Desc");
+        query.setParameter("codProd", codProd);//primeiro parametro  
+        query.setParameter("codFor", codFor);
         return query.getResultList();
     }
     
