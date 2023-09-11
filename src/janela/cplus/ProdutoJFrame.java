@@ -715,6 +715,10 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         columnBinding.setColumnName("Hora");
         columnBinding.setColumnClass(java.util.Date.class);
         columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${quantidade}"));
+        columnBinding.setColumnName("Quantidade");
+        columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmovenda.codcli.nomecli}"));
         columnBinding.setColumnName("Cliente");
         columnBinding.setColumnClass(String.class);
@@ -727,10 +731,6 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         columnBinding.setColumnName("Cidade");
         columnBinding.setColumnClass(String.class);
         columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codprod.nomeprod}"));
-        columnBinding.setColumnName("Nome Produto");
-        columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmovenda.numnota}"));
         columnBinding.setColumnName("Número Nota");
         columnBinding.setColumnClass(Integer.class);
@@ -738,10 +738,6 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmovenda.numped}"));
         columnBinding.setColumnName("Número Pedido");
         columnBinding.setColumnClass(Integer.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${quantidade}"));
-        columnBinding.setColumnName("Quantidade");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
         columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valorunitario}"));
         columnBinding.setColumnName("Valor Unitário");
@@ -798,26 +794,25 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         jTableListagemDeVendas.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (jTableListagemDeVendas.getColumnModel().getColumnCount() > 0) {
             jTableListagemDeVendas.getColumnModel().getColumn(1).setCellRenderer(new integrador.render.RenderHora());
-            jTableListagemDeVendas.getColumnModel().getColumn(2).setPreferredWidth(250);
-            jTableListagemDeVendas.getColumnModel().getColumn(3).setPreferredWidth(120);
+            jTableListagemDeVendas.getColumnModel().getColumn(2).setCellRenderer(new RenderNumeroInteiro());
+            jTableListagemDeVendas.getColumnModel().getColumn(3).setPreferredWidth(250);
             jTableListagemDeVendas.getColumnModel().getColumn(4).setPreferredWidth(120);
-            jTableListagemDeVendas.getColumnModel().getColumn(5).setPreferredWidth(250);
-            jTableListagemDeVendas.getColumnModel().getColumn(8).setCellRenderer(new RenderNumeroInteiro());
+            jTableListagemDeVendas.getColumnModel().getColumn(5).setPreferredWidth(120);
+            jTableListagemDeVendas.getColumnModel().getColumn(8).setCellRenderer(new integrador.render.RenderPreco());
             jTableListagemDeVendas.getColumnModel().getColumn(9).setCellRenderer(new integrador.render.RenderPreco());
             jTableListagemDeVendas.getColumnModel().getColumn(10).setCellRenderer(new integrador.render.RenderPreco());
             jTableListagemDeVendas.getColumnModel().getColumn(11).setCellRenderer(new integrador.render.RenderPreco());
             jTableListagemDeVendas.getColumnModel().getColumn(12).setCellRenderer(new integrador.render.RenderPreco());
-            jTableListagemDeVendas.getColumnModel().getColumn(13).setCellRenderer(new integrador.render.RenderPreco());
-            jTableListagemDeVendas.getColumnModel().getColumn(14).setCellRenderer( new RenderPorcentagem());
-            jTableListagemDeVendas.getColumnModel().getColumn(15).setCellRenderer(new integrador.render.RenderPreco());
-            jTableListagemDeVendas.getColumnModel().getColumn(16).setCellRenderer( new RenderPorcentagem());
-            jTableListagemDeVendas.getColumnModel().getColumn(17).setCellRenderer(new integrador.render.RenderPreco());
-            jTableListagemDeVendas.getColumnModel().getColumn(18).setCellRenderer(new RenderNumeroInteiro());
-            jTableListagemDeVendas.getColumnModel().getColumn(19).setCellRenderer( new RenderPorcentagem());
+            jTableListagemDeVendas.getColumnModel().getColumn(13).setCellRenderer( new RenderPorcentagem());
+            jTableListagemDeVendas.getColumnModel().getColumn(14).setCellRenderer(new integrador.render.RenderPreco());
+            jTableListagemDeVendas.getColumnModel().getColumn(15).setCellRenderer( new RenderPorcentagem());
+            jTableListagemDeVendas.getColumnModel().getColumn(16).setCellRenderer(new integrador.render.RenderPreco());
+            jTableListagemDeVendas.getColumnModel().getColumn(17).setCellRenderer(new RenderNumeroInteiro());
+            jTableListagemDeVendas.getColumnModel().getColumn(18).setCellRenderer( new RenderPorcentagem());
+            jTableListagemDeVendas.getColumnModel().getColumn(19).setCellRenderer(new integrador.render.RenderPreco());
             jTableListagemDeVendas.getColumnModel().getColumn(20).setCellRenderer(new integrador.render.RenderPreco());
             jTableListagemDeVendas.getColumnModel().getColumn(21).setCellRenderer(new integrador.render.RenderPreco());
             jTableListagemDeVendas.getColumnModel().getColumn(22).setCellRenderer(new integrador.render.RenderPreco());
-            jTableListagemDeVendas.getColumnModel().getColumn(23).setCellRenderer(new integrador.render.RenderPreco());
         }
 
         javax.swing.GroupLayout jPanelListagemDeVendasLayout = new javax.swing.GroupLayout(jPanelListagemDeVendas);
@@ -874,7 +869,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         columnBinding.setColumnName("Quantidade");
         columnBinding.setColumnClass(java.math.BigDecimal.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${complemento}"));
-        columnBinding.setColumnName("Codigo Produto");
+        columnBinding.setColumnName("Codigo Fornecedor");
         columnBinding.setColumnClass(String.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${aliqicms}"));
         columnBinding.setColumnName("Aliq ICMS");
@@ -882,13 +877,24 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${aliqipi}"));
         columnBinding.setColumnName("Aliq IPI");
         columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmoventr.codForn.nomeforn}"));
+        columnBinding.setColumnName("Fornecedor");
+        columnBinding.setColumnClass(String.class);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
         jScrollPane3.setViewportView(jTable1);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setPreferredWidth(60);
+            jTable1.getColumnModel().getColumn(1).setPreferredWidth(60);
             jTable1.getColumnModel().getColumn(1).setCellRenderer(new integrador.render.RenderPreco());
+            jTable1.getColumnModel().getColumn(2).setPreferredWidth(40);
+            jTable1.getColumnModel().getColumn(2).setCellRenderer(new RenderNumeroInteiro());
+            jTable1.getColumnModel().getColumn(3).setPreferredWidth(120);
+            jTable1.getColumnModel().getColumn(4).setPreferredWidth(40);
             jTable1.getColumnModel().getColumn(4).setCellRenderer(new RenderPorcentagem());
+            jTable1.getColumnModel().getColumn(5).setPreferredWidth(40);
             jTable1.getColumnModel().getColumn(5).setCellRenderer(new RenderPorcentagem());
+            jTable1.getColumnModel().getColumn(6).setPreferredWidth(240);
         }
 
         jCheckBoxSomenteCompras.setSelected(true);

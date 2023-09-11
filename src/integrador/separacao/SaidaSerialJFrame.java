@@ -440,9 +440,9 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
         jButtonExcluirSeria.setEnabled(true);
     }//GEN-LAST:event_jTableSeriasSeparadosMouseClicked
 
-    private void adicionarSerial() {
+    private void adicionarSerial() {      
         if (!"".equals(jTextFieldSerial.getText())) {
-            List<SerialProduto> listSer = queryIntegrador.listSerialExato(jTextFieldSerial.getText().toUpperCase().trim());
+            List<SerialProduto> listSer = queryIntegrador.listSerialExato(jTextFieldSerial.getText().toUpperCase().trim());          
             List<SaidaSerial> listSS = new ArrayList<>();
             SerialProduto serialProduto = new SerialProduto();
             Movendaprod movendaprod = new Movendaprod();
@@ -456,8 +456,8 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
                             if (ser.getCodProduto() == null ? movProd.getCodprod().getCodprod() == null : ser.getCodProduto().equals(movProd.getCodprod().getCodprod())) {
                                 noPedido = true;
                                 quantVenda = quantidadePacote(movProd);
-                                listSS = queryIntegrador.listPorSaidaProd(movProd.getCodmovprod());
-                                if (quantVenda > listSS.size()) {
+                                listSS = queryIntegrador.listPorSaidaProd(movProd.getCodmovprod());                               
+                                if (quantVenda > listSS.size()) {                                  
                                     serialProduto = ser;
                                     movendaprod = movProd;
                                     condicao = true;
@@ -638,6 +638,7 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
         }
         return condicao;
     }
+    
 
     private void carregaTabelas() {
         DefaultTableModel tab = (DefaultTableModel) jTableSaidaProd.getModel();
