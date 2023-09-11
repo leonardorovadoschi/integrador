@@ -398,7 +398,7 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonExcluirSeriaActionPerformed
 
     private void jButtonCancelarSeparacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarSeparacaoActionPerformed
-        int cancelar = JOptionPane.showConfirmDialog(null, "AO CANCELAR TODOS SERIAIS DO PEDIDO SERÃOO EXCLUIDOS??", "Cancelar", JOptionPane.YES_NO_CANCEL_OPTION);
+        int cancelar = JOptionPane.showConfirmDialog(null, "AO CANCELAR O PEDIDO NÃO FICARA SEPARADO,\n DESEJA PROSSEGUIR??", "Cancelar", JOptionPane.YES_NO_CANCEL_OPTION);
         if (cancelar == JOptionPane.YES_OPTION) {
             jButtonFechar.setEnabled(true);
             jButtonPesquisaSaida.setEnabled(true);
@@ -440,9 +440,10 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
         jButtonExcluirSeria.setEnabled(true);
     }//GEN-LAST:event_jTableSeriasSeparadosMouseClicked
 
-    private void adicionarSerial() {      
+    private void adicionarSerial() {
+        int quantSeparada = 0;
         if (!"".equals(jTextFieldSerial.getText())) {
-            List<SerialProduto> listSer = queryIntegrador.listSerialExato(jTextFieldSerial.getText().toUpperCase().trim());          
+            List<SerialProduto> listSer = queryIntegrador.listSerialExato(jTextFieldSerial.getText().toUpperCase().trim());
             List<SaidaSerial> listSS = new ArrayList<>();
             SerialProduto serialProduto = new SerialProduto();
             Movendaprod movendaprod = new Movendaprod();
@@ -456,10 +457,11 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
                             if (ser.getCodProduto() == null ? movProd.getCodprod().getCodprod() == null : ser.getCodProduto().equals(movProd.getCodprod().getCodprod())) {
                                 noPedido = true;
                                 quantVenda = quantidadePacote(movProd);
-                                listSS = queryIntegrador.listPorSaidaProd(movProd.getCodmovprod());                               
-                                if (quantVenda > listSS.size()) {                                  
+                                listSS = queryIntegrador.listPorSaidaProd(movProd.getCodmovprod());
+                                if (quantVenda > listSS.size()) {
                                     serialProduto = ser;
-                                    movendaprod = movProd;
+                                    movendaprod = movProd;   
+                                    quantSeparada = listSS.size() + 1;
                                     condicao = true;
                                 } else {
                                     manutencaoDeErro("O produto: " + ser.getNomeProduto() + ", está totalmente separado!!");
@@ -487,12 +489,76 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
             }
             if (condicao) {
                 gravarSaidaSerial(serialProduto, movendaprod);
+                carregaTabelasAdicionar(movendaprod, quantSeparada, jTextFieldSerial.getText().toUpperCase().trim());
             }
         }
-        carregaTabelas();
+        //carregaTabelas();
         jTextFieldSerial.selectAll();
         jTextFieldSerial.setText("");
         jTextFieldSerial.requestFocus();
+    }
+
+    private void carregaTabelasAdicionar(Movendaprod movProd, int quantSeparada, String serial) {
+        DefaultTableModel tabSaidaProd = (DefaultTableModel) jTableSaidaProd.getModel();
+        int linha = 0;
+        for (Movendaprod e : listaProdutoPedido) {
+            int coluna = jTableSaidaProd.getColumnModel().getColumnIndex("Cod. MovProd");
+            int colunaSeparado = jTableSaidaProd.getColumnModel().getColumnIndex("Separado");
+            String value = (String) jTableSaidaProd.getValueAt(linha, coluna);
+            if (movProd.getCodmovprod() == null ? value == null : movProd.getCodmovprod().equals(value)) {
+                tabSaidaProd.setValueAt(quantSeparada, linha, colunaSeparado);
+                
+                DefaultTableModel tabSerial = (DefaultTableModel) jTableSeriasSeparados.getModel();
+                for(SaidaSerial s : queryIntegrador.listSaidaSerial(serial, movProd.getCodmovprod())){
+                tabSerial.addRow(new Object[]{s.getIdSerial().getCodigoProduto(), s.getIdSerial().getNomeProduto(), s.getIdSerial().getSerial(), s.getIdSaidaSerial()});
+                //colore as linhas da tabela
+                TableCellRenderer rendererSeparado = new ColorirLinhaImpar();
+                for (int c = 0; c < jTableSeriasSeparados.getColumnCount(); c++) {
+                    jTableSeriasSeparados.setDefaultRenderer(jTableSeriasSeparados.getColumnClass(c), rendererSeparado);
+                }
+                }
+            }
+            //colore as linhas da tabela            
+                TableCellRenderer renderer = new ColorirTabelaSaidaSerial();
+                for (int c = 0; c < jTableSaidaProd.getColumnCount(); c++) {
+                    jTableSaidaProd.setDefaultRenderer(jTableSaidaProd.getColumnClass(c), renderer);
+                }           
+            //**********************
+            linha++;
+        }
+    }
+
+    private void carregaTabelas() {
+        DefaultTableModel tab = (DefaultTableModel) jTableSaidaProd.getModel();
+        while (jTableSaidaProd.getModel().getRowCount() > 0) {
+            ((DefaultTableModel) jTableSaidaProd.getModel()).removeRow(0);
+        }
+        for (Movendaprod e : listaProdutoPedido) {
+            tab.addRow(new Object[]{e.getCodprod().getCodigo(), e.getCodprod().getNomeprod(), quantidadePacote(e), queryIntegrador.listPorSaidaProd(e.getCodmovprod()).size(), e.getCodmovprod()});
+            //colore as linhas da tabela
+            TableCellRenderer renderer = new ColorirTabelaSaidaSerial();
+            for (int c = 0; c < jTableSaidaProd.getColumnCount(); c++) {
+                jTableSaidaProd.setDefaultRenderer(jTableSaidaProd.getColumnClass(c), renderer);
+            }
+            //**********************
+        }
+
+        DefaultTableModel tabSerial = (DefaultTableModel) jTableSeriasSeparados.getModel();
+        while (jTableSeriasSeparados.getModel().getRowCount() > 0) {
+            ((DefaultTableModel) jTableSeriasSeparados.getModel()).removeRow(0);
+        }
+        for (SaidaSerial s : queryIntegrador.listPorSaida(movenda.getCodmovenda())) {
+            tabSerial.addRow(new Object[]{s.getIdSerial().getCodigoProduto(), s.getIdSerial().getNomeProduto(), s.getIdSerial().getSerial(), s.getIdSaidaSerial()});
+            //colore as linhas da tabela
+            TableCellRenderer rendererSeparado = new ColorirLinhaImpar();
+            for (int c = 0; c < jTableSeriasSeparados.getColumnCount(); c++) {
+                jTableSeriasSeparados.setDefaultRenderer(jTableSeriasSeparados.getColumnClass(c), rendererSeparado);
+            }
+            //**********************
+        }
+        if (jTableSeriasSeparados.getRowCount() != 0) {
+            jTableSeriasSeparados.setRowSelectionInterval(jTableSeriasSeparados.getRowCount() - 1, jTableSeriasSeparados.getRowCount() - 1);//seleciona ultima linha   
+        }
     }
 
     private boolean verificaCodigos(List<SerialProduto> listSer, String textoDigitado) {
@@ -637,40 +703,6 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
             }
         }
         return condicao;
-    }
-    
-
-    private void carregaTabelas() {
-        DefaultTableModel tab = (DefaultTableModel) jTableSaidaProd.getModel();
-        while (jTableSaidaProd.getModel().getRowCount() > 0) {
-            ((DefaultTableModel) jTableSaidaProd.getModel()).removeRow(0);
-        }
-        for (Movendaprod e : listaProdutoPedido) {
-            tab.addRow(new Object[]{e.getCodprod().getCodigo(), e.getCodprod().getNomeprod(), quantidadePacote(e), queryIntegrador.listPorSaidaProd(e.getCodmovprod()).size(), e.getCodmovprod()});
-            //colore as linhas da tabela
-            TableCellRenderer renderer = new ColorirTabelaSaidaSerial();
-            for (int c = 0; c < jTableSaidaProd.getColumnCount(); c++) {
-                jTableSaidaProd.setDefaultRenderer(jTableSaidaProd.getColumnClass(c), renderer);
-            }
-            //**********************
-        }
-
-        DefaultTableModel tabSerial = (DefaultTableModel) jTableSeriasSeparados.getModel();
-        while (jTableSeriasSeparados.getModel().getRowCount() > 0) {
-            ((DefaultTableModel) jTableSeriasSeparados.getModel()).removeRow(0);
-        }
-        for (SaidaSerial s : queryIntegrador.listPorSaida(movenda.getCodmovenda())) {
-            tabSerial.addRow(new Object[]{s.getIdSerial().getCodigoProduto(), s.getIdSerial().getNomeProduto(), s.getIdSerial().getSerial(), s.getIdSaidaSerial()});
-            //colore as linhas da tabela
-            TableCellRenderer rendererSeparado = new ColorirLinhaImpar();
-            for (int c = 0; c < jTableSeriasSeparados.getColumnCount(); c++) {
-                jTableSeriasSeparados.setDefaultRenderer(jTableSeriasSeparados.getColumnClass(c), rendererSeparado);
-            }
-            //**********************
-        }       
-        if (jTableSeriasSeparados.getRowCount() != 0) {
-            jTableSeriasSeparados.setRowSelectionInterval(jTableSeriasSeparados.getRowCount() - 1, jTableSeriasSeparados.getRowCount() - 1);//seleciona ultima linha   
-        }
     }
 
     private void buscaPedido() {

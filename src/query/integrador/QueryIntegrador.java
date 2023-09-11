@@ -250,4 +250,11 @@ public class QueryIntegrador {
         //query.setMaxResults(200);
         return query.getResultList();
     }
+      public List<SaidaSerial> listSaidaSerial(String serial, String cadMovProd) {
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery("SELECT prodSerial FROM SaidaSerial prodSerial WHERE prodSerial.idSerial.serial =:serialProduto AND prodSerial.codSaidaProd =:cadMovProd");
+        query.setParameter("serialProduto", serial);//primeiro parametro
+        query.setParameter("cadMovProd", cadMovProd);
+        return query.getResultList();
+    }
 }
