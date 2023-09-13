@@ -94,7 +94,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         colunaCodprod = jTableListagemProdutos.getColumnModel().getColumnIndex("Codprod");
         colunaProdutoFornecedor = jTableProdutoFornecedor.getColumnModel().getColumnIndex("Id Produtos");
         //colunaCodigo = jTableListagemProdutos.getColumnModel().getColumnIndex("Codigo");
-       // colunaCodmoventradaprod = jTableListagemEntradas.getColumnModel().getColumnIndex("Codmoveprod");
+        // colunaCodmoventradaprod = jTableListagemEntradas.getColumnModel().getColumnIndex("Codmoveprod");
         jTextFieldMaximoResultadosSaida.setText(queryIntegrador.valorConfiguracao("maximo_resultados_listagem_saidas"));
         //jTextFieldMaximoDeResultadosEntradas.setText(queryIntegrador.valorConfiguracao("maximo_resultados_listagem_entradas"));
         this.listagemEntradasJDialog = new ListagemEntradasJDialog(this, true, managerCplus);
@@ -2165,8 +2165,8 @@ public class ProdutoJFrame extends javax.swing.JFrame {
 
     private void jButtonAtualizaListagemEntradasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAtualizaListagemEntradasActionPerformed
         moventradaprodList.clear();
-        for(Moventradaprod f : queryCplus.resultProdutoEntrada(produtoCplus.getCodprod(), jCheckBoxSomenteVendas.isSelected(), Integer.valueOf(jTextFieldMaximoResultadoEntrada.getText()))){
-            for(Fornproduto p : queryCplus.resultForProduto(produtoCplus.getCodprod(), f.getCodmoventr().getCodForn().getCodforn())){
+        for (Moventradaprod f : queryCplus.resultProdutoEntrada(produtoCplus.getCodprod(), jCheckBoxSomenteVendas.isSelected(), Integer.valueOf(jTextFieldMaximoResultadoEntrada.getText()))) {
+            for (Fornproduto p : queryCplus.resultForProduto(produtoCplus.getCodprod(), f.getCodmoventr().getCodForn().getCodforn())) {
                 f.setComplemento(p.getCodigoproduto());
             }
             moventradaprodList.add(f);
@@ -2302,8 +2302,8 @@ public class ProdutoJFrame extends javax.swing.JFrame {
             listIcmsEstado = queryCplus.listcalculoIcmsEstadol("RS", "RS", "5102", produtoCplus.getCodcalculoicms().getCodcalculoicms());
             if (listIcmsEstado.size() == 1) {
                 //for (Moventradaprod movProd : queryCplus.resultProdutoEntrada(produtoCplus.getCodprod(), true, 1)) {
-                    jTextFieldPercOutrosCustos.setText(formataCampo.bigDecimalParaString(new CalculoDeCusto().custoMediouUniComIpi(listIcmsEstado, produtoCplus, managerCplus), casasDecimais));
-               // }
+                jTextFieldPercOutrosCustos.setText(formataCampo.bigDecimalParaString(new CalculoDeCusto().custoMediouUniComIpi(listIcmsEstado, produtoCplus, managerCplus), casasDecimais));
+                // }
             } else {
                 condicaoIcms = true;
                 //JOptionPane.showMessageDialog(null, "Nï¿½o foi possi encontrar o calculo de ICMS verifique no C-Plus!!!\n lista de resultados: " + listIcmsEstado.size());
@@ -2365,7 +2365,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
                 if (listProdCaracteristica.size() == 1) {
                     for (Produtocaracteristica prodCar : listProdCaracteristica) {
                         prodCar.setCodcaracteristica("000000001");
-                       new ProdutocaracteristicaJpaController(managerCplus).edit(prodCar);
+                        new ProdutocaracteristicaJpaController(managerCplus).edit(prodCar);
                     }
                 }
             }
@@ -2415,17 +2415,9 @@ public class ProdutoJFrame extends javax.swing.JFrame {
                 //     campo.setValor(jTextFieldPartNumberSistema.getText().toUpperCase());
                 // }
             }
-            if (!"".equals(jTextFieldComplementoFiscal.getText())) {
-                //produtoIntegracao.setPartNumber(jTextFieldPartNumberSistema.getText().toUpperCase());
-                gravaComplementoFiscal(jTextFieldComplementoFiscal.getText());
-                // for (Campocustomvalor campo : queryCplus.listCampoMaster(produtoCplus.getCodprod(), "000000003")) {
-                //     campo.setValor(jTextFieldComplementoFiscal.getText());
-                // }
-            }
-            // produtoIntegracao.setComplementoFiscal(jTextFieldComplementoFiscal.getText());
-            //  new ProdutoIntegracaoJpaController(managerIntegrador).edit(produtoIntegracao);
-            //      }
-            //      }                       
+            //if (!"".equals(jTextFieldComplementoFiscal.getText())) {               
+            gravaComplementoFiscal(jTextFieldComplementoFiscal.getText());
+            //}                           
             jButtonGravar.setEnabled(false);
         } catch (Exception ex) {
             criaLog(new Date(System.currentTimeMillis()), "Erro ao editar Preço no C-plus no Frame Alteracao de preço \n" + ex, "Erro Editar");
@@ -2626,7 +2618,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         }
         lisCar = queryCplus.listProdutoCaracteristicaDoProduto(produtoCplus.getCodprod());
         if (lisCar.size() != 1) {
-             JOptionPane.showMessageDialog(null, "O produto: "+produtoCplus.getNomeprod()+" possui Erro nas caracteristicas, Favor Corrigir");
+            JOptionPane.showMessageDialog(null, "O produto: " + produtoCplus.getNomeprod() + " possui Erro nas caracteristicas, Favor Corrigir");
         }
         if (produtoCplus.getFlagorigemproduto() != null) {
             switch (produtoCplus.getFlagorigemproduto().toString()) {
@@ -2667,7 +2659,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         for (Produtocodigo ean : produtoCplus.getProdutocodigoCollection()) {
             txt = txt + ean.getCodigo() + "\n";
         }
-        
+
         jTextAreaEan.setText(txt);
         jButtonGravar.setEnabled(false);
     }
@@ -2846,22 +2838,24 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         String codCampoCustomMaster = "000000003";
         List<Campocustomvalor> listCampo = (List<Campocustomvalor>) queryCplus.listCampoMaster(produtoCplus.getCodprod(), codCampoCustomMaster);
         if (listCampo.isEmpty()) {
-            Integer configCont = Integer.valueOf(queryIntegrador.valorConfiguracao("increment_tabela_campo_valor"));
-            Campocustomvalor ca = new Campocustomvalor();
-            ca.setCodcampocustomvalor(String.format("%09d", configCont));
-            ca.setCodcampocustommaster(new CampocustommasterJpaController(managerCplus).findCampocustommaster(codCampoCustomMaster));
-            ca.setCodcampocustomlista("");
-            ca.setIdentidadeorigem(produtoCplus.getCodprod());
-            ca.setNomeentidadeorigem("PRODUTO");
-            ca.setValor(valor);
-            try {
-                new CampocustomvalorJpaController(managerCplus).create(ca);
-                /////////////////////////////////////////////////////////////
-                configCont--;
-                queryIntegrador.atualizaValorConfiguracao("increment_tabela_campo_valor", String.valueOf(configCont));
-                ///////////////////////////////////////////////////////////////////////////////////////
-            } catch (Exception ex) {
-                criaLog(new Date(System.currentTimeMillis()), "Erro ao criar campo personalizado COMPLEMENTO FISCAL no C-plus no Frame Alteracao de preço \n" + ex, "Erro Criar");
+            if (!"".equals(valor)) {
+                Integer configCont = Integer.valueOf(queryIntegrador.valorConfiguracao("increment_tabela_campo_valor"));
+                Campocustomvalor ca = new Campocustomvalor();
+                ca.setCodcampocustomvalor(String.format("%09d", configCont));
+                ca.setCodcampocustommaster(new CampocustommasterJpaController(managerCplus).findCampocustommaster(codCampoCustomMaster));
+                ca.setCodcampocustomlista("");
+                ca.setIdentidadeorigem(produtoCplus.getCodprod());
+                ca.setNomeentidadeorigem("PRODUTO");
+                ca.setValor(valor);
+                try {
+                    new CampocustomvalorJpaController(managerCplus).create(ca);
+                    /////////////////////////////////////////////////////////////
+                    configCont--;
+                    queryIntegrador.atualizaValorConfiguracao("increment_tabela_campo_valor", String.valueOf(configCont));
+                    ///////////////////////////////////////////////////////////////////////////////////////
+                } catch (Exception ex) {
+                    criaLog(new Date(System.currentTimeMillis()), "Erro ao criar campo personalizado COMPLEMENTO FISCAL no C-plus no Frame Alteracao de preço \n" + ex, "Erro Criar");
+                }
             }
         } else {
             for (Campocustomvalor campo : listCampo) {
