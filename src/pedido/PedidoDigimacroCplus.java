@@ -413,22 +413,7 @@ public class PedidoDigimacroCplus {
                     }
                     baseIcms = (100 - aliqReducaoIcms) * valorTotal.doubleValue() / 100;
 
-                    if ("N".equals(cli.getFlagusaaliqicmsdiferenciada().toString())) {
-                        // if (cli.getIndiedest().toString() == "1") {                                                 
-                        //    prod.setCodcalculoicms(calculoIcmsEstado.getCodcalculoicms().getCodcalculoicms());
-                        //     prod.setCodclassificacaofiscal(prodCplus.getCodclassificacaofiscal().getCodclassificacaofiscal());
-                        //     prod.setTipotributacao('T');
-                        //    prod.setAliqtributacao(new BigDecimal("12.0"));
-                        //     prod.setNumeroorcamento(orcamento.getNumeroorcamento());
-                        //      prod.setAliqfcp(BigDecimal.ZERO);
-                        //     prod.setValorfcpsubsttributaria(BigDecimal.ZERO);
-                        //    prod.setAliqfcpStUfDestino(BigDecimal.ZERO);
-                        //    prod.setAliqmva(BigDecimal.ZERO);
-                        //     prod.setValorfcp(BigDecimal.ZERO);
-                        //    prod.setValoricmsoperacao(new BigDecimal(baseIcms * 12.0 / 100));
-                        //    prod.setAliqreducaobasesubsttributaria(BigDecimal.ZERO);
-                        //    prod.setFlagtipoacrescimoitem('V');
-
+                    if ("N".equals(cli.getFlagusaaliqicmsdiferenciada().toString()) && "RS".equals(calculoIcmsEstado.getCodufdestino().getCoduf())) {                      
                         valorIcms = baseIcms * 12.0 / 100;
                         double aliqDeferimento = 0.0;
                         if (calculoIcmsEstado.getAliqdiferimento() == null) {
