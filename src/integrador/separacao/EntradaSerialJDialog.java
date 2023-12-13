@@ -53,12 +53,7 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
         queryCplus = new QueryCplus(managerCplus);
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
         listagemUsuarioJDialog = new ListagemUsuarioJDialog(parent, true, managerCplus);
-        colunaSerial = jTableSerialDigitado.getColumnModel().getColumnIndex("Serial");
-        //var = var1;
-        //produto = new ProdutoJpaController(managerCplus).findProduto(movEntradaProd.getCodprod().getCodprod());
-        //listCodigo = querySerial.listagemProdutoCodigo(produto.getCodprod());
-        //confereQuantidadeDigitada();
-
+        colunaSerial = jTableSerialDigitado.getColumnModel().getColumnIndex("Serial");       
     }
 
     /**
@@ -297,15 +292,10 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonGravarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGravarActionPerformed
-        //if (gravarProdutoSerial() == false) {
-        //    DefaultTableModel tabelaEntradaSerial = (DefaultTableModel) jTableSerialDigitado.getModel();
-         //   int cont = jTableSerialDigitado.getRowCount();
-         //   for (int a = 0; a < cont; a++) {
-         //       tabelaEntradaSerial.removeRow(0);
-         //   }
+ 
             dispose();
             setVisible(false);
-       // }
+
     }//GEN-LAST:event_jButtonGravarActionPerformed
 
     private void jTextFieldSerialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldSerialActionPerformed

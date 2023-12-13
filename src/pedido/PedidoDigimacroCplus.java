@@ -10,6 +10,7 @@ import entidade.cplus.Calculoicmsestado;
 import entidade.cplus.Campocustomvalor;
 import entidade.cplus.Cliente;
 import entidade.cplus.Clientecaracteristica;
+import entidade.cplus.Gtintributavel;
 import entidade.cplus.Orcamento;
 import entidade.cplus.Orcamentoprod;
 import entidade.cplus.Produto;
@@ -25,7 +26,6 @@ import entidade.prestaShop.PsOrders;
 import entidade.prestaShop.PsPack;
 import entidade.prestaShop.PsProduct;
 import entidade.prestaShop.PsSpecificPrice;
-import query.cplus.QueryCplus;
 import integrador.relatorio.ImprimeRelatorio;
 import janela.cplus.FormataCampos;
 import java.math.BigDecimal;
@@ -47,6 +47,7 @@ import jpa.cplus.VendedorJpaController;
 import jpa.prestaShop.PsCustomerJpaController;
 import jpa.prestaShop.PsGroupJpaController;
 import jpa.prestaShop.PsProductJpaController;
+import query.cplus.QueryCplus;
 import query.integrador.QueryIntegrador;
 import query.prestaShop.QueryPrestaShop;
 
@@ -112,9 +113,22 @@ public class PedidoDigimacroCplus {
                             Orcamento orc = new Orcamento();
                             orc.setCodorc(String.format("%09d", configCont));
                             orc.setCodcli(cliente);
-                            if (cliente.getCodvended() != null) {
-                                orc.setCodvended(new VendedorJpaController(managerCplus).findVendedor(cliente.getCodvended().getCodvended()));
-                            }
+                            //if (cliente.getCodvended() != null) {
+                            //   orc.setCodvended(new VendedorJpaController(managerCplus).findVendedor(cliente.getCodvended().getCodvended()));
+                            //}
+                            orc.setCodvended(null);
+                            orc.setFlagdelivery('N');
+                            orc.setFlagprevenda('N');
+                            orc.setDatacadastro(new Date(System.currentTimeMillis()));
+                            orc.setTempo(new Date(System.currentTimeMillis()));
+                            orc.setValorentrada(BigDecimal.ZERO);
+                            orc.setIndpresenca('1');
+                            orc.setIdentificadordestino('1');
+                            orc.setValoricmsstdesonerado(BigDecimal.ZERO);
+                            orc.setValorfcp(BigDecimal.ZERO);
+                            orc.setValorfcpsubsttributaria(BigDecimal.ZERO);
+                            orc.setValoricmsdesonerado(BigDecimal.ZERO);
+
                             orc.setCodpreco(new PrecoJpaController(managerCplus).findPreco("000000001"));
                             if (cliente.getCodtrans() != null) {
                                 orc.setCodtrans(new TransportadoraJpaController(managerCplus).findTransportadora(cliente.getCodtrans().getCodtrans()));
@@ -169,7 +183,7 @@ public class PedidoDigimacroCplus {
                             orc.setCodorcamentostatus(new OrcamentostatusJpaController(managerCplus).findOrcamentostatus("000000001"));
                             orc.setFlagaltpaf('N');
                             int numOrcamento = new ConexaoDB().ultimoCodigo("ORCAMENTO", "NUMEROORCAMENTO");
-                            orc.setNumeroorcamento(String.valueOf(numOrcamento));
+                            orc.setNumeroorcamento(String.format("%09d", numOrcamento));
                             orc.setFlagestoqueliberado('Y');
                             orc.setValortotalcofins(BigDecimal.ZERO);
                             orc.setValortotalpis(BigDecimal.ZERO);
@@ -196,15 +210,8 @@ public class PedidoDigimacroCplus {
                             lidtOrcamento = new QueryCplus(managerCplus).listOrcamentoEntregaTelefone(order.getReference());
                             boolean imprimir = false;
                             for (Orcamento orcamento : lidtOrcamento) {
-                              //  if (new QueryIntegrador(managerIntegrador).valorConfiguracao("cliente_CODIGO_PARA_CUPOM").equals(cliente.getCodcli())) {
-                                // int cancelar = JOptionPane.showConfirmDialog(null, " Modificar Valor Orçamento?", "Altera Valores", JOptionPane.YES_NO_OPTION);
-                                //if (cancelar == JOptionPane.YES_OPTION) {
-                                //   imprimir = true;
-                                // }
-                                //  }
                                 for (PsOrderDetail orderItem : new QueryPrestaShop(managerPrestaShop).listPsOrderDetail(order.getIdOrder())) {
                                     if (new PsProductJpaController(managerPrestaShop).findPsProduct(orderItem.getProductId()).getCacheIsPack()) {
-                                        //for (PsPack psP : new QueryPrestaShop(managerPrestaShop).listPack(new PsProductJpaController(managerPrestaShop).findPsProduct(orderItem.getProductId()).getIdProduct())) {
                                         PsCustomer C = new PsCustomerJpaController(managerPrestaShop).findPsCustomer(order.getIdCustomer());
                                         PsGroup G = new PsGroupJpaController(managerPrestaShop).findPsGroup(C.getIdDefaultGroup());
                                         BigDecimal descPac = BigDecimal.ZERO;
@@ -251,7 +258,7 @@ public class PedidoDigimacroCplus {
                             }//for orçamento
                             lidtOrcamento = new QueryCplus(managerCplus).listOrcamentoEntregaTelefone(order.getReference());
                             for (Orcamento orcamento : lidtOrcamento) {
-                                editaOrcamento(imprimir, order, orcamento, managerCplus, managerIntegrador, managerPrestaShop);
+                                editaOrcamento(imprimir, order, orcamento, managerCplus);
                             }
                         }//if  que verifica alteração de endereço pelo cliente  
                     }
@@ -325,6 +332,7 @@ public class PedidoDigimacroCplus {
         String cfop;
         String cfopSecundaria;
         List<Produto> listProduto = queryCplus.listProduto(new PsProductJpaController(managerPrestaShop).findPsProduct(orderItem.getProductId()).getReference());
+        int count = 0;
         for (Produto prodCplus : listProduto) {
             if ("RS".equals(cli.getEstado())) {
                 cfop = "5405";
@@ -361,9 +369,6 @@ public class PedidoDigimacroCplus {
                 } else {
                     prod.setValorsubsttributaria(orderItem.getEcotax().setScale(2, BigDecimal.ROUND_HALF_UP));
                 }
-
-                //double valorUnitario;
-                //double valorTotal;
                 double aliqIcms;
                 double baseIcms;
                 double valorIcms;
@@ -375,15 +380,9 @@ public class PedidoDigimacroCplus {
                 double valorCofins;
                 double valorPis;
                 BigDecimal valorTotal;
-                //BigDecimal quanConvertida = new BigDecimal(orderItem.getProductQuantity()).multiply(fatorConversaoBigDecimal(prodCplus, managerCplus));
-                //BigDecimal quanConvertida = new BigDecimal(orderItem.getProductQuantity());
                 BigDecimal valUni;
                 prod.setQuantidade(new BigDecimal(orderItem.getProductQuantity()));
-
-                //valUni = orderItem.getTotalPriceTaxIncl().divide(quanConvertida, 2, BigDecimal.ROUND_HALF_DOWN);
                 valUni = orderItem.getUnitPriceTaxIncl().setScale(2, BigDecimal.ROUND_HALF_UP);
-                    //valUni = new ValoresOrder().valorUnitario(valUni);
-                //valorTotal = new ValoresOrder().valorTotalItem(valUni, quanConvertida.intValue());
                 valorTotal = valUni.multiply(prod.getQuantidade());
                 prod.setValorunitario(valUni);
 
@@ -414,21 +413,6 @@ public class PedidoDigimacroCplus {
                     baseIcms = (100 - aliqReducaoIcms) * valorTotal.doubleValue() / 100;
 
                     if ("N".equals(cli.getFlagusaaliqicmsdiferenciada().toString())) {
-                        // if (cli.getIndiedest().toString() == "1") {                                                 
-                        //    prod.setCodcalculoicms(calculoIcmsEstado.getCodcalculoicms().getCodcalculoicms());
-                        //     prod.setCodclassificacaofiscal(prodCplus.getCodclassificacaofiscal().getCodclassificacaofiscal());
-                        //     prod.setTipotributacao('T');
-                        //    prod.setAliqtributacao(new BigDecimal("12.0"));
-                        //     prod.setNumeroorcamento(orcamento.getNumeroorcamento());
-                        //      prod.setAliqfcp(BigDecimal.ZERO);
-                        //     prod.setValorfcpsubsttributaria(BigDecimal.ZERO);
-                        //    prod.setAliqfcpStUfDestino(BigDecimal.ZERO);
-                        //    prod.setAliqmva(BigDecimal.ZERO);
-                        //     prod.setValorfcp(BigDecimal.ZERO);
-                        //    prod.setValoricmsoperacao(new BigDecimal(baseIcms * 12.0 / 100));
-                        //    prod.setAliqreducaobasesubsttributaria(BigDecimal.ZERO);
-                        //    prod.setFlagtipoacrescimoitem('V');
-
                         valorIcms = baseIcms * 12.0 / 100;
                         double aliqDeferimento = 0.0;
                         if (calculoIcmsEstado.getAliqdiferimento() == null) {
@@ -495,6 +479,50 @@ public class PedidoDigimacroCplus {
                 prod.setFlagcancelado('N');
                 prod.setFlagaltpaf('N');
 
+                prod.setFlagtipodescontoitem('V');
+                prod.setAliqdescontoitem(BigDecimal.ZERO);
+                prod.setValordescontoitem(BigDecimal.ZERO);
+                prod.setAliqacrescimoitem(BigDecimal.ZERO);
+                prod.setValoracrescimoitem(BigDecimal.ZERO);
+                prod.setAliqiss(BigDecimal.ZERO);
+                prod.setValoriss(BigDecimal.ZERO);
+                prod.setDescricaoproduto(prodCplus.getNomeprod());
+                prod.setPrecotabela(valUni);
+                short sh = (short) count++;
+                prod.setNumeroitem(sh);
+                prod.setCodcalculoicms(calculoIcmsEstado.getCodcalculoicms().getCodcalculoicms());
+                prod.setCodclassificacaofiscal(prodCplus.getCodclassificacaofiscal().getCodclassificacaofiscal());
+                prod.setCodigoproduto(prodCplus.getCodigo());
+                for (Unidade un : new QueryCplus(managerCplus).resultPorUnidadeProduto(prodCplus.getUnidade())) {
+                    prod.setUnidade(un.getCodunidade());
+                }
+                prod.setTipotributacao('T');
+                prod.setAliqtributacao(calculoIcmsEstado.getAliqicms());
+                prod.setNumeroorcamento(orcamento.getNumeroorcamento());
+                prod.setAliqfcpStUfDestino(BigDecimal.ZERO);
+                prod.setAliqmva(BigDecimal.ZERO);
+                if(prodCplus.getCodgtintributavel() != null){
+                    prod.setGtin(prodCplus.getCodgtintributavel().getGtin());
+                }
+                prod.setGtintrib("");
+                prod.setUnidadetrib("");
+                prod.setQuantidadeembalagem(BigDecimal.ZERO);
+                prod.setCodigomotivodeso("");
+                prod.setAliqreducaobaseicms(BigDecimal.ZERO);
+                prod.setValorfreterateado(BigDecimal.ZERO);
+                prod.setValorsegurorateado(BigDecimal.ZERO);
+                prod.setValoroutrasdesprateado(BigDecimal.ZERO);
+                prod.setValoracrescimorateado(BigDecimal.ZERO);
+                prod.setValordescontorateado(BigDecimal.ZERO);
+                prod.setAliqreducaobasesubsttributaria(BigDecimal.ZERO);
+                prod.setCustoreal(prodCplus.getCustoreal());
+                prod.setAliqfcp(BigDecimal.ZERO);
+                prod.setValorfcp(BigDecimal.ZERO);
+                prod.setValorfcpsubsttributaria(BigDecimal.ZERO);
+                prod.setAliqdiferimento(BigDecimal.ZERO);
+                prod.setAliqfcpdiferimento(BigDecimal.ZERO);
+               
+
                 try {
                     new OrcamentoprodJpaController(managerCplus).create(prod);
                 } catch (Exception ex) {
@@ -519,10 +547,9 @@ public class PedidoDigimacroCplus {
         }//for produto
     }
 
-    private boolean editaOrcamento(boolean alteraValor, PsOrders psOrders, Orcamento orcamento, EntityManagerFactory managerCplus, EntityManagerFactory managerIntegrador, EntityManagerFactory managerPrestaShop) {
+    private boolean editaOrcamento(boolean alteraValor, PsOrders psOrders, Orcamento orcamento, EntityManagerFactory managerCplus) {
         boolean condicao = true;
         QueryCplus queryCplus = new QueryCplus(managerCplus);
-        //int decimaisArredondamento = Integer.valueOf(new QueryIntegrador(managerIntegrador).valorConfiguracao("casas_decimais_ARREDONDAMENTO"));
         List<Orcamentoprod> listMovProd = queryCplus.listProdutosOrcemanto(orcamento.getCodorc());
         if (listMovProd.isEmpty()) {
             orcamento.setBaseicms(BigDecimal.ZERO);
@@ -538,31 +565,28 @@ public class PedidoDigimacroCplus {
             orcamento.setValortotalcofins(BigDecimal.ZERO);
             orcamento.setValortotalpis(BigDecimal.ZERO);
         } else {
-            double valIcms = 0.00;
-            double basIcms = 0.00;
-            double basSt = 0.00;
-            double valSt = 0.00;
+            BigDecimal valIcms = BigDecimal.ZERO;
+            BigDecimal basIcms = BigDecimal.ZERO;
+            BigDecimal basSt = BigDecimal.ZERO;
+            BigDecimal valSt = BigDecimal.ZERO;
             BigDecimal valTotalProdutos = BigDecimal.ZERO;
-            double valIpi = 0.00;
-            // double valTotalNota = 0.00;
-            double valPis = 0.00;
-            //double valFrete = 0.00;
-            // double valotrasDespesas = 0.00;
-            double valCofins = 0.00;
+            BigDecimal valIpi = BigDecimal.ZERO;
+            BigDecimal valPis = BigDecimal.ZERO;
+            BigDecimal valCofins = BigDecimal.ZERO;
             for (Orcamentoprod prod : listMovProd) {
-                valIcms = valIcms + prod.getValoricms().doubleValue();
-                basIcms = basIcms + prod.getBaseicms().doubleValue();
-                basSt = basSt + prod.getBasesubsttributaria().doubleValue();
-                valSt = valSt + prod.getValorsubsttributaria().doubleValue();
+                valIcms = valIcms.add(prod.getValoricms());
+                basIcms = basIcms.add(prod.getBaseicms());
+                basSt = basSt.add(prod.getBasesubsttributaria());
+                valSt = valSt.add(prod.getValorsubsttributaria());
                 valTotalProdutos = valTotalProdutos.add(prod.getValortotal());
-                valIpi = valIpi + prod.getValoripi().doubleValue();
-                valPis = valPis + prod.getValorpis().doubleValue();
-                valCofins = valCofins + prod.getValorcofins().doubleValue();
+                valIpi = valIpi.add(prod.getValoripi());
+                valPis =  valPis.add(prod.getValorpis());
+                valCofins = valCofins.add(prod.getValorcofins());
             }//fim for que soma o total dos valores
-            orcamento.setBaseicms(new BigDecimal(basIcms).setScale(2, RoundingMode.HALF_UP));
-            orcamento.setValoricms(new BigDecimal(valIcms).setScale(2, RoundingMode.HALF_UP));
-            orcamento.setBasesubsttributaria(new BigDecimal(basSt).setScale(2, RoundingMode.HALF_UP));
-            orcamento.setValorsubsttributaria(new BigDecimal(valSt).setScale(2, RoundingMode.HALF_UP));
+            orcamento.setBaseicms(basIcms.setScale(2, RoundingMode.HALF_UP));
+            orcamento.setValoricms(valIcms.setScale(2, RoundingMode.HALF_UP));
+            orcamento.setBasesubsttributaria(basSt.setScale(2, RoundingMode.HALF_UP));
+            orcamento.setValorsubsttributaria(valSt.setScale(2, RoundingMode.HALF_UP));
 
             if (!"RS".equals(orcamento.getCodcli().getEstado())) {
                 orcamento.setIdentificadordestino('2');
@@ -571,17 +595,13 @@ public class PedidoDigimacroCplus {
                 } else {
                     orcamento.setCodcfop("6403");
                 }
-            }
-            //double valorDesconto = 0.00;
-            //double valorTaxa = 0.00;
+            }       
             BigDecimal valorDesconto = valTotalProdutos.subtract(psOrders.getTotalPaidTaxIncl());
             BigDecimal valorTaxa = BigDecimal.ZERO;
-            if (alteraValor == false) {              
+            if (alteraValor == false) {
                 if (valorDesconto.doubleValue() == 0.00) { //quando valor dos produtos for igual ao total
-                    //valorTaxa = valorDesconto.divide(valTotalProdutos, 2, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal("100.00"));
                     orcamento.setAliqdesconto(BigDecimal.ZERO);
                     orcamento.setValordesconto(BigDecimal.ZERO);
-                    //orcamento.setFlagtipodesconto('A');
                 } else if (valorDesconto.doubleValue() > 0) {//quando for desconto
                     valorTaxa = valorDesconto.divide(valTotalProdutos, 6, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal("100.00"));
                     orcamento.setAliqdesconto(valorTaxa);
@@ -597,8 +617,10 @@ public class PedidoDigimacroCplus {
             }
             // orcamento.setValortotalprodutos(new BigDecimal(valTotalProdutos - valorDesconto).setScale(2, RoundingMode.HALF_UP));
             orcamento.setValortotalprodutos(valTotalProdutos);
-            orcamento.setValortotalcofins(new BigDecimal(valCofins).subtract(valorDesconto).setScale(2, RoundingMode.HALF_UP));
-            orcamento.setValortotalpis(new BigDecimal(valPis).subtract(valorDesconto).setScale(2, RoundingMode.HALF_UP));
+            orcamento.setValortotalcofins(valCofins.setScale(2, RoundingMode.HALF_UP));
+            orcamento.setValortotalpis(valPis.setScale(2, RoundingMode.HALF_UP));           
+            orcamento.setBaseicms(basIcms.setScale(2, RoundingMode.HALF_UP));
+            orcamento.setValoricms(valIcms.setScale(2, RoundingMode.HALF_UP));
             orcamento.setValortotalorcamento(valTotalProdutos.subtract(valorDesconto));
         }
 

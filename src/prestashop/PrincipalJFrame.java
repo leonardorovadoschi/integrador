@@ -194,6 +194,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
 
         jMenuManutencaoRma.setText("Manutenção RMA");
 
+        jMenuItemRma.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItemRma.setText("RMA");
         jMenuItemRma.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -202,6 +203,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         });
         jMenuManutencaoRma.add(jMenuItemRma);
 
+        jMenuItemEspelhoRma.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.ALT_MASK));
         jMenuItemEspelhoRma.setText("Espelho RMA");
         jMenuItemEspelhoRma.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

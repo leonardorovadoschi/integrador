@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package integrador.rma;
 
 //import entidade.cplus.Movendaprodserial;
@@ -22,6 +21,7 @@ public class ListagemSerialSaidaJDialog extends javax.swing.JDialog {
 
     /**
      * Creates new form ListagemSerialSaidaJDialog
+     *
      * @param parent
      * @param modal
      * @param managerIntegrador1
@@ -35,7 +35,7 @@ public class ListagemSerialSaidaJDialog extends javax.swing.JDialog {
         queryIntegrador = new QueryIntegrador(managerIntegrador);
         colunaIdSaidaSerial = jTableSaidaSerial.getColumnModel().getColumnIndex("Id Saida Serial");
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
-       // setCancelamento(true);
+        // setCancelamento(true);
     }
 
     /**
@@ -173,65 +173,66 @@ public class ListagemSerialSaidaJDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextFieldSerialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldSerialActionPerformed
-      if(!"".equals(jTextFieldSerial.getText())){
-        if(jCheckBoxSerialExato.isSelected()){
-          pesquisaSerialExato();
-      }else{
-          pesquisaSerial();
-      }
-      jButtonOk.setEnabled(false);
-      jTextFieldSerial.setText("");
-      }else{
-          JOptionPane.showMessageDialog(null, "Deve ser digitado o serial!!! ");
-      }
+        if (!"".equals(jTextFieldSerial.getText())) {
+            if (jCheckBoxSerialExato.isSelected()) {
+                pesquisaSerialExato();
+            } else {
+                pesquisaSerial();
+            }
+            jButtonOk.setEnabled(false);
+            jTextFieldSerial.setText("");
+        } else {
+            JOptionPane.showMessageDialog(null, "Deve ser digitado o serial!!! ");
+        }
     }//GEN-LAST:event_jTextFieldSerialActionPerformed
 
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
-       cancelamento();
+        cancelamento();
     }//GEN-LAST:event_jButtonCancelarActionPerformed
 
     private void jTableSaidaSerialMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableSaidaSerialMouseClicked
-       jButtonOk.setEnabled(true);
+        jButtonOk.setEnabled(true);
     }//GEN-LAST:event_jTableSaidaSerialMouseClicked
 
     private void jButtonOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOkActionPerformed
-       finalizacao();
+        finalizacao();
     }//GEN-LAST:event_jButtonOkActionPerformed
 
-    private void finalizacao(){
-        colunaIdSaidaSerial = jTableSaidaSerial.getColumnModel().getColumnIndex("Id Saida Serial");        
-            String cod = jTableSaidaSerial.getValueAt(jTableSaidaSerial.getSelectedRow(), colunaIdSaidaSerial).toString();
-            if (cod != null) {
-                setSaidaSerial(new SaidaSerialJpaController(managerIntegrador).findSaidaSerial(Integer.valueOf(cod)));
-                setCancelamento(false);
-                saidaSerialList.clear();
-                dispose();
-            } else {
-                JOptionPane.showMessageDialog(null, "O Código está nullo por favor verifique!!! ");
-            }  
+    private void finalizacao() {
+        colunaIdSaidaSerial = jTableSaidaSerial.getColumnModel().getColumnIndex("Id Saida Serial");
+        String cod = jTableSaidaSerial.getValueAt(jTableSaidaSerial.getSelectedRow(), colunaIdSaidaSerial).toString();
+        if (cod != null) {
+            setSaidaSerial(new SaidaSerialJpaController(managerIntegrador).findSaidaSerial(Integer.valueOf(cod)));
+            setCancelamento(false);
+            saidaSerialList.clear();
+            dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, "O Código está nullo por favor verifique!!! ");
+        }
     }
-    
-     private void cancelamento(){
+
+    private void cancelamento() {
         int cancelar = JOptionPane.showConfirmDialog(null, " Deseja realmente cancelar? \n O processo será encerrado!!", "Cancelar", JOptionPane.YES_NO_CANCEL_OPTION);
-            if (cancelar == JOptionPane.YES_OPTION) {
-                setCancelamento(true);
-                dispose();
-            }
+        if (cancelar == JOptionPane.YES_OPTION) {
+            setCancelamento(true);
+            dispose();
+        }
     }
-     
-     private void pesquisaSerial(){
+
+    private void pesquisaSerial() {
         saidaSerialList.clear();
-        for(SaidaSerial vendaserial : queryIntegrador.listSaidaSerialLike(jTextFieldSerial.getText())){
+        for (SaidaSerial vendaserial : queryIntegrador.listSaidaSerialLike(jTextFieldSerial.getText())) {
             saidaSerialList.add(vendaserial);
         }
     }
-     
-    private void pesquisaSerialExato(){
-         saidaSerialList.clear();
-        for(SaidaSerial vendaserial : queryIntegrador.listSaidaSerial(jTextFieldSerial.getText())){
+
+    private void pesquisaSerialExato() {
+        saidaSerialList.clear();
+        for (SaidaSerial vendaserial : queryIntegrador.listSaidaSerial(jTextFieldSerial.getText())) {
             saidaSerialList.add(vendaserial);
         }
     }
+
     /**
      * @param args the command line arguments
      */
@@ -273,7 +274,7 @@ public class ListagemSerialSaidaJDialog extends javax.swing.JDialog {
             }
         });
     }
-    
+
     private SaidaSerial saidaSerial;
     //private final QueryCplus queryCplus;
     private final QueryIntegrador queryIntegrador;
@@ -288,7 +289,7 @@ public class ListagemSerialSaidaJDialog extends javax.swing.JDialog {
 
     private void setCancelamento(boolean cancelamento) {
         this.cancelamento = cancelamento;
-    }  
+    }
 
     public SaidaSerial getSaidaSerial() {
         return saidaSerial;
@@ -297,10 +298,7 @@ public class ListagemSerialSaidaJDialog extends javax.swing.JDialog {
     public void setSaidaSerial(SaidaSerial saidaSerial) {
         this.saidaSerial = saidaSerial;
     }
-    
-   
-    
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.persistence.EntityManager entityManager;

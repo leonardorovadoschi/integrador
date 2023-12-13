@@ -16,6 +16,7 @@ import entidade.cplus.Documento;
 import entidade.cplus.Documentodocref;
 import entidade.cplus.Fornecedor;
 import entidade.cplus.Fornproduto;
+import entidade.cplus.Gtintributavel;
 import entidade.cplus.Moentrega;
 import entidade.cplus.Moentregaprod;
 import entidade.cplus.Movdocreferenciado;
@@ -26,6 +27,7 @@ import entidade.cplus.Movendadocref;
 import entidade.cplus.Movendaprod;
 import entidade.cplus.Movendaprodcomp;
 import entidade.cplus.Movendaproddevolucaocompra;
+import entidade.cplus.Movendaprodserial;
 import entidade.cplus.Moventrada;
 import entidade.cplus.Moventradaprod;
 import entidade.cplus.Moventradaprodserial;
@@ -33,6 +35,7 @@ import entidade.cplus.Nfceletronica;
 import entidade.cplus.Orcamento;
 import entidade.cplus.Orcamentoprod;
 import entidade.cplus.Produto;
+import entidade.cplus.Produtocaracteristica;
 import entidade.cplus.Produtocodigo;
 import entidade.cplus.Produtoestoque;
 import entidade.cplus.Produtopreco;
@@ -43,8 +46,6 @@ import entidade.cplus.Uf;
 import entidade.cplus.Unidade;
 import entidade.cplus.Usuario;
 import entidade.cplus.Usuarioacesso;
-import entidade.cplus.Movendaprodserial;
-import entidade.cplus.Produtocaracteristica;
 import entidade.cplus.Vale;
 import java.math.BigDecimal;
 import java.util.Calendar;
@@ -1810,4 +1811,11 @@ public List<Movendaproddevolucaocompra> listagemControlaDevolucaoPorSaida(String
         query.setParameter("codFor", codFor);//primeiro parametro      
         return query.getResultList();
     }
+     public List<Gtintributavel> resultGtin(String codGtin) {
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery("SELECT mov FROM Gtintributavel mov WHERE mov.codgtintributavel =:codGtin");
+        query.setParameter("codGtin", codGtin);//primeiro parametro      
+        return query.getResultList();
+    }
+    
 }

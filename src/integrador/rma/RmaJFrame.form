@@ -132,7 +132,7 @@
               <StringArray count="4">
                 <StringItem index="0" value="Serial"/>
                 <StringItem index="1" value="Nota Entrada"/>
-                <StringItem index="2" value="Pedido Saida"/>
+                <StringItem index="2" value="Listagem Saida"/>
                 <StringItem index="3" value="Serial do Produto"/>
               </StringArray>
             </Property>

@@ -3,15 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package integrador.rma;
 
 import entidade.cplus.Cliente;
 import entidade.cplus.Documento;
 import entidade.cplus.Movendaprod;
+import entidade.cplus.Produtoserial;
 import entidade.cplus.Tipomovimento;
 import entidade.cplus.Unidade;
 import entidade.integrador.SaidaSerial;
+import entidade.integrador.SerialProduto;
 import integrador.relatorio.ImprimeRelatorio;
 import integrador.render.RenderPorcentagem;
 import integrador.render.RenderPreco;
@@ -20,6 +21,7 @@ import janela.cplus.ListagemClientesJDialog;
 import janela.cplus.ListagemOperacaoJDialog;
 import java.awt.Toolkit;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import jpa.cplus.CfopJpaController;
@@ -46,8 +48,9 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
         this.listagemClientesJDialog = new ListagemClientesJDialog(this, true, managerCplus);
         this.listagemOperacaoJDialog = new ListagemOperacaoJDialog(this, true, managerCplus);
         this.listagemSerialSaidaJDialog = new ListagemSerialSaidaJDialog(this, true, managerIntegrador);
+   //     listSerial = new ArrayList<>();
         colunaCodMovendaProd = jTableItensEspelho.getColumnModel().getColumnIndex("Codmovprod");
-        mensagem = "";
+        mensagem = new ArrayList<>();
         queryIntegrador = new QueryIntegrador(managerIntegrador);
         //var = var1;
         //decimaisArredondamento = Integer.valueOf(queryIntegrador.valorConfiguracao("casas_decimais_ARREDONDAMENTO"));
@@ -435,7 +438,7 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
     private void jButtonPesquisaClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPesquisaClienteActionPerformed
         this.listagemClientesJDialog.setVisible(true);
         if (this.listagemClientesJDialog.isCancelamento() == false) {
-            cliente = this.listagemClientesJDialog.getCliente();            
+            cliente = this.listagemClientesJDialog.getCliente();
             if ("Y".equals(cliente.getFlagfisica().toString())) {
                 jTextFieldCnpj.setText(cliente.getCpf());
                 jTextFieldIe.setText(cliente.getIdentidade());
@@ -445,7 +448,7 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
                 jTextFieldIe.setText(cliente.getInscr());
                 jTextFieldRazaoCliente.setText(cliente.getConjfantasia());
                 jTextFieldNomeFantasia.setText(cliente.getNomecli());
-            } 
+            }
             jButtonOperacao.setEnabled(true);
             jRadioButtonDevolucao.setEnabled(true);
             jRadioButtonTrocaEmGarantia.setEnabled(true);
@@ -486,7 +489,7 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonOperacaoActionPerformed
 
     private void jButtonImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonImprimirActionPerformed
-        new ImprimeRelatorio().imprimeRelatorio(queryIntegrador.valorConfiguracao("caminho_RELATORIO_ESPELHO_RMA"), movendaprodList);        
+        new ImprimeRelatorio().imprimeRelatorio(queryIntegrador.valorConfiguracao("caminho_RELATORIO_ESPELHO_RMA"), movendaprodList);
     }//GEN-LAST:event_jButtonImprimirActionPerformed
 
     private void jButtonRemoverProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRemoverProdutoActionPerformed
@@ -514,74 +517,75 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
             prodFor.getCodmovenda().setObs(jTextAreaObservacos.getText());
         }
     }//GEN-LAST:event_jButtonEditarMensagemActionPerformed
-    
+
     private BigDecimal valorUnitarioCompra(Movendaprod prod) {
         BigDecimal val = prod.getValortotal().subtract(prod.getValordescontorateado());
         val = val.divide(prod.getQuantidade(), 4, BigDecimal.ROUND_HALF_UP);
         return val;
     }
-    
+
     private BigDecimal valorSTEspelho(Movendaprod prod, BigDecimal quantidadeEspelho) {
         BigDecimal val = prod.getValorsubsttributaria().divide(prod.getQuantidade(), 4, BigDecimal.ROUND_HALF_UP);
         val = val.multiply(quantidadeEspelho).setScale(2, BigDecimal.ROUND_HALF_UP);
         return val;
     }
-    
+
     private BigDecimal valorBaseCofinsEspelho(Movendaprod prod, BigDecimal quantidadeEspelho) {
         BigDecimal val = prod.getBasecofins().divide(prod.getQuantidade(), 4, BigDecimal.ROUND_HALF_UP);
         val = val.multiply(quantidadeEspelho).setScale(2, BigDecimal.ROUND_HALF_UP);
         return val;
     }
-    
+
     private BigDecimal valorBasePisEspelho(Movendaprod prod, BigDecimal quantidadeEspelho) {
         BigDecimal val = prod.getBasepis().divide(prod.getQuantidade(), 4, BigDecimal.ROUND_HALF_UP);
         val = val.multiply(quantidadeEspelho).setScale(2, BigDecimal.ROUND_HALF_UP);
         return val;
     }
-    
+
     private BigDecimal valorCofinsEspelho(Movendaprod prod, BigDecimal quantidadeEspelho) {
         BigDecimal val = prod.getValorcofins().divide(prod.getQuantidade(), 4, BigDecimal.ROUND_HALF_UP);
         val = val.multiply(quantidadeEspelho).setScale(2, BigDecimal.ROUND_HALF_UP);
         return val;
     }
-    
+
     private BigDecimal valorPisEspelho(Movendaprod prod, BigDecimal quantidadeEspelho) {
         BigDecimal val = prod.getValorpis().divide(prod.getQuantidade(), 4, BigDecimal.ROUND_HALF_UP);
         val = val.multiply(quantidadeEspelho).setScale(2, BigDecimal.ROUND_HALF_UP);
         return val;
     }
-    
+
     private BigDecimal valorBaseIcmsEspelho(Movendaprod prod, BigDecimal quantidadeEspelho) {
         BigDecimal val = prod.getBaseicms().divide(prod.getQuantidade(), 4, BigDecimal.ROUND_HALF_UP);
         val = val.multiply(quantidadeEspelho).setScale(2, BigDecimal.ROUND_HALF_UP);
         return val;
     }
-    
+
     private BigDecimal valorIcmsEspelho(Movendaprod prod, BigDecimal quantidadeEspelho) {
         BigDecimal val = prod.getValoricms().divide(prod.getQuantidade(), 4, BigDecimal.ROUND_HALF_UP);
         val = val.multiply(quantidadeEspelho).setScale(2, BigDecimal.ROUND_HALF_UP);
         return val;
     }
-    
+
     private BigDecimal valorTotalProdutoEspelho(Movendaprod prod, BigDecimal quantidadeEspelho) {
-        BigDecimal val = valorUnitarioCompra(prod).multiply(quantidadeEspelho).setScale(2, BigDecimal.ROUND_HALF_UP);        
+        BigDecimal val = valorUnitarioCompra(prod).multiply(quantidadeEspelho).setScale(2, BigDecimal.ROUND_HALF_UP);
         return val;
     }
-    
+
     private void insereSerial() {
         this.listagemSerialSaidaJDialog.setVisible(true);
         if (this.listagemSerialSaidaJDialog.isCancelamento() == false) {
             SaidaSerial serial = this.listagemSerialSaidaJDialog.getSaidaSerial();
+           // listSerial.add(serial);
             Movendaprod prod = new MovendaprodJpaController(managerCplus).findMovendaprod(serial.getCodSaidaProd());
             Movendaprod prod1 = new MovendaprodJpaController(managerCplus).findMovendaprod(serial.getCodSaidaProd());;
-            boolean condicao = true;            
+            boolean condicao = true;
             BigDecimal quantidadeEspelho = quantidadeConversaoSaida(prod);
             for (Movendaprod vendaProd : movendaprodList) {
                 // if (prod.getCodprod().getCodprod().equals(vendaProd.getCodprod().getCodprod()) && prod.getValorunitario().doubleValue() == vendaProd.getValorunitario().doubleValue()) {
                 if (prod.getCodprod().getCodprod().equals(vendaProd.getCodprod().getCodprod()) && valorUnitarioCompra(prod).doubleValue() == vendaProd.getValorunitario().doubleValue()) {
                     movendaprodList.remove(vendaProd);
                     //valor original + 1
-                    quantidadeEspelho = vendaProd.getQuantidade().add(quantidadeEspelho);                    
+                    quantidadeEspelho = vendaProd.getQuantidade().add(quantidadeEspelho);
                     prod.setQuantidade(quantidadeEspelho);
                     if ("Y".equals(tipoMovimentoObjeto.getFlagdevolucao().toString())) {
                         prod.setValorunitario(valorUnitarioCompra(prod1));
@@ -595,12 +599,12 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
                         prod.setBasepis(valorBasePisEspelho(prod1, quantidadeEspelho));
                         prod.setValorcofins(valorCofinsEspelho(prod1, quantidadeEspelho));
                         prod.setValoricms(valorIcmsEspelho(prod1, quantidadeEspelho));
-                        prod.setValorpis(valorPisEspelho(prod1, quantidadeEspelho));                        
+                        prod.setValorpis(valorPisEspelho(prod1, quantidadeEspelho));
                         prod.getCodmovenda().setCodcli(cliente);
                         if ("RS".equals(cliente.getEstado())) {
                             if ("5405".equals(prod.getCodcfop().getCodcfop())) {
-                                prod.setCodcfop(new CfopJpaController(managerCplus).findCfop("5411"));                                
-                            } else {                                
+                                prod.setCodcfop(new CfopJpaController(managerCplus).findCfop("5411"));
+                            } else {
                                 prod.setCodcfop(new CfopJpaController(managerCplus).findCfop("5202"));
                             }
                         } else {
@@ -618,8 +622,8 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
                         prod.setBasepis(BigDecimal.ZERO);
                         prod.setValorcofins(BigDecimal.ZERO);
                         prod.setValoricms(BigDecimal.ZERO);
-                        prod.setValorpis(BigDecimal.ZERO);                        
-                        prod.getCodmovenda().setCodcli(cliente);                        
+                        prod.setValorpis(BigDecimal.ZERO);
+                        prod.getCodmovenda().setCodcli(cliente);
                         if ("RS".equals(cliente.getEstado())) {
                             prod.setCodcfop(new CfopJpaController(managerCplus).findCfop("5949"));
                             prod.setCstcofins("49");
@@ -630,12 +634,13 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
                             prod.setCstcofins("49");
                             prod.setCstpis("49");
                         }
-                        prod.getCodmovenda().setObs(mensagemNota(prod));                      
+                       // prod.getCodmovenda().setObs(mensagemNota(prod));
                     }
                     prod.getCodmovenda().setCodcli(cliente);
+                    prod.getCodmovenda().setObs(mensagemNota(prod));
                     movendaprodList.add(prod);
                     condicao = false;
-                }                
+                }
             }
             if (condicao) {
                 prod.setQuantidade(quantidadeEspelho);
@@ -651,18 +656,18 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
                     prod.setBasepis(valorBasePisEspelho(prod1, quantidadeEspelho));
                     prod.setValorcofins(valorCofinsEspelho(prod1, quantidadeEspelho));
                     prod.setValoricms(valorIcmsEspelho(prod1, quantidadeEspelho));
-                    prod.setValorpis(valorPisEspelho(prod1, quantidadeEspelho));                    
+                    prod.setValorpis(valorPisEspelho(prod1, quantidadeEspelho));
                     prod.getCodmovenda().setCodcli(cliente);
                     if ("RS".equals(cliente.getEstado())) {
                         if ("5405".equals(prod1.getCodcfop().getCodcfop())) {
-                            prod.setCodcfop(new CfopJpaController(managerCplus).findCfop("5411"));                            
+                            prod.setCodcfop(new CfopJpaController(managerCplus).findCfop("5411"));
                         } else {
                             prod.setCodcfop(new CfopJpaController(managerCplus).findCfop("5202"));
                         }
                     } else {
                         prod.setCodcfop(new CfopJpaController(managerCplus).findCfop("6202"));
                     }
-                    prod.getCodmovenda().setObs(mensagemNota(prod));
+                    //prod.getCodmovenda().setObs(mensagemNota(prod));
                 } else {
                     prod.setValorunitario(valorUnitarioCompra(prod1));
                     prod.setValortotal(valorTotalProdutoEspelho(prod1, quantidadeEspelho));
@@ -675,8 +680,8 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
                     prod.setBasepis(BigDecimal.ZERO);
                     prod.setValorcofins(BigDecimal.ZERO);
                     prod.setValoricms(BigDecimal.ZERO);
-                    prod.setValorpis(BigDecimal.ZERO);                    
-                    prod.getCodmovenda().setCodcli(cliente);                    
+                    prod.setValorpis(BigDecimal.ZERO);
+                    prod.getCodmovenda().setCodcli(cliente);
                     if ("RS".equals(cliente.getEstado())) {
                         prod.setCodcfop(new CfopJpaController(managerCplus).findCfop("5949"));
                         prod.setCstcofins("49");
@@ -687,34 +692,49 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
                         prod.setCstcofins("49");
                         prod.setCstpis("49");
                     }
-                    prod.getCodmovenda().setObs(mensagemNota(prod));
+                    //prod.getCodmovenda().setObs(mensagemNota(prod));
                 }
+                prod.getCodmovenda().setObs(mensagemNota(prod));
                 movendaprodList.add(prod);
             }
-        }        
+        }
     }
 
     private String mensagemNota(Movendaprod movSaidaProd) {
         List<Documento> listDoc = new QueryCplus(managerCplus).resultDocumento(movSaidaProd.getCodmovenda().getNumped().toString());
-        if ("Y".equals(tipoMovimentoObjeto.getFlagdevolucao().toString())) {            
+        String txt = "";
+        if ("Y".equals(tipoMovimentoObjeto.getFlagdevolucao().toString())) {
             for (Documento doc : listDoc) {
-                mensagem = mensagem + "Ref. Nota: " + doc.getNumnota() + ", Data: " + new FormataCampos().dataStringSoData(movSaidaProd.getCodmovenda().getData(), 0) + " "
-                        + "Chave: " + doc.getChaveacessonfeletronica() + " \n";
+                txt = "Ref. Nota: " + doc.getNumnota() + ", Data: " + new FormataCampos().dataStringSoData(movSaidaProd.getCodmovenda().getData(), 0) + " "
+                        + "Chave: " + doc.getChaveacessonfeletronica();
             }
         } else {
             if (listDoc.size() > 0) {
                 for (Documento doc : listDoc) {
-                    mensagem = mensagem + "Ref. Nota: " + doc.getNumnota() + ", Data: " + new FormataCampos().dataStringSoData(movSaidaProd.getCodmovenda().getData(), 0) + " "
-                            + "Chave: " + doc.getChaveacessonfeletronica() + " \n";
+                    txt = "Ref. Nota: " + doc.getNumnota() + ", Data: " + new FormataCampos().dataStringSoData(movSaidaProd.getCodmovenda().getData(), 0) + " "
+                            + "Chave: " + doc.getChaveacessonfeletronica();
                 }
             } else {
-                mensagem = mensagem + "Ref. Pedido: " + movSaidaProd.getCodmovenda().getNumped() + ", Data: " + new FormataCampos().dataStringSoData(movSaidaProd.getCodmovenda().getData(), 0) + "\n";
+                txt = "Ref. Pedido: " + movSaidaProd.getCodmovenda().getNumped() + ", Data: " + new FormataCampos().dataStringSoData(movSaidaProd.getCodmovenda().getData(), 0);
             }
         }
-        jTextAreaObservacos.setText(mensagem);
-        return mensagem;
+        boolean cond = true;
+        for (String s : mensagem) {
+            if (txt.equals(s)) {
+                cond = false;
+            }
+        }
+        if (cond) {
+            mensagem.add(txt);
+        }
+        String txt1 = "";
+        for (String s1 : mensagem) {
+            txt1 = txt1 + s1 + "\n";
+        }
+        jTextAreaObservacos.setText(txt1);
+        return txt1;
     }
-    
+
     private BigDecimal quantidadeConversaoSaida(Movendaprod movSaidaProd) {
         BigDecimal quantidade = BigDecimal.ONE;
         for (Unidade un : new QueryCplus(managerCplus).resultPorUnidadeProduto(movSaidaProd.getCodprod().getUnidade())) {
@@ -724,7 +744,7 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
         }
         return quantidade;
     }
-    
+
     private void limpaCampos() {
         jTextFieldCnpj.setText("");
         jTextFieldIe.setText("");
@@ -733,15 +753,16 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
         jTextFieldCfop.setText("");
         jTextFieldNomeOperacao.setText("");
         movendaprodList.clear();
-        mensagem = "";
+        mensagem.clear();
         jTextAreaObservacos.setText("");
-        
+
         jButtonOperacao.setEnabled(false);
         jRadioButtonDevolucao.setEnabled(false);
         jRadioButtonTrocaEmGarantia.setEnabled(false);
         jButtonImprimir.setEnabled(false);
         jButtonRemoverProduto.setEnabled(false);
         jButtonInserir.setEnabled(false);
+        // listSerial.clear();
     }
 
     /**
@@ -778,17 +799,18 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
             }
         });
     }
-    
+
     private Cliente cliente;
     private Tipomovimento tipoMovimentoObjeto;
     private int colunaCodMovendaProd;
     private final ListagemClientesJDialog listagemClientesJDialog;
     private final ListagemOperacaoJDialog listagemOperacaoJDialog;
     private final ListagemSerialSaidaJDialog listagemSerialSaidaJDialog;
-    private static EntityManagerFactory managerCplus;    
-    private static EntityManagerFactory managerIntegrador;    
-    private String mensagem;
-    private final QueryIntegrador queryIntegrador;    
+    private static EntityManagerFactory managerCplus;
+    private static EntityManagerFactory managerIntegrador;
+    private List<String> mensagem;
+    private final QueryIntegrador queryIntegrador;
+   // private List<SaidaSerial> listSerial;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroupOperacao;
