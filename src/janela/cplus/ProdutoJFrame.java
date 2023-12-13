@@ -94,7 +94,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         colunaCodprod = jTableListagemProdutos.getColumnModel().getColumnIndex("Codprod");
         colunaProdutoFornecedor = jTableProdutoFornecedor.getColumnModel().getColumnIndex("Id Produtos");
         //colunaCodigo = jTableListagemProdutos.getColumnModel().getColumnIndex("Codigo");
-       // colunaCodmoventradaprod = jTableListagemEntradas.getColumnModel().getColumnIndex("Codmoveprod");
+        // colunaCodmoventradaprod = jTableListagemEntradas.getColumnModel().getColumnIndex("Codmoveprod");
         jTextFieldMaximoResultadosSaida.setText(queryIntegrador.valorConfiguracao("maximo_resultados_listagem_saidas"));
         //jTextFieldMaximoDeResultadosEntradas.setText(queryIntegrador.valorConfiguracao("maximo_resultados_listagem_entradas"));
         this.listagemEntradasJDialog = new ListagemEntradasJDialog(this, true, managerCplus);
@@ -127,8 +127,8 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         buttonGroupArredondamentoPrecoVenda = new javax.swing.ButtonGroup();
         movendaprodQuery = java.beans.Beans.isDesignTime() ? null : cplusPUEntityManager.createQuery("SELECT m FROM Movendaprod m where m.codmovprod =\"999999\"");
         movendaprodList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(new java.util.LinkedList(movendaprodQuery.getResultList()));
-        fornprodutoQuery = java.beans.Beans.isDesignTime() ? null : cplusPUEntityManager.createQuery("SELECT m FROM Fornproduto m where m.codigoproduto='999999'");
-        fornprodutoList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(fornprodutoQuery.getResultList());
+        moventradaprodQuery = java.beans.Beans.isDesignTime() ? null : cplusPUEntityManager.createQuery("SELECT prod FROM Moventradaprod prod WHERE prod.codmoventr.codmoventr =\"009999999\"");
+        moventradaprodList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(moventradaprodQuery.getResultList());
         jTabbedPaneAlteracaoPrecoProdutoCplus = new javax.swing.JTabbedPane();
         jPanelAbaListaProdutos = new javax.swing.JPanel();
         jScrollPaneListagemProdutos = new javax.swing.JScrollPane();
@@ -164,8 +164,11 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         jTableListagemDeVendas = new javax.swing.JTable();
         jPanelListagemEntradas = new javax.swing.JPanel();
         jButtonAtualizaListagemEntradas = new javax.swing.JButton();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        jTableFornProd = new javax.swing.JTable();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jCheckBoxSomenteCompras = new javax.swing.JCheckBox();
+        jLabel5 = new javax.swing.JLabel();
+        jTextFieldMaximoResultadoEntrada = new javax.swing.JTextField();
         jPanelControles = new javax.swing.JPanel();
         jPanelEstoque = new javax.swing.JPanel();
         jTextFieldEstoqueAtual = new javax.swing.JTextField();
@@ -712,6 +715,10 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         columnBinding.setColumnName("Hora");
         columnBinding.setColumnClass(java.util.Date.class);
         columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${quantidade}"));
+        columnBinding.setColumnName("Quantidade");
+        columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmovenda.codcli.nomecli}"));
         columnBinding.setColumnName("Cliente");
         columnBinding.setColumnClass(String.class);
@@ -724,10 +731,6 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         columnBinding.setColumnName("Cidade");
         columnBinding.setColumnClass(String.class);
         columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codprod.nomeprod}"));
-        columnBinding.setColumnName("Nome Produto");
-        columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmovenda.numnota}"));
         columnBinding.setColumnName("Número Nota");
         columnBinding.setColumnClass(Integer.class);
@@ -735,10 +738,6 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmovenda.numped}"));
         columnBinding.setColumnName("Número Pedido");
         columnBinding.setColumnClass(Integer.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${quantidade}"));
-        columnBinding.setColumnName("Quantidade");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
         columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valorunitario}"));
         columnBinding.setColumnName("Valor Unitário");
@@ -795,26 +794,25 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         jTableListagemDeVendas.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (jTableListagemDeVendas.getColumnModel().getColumnCount() > 0) {
             jTableListagemDeVendas.getColumnModel().getColumn(1).setCellRenderer(new integrador.render.RenderHora());
-            jTableListagemDeVendas.getColumnModel().getColumn(2).setPreferredWidth(250);
-            jTableListagemDeVendas.getColumnModel().getColumn(3).setPreferredWidth(120);
+            jTableListagemDeVendas.getColumnModel().getColumn(2).setCellRenderer(new RenderNumeroInteiro());
+            jTableListagemDeVendas.getColumnModel().getColumn(3).setPreferredWidth(250);
             jTableListagemDeVendas.getColumnModel().getColumn(4).setPreferredWidth(120);
-            jTableListagemDeVendas.getColumnModel().getColumn(5).setPreferredWidth(250);
-            jTableListagemDeVendas.getColumnModel().getColumn(8).setCellRenderer(new RenderNumeroInteiro());
+            jTableListagemDeVendas.getColumnModel().getColumn(5).setPreferredWidth(120);
+            jTableListagemDeVendas.getColumnModel().getColumn(8).setCellRenderer(new integrador.render.RenderPreco());
             jTableListagemDeVendas.getColumnModel().getColumn(9).setCellRenderer(new integrador.render.RenderPreco());
             jTableListagemDeVendas.getColumnModel().getColumn(10).setCellRenderer(new integrador.render.RenderPreco());
             jTableListagemDeVendas.getColumnModel().getColumn(11).setCellRenderer(new integrador.render.RenderPreco());
             jTableListagemDeVendas.getColumnModel().getColumn(12).setCellRenderer(new integrador.render.RenderPreco());
-            jTableListagemDeVendas.getColumnModel().getColumn(13).setCellRenderer(new integrador.render.RenderPreco());
-            jTableListagemDeVendas.getColumnModel().getColumn(14).setCellRenderer( new RenderPorcentagem());
-            jTableListagemDeVendas.getColumnModel().getColumn(15).setCellRenderer(new integrador.render.RenderPreco());
-            jTableListagemDeVendas.getColumnModel().getColumn(16).setCellRenderer( new RenderPorcentagem());
-            jTableListagemDeVendas.getColumnModel().getColumn(17).setCellRenderer(new integrador.render.RenderPreco());
-            jTableListagemDeVendas.getColumnModel().getColumn(18).setCellRenderer(new RenderNumeroInteiro());
-            jTableListagemDeVendas.getColumnModel().getColumn(19).setCellRenderer( new RenderPorcentagem());
+            jTableListagemDeVendas.getColumnModel().getColumn(13).setCellRenderer( new RenderPorcentagem());
+            jTableListagemDeVendas.getColumnModel().getColumn(14).setCellRenderer(new integrador.render.RenderPreco());
+            jTableListagemDeVendas.getColumnModel().getColumn(15).setCellRenderer( new RenderPorcentagem());
+            jTableListagemDeVendas.getColumnModel().getColumn(16).setCellRenderer(new integrador.render.RenderPreco());
+            jTableListagemDeVendas.getColumnModel().getColumn(17).setCellRenderer(new RenderNumeroInteiro());
+            jTableListagemDeVendas.getColumnModel().getColumn(18).setCellRenderer( new RenderPorcentagem());
+            jTableListagemDeVendas.getColumnModel().getColumn(19).setCellRenderer(new integrador.render.RenderPreco());
             jTableListagemDeVendas.getColumnModel().getColumn(20).setCellRenderer(new integrador.render.RenderPreco());
             jTableListagemDeVendas.getColumnModel().getColumn(21).setCellRenderer(new integrador.render.RenderPreco());
             jTableListagemDeVendas.getColumnModel().getColumn(22).setCellRenderer(new integrador.render.RenderPreco());
-            jTableListagemDeVendas.getColumnModel().getColumn(23).setCellRenderer(new integrador.render.RenderPreco());
         }
 
         javax.swing.GroupLayout jPanelListagemDeVendasLayout = new javax.swing.GroupLayout(jPanelListagemDeVendas);
@@ -860,53 +858,82 @@ public class ProdutoJFrame extends javax.swing.JFrame {
             }
         });
 
-        jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, fornprodutoList, jTableFornProd);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codigoproduto}"));
-        columnBinding.setColumnName("Cod Prod Forn");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${fornprodutoPK.codforn}"));
-        columnBinding.setColumnName("Fornecedor");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${datatu}"));
+        jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, moventradaprodList, jTable1);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmoventr.data}"));
         columnBinding.setColumnName("Data");
         columnBinding.setColumnClass(java.util.Date.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${nomeproduto}"));
-        columnBinding.setColumnName("Nome Prod Fornecedor");
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valorunitario}"));
+        columnBinding.setColumnName("Valor Unitario");
+        columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${quantidade}"));
+        columnBinding.setColumnName("Quantidade");
+        columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${complemento}"));
+        columnBinding.setColumnName("Codigo Fornecedor");
         columnBinding.setColumnClass(String.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${aliqicms}"));
-        columnBinding.setColumnName("Aliq. ICMS");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${custoreal}"));
-        columnBinding.setColumnName("Custoreal");
+        columnBinding.setColumnName("Aliq ICMS");
         columnBinding.setColumnClass(java.math.BigDecimal.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${aliqipi}"));
-        columnBinding.setColumnName("Aliq.IPI");
+        columnBinding.setColumnName("Aliq IPI");
         columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmoventr.codForn.nomeforn}"));
+        columnBinding.setColumnName("Fornecedor");
+        columnBinding.setColumnClass(String.class);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
-        jScrollPane5.setViewportView(jTableFornProd);
-        if (jTableFornProd.getColumnModel().getColumnCount() > 0) {
-            jTableFornProd.getColumnModel().getColumn(0).setPreferredWidth(120);
-            jTableFornProd.getColumnModel().getColumn(1).setCellRenderer(new RenderNomeFornecedor(managerCplus));
-            jTableFornProd.getColumnModel().getColumn(3).setPreferredWidth(350);
+        jScrollPane3.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setPreferredWidth(60);
+            jTable1.getColumnModel().getColumn(1).setPreferredWidth(60);
+            jTable1.getColumnModel().getColumn(1).setCellRenderer(new integrador.render.RenderPreco());
+            jTable1.getColumnModel().getColumn(2).setPreferredWidth(40);
+            jTable1.getColumnModel().getColumn(2).setCellRenderer(new RenderNumeroInteiro());
+            jTable1.getColumnModel().getColumn(3).setPreferredWidth(120);
+            jTable1.getColumnModel().getColumn(4).setPreferredWidth(40);
+            jTable1.getColumnModel().getColumn(4).setCellRenderer(new RenderPorcentagem());
+            jTable1.getColumnModel().getColumn(5).setPreferredWidth(40);
+            jTable1.getColumnModel().getColumn(5).setCellRenderer(new RenderPorcentagem());
+            jTable1.getColumnModel().getColumn(6).setPreferredWidth(240);
         }
+
+        jCheckBoxSomenteCompras.setSelected(true);
+        jCheckBoxSomenteCompras.setText("Somente Compras");
+
+        jLabel5.setText("Max. Resul.");
+
+        jTextFieldMaximoResultadoEntrada.setText("20");
 
         javax.swing.GroupLayout jPanelListagemEntradasLayout = new javax.swing.GroupLayout(jPanelListagemEntradas);
         jPanelListagemEntradas.setLayout(jPanelListagemEntradasLayout);
         jPanelListagemEntradasLayout.setHorizontalGroup(
             jPanelListagemEntradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelListagemEntradasLayout.createSequentialGroup()
-                .addComponent(jButtonAtualizaListagemEntradas)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 1077, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGroup(jPanelListagemEntradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonAtualizaListagemEntradas)
+                    .addGroup(jPanelListagemEntradasLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanelListagemEntradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jCheckBoxSomenteCompras)
+                            .addGroup(jPanelListagemEntradasLayout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextFieldMaximoResultadoEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 1089, Short.MAX_VALUE))
         );
         jPanelListagemEntradasLayout.setVerticalGroup(
             jPanelListagemEntradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelListagemEntradasLayout.createSequentialGroup()
                 .addComponent(jButtonAtualizaListagemEntradas)
-                .addContainerGap(192, Short.MAX_VALUE))
-            .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jCheckBoxSomenteCompras)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanelListagemEntradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jTextFieldMaximoResultadoEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(135, Short.MAX_VALUE))
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
 
         jTabbedPaneAlteracaoPrecoProdutoCplus.addTab("Listagem de Entradas", jPanelListagemEntradas);
@@ -2137,14 +2164,13 @@ public class ProdutoJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jCheckBoxAtivoActionPerformed
 
     private void jButtonAtualizaListagemEntradasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAtualizaListagemEntradasActionPerformed
-       // moventradaprodList.clear();
-        // for (Moventradaprod movProd : queryCplus.resultProdutoEntrada(produtoCplus.getCodprod(), jCheckBoxSomenteCompras.isSelected(), Integer.valueOf(jTextFieldMaximoDeResultadosEntradas.getText()))) {
-            //     moventradaprodList.add(movProd);
-            // }
-        //if (this.listagemEntradasJDialog.isCancelamento() == false) {
-            this.listagemEntradasJDialog.setTermoPesquisa(produtoCplus.getCodigo(), 3);
-            this.listagemEntradasJDialog.setVisible(true);
-            // }
+        moventradaprodList.clear();
+        for (Moventradaprod f : queryCplus.resultProdutoEntrada(produtoCplus.getCodprod(), jCheckBoxSomenteVendas.isSelected(), Integer.valueOf(jTextFieldMaximoResultadoEntrada.getText()))) {
+            for (Fornproduto p : queryCplus.resultForProduto(produtoCplus.getCodprod(), f.getCodmoventr().getCodForn().getCodforn())) {
+                f.setComplemento(p.getCodigoproduto());
+            }
+            moventradaprodList.add(f);
+        }
     }//GEN-LAST:event_jButtonAtualizaListagemEntradasActionPerformed
 
     private String tamanhoString(String str, int tamanhoString) {
@@ -2275,9 +2301,9 @@ public class ProdutoJFrame extends javax.swing.JFrame {
             }
             listIcmsEstado = queryCplus.listcalculoIcmsEstadol("RS", "RS", "5102", produtoCplus.getCodcalculoicms().getCodcalculoicms());
             if (listIcmsEstado.size() == 1) {
-                for (Moventradaprod movProd : queryCplus.resultProdutoEntrada(produtoCplus.getCodprod(), true, 1)) {
-                    jTextFieldPercOutrosCustos.setText(formataCampo.bigDecimalParaString(new CalculoDeCusto().custoMediouUniComIpi(listIcmsEstado, produtoCplus, managerCplus), casasDecimais));
-                }
+                //for (Moventradaprod movProd : queryCplus.resultProdutoEntrada(produtoCplus.getCodprod(), true, 1)) {
+                jTextFieldPercOutrosCustos.setText(formataCampo.bigDecimalParaString(new CalculoDeCusto().custoMediouUniComIpi(listIcmsEstado, produtoCplus, managerCplus), casasDecimais));
+                // }
             } else {
                 condicaoIcms = true;
                 //JOptionPane.showMessageDialog(null, "Nï¿½o foi possi encontrar o calculo de ICMS verifique no C-Plus!!!\n lista de resultados: " + listIcmsEstado.size());
@@ -2339,7 +2365,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
                 if (listProdCaracteristica.size() == 1) {
                     for (Produtocaracteristica prodCar : listProdCaracteristica) {
                         prodCar.setCodcaracteristica("000000001");
-                       new ProdutocaracteristicaJpaController(managerCplus).edit(prodCar);
+                        new ProdutocaracteristicaJpaController(managerCplus).edit(prodCar);
                     }
                 }
             }
@@ -2389,17 +2415,9 @@ public class ProdutoJFrame extends javax.swing.JFrame {
                 //     campo.setValor(jTextFieldPartNumberSistema.getText().toUpperCase());
                 // }
             }
-            if (!"".equals(jTextFieldComplementoFiscal.getText())) {
-                //produtoIntegracao.setPartNumber(jTextFieldPartNumberSistema.getText().toUpperCase());
-                gravaComplementoFiscal(jTextFieldComplementoFiscal.getText());
-                // for (Campocustomvalor campo : queryCplus.listCampoMaster(produtoCplus.getCodprod(), "000000003")) {
-                //     campo.setValor(jTextFieldComplementoFiscal.getText());
-                // }
-            }
-            // produtoIntegracao.setComplementoFiscal(jTextFieldComplementoFiscal.getText());
-            //  new ProdutoIntegracaoJpaController(managerIntegrador).edit(produtoIntegracao);
-            //      }
-            //      }                       
+            //if (!"".equals(jTextFieldComplementoFiscal.getText())) {               
+            gravaComplementoFiscal(jTextFieldComplementoFiscal.getText());
+            //}                           
             jButtonGravar.setEnabled(false);
         } catch (Exception ex) {
             criaLog(new Date(System.currentTimeMillis()), "Erro ao editar Preço no C-plus no Frame Alteracao de preço \n" + ex, "Erro Editar");
@@ -2600,7 +2618,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         }
         lisCar = queryCplus.listProdutoCaracteristicaDoProduto(produtoCplus.getCodprod());
         if (lisCar.size() != 1) {
-             JOptionPane.showMessageDialog(null, "O produto: "+produtoCplus.getNomeprod()+" possui Erro nas caracteristicas, Favor Corrigir");
+            JOptionPane.showMessageDialog(null, "O produto: " + produtoCplus.getNomeprod() + " possui Erro nas caracteristicas, Favor Corrigir");
         }
         if (produtoCplus.getFlagorigemproduto() != null) {
             switch (produtoCplus.getFlagorigemproduto().toString()) {
@@ -2641,10 +2659,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         for (Produtocodigo ean : produtoCplus.getProdutocodigoCollection()) {
             txt = txt + ean.getCodigo() + "\n";
         }
-        fornprodutoList.clear();
-        for(Fornproduto f : queryCplus.resultForProduto(produtoCplus.getCodprod())){
-            fornprodutoList.add(f);
-        }
+
         jTextAreaEan.setText(txt);
         jButtonGravar.setEnabled(false);
     }
@@ -2693,7 +2708,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         jTextFieldLargura.setText("");
         jTextFieldComprimento.setText("");
         jComboBoxOrigemProduto.setSelectedIndex(9);
-        fornprodutoList.clear();
+        movendaprodList.clear();
     }
 
     private BigDecimal calculaValorVenda(BigDecimal margemLucro) {
@@ -2823,22 +2838,24 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         String codCampoCustomMaster = "000000003";
         List<Campocustomvalor> listCampo = (List<Campocustomvalor>) queryCplus.listCampoMaster(produtoCplus.getCodprod(), codCampoCustomMaster);
         if (listCampo.isEmpty()) {
-            Integer configCont = Integer.valueOf(queryIntegrador.valorConfiguracao("increment_tabela_campo_valor"));
-            Campocustomvalor ca = new Campocustomvalor();
-            ca.setCodcampocustomvalor(String.format("%09d", configCont));
-            ca.setCodcampocustommaster(new CampocustommasterJpaController(managerCplus).findCampocustommaster(codCampoCustomMaster));
-            ca.setCodcampocustomlista("");
-            ca.setIdentidadeorigem(produtoCplus.getCodprod());
-            ca.setNomeentidadeorigem("PRODUTO");
-            ca.setValor(valor);
-            try {
-                new CampocustomvalorJpaController(managerCplus).create(ca);
-                /////////////////////////////////////////////////////////////
-                configCont--;
-                queryIntegrador.atualizaValorConfiguracao("increment_tabela_campo_valor", String.valueOf(configCont));
-                ///////////////////////////////////////////////////////////////////////////////////////
-            } catch (Exception ex) {
-                criaLog(new Date(System.currentTimeMillis()), "Erro ao criar campo personalizado COMPLEMENTO FISCAL no C-plus no Frame Alteracao de preço \n" + ex, "Erro Criar");
+            if (!"".equals(valor)) {
+                Integer configCont = Integer.valueOf(queryIntegrador.valorConfiguracao("increment_tabela_campo_valor"));
+                Campocustomvalor ca = new Campocustomvalor();
+                ca.setCodcampocustomvalor(String.format("%09d", configCont));
+                ca.setCodcampocustommaster(new CampocustommasterJpaController(managerCplus).findCampocustommaster(codCampoCustomMaster));
+                ca.setCodcampocustomlista("");
+                ca.setIdentidadeorigem(produtoCplus.getCodprod());
+                ca.setNomeentidadeorigem("PRODUTO");
+                ca.setValor(valor);
+                try {
+                    new CampocustomvalorJpaController(managerCplus).create(ca);
+                    /////////////////////////////////////////////////////////////
+                    configCont--;
+                    queryIntegrador.atualizaValorConfiguracao("increment_tabela_campo_valor", String.valueOf(configCont));
+                    ///////////////////////////////////////////////////////////////////////////////////////
+                } catch (Exception ex) {
+                    criaLog(new Date(System.currentTimeMillis()), "Erro ao criar campo personalizado COMPLEMENTO FISCAL no C-plus no Frame Alteracao de preço \n" + ex, "Erro Criar");
+                }
             }
         } else {
             for (Campocustomvalor campo : listCampo) {
@@ -2964,8 +2981,6 @@ public class ProdutoJFrame extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroupCustoProduto;
     private javax.swing.ButtonGroup buttonGroupTiposDeMargem;
     private javax.persistence.EntityManager cplusPUEntityManager;
-    private java.util.List<entidade.cplus.Fornproduto> fornprodutoList;
-    private javax.persistence.Query fornprodutoQuery;
     private javax.persistence.EntityManager integradorPUEntityManager;
     private javax.swing.JButton jButtonAtivarNoSite;
     private javax.swing.JButton jButtonAtualizaListagemEntradas;
@@ -2980,6 +2995,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
     private javax.swing.JCheckBox jCheckBoxAtivo;
     private javax.swing.JCheckBox jCheckBoxMostrarItensCarrinhoMagento;
     private javax.swing.JCheckBox jCheckBoxNoSite;
+    private javax.swing.JCheckBox jCheckBoxSomenteCompras;
     private javax.swing.JCheckBox jCheckBoxSomenteItensAtivosCplus;
     private javax.swing.JCheckBox jCheckBoxSomenteVendas;
     private javax.swing.JComboBox jComboBoxOrigemProduto;
@@ -2988,6 +3004,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabelAltura;
     private javax.swing.JLabel jLabelCodigoInterno;
     private javax.swing.JLabel jLabelComplementoFiscal;
@@ -3047,11 +3064,11 @@ public class ProdutoJFrame extends javax.swing.JFrame {
     private javax.swing.JRadioButton jRadioButtonUmaDecimal;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPaneListagemProdutos;
     private javax.swing.JTabbedPane jTabbedPaneAlteracaoPrecoProdutoCplus;
-    private javax.swing.JTable jTableFornProd;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTableListagemDeVendas;
     private javax.swing.JTable jTableListagemProdutos;
     private javax.swing.JTable jTableProdutoFornecedor;
@@ -3070,6 +3087,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldFornecedor;
     private javax.swing.JTextField jTextFieldLargura;
     private javax.swing.JTextField jTextFieldMargemNormal;
+    private javax.swing.JTextField jTextFieldMaximoResultadoEntrada;
     private javax.swing.JTextField jTextFieldMaximoResultadosSaida;
     private javax.swing.JTextField jTextFieldNomeCplus;
     private javax.swing.JTextField jTextFieldNomeSite;
@@ -3089,6 +3107,8 @@ public class ProdutoJFrame extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldValorSubstituicaoTributaria;
     private java.util.List<entidade.cplus.Movendaprod> movendaprodList;
     private javax.persistence.Query movendaprodQuery;
+    private java.util.List<entidade.cplus.Moventradaprod> moventradaprodList;
+    private javax.persistence.Query moventradaprodQuery;
     private java.util.List<entidade.integrador.ProdFornecedor> produtoFornecedorList;
     private javax.persistence.Query produtoFornecedorQuery;
     private java.util.List<entidade.cplus.Produto> produtoList;

@@ -412,7 +412,11 @@ public class PedidoDigimacroCplus {
                     }
                     baseIcms = (100 - aliqReducaoIcms) * valorTotal.doubleValue() / 100;
 
-                    if ("N".equals(cli.getFlagusaaliqicmsdiferenciada().toString())) {
+
+                    //if ("N".equals(cli.getFlagusaaliqicmsdiferenciada().toString())) {
+
+                    if ("N".equals(cli.getFlagusaaliqicmsdiferenciada().toString()) && "RS".equals(calculoIcmsEstado.getCodufdestino().getCoduf())) {                      
+
                         valorIcms = baseIcms * 12.0 / 100;
                         double aliqDeferimento = 0.0;
                         if (calculoIcmsEstado.getAliqdiferimento() == null) {

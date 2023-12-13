@@ -82,23 +82,23 @@
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;entidade.cplus.Movendaprod&gt;"/>
       </AuxValues>
     </Component>
-    <Component class="javax.persistence.Query" name="fornprodutoQuery">
+    <Component class="javax.persistence.Query" name="moventradaprodQuery">
       <Properties>
-        <Property name="query" type="java.lang.String" value="SELECT m FROM Fornproduto m where m.codigoproduto=&apos;999999&apos;"/>
+        <Property name="query" type="java.lang.String" value="SELECT prod FROM Moventradaprod prod WHERE prod.codmoventr.codmoventr =&quot;009999999&quot;"/>
         <Property name="entityManager" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$EMProperty$EntityManagerEditor">
           <ComponentRef name="cplusPUEntityManager"/>
         </Property>
       </Properties>
     </Component>
-    <Component class="java.util.List" name="fornprodutoList">
+    <Component class="java.util.List" name="moventradaprodList">
       <Properties>
         <Property name="query" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$QueryBeanProperty$QueryEditor">
-          <ComponentRef name="fornprodutoQuery"/>
+          <ComponentRef name="moventradaprodQuery"/>
         </Property>
         <Property name="observable" type="boolean" value="true"/>
       </Properties>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;entidade.cplus.Fornproduto&gt;"/>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;entidade.cplus.Moventradaprod&gt;"/>
       </AuxValues>
     </Component>
   </NonVisualComponents>
@@ -1081,42 +1081,37 @@
                             <Connection code="new integrador.render.RenderHora()" type="code"/>
                           </Renderer>
                         </Column>
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="250" resizable="true">
-                          <Title/>
-                          <Editor/>
-                          <Renderer/>
-                        </Column>
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="120" resizable="true">
-                          <Title/>
-                          <Editor/>
-                          <Renderer/>
-                        </Column>
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="120" resizable="true">
-                          <Title/>
-                          <Editor/>
-                          <Renderer/>
-                        </Column>
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="250" resizable="true">
-                          <Title/>
-                          <Editor/>
-                          <Renderer/>
-                        </Column>
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                          <Title/>
-                          <Editor/>
-                          <Renderer/>
-                        </Column>
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                          <Title/>
-                          <Editor/>
-                          <Renderer/>
-                        </Column>
                         <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                           <Title/>
                           <Editor/>
                           <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                             <Connection code="new RenderNumeroInteiro()" type="code"/>
                           </Renderer>
+                        </Column>
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="250" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer/>
+                        </Column>
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="120" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer/>
+                        </Column>
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="120" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer/>
+                        </Column>
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer/>
+                        </Column>
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer/>
                         </Column>
                         <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                           <Title/>
@@ -1242,6 +1237,11 @@
                         <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.util.Date.class"/>
                         <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
                       </Subbinding>
+                      <Subbinding sourcePath="${quantidade}">
+                        <BindingParameter name="NAME" value="Quantidade"/>
+                        <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.math.BigDecimal.class"/>
+                        <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
+                      </Subbinding>
                       <Subbinding sourcePath="${codmovenda.codcli.nomecli}">
                         <BindingParameter name="NAME" value="Cliente"/>
                         <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
@@ -1257,11 +1257,6 @@
                         <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
                         <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
                       </Subbinding>
-                      <Subbinding sourcePath="${codprod.nomeprod}">
-                        <BindingParameter name="NAME" value="Nome Produto"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
-                      </Subbinding>
                       <Subbinding sourcePath="${codmovenda.numnota}">
                         <BindingParameter name="NAME" value="N&#xfa;mero Nota"/>
                         <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Integer.class"/>
@@ -1270,11 +1265,6 @@
                       <Subbinding sourcePath="${codmovenda.numped}">
                         <BindingParameter name="NAME" value="N&#xfa;mero Pedido"/>
                         <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Integer.class"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
-                      </Subbinding>
-                      <Subbinding sourcePath="${quantidade}">
-                        <BindingParameter name="NAME" value="Quantidade"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.math.BigDecimal.class"/>
                         <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
                       </Subbinding>
                       <Subbinding sourcePath="${valorunitario}">
@@ -1361,10 +1351,22 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <Component id="jButtonAtualizaListagemEntradas" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jScrollPane5" pref="1077" max="32767" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jButtonAtualizaListagemEntradas" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jCheckBoxSomenteCompras" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="jTextFieldMaximoResultadoEntrada" min="-2" pref="47" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                          </Group>
+                      </Group>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="jScrollPane3" pref="1089" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1372,9 +1374,16 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Component id="jButtonAtualizaListagemEntradas" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="192" max="32767" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="jCheckBoxSomenteCompras" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextFieldMaximoResultadoEntrada" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace pref="135" max="32767" attributes="0"/>
                   </Group>
-                  <Component id="jScrollPane5" alignment="1" pref="0" max="32767" attributes="0"/>
+                  <Component id="jScrollPane3" alignment="1" pref="0" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>
@@ -1388,50 +1397,56 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonAtualizaListagemEntradasActionPerformed"/>
               </Events>
             </Component>
-            <Container class="javax.swing.JScrollPane" name="jScrollPane5">
+            <Container class="javax.swing.JScrollPane" name="jScrollPane3">
               <AuxValues>
                 <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
               </AuxValues>
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Component class="javax.swing.JTable" name="jTableFornProd">
+                <Component class="javax.swing.JTable" name="jTable1">
                   <Properties>
                     <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                       <TableColumnModel selectionModel="0">
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="60" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer/>
+                        </Column>
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="60" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                            <Connection code="new integrador.render.RenderPreco()" type="code"/>
+                          </Renderer>
+                        </Column>
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="40" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                            <Connection code="new RenderNumeroInteiro()" type="code"/>
+                          </Renderer>
+                        </Column>
                         <Column maxWidth="-1" minWidth="-1" prefWidth="120" resizable="true">
                           <Title/>
                           <Editor/>
                           <Renderer/>
                         </Column>
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="40" resizable="true">
                           <Title/>
                           <Editor/>
                           <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                            <Connection code="new RenderNomeFornecedor(managerCplus)" type="code"/>
+                            <Connection code="new RenderPorcentagem()" type="code"/>
                           </Renderer>
                         </Column>
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="40" resizable="true">
                           <Title/>
                           <Editor/>
-                          <Renderer/>
+                          <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                            <Connection code="new RenderPorcentagem()" type="code"/>
+                          </Renderer>
                         </Column>
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="350" resizable="true">
-                          <Title/>
-                          <Editor/>
-                          <Renderer/>
-                        </Column>
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                          <Title/>
-                          <Editor/>
-                          <Renderer/>
-                        </Column>
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                          <Title/>
-                          <Editor/>
-                          <Renderer/>
-                        </Column>
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="240" resizable="true">
                           <Title/>
                           <Editor/>
                           <Renderer/>
@@ -1443,40 +1458,56 @@
                     </Property>
                   </Properties>
                   <BindingProperties>
-                    <BindingProperty name="elements" source="fornprodutoList" target="jTableFornProd" targetPath="elements" updateStrategy="0" immediately="true">
-                      <Subbinding sourcePath="${codigoproduto}">
-                        <BindingParameter name="NAME" value="Cod Prod Forn"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
-                      </Subbinding>
-                      <Subbinding sourcePath="${fornprodutoPK.codforn}">
-                        <BindingParameter name="NAME" value="Fornecedor"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
-                      </Subbinding>
-                      <Subbinding sourcePath="${datatu}">
+                    <BindingProperty name="elements" source="moventradaprodList" target="jTable1" targetPath="elements" updateStrategy="0" immediately="true">
+                      <Subbinding sourcePath="${codmoventr.data}">
                         <BindingParameter name="NAME" value="Data"/>
                         <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.util.Date.class"/>
                       </Subbinding>
-                      <Subbinding sourcePath="${nomeproduto}">
-                        <BindingParameter name="NAME" value="Nome Prod Fornecedor"/>
+                      <Subbinding sourcePath="${valorunitario}">
+                        <BindingParameter name="NAME" value="Valor Unitario"/>
+                        <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.math.BigDecimal.class"/>
+                      </Subbinding>
+                      <Subbinding sourcePath="${quantidade}">
+                        <BindingParameter name="NAME" value="Quantidade"/>
+                        <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.math.BigDecimal.class"/>
+                      </Subbinding>
+                      <Subbinding sourcePath="${complemento}">
+                        <BindingParameter name="NAME" value="Codigo Fornecedor"/>
                         <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
                       </Subbinding>
                       <Subbinding sourcePath="${aliqicms}">
-                        <BindingParameter name="NAME" value="Aliq. ICMS"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.math.BigDecimal.class"/>
-                      </Subbinding>
-                      <Subbinding sourcePath="${custoreal}">
-                        <BindingParameter name="NAME" value="Custoreal"/>
+                        <BindingParameter name="NAME" value="Aliq ICMS"/>
                         <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.math.BigDecimal.class"/>
                       </Subbinding>
                       <Subbinding sourcePath="${aliqipi}">
-                        <BindingParameter name="NAME" value="Aliq.IPI"/>
+                        <BindingParameter name="NAME" value="Aliq IPI"/>
                         <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.math.BigDecimal.class"/>
+                      </Subbinding>
+                      <Subbinding sourcePath="${codmoventr.codForn.nomeforn}">
+                        <BindingParameter name="NAME" value="Fornecedor"/>
+                        <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
                       </Subbinding>
                     </BindingProperty>
                   </BindingProperties>
                 </Component>
               </SubComponents>
             </Container>
+            <Component class="javax.swing.JCheckBox" name="jCheckBoxSomenteCompras">
+              <Properties>
+                <Property name="selected" type="boolean" value="true"/>
+                <Property name="text" type="java.lang.String" value="Somente Compras"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel5">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Max. Resul."/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="jTextFieldMaximoResultadoEntrada">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="20"/>
+              </Properties>
+            </Component>
           </SubComponents>
         </Container>
       </SubComponents>

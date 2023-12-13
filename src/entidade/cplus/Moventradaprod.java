@@ -5,6 +5,8 @@
  */
 package entidade.cplus;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -22,6 +24,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -140,6 +143,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Moventradaprod.findByValoricmsdiferimento", query = "SELECT m FROM Moventradaprod m WHERE m.valoricmsdiferimento = :valoricmsdiferimento")
     , @NamedQuery(name = "Moventradaprod.findByCodbeneficiofiscal", query = "SELECT m FROM Moventradaprod m WHERE m.codbeneficiofiscal = :codbeneficiofiscal")})
 public class Moventradaprod implements Serializable {
+
+    @Transient
+    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -415,7 +421,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setCodmoveprod(String codmoveprod) {
+        String oldCodmoveprod = this.codmoveprod;
         this.codmoveprod = codmoveprod;
+        changeSupport.firePropertyChange("codmoveprod", oldCodmoveprod, codmoveprod);
     }
 
     public String getComplemento() {
@@ -423,7 +431,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setComplemento(String complemento) {
+        String oldComplemento = this.complemento;
         this.complemento = complemento;
+        changeSupport.firePropertyChange("complemento", oldComplemento, complemento);
     }
 
     public BigDecimal getQuantidade() {
@@ -431,7 +441,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setQuantidade(BigDecimal quantidade) {
+        BigDecimal oldQuantidade = this.quantidade;
         this.quantidade = quantidade;
+        changeSupport.firePropertyChange("quantidade", oldQuantidade, quantidade);
     }
 
     public BigDecimal getQuantidadeembalagem() {
@@ -439,7 +451,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setQuantidadeembalagem(BigDecimal quantidadeembalagem) {
+        BigDecimal oldQuantidadeembalagem = this.quantidadeembalagem;
         this.quantidadeembalagem = quantidadeembalagem;
+        changeSupport.firePropertyChange("quantidadeembalagem", oldQuantidadeembalagem, quantidadeembalagem);
     }
 
     public BigDecimal getValorunitario() {
@@ -447,7 +461,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setValorunitario(BigDecimal valorunitario) {
+        BigDecimal oldValorunitario = this.valorunitario;
         this.valorunitario = valorunitario;
+        changeSupport.firePropertyChange("valorunitario", oldValorunitario, valorunitario);
     }
 
     public Character getFlagtipoacrescimoitem() {
@@ -455,7 +471,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setFlagtipoacrescimoitem(Character flagtipoacrescimoitem) {
+        Character oldFlagtipoacrescimoitem = this.flagtipoacrescimoitem;
         this.flagtipoacrescimoitem = flagtipoacrescimoitem;
+        changeSupport.firePropertyChange("flagtipoacrescimoitem", oldFlagtipoacrescimoitem, flagtipoacrescimoitem);
     }
 
     public BigDecimal getAliqacrescimoitem() {
@@ -463,7 +481,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setAliqacrescimoitem(BigDecimal aliqacrescimoitem) {
+        BigDecimal oldAliqacrescimoitem = this.aliqacrescimoitem;
         this.aliqacrescimoitem = aliqacrescimoitem;
+        changeSupport.firePropertyChange("aliqacrescimoitem", oldAliqacrescimoitem, aliqacrescimoitem);
     }
 
     public BigDecimal getValoracrescimoitem() {
@@ -471,7 +491,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setValoracrescimoitem(BigDecimal valoracrescimoitem) {
+        BigDecimal oldValoracrescimoitem = this.valoracrescimoitem;
         this.valoracrescimoitem = valoracrescimoitem;
+        changeSupport.firePropertyChange("valoracrescimoitem", oldValoracrescimoitem, valoracrescimoitem);
     }
 
     public Character getFlagtipodescontoitem() {
@@ -479,7 +501,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setFlagtipodescontoitem(Character flagtipodescontoitem) {
+        Character oldFlagtipodescontoitem = this.flagtipodescontoitem;
         this.flagtipodescontoitem = flagtipodescontoitem;
+        changeSupport.firePropertyChange("flagtipodescontoitem", oldFlagtipodescontoitem, flagtipodescontoitem);
     }
 
     public BigDecimal getAliqdescontoitem() {
@@ -487,7 +511,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setAliqdescontoitem(BigDecimal aliqdescontoitem) {
+        BigDecimal oldAliqdescontoitem = this.aliqdescontoitem;
         this.aliqdescontoitem = aliqdescontoitem;
+        changeSupport.firePropertyChange("aliqdescontoitem", oldAliqdescontoitem, aliqdescontoitem);
     }
 
     public BigDecimal getValordescontoitem() {
@@ -495,7 +521,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setValordescontoitem(BigDecimal valordescontoitem) {
+        BigDecimal oldValordescontoitem = this.valordescontoitem;
         this.valordescontoitem = valordescontoitem;
+        changeSupport.firePropertyChange("valordescontoitem", oldValordescontoitem, valordescontoitem);
     }
 
     public BigDecimal getValortotal() {
@@ -503,7 +531,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setValortotal(BigDecimal valortotal) {
+        BigDecimal oldValortotal = this.valortotal;
         this.valortotal = valortotal;
+        changeSupport.firePropertyChange("valortotal", oldValortotal, valortotal);
     }
 
     public BigDecimal getBaseipi() {
@@ -511,7 +541,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setBaseipi(BigDecimal baseipi) {
+        BigDecimal oldBaseipi = this.baseipi;
         this.baseipi = baseipi;
+        changeSupport.firePropertyChange("baseipi", oldBaseipi, baseipi);
     }
 
     public Character getFlagtipoipi() {
@@ -519,7 +551,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setFlagtipoipi(Character flagtipoipi) {
+        Character oldFlagtipoipi = this.flagtipoipi;
         this.flagtipoipi = flagtipoipi;
+        changeSupport.firePropertyChange("flagtipoipi", oldFlagtipoipi, flagtipoipi);
     }
 
     public BigDecimal getAliqipi() {
@@ -527,7 +561,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setAliqipi(BigDecimal aliqipi) {
+        BigDecimal oldAliqipi = this.aliqipi;
         this.aliqipi = aliqipi;
+        changeSupport.firePropertyChange("aliqipi", oldAliqipi, aliqipi);
     }
 
     public BigDecimal getValoripi() {
@@ -535,7 +571,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setValoripi(BigDecimal valoripi) {
+        BigDecimal oldValoripi = this.valoripi;
         this.valoripi = valoripi;
+        changeSupport.firePropertyChange("valoripi", oldValoripi, valoripi);
     }
 
     public BigDecimal getBaseicms() {
@@ -543,7 +581,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setBaseicms(BigDecimal baseicms) {
+        BigDecimal oldBaseicms = this.baseicms;
         this.baseicms = baseicms;
+        changeSupport.firePropertyChange("baseicms", oldBaseicms, baseicms);
     }
 
     public BigDecimal getAliqicms() {
@@ -551,7 +591,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setAliqicms(BigDecimal aliqicms) {
+        BigDecimal oldAliqicms = this.aliqicms;
         this.aliqicms = aliqicms;
+        changeSupport.firePropertyChange("aliqicms", oldAliqicms, aliqicms);
     }
 
     public BigDecimal getValoricms() {
@@ -559,7 +601,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setValoricms(BigDecimal valoricms) {
+        BigDecimal oldValoricms = this.valoricms;
         this.valoricms = valoricms;
+        changeSupport.firePropertyChange("valoricms", oldValoricms, valoricms);
     }
 
     public Character getFlagtipoiss() {
@@ -567,7 +611,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setFlagtipoiss(Character flagtipoiss) {
+        Character oldFlagtipoiss = this.flagtipoiss;
         this.flagtipoiss = flagtipoiss;
+        changeSupport.firePropertyChange("flagtipoiss", oldFlagtipoiss, flagtipoiss);
     }
 
     public BigDecimal getAliqiss() {
@@ -575,7 +621,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setAliqiss(BigDecimal aliqiss) {
+        BigDecimal oldAliqiss = this.aliqiss;
         this.aliqiss = aliqiss;
+        changeSupport.firePropertyChange("aliqiss", oldAliqiss, aliqiss);
     }
 
     public BigDecimal getValoriss() {
@@ -583,7 +631,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setValoriss(BigDecimal valoriss) {
+        BigDecimal oldValoriss = this.valoriss;
         this.valoriss = valoriss;
+        changeSupport.firePropertyChange("valoriss", oldValoriss, valoriss);
     }
 
     public BigDecimal getBasesubsttributaria() {
@@ -591,7 +641,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setBasesubsttributaria(BigDecimal basesubsttributaria) {
+        BigDecimal oldBasesubsttributaria = this.basesubsttributaria;
         this.basesubsttributaria = basesubsttributaria;
+        changeSupport.firePropertyChange("basesubsttributaria", oldBasesubsttributaria, basesubsttributaria);
     }
 
     public BigDecimal getValorsubsttributaria() {
@@ -599,7 +651,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setValorsubsttributaria(BigDecimal valorsubsttributaria) {
+        BigDecimal oldValorsubsttributaria = this.valorsubsttributaria;
         this.valorsubsttributaria = valorsubsttributaria;
+        changeSupport.firePropertyChange("valorsubsttributaria", oldValorsubsttributaria, valorsubsttributaria);
     }
 
     public Character getFlagorigemproduto() {
@@ -607,7 +661,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setFlagorigemproduto(Character flagorigemproduto) {
+        Character oldFlagorigemproduto = this.flagorigemproduto;
         this.flagorigemproduto = flagorigemproduto;
+        changeSupport.firePropertyChange("flagorigemproduto", oldFlagorigemproduto, flagorigemproduto);
     }
 
     public String getCodsituacaotributaria() {
@@ -615,7 +671,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setCodsituacaotributaria(String codsituacaotributaria) {
+        String oldCodsituacaotributaria = this.codsituacaotributaria;
         this.codsituacaotributaria = codsituacaotributaria;
+        changeSupport.firePropertyChange("codsituacaotributaria", oldCodsituacaotributaria, codsituacaotributaria);
     }
 
     public Character getFlagcomposto() {
@@ -623,7 +681,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setFlagcomposto(Character flagcomposto) {
+        Character oldFlagcomposto = this.flagcomposto;
         this.flagcomposto = flagcomposto;
+        changeSupport.firePropertyChange("flagcomposto", oldFlagcomposto, flagcomposto);
     }
 
     public Date getDatavalidade() {
@@ -631,7 +691,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setDatavalidade(Date datavalidade) {
+        Date oldDatavalidade = this.datavalidade;
         this.datavalidade = datavalidade;
+        changeSupport.firePropertyChange("datavalidade", oldDatavalidade, datavalidade);
     }
 
     public String getCodmoeda() {
@@ -639,7 +701,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setCodmoeda(String codmoeda) {
+        String oldCodmoeda = this.codmoeda;
         this.codmoeda = codmoeda;
+        changeSupport.firePropertyChange("codmoeda", oldCodmoeda, codmoeda);
     }
 
     public String getCodclassificacaofiscal() {
@@ -647,7 +711,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setCodclassificacaofiscal(String codclassificacaofiscal) {
+        String oldCodclassificacaofiscal = this.codclassificacaofiscal;
         this.codclassificacaofiscal = codclassificacaofiscal;
+        changeSupport.firePropertyChange("codclassificacaofiscal", oldCodclassificacaofiscal, codclassificacaofiscal);
     }
 
     public BigDecimal getValorfreterateado() {
@@ -655,7 +721,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setValorfreterateado(BigDecimal valorfreterateado) {
+        BigDecimal oldValorfreterateado = this.valorfreterateado;
         this.valorfreterateado = valorfreterateado;
+        changeSupport.firePropertyChange("valorfreterateado", oldValorfreterateado, valorfreterateado);
     }
 
     public BigDecimal getValoracrescimorateado() {
@@ -663,7 +731,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setValoracrescimorateado(BigDecimal valoracrescimorateado) {
+        BigDecimal oldValoracrescimorateado = this.valoracrescimorateado;
         this.valoracrescimorateado = valoracrescimorateado;
+        changeSupport.firePropertyChange("valoracrescimorateado", oldValoracrescimorateado, valoracrescimorateado);
     }
 
     public BigDecimal getValordescontorateado() {
@@ -671,7 +741,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setValordescontorateado(BigDecimal valordescontorateado) {
+        BigDecimal oldValordescontorateado = this.valordescontorateado;
         this.valordescontorateado = valordescontorateado;
+        changeSupport.firePropertyChange("valordescontorateado", oldValordescontorateado, valordescontorateado);
     }
 
     public BigDecimal getValorsegurorateado() {
@@ -679,7 +751,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setValorsegurorateado(BigDecimal valorsegurorateado) {
+        BigDecimal oldValorsegurorateado = this.valorsegurorateado;
         this.valorsegurorateado = valorsegurorateado;
+        changeSupport.firePropertyChange("valorsegurorateado", oldValorsegurorateado, valorsegurorateado);
     }
 
     public BigDecimal getValoroutrasdesprateado() {
@@ -687,7 +761,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setValoroutrasdesprateado(BigDecimal valoroutrasdesprateado) {
+        BigDecimal oldValoroutrasdesprateado = this.valoroutrasdesprateado;
         this.valoroutrasdesprateado = valoroutrasdesprateado;
+        changeSupport.firePropertyChange("valoroutrasdesprateado", oldValoroutrasdesprateado, valoroutrasdesprateado);
     }
 
     public Date getHora() {
@@ -695,7 +771,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setHora(Date hora) {
+        Date oldHora = this.hora;
         this.hora = hora;
+        changeSupport.firePropertyChange("hora", oldHora, hora);
     }
 
     public String getCodcor() {
@@ -703,7 +781,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setCodcor(String codcor) {
+        String oldCodcor = this.codcor;
         this.codcor = codcor;
+        changeSupport.firePropertyChange("codcor", oldCodcor, codcor);
     }
 
     public String getCodmovproddevolucao() {
@@ -711,7 +791,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setCodmovproddevolucao(String codmovproddevolucao) {
+        String oldCodmovproddevolucao = this.codmovproddevolucao;
         this.codmovproddevolucao = codmovproddevolucao;
+        changeSupport.firePropertyChange("codmovproddevolucao", oldCodmovproddevolucao, codmovproddevolucao);
     }
 
     public BigDecimal getAliqreducaobasesubsttributaria() {
@@ -719,7 +801,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setAliqreducaobasesubsttributaria(BigDecimal aliqreducaobasesubsttributaria) {
+        BigDecimal oldAliqreducaobasesubsttributaria = this.aliqreducaobasesubsttributaria;
         this.aliqreducaobasesubsttributaria = aliqreducaobasesubsttributaria;
+        changeSupport.firePropertyChange("aliqreducaobasesubsttributaria", oldAliqreducaobasesubsttributaria, aliqreducaobasesubsttributaria);
     }
 
     public String getCodsituacaotributariaipi() {
@@ -727,7 +811,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setCodsituacaotributariaipi(String codsituacaotributariaipi) {
+        String oldCodsituacaotributariaipi = this.codsituacaotributariaipi;
         this.codsituacaotributariaipi = codsituacaotributariaipi;
+        changeSupport.firePropertyChange("codsituacaotributariaipi", oldCodsituacaotributariaipi, codsituacaotributariaipi);
     }
 
     public BigDecimal getValorpisfreterateado() {
@@ -735,7 +821,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setValorpisfreterateado(BigDecimal valorpisfreterateado) {
+        BigDecimal oldValorpisfreterateado = this.valorpisfreterateado;
         this.valorpisfreterateado = valorpisfreterateado;
+        changeSupport.firePropertyChange("valorpisfreterateado", oldValorpisfreterateado, valorpisfreterateado);
     }
 
     public BigDecimal getValorcofinsfreterateado() {
@@ -743,7 +831,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setValorcofinsfreterateado(BigDecimal valorcofinsfreterateado) {
+        BigDecimal oldValorcofinsfreterateado = this.valorcofinsfreterateado;
         this.valorcofinsfreterateado = valorcofinsfreterateado;
+        changeSupport.firePropertyChange("valorcofinsfreterateado", oldValorcofinsfreterateado, valorcofinsfreterateado);
     }
 
     public BigDecimal getBaseirrf() {
@@ -751,7 +841,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setBaseirrf(BigDecimal baseirrf) {
+        BigDecimal oldBaseirrf = this.baseirrf;
         this.baseirrf = baseirrf;
+        changeSupport.firePropertyChange("baseirrf", oldBaseirrf, baseirrf);
     }
 
     public BigDecimal getAliqirrf() {
@@ -759,7 +851,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setAliqirrf(BigDecimal aliqirrf) {
+        BigDecimal oldAliqirrf = this.aliqirrf;
         this.aliqirrf = aliqirrf;
+        changeSupport.firePropertyChange("aliqirrf", oldAliqirrf, aliqirrf);
     }
 
     public BigDecimal getValorirrf() {
@@ -767,7 +861,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setValorirrf(BigDecimal valorirrf) {
+        BigDecimal oldValorirrf = this.valorirrf;
         this.valorirrf = valorirrf;
+        changeSupport.firePropertyChange("valorirrf", oldValorirrf, valorirrf);
     }
 
     public BigDecimal getBasecsll() {
@@ -775,7 +871,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setBasecsll(BigDecimal basecsll) {
+        BigDecimal oldBasecsll = this.basecsll;
         this.basecsll = basecsll;
+        changeSupport.firePropertyChange("basecsll", oldBasecsll, basecsll);
     }
 
     public BigDecimal getAliqcsll() {
@@ -783,7 +881,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setAliqcsll(BigDecimal aliqcsll) {
+        BigDecimal oldAliqcsll = this.aliqcsll;
         this.aliqcsll = aliqcsll;
+        changeSupport.firePropertyChange("aliqcsll", oldAliqcsll, aliqcsll);
     }
 
     public BigDecimal getValorcsll() {
@@ -791,7 +891,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setValorcsll(BigDecimal valorcsll) {
+        BigDecimal oldValorcsll = this.valorcsll;
         this.valorcsll = valorcsll;
+        changeSupport.firePropertyChange("valorcsll", oldValorcsll, valorcsll);
     }
 
     public BigDecimal getBaseii() {
@@ -799,7 +901,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setBaseii(BigDecimal baseii) {
+        BigDecimal oldBaseii = this.baseii;
         this.baseii = baseii;
+        changeSupport.firePropertyChange("baseii", oldBaseii, baseii);
     }
 
     public BigDecimal getAliqii() {
@@ -807,7 +911,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setAliqii(BigDecimal aliqii) {
+        BigDecimal oldAliqii = this.aliqii;
         this.aliqii = aliqii;
+        changeSupport.firePropertyChange("aliqii", oldAliqii, aliqii);
     }
 
     public BigDecimal getValorii() {
@@ -815,7 +921,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setValorii(BigDecimal valorii) {
+        BigDecimal oldValorii = this.valorii;
         this.valorii = valorii;
+        changeSupport.firePropertyChange("valorii", oldValorii, valorii);
     }
 
     public BigDecimal getBasecofins() {
@@ -823,7 +931,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setBasecofins(BigDecimal basecofins) {
+        BigDecimal oldBasecofins = this.basecofins;
         this.basecofins = basecofins;
+        changeSupport.firePropertyChange("basecofins", oldBasecofins, basecofins);
     }
 
     public BigDecimal getAliqcofins() {
@@ -831,7 +941,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setAliqcofins(BigDecimal aliqcofins) {
+        BigDecimal oldAliqcofins = this.aliqcofins;
         this.aliqcofins = aliqcofins;
+        changeSupport.firePropertyChange("aliqcofins", oldAliqcofins, aliqcofins);
     }
 
     public BigDecimal getValorcofins() {
@@ -839,7 +951,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setValorcofins(BigDecimal valorcofins) {
+        BigDecimal oldValorcofins = this.valorcofins;
         this.valorcofins = valorcofins;
+        changeSupport.firePropertyChange("valorcofins", oldValorcofins, valorcofins);
     }
 
     public BigDecimal getBasepis() {
@@ -847,7 +961,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setBasepis(BigDecimal basepis) {
+        BigDecimal oldBasepis = this.basepis;
         this.basepis = basepis;
+        changeSupport.firePropertyChange("basepis", oldBasepis, basepis);
     }
 
     public BigDecimal getAliqpis() {
@@ -855,7 +971,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setAliqpis(BigDecimal aliqpis) {
+        BigDecimal oldAliqpis = this.aliqpis;
         this.aliqpis = aliqpis;
+        changeSupport.firePropertyChange("aliqpis", oldAliqpis, aliqpis);
     }
 
     public BigDecimal getValorpis() {
@@ -863,7 +981,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setValorpis(BigDecimal valorpis) {
+        BigDecimal oldValorpis = this.valorpis;
         this.valorpis = valorpis;
+        changeSupport.firePropertyChange("valorpis", oldValorpis, valorpis);
     }
 
     public BigDecimal getAliqreducaobaseicms() {
@@ -871,7 +991,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setAliqreducaobaseicms(BigDecimal aliqreducaobaseicms) {
+        BigDecimal oldAliqreducaobaseicms = this.aliqreducaobaseicms;
         this.aliqreducaobaseicms = aliqreducaobaseicms;
+        changeSupport.firePropertyChange("aliqreducaobaseicms", oldAliqreducaobaseicms, aliqreducaobaseicms);
     }
 
     public String getCodunidade() {
@@ -879,7 +1001,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setCodunidade(String codunidade) {
+        String oldCodunidade = this.codunidade;
         this.codunidade = codunidade;
+        changeSupport.firePropertyChange("codunidade", oldCodunidade, codunidade);
     }
 
     public BigDecimal getFatorconversao() {
@@ -887,7 +1011,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setFatorconversao(BigDecimal fatorconversao) {
+        BigDecimal oldFatorconversao = this.fatorconversao;
         this.fatorconversao = fatorconversao;
+        changeSupport.firePropertyChange("fatorconversao", oldFatorconversao, fatorconversao);
     }
 
     public String getNumeroecf() {
@@ -895,7 +1021,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setNumeroecf(String numeroecf) {
+        String oldNumeroecf = this.numeroecf;
         this.numeroecf = numeroecf;
+        changeSupport.firePropertyChange("numeroecf", oldNumeroecf, numeroecf);
     }
 
     public Integer getNumcupomdevolucao() {
@@ -903,7 +1031,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setNumcupomdevolucao(Integer numcupomdevolucao) {
+        Integer oldNumcupomdevolucao = this.numcupomdevolucao;
         this.numcupomdevolucao = numcupomdevolucao;
+        changeSupport.firePropertyChange("numcupomdevolucao", oldNumcupomdevolucao, numcupomdevolucao);
     }
 
     public Date getDatacupomdevolucao() {
@@ -911,7 +1041,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setDatacupomdevolucao(Date datacupomdevolucao) {
+        Date oldDatacupomdevolucao = this.datacupomdevolucao;
         this.datacupomdevolucao = datacupomdevolucao;
+        changeSupport.firePropertyChange("datacupomdevolucao", oldDatacupomdevolucao, datacupomdevolucao);
     }
 
     public String getCstpis() {
@@ -919,7 +1051,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setCstpis(String cstpis) {
+        String oldCstpis = this.cstpis;
         this.cstpis = cstpis;
+        changeSupport.firePropertyChange("cstpis", oldCstpis, cstpis);
     }
 
     public String getCstcofins() {
@@ -927,7 +1061,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setCstcofins(String cstcofins) {
+        String oldCstcofins = this.cstcofins;
         this.cstcofins = cstcofins;
+        changeSupport.firePropertyChange("cstcofins", oldCstcofins, cstcofins);
     }
 
     public String getCsosn() {
@@ -935,7 +1071,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setCsosn(String csosn) {
+        String oldCsosn = this.csosn;
         this.csosn = csosn;
+        changeSupport.firePropertyChange("csosn", oldCsosn, csosn);
     }
 
     public BigDecimal getAliqcreditosimplesnacional() {
@@ -943,7 +1081,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setAliqcreditosimplesnacional(BigDecimal aliqcreditosimplesnacional) {
+        BigDecimal oldAliqcreditosimplesnacional = this.aliqcreditosimplesnacional;
         this.aliqcreditosimplesnacional = aliqcreditosimplesnacional;
+        changeSupport.firePropertyChange("aliqcreditosimplesnacional", oldAliqcreditosimplesnacional, aliqcreditosimplesnacional);
     }
 
     public BigDecimal getValorcreditosimplesnacional() {
@@ -951,7 +1091,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setValorcreditosimplesnacional(BigDecimal valorcreditosimplesnacional) {
+        BigDecimal oldValorcreditosimplesnacional = this.valorcreditosimplesnacional;
         this.valorcreditosimplesnacional = valorcreditosimplesnacional;
+        changeSupport.firePropertyChange("valorcreditosimplesnacional", oldValorcreditosimplesnacional, valorcreditosimplesnacional);
     }
 
     public BigDecimal getValorabatimentonaotribicms() {
@@ -959,7 +1101,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setValorabatimentonaotribicms(BigDecimal valorabatimentonaotribicms) {
+        BigDecimal oldValorabatimentonaotribicms = this.valorabatimentonaotribicms;
         this.valorabatimentonaotribicms = valorabatimentonaotribicms;
+        changeSupport.firePropertyChange("valorabatimentonaotribicms", oldValorabatimentonaotribicms, valorabatimentonaotribicms);
     }
 
     public BigDecimal getValorabatimentonaotribpis() {
@@ -967,7 +1111,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setValorabatimentonaotribpis(BigDecimal valorabatimentonaotribpis) {
+        BigDecimal oldValorabatimentonaotribpis = this.valorabatimentonaotribpis;
         this.valorabatimentonaotribpis = valorabatimentonaotribpis;
+        changeSupport.firePropertyChange("valorabatimentonaotribpis", oldValorabatimentonaotribpis, valorabatimentonaotribpis);
     }
 
     public BigDecimal getValorabatimentonaotribcofins() {
@@ -975,7 +1121,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setValorabatimentonaotribcofins(BigDecimal valorabatimentonaotribcofins) {
+        BigDecimal oldValorabatimentonaotribcofins = this.valorabatimentonaotribcofins;
         this.valorabatimentonaotribcofins = valorabatimentonaotribcofins;
+        changeSupport.firePropertyChange("valorabatimentonaotribcofins", oldValorabatimentonaotribcofins, valorabatimentonaotribcofins);
     }
 
     public BigDecimal getValorabatimentonaotribipi() {
@@ -983,7 +1131,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setValorabatimentonaotribipi(BigDecimal valorabatimentonaotribipi) {
+        BigDecimal oldValorabatimentonaotribipi = this.valorabatimentonaotribipi;
         this.valorabatimentonaotribipi = valorabatimentonaotribipi;
+        changeSupport.firePropertyChange("valorabatimentonaotribipi", oldValorabatimentonaotribipi, valorabatimentonaotribipi);
     }
 
     public BigDecimal getAliqicmsStUfDestino() {
@@ -991,7 +1141,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setAliqicmsStUfDestino(BigDecimal aliqicmsStUfDestino) {
+        BigDecimal oldAliqicmsStUfDestino = this.aliqicmsStUfDestino;
         this.aliqicmsStUfDestino = aliqicmsStUfDestino;
+        changeSupport.firePropertyChange("aliqicmsStUfDestino", oldAliqicmsStUfDestino, aliqicmsStUfDestino);
     }
 
     public String getNumeroserieecf() {
@@ -999,7 +1151,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setNumeroserieecf(String numeroserieecf) {
+        String oldNumeroserieecf = this.numeroserieecf;
         this.numeroserieecf = numeroserieecf;
+        changeSupport.firePropertyChange("numeroserieecf", oldNumeroserieecf, numeroserieecf);
     }
 
     public Integer getNumerocaixaecf() {
@@ -1007,7 +1161,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setNumerocaixaecf(Integer numerocaixaecf) {
+        Integer oldNumerocaixaecf = this.numerocaixaecf;
         this.numerocaixaecf = numerocaixaecf;
+        changeSupport.firePropertyChange("numerocaixaecf", oldNumerocaixaecf, numerocaixaecf);
     }
 
     public String getGuid() {
@@ -1015,7 +1171,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setGuid(String guid) {
+        String oldGuid = this.guid;
         this.guid = guid;
+        changeSupport.firePropertyChange("guid", oldGuid, guid);
     }
 
     public BigDecimal getValorsubstantecipadarateado() {
@@ -1023,7 +1181,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setValorsubstantecipadarateado(BigDecimal valorsubstantecipadarateado) {
+        BigDecimal oldValorsubstantecipadarateado = this.valorsubstantecipadarateado;
         this.valorsubstantecipadarateado = valorsubstantecipadarateado;
+        changeSupport.firePropertyChange("valorsubstantecipadarateado", oldValorsubstantecipadarateado, valorsubstantecipadarateado);
     }
 
     public BigDecimal getValorconhecimentotransrateado() {
@@ -1031,7 +1191,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setValorconhecimentotransrateado(BigDecimal valorconhecimentotransrateado) {
+        BigDecimal oldValorconhecimentotransrateado = this.valorconhecimentotransrateado;
         this.valorconhecimentotransrateado = valorconhecimentotransrateado;
+        changeSupport.firePropertyChange("valorconhecimentotransrateado", oldValorconhecimentotransrateado, valorconhecimentotransrateado);
     }
 
     public BigDecimal getValorfreteredespachorat() {
@@ -1039,7 +1201,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setValorfreteredespachorat(BigDecimal valorfreteredespachorat) {
+        BigDecimal oldValorfreteredespachorat = this.valorfreteredespachorat;
         this.valorfreteredespachorat = valorfreteredespachorat;
+        changeSupport.firePropertyChange("valorfreteredespachorat", oldValorfreteredespachorat, valorfreteredespachorat);
     }
 
     public BigDecimal getQuantidadeipi() {
@@ -1047,7 +1211,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setQuantidadeipi(BigDecimal quantidadeipi) {
+        BigDecimal oldQuantidadeipi = this.quantidadeipi;
         this.quantidadeipi = quantidadeipi;
+        changeSupport.firePropertyChange("quantidadeipi", oldQuantidadeipi, quantidadeipi);
     }
 
     public BigDecimal getValorunidadeipi() {
@@ -1055,7 +1221,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setValorunidadeipi(BigDecimal valorunidadeipi) {
+        BigDecimal oldValorunidadeipi = this.valorunidadeipi;
         this.valorunidadeipi = valorunidadeipi;
+        changeSupport.firePropertyChange("valorunidadeipi", oldValorunidadeipi, valorunidadeipi);
     }
 
     public BigDecimal getValoricmsincentfiscalrat() {
@@ -1063,7 +1231,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setValoricmsincentfiscalrat(BigDecimal valoricmsincentfiscalrat) {
+        BigDecimal oldValoricmsincentfiscalrat = this.valoricmsincentfiscalrat;
         this.valoricmsincentfiscalrat = valoricmsincentfiscalrat;
+        changeSupport.firePropertyChange("valoricmsincentfiscalrat", oldValoricmsincentfiscalrat, valoricmsincentfiscalrat);
     }
 
     public String getGuidmoventrada() {
@@ -1071,7 +1241,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setGuidmoventrada(String guidmoventrada) {
+        String oldGuidmoventrada = this.guidmoventrada;
         this.guidmoventrada = guidmoventrada;
+        changeSupport.firePropertyChange("guidmoventrada", oldGuidmoventrada, guidmoventrada);
     }
 
     public String getCodcalculoicms() {
@@ -1079,7 +1251,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setCodcalculoicms(String codcalculoicms) {
+        String oldCodcalculoicms = this.codcalculoicms;
         this.codcalculoicms = codcalculoicms;
+        changeSupport.firePropertyChange("codcalculoicms", oldCodcalculoicms, codcalculoicms);
     }
 
     public Integer getNumcfesatdevolucao() {
@@ -1087,7 +1261,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setNumcfesatdevolucao(Integer numcfesatdevolucao) {
+        Integer oldNumcfesatdevolucao = this.numcfesatdevolucao;
         this.numcfesatdevolucao = numcfesatdevolucao;
+        changeSupport.firePropertyChange("numcfesatdevolucao", oldNumcfesatdevolucao, numcfesatdevolucao);
     }
 
     public Date getDatacfesatdevolucao() {
@@ -1095,7 +1271,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setDatacfesatdevolucao(Date datacfesatdevolucao) {
+        Date oldDatacfesatdevolucao = this.datacfesatdevolucao;
         this.datacfesatdevolucao = datacfesatdevolucao;
+        changeSupport.firePropertyChange("datacfesatdevolucao", oldDatacfesatdevolucao, datacfesatdevolucao);
     }
 
     public String getChavecfe() {
@@ -1103,7 +1281,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setChavecfe(String chavecfe) {
+        String oldChavecfe = this.chavecfe;
         this.chavecfe = chavecfe;
+        changeSupport.firePropertyChange("chavecfe", oldChavecfe, chavecfe);
     }
 
     public String getNumeroseriesat() {
@@ -1111,7 +1291,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setNumeroseriesat(String numeroseriesat) {
+        String oldNumeroseriesat = this.numeroseriesat;
         this.numeroseriesat = numeroseriesat;
+        changeSupport.firePropertyChange("numeroseriesat", oldNumeroseriesat, numeroseriesat);
     }
 
     public String getCodenquadramentoipi() {
@@ -1119,7 +1301,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setCodenquadramentoipi(String codenquadramentoipi) {
+        String oldCodenquadramentoipi = this.codenquadramentoipi;
         this.codenquadramentoipi = codenquadramentoipi;
+        changeSupport.firePropertyChange("codenquadramentoipi", oldCodenquadramentoipi, codenquadramentoipi);
     }
 
     public BigDecimal getValoraduaneiro() {
@@ -1127,7 +1311,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setValoraduaneiro(BigDecimal valoraduaneiro) {
+        BigDecimal oldValoraduaneiro = this.valoraduaneiro;
         this.valoraduaneiro = valoraduaneiro;
+        changeSupport.firePropertyChange("valoraduaneiro", oldValoraduaneiro, valoraduaneiro);
     }
 
     public BigDecimal getValorsiscomex() {
@@ -1135,7 +1321,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setValorsiscomex(BigDecimal valorsiscomex) {
+        BigDecimal oldValorsiscomex = this.valorsiscomex;
         this.valorsiscomex = valorsiscomex;
+        changeSupport.firePropertyChange("valorsiscomex", oldValorsiscomex, valorsiscomex);
     }
 
     public String getCodigomotivodeso() {
@@ -1143,7 +1331,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setCodigomotivodeso(String codigomotivodeso) {
+        String oldCodigomotivodeso = this.codigomotivodeso;
         this.codigomotivodeso = codigomotivodeso;
+        changeSupport.firePropertyChange("codigomotivodeso", oldCodigomotivodeso, codigomotivodeso);
     }
 
     public BigDecimal getAliqfcp() {
@@ -1151,7 +1341,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setAliqfcp(BigDecimal aliqfcp) {
+        BigDecimal oldAliqfcp = this.aliqfcp;
         this.aliqfcp = aliqfcp;
+        changeSupport.firePropertyChange("aliqfcp", oldAliqfcp, aliqfcp);
     }
 
     public BigDecimal getValorfcp() {
@@ -1159,7 +1351,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setValorfcp(BigDecimal valorfcp) {
+        BigDecimal oldValorfcp = this.valorfcp;
         this.valorfcp = valorfcp;
+        changeSupport.firePropertyChange("valorfcp", oldValorfcp, valorfcp);
     }
 
     public BigDecimal getValorfcpsubsttributaria() {
@@ -1167,7 +1361,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setValorfcpsubsttributaria(BigDecimal valorfcpsubsttributaria) {
+        BigDecimal oldValorfcpsubsttributaria = this.valorfcpsubsttributaria;
         this.valorfcpsubsttributaria = valorfcpsubsttributaria;
+        changeSupport.firePropertyChange("valorfcpsubsttributaria", oldValorfcpsubsttributaria, valorfcpsubsttributaria);
     }
 
     public BigDecimal getAliqfcpStUfDestino() {
@@ -1175,7 +1371,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setAliqfcpStUfDestino(BigDecimal aliqfcpStUfDestino) {
+        BigDecimal oldAliqfcpStUfDestino = this.aliqfcpStUfDestino;
         this.aliqfcpStUfDestino = aliqfcpStUfDestino;
+        changeSupport.firePropertyChange("aliqfcpStUfDestino", oldAliqfcpStUfDestino, aliqfcpStUfDestino);
     }
 
     public String getGtin() {
@@ -1183,7 +1381,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setGtin(String gtin) {
+        String oldGtin = this.gtin;
         this.gtin = gtin;
+        changeSupport.firePropertyChange("gtin", oldGtin, gtin);
     }
 
     public String getGtintrib() {
@@ -1191,7 +1391,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setGtintrib(String gtintrib) {
+        String oldGtintrib = this.gtintrib;
         this.gtintrib = gtintrib;
+        changeSupport.firePropertyChange("gtintrib", oldGtintrib, gtintrib);
     }
 
     public String getUnidadetrib() {
@@ -1199,7 +1401,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setUnidadetrib(String unidadetrib) {
+        String oldUnidadetrib = this.unidadetrib;
         this.unidadetrib = unidadetrib;
+        changeSupport.firePropertyChange("unidadetrib", oldUnidadetrib, unidadetrib);
     }
 
     public BigDecimal getQuantidadeembalagemtrib() {
@@ -1207,7 +1411,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setQuantidadeembalagemtrib(BigDecimal quantidadeembalagemtrib) {
+        BigDecimal oldQuantidadeembalagemtrib = this.quantidadeembalagemtrib;
         this.quantidadeembalagemtrib = quantidadeembalagemtrib;
+        changeSupport.firePropertyChange("quantidadeembalagemtrib", oldQuantidadeembalagemtrib, quantidadeembalagemtrib);
     }
 
     public BigDecimal getValoricmsoperacao() {
@@ -1215,7 +1421,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setValoricmsoperacao(BigDecimal valoricmsoperacao) {
+        BigDecimal oldValoricmsoperacao = this.valoricmsoperacao;
         this.valoricmsoperacao = valoricmsoperacao;
+        changeSupport.firePropertyChange("valoricmsoperacao", oldValoricmsoperacao, valoricmsoperacao);
     }
 
     public BigDecimal getValoricmsdesonerado() {
@@ -1223,7 +1431,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setValoricmsdesonerado(BigDecimal valoricmsdesonerado) {
+        BigDecimal oldValoricmsdesonerado = this.valoricmsdesonerado;
         this.valoricmsdesonerado = valoricmsdesonerado;
+        changeSupport.firePropertyChange("valoricmsdesonerado", oldValoricmsdesonerado, valoricmsdesonerado);
     }
 
     public BigDecimal getAliqdiferimento() {
@@ -1231,7 +1441,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setAliqdiferimento(BigDecimal aliqdiferimento) {
+        BigDecimal oldAliqdiferimento = this.aliqdiferimento;
         this.aliqdiferimento = aliqdiferimento;
+        changeSupport.firePropertyChange("aliqdiferimento", oldAliqdiferimento, aliqdiferimento);
     }
 
     public BigDecimal getValoricmsdiferimento() {
@@ -1239,7 +1451,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setValoricmsdiferimento(BigDecimal valoricmsdiferimento) {
+        BigDecimal oldValoricmsdiferimento = this.valoricmsdiferimento;
         this.valoricmsdiferimento = valoricmsdiferimento;
+        changeSupport.firePropertyChange("valoricmsdiferimento", oldValoricmsdiferimento, valoricmsdiferimento);
     }
 
     public String getCodbeneficiofiscal() {
@@ -1247,7 +1461,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setCodbeneficiofiscal(String codbeneficiofiscal) {
+        String oldCodbeneficiofiscal = this.codbeneficiofiscal;
         this.codbeneficiofiscal = codbeneficiofiscal;
+        changeSupport.firePropertyChange("codbeneficiofiscal", oldCodbeneficiofiscal, codbeneficiofiscal);
     }
 
     @XmlTransient
@@ -1264,7 +1480,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setCodcfop(Cfop codcfop) {
+        Cfop oldCodcfop = this.codcfop;
         this.codcfop = codcfop;
+        changeSupport.firePropertyChange("codcfop", oldCodcfop, codcfop);
     }
 
     public Moventrada getCodmoventr() {
@@ -1272,7 +1490,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setCodmoventr(Moventrada codmoventr) {
+        Moventrada oldCodmoventr = this.codmoventr;
         this.codmoventr = codmoventr;
+        changeSupport.firePropertyChange("codmoventr", oldCodmoventr, codmoventr);
     }
 
     public Produto getCodprod() {
@@ -1280,7 +1500,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setCodprod(Produto codprod) {
+        Produto oldCodprod = this.codprod;
         this.codprod = codprod;
+        changeSupport.firePropertyChange("codprod", oldCodprod, codprod);
     }
 
     public Setorestoque getCodsetorestoque() {
@@ -1288,7 +1510,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setCodsetorestoque(Setorestoque codsetorestoque) {
+        Setorestoque oldCodsetorestoque = this.codsetorestoque;
         this.codsetorestoque = codsetorestoque;
+        changeSupport.firePropertyChange("codsetorestoque", oldCodsetorestoque, codsetorestoque);
     }
 
     public Vendedor getCodvended() {
@@ -1296,7 +1520,9 @@ public class Moventradaprod implements Serializable {
     }
 
     public void setCodvended(Vendedor codvended) {
+        Vendedor oldCodvended = this.codvended;
         this.codvended = codvended;
+        changeSupport.firePropertyChange("codvended", oldCodvended, codvended);
     }
 
     @XmlTransient
@@ -1385,6 +1611,14 @@ public class Moventradaprod implements Serializable {
     @Override
     public String toString() {
         return "entidade.cplus.Moventradaprod[ codmoveprod=" + codmoveprod + " ]";
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.removePropertyChangeListener(listener);
     }
     
 }
