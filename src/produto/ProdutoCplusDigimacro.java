@@ -91,9 +91,11 @@ public class ProdutoCplusDigimacro {
         // List<PsProduct> listProdSite = new QueryPrestaShop(managerPrestaShop).listagemProdutoSite("000001942");
         switch (listProdSite.size()) {
             case 0:
-                criarProdutoSite(managerIntegrador, managerCplus, managerPrestaShop, proCplus);
-                if (fatorConversao(proCplus, managerCplus) > 1) {
-                    new PackProduto().produtoCplusDigimacro(managerIntegrador, managerCplus, managerPrestaShop, proCplus);
+                if (produtoAtivo(proCplus) && EstoqueCplus(managerCplus, proCplus) > 0) {
+                    criarProdutoSite(managerIntegrador, managerCplus, managerPrestaShop, proCplus);
+                    if (fatorConversao(proCplus, managerCplus) > 1) {
+                        new PackProduto().produtoCplusDigimacro(managerIntegrador, managerCplus, managerPrestaShop, proCplus);
+                    }
                 }
                 break;
             case 1:
@@ -208,7 +210,7 @@ public class ProdutoCplusDigimacro {
         pp1.setShowCondition(true);
         pp1.setCondition1("new");
         //pp1.setShowPrice(true);
-        if ("116".equals(proCplus.getCodsec().getClassificacao())|| fatorConversao(proCplus, managerCplus) > 1) {
+        if ("116".equals(proCplus.getCodsec().getClassificacao()) || fatorConversao(proCplus, managerCplus) > 1) {
             //pp1.setIndexed(false);
             pp1.setVisibility("none");
             pp1.setShowPrice(false);
@@ -512,6 +514,12 @@ public class ProdutoCplusDigimacro {
         return preco.setScale(2, BigDecimal.ROUND_HALF_UP);
     }
 
+    /**
+     * Caso produto for ativo, retorna verdadeiro
+     *
+     * @param proCplus
+     * @return
+     */
     private boolean produtoAtivo(Produto proCplus) {
         boolean condicao = false;
         if ("N".equals(proCplus.getFlaginativo().toString())) {
@@ -572,26 +580,19 @@ public class ProdutoCplusDigimacro {
     }
 
     /**
-     * FunÃ§Ã£o que verifica as reservas dos pedidos no c-plus e no site
+     * Função que verifica as reservas dos pedidos no c-plus e no site
      *
      * @param verificaLegiao
      * @param produto
      * @return BigDecimal
      */
-    private Integer EstoqueCplusMenosReservaSit(EntityManagerFactory managerCplus, EntityManagerFactory managerPrestaShop, Produto proCplus, PsProduct prodPrestaShop) {
+    private Integer EstoqueCplus(EntityManagerFactory managerCplus, Produto proCplus) {
         BigDecimal estoque = BigDecimal.ZERO;
-        int stock;
-        int reservaSite = 0;
-        List<PsStockAvailable> listPSA = new QueryPrestaShop(managerPrestaShop).listEstoqueProduto(prodPrestaShop.getIdProduct());
-        for (PsStockAvailable psSA : listPSA) {
-            reservaSite = psSA.getReservedQuantity();
-        }
         List<Produtoestoque> listEsroque = new QueryCplus(managerCplus).listTodosEstoques(proCplus.getCodprod());
         for (Produtoestoque est : listEsroque) {
             estoque = est.getEstatu().subtract(est.getReservadoorcamento().subtract(est.getReservadoos()));
         }
-        stock = estoque.intValue() - reservaSite;
-        return stock;
+        return estoque.intValue();
     }
 
     private void precoQuntidade(Produto pro, PsProduct pp, EntityManagerFactory managerPrestaShop, EntityManagerFactory managerIntegrador, EntityManagerFactory managerCplus) {
@@ -602,74 +603,74 @@ public class ProdutoCplusDigimacro {
 
     private void precoQuantidadeJuridicaDiferenciada(Produto pro, PsProduct pp, EntityManagerFactory managerPrestaShop, EntityManagerFactory managerIntegrador, EntityManagerFactory managerCplus) {
         /*
-        BigDecimal precoDiferenciado = precoPrincipalDiferenciado(managerCplus, pro);
-        if (taxaProdutosICMSDfifenciada(managerCplus, managerPrestaShop, pro)) {
-            List<PsSpecificPrice> listPSSPdif = new QueryPrestaShop(managerPrestaShop).listPsSpecificPrice(pp.getIdProduct(), "amount", 7);
-            if (listPSSPdif.isEmpty()) {
-                PsSpecificPrice psSP = new PsSpecificPrice();
-                psSP.setIdSpecificPriceRule(0);
-                psSP.setIdCart(0);
-                psSP.setIdProduct(pp.getIdProduct());
-                psSP.setIdShop(1);
-                psSP.setIdShopGroup(0);
-                psSP.setIdCurrency(1);
-                psSP.setIdCountry(58);
-                psSP.setIdGroup(7);
-                psSP.setIdCustomer(0);
-                psSP.setIdProductAttribute(0);
-                //
-                List<Calculoicmsestado> listCalculoIcmsEstado = new QueryCplus(managerCplus).listcalculoIcmsEstadol("RS", "RS", "5102", pro.getCodcalculoicms().getCodcalculoicms());
-                psSP.setPrice(precoDiferenciado);
-                for (Calculoicmsestado cst : listCalculoIcmsEstado) {
-                    if ("20".equals(cst.getCodsituacaotributariadif())) {
-                        psSP.setPrice(precoPrincipal(managerCplus, pro));
-                    }
-                }
+         BigDecimal precoDiferenciado = precoPrincipalDiferenciado(managerCplus, pro);
+         if (taxaProdutosICMSDfifenciada(managerCplus, managerPrestaShop, pro)) {
+         List<PsSpecificPrice> listPSSPdif = new QueryPrestaShop(managerPrestaShop).listPsSpecificPrice(pp.getIdProduct(), "amount", 7);
+         if (listPSSPdif.isEmpty()) {
+         PsSpecificPrice psSP = new PsSpecificPrice();
+         psSP.setIdSpecificPriceRule(0);
+         psSP.setIdCart(0);
+         psSP.setIdProduct(pp.getIdProduct());
+         psSP.setIdShop(1);
+         psSP.setIdShopGroup(0);
+         psSP.setIdCurrency(1);
+         psSP.setIdCountry(58);
+         psSP.setIdGroup(7);
+         psSP.setIdCustomer(0);
+         psSP.setIdProductAttribute(0);
+         //
+         List<Calculoicmsestado> listCalculoIcmsEstado = new QueryCplus(managerCplus).listcalculoIcmsEstadol("RS", "RS", "5102", pro.getCodcalculoicms().getCodcalculoicms());
+         psSP.setPrice(precoDiferenciado);
+         for (Calculoicmsestado cst : listCalculoIcmsEstado) {
+         if ("20".equals(cst.getCodsituacaotributariadif())) {
+         psSP.setPrice(precoPrincipal(managerCplus, pro));
+         }
+         }
 
-                // psSP.setPrice(precoPrincipalDiferenciado(managerCplus, pro));
-                //
-                psSP.setFromQuantity(1);
-                psSP.setReduction(BigDecimal.ZERO);
-                psSP.setReductionTax(true);
-                psSP.setReductionType("amount");
-                psSP.setFrom(new Date(System.currentTimeMillis()));
-                psSP.setTo(new FormataCampos().alteraDiaData(new Date(System.currentTimeMillis()), 360));
-                new PsSpecificPriceJpaController(managerPrestaShop).create(psSP);
-            } else if (listPSSPdif.size() == 1) {
-                for (PsSpecificPrice psSP : listPSSPdif) {
-                    //psSP.setIdSpecificPriceRule(0);
-                    // psSP.setIdCart(0);
-                    //psSP.setIdProduct(pp.getIdProduct());
-                    // psSP.setIdShop(1);
-                    // psSP.setIdShopGroup(0);
-                    // psSP.setIdCurrency(1);
-                    // psSP.setIdCountry(58);
-                    // psSP.setIdGroup(7);
-                    // psSP.setIdCustomer(0);
-                    // psSP.setIdProductAttribute(0);
-                    //
-                    List<Calculoicmsestado> listCalculoIcmsEstado = new QueryCplus(managerCplus).listcalculoIcmsEstadol("RS", "RS", "5102", pro.getCodcalculoicms().getCodcalculoicms());
-                    psSP.setPrice(precoDiferenciado);
-                    for (Calculoicmsestado cst : listCalculoIcmsEstado) {
-                        if ("20".equals(cst.getCodsituacaotributariadif())) {
-                            psSP.setPrice(precoPrincipal(managerCplus, pro));
-                        }
-                    }
-                    //
-                    // psSP.setFromQuantity(1);
-                    //psSP.setReduction(bd.divide(new BigDecimal("100.0")));
-                    //psSP.setReductionTax(true);
-                    //psSP.setReductionType("percentage");
-                    //psSP.setFrom(new );
-                    psSP.setTo(new FormataCampos().alteraDiaData(new Date(System.currentTimeMillis()), 360));
-                    try {
-                        new PsSpecificPriceJpaController(managerPrestaShop).edit(psSP);
-                    } catch (Exception ex) {
-                        criaLog(managerIntegrador, "Houve um erro ao criar PsSpecificPrice ex. " + ex, "ERRO EDITAR");
-                    }
-                }
-            }
-        }
+         // psSP.setPrice(precoPrincipalDiferenciado(managerCplus, pro));
+         //
+         psSP.setFromQuantity(1);
+         psSP.setReduction(BigDecimal.ZERO);
+         psSP.setReductionTax(true);
+         psSP.setReductionType("amount");
+         psSP.setFrom(new Date(System.currentTimeMillis()));
+         psSP.setTo(new FormataCampos().alteraDiaData(new Date(System.currentTimeMillis()), 360));
+         new PsSpecificPriceJpaController(managerPrestaShop).create(psSP);
+         } else if (listPSSPdif.size() == 1) {
+         for (PsSpecificPrice psSP : listPSSPdif) {
+         //psSP.setIdSpecificPriceRule(0);
+         // psSP.setIdCart(0);
+         //psSP.setIdProduct(pp.getIdProduct());
+         // psSP.setIdShop(1);
+         // psSP.setIdShopGroup(0);
+         // psSP.setIdCurrency(1);
+         // psSP.setIdCountry(58);
+         // psSP.setIdGroup(7);
+         // psSP.setIdCustomer(0);
+         // psSP.setIdProductAttribute(0);
+         //
+         List<Calculoicmsestado> listCalculoIcmsEstado = new QueryCplus(managerCplus).listcalculoIcmsEstadol("RS", "RS", "5102", pro.getCodcalculoicms().getCodcalculoicms());
+         psSP.setPrice(precoDiferenciado);
+         for (Calculoicmsestado cst : listCalculoIcmsEstado) {
+         if ("20".equals(cst.getCodsituacaotributariadif())) {
+         psSP.setPrice(precoPrincipal(managerCplus, pro));
+         }
+         }
+         //
+         // psSP.setFromQuantity(1);
+         //psSP.setReduction(bd.divide(new BigDecimal("100.0")));
+         //psSP.setReductionTax(true);
+         //psSP.setReductionType("percentage");
+         //psSP.setFrom(new );
+         psSP.setTo(new FormataCampos().alteraDiaData(new Date(System.currentTimeMillis()), 360));
+         try {
+         new PsSpecificPriceJpaController(managerPrestaShop).edit(psSP);
+         } catch (Exception ex) {
+         criaLog(managerIntegrador, "Houve um erro ao criar PsSpecificPrice ex. " + ex, "ERRO EDITAR");
+         }
+         }
+         }
+         }
          */
 
         List<BigDecimal> listBigDecimal = new ArrayList<>();
@@ -1267,13 +1268,13 @@ public class ProdutoCplusDigimacro {
                     }
                 }
                // if (fatorConversao(proCplus, managerCplus) > 1) {
-               //     pps.setIndexed(false);
-               //     pps.setVisibility("none");
+                //     pps.setIndexed(false);
+                //     pps.setVisibility("none");
                 //} else {
-                    //pps.setIndexed(pps.getActive());
-               //     pps.setVisibility("both");
-               // }
-                if ("116".equals(proCplus.getCodsec().getClassificacao())|| fatorConversao(proCplus, managerCplus) > 1) {
+                //pps.setIndexed(pps.getActive());
+                //     pps.setVisibility("both");
+                // }
+                if ("116".equals(proCplus.getCodsec().getClassificacao()) || fatorConversao(proCplus, managerCplus) > 1) {
                     pps.setShowPrice(false);
                     pps.setIndexed(false);
                     pps.setVisibility("none");
