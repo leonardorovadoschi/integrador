@@ -51,7 +51,7 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
         queryCplus = new QueryCplus(managerCplus);
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
         listagemUsuarioJDialog = new ListagemUsuarioJDialog(parent, true, managerCplus);
-        colunaSerial = jTableSerialDigitado.getColumnModel().getColumnIndex("Serial");       
+        colunaSerial = jTableSerialDigitado.getColumnModel().getColumnIndex("Serial");
     }
 
     /**
@@ -76,6 +76,12 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
         jPanelInformacoes = new javax.swing.JPanel();
         jButtonExcluirSerialSelecionado = new javax.swing.JButton();
         jButtonImprimirEtiqueta = new javax.swing.JButton();
+        jTextFieldPrimeiroSerial = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jTextFieldNumeroDeItens = new javax.swing.JTextField();
+        jToggleButtonEntradaSequencial = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Processo de Entrada de Seriais");
@@ -183,7 +189,7 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
                         .addGap(18, 18, 18)
                         .addComponent(jButtonGerarSeriais)
                         .addGap(18, 18, 18)
-                        .addComponent(jButtonGravar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(jButtonGravar, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE))))
         );
         jPanelControleLayout.setVerticalGroup(
             jPanelControleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -227,24 +233,62 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
             }
         });
 
+        jLabel1.setText("Entrada por Sequencia");
+
+        jLabel2.setText("Primeiro Serial:");
+
+        jLabel3.setText("Numero de Itens:");
+
+        jToggleButtonEntradaSequencial.setText("Entrada Sequencial");
+        jToggleButtonEntradaSequencial.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButtonEntradaSequencialActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelInformacoesLayout = new javax.swing.GroupLayout(jPanelInformacoes);
         jPanelInformacoes.setLayout(jPanelInformacoesLayout);
         jPanelInformacoesLayout.setHorizontalGroup(
             jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelInformacoesLayout.createSequentialGroup()
                 .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonExcluirSerialSelecionado, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
-                    .addComponent(jButtonImprimirEtiqueta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButtonImprimirEtiqueta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonExcluirSerialSelecionado, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanelInformacoesLayout.createSequentialGroup()
+                        .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextFieldPrimeiroSerial, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldNumeroDeItens, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanelInformacoesLayout.createSequentialGroup()
+                        .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jToggleButtonEntradaSequencial))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanelInformacoesLayout.setVerticalGroup(
             jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelInformacoesLayout.createSequentialGroup()
-                .addContainerGap(21, Short.MAX_VALUE)
+                .addContainerGap()
                 .addComponent(jButtonImprimirEtiqueta)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonExcluirSerialSelecionado)
-                .addGap(31, 31, 31))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldPrimeiroSerial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jTextFieldNumeroDeItens, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jToggleButtonEntradaSequencial)
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -253,13 +297,15 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanelControle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanelControle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanelInformacoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jPanelInformacoes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -322,6 +368,14 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
         new ImprimeRelatorio().imprimeRelatorio(queryIntegrador.valorConfiguracao("caminho_ENTRADA_SERIAL"), listText);
     }//GEN-LAST:event_jButtonImprimirEtiquetaActionPerformed
 
+    private void jToggleButtonEntradaSequencialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButtonEntradaSequencialActionPerformed
+        if (!"".equals(jTextFieldPrimeiroSerial.getText()) && !"".equals(jTextFieldNumeroDeItens.getText())) {
+            gerarSeriais(jTextFieldPrimeiroSerial.getText(), jTextFieldNumeroDeItens.getText());
+        } else {
+            JOptionPane.showMessageDialog(null, "Os campos devem estár preenchidos!", "Erro Entrada", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jToggleButtonEntradaSequencialActionPerformed
+
     private void excluirSerialSelecionado() {
         DefaultTableModel tabelaEntradaSerial = (DefaultTableModel) jTableSerialDigitado.getModel();
         int row = jTableSerialDigitado.getSelectedRow();
@@ -329,7 +383,7 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
         tabelaEntradaSerial.removeRow(row);
         for (SerialProduto sp : queryIntegrador.listSerialExato((String) jTableSerialDigitado.getValueAt(row, coluna))) {
             if (sp.getSaidaSerialCollection().size() > 0) {
-                JOptionPane.showMessageDialog(null, "\n O serial já possui uma saida.\n A mesma deve ser excluida antes de prosseguir! " );
+                JOptionPane.showMessageDialog(null, "\n O serial já possui uma saida.\n A mesma deve ser excluida antes de prosseguir! ");
             } else {
                 for (EntradaSerial es : sp.getEntradaSerialCollection()) {
                     try {
@@ -370,7 +424,7 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
             String gerarSerialPorData = new SimpleDateFormat("ddMMyyHHmmss").format(new Date());
             gerarSerialPorData = gerarSerialPorData + "001";
             int quantidadeEntrada = quantidadePacote;
-            queryIntegrador.listPorEntradaProd(movEntradaProd.getCodmoveprod());
+            //queryIntegrador.listPorEntradaProd(movEntradaProd.getCodmoveprod());
             List<String> listTex = new ArrayList<>();
             long cont = Long.parseLong(gerarSerialPorData);
             for (int increment = 0; increment < quantidadeEntrada; increment++) {
@@ -388,6 +442,48 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
         }
     }
 
+    private void gerarSeriais(String primeiroSerial, String quantidadeSerial) {
+
+        //if (queryIntegrador.listPorEntradaProd(movEntradaProd.getCodmoveprod()).isEmpty()) {
+            
+            //String gerarSerialPorData = new SimpleDateFormat("ddMMyyHHmmss").format(new Date());
+                //gerarSerialPorData = gerarSerialPorData + "001";
+                int quantidadeEntrada = quantidadePacote;
+                if (Integer.valueOf(quantidadeSerial) <= quantidadeEntrada) {
+                //queryIntegrador.listPorEntradaProd(movEntradaProd.getCodmoveprod());
+                List<String> listTex = new ArrayList<>();
+                //long cont = Long.parseLong(gerarSerialPorData);
+                long serialSequencia = Long.parseLong(primeiroSerial);
+            //for (int increment = 0; increment < quantidadeEntrada; increment++) {
+                //    cont++;
+                //    jTableSerialDigitado.clearSelection(); //Tira linha selecionada      
+                //    listTex.add(String.valueOf(cont));
+                //    gravarProdutoSerial(String.valueOf(cont));
+                // }
+                int count = 0;
+                for (EntradaSerial enSer: queryIntegrador.listPorEntradaProd(movEntradaProd.getCodmoveprod())){
+                    listTex.add(String.valueOf(enSer.getIdSerial().getSerial()));
+                    gravarProdutoSerial(String.valueOf(enSer));
+                    }
+                while (Integer.valueOf(quantidadeSerial) > count) {                 
+                    jTextFieldSerial.setText(String.valueOf(serialSequencia));
+                    jTableSerialDigitado.clearSelection(); //Tira linha selecionada      
+                    listTex.add(String.valueOf(serialSequencia));
+                    gravarProdutoSerial(String.valueOf(serialSequencia));
+                    serialSequencia++;               
+                    count++;
+                }
+                jTextFieldPrimeiroSerial.setText("");
+                criarTabela(listTex);
+                confereQuantidadeDigitada();
+                tocarSomFinalizado();
+            
+        } else {
+           tocarSomErro();
+            JOptionPane.showMessageDialog(null, "O numero de itens acima da quantidade de entrada!!");
+        }    
+    }
+
     public void confereQuantidadeDigitada() {
         if (jTableSerialDigitado.getRowCount() == quantidadePacote) {
             jButtonGravar.setEnabled(true);
@@ -395,16 +491,16 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
             jTextFieldSerial.setText("");
             jButtonGerarSeriais.setEnabled(false);
             jTextFieldQuantidadeFaltando.setText("0");
-         //   jButtonExcluirTodosSeriaisDigitados.setEnabled(true);
+            //   jButtonExcluirTodosSeriaisDigitados.setEnabled(true);
         } else {
             int quantFaltando = quantidadePacote - jTableSerialDigitado.getRowCount();
             jTextFieldQuantidadeFaltando.setText(String.valueOf(quantFaltando));
             if (jTableSerialDigitado.getRowCount() < 1) {
                 jButtonGerarSeriais.setEnabled(true);
                 jButtonExcluirSerialSelecionado.setEnabled(false);
-              //  jButtonExcluirTodosSeriaisDigitados.setEnabled(false);
+                //  jButtonExcluirTodosSeriaisDigitados.setEnabled(false);
             } else {
-              //  jButtonExcluirTodosSeriaisDigitados.setEnabled(true);
+                //  jButtonExcluirTodosSeriaisDigitados.setEnabled(true);
                 jButtonGerarSeriais.setEnabled(false);
             }
             jButtonGravar.setEnabled(false);
@@ -659,13 +755,19 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
     private javax.swing.JButton jButtonGerarSeriais;
     private javax.swing.JButton jButtonGravar;
     private javax.swing.JButton jButtonImprimirEtiqueta;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabelDigiteSerial;
     private javax.swing.JLabel jLabelQuantidadeFaltando;
     private javax.swing.JPanel jPanelControle;
     private javax.swing.JPanel jPanelInformacoes;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableSerialDigitado;
+    private javax.swing.JTextField jTextFieldNumeroDeItens;
+    private javax.swing.JTextField jTextFieldPrimeiroSerial;
     private javax.swing.JTextField jTextFieldQuantidadeFaltando;
     private javax.swing.JTextField jTextFieldSerial;
+    private javax.swing.JToggleButton jToggleButtonEntradaSequencial;
     // End of variables declaration//GEN-END:variables
 }

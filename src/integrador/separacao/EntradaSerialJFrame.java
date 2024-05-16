@@ -8,6 +8,7 @@ package integrador.separacao;
 import entidade.cplus.Moventrada;
 import entidade.cplus.Moventradaprod;
 import entidade.cplus.Unidade;
+import entidade.integrador.EntradaSerial;
 import entidade.integrador.IntConfiguracao;
 import janela.cplus.ListagemEntradasJDialog;
 import java.awt.Color;
@@ -21,6 +22,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import jpa.cplus.MoventradaprodJpaController;
+import jpa.cplus.ProdutoJpaController;
 import jpa.integrador.IntConfiguracaoJpaController;
 import query.cplus.QueryCplus;
 import query.integrador.QueryIntegrador;
@@ -70,6 +72,7 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
         jButtonListaSerialEntrada = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTableEntradaProd = new javax.swing.JTable();
+        jButtonListaSerialProduto = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Seriais de Entrada");
@@ -143,6 +146,15 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
             jTableEntradaProd.getColumnModel().getColumn(1).setPreferredWidth(350);
         }
 
+        jButtonListaSerialProduto.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jButtonListaSerialProduto.setText("Lista Seriais do Produto");
+        jButtonListaSerialProduto.setEnabled(false);
+        jButtonListaSerialProduto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonListaSerialProdutoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -150,13 +162,15 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
             .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jButtonPesquisaEntrada)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButtonListaSerialProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jButtonListaSerialEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButtonEntradaDeSeriais)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabelStatusEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButtonFechar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27))
         );
@@ -168,7 +182,8 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jButtonPesquisaEntrada)
                         .addComponent(jButtonListaSerialEntrada)
-                        .addComponent(jButtonEntradaDeSeriais))
+                        .addComponent(jButtonEntradaDeSeriais)
+                        .addComponent(jButtonListaSerialProduto))
                     .addComponent(jLabelStatusEntrada, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 487, Short.MAX_VALUE))
@@ -200,7 +215,9 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonEntradaDeSeriaisActionPerformed
 
     private void jButtonFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFecharActionPerformed
-        removeConfiguracao();
+       // removeConfiguracao();
+        dispose();
+            setVisible(false);
     }//GEN-LAST:event_jButtonFecharActionPerformed
 
     private void jButtonListaSerialEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonListaSerialEntradaActionPerformed
@@ -213,11 +230,22 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
 
     private void jTableEntradaProdMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableEntradaProdMouseClicked
        verificaEntradaProdutoCompleta();
+       jButtonListaSerialProduto.setEnabled(true);
     }//GEN-LAST:event_jTableEntradaProdMouseClicked
+
+    private void jButtonListaSerialProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonListaSerialProdutoActionPerformed
+        if (jTableEntradaProd.getRowCount() > 0) {
+            colunaCodMovProd = jTableEntradaProd.getColumnModel().getColumnIndex("Codmoveprod");
+            String codMovProd = jTableEntradaProd.getValueAt(jTableEntradaProd.getSelectedRow(), colunaCodMovProd).toString();
+            this.listagemSerialEntradaJDialog.setMovEntradaProd(codMovProd);
+            this.listagemSerialEntradaJDialog.setVisible(true);
+            
+        }
+    }//GEN-LAST:event_jButtonListaSerialProdutoActionPerformed
 
     private void verificaEntradaProdutoCompleta() {
         //jButtonEntradaDeSeriais.setEnabled(false);
-        if (verificaEntradaAberta()) {
+     //   if (verificaEntradaAberta()) {
             colunaCodMovProd = jTableEntradaProd.getColumnModel().getColumnIndex("Codmoveprod");
             String codMovProd = jTableEntradaProd.getValueAt(jTableEntradaProd.getSelectedRow(), colunaCodMovProd).toString();
             movEntradaProd = new MoventradaprodJpaController(managerCplus).findMoventradaprod(codMovProd);
@@ -234,7 +262,7 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
                     }
                 }
             }
-        }
+      //  }
     }
 
     public void carregarTabela() {
@@ -253,12 +281,13 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
 
     private void pesquisarEntrada() {
         //moventradaprodList.clear();
+        jButtonListaSerialProduto.setEnabled(false);
         this.listagemEntradasJDialog.setVisible(true);
         if (this.listagemEntradasJDialog.isCancelamento() == false) {
             movEntrada = this.listagemEntradasJDialog.getMovEntrada();
             carregarTabela();
             verificaEntradaCompleta();
-            jButtonListaSerialEntrada.setEnabled(true);
+            jButtonListaSerialEntrada.setEnabled(true);           
         }//fim if pesquisa entrada cancelada
     }
 
@@ -275,7 +304,7 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
             jLabelStatusEntrada.setText("Entrada de Serial Completa");
             //jButtonEntradaDeSeriais.setEnabled(false);
         } else {
-            insereConfiguracaoParaGravacaoEntrada();
+//            insereConfiguracaoParaGravacaoEntrada();
             jLabelStatusEntrada.setForeground(Color.RED);
             jLabelStatusEntrada.setText("Entrada de Serial Incompleta");
             //jButtonEntradaDeSeriais.setEnabled(true);
@@ -292,7 +321,7 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
         return "entrada_serial_" + ia.getHostAddress() + "_" + ia.getHostName();
     }
 
-    private boolean insereConfiguracaoParaGravacaoEntrada() {
+    private boolean insereConfiguracaoParaGravacaoEntrada1() {
         boolean condicao = true;
         List<IntConfiguracao> listConfig = queryIntegrador.listagemConfiguracaoproTipoConfiguracao(retornaIpLocal());
         if (listConfig.isEmpty()) {
@@ -336,7 +365,7 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
         return condicao;
     }
 
-    private void removeConfiguracao() {
+    private void removeConfiguracao1() {
         boolean condicao = true;
         List<IntConfiguracao> listConfig = queryIntegrador.listagemConfiguracaoproTipoConfiguracao(retornaIpLocal());
         for (IntConfiguracao config : listConfig) {
@@ -363,7 +392,7 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
         return quantidade;
     }
 
-    private boolean verificaEntradaAberta() {
+    private boolean verificaEntradaAberta1() {
         boolean condicao = true;
         List<IntConfiguracao> listConfig = queryIntegrador.listagemConfiguracaoPorValor(movEntrada.getCodmoventr());
         if (listConfig.size() > 1) {
@@ -438,6 +467,7 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButtonEntradaDeSeriais;
     private javax.swing.JButton jButtonFechar;
     private javax.swing.JButton jButtonListaSerialEntrada;
+    private javax.swing.JToggleButton jButtonListaSerialProduto;
     private javax.swing.JButton jButtonPesquisaEntrada;
     private javax.swing.JLabel jLabelStatusEntrada;
     private javax.swing.JScrollPane jScrollPane2;

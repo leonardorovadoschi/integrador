@@ -15,6 +15,7 @@ import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import jpa.cplus.MoventradaJpaController;
 import jpa.integrador.EntradaSerialJpaController;
 import jpa.integrador.SerialProdutoJpaController;
 import jpa.integrador.exceptions.NonexistentEntityException;
@@ -254,6 +255,22 @@ public class ListagemSerialEntradaJDialog extends javax.swing.JDialog {
         this.movEntrada = movEntrada;
         atualizaTabela();
     }
+    
+    
+    void setMovEntradaProd(String codMovProd) {
+         jButtonEditarSerial.setEnabled(false);
+        jButtonExcluirSerial.setEnabled(false);
+        //moventradaprodserialList.clear();
+        DefaultTableModel tab = (DefaultTableModel) jTableEntradaSerial.getModel();
+        while (jTableEntradaSerial.getModel().getRowCount() > 0) {  
+           ((DefaultTableModel) jTableEntradaSerial.getModel()).removeRow(0);  
+       }        
+            for (EntradaSerial ent : queryIntegrador.listPorEntradaProd(codMovProd)) {
+                this.movEntrada = new MoventradaJpaController(managerCplus).findMoventrada(ent.getCodEntrada());
+                tab.addRow(new Object[]{ent.getIdSerial().getCodigoProduto(), ent.getIdSerial().getNomeProduto(), ent.getIdSerial().getSerial(), ent.getIdEntradaSerial()});
+            }
+        
+    }
 
     /**
      * @param args the command line arguments
@@ -313,4 +330,7 @@ public class ListagemSerialEntradaJDialog extends javax.swing.JDialog {
     private javax.swing.JTable jTableEntradaSerial;
     private javax.swing.JTextField jTextFieldSerial;
     // End of variables declaration//GEN-END:variables
+
+  
+
 }

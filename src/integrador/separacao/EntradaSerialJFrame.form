@@ -27,13 +27,15 @@
           <Component id="jScrollPane2" alignment="1" max="32767" attributes="0"/>
           <Group type="102" attributes="0">
               <Component id="jButtonPesquisaEntrada" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="jButtonListaSerialProduto" min="-2" pref="178" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jButtonListaSerialEntrada" min="-2" pref="179" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jButtonEntradaDeSeriais" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="jLabelStatusEntrada" min="-2" pref="303" max="-2" attributes="0"/>
-              <EmptySpace pref="34" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
               <Component id="jButtonFechar" min="-2" pref="120" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
           </Group>
@@ -48,6 +50,7 @@
                       <Component id="jButtonPesquisaEntrada" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jButtonListaSerialEntrada" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jButtonEntradaDeSeriais" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jButtonListaSerialProduto" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Component id="jLabelStatusEntrada" alignment="1" min="-2" pref="23" max="-2" attributes="0"/>
               </Group>
@@ -180,5 +183,17 @@
         </Component>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JToggleButton" name="jButtonListaSerialProduto">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Arial" size="12" style="1"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Lista Seriais do Produto"/>
+        <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonListaSerialProdutoActionPerformed"/>
+      </Events>
+    </Component>
   </SubComponents>
 </Form>
