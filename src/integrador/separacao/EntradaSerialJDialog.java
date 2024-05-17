@@ -461,7 +461,7 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
             int count = 0;
             for (EntradaSerial enSer : queryIntegrador.listPorEntradaProd(movEntradaProd.getCodmoveprod())) {
                 listTex.add(String.valueOf(enSer.getIdSerial().getSerial()));
-                gravarProdutoSerial(String.valueOf(enSer));
+                //gravarProdutoSerial(String.valueOf(enSer));
             }
             while (Integer.valueOf(quantidadeSerial) > count) {
                 jTextFieldSerial.setText(String.valueOf(serialSequencia));
