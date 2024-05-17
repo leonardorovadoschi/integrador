@@ -421,17 +421,28 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
 
     private void gerarSeriais() {
         if (queryIntegrador.listPorEntradaProd(movEntradaProd.getCodmoveprod()).isEmpty()) {
-            String gerarSerialPorData = new SimpleDateFormat("ddMMyyHHmmss").format(new Date());
-            gerarSerialPorData = gerarSerialPorData + "001";
+            //String gerarSerialPorData = new SimpleDateFormat("ddMMyyHHmmss").format(new Date());
+            //String gerarSerialPorData = new SimpleDateFormat("ddMMyyHHmmss").format(new Date());
+            Integer incrementSerial = Integer.valueOf(queryIntegrador.valorConfiguracao("increment_serial_gerado"));
+            //gerarSerialPorData = gerarSerialPorData + "001";
             int quantidadeEntrada = quantidadePacote;
-            //queryIntegrador.listPorEntradaProd(movEntradaProd.getCodmoveprod());
             List<String> listTex = new ArrayList<>();
-            long cont = Long.parseLong(gerarSerialPorData);
-            for (int increment = 0; increment < quantidadeEntrada; increment++) {
-                cont++;
-                jTableSerialDigitado.clearSelection(); //Tira linha selecionada      
-                listTex.add(String.valueOf(cont));
-                gravarProdutoSerial(String.valueOf(cont));
+            //long cont = Long.parseLong(In);
+            int count = 0;
+            while (count < quantidadeEntrada) {
+                jTableSerialDigitado.clearSelection(); //Tira linha selecionada 
+                List<SerialProduto> produtoSerial = queryIntegrador.listSerialExato(String.valueOf(incrementSerial));
+                if (produtoSerial.isEmpty()) {//if que verifica se o serial já existe no banco
+                    listTex.add(String.valueOf(incrementSerial));
+                    gravarProdutoSerial(String.valueOf(incrementSerial));
+                    count++;
+                }
+                incrementSerial++;
+            }
+            try {
+                queryIntegrador.atualizaValorConfiguracao("increment_serial_gerado", String.valueOf(incrementSerial));
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Houve um erro ao Gravar incrementSerial na Tabela Configuracao no Integrador!!!\n " + ex);
             }
             criarTabela(listTex);
             confereQuantidadeDigitada();
@@ -443,45 +454,32 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
     }
 
     private void gerarSeriais(String primeiroSerial, String quantidadeSerial) {
+        int quantidadeEntrada = quantidadePacote;
+        if (Integer.valueOf(quantidadeSerial) <= quantidadeEntrada) {
+            List<String> listTex = new ArrayList<>();
+            long serialSequencia = Long.parseLong(primeiroSerial);
+            int count = 0;
+            for (EntradaSerial enSer : queryIntegrador.listPorEntradaProd(movEntradaProd.getCodmoveprod())) {
+                listTex.add(String.valueOf(enSer.getIdSerial().getSerial()));
+                gravarProdutoSerial(String.valueOf(enSer));
+            }
+            while (Integer.valueOf(quantidadeSerial) > count) {
+                jTextFieldSerial.setText(String.valueOf(serialSequencia));
+                jTableSerialDigitado.clearSelection(); //Tira linha selecionada      
+                listTex.add(String.valueOf(serialSequencia));
+                gravarProdutoSerial(String.valueOf(serialSequencia));
+                serialSequencia++;
+                count++;
+            }
+            jTextFieldPrimeiroSerial.setText("");
+            criarTabela(listTex);
+            confereQuantidadeDigitada();
+            tocarSomFinalizado();
 
-        //if (queryIntegrador.listPorEntradaProd(movEntradaProd.getCodmoveprod()).isEmpty()) {
-            
-            //String gerarSerialPorData = new SimpleDateFormat("ddMMyyHHmmss").format(new Date());
-                //gerarSerialPorData = gerarSerialPorData + "001";
-                int quantidadeEntrada = quantidadePacote;
-                if (Integer.valueOf(quantidadeSerial) <= quantidadeEntrada) {
-                //queryIntegrador.listPorEntradaProd(movEntradaProd.getCodmoveprod());
-                List<String> listTex = new ArrayList<>();
-                //long cont = Long.parseLong(gerarSerialPorData);
-                long serialSequencia = Long.parseLong(primeiroSerial);
-            //for (int increment = 0; increment < quantidadeEntrada; increment++) {
-                //    cont++;
-                //    jTableSerialDigitado.clearSelection(); //Tira linha selecionada      
-                //    listTex.add(String.valueOf(cont));
-                //    gravarProdutoSerial(String.valueOf(cont));
-                // }
-                int count = 0;
-                for (EntradaSerial enSer: queryIntegrador.listPorEntradaProd(movEntradaProd.getCodmoveprod())){
-                    listTex.add(String.valueOf(enSer.getIdSerial().getSerial()));
-                    gravarProdutoSerial(String.valueOf(enSer));
-                    }
-                while (Integer.valueOf(quantidadeSerial) > count) {                 
-                    jTextFieldSerial.setText(String.valueOf(serialSequencia));
-                    jTableSerialDigitado.clearSelection(); //Tira linha selecionada      
-                    listTex.add(String.valueOf(serialSequencia));
-                    gravarProdutoSerial(String.valueOf(serialSequencia));
-                    serialSequencia++;               
-                    count++;
-                }
-                jTextFieldPrimeiroSerial.setText("");
-                criarTabela(listTex);
-                confereQuantidadeDigitada();
-                tocarSomFinalizado();
-            
         } else {
-           tocarSomErro();
+            tocarSomErro();
             JOptionPane.showMessageDialog(null, "O numero de itens acima da quantidade de entrada!!");
-        }    
+        }
     }
 
     public void confereQuantidadeDigitada() {
@@ -491,16 +489,13 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
             jTextFieldSerial.setText("");
             jButtonGerarSeriais.setEnabled(false);
             jTextFieldQuantidadeFaltando.setText("0");
-            //   jButtonExcluirTodosSeriaisDigitados.setEnabled(true);
         } else {
             int quantFaltando = quantidadePacote - jTableSerialDigitado.getRowCount();
             jTextFieldQuantidadeFaltando.setText(String.valueOf(quantFaltando));
             if (jTableSerialDigitado.getRowCount() < 1) {
                 jButtonGerarSeriais.setEnabled(true);
                 jButtonExcluirSerialSelecionado.setEnabled(false);
-                //  jButtonExcluirTodosSeriaisDigitados.setEnabled(false);
             } else {
-                //  jButtonExcluirTodosSeriaisDigitados.setEnabled(true);
                 jButtonGerarSeriais.setEnabled(false);
             }
             jButtonGravar.setEnabled(false);
@@ -512,17 +507,9 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
 
     private boolean gravarProdutoSerial(String serial) {
         boolean condicao = false;
-        //int contTabela = jTableSerialDigitado.getRowCount();
-        //int contProdSerial = queryCplus.incrementProdutoSerial();
-        //int contMovProdSerial = queryCplus.incrementMovEntradaProdSerial();
-        //for (int cont = 0; cont < contTabela; cont++) {//Percore todos os registros da tabela
-        //contProdSerial++;
-        //contMovProdSerial++;
-        // jTableSerialDigitado.setRowSelectionInterval(cont, cont);
         SerialProduto serialProd = new SerialProduto();//instancia classe
         serialProd.setCodProduto(produto.getCodprod());
         serialProd.setSerial(serial);//pega valor de jTable Serial
-        //produtoSerial.setCodprodutoserial(String.format("%09d", contProdSerial));
         serialProd.setCodigoProduto(produto.getCodigo());
         serialProd.setNomeProduto(produto.getNomeprod());
         serialProd.setData(new Date(System.currentTimeMillis()));
@@ -536,13 +523,6 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(null, "\n Erro ao gravar produto Serial.\n " + ex);
             // condicao = true;
         }
-        //if (condicao) {
-        //    excluirEntradaSerialBanco();
-        //   JOptionPane.showMessageDialog(null, "OS REGISTROS FORAM EXCLUIDOS TENTE NOVAMENTE!!");
-        //break;
-        // }
-        // }
-        //jButtonGravar.setEnabled(false);
         return condicao;
     }
 

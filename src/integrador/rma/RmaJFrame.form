@@ -133,7 +133,7 @@
                 <StringItem index="0" value="Serial"/>
                 <StringItem index="1" value="Nota Entrada"/>
                 <StringItem index="2" value="Listagem Saida"/>
-                <StringItem index="3" value="Serial do Produto"/>
+                <StringItem index="3" value="Produto"/>
               </StringArray>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Selecione aqui o tipo da pesquisa que desejar!"/>

@@ -30,10 +30,7 @@ import janela.cplus.ListagemSaidasJDialog;
 import java.awt.Toolkit;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -132,7 +129,7 @@ public class RmaJFrame extends javax.swing.JFrame {
         jPanelPesquisa.setToolTipText("");
 
         jComboBoxTermoPesquisa.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        jComboBoxTermoPesquisa.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Serial", "Nota Entrada", "Listagem Saida", "Serial do Produto" }));
+        jComboBoxTermoPesquisa.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Serial", "Nota Entrada", "Listagem Saida", "Produto" }));
         jComboBoxTermoPesquisa.setToolTipText("Selecione aqui o tipo da pesquisa que desejar!");
         jComboBoxTermoPesquisa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
