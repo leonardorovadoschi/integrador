@@ -377,10 +377,10 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_jToggleButtonEntradaSequencialActionPerformed
 
     private void excluirSerialSelecionado() {
-        DefaultTableModel tabelaEntradaSerial = (DefaultTableModel) jTableSerialDigitado.getModel();
+       // DefaultTableModel tabelaEntradaSerial = (DefaultTableModel) jTableSerialDigitado.getModel();
         int row = jTableSerialDigitado.getSelectedRow();
         int coluna = jTableSerialDigitado.getColumnModel().getColumnIndex("Serial");
-        tabelaEntradaSerial.removeRow(row);
+        //tabelaEntradaSerial.removeRow(row);
         for (SerialProduto sp : queryIntegrador.listSerialExato((String) jTableSerialDigitado.getValueAt(row, coluna))) {
             if (sp.getSaidaSerialCollection().size() > 0) {
                 JOptionPane.showMessageDialog(null, "\n O serial já possui uma saida.\n A mesma deve ser excluida antes de prosseguir! ");
@@ -402,6 +402,12 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
             }
         }
         jButtonExcluirSerialSelecionado.setEnabled(false);
+        List<String> listTex = new ArrayList<>();
+        for (EntradaSerial enSer : queryIntegrador.listPorEntradaProd(movEntradaProd.getCodmoveprod())) {
+                listTex.add(String.valueOf(enSer.getIdSerial().getSerial()));
+                //gravarProdutoSerial(String.valueOf(enSer));
+            }
+        criarTabela(listTex);
         confereQuantidadeDigitada();
     }
 
@@ -420,14 +426,10 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
     }
 
     private void gerarSeriais() {
-        if (queryIntegrador.listPorEntradaProd(movEntradaProd.getCodmoveprod()).isEmpty()) {
-            //String gerarSerialPorData = new SimpleDateFormat("ddMMyyHHmmss").format(new Date());
-            //String gerarSerialPorData = new SimpleDateFormat("ddMMyyHHmmss").format(new Date());
-            Integer incrementSerial = Integer.valueOf(queryIntegrador.valorConfiguracao("increment_serial_gerado"));
-            //gerarSerialPorData = gerarSerialPorData + "001";
+        if (queryIntegrador.listPorEntradaProd(movEntradaProd.getCodmoveprod()).isEmpty()) {           
+            Integer incrementSerial = Integer.valueOf(queryIntegrador.valorConfiguracao("increment_serial_gerado"));            
             int quantidadeEntrada = quantidadePacote;
-            List<String> listTex = new ArrayList<>();
-            //long cont = Long.parseLong(In);
+            List<String> listTex = new ArrayList<>();          
             int count = 0;
             while (count < quantidadeEntrada) {
                 jTableSerialDigitado.clearSelection(); //Tira linha selecionada 
@@ -474,6 +476,7 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
             jTextFieldPrimeiroSerial.setText("");
             criarTabela(listTex);
             confereQuantidadeDigitada();
+            jTextFieldPrimeiroSerial.requestFocus();
             tocarSomFinalizado();
 
         } else {
