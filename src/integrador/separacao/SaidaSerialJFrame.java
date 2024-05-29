@@ -852,7 +852,7 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
 
     private void tocarSomFinalizado() {
         //String com o caminho do arquivo ReproduzirAudio a ser tocado
-        String path = queryIntegrador.valorConfiguracao("caminho_ARQUIVO_AUDIO_ERRO");
+        String path = queryIntegrador.valorConfiguracao("caminho_ARQUIVO_AUDIO_FINALIZADO");
         // new VariavelStatica().caminho_ARQUIVO_AUDIO_FINALIZADO;
         //Instancia de um objeto File com o arquivo ReproduzirAudio
         File mp3File = new File(path);
