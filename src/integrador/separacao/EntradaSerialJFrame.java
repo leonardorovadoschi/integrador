@@ -321,50 +321,6 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
         return "entrada_serial_" + ia.getHostAddress() + "_" + ia.getHostName();
     }
 
-    private boolean insereConfiguracaoParaGravacaoEntrada1() {
-        boolean condicao = true;
-        List<IntConfiguracao> listConfig = queryIntegrador.listagemConfiguracaoproTipoConfiguracao(retornaIpLocal());
-        if (listConfig.isEmpty()) {
-            IntConfiguracao c = new IntConfiguracao();
-            c.setTipo(retornaIpLocal());
-            c.setDescricao("Entrada em gravação na maquina");
-            c.setDataCriacao(new Date(System.currentTimeMillis()));
-            c.setDataAtualizacao(new Date(System.currentTimeMillis()));
-            c.setValor(movEntrada.getCodmoventr());
-
-            try {
-                new IntConfiguracaoJpaController(managerIntegrador).create(c);
-            } catch (Exception ex) {
-                condicao = false;
-                JOptionPane.showMessageDialog(null, "HOUVE UM ERRO AO CRIAR CONFIGURAÇÃO, Verifique!! \n" + ex, "Erro Entrada", JOptionPane.ERROR_MESSAGE);
-            }
-        } else if (listConfig.size() == 1) {
-            for (IntConfiguracao config : listConfig) {
-                config.setValor(movEntrada.getCodmoventr());
-                config.setDataAtualizacao(new Date(System.currentTimeMillis()));
-                try {
-                    new IntConfiguracaoJpaController(managerIntegrador).edit(config);
-                } catch (Exception ex) {
-                    condicao = false;
-                    JOptionPane.showMessageDialog(null, "HOUVE UM ERRO AO EDITAR CONFIGURAÇÃOO, Verifique!! \n" + ex, "Erro Entrada", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        } else {
-            int cont = 0;
-            for (IntConfiguracao config : listConfig) {
-                if (cont > 0) {
-                    try {
-                        new IntConfiguracaoJpaController(managerIntegrador).destroy(config.getEntityId());
-                    } catch (jpa.integrador.exceptions.NonexistentEntityException ex) {
-                        condicao = false;
-                        JOptionPane.showMessageDialog(null, "HOUVE UM ERRO AO EXCLUIR CONFIGURACAO, Verifique!! \n" + ex, "Erro Separação", JOptionPane.ERROR_MESSAGE);
-                    }
-                }
-            }
-        }
-        return condicao;
-    }
-
     private void removeConfiguracao1() {
         boolean condicao = true;
         List<IntConfiguracao> listConfig = queryIntegrador.listagemConfiguracaoproTipoConfiguracao(retornaIpLocal());

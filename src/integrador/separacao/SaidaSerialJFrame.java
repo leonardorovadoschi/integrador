@@ -60,7 +60,7 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
         managerPrestaShop = managerPrestaShop1;
         //querySerial = new QuerySerial(managerCplus);
         queryCplus = new QueryCplus(managerCplus);
-        queryPrestaShop = new QueryPrestaShop(managerPrestaShop);
+        //queryPrestaShop = new QueryPrestaShop(managerPrestaShop);
         managerIntegrador = managerIntegrador1;
         queryIntegrador = new QueryIntegrador(managerIntegrador);
         this.listagemSaidasJDialog = new ListagemSaidasJDialog(this, true, managerCplus);
@@ -908,7 +908,6 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
     // QuerySerial querySerial;
     private final QueryCplus queryCplus;
     private final QueryIntegrador queryIntegrador;
-    private final QueryPrestaShop queryPrestaShop;
     //int colunaCodMovProdutoSaida;
     //int colunaQuantidadeConferida;
     //int quantidadeSaidas;
