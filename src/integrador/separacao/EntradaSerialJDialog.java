@@ -468,8 +468,12 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
             while (Integer.valueOf(quantidadeSerial) > count) {
                 jTextFieldSerial.setText(String.valueOf(serialSequencia));
                 jTableSerialDigitado.clearSelection(); //Tira linha selecionada      
-                listTex.add(String.valueOf(serialSequencia));
-                gravarProdutoSerial(String.valueOf(serialSequencia));
+               // listTex.add(String.valueOf(serialSequencia));
+                //gravarProdutoSerial(String.valueOf(serialSequencia));
+                String format = String.format("%0"+primeiroSerial.length()+"d", serialSequencia);
+                listTex.add(format);
+                gravarProdutoSerial(format);
+                
                 serialSequencia++;
                 count++;
             }
