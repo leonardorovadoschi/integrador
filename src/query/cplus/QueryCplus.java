@@ -34,6 +34,7 @@ import entidade.cplus.Moventradaprodserial;
 import entidade.cplus.Nfceletronica;
 import entidade.cplus.Orcamento;
 import entidade.cplus.Orcamentoprod;
+import entidade.cplus.Pedidoitem;
 import entidade.cplus.Produto;
 import entidade.cplus.Produtocaracteristica;
 import entidade.cplus.Produtocodigo;
@@ -1816,6 +1817,23 @@ public List<Movendaproddevolucaocompra> listagemControlaDevolucaoPorSaida(String
         EntityManager em = getEntityManager();
         Query query = em.createQuery("SELECT mov FROM Gtintributavel mov WHERE mov.codgtintributavel =:codGtin");
         query.setParameter("codGtin", codGtin);//primeiro parametro      
+        return query.getResultList();
+    }
+     /**
+      * Função que retorna produto no pedido de compra
+      * S = Confirmado
+      * T = Finalizado
+      * D = Em Digitação
+      * @param status
+      * @param codProd
+      * @return 
+      */
+     public List<Pedidoitem> produtoCompra(char status, String codProd) {
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery("SELECT mov FROM Pedidoitem mov WHERE mov.codped.status =:status AND mov.codprod.codprod =:codProd");
+        query.setParameter("status", status); 
+        query.setParameter("codProd", codProd);
+        
         return query.getResultList();
     }
     

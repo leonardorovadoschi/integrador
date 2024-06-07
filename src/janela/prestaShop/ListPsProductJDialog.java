@@ -25,6 +25,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
 import jpa.prestaShop.PsGroupJpaController;
 import jpa.prestaShop.PsProductJpaController;
+import produto.PedidoCompra;
 import query.prestaShop.QueryPrestaShop;
 
 /**
@@ -96,6 +97,8 @@ public class ListPsProductJDialog extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jTextAreaProdutoComprado = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Pesquisa Produtos");
@@ -129,7 +132,7 @@ public class ListPsProductJDialog extends javax.swing.JDialog {
                 .addComponent(jTextFieldTermoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 427, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButtonPesquisar)
-                .addContainerGap(325, Short.MAX_VALUE))
+                .addContainerGap(55, Short.MAX_VALUE))
         );
         jPanelPesquisaLayout.setVerticalGroup(
             jPanelPesquisaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -262,14 +265,22 @@ public class ListPsProductJDialog extends javax.swing.JDialog {
         jLabel3.setForeground(new java.awt.Color(204, 0, 51));
         jLabel3.setText("Cliente Ruim");
 
+        jTextAreaProdutoComprado.setColumns(20);
+        jTextAreaProdutoComprado.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jTextAreaProdutoComprado.setRows(5);
+        jTextAreaProdutoComprado.setBorder(javax.swing.BorderFactory.createTitledBorder("Compras"));
+        jTextAreaProdutoComprado.setCaretColor(new java.awt.Color(255, 51, 51));
+        jScrollPane5.setViewportView(jTextAreaProdutoComprado);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
-                    .addComponent(jPanelPesquisa, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jPanelPesquisa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(229, 229, 229))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -278,18 +289,22 @@ public class ListPsProductJDialog extends javax.swing.JDialog {
                                 .addGap(112, 112, 112)
                                 .addComponent(jLabel2)
                                 .addGap(112, 112, 112)
-                                .addComponent(jLabel3))
+                                .addComponent(jLabel3)
+                                .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(64, 64, 64)
-                                .addComponent(jButtonOk)
-                                .addGap(30, 30, 30)
-                                .addComponent(jButtonCancelar)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jButtonOk)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jButtonCancelar))))))
+                    .addComponent(jScrollPane2))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -298,24 +313,23 @@ public class ListPsProductJDialog extends javax.swing.JDialog {
                 .addComponent(jPanelPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane3)
+                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(164, 164, 164)
+                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButtonOk)
-                            .addComponent(jButtonCancelar)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(19, Short.MAX_VALUE))
+                            .addComponent(jButtonCancelar))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         bindingGroup.bind();
@@ -351,6 +365,7 @@ public class ListPsProductJDialog extends javax.swing.JDialog {
         jTextAreaPrecoNormal.setText("");
         jTextAreaPrecoRuim.setText("");
         jTextAreaPrecoSemIe.setText("");
+        jTextAreaProdutoComprado.setText("");
     }
 
     private void carregaCampos() {
@@ -362,62 +377,7 @@ public class ListPsProductJDialog extends javax.swing.JDialog {
         } else {
             jButtonOk.setEnabled(false);
         }
-        /*
-         String txtNormal = "Quant.\t  % \tValor\n";        
-         PsGroup psGroup = new PsGroupJpaController(managerPrestaShop).findPsGroup(4);
-         BigDecimal redGrup = psGroup.getReduction().divide(new BigDecimal("100.00"), BigDecimal.ROUND_HALF_UP);
-         BigDecimal valRedGrupo = psProduct.getPrice().multiply(BigDecimal.ONE.subtract(redGrup));
-         txtNormal = txtNormal + " 1" + " \t" + "0.00% \t" + formataCampos.bigDecimalParaString(valRedGrupo, 2) + "  \n";
-         for (PsSpecificPrice sp : queryPrestaShop.listPsSpecificPrice(psProduct.getIdProduct(), 4)) {
-         if ("amount".equals(sp.getReductionType())) {
-         valRedGrupo = sp.getPrice().multiply(BigDecimal.ONE.subtract(redGrup));
-         txtNormal = "";
-         txtNormal = "Quant.\t  % \tValor\n";
-         txtNormal = txtNormal + " 1" + " \t" + "0.00% \t" + formataCampos.bigDecimalParaString(valRedGrupo, 2) + "  \n";
-         }else{
-         txtNormal = txtNormal + " " + sp.getFromQuantity() + " \t" + formataCampos.bigDecimalParaString(sp.getReduction().multiply(new BigDecimal("100.00")), 2) + "% \t"
-         + formataCampos.bigDecimalParaString((BigDecimal.ONE.subtract(sp.getReduction())).multiply(valRedGrupo), 2) + "  \n";
-         }
-         }
-         jTextAreaPrecoNormal.setText(txtNormal);
-         // jTextAreaPrecoNormal.setForeground(Color.GREEN);
-
-         psGroup = new PsGroupJpaController(managerPrestaShop).findPsGroup(7);
-         redGrup = psGroup.getReduction().divide(new BigDecimal("100.00"), BigDecimal.ROUND_HALF_UP);
-         valRedGrupo = psProduct.getPrice().multiply(BigDecimal.ONE.subtract(redGrup));
-         txtNormal = "Quant.\t  % \tValor\n";
-         txtNormal = txtNormal + " 1" + " \t" + "0.00% \t" + formataCampos.bigDecimalParaString(valRedGrupo, 2) + "  \n";
-         for (PsSpecificPrice sp : queryPrestaShop.listPsSpecificPrice(psProduct.getIdProduct(), 7)) {
-         if ("amount".equals(sp.getReductionType())) {
-         valRedGrupo = sp.getPrice().multiply(BigDecimal.ONE.subtract(redGrup));
-         txtNormal = "";
-         txtNormal = "Quant.\t  % \tValor\n";
-         txtNormal = txtNormal + " 1" + " \t" + "0.00% \t" + formataCampos.bigDecimalParaString(valRedGrupo, 2) + "  \n";
-         }else{
-         txtNormal = txtNormal + " " + sp.getFromQuantity() + " \t" + formataCampos.bigDecimalParaString(sp.getReduction().multiply(new BigDecimal("100.00")), 2) + "% \t"
-         + formataCampos.bigDecimalParaString((BigDecimal.ONE.subtract(sp.getReduction())).multiply(valRedGrupo), 2) + "  \n";
-         }
-         }
-
-         jTextAreaPrecoSemIe.setText(txtNormal);
-         //jTextAreaPrecoSemIe.setForeground(Color.BLUE);
-         psGroup = new PsGroupJpaController(managerPrestaShop).findPsGroup(5);
-         redGrup = psGroup.getReduction().divide(new BigDecimal("100.00"), BigDecimal.ROUND_HALF_UP);
-         valRedGrupo = psProduct.getPrice().multiply(BigDecimal.ONE.subtract(redGrup));
-         txtNormal = "Quant.\t  % \tValor\n";
-         txtNormal = txtNormal + "  1" + " \t" + "0.00% \t" + formataCampos.bigDecimalParaString(valRedGrupo, 2) + "  \n";
-         for (PsSpecificPrice sp : queryPrestaShop.listPsSpecificPrice(psProduct.getIdProduct(), 5)) {
-         if ("amount".equals(sp.getReductionType())) {
-         valRedGrupo = sp.getPrice().multiply(BigDecimal.ONE.subtract(redGrup));
-         txtNormal = "";
-         txtNormal = "Quant.\t  % \tValor\n";
-         txtNormal = txtNormal + " 1" + " \t" + "0.00% \t" + formataCampos.bigDecimalParaString(valRedGrupo, 2) + "  \n";
-         }else{
-         txtNormal = txtNormal + " " + sp.getFromQuantity() + "  \t" + formataCampos.bigDecimalParaString(sp.getReduction().multiply(new BigDecimal("100.00")), 2) + "% \t"
-         + formataCampos.bigDecimalParaString((BigDecimal.ONE.subtract(sp.getReduction())).multiply(valRedGrupo), 2) + "  \n";
-         }
-         }
-         */
+       jTextAreaProdutoComprado.setText(new PedidoCompra().produtoComprado(managerCplus, psProduct.getReference()));
         jTextAreaPrecoRuim.setText(textPreco(5));
         jTextAreaPrecoNormal.setText(textPreco(4));
         jTextAreaPrecoSemIe.setText(textPreco(7));
@@ -425,14 +385,14 @@ public class ListPsProductJDialog extends javax.swing.JDialog {
     }
 
     private String textPreco(Integer idGroup) {
-        String txtNormal = " Quant.\t  % \tValor\n";
+        //String txtNormal = " Quant.\t  % \tValor\n";
+        //PsGroup psGroup = new PsGroupJpaController(managerPrestaShop).findPsGroup(idGroup);
+        //BigDecimal redGrup = psGroup.getReduction().divide(new BigDecimal("100.00"), BigDecimal.ROUND_HALF_UP);
+       // BigDecimal valRedGrupo = psProduct.getPrice().multiply(BigDecimal.ONE.subtract(redGrup));
         PsGroup psGroup = new PsGroupJpaController(managerPrestaShop).findPsGroup(idGroup);
         BigDecimal redGrup = psGroup.getReduction().divide(new BigDecimal("100.00"), BigDecimal.ROUND_HALF_UP);
         BigDecimal valRedGrupo = psProduct.getPrice().multiply(BigDecimal.ONE.subtract(redGrup));
-        psGroup = new PsGroupJpaController(managerPrestaShop).findPsGroup(idGroup);
-        redGrup = psGroup.getReduction().divide(new BigDecimal("100.00"), BigDecimal.ROUND_HALF_UP);
-        valRedGrupo = psProduct.getPrice().multiply(BigDecimal.ONE.subtract(redGrup));
-        txtNormal = "Quant.\t  % \tValor\n";
+        String txtNormal = "Quant.\t  % \tValor\n";
         txtNormal = txtNormal + "  1" + " \t" + "0.00% \t" + formataCampos.bigDecimalParaString(valRedGrupo, 2) + "  \n";
         for (PsSpecificPrice sp : queryPrestaShop.listPsSpecificPriceAllGroup(psProduct.getIdProduct(), "amount", idGroup)) {
             if (sp.getTo() == null) {
@@ -596,10 +556,12 @@ public class ListPsProductJDialog extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTable jTablePsProduct;
     private javax.swing.JTextArea jTextAreaPrecoNormal;
     private javax.swing.JTextArea jTextAreaPrecoRuim;
     private javax.swing.JTextArea jTextAreaPrecoSemIe;
+    private javax.swing.JTextArea jTextAreaProdutoComprado;
     private javax.swing.JTextField jTextFieldTermoPesquisa;
     private java.util.List<entidade.prestaShop.PsProduct> psProductList;
     private javax.persistence.Query psProductQuery;
