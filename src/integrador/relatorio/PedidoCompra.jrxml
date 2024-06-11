@@ -101,7 +101,7 @@
 		<band height="27" splitType="Stretch">
 			<textField>
 				<reportElement x="0" y="0" width="86" height="20" uuid="f707278e-4206-4706-a337-00c418a7b5bf"/>
-				<textElement textAlignment="Right">
+				<textElement>
 					<font fontName="Arial" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{codigo}]]></textFieldExpression>
@@ -114,28 +114,28 @@
 				<textFieldExpression><![CDATA[$F{nomeprod}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement x="419" y="4" width="63" height="20" uuid="2b589208-49fb-4b56-8035-a44154d71329"/>
+				<reportElement x="419" y="0" width="63" height="20" uuid="2b589208-49fb-4b56-8035-a44154d71329"/>
 				<textElement>
 					<font fontName="Arial" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{data}]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0">
-				<reportElement x="385" y="4" width="34" height="20" uuid="ee4c8a79-072c-41e4-833e-34388267d9e9"/>
+				<reportElement x="372" y="0" width="34" height="20" uuid="ee4c8a79-072c-41e4-833e-34388267d9e9"/>
 				<textElement textAlignment="Right">
 					<font fontName="Arial" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{quantidade}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="482" y="4" width="27" height="20" uuid="1364d21c-343d-4e26-9a2d-a84b0fcf267f"/>
+				<reportElement x="482" y="0" width="27" height="20" uuid="1364d21c-343d-4e26-9a2d-a84b0fcf267f"/>
 				<textElement textAlignment="Right">
 					<font fontName="Arial" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{previsao}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="509" y="4" width="33" height="20" uuid="b8155112-42c0-41b1-8d7e-5962b21aabc1"/>
+				<reportElement x="509" y="0" width="33" height="20" uuid="b8155112-42c0-41b1-8d7e-5962b21aabc1"/>
 				<textElement>
 					<font fontName="Arial" size="10"/>
 				</textElement>
