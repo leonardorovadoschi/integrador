@@ -33,50 +33,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "PEDIDO", catalog = "", schema = "")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Pedido.findAll", query = "SELECT p FROM Pedido p")
-    , @NamedQuery(name = "Pedido.findByCodped", query = "SELECT p FROM Pedido p WHERE p.codped = :codped")
-    , @NamedQuery(name = "Pedido.findByCodforn", query = "SELECT p FROM Pedido p WHERE p.codforn = :codforn")
-    , @NamedQuery(name = "Pedido.findByData", query = "SELECT p FROM Pedido p WHERE p.data = :data")
-    , @NamedQuery(name = "Pedido.findByPrazopag", query = "SELECT p FROM Pedido p WHERE p.prazopag = :prazopag")
-    , @NamedQuery(name = "Pedido.findByPrevisao", query = "SELECT p FROM Pedido p WHERE p.previsao = :previsao")
-    , @NamedQuery(name = "Pedido.findByCodmoeda", query = "SELECT p FROM Pedido p WHERE p.codmoeda = :codmoeda")
-    , @NamedQuery(name = "Pedido.findByCotacaomoeda", query = "SELECT p FROM Pedido p WHERE p.cotacaomoeda = :cotacaomoeda")
-    , @NamedQuery(name = "Pedido.findByFrete", query = "SELECT p FROM Pedido p WHERE p.frete = :frete")
-    , @NamedQuery(name = "Pedido.findByBaseicms", query = "SELECT p FROM Pedido p WHERE p.baseicms = :baseicms")
-    , @NamedQuery(name = "Pedido.findByValoricms", query = "SELECT p FROM Pedido p WHERE p.valoricms = :valoricms")
-    , @NamedQuery(name = "Pedido.findByBasesubsttributaria", query = "SELECT p FROM Pedido p WHERE p.basesubsttributaria = :basesubsttributaria")
-    , @NamedQuery(name = "Pedido.findByValorsubsttributaria", query = "SELECT p FROM Pedido p WHERE p.valorsubsttributaria = :valorsubsttributaria")
-    , @NamedQuery(name = "Pedido.findByValorseguro", query = "SELECT p FROM Pedido p WHERE p.valorseguro = :valorseguro")
-    , @NamedQuery(name = "Pedido.findByValoroutrasdespesas", query = "SELECT p FROM Pedido p WHERE p.valoroutrasdespesas = :valoroutrasdespesas")
-    , @NamedQuery(name = "Pedido.findByValordesconto", query = "SELECT p FROM Pedido p WHERE p.valordesconto = :valordesconto")
-    , @NamedQuery(name = "Pedido.findByValoracrescimo", query = "SELECT p FROM Pedido p WHERE p.valoracrescimo = :valoracrescimo")
-    , @NamedQuery(name = "Pedido.findByAliqacrescimo", query = "SELECT p FROM Pedido p WHERE p.aliqacrescimo = :aliqacrescimo")
-    , @NamedQuery(name = "Pedido.findByAliqdesconto", query = "SELECT p FROM Pedido p WHERE p.aliqdesconto = :aliqdesconto")
-    , @NamedQuery(name = "Pedido.findByFlagtipodesconto", query = "SELECT p FROM Pedido p WHERE p.flagtipodesconto = :flagtipodesconto")
-    , @NamedQuery(name = "Pedido.findByFlagtipoacrescimo", query = "SELECT p FROM Pedido p WHERE p.flagtipoacrescimo = :flagtipoacrescimo")
-    , @NamedQuery(name = "Pedido.findByValortotalnota", query = "SELECT p FROM Pedido p WHERE p.valortotalnota = :valortotalnota")
-    , @NamedQuery(name = "Pedido.findByValortotalprodutos", query = "SELECT p FROM Pedido p WHERE p.valortotalprodutos = :valortotalprodutos")
-    , @NamedQuery(name = "Pedido.findByValortotalipi", query = "SELECT p FROM Pedido p WHERE p.valortotalipi = :valortotalipi")
-    , @NamedQuery(name = "Pedido.findByValorfrete", query = "SELECT p FROM Pedido p WHERE p.valorfrete = :valorfrete")
-    , @NamedQuery(name = "Pedido.findByCodtipomovimento", query = "SELECT p FROM Pedido p WHERE p.codtipomovimento = :codtipomovimento")
-    , @NamedQuery(name = "Pedido.findByFlagfrete", query = "SELECT p FROM Pedido p WHERE p.flagfrete = :flagfrete")
-    , @NamedQuery(name = "Pedido.findByFlagtipoiss", query = "SELECT p FROM Pedido p WHERE p.flagtipoiss = :flagtipoiss")
-    , @NamedQuery(name = "Pedido.findByFlagtipoipi", query = "SELECT p FROM Pedido p WHERE p.flagtipoipi = :flagtipoipi")
-    , @NamedQuery(name = "Pedido.findByHora", query = "SELECT p FROM Pedido p WHERE p.hora = :hora")
-    , @NamedQuery(name = "Pedido.findByStatus", query = "SELECT p FROM Pedido p WHERE p.status = :status")
-    , @NamedQuery(name = "Pedido.findByDataconfirmacao", query = "SELECT p FROM Pedido p WHERE p.dataconfirmacao = :dataconfirmacao")
-    , @NamedQuery(name = "Pedido.findByCoduserconfirmacao", query = "SELECT p FROM Pedido p WHERE p.coduserconfirmacao = :coduserconfirmacao")
-    , @NamedQuery(name = "Pedido.findByValortotalcofins", query = "SELECT p FROM Pedido p WHERE p.valortotalcofins = :valortotalcofins")
-    , @NamedQuery(name = "Pedido.findByValortotalpis", query = "SELECT p FROM Pedido p WHERE p.valortotalpis = :valortotalpis")
-    , @NamedQuery(name = "Pedido.findByValortotalservicos", query = "SELECT p FROM Pedido p WHERE p.valortotalservicos = :valortotalservicos")
-    , @NamedQuery(name = "Pedido.findByValortotaliss", query = "SELECT p FROM Pedido p WHERE p.valortotaliss = :valortotaliss")
-    , @NamedQuery(name = "Pedido.findByValorsubstantecipada", query = "SELECT p FROM Pedido p WHERE p.valorsubstantecipada = :valorsubstantecipada")
-    , @NamedQuery(name = "Pedido.findByValorconhecimentotrans", query = "SELECT p FROM Pedido p WHERE p.valorconhecimentotrans = :valorconhecimentotrans")
-    , @NamedQuery(name = "Pedido.findByCodtransredespacho", query = "SELECT p FROM Pedido p WHERE p.codtransredespacho = :codtransredespacho")
-    , @NamedQuery(name = "Pedido.findByValorfreteredespacho", query = "SELECT p FROM Pedido p WHERE p.valorfreteredespacho = :valorfreteredespacho")
-    , @NamedQuery(name = "Pedido.findByValorfcp", query = "SELECT p FROM Pedido p WHERE p.valorfcp = :valorfcp")
-    , @NamedQuery(name = "Pedido.findByValorfcpsubsttributaria", query = "SELECT p FROM Pedido p WHERE p.valorfcpsubsttributaria = :valorfcpsubsttributaria")})
+
 public class Pedido implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -84,8 +41,13 @@ public class Pedido implements Serializable {
     @Basic(optional = false)
     @Column(name = "CODPED")
     private String codped;
-    @Column(name = "CODFORN")
-    private String codforn;
+   // @Column(name = "CODFORN")
+    //private String codforn;
+    
+    @JoinColumn(name = "CODFORN", referencedColumnName = "CODFORN")
+    @ManyToOne
+    private Fornecedor codForn;
+    
     @Column(name = "DATA")
     @Temporal(TemporalType.DATE)
     private Date data;
@@ -214,12 +176,20 @@ public class Pedido implements Serializable {
         this.codped = codped;
     }
 
-    public String getCodforn() {
+    /*public String getCodforn() {
         return codforn;
     }
 
     public void setCodforn(String codforn) {
         this.codforn = codforn;
+    }
+    */
+    public Fornecedor getCodForn() {
+        return codForn;
+    }
+
+    public void setCodForn(Fornecedor codForn) {
+        this.codForn = codForn;
     }
 
     public Date getData() {

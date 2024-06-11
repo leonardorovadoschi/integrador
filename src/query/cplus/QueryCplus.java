@@ -1836,5 +1836,20 @@ public List<Movendaproddevolucaocompra> listagemControlaDevolucaoPorSaida(String
         
         return query.getResultList();
     }
+     
+     /**
+      * Função que retorna produto comprados
+      * S = Confirmado
+      * T = Finalizado
+      * D = Em Digitação
+      * @param status
+      * @return 
+      */
+     public List<Pedidoitem> produtosComprados(char status) {
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery("SELECT mov FROM Pedidoitem mov WHERE mov.codped.status =:status");
+        query.setParameter("status", status);              
+        return query.getResultList();
+    }
     
 }

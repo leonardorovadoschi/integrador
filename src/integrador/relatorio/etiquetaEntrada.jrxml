@@ -26,14 +26,14 @@
 				<textFieldExpression><![CDATA[" "+$F{nomeProduto}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="84" width="210" height="16" uuid="283a965e-adcb-4a9c-afc2-6f7178d1d093"/>
+				<reportElement x="0" y="78" width="210" height="22" uuid="283a965e-adcb-4a9c-afc2-6f7178d1d093"/>
 				<textElement textAlignment="Center">
-					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+					<font fontName="DejaVu Sans" size="11" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{serial}]]></textFieldExpression>
 			</textField>
 			<componentElement>
-				<reportElement x="10" y="30" width="189" height="50" uuid="bd8b7a27-edd7-47c1-8b27-f52c8dcd6781"/>
+				<reportElement x="6" y="30" width="200" height="46" uuid="bd8b7a27-edd7-47c1-8b27-f52c8dcd6781"/>
 				<jr:Code128 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" moduleWidth="1.5" textPosition="none">
 					<jr:codeExpression><![CDATA[$F{serial}]]></jr:codeExpression>
 				</jr:Code128>

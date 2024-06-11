@@ -64,6 +64,7 @@ import jpa.prestaShop.PsProductJpaController;
 import jpa.prestaShop.PsStockAvailableJpaController;
 import pedido.PedidoDigimacroCplus;
 import pedido.ValoresOrder;
+import produto.PedidoCompra;
 import query.cplus.QueryCplus;
 import query.integrador.QueryIntegrador;
 import query.prestaShop.QueryPrestaShop;
@@ -181,6 +182,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jButtonProdutosComprados = new javax.swing.JButton();
         jPanelClienteDigimacro = new javax.swing.JPanel();
         jPanelControleClienteDigimacro = new javax.swing.JPanel();
         jComboBoxTermoPesquisa = new javax.swing.JComboBox();
@@ -574,6 +576,13 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
             jTable1.getColumnModel().getColumn(9).setPreferredWidth(100);
         }
 
+        jButtonProdutosComprados.setText("Produtos Comprados");
+        jButtonProdutosComprados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonProdutosCompradosActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelVendasMagentoLayout = new javax.swing.GroupLayout(jPanelVendasMagento);
         jPanelVendasMagento.setLayout(jPanelVendasMagentoLayout);
         jPanelVendasMagentoLayout.setHorizontalGroup(
@@ -583,7 +592,8 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
                 .addGroup(jPanelVendasMagentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelVendasMagentoLayout.createSequentialGroup()
                         .addComponent(jPanelPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 345, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonProdutosComprados, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanelInformacoes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -591,7 +601,9 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         jPanelVendasMagentoLayout.setVerticalGroup(
             jPanelVendasMagentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelVendasMagentoLayout.createSequentialGroup()
-                .addComponent(jPanelPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanelVendasMagentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanelPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonProdutosComprados))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanelInformacoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1066,6 +1078,10 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
     private void jComboBoxShippingMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBoxShippingMouseClicked
         jButtonShipping.setEnabled(true);
     }//GEN-LAST:event_jComboBoxShippingMouseClicked
+
+    private void jButtonProdutosCompradosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonProdutosCompradosActionPerformed
+      new PedidoCompra().produtosComprados(managerCplus);
+    }//GEN-LAST:event_jButtonProdutosCompradosActionPerformed
 
     private void pesquisarOrders() {
         limpaCampos();
@@ -1677,6 +1693,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButtonImportarPedido;
     private javax.swing.JButton jButtonPesquisar;
     private javax.swing.JButton jButtonPesquisarCustomer;
+    private javax.swing.JButton jButtonProdutosComprados;
     private javax.swing.JButton jButtonRemover;
     private javax.swing.JButton jButtonShipping;
     private javax.swing.JComboBox<String> jComboBoxPagamento;
