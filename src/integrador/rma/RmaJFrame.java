@@ -500,7 +500,7 @@ public class RmaJFrame extends javax.swing.JFrame {
         if (jTableProdutoSerial.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(null, "Você deve selecionar o serial para editar!!");
         } else {
-            verificaSerialCadastrado();
+            editaSerialCadastrado();
         }
 
     }//GEN-LAST:event_jButtonEditarSerialActionPerformed
@@ -666,11 +666,11 @@ public class RmaJFrame extends javax.swing.JFrame {
         }
     }
 
-    private void verificaSerialCadastrado() {
+    private void editaSerialCadastrado() {
         colunaSerial = jTableProdutoSerial.getColumnModel().getColumnIndex("Serial");
-        //int codSerialProd = jTableProdutoSerial.getColumnModel().getColumnIndex("Id Serial");
-        String serialNovo = "";
-        serialNovo = JOptionPane.showInputDialog("Digite o Serial novo! ");
+        int row = jTableProdutoSerial.getSelectedRow();
+        String serialNovo = jTableProdutoSerial.getValueAt(row, colunaSerial).toString();
+        serialNovo = JOptionPane.showInputDialog("Digite o Serial novo! ", serialNovo);
         if (!"".equals(serialNovo) && serialNovo != null) {
             serialNovo = serialNovo.toUpperCase();
             List<SerialProduto> listProdSerialNovo = queryIntegrador.listSerialExato(serialNovo);
@@ -682,7 +682,8 @@ public class RmaJFrame extends javax.swing.JFrame {
                         new SerialProdutoJpaController(managerIntegrador).edit(serialAntigo);
                         JOptionPane.showMessageDialog(null, "Serial editado com sucesso!!");
                         jTextFieldArgumentoPesquisa.setText(serialNovo);
-                        tipoDePesquisa();
+                        jTableProdutoSerial.setValueAt(serialNovo, row, colunaSerial);
+                       // tipoDePesquisa();
                     } catch (NonexistentEntityException ex) {
                         JOptionPane.showMessageDialog(null, "Houve um erro ao editar o serial! \n!!" + ex);
                     } catch (Exception ex) {
