@@ -156,6 +156,7 @@ public class ProdutoCplusDigimacro {
         pp1.setIdShopDefault(1);
         pp1.setIdTaxRulesGroup(taxRulesGroup(managerPrestaShop, proCplus));
         pp1.setOnSale(false);
+        pp1.setLowStockThreshold(EstoqueMinimoCplus(managerCplus, proCplus));
         //pp1.setOnlineOnly(false);
         pp1.setEan13(eanCplus(managerCplus, proCplus));
         pp1.setIsbn("");
@@ -289,6 +290,7 @@ public class ProdutoCplusDigimacro {
         pp.setEan13(eanCplus(managerCplus, proCplus));
         pp.setPrice(precoPrincipal(managerCplus, proCplus));
         pp.setReference(proCplus.getCodprod());
+        pp.setLowStockThreshold(EstoqueMinimoCplus(managerCplus, proCplus));
         if (proCplus.getLargura() != null) {
             pp.setWidth(proCplus.getLargura());
         } else {
@@ -582,7 +584,6 @@ public class ProdutoCplusDigimacro {
     /**
      * Função que verifica as reservas dos pedidos no c-plus e no site
      *
-     * @param verificaLegiao
      * @param produto
      * @return BigDecimal
      */
@@ -591,6 +592,15 @@ public class ProdutoCplusDigimacro {
         List<Produtoestoque> listEsroque = new QueryCplus(managerCplus).listTodosEstoques(proCplus.getCodprod());
         for (Produtoestoque est : listEsroque) {
             estoque = est.getEstatu().subtract(est.getReservadoorcamento().subtract(est.getReservadoos()));
+        }
+        return estoque.intValue();
+    }
+    
+    private Integer EstoqueMinimoCplus(EntityManagerFactory managerCplus, Produto proCplus) {
+        BigDecimal estoque = BigDecimal.ZERO;
+        List<Produtoestoque> listEsroque = new QueryCplus(managerCplus).listTodosEstoques(proCplus.getCodprod());
+        for (Produtoestoque est : listEsroque) {
+            estoque = est.getQtdemin();
         }
         return estoque.intValue();
     }
@@ -1186,6 +1196,7 @@ public class ProdutoCplusDigimacro {
             pps.setIdCategoryDefault(categoriaPadrao(managerPrestaShop, proCplus));
             pps.setIdTaxRulesGroup(taxRulesGroup(managerPrestaShop, proCplus));
             pps.setOnSale(false);
+            pps.setLowStockThreshold(EstoqueMinimoCplus(managerCplus, proCplus));
             //pps.setOnlineOnly(false);
             pps.setEcotax(BigDecimal.ZERO);
             pps.setMinimalQuantity(1);
@@ -1242,6 +1253,7 @@ public class ProdutoCplusDigimacro {
             for (PsProductShop pps : listPPS) {
                 pps.setIdCategoryDefault(categoriaPadrao(managerPrestaShop, proCplus));
                 pps.setIdTaxRulesGroup(taxRulesGroup(managerPrestaShop, proCplus));
+                pps.setLowStockThreshold(EstoqueMinimoCplus(managerCplus, proCplus));
                 if (pps.getOnSale() == false && emPromocao(pps, proCplus, managerCplus)) {
                     pps.setOnSale(true);
                     pps.setAvailableDate(new Date(System.currentTimeMillis()));
