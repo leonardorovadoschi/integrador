@@ -374,11 +374,11 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         jPanelAbaListaProdutos.setLayout(jPanelAbaListaProdutosLayout);
         jPanelAbaListaProdutosLayout.setHorizontalGroup(
             jPanelAbaListaProdutosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPaneListagemProdutos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1222, Short.MAX_VALUE)
+            .addComponent(jScrollPaneListagemProdutos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1450, Short.MAX_VALUE)
         );
         jPanelAbaListaProdutosLayout.setVerticalGroup(
             jPanelAbaListaProdutosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPaneListagemProdutos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
+            .addComponent(jScrollPaneListagemProdutos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 402, Short.MAX_VALUE)
         );
 
         jTabbedPaneAlteracaoPrecoProdutoCplus.addTab("Listagem Produtos C-Plus", jPanelAbaListaProdutos);
@@ -551,7 +551,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
             .addGroup(jPanelComparacaoProdutosAllnationsLayout.createSequentialGroup()
                 .addComponent(jPanelControleFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -675,7 +675,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
                 .addComponent(jPanelTiposdecalculos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanelInformacaoEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 302, Short.MAX_VALUE))
+                .addGap(0, 381, Short.MAX_VALUE))
         );
         jPanelconfiguracoesAbaLayout.setVerticalGroup(
             jPanelconfiguracoesAbaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -835,7 +835,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(jCheckBoxSomenteVendas)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1047, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1206, Short.MAX_VALUE))
         );
         jPanelListagemDeVendasLayout.setVerticalGroup(
             jPanelListagemDeVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -923,7 +923,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jTextFieldMaximoResultadoEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 1089, Short.MAX_VALUE))
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 1261, Short.MAX_VALUE))
         );
         jPanelListagemEntradasLayout.setVerticalGroup(
             jPanelListagemEntradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -935,7 +935,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
                 .addGroup(jPanelListagemEntradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(jTextFieldMaximoResultadoEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(166, Short.MAX_VALUE))
+                .addContainerGap(294, Short.MAX_VALUE))
             .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
 
@@ -1359,21 +1359,22 @@ public class ProdutoJFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanelPesquisaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelPesquisaLayout.createSequentialGroup()
-                        .addComponent(jComboBoxTermoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextFieldTermoPesquisa))
-                    .addGroup(jPanelPesquisaLayout.createSequentialGroup()
-                        .addComponent(jCheckBoxSomenteItensAtivosCplus)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButtonAtualizarCarregaCampos)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtonPesquisar)
-                        .addGap(8, 8, 8))
-                    .addGroup(jPanelPesquisaLayout.createSequentialGroup()
                         .addComponent(jButtonGravar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButtonAtualizaMargemCusto, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                        .addContainerGap())
+                    .addGroup(jPanelPesquisaLayout.createSequentialGroup()
+                        .addGroup(jPanelPesquisaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jComboBoxTermoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jCheckBoxSomenteItensAtivosCplus))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanelPesquisaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanelPesquisaLayout.createSequentialGroup()
+                                .addComponent(jButtonAtualizarCarregaCampos)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButtonPesquisar)
+                                .addGap(8, 8, 8))
+                            .addComponent(jTextFieldTermoPesquisa)))))
         );
         jPanelPesquisaLayout.setVerticalGroup(
             jPanelPesquisaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1756,22 +1757,19 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         jPanelControlesLayout.setHorizontalGroup(
             jPanelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelControlesLayout.createSequentialGroup()
-                .addGroup(jPanelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jPanelOutros, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanelControlesLayout.createSequentialGroup()
-                        .addGroup(jPanelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jPanelOutros, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanelControlesLayout.createSequentialGroup()
                                 .addContainerGap()
                                 .addComponent(jCheckBoxAtivo, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jCheckBoxNoSite)
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelControlesLayout.createSequentialGroup()
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jCheckBoxNoSite))
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanelArredondamentoVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanelControlesLayout.createSequentialGroup()
                         .addComponent(jPanelEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1807,13 +1805,14 @@ public class ProdutoJFrame extends javax.swing.JFrame {
                             .addGroup(jPanelControlesLayout.createSequentialGroup()
                                 .addComponent(jPanelOutros, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jCheckBoxAtivo)
-                                    .addComponent(jCheckBoxNoSite))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jPanelArredondamentoVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addGroup(jPanelControlesLayout.createSequentialGroup()
+                                        .addGroup(jPanelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(jCheckBoxAtivo)
+                                            .addComponent(jCheckBoxNoSite))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jPanelArredondamentoVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -1828,9 +1827,9 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jPanelControles, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanelControles, javax.swing.GroupLayout.PREFERRED_SIZE, 472, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPaneAlteracaoPrecoProdutoCplus))
+                .addComponent(jTabbedPaneAlteracaoPrecoProdutoCplus, javax.swing.GroupLayout.PREFERRED_SIZE, 436, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         bindingGroup.bind();
@@ -2204,20 +2203,20 @@ public class ProdutoJFrame extends javax.swing.JFrame {
     private void calculaPorcentagemCusto() {
         int quantidadeEstoque = 0;
         double aliqPisCofins = 9.25;
-        double aliqIcmsEntrada;
-        double aliqIcmsSaida = 0.00;
+        //double aliqIcmsEntrada;
+        //double aliqIcmsSaida = 0.00;
         double custoProdutoUnitario;
         // double custoMedioProdutoUnitario;
-        double creditoPisCofins;
-        double creditoIcms;
+        double creditoUnitarioPisCofins;
+        double creditoUnitarioIcms;
         double valorIpiUnitario;
         double valorStUnitario;
-        double debitoPisCofin;
-        double debitoIcms;
-        double porcentagemLugro = 1.10;//porcentagem com multiplicaï¿½ï¿½o de soma
+        double debitoUnitarioPisCofins;
+        //double debitoUnitarioIcms;
+        double porcentagemLugro = 1.10;//porcentagem com multiplicasão de soma
         double valorUnitarioComTributosComLucro;
         double diferencaPisCofins;
-        double diferencaIcms;
+        //double diferencaIcms;
         double porcentagemCusto;
         boolean condicaoSt = false;
         boolean condicaoIcms = false;
@@ -2227,9 +2226,9 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         }
         if (quantidadeEstoque > 0) {
             //int quantidadeEntrada = 0;
-            double valorProdutos = 0.00;
-            double valorTotalIcms = 0.00;
-            double valorTotalPisCofins = 0.00;
+            double valorProdutoEntrada = 0.00;
+            double valorTotalCreditoIcms = 0.00;
+            double valorTotalCreditoPisCofins = 0.00;
             double valorTotalIpi = 0.00;
             double valorTotalSt = 0.00;
             int estoqueCompra = 0;
@@ -2237,9 +2236,9 @@ public class ProdutoJFrame extends javax.swing.JFrame {
             for (Moventradaprod movProd : queryCplus.resultProdutoEntrada(produtoCplus.getCodprod(), true, 10)) {
                 estoqueCompra = estoqueCompra + movProd.getQuantidade().intValue();
                 if (quantidadeEstoque >= estoqueCompra) {
-                    valorProdutos = valorProdutos + movProd.getValortotal().doubleValue();
-                    valorTotalIcms = valorTotalIcms + movProd.getValoricms().doubleValue();
-                    valorTotalPisCofins = valorTotalPisCofins + movProd.getValorpis().doubleValue() + movProd.getValorcofins().doubleValue();
+                    valorProdutoEntrada = valorProdutoEntrada + movProd.getValortotal().doubleValue();
+                    valorTotalCreditoIcms = valorTotalCreditoIcms + movProd.getValoricms().doubleValue();
+                    valorTotalCreditoPisCofins = valorTotalCreditoPisCofins + movProd.getValorpis().doubleValue() + movProd.getValorcofins().doubleValue();
                     if (movProd.getValorsubsttributaria() != null) {
                         valorTotalSt = valorTotalSt + movProd.getValorsubsttributaria().doubleValue();
                     }
@@ -2248,11 +2247,11 @@ public class ProdutoJFrame extends javax.swing.JFrame {
                     }
                     incremetEstoque = incremetEstoque + movProd.getQuantidade().intValue();
                 } else {
-                    valorProdutos = valorProdutos + ((quantidadeEstoque - incremetEstoque) * movProd.getValorunitario().doubleValue());
+                    valorProdutoEntrada = valorProdutoEntrada + ((quantidadeEstoque - incremetEstoque) * movProd.getValorunitario().doubleValue());
                     double valorRestanteIcmsUnitario = movProd.getValoricms().doubleValue() / movProd.getQuantidade().doubleValue();
-                    valorTotalIcms = valorTotalIcms + (valorRestanteIcmsUnitario * (quantidadeEstoque - incremetEstoque));
+                    valorTotalCreditoIcms = valorTotalCreditoIcms + (valorRestanteIcmsUnitario * (quantidadeEstoque - incremetEstoque));
                     double valorRestantePisCofinsUnitario = (movProd.getValorpis().doubleValue() + movProd.getValorcofins().doubleValue()) / (movProd.getQuantidade().doubleValue());
-                    valorTotalPisCofins = valorTotalPisCofins + (valorRestantePisCofinsUnitario * (quantidadeEstoque - incremetEstoque));
+                    valorTotalCreditoPisCofins = valorTotalCreditoPisCofins + (valorRestantePisCofinsUnitario * (quantidadeEstoque - incremetEstoque));
                     if (movProd.getValorsubsttributaria() != null) {
                         double valorRestanteStUnitario = movProd.getValorsubsttributaria().doubleValue() / movProd.getQuantidade().doubleValue();
                         valorTotalSt = valorTotalSt + (valorRestanteStUnitario * (quantidadeEstoque - incremetEstoque));
@@ -2264,9 +2263,10 @@ public class ProdutoJFrame extends javax.swing.JFrame {
                     break;
                 } //             
             } //fim for listagem entrada de compra
-            custoProdutoUnitario = valorProdutos / quantidadeEstoque;
-            creditoIcms = valorTotalIcms / quantidadeEstoque;
-            creditoPisCofins = valorTotalPisCofins / quantidadeEstoque;
+            
+            custoProdutoUnitario = valorProdutoEntrada / quantidadeEstoque;
+            creditoUnitarioIcms = valorTotalCreditoIcms / quantidadeEstoque;
+            creditoUnitarioPisCofins = valorTotalCreditoPisCofins / quantidadeEstoque;
             valorIpiUnitario = valorTotalIpi / quantidadeEstoque;
             valorStUnitario = valorTotalSt / quantidadeEstoque;
             List<Calculoicmsestado> listIcmsEstado = queryCplus.listcalculoIcmsEstadol("RS", "RS", "5405", produtoCplus.getCodcalculoicms().getCodcalculoicms());
@@ -2275,12 +2275,14 @@ public class ProdutoJFrame extends javax.swing.JFrame {
                 //valorIpiUnitario = produtoCplus.getValoripi().doubleValue();
                 //valorStUnitario = produtoCplus.getValorsubsttributaria().doubleValue();
                 valorUnitarioComTributosComLucro = (valorIpiUnitario + valorStUnitario + custoProdutoUnitario) * porcentagemLugro;
-                debitoPisCofin = (valorUnitarioComTributosComLucro * aliqPisCofins) / 100.00;
-                diferencaPisCofins = debitoPisCofin - creditoPisCofins;
+                debitoUnitarioPisCofins = (valorUnitarioComTributosComLucro * aliqPisCofins) / 100.00;
+               // debitoUnitarioIcms = (valorUnitarioComTributosComLucro * aliqPisCofins) / 100.00;
+                diferencaPisCofins = debitoUnitarioPisCofins - creditoUnitarioPisCofins;
+                //diferencaIcms = debitoUnitarioIcms - creditoUnitarioIcms;
                 //soma valor tributos com lucro
                 valorUnitarioComTributosComLucro = (valorIpiUnitario + valorStUnitario + custoProdutoUnitario + diferencaPisCofins) * porcentagemLugro;
-                debitoPisCofin = (valorUnitarioComTributosComLucro * aliqPisCofins) / 100.00;
-                diferencaPisCofins = debitoPisCofin - creditoPisCofins;
+                debitoUnitarioPisCofins = (valorUnitarioComTributosComLucro * aliqPisCofins) / 100.00;
+                diferencaPisCofins = debitoUnitarioPisCofins - creditoUnitarioPisCofins;
                 porcentagemCusto = (diferencaPisCofins / custoProdutoUnitario) * 100.00;
                 jTextFieldPercOutrosCustos.setText(formataCampo.bigDecimalParaString(new BigDecimal(porcentagemCusto), casasDecimais));
             } else {
@@ -2291,42 +2293,11 @@ public class ProdutoJFrame extends javax.swing.JFrame {
                 jTextFieldPercOutrosCustos.setText(formataCampo.bigDecimalParaString(new CalculoDeCusto().custoMediouUniComIpi(listIcmsEstado, produtoCplus, managerCplus), casasDecimais));
             } else {
                 condicaoIcms = true;
-                //JOptionPane.showMessageDialog(null, "Nï¿½o foi possi encontrar o calculo de ICMS verifique no C-Plus!!!\n lista de resultados: " + listIcmsEstado.size());
+                //JOptionPane.showMessageDialog(null, "Não foi possi encontrar o calculo de ICMS verifique no C-Plus!!!\n lista de resultados: " + listIcmsEstado.size());
             }
-        } else {//fim if que verifica se estoque ï¿½ maior que zero
-            custoProdutoUnitario = produtoCplus.getPrecusto().doubleValue();
-            // valorIpiUnitario = produtoCplus.getValoripi().doubleValue();
-            //valorStUnitario = produtoCplus.getValorsubsttributaria().doubleValue();
-
-            List<Calculoicmsestado> listIcmsEstado = queryCplus.listcalculoIcmsEstadol("RS", "RS", "5405", produtoCplus.getCodcalculoicms().getCodcalculoicms());
-            if (listIcmsEstado.size() == 1) {
-                creditoPisCofins = (custoProdutoUnitario * aliqPisCofins) / 100.00;
-                valorIpiUnitario = produtoCplus.getValoripi().doubleValue();
-                valorStUnitario = produtoCplus.getValorsubsttributaria().doubleValue();
-                valorUnitarioComTributosComLucro = (valorIpiUnitario + valorStUnitario + custoProdutoUnitario) * porcentagemLugro;
-                debitoPisCofin = (valorUnitarioComTributosComLucro * aliqPisCofins) / 100.00;
-                diferencaPisCofins = debitoPisCofin - creditoPisCofins;
-                //soma valor tributos com lucro
-                valorUnitarioComTributosComLucro = (valorIpiUnitario + valorStUnitario + custoProdutoUnitario + diferencaPisCofins) * porcentagemLugro;
-                debitoPisCofin = (valorUnitarioComTributosComLucro * aliqPisCofins) / 100.00;
-                diferencaPisCofins = debitoPisCofin - creditoPisCofins;
-                porcentagemCusto = (diferencaPisCofins / custoProdutoUnitario) * 100.00;
-                jTextFieldPercOutrosCustos.setText(formataCampo.bigDecimalParaString(new BigDecimal(porcentagemCusto), casasDecimais));
-            } else {
-                condicaoSt = true;
-            }
-            listIcmsEstado = queryCplus.listcalculoIcmsEstadol("RS", "RS", "5102", produtoCplus.getCodcalculoicms().getCodcalculoicms());
-            if (listIcmsEstado.size() == 1) {
-                //for (Moventradaprod movProd : queryCplus.resultProdutoEntrada(produtoCplus.getCodprod(), true, 1)) {
-                jTextFieldPercOutrosCustos.setText(formataCampo.bigDecimalParaString(new CalculoDeCusto().custoMediouUniComIpi(listIcmsEstado, produtoCplus, managerCplus), casasDecimais));
-                // }
-            } else {
-                condicaoIcms = true;
-                //JOptionPane.showMessageDialog(null, "Nï¿½o foi possi encontrar o calculo de ICMS verifique no C-Plus!!!\n lista de resultados: " + listIcmsEstado.size());
-            }
-        }//fim else que verifica se estoque ï¿½ menor igual que zero
+        } 
         if (condicaoIcms == true && condicaoSt == true) {
-            JOptionPane.showMessageDialog(null, "Nï¿½o foi possi encontrar o calculo de ICMS verifique no C-Plus!!!\n ");
+            JOptionPane.showMessageDialog(null, "Não foi possi encontrar o calculo de ICMS verifique no C-Plus!!!\n ");
         }
         calculoTotalOutrosCustos();
     }

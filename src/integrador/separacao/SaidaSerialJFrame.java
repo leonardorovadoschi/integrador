@@ -485,7 +485,7 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
                     manutencaoDeErro("O serial não pode ser o EAN, Verifique!!");
                 }
             } else {
-                manutencaoDeErro("Serial encontrados: " + listSer.size() + " Verifique!!");
+                manutencaoDeErro("Serial não encontrado: " + jTextFieldSerial.getText() + " Verifique!!");
             }
             if (condicao) {
                 gravarSaidaSerial(serialProduto, movendaprod);

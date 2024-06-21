@@ -22,7 +22,7 @@ import query.cplus.QueryCplus;
 public class CalculoDeCusto {
 
     public BigDecimal custoMediouUniComIpi(List<Calculoicmsestado> listIcmsEstado, Produto prod, EntityManagerFactory managerCplus) {
-        boolean condicaoIcms = true;
+        //boolean condicaoIcms = true;
         BigDecimal quanCompra = BigDecimal.ZERO;
         BigDecimal valorProdutos = BigDecimal.ZERO;
         BigDecimal valorTotalIcms = BigDecimal.ZERO;
@@ -40,7 +40,7 @@ public class CalculoDeCusto {
         BigDecimal debitoPisCofin;
         BigDecimal diferencaPisCofins;
         BigDecimal valorIpiUnitario;
-        BigDecimal valorStUnitario;
+        //BigDecimal valorStUnitario;
         BigDecimal valorVenda;
         BigDecimal porcentagemCusto = BigDecimal.ZERO;
         BigDecimal porcentagemLugro = new BigDecimal("1.10");
@@ -67,10 +67,10 @@ public class CalculoDeCusto {
                 BigDecimal valorRestanteIcmsUnitario = movProd.getValoricms().divide(movProd.getQuantidade(), 4, BigDecimal.ROUND_HALF_UP);
                 valorTotalIcms = valorTotalIcms.add(valorRestanteIcmsUnitario.multiply(qunRest));              
                 valorTotalPisCofins = valorProdutos.multiply(aliqPisCofins).setScale( 4, BigDecimal.ROUND_HALF_UP);
-                if (movProd.getValorsubsttributaria() != null) {
-                    BigDecimal valorRestanteStUnitario = movProd.getValorsubsttributaria().divide(movProd.getQuantidade(), 4, BigDecimal.ROUND_HALF_UP);
-                    valorTotalSt = valorTotalSt.add(valorRestanteStUnitario.multiply(qunRest));
-                }
+               // if (movProd.getValorsubsttributaria() != null) {
+                    //BigDecimal valorRestanteStUnitario = movProd.getValorsubsttributaria().divide(movProd.getQuantidade(), 4, BigDecimal.ROUND_HALF_UP);
+                    //valorTotalSt = valorTotalSt.add(valorRestanteStUnitario.multiply(qunRest));
+               // }
                 if (movProd.getValoripi() != null) {
                     BigDecimal valorRestanteIpi = movProd.getValoripi().divide(movProd.getQuantidade(), 4, BigDecimal.ROUND_HALF_UP);
                     valorTotalIpi = valorTotalIpi.add(valorRestanteIpi.multiply(qunRest));
@@ -82,7 +82,7 @@ public class CalculoDeCusto {
         creditoIcms = valorTotalIcms.divide(quantidadeEstoque, 4, BigDecimal.ROUND_HALF_UP);
         creditoPisCofins = valorTotalPisCofins.divide(quantidadeEstoque, 4, BigDecimal.ROUND_HALF_UP);
         valorIpiUnitario = valorTotalIpi.divide(quantidadeEstoque, 4, BigDecimal.ROUND_HALF_UP);
-        valorStUnitario = valorTotalSt.divide(quantidadeEstoque, 4, BigDecimal.ROUND_HALF_UP);
+        //valorStUnitario = valorTotalSt.divide(quantidadeEstoque, 4, BigDecimal.ROUND_HALF_UP);
         // System.out.println("quantidadeEstoque: "+ quantidadeEstoque.doubleValue());
         //List<Calculoicmsestado> listIcmsEstado = new QueryCplus(managerCplus).listcalculoIcmsEstadol("RS", "RS", "5102", prod.getCodcalculoicms().getCodcalculoicms());
         if (listIcmsEstado.size() == 1) {                              
@@ -116,7 +116,7 @@ public class CalculoDeCusto {
                 debitoIcms = valorVenda.multiply(aliqIcmsVenda).setScale( 4, BigDecimal.ROUND_HALF_UP);
                 diferencaPisCofins = debitoPisCofin.subtract(creditoPisCofins);               
                 diferencaIcms = debitoIcms.subtract(creditoIcms);               
-                porcentagemCusto = (diferencaPisCofins.add(diferencaIcms)).divide(custoMedioUnitario.add(valorIpiUnitario) , 4, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal("100.00"));     
+                porcentagemCusto = (diferencaPisCofins.add(diferencaIcms)).divide(valorIpiUnitario.add(custoMedioUnitario) , 4, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal("100.00"));     
                // System.out.println("custoMedioUnitario: "+ custoMedioUnitario.doubleValue());
                // System.out.println("valorVenda: "+ valorVenda.doubleValue());
                 //System.out.println("valorIpiUnitario: "+ valorIpiUnitario.doubleValue());
@@ -127,10 +127,7 @@ public class CalculoDeCusto {
                // System.out.println("creditoIcms: "+ creditoIcms.doubleValue());                
                // System.out.println("diferencaIcms: "+ diferencaIcms.doubleValue());
                 //System.out.println("porcentagemCusto: "+ porcentagemCusto.doubleValue());
-            } else {           
-                condicaoIcms = false;
-            }
-                     
+            }                   
         }
         return porcentagemCusto;
     }
