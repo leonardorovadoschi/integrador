@@ -1069,7 +1069,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Houve um erro ao trocatipo de Frete\n VERIFIQUE!!! \n" + ex);
         }
         editaOrders();
-        carregaCampos();       
+        carregaCampos();
         jButtonShipping.setEnabled(false);
         jButtonImportarPedido.setEnabled(true);
     }//GEN-LAST:event_jButtonShippingActionPerformed
@@ -1079,7 +1079,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBoxShippingMouseClicked
 
     private void jButtonProdutosCompradosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonProdutosCompradosActionPerformed
-      new PedidoCompra().produtosComprados(managerCplus);
+        new PedidoCompra().produtosComprados(managerCplus);
     }//GEN-LAST:event_jButtonProdutosCompradosActionPerformed
 
     private void pesquisarOrders() {
@@ -1257,15 +1257,34 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
 
     private BigDecimal valorFrete(BigDecimal valTotal) {
         BigDecimal val = BigDecimal.ZERO;
-        if (psOrders.getIdCarrier() == 32) {
-            if (valTotal.doubleValue() < 2000.00) {
-                val = new BigDecimal("20.00");
+        for (PsCarrier c : queryPrestaShop.listCarrier(psOrders.getIdCarrier())) {
+            if ("Pela Digimacro".equals(c.getName())) {
+                if (valTotal.doubleValue() < 2500.00) {
+                    val = new BigDecimal("10.00");
+                }
+                if (valTotal.doubleValue() < 2000.00) {
+                    val = new BigDecimal("20.00");
+                }
+                if (valTotal.doubleValue() < 1000.00) {
+                    val = new BigDecimal("30.00");
+                }
+                if (valTotal.doubleValue() < 500.00) {
+                    val = new BigDecimal("45.00");
+                }
             }
-            if (valTotal.doubleValue() < 1000.00) {
-                val = new BigDecimal("30.00");
-            }
-            if (valTotal.doubleValue() < 500.00) {
-                val = new BigDecimal("40.00");
+             if ("São Miguel".equals(c.getName())) {
+                if (valTotal.doubleValue() < 3000.00) {
+                    val = new BigDecimal("20.00");
+                }
+                if (valTotal.doubleValue() < 2000.00) {
+                    val = new BigDecimal("40.00");
+                }
+                if (valTotal.doubleValue() < 1000.00) {
+                    val = new BigDecimal("50.00");
+                }
+                if (valTotal.doubleValue() < 500.00) {
+                    val = new BigDecimal("60.00");
+                }
             }
         }
         return val;
@@ -1676,7 +1695,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
     private final int colunaCustomerId;
     private final int colunaOrderDetail;
     private BigDecimal valDescontoAvulso;
-   // private BigDecimal valorComissao;
+    // private BigDecimal valorComissao;
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

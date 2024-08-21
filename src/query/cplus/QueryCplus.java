@@ -1851,5 +1851,5 @@ public List<Movendaproddevolucaocompra> listagemControlaDevolucaoPorSaida(String
         query.setParameter("status", status);              
         return query.getResultList();
     }
-    
+      
 }

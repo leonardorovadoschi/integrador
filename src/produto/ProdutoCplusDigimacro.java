@@ -420,7 +420,8 @@ public class ProdutoCplusDigimacro {
     private String observacao(Produto proCplus, EntityManagerFactory managerCplus) {
         String ob = "";
         if (proCplus != null) {
-            ob = proCplus.getObs() + " <p>Part Number: " + partNumber(proCplus, managerCplus) + "</p> <p>NCM: "
+            ob = proCplus.getObs() + " <p>EAN: " + eanCplus(managerCplus, proCplus) + "</p>"
+                    + " <p>Part Number: " + partNumber(proCplus, managerCplus) + "</p> <p>NCM: "
                     + new FormataCampos().mascaraNCM(proCplus.getCodclassificacaofiscal().getCodigoclassificacaofiscal()) + " </p>";
         }
         return ob;
