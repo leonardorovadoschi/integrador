@@ -6,7 +6,6 @@
 package janela.prestaShop;
 
 import acesso.ControleAcesso;
-import entidade.cplus.Produto;
 import entidade.cplus.Produtoestoque;
 import entidade.cplus.Usuario;
 import entidade.prestaShop.PsCartProduct;
@@ -21,7 +20,6 @@ import entidade.prestaShop.PsProductLang;
 import entidade.prestaShop.PsSpecificPrice;
 import entidade.prestaShop.PsStockAvailable;
 import janela.cplus.FormataCampos;
-import static janela.prestaShop.ListPsProductJDialog.managerPrestaShop;
 import java.awt.Color;
 import java.awt.Toolkit;
 import java.math.BigDecimal;
@@ -29,8 +27,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
 import jpa.cplus.ProdutoestoqueJpaController;
@@ -525,10 +521,10 @@ public class AdicionarOrderDetailJDialog extends javax.swing.JDialog {
         List<Produtoestoque> listestoque = new ArrayList<>();
         if (psProduct.getCacheIsPack()) {
             for (PsPack psP : new QueryPrestaShop(managerPrestaShop).listPack(psProduct.getIdProduct())) {
-                listestoque = queryCplus.listagemProdutoEstoque(new PsProductJpaController(managerPrestaShop).findPsProduct(psP.getPsPackPK().getIdProductItem()).getReference());
+                listestoque = queryCplus.listEstoquesPorProd(new PsProductJpaController(managerPrestaShop).findPsProduct(psP.getPsPackPK().getIdProductItem()).getReference());
             }
         } else {
-            listestoque = queryCplus.listagemProdutoEstoque(psProduct.getReference());
+            listestoque = queryCplus.listEstoquesPorProd(psProduct.getReference());
         }
         for (Produtoestoque estoque : listestoque) {
             estoque.setLastChange(formataCampos.dataAtual());

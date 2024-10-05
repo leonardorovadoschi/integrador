@@ -297,7 +297,7 @@ public class SaidaClienteCplus {
     }
 
     private void atualizaEstoque(Produto produto, EntityManagerFactory managerCplus){
-        List<Produtoestoque> listestoque = queryCplus.listagemProdutoEstoque(produto.getCodprod());
+        List<Produtoestoque> listestoque = queryCplus.listEstoquesPorProd(produto.getCodprod());
         for(Produtoestoque estoque : listestoque){
             BigDecimal estoqueNovo = estoque.getEstatu();
             estoqueNovo.subtract(quantidadeConversaoSaida(produto));

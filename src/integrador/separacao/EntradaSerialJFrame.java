@@ -5,17 +5,21 @@
  */
 package integrador.separacao;
 
+import acesso.ListagemUsuarioJDialog;
+import entidade.cplus.Localizacao;
 import entidade.cplus.Moventrada;
 import entidade.cplus.Moventradaprod;
+import entidade.cplus.Produto;
+import entidade.cplus.Produtoestoque;
 import entidade.cplus.Unidade;
-import entidade.integrador.EntradaSerial;
 import entidade.integrador.IntConfiguracao;
 import janela.cplus.ListagemEntradasJDialog;
+import janela.cplus.ListagemLocalizacaoJDialog;
 import java.awt.Color;
 import java.awt.Toolkit;
+import java.math.BigDecimal;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
@@ -52,7 +56,7 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
         queryCplus = new QueryCplus(managerCplus);
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
         colunaCodMovProd = jTableEntradaProd.getColumnModel().getColumnIndex("Codmoveprod");
-        //new RenderNumeroInteiro();
+        this.listagemLocalizacaoJDialog = new ListagemLocalizacaoJDialog(this, true, managerCplus);
         //new RenderPreco();
     }
 
@@ -65,74 +69,46 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButtonPesquisaEntrada = new javax.swing.JButton();
-        jLabelStatusEntrada = new javax.swing.JLabel();
-        jButtonEntradaDeSeriais = new javax.swing.JButton();
-        jButtonFechar = new javax.swing.JButton();
-        jButtonListaSerialEntrada = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTableEntradaProd = new javax.swing.JTable();
+        jPanelPrincipal = new javax.swing.JPanel();
+        jButtonPesquisaEntrada = new javax.swing.JButton();
         jButtonListaSerialProduto = new javax.swing.JToggleButton();
+        jButtonListaSerialEntrada = new javax.swing.JButton();
+        jButtonEntradaDeSeriais = new javax.swing.JButton();
+        jLabelStatusEntrada = new javax.swing.JLabel();
+        jButtonFechar = new javax.swing.JButton();
+        jButtonEditarSetorEstoque = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Seriais de Entrada");
 
-        jButtonPesquisaEntrada.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        jButtonPesquisaEntrada.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/pesquisar.png"))); // NOI18N
-        jButtonPesquisaEntrada.setText("Pesquisar Entrada");
-        jButtonPesquisaEntrada.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonPesquisaEntradaActionPerformed(evt);
-            }
-        });
-
-        jLabelStatusEntrada.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-
-        jButtonEntradaDeSeriais.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        jButtonEntradaDeSeriais.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/add.png"))); // NOI18N
-        jButtonEntradaDeSeriais.setText("Entrada de Seriais");
-        jButtonEntradaDeSeriais.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonEntradaDeSeriaisActionPerformed(evt);
-            }
-        });
-
-        jButtonFechar.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        jButtonFechar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/stop.png"))); // NOI18N
-        jButtonFechar.setText("Fechar");
-        jButtonFechar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonFecharActionPerformed(evt);
-            }
-        });
-
-        jButtonListaSerialEntrada.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        jButtonListaSerialEntrada.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/info.png"))); // NOI18N
-        jButtonListaSerialEntrada.setText("Lista Seriais Entrada");
-        jButtonListaSerialEntrada.setEnabled(false);
-        jButtonListaSerialEntrada.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonListaSerialEntradaActionPerformed(evt);
-            }
-        });
-
+        jTableEntradaProd.setFont(new java.awt.Font("Arial", 0, 17)); // NOI18N
         jTableEntradaProd.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Código", "Nome Produto", "Quantidade", "Completo", "Codmoveprod"
+                "Código", "Nome Produto", "Quantidade", "Completo", "Setor", "Estoque Atual", "Codmoveprod"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
         });
         jTableEntradaProd.setColumnSelectionAllowed(true);
+        jTableEntradaProd.setRowHeight(25);
         jTableEntradaProd.getTableHeader().setReorderingAllowed(false);
         jTableEntradaProd.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -146,6 +122,17 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
             jTableEntradaProd.getColumnModel().getColumn(1).setPreferredWidth(350);
         }
 
+        jPanelPrincipal.setBorder(javax.swing.BorderFactory.createTitledBorder("Painel"));
+
+        jButtonPesquisaEntrada.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jButtonPesquisaEntrada.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/pesquisar.png"))); // NOI18N
+        jButtonPesquisaEntrada.setText("Pesquisar Entrada");
+        jButtonPesquisaEntrada.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPesquisaEntradaActionPerformed(evt);
+            }
+        });
+
         jButtonListaSerialProduto.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jButtonListaSerialProduto.setText("Lista Seriais do Produto");
         jButtonListaSerialProduto.setEnabled(false);
@@ -155,38 +142,104 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
             }
         });
 
+        jButtonListaSerialEntrada.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jButtonListaSerialEntrada.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/info.png"))); // NOI18N
+        jButtonListaSerialEntrada.setText("Lista Seriais Entrada");
+        jButtonListaSerialEntrada.setEnabled(false);
+        jButtonListaSerialEntrada.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonListaSerialEntradaActionPerformed(evt);
+            }
+        });
+
+        jButtonEntradaDeSeriais.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jButtonEntradaDeSeriais.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/add.png"))); // NOI18N
+        jButtonEntradaDeSeriais.setText("Entrada de Seriais");
+        jButtonEntradaDeSeriais.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEntradaDeSeriaisActionPerformed(evt);
+            }
+        });
+
+        jLabelStatusEntrada.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+
+        jButtonFechar.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jButtonFechar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/stop.png"))); // NOI18N
+        jButtonFechar.setText("Fechar");
+        jButtonFechar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonFecharActionPerformed(evt);
+            }
+        });
+
+        jButtonEditarSetorEstoque.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jButtonEditarSetorEstoque.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/Edit.png"))); // NOI18N
+        jButtonEditarSetorEstoque.setText("Editar Setor Estoque");
+        jButtonEditarSetorEstoque.setEnabled(false);
+        jButtonEditarSetorEstoque.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEditarSetorEstoqueActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanelPrincipalLayout = new javax.swing.GroupLayout(jPanelPrincipal);
+        jPanelPrincipal.setLayout(jPanelPrincipalLayout);
+        jPanelPrincipalLayout.setHorizontalGroup(
+            jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelPrincipalLayout.createSequentialGroup()
+                .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButtonListaSerialProduto, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
+                    .addComponent(jButtonPesquisaEntrada, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButtonListaSerialEntrada, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
+                    .addComponent(jButtonEntradaDeSeriais, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelPrincipalLayout.createSequentialGroup()
+                        .addGap(91, 91, 91)
+                        .addComponent(jLabelStatusEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 417, Short.MAX_VALUE)
+                        .addComponent(jButtonFechar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanelPrincipalLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonEditarSetorEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(25, 25, 25))
+        );
+        jPanelPrincipalLayout.setVerticalGroup(
+            jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelPrincipalLayout.createSequentialGroup()
+                .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonFechar)
+                    .addGroup(jPanelPrincipalLayout.createSequentialGroup()
+                        .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabelStatusEntrada, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jButtonPesquisaEntrada)
+                                .addComponent(jButtonEntradaDeSeriais)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButtonListaSerialProduto)
+                            .addComponent(jButtonListaSerialEntrada)
+                            .addComponent(jButtonEditarSetorEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(0, 16, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jButtonPesquisaEntrada)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButtonListaSerialProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButtonListaSerialEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButtonEntradaDeSeriais)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabelStatusEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButtonFechar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane2)
+                    .addComponent(jPanelPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonFechar)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButtonPesquisaEntrada)
-                        .addComponent(jButtonListaSerialEntrada)
-                        .addComponent(jButtonEntradaDeSeriais)
-                        .addComponent(jButtonListaSerialProduto))
-                    .addComponent(jLabelStatusEntrada, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 487, Short.MAX_VALUE))
+                .addComponent(jPanelPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 514, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -231,6 +284,7 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
     private void jTableEntradaProdMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableEntradaProdMouseClicked
        verificaEntradaProdutoCompleta();
        jButtonListaSerialProduto.setEnabled(true);
+       jButtonEditarSetorEstoque.setEnabled(true);
     }//GEN-LAST:event_jTableEntradaProdMouseClicked
 
     private void jButtonListaSerialProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonListaSerialProdutoActionPerformed
@@ -243,12 +297,31 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButtonListaSerialProdutoActionPerformed
 
+    private void jButtonEditarSetorEstoqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarSetorEstoqueActionPerformed
+
+        this.listagemLocalizacaoJDialog.setVisible(true);
+        if (this.listagemLocalizacaoJDialog.isCancelamento() == false) {
+            for(Produto p : queryCplus.listProduto(movEntradaProd.getCodprod().getCodprod())){
+                try {
+                    p.setCodloc(this.listagemLocalizacaoJDialog.getLocalizacao().getCodloc());
+                    new ProdutoJpaController(managerCplus).edit(p);  
+                    jButtonEditarSetorEstoque.setEnabled(false);
+                    carregarTabela();
+                } catch (jpa.cplus.exceptions.NonexistentEntityException ex) {
+                    JOptionPane.showMessageDialog(null, "Houve um ero ao editar produto! \n"+ex);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, "Houve um ero ao editar produto! \n"+ex);
+                }
+            }
+        }
+    }//GEN-LAST:event_jButtonEditarSetorEstoqueActionPerformed
+
     private void verificaEntradaProdutoCompleta() {
         //jButtonEntradaDeSeriais.setEnabled(false);
      //   if (verificaEntradaAberta()) {
             colunaCodMovProd = jTableEntradaProd.getColumnModel().getColumnIndex("Codmoveprod");
             String codMovProd = jTableEntradaProd.getValueAt(jTableEntradaProd.getSelectedRow(), colunaCodMovProd).toString();
-            movEntradaProd = new MoventradaprodJpaController(managerCplus).findMoventradaprod(codMovProd);
+            movEntradaProd = new MoventradaprodJpaController(managerCplus).findMoventradaprod(codMovProd);          
             if (movEntradaProd.getCodmoveprod() != null || !"".equals(movEntradaProd.getCodmoveprod())) {
                 int completo = queryIntegrador.listPorEntradaProd(movEntradaProd.getCodmoveprod()).size();
                 if (quanPacote(movEntradaProd) != completo) {
@@ -271,12 +344,28 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
         while (jTableEntradaProd.getModel().getRowCount() > 0) {
             ((DefaultTableModel) jTableEntradaProd.getModel()).removeRow(0);
         }
-        for (Moventradaprod e : moEntradaProduto) {
+        for (Moventradaprod e : moEntradaProduto) {                                  
             int comp = queryIntegrador.listPorEntradaProd(e.getCodmoveprod()).size();
-            tab.addRow(new Object[]{e.getCodprod().getCodigo(), e.getCodprod().getNomeprod(), quanPacote(e), comp, e.getCodmoveprod()});
-            //corLinha(comp);
+            tab.addRow(new Object[]{e.getCodprod().getCodigo(), e.getCodprod().getNomeprod(), quanPacote(e), comp, setor(e.getCodprod()) ,EstoqueCplus(e.getCodprod().getCodprod()), e.getCodmoveprod()});          
         }
         colorirLinha();
+    }
+    
+    private String setor(Produto codProd){
+        String text = "";
+        for(Localizacao loc : queryCplus.listLocalizacao(codProd.getCodloc())){
+           text =  loc.getDescricao();
+       }
+        return text;
+    }
+    
+     private Integer EstoqueCplus(String codProd) {
+        BigDecimal estoque = BigDecimal.ZERO;
+        List<Produtoestoque> listEsroque = new QueryCplus(managerCplus).listEstoquesPorProd(codProd);
+        for (Produtoestoque est : listEsroque) {
+            estoque = est.getEstatu().subtract(est.getReservadoorcamento().subtract(est.getReservadoos()));
+        }
+        return estoque.intValue();
     }
 
     private void pesquisarEntrada() {
@@ -321,22 +410,6 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
         return "entrada_serial_" + ia.getHostAddress() + "_" + ia.getHostName();
     }
 
-    private void removeConfiguracao1() {
-        boolean condicao = true;
-        List<IntConfiguracao> listConfig = queryIntegrador.listagemConfiguracaoproTipoConfiguracao(retornaIpLocal());
-        for (IntConfiguracao config : listConfig) {
-            try {
-                new IntConfiguracaoJpaController(managerIntegrador).destroy(config.getEntityId());
-            } catch (jpa.integrador.exceptions.NonexistentEntityException ex) {
-                JOptionPane.showMessageDialog(null, "HOUVE UM ERRO AO EXCLUIR CONFIGURACAO, Verifique!! \n" + ex, "Erro Separação", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-        if (condicao) {
-            dispose();
-            setVisible(false);
-        }
-    }
-
     private int quanPacote(Moventradaprod prodEnt) {
         int quantidade = prodEnt.getQuantidade().intValue();
         List<Unidade> listUn = queryCplus.resultPorUnidadeProduto(prodEnt.getCodprod().getUnidade());
@@ -348,21 +421,6 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
         return quantidade;
     }
 
-    private boolean verificaEntradaAberta1() {
-        boolean condicao = true;
-        List<IntConfiguracao> listConfig = queryIntegrador.listagemConfiguracaoPorValor(movEntrada.getCodmoventr());
-        if (listConfig.size() > 1) {
-            String ex = "";
-            for (IntConfiguracao config : listConfig) {
-                if (!config.getTipo().equals(retornaIpLocal())) {
-                    ex = ex + config.getTipo() + "\n";
-                }
-            }
-            JOptionPane.showMessageDialog(null, "A NOTA ESTÁ ABERTA EM OUTRA MAQUINA, Verifique!! \n" + ex, "Erro Separação", JOptionPane.ERROR_MESSAGE);
-            condicao = false;
-        }
-        return condicao;
-    }
 
     private void colorirLinha() {
         TableCellRenderer renderer = new ColorirTabelaEntradaSerial();
@@ -409,7 +467,6 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
     //QuerySerial querySerial;
     private static EntityManagerFactory managerCplus;
     private final ListagemEntradasJDialog listagemEntradasJDialog;
-    //private final ListagemUsuarioJDialog listagemUsuarioJDialog;
     private final ListagemSerialEntradaJDialog listagemSerialEntradaJDialog;
     private final EntradaSerialJDialog entradaSerialJDialog;
     private static EntityManagerFactory managerIntegrador;
@@ -418,14 +475,17 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
     private Moventrada movEntrada;
     private Moventradaprod movEntradaProd;
     private int colunaCodMovProd;
+    private final ListagemLocalizacaoJDialog listagemLocalizacaoJDialog;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonEditarSetorEstoque;
     private javax.swing.JButton jButtonEntradaDeSeriais;
     private javax.swing.JButton jButtonFechar;
     private javax.swing.JButton jButtonListaSerialEntrada;
     private javax.swing.JToggleButton jButtonListaSerialProduto;
     private javax.swing.JButton jButtonPesquisaEntrada;
     private javax.swing.JLabel jLabelStatusEntrada;
+    private javax.swing.JPanel jPanelPrincipal;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTableEntradaProd;
     // End of variables declaration//GEN-END:variables

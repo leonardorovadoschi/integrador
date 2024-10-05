@@ -220,6 +220,13 @@
                             <Connection code="new RenderEstoqueDisponivel()" type="code"/>
                           </Renderer>
                         </Column>
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                            <Connection code="new RenderLocalizacao(managerCplus)" type="code"/>
+                          </Renderer>
+                        </Column>
                         <Column maxWidth="500" minWidth="300" prefWidth="200" resizable="true">
                           <Title/>
                           <Editor/>
@@ -302,6 +309,7 @@
                     </Property>
                     <Property name="columnSelectionAllowed" type="boolean" value="true"/>
                     <Property name="focusable" type="boolean" value="false"/>
+                    <Property name="rowHeight" type="int" value="25"/>
                     <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
                       <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                     </Property>
@@ -321,26 +329,37 @@
                       <Subbinding sourcePath="${codigo}">
                         <BindingParameter name="NAME" value="Codigo"/>
                         <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
+                        <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
                       </Subbinding>
                       <Subbinding sourcePath="${nomeprodweb}">
                         <BindingParameter name="NAME" value="Nome Site"/>
                         <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
+                        <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
                       </Subbinding>
                       <Subbinding sourcePath="${produtoprecoCollection}">
                         <BindingParameter name="NAME" value="Pre&#xe7;o Normal"/>
                         <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.util.Collection.class"/>
+                        <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
                       </Subbinding>
                       <Subbinding sourcePath="${produtoprecoCollection}">
                         <BindingParameter name="NAME" value="Margem"/>
                         <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.util.Collection.class"/>
+                        <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
                       </Subbinding>
                       <Subbinding sourcePath="${produtoestoqueCollection}">
                         <BindingParameter name="NAME" value="Estoque Dispon&#xed;vel"/>
                         <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.util.Collection.class"/>
+                        <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
+                      </Subbinding>
+                      <Subbinding sourcePath="${codloc}">
+                        <BindingParameter name="NAME" value="Localiza&#xe7;&#xe3;o"/>
+                        <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
+                        <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
                       </Subbinding>
                       <Subbinding sourcePath="${nomeprod}">
                         <BindingParameter name="NAME" value="Nome C-plus"/>
                         <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
+                        <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
                       </Subbinding>
                       <Subbinding sourcePath="${totoutroscustos}">
                         <BindingParameter name="NAME" value="Total Outros Custos"/>

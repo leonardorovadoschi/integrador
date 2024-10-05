@@ -6,21 +6,28 @@
 package integrador.separacao;
 
 import acesso.ListagemUsuarioJDialog;
+import entidade.cplus.Localizacao;
 import entidade.cplus.Moventradaprod;
 import entidade.cplus.Produto;
 import entidade.cplus.Produtocodigo;
+import entidade.cplus.Produtoestoque;
 import entidade.cplus.Unidade;
 import entidade.integrador.EntradaSerial;
 import entidade.integrador.SerialProduto;
 import integrador.relatorio.ImprimeRelatorio;
+import janela.cplus.ListagemLocalizacaoJDialog;
 import java.awt.Toolkit;
 import java.io.File;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import jpa.cplus.ProdutoJpaController;
 import jpa.integrador.EntradaSerialJpaController;
 import jpa.integrador.SerialProdutoJpaController;
 import jpa.integrador.exceptions.NonexistentEntityException;
@@ -51,6 +58,7 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
         listagemUsuarioJDialog = new ListagemUsuarioJDialog(parent, true, managerCplus);
         colunaSerial = jTableSerialDigitado.getColumnModel().getColumnIndex("Serial");
+        this.listagemLocalizacaoJDialog = new ListagemLocalizacaoJDialog(parent, true, managerCplus);
     }
 
     /**
@@ -72,6 +80,10 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
         jButtonGerarSeriais = new javax.swing.JButton();
         jButtonGravar = new javax.swing.JButton();
         jButtonCancelarEntrada = new javax.swing.JButton();
+        jLabelEstoqueTotal = new javax.swing.JLabel();
+        jTextFieldEstoqueCplus = new javax.swing.JTextField();
+        jLabelSetor = new javax.swing.JLabel();
+        jTextFieldSetor = new javax.swing.JTextField();
         jPanelInformacoes = new javax.swing.JPanel();
         jButtonExcluirSerialSelecionado = new javax.swing.JButton();
         jButtonImprimirEtiqueta = new javax.swing.JButton();
@@ -81,6 +93,7 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
         jTextFieldNumeroDeItens = new javax.swing.JTextField();
         jToggleButtonEntradaSequencial = new javax.swing.JToggleButton();
+        jButtonEditarSetorEstoque = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Processo de Entrada de Seriais");
@@ -165,6 +178,16 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
             }
         });
 
+        jLabelEstoqueTotal.setText("Estoque Total:");
+
+        jTextFieldEstoqueCplus.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jTextFieldEstoqueCplus.setEnabled(false);
+
+        jLabelSetor.setText("Setor:");
+
+        jTextFieldSetor.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jTextFieldSetor.setEnabled(false);
+
         javax.swing.GroupLayout jPanelControleLayout = new javax.swing.GroupLayout(jPanelControle);
         jPanelControle.setLayout(jPanelControleLayout);
         jPanelControleLayout.setHorizontalGroup(
@@ -181,14 +204,21 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
                             .addComponent(jTextFieldSerial)
                             .addGroup(jPanelControleLayout.createSequentialGroup()
                                 .addComponent(jTextFieldQuantidadeFaltando, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addContainerGap())
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabelSetor)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextFieldSetor, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(54, 54, 54)
+                                .addComponent(jLabelEstoqueTotal)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextFieldEstoqueCplus, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanelControleLayout.createSequentialGroup()
                         .addComponent(jButtonCancelarEntrada)
-                        .addGap(18, 18, 18)
+                        .addGap(27, 27, 27)
                         .addComponent(jButtonGerarSeriais)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButtonGravar, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonGravar, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         jPanelControleLayout.setVerticalGroup(
             jPanelControleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -204,7 +234,13 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
                             .addComponent(jTextFieldQuantidadeFaltando, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelControleLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                        .addGroup(jPanelControleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextFieldEstoqueCplus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelEstoqueTotal)
+                            .addComponent(jTextFieldSetor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelSetor))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanelControleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButtonGravar)
                             .addComponent(jButtonGerarSeriais)
@@ -245,6 +281,15 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
             }
         });
 
+        jButtonEditarSetorEstoque.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jButtonEditarSetorEstoque.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/Edit.png"))); // NOI18N
+        jButtonEditarSetorEstoque.setText("Editar Setor Estoque");
+        jButtonEditarSetorEstoque.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEditarSetorEstoqueActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelInformacoesLayout = new javax.swing.GroupLayout(jPanelInformacoes);
         jPanelInformacoes.setLayout(jPanelInformacoesLayout);
         jPanelInformacoesLayout.setHorizontalGroup(
@@ -265,7 +310,8 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
                         .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addComponent(jToggleButtonEntradaSequencial))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jButtonEditarSetorEstoque, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanelInformacoesLayout.setVerticalGroup(
@@ -275,7 +321,9 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
                 .addComponent(jButtonImprimirEtiqueta)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonExcluirSerialSelecionado)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonEditarSetorEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -287,7 +335,7 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
                     .addComponent(jTextFieldNumeroDeItens, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jToggleButtonEntradaSequencial)
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -297,9 +345,7 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanelControle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jPanelControle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -313,7 +359,7 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
                 .addComponent(jPanelControle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 374, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 372, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanelInformacoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))))
@@ -323,7 +369,6 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonGravarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGravarActionPerformed
-
         dispose();
         setVisible(false);
 
@@ -365,6 +410,8 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
             listText.add(s.getIdSerial());
         }
         new ImprimeRelatorio().imprimeRelatorio(queryIntegrador.valorConfiguracao("caminho_ENTRADA_SERIAL"), listText);
+        dispose();
+        setVisible(false);
     }//GEN-LAST:event_jButtonImprimirEtiquetaActionPerformed
 
     private void jToggleButtonEntradaSequencialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButtonEntradaSequencialActionPerformed
@@ -374,6 +421,24 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(null, "Os campos devem estár preenchidos!", "Erro Entrada", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jToggleButtonEntradaSequencialActionPerformed
+
+    private void jButtonEditarSetorEstoqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarSetorEstoqueActionPerformed
+                     
+            this.listagemLocalizacaoJDialog.setVisible(true);
+            if (this.listagemLocalizacaoJDialog.isCancelamento() == false) {
+                for(Produto p : queryCplus.listProduto(movEntradaProd.getCodprod().getCodprod())){
+                    try {
+                        p.setCodloc(this.listagemLocalizacaoJDialog.getLocalizacao().getCodloc());
+                        new ProdutoJpaController(managerCplus).edit(p);
+                        jTextFieldSetor.setText(this.listagemLocalizacaoJDialog.getLocalizacao().getDescricao());
+                    } catch (jpa.cplus.exceptions.NonexistentEntityException ex) {
+                        JOptionPane.showMessageDialog(null, "Houve um ero ao editar produto! \n"+ex);
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(null, "Houve um ero ao editar produto! \n"+ex);
+                    }
+                }           
+        }
+    }//GEN-LAST:event_jButtonEditarSetorEstoqueActionPerformed
 
     private void excluirSerialSelecionado() {
        // DefaultTableModel tabelaEntradaSerial = (DefaultTableModel) jTableSerialDigitado.getModel();
@@ -680,6 +745,25 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
 
     public void setProduto(Produto produto) {
         this.produto = produto;
+        jTextFieldEstoqueCplus.setText(EstoqueCplus(managerCplus, produto.getCodprod()));
+        jTextFieldSetor.setText(setor(produto));
+    }
+    
+     private String setor(Produto codProd){
+        String text = "";
+        for(Localizacao loc : queryCplus.listLocalizacao(codProd.getCodloc())){
+            text =  loc.getDescricao();
+        }             
+        return text;
+    }
+    
+     private String EstoqueCplus(EntityManagerFactory managerCplus, String codProd) {
+        BigDecimal estoque = BigDecimal.ZERO;
+        List<Produtoestoque> listEsroque = new QueryCplus(managerCplus).listEstoquesPorProd(codProd);
+        for (Produtoestoque est : listEsroque) {
+            estoque = est.getEstatu().subtract(est.getReservadoorcamento().subtract(est.getReservadoos()));
+        }
+        return String.valueOf(estoque.intValue());
     }
 
     /**
@@ -734,9 +818,11 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
     private List<Produtocodigo> listCodigo;
     private Produto produto;
     private int quantidadePacote;
+    private final ListagemLocalizacaoJDialog listagemLocalizacaoJDialog;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCancelarEntrada;
+    private javax.swing.JButton jButtonEditarSetorEstoque;
     private javax.swing.JButton jButtonExcluirSerialSelecionado;
     private javax.swing.JButton jButtonGerarSeriais;
     private javax.swing.JButton jButtonGravar;
@@ -745,15 +831,19 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabelDigiteSerial;
+    private javax.swing.JLabel jLabelEstoqueTotal;
     private javax.swing.JLabel jLabelQuantidadeFaltando;
+    private javax.swing.JLabel jLabelSetor;
     private javax.swing.JPanel jPanelControle;
     private javax.swing.JPanel jPanelInformacoes;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableSerialDigitado;
+    private javax.swing.JTextField jTextFieldEstoqueCplus;
     private javax.swing.JTextField jTextFieldNumeroDeItens;
     private javax.swing.JTextField jTextFieldPrimeiroSerial;
     private javax.swing.JTextField jTextFieldQuantidadeFaltando;
     private javax.swing.JTextField jTextFieldSerial;
+    private javax.swing.JTextField jTextFieldSetor;
     private javax.swing.JToggleButton jToggleButtonEntradaSequencial;
     // End of variables declaration//GEN-END:variables
 }

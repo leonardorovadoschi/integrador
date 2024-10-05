@@ -597,7 +597,7 @@ public class PackProduto {
     private Integer quantidadeEstoque(EntityManagerFactory managerCplus, Produto proCplus) {
         BigDecimal estoque = BigDecimal.ZERO;
         int stock;
-        List<Produtoestoque> listEsroque = new QueryCplus(managerCplus).listTodosEstoques(proCplus.getCodprod());
+        List<Produtoestoque> listEsroque = new QueryCplus(managerCplus).listEstoquesPorProd(proCplus.getCodprod());
         for (Produtoestoque est : listEsroque) {
             estoque = est.getEstatu().subtract(est.getReservadoorcamento().subtract(est.getReservadoos()));
         }
@@ -621,7 +621,7 @@ public class PackProduto {
         for (PsStockAvailable psSA : listPSA) {
             reservaSite = psSA.getReservedQuantity();
         }
-        List<Produtoestoque> listEsroque = new QueryCplus(managerCplus).listTodosEstoques(proCplus.getCodprod());
+        List<Produtoestoque> listEsroque = new QueryCplus(managerCplus).listEstoquesPorProd(proCplus.getCodprod());
         for (Produtoestoque est : listEsroque) {
             estoque = est.getEstatu().subtract(est.getReservadoorcamento().subtract(est.getReservadoos()));
         }

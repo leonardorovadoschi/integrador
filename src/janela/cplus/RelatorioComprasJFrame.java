@@ -14,13 +14,11 @@ import entidade.cplus.Produtoestoque;
 import entidade.integrador.ProdFornecedor;
 import java.awt.Toolkit;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import jpa.cplus.ProdutoJpaController;
-import jpa.cplus.ProdutoestoqueJpaController;
 import query.cplus.QueryCplus;
 import query.integrador.QueryIntegrador;
 
@@ -707,7 +705,7 @@ public class RelatorioComprasJFrame extends javax.swing.JFrame {
         for (Movenda movVen : listMovVenda) {
             jTextFieldDataUltimaVenda.setText(formataCampo.dataStringSoData(movVen.getData(), 0));
         }
-        for (Produtoestoque estoque : queryCplus.resultTodosEstoques(idProdCplus)) {
+        for (Produtoestoque estoque : queryCplus.listEstoquesPorProd(idProdCplus)) {
             if ("000000001".equals(estoque.getSetorestoque().getCodsetorestoque())) {
                 BigDecimal estoqueDisponivel = estoque.getEstatu().subtract(estoque.getReservadoorcamento()).subtract(estoque.getReservadoos());
                 jTextFieldEstoqueDisponivel.setText(formataCampo.bigDecimalParaString(estoqueDisponivel, 0));
@@ -835,12 +833,13 @@ public class RelatorioComprasJFrame extends javax.swing.JFrame {
 
     private int estoqueCplus(String codProduto) {
         int estoqueDisponivel = 0;
-        List<Produtoestoque> listEsroque = queryCplus.listProdutoEstoque(codProduto);
+        List<Produtoestoque> listEsroque = queryCplus.listEstoquesPorProd(codProduto);
         for (Produtoestoque est : listEsroque) {
              estoqueDisponivel = est.getEstatu().intValue() - est.getReservadoorcamento().intValue() - est.getReservadoos().intValue();
         }
         return estoqueDisponivel;
     }
+    
 
     private double mediaVendaProduto(String codProdCplus) {
         BigDecimal totalVendas = BigDecimal.ZERO;
@@ -848,7 +847,7 @@ public class RelatorioComprasJFrame extends javax.swing.JFrame {
         boolean comEstoque = false;
         List<Movendaprod> listaVendaProdData;
         List<Moventradaprod> listEntradaProdData = queryCplus.resultProdutoEntrada(codProdCplus, 'C', jDateChooserDataInicial.getDate(), jDateChooserDataFinal.getDate());
-        List<Produtoestoque> listEsroque = queryCplus.listProdutoEstoque(codProdCplus);
+        List<Produtoestoque> listEsroque = queryCplus.listEstoquesPorProd(codProdCplus);
         for (Produtoestoque est : listEsroque) {
             int estoqueDisponivel = est.getEstatu().intValue() - est.getReservadoorcamento().intValue() - est.getReservadoos().intValue();
             if (estoqueDisponivel > 0) {

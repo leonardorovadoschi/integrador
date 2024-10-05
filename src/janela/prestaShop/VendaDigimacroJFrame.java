@@ -1174,10 +1174,10 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         List<Produtoestoque> listestoque = new ArrayList<>();
         if (pp.getCacheIsPack()) {
             for (PsPack psP : new QueryPrestaShop(managerPrestaShop).listPack(pp.getIdProduct())) {
-                listestoque = new QueryCplus(managerCplus).listagemProdutoEstoque(new PsProductJpaController(managerPrestaShop).findPsProduct(psP.getPsPackPK().getIdProductItem()).getReference());
+                listestoque = new QueryCplus(managerCplus).listEstoquesPorProd(new PsProductJpaController(managerPrestaShop).findPsProduct(psP.getPsPackPK().getIdProductItem()).getReference());
             }
         } else {
-            listestoque = new QueryCplus(managerCplus).listagemProdutoEstoque(pp.getReference());
+            listestoque = new QueryCplus(managerCplus).listEstoquesPorProd(pp.getReference());
         }
         for (Produtoestoque estoque : listestoque) {
             estoque.setLastChange(formataCampos.dataAtual());

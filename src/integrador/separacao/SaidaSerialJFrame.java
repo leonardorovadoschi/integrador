@@ -6,11 +6,13 @@
 package integrador.separacao;
 
 import acesso.ListagemUsuarioJDialog;
+import entidade.cplus.Localizacao;
 import entidade.cplus.Movenda;
 import entidade.cplus.Movendaprod;
 import entidade.cplus.Movendaprodserial;
 import entidade.cplus.Produto;
 import entidade.cplus.Produtocodigo;
+import entidade.cplus.Produtoestoque;
 import entidade.cplus.Produtoserial;
 import entidade.cplus.Unidade;
 import entidade.integrador.IntConfiguracao;
@@ -18,10 +20,12 @@ import entidade.integrador.IntLogs;
 import entidade.integrador.SaidaSerial;
 import entidade.integrador.SerialProduto;
 import integrador.relatorio.ImprimeRelatorio;
+import integrador.render.produto.RenderLocalizacao;
 import janela.cplus.ListagemSaidasJDialog;
 import java.awt.Color;
 import java.awt.Toolkit;
 import java.io.File;
+import java.math.BigDecimal;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -39,7 +43,6 @@ import jpa.integrador.IntLogsJpaController;
 import jpa.integrador.SaidaSerialJpaController;
 import query.cplus.QueryCplus;
 import query.integrador.QueryIntegrador;
-import query.prestaShop.QueryPrestaShop;
 
 /**
  *
@@ -72,6 +75,7 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
         //colunaCodMovProdutoSaida = jTableProdutosPedido.getColumnModel().getColumnIndex("Codmovprod");
         //colunaQuantidadeConferida = jTableProdutosPedido.getColumnModel().getColumnIndex("Quant Conferida");   
         //colunaCodMovProdutoSerial = jTableSerialSaida.getColumnModel().getColumnIndex("Codmovendaprodserial");
+     new RenderLocalizacao(managerCplus);
 
     }
 
@@ -277,29 +281,45 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
                     .addComponent(jButtonCancelarSeparacao)))
         );
 
+        jTableSaidaProd.setFont(new java.awt.Font("Arial", 0, 17)); // NOI18N
         jTableSaidaProd.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Código", "Nome Produto", "Quantidade", "Separado", "Cod. MovProd"
+                "Código", "Nome Produto", "Quantidade", "Separado", "Setor", "Estoque", "Cod. MovProd"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
         });
         jTableSaidaProd.setColumnSelectionAllowed(true);
+        jTableSaidaProd.setRequestFocusEnabled(false);
+        jTableSaidaProd.setRowHeight(25);
         jTableSaidaProd.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jTableSaidaProd);
         jTableSaidaProd.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (jTableSaidaProd.getColumnModel().getColumnCount() > 0) {
-            jTableSaidaProd.getColumnModel().getColumn(0).setPreferredWidth(80);
-            jTableSaidaProd.getColumnModel().getColumn(1).setPreferredWidth(350);
+            jTableSaidaProd.getColumnModel().getColumn(0).setPreferredWidth(90);
+            jTableSaidaProd.getColumnModel().getColumn(1).setPreferredWidth(400);
+            jTableSaidaProd.getColumnModel().getColumn(2).setPreferredWidth(50);
+            jTableSaidaProd.getColumnModel().getColumn(3).setPreferredWidth(50);
+            jTableSaidaProd.getColumnModel().getColumn(4).setPreferredWidth(10);
+            jTableSaidaProd.getColumnModel().getColumn(4).setCellRenderer(null);
+            jTableSaidaProd.getColumnModel().getColumn(5).setPreferredWidth(20);
+            jTableSaidaProd.getColumnModel().getColumn(6).setPreferredWidth(5);
         }
 
         jTableSeriasSeparados.setModel(new javax.swing.table.DefaultTableModel(
@@ -339,19 +359,20 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jPanelPesquisas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanelInformacoes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanelConfiguracaoLista, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextFieldTextoAviso, javax.swing.GroupLayout.DEFAULT_SIZE, 780, Short.MAX_VALUE)
-                            .addComponent(jScrollPane1))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 666, Short.MAX_VALUE))
+                        .addComponent(jPanelConfiguracaoLista, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(101, 101, 101))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jTextFieldTextoAviso, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 882, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 587, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(25, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -460,7 +481,7 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
                                 listSS = queryIntegrador.listPorSaidaProd(movProd.getCodmovprod());
                                 if (quantVenda > listSS.size()) {
                                     serialProduto = ser;
-                                    movendaprod = movProd;   
+                                    movendaprod = movProd;
                                     quantSeparada = listSS.size() + 1;
                                     condicao = true;
                                 } else {
@@ -500,6 +521,9 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
 
     private void carregaTabelasAdicionar(Movendaprod movProd, int quantSeparada, String serial) {
         DefaultTableModel tabSaidaProd = (DefaultTableModel) jTableSaidaProd.getModel();
+        while (jTableSaidaProd.getModel().getRowCount() > 0) {
+            ((DefaultTableModel) jTableSaidaProd.getModel()).removeRow(0);
+        }
         int linha = 0;
         for (Movendaprod e : listaProdutoPedido) {
             int coluna = jTableSaidaProd.getColumnModel().getColumnIndex("Cod. MovProd");
@@ -507,24 +531,50 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
             String value = (String) jTableSaidaProd.getValueAt(linha, coluna);
             if (movProd.getCodmovprod() == null ? value == null : movProd.getCodmovprod().equals(value)) {
                 tabSaidaProd.setValueAt(quantSeparada, linha, colunaSeparado);
-                
                 DefaultTableModel tabSerial = (DefaultTableModel) jTableSeriasSeparados.getModel();
-                for(SaidaSerial s : queryIntegrador.listSaidaSerial(serial, movProd.getCodmovprod())){
-                tabSerial.addRow(new Object[]{s.getIdSerial().getCodigoProduto(), s.getIdSerial().getNomeProduto(), s.getIdSerial().getSerial(), s.getIdSaidaSerial()});
-                //colore as linhas da tabela
-                TableCellRenderer rendererSeparado = new ColorirLinhaImpar();
-                for (int c = 0; c < jTableSeriasSeparados.getColumnCount(); c++) {
-                    jTableSeriasSeparados.setDefaultRenderer(jTableSeriasSeparados.getColumnClass(c), rendererSeparado);
+                for (SaidaSerial s : queryIntegrador.listSaidaSerial(serial, movProd.getCodmovprod())) {
+                    tabSerial.addRow(new Object[]{s.getIdSerial().getCodigoProduto(), s.getIdSerial().getNomeProduto(), s.getIdSerial().getSerial(), 
+                                                    setor(e.getCodprod()) ,EstoqueCplus(e.getCodprod().getCodprod()), s.getIdSaidaSerial()});
+                    //colore as linhas da tabela
+                    TableCellRenderer rendererSeparado = new ColorirLinhaImpar();
+                    for (int c = 0; c < jTableSeriasSeparados.getColumnCount(); c++) {
+                        jTableSeriasSeparados.setDefaultRenderer(jTableSeriasSeparados.getColumnClass(c), rendererSeparado);
+                    }
+                    
                 }
-                }
+                colorirLinha();
             }
             //colore as linhas da tabela            
-                TableCellRenderer renderer = new ColorirTabelaSaidaSerial();
-                for (int c = 0; c < jTableSaidaProd.getColumnCount(); c++) {
-                    jTableSaidaProd.setDefaultRenderer(jTableSaidaProd.getColumnClass(c), renderer);
-                }           
+            TableCellRenderer renderer = new ColorirTabelaSaidaSerial();
+            for (int c = 0; c < jTableSaidaProd.getColumnCount(); c++) {
+                jTableSaidaProd.setDefaultRenderer(jTableSaidaProd.getColumnClass(c), renderer);
+            }
             //**********************
             linha++;
+        }
+    }
+    
+    private String setor(Produto codProd){
+        String text = "";
+        for(Localizacao loc : queryCplus.listLocalizacao(codProd.getCodloc())){
+           text =  loc.getDescricao();
+       }
+        return text;
+    }
+    
+     private Integer EstoqueCplus(String codProd) {
+        BigDecimal estoque = BigDecimal.ZERO;
+        List<Produtoestoque> listEsroque = new QueryCplus(managerCplus).listEstoquesPorProd(codProd);
+        for (Produtoestoque est : listEsroque) {
+            estoque = est.getEstatu().subtract(est.getReservadoorcamento().subtract(est.getReservadoos()));
+        }
+        return estoque.intValue();
+    }
+
+    private void colorirLinha() {
+        TableCellRenderer renderer = new ColorirTabelaEntradaSerial();
+        for (int c = 0; c < jTableSaidaProd.getColumnCount(); c++) {
+            jTableSaidaProd.setDefaultRenderer(jTableSaidaProd.getColumnClass(c), renderer);
         }
     }
 
@@ -534,7 +584,8 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
             ((DefaultTableModel) jTableSaidaProd.getModel()).removeRow(0);
         }
         for (Movendaprod e : listaProdutoPedido) {
-            tab.addRow(new Object[]{e.getCodprod().getCodigo(), e.getCodprod().getNomeprod(), quantidadePacote(e), queryIntegrador.listPorSaidaProd(e.getCodmovprod()).size(), e.getCodmovprod()});
+            tab.addRow(new Object[]{e.getCodprod().getCodigo(), e.getCodprod().getNomeprod(), quantidadePacote(e), queryIntegrador.listPorSaidaProd(e.getCodmovprod()).size(), 
+                                    setor(e.getCodprod()) ,EstoqueCplus(e.getCodprod().getCodprod()), e.getCodmovprod()});
             //colore as linhas da tabela
             TableCellRenderer renderer = new ColorirTabelaSaidaSerial();
             for (int c = 0; c < jTableSaidaProd.getColumnCount(); c++) {

@@ -10,7 +10,9 @@ import entidade.cplus.Moventrada;
 import entidade.cplus.Moventradaprod;
 import entidade.integrador.EntradaSerial;
 import entidade.integrador.SerialProduto;
+import integrador.relatorio.ImprimeRelatorio;
 import java.awt.Toolkit;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
@@ -57,52 +59,39 @@ public class ListagemSerialEntradaJDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButtonAtualizarTabela = new javax.swing.JButton();
-        jButtonEditarSerial = new javax.swing.JButton();
-        jTextFieldSerial = new javax.swing.JTextField();
-        jButtonExcluirSerial = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTableEntradaSerial = new javax.swing.JTable();
+        jPanelPrincipal = new javax.swing.JPanel();
+        jButtonExcluirSerial = new javax.swing.JButton();
+        jButtonEditarSerial = new javax.swing.JButton();
+        jTextFieldSerial = new javax.swing.JTextField();
+        jButtonAtualizarTabela = new javax.swing.JButton();
+        jButtonImprimirEtiqueta = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Listagem de Entradas Seriais");
-
-        jButtonAtualizarTabela.setText("Atualizar Tabela");
-        jButtonAtualizarTabela.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonAtualizarTabelaActionPerformed(evt);
-            }
-        });
-
-        jButtonEditarSerial.setText("Editar Serial");
-        jButtonEditarSerial.setEnabled(false);
-        jButtonEditarSerial.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonEditarSerialActionPerformed(evt);
-            }
-        });
-
-        jButtonExcluirSerial.setText("Excluir Serial");
-        jButtonExcluirSerial.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonExcluirSerialActionPerformed(evt);
-            }
-        });
 
         jTableEntradaSerial.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Código", "Nome Produto", "Serial", "ID Entrada Serial"
+                "Código", "Serial", "ID Entrada Serial"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true, false
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         jTableEntradaSerial.setColumnSelectionAllowed(true);
@@ -116,27 +105,57 @@ public class ListagemSerialEntradaJDialog extends javax.swing.JDialog {
         jTableEntradaSerial.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (jTableEntradaSerial.getColumnModel().getColumnCount() > 0) {
             jTableEntradaSerial.getColumnModel().getColumn(0).setPreferredWidth(80);
-            jTableEntradaSerial.getColumnModel().getColumn(2).setPreferredWidth(100);
+            jTableEntradaSerial.getColumnModel().getColumn(1).setPreferredWidth(200);
         }
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 628, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(24, 24, 24)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextFieldSerial)
-                    .addComponent(jButtonAtualizarTabela, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
+        jButtonExcluirSerial.setText("Excluir Serial");
+        jButtonExcluirSerial.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonExcluirSerialActionPerformed(evt);
+            }
+        });
+
+        jButtonEditarSerial.setText("Editar Serial");
+        jButtonEditarSerial.setEnabled(false);
+        jButtonEditarSerial.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEditarSerialActionPerformed(evt);
+            }
+        });
+
+        jButtonAtualizarTabela.setText("Atualizar Tabela");
+        jButtonAtualizarTabela.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAtualizarTabelaActionPerformed(evt);
+            }
+        });
+
+        jButtonImprimirEtiqueta.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jButtonImprimirEtiqueta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/imprimir.png"))); // NOI18N
+        jButtonImprimirEtiqueta.setText("Imprimir Seriais");
+        jButtonImprimirEtiqueta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonImprimirEtiquetaActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanelPrincipalLayout = new javax.swing.GroupLayout(jPanelPrincipal);
+        jPanelPrincipal.setLayout(jPanelPrincipalLayout);
+        jPanelPrincipalLayout.setHorizontalGroup(
+            jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelPrincipalLayout.createSequentialGroup()
+                .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonExcluirSerial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButtonEditarSerial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonExcluirSerial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jTextFieldSerial)
+                    .addComponent(jButtonAtualizarTabela, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
+                    .addComponent(jButtonImprimirEtiqueta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+        jPanelPrincipalLayout.setVerticalGroup(
+            jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelPrincipalLayout.createSequentialGroup()
+                .addGap(8, 8, 8)
                 .addComponent(jButtonAtualizarTabela)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextFieldSerial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -144,8 +163,26 @@ public class ListagemSerialEntradaJDialog extends javax.swing.JDialog {
                 .addComponent(jButtonEditarSerial)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonExcluirSerial)
-                .addContainerGap(325, Short.MAX_VALUE))
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonImprimirEtiqueta)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 643, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanelPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 481, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanelPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -178,6 +215,17 @@ public class ListagemSerialEntradaJDialog extends javax.swing.JDialog {
         jButtonEditarSerial.setEnabled(true);
         jButtonExcluirSerial.setEnabled(true);
     }//GEN-LAST:event_jTableEntradaSerialMouseClicked
+
+    private void jButtonImprimirEtiquetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonImprimirEtiquetaActionPerformed
+        List<SerialProduto> listText = new ArrayList<>();
+        for (EntradaSerial s : queryIntegrador.listPorEntradaProd(getCodMovProd())) {
+            s.getIdSerial().setNomeProduto(s.getIdSerial().getCodigoProduto() + "-" + s.getIdSerial().getNomeProduto());
+            listText.add(s.getIdSerial());
+        }
+        new ImprimeRelatorio().imprimeRelatorio(queryIntegrador.valorConfiguracao("caminho_ENTRADA_SERIAL"), listText);
+        dispose();
+        setVisible(false);
+    }//GEN-LAST:event_jButtonImprimirEtiquetaActionPerformed
 
     private void excluiSerial() {
         colunaSerial = jTableEntradaSerial.getColumnModel().getColumnIndex("Serial");
@@ -246,7 +294,7 @@ public class ListagemSerialEntradaJDialog extends javax.swing.JDialog {
        } 
         for (Moventradaprod movProd : listSerial) {
             for (EntradaSerial ent : queryIntegrador.listPorEntradaProd(movProd.getCodmoveprod())) {
-                tab.addRow(new Object[]{movProd.getCodprod().getCodigo(), movProd.getCodprod().getNomeprod(), ent.getIdSerial().getSerial(), ent.getIdEntradaSerial()});
+                tab.addRow(new Object[]{movProd.getCodprod().getCodigo(), ent.getIdSerial().getSerial(), ent.getIdEntradaSerial()});
             }
         }
     }
@@ -260,6 +308,7 @@ public class ListagemSerialEntradaJDialog extends javax.swing.JDialog {
     void setMovEntradaProd(String codMovProd) {
          jButtonEditarSerial.setEnabled(false);
         jButtonExcluirSerial.setEnabled(false);
+        this.codMovProd = codMovProd;
         //moventradaprodserialList.clear();
         DefaultTableModel tab = (DefaultTableModel) jTableEntradaSerial.getModel();
         while (jTableEntradaSerial.getModel().getRowCount() > 0) {  
@@ -313,6 +362,11 @@ public class ListagemSerialEntradaJDialog extends javax.swing.JDialog {
             }
         });
     }
+    private String codMovProd;
+
+    public String getCodMovProd() {
+        return codMovProd;
+    }
     private static EntityManagerFactory managerCplus;
     private static EntityManagerFactory managerIntegrador;
     private final QueryCplus queryCplus;
@@ -326,6 +380,8 @@ public class ListagemSerialEntradaJDialog extends javax.swing.JDialog {
     private javax.swing.JButton jButtonAtualizarTabela;
     private javax.swing.JButton jButtonEditarSerial;
     private javax.swing.JButton jButtonExcluirSerial;
+    private javax.swing.JButton jButtonImprimirEtiqueta;
+    private javax.swing.JPanel jPanelPrincipal;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTableEntradaSerial;
     private javax.swing.JTextField jTextFieldSerial;

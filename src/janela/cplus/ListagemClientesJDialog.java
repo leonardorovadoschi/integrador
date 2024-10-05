@@ -304,6 +304,7 @@ public class ListagemClientesJDialog extends javax.swing.JDialog {
                 dispose();
             } else {
                 JOptionPane.showMessageDialog(null, "O Codigo está nullo por favor verifique!!! ");
+                setCancelamento(true);
             }
         }
     }
@@ -427,12 +428,12 @@ public class ListagemClientesJDialog extends javax.swing.JDialog {
             }
         });
     }
- QueryCplus queryCplus;
- static EntityManagerFactory managerCplus;
- Cliente  cliente;
- int colunaCodCli;
- boolean cancelamento;
- String termoPesquisa;
+ private QueryCplus queryCplus;
+ private static EntityManagerFactory managerCplus;
+ private Cliente  cliente;
+ private int colunaCodCli;
+ private boolean cancelamento;
+ private String termoPesquisa;
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private java.util.List<entidade.cplus.Cliente> clienteList;

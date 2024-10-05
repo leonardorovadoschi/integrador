@@ -135,7 +135,7 @@ public class CalculoDeCusto {
 
     private BigDecimal quantidadeEstoque(Produto prod, EntityManagerFactory managerCplus) {
         BigDecimal qntEstoque = BigDecimal.ZERO;
-        for (Produtoestoque estoque : new QueryCplus(managerCplus).resultTodosEstoques(prod.getCodprod())) {
+        for (Produtoestoque estoque : new QueryCplus(managerCplus).listEstoquesPorProd(prod.getCodprod())) {
             qntEstoque = estoque.getEstatu().subtract(estoque.getReservadoorcamento().subtract(estoque.getReservadoos()));
         }
         return qntEstoque;

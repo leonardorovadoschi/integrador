@@ -813,7 +813,7 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jScrollPaneFornecedores" alignment="0" pref="1057" max="32767" attributes="0"/>
+                  <Component id="jScrollPaneFornecedores" alignment="0" max="32767" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
                       <Component id="jPanel2" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>

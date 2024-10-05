@@ -701,7 +701,7 @@ public class RmaJFrame extends javax.swing.JFrame {
     }
 
     private void mostraEstoque(String codProduto) {
-        for (Produtoestoque estoque : queryCplus.resultTodosEstoques(codProduto)) {
+        for (Produtoestoque estoque : queryCplus.listEstoquesPorProd(codProduto)) {
             double disponivel;
             double resOS = estoque.getReservadoos().doubleValue();
             double resOrcamento = estoque.getReservadoorcamento().doubleValue();

@@ -20,7 +20,6 @@ import entidade.prestaShop.PsProductLang;
 import entidade.prestaShop.PsSpecificPrice;
 import entidade.prestaShop.PsStockAvailable;
 import janela.cplus.FormataCampos;
-import static janela.prestaShop.AdicionarOrderDetailJDialog.managerPrestaShop;
 import java.awt.Color;
 import java.math.BigDecimal;
 import java.util.Calendar;
@@ -466,10 +465,10 @@ public class EditOrderDetailsJDialog extends javax.swing.JDialog {
         if (psProduct.getCacheIsPack()) {
             for (PsPack psP : queryPrestaShop.listPack(psProduct.getIdProduct())) {
                 //this.psProduct = new PsProductJpaController(managerPrestaShop).findPsProduct(psP.getPsPackPK().getIdProductItem());
-                listestoque = new QueryCplus(managerCplus).listagemProdutoEstoque(new PsProductJpaController(managerPrestaShop).findPsProduct(psP.getPsPackPK().getIdProductItem()).getReference());
+                listestoque = new QueryCplus(managerCplus).listEstoquesPorProd(new PsProductJpaController(managerPrestaShop).findPsProduct(psP.getPsPackPK().getIdProductItem()).getReference());
             }
         } else {
-            listestoque = new QueryCplus(managerCplus).listagemProdutoEstoque(psProduct.getReference());
+            listestoque = new QueryCplus(managerCplus).listEstoquesPorProd(psProduct.getReference());
         }
         for (Produtoestoque estoque : listestoque) {
             estoque.setLastChange(formataCampos.dataAtual());

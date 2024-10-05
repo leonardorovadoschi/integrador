@@ -17,6 +17,7 @@ import entidade.cplus.Documentodocref;
 import entidade.cplus.Fornecedor;
 import entidade.cplus.Fornproduto;
 import entidade.cplus.Gtintributavel;
+import entidade.cplus.Localizacao;
 import entidade.cplus.Moentrega;
 import entidade.cplus.Moentregaprod;
 import entidade.cplus.Movdocreferenciado;
@@ -121,7 +122,7 @@ public class QueryCplus {
         return query.getResultList();
     }
 
-    public List<Produtoestoque> resultPorProduto(String codProduto) {
+    public List<Produtoestoque> listEstoquesPorProd(String codProduto) {
         EntityManager em = getEntityManager();
         Query query = em.createQuery("SELECT p FROM Produtoestoque p WHERE p.produtoestoquePK.codprod = :codProduto");
         query.setParameter("codProduto", codProduto);//primeiro parametro        
@@ -144,13 +145,6 @@ public class QueryCplus {
         query.setParameter("dataFim", dataFim.getTime());
         query.setParameter("flagPago", 'Y');
 
-        return query.getResultList();
-    }
-
-    public List<Produtoestoque> listProdutoEstoque(String codProduto) {
-        EntityManager em = getEntityManager();
-        Query query = em.createQuery("SELECT p FROM Produtoestoque p WHERE p.produtoestoquePK.codprod =:codProduto");
-        query.setParameter("codProduto", codProduto);        
         return query.getResultList();
     }
 
@@ -230,18 +224,6 @@ public class QueryCplus {
         return query.getResultList();
     }
 
-    /**
-     * Função que verifica qual o estoque pelo codigo do produto
-     *
-     * @param codProduto
-     * @return
-     */
-    public List<Produtoestoque> listagemProdutoEstoque(String codProduto) {
-        EntityManager em = getEntityManager();
-        Query query = em.createQuery("SELECT p FROM Produtoestoque p WHERE p.produtoestoquePK.codprod = :codProduto");
-        query.setParameter("codProduto", codProduto);//primeiro parametro        
-        return query.getResultList();
-    }
 
     public List<Produtoserial> resultadoPorCodigoSaida(String codMoVenda) {
         EntityManager em = getEntityManager();
@@ -482,19 +464,6 @@ public class QueryCplus {
         EntityManager em = getEntityManager();
         Query query = em.createQuery("SELECT dev FROM Movendaproddevolucaocompra dev WHERE dev.codmovprod.codmovprod =:codMovSaida");
         query.setParameter("codMovSaida", codMovProdSaida);
-        return query.getResultList();
-    }
-
-    /**
-     * função que retorna a listagem de estoque do produto
-     *
-     * @param codProduto
-     * @return
-     */
-    public List<Produtoestoque> resultTodosEstoques(String codProduto) {
-        EntityManager em = getEntityManager();
-        Query query = em.createQuery("SELECT p FROM Produtoestoque p WHERE p.produtoestoquePK.codprod = :valor");
-        query.setParameter("valor", codProduto);//primeiro parametro        
         return query.getResultList();
     }
     
@@ -1089,20 +1058,7 @@ public class QueryCplus {
         query.setParameter("tipoMovimento", tipoMovimento);//primeiro parametro 
         query.setMaxResults(maxResultado);
         return query.getResultList();
-    }
-
-    /**
-     * Função que retorna o estoque do produto
-     *
-     * @param codProduto
-     * @return
-     */
-    public List<Produtoestoque> listTodosEstoques(String codProduto) {
-        EntityManager em = getEntityManager();
-        Query query = em.createQuery("SELECT p FROM Produtoestoque p WHERE p.produtoestoquePK.codprod = :valor");
-        query.setParameter("valor", codProduto);//primeiro parametro        
-        return query.getResultList();
-    }
+    }  
 
     /**
      * Retorna todos os pre�os do produto
@@ -1819,6 +1775,20 @@ public List<Movendaproddevolucaocompra> listagemControlaDevolucaoPorSaida(String
         query.setParameter("codGtin", codGtin);//primeiro parametro      
         return query.getResultList();
     }
+     
+      public List<Localizacao> listLocalizacao(String codLoc) {
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery("SELECT v FROM Localizacao v WHERE v.codloc =:codLoc");
+        query.setParameter("codLoc", codLoc);//primeiro parametro      
+        return query.getResultList();
+    }
+
+   public List<Localizacao> listLocalizacaoDes(String descricao) {
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery("SELECT v FROM Localizacao v WHERE v.descricao =:descricao");
+        query.setParameter("descricao", descricao);//primeiro parametro      
+        return query.getResultList();
+    }      
      /**
       * Fun��o que retorna produto no pedido de compra
       * S = Confirmado

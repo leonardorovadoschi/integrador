@@ -574,7 +574,7 @@ public class ProdutoCplusDigimacro {
     private Integer quanEstoqeuCplus(EntityManagerFactory managerCplus, Produto proCplus) {
         BigDecimal estoque = BigDecimal.ZERO;
         int stock;
-        List<Produtoestoque> listEsroque = new QueryCplus(managerCplus).listTodosEstoques(proCplus.getCodprod());
+        List<Produtoestoque> listEsroque = new QueryCplus(managerCplus).listEstoquesPorProd(proCplus.getCodprod());
         for (Produtoestoque est : listEsroque) {
             estoque = est.getEstatu().subtract(est.getReservadoorcamento().subtract(est.getReservadoos()));
         }
@@ -590,7 +590,7 @@ public class ProdutoCplusDigimacro {
      */
     private Integer EstoqueCplus(EntityManagerFactory managerCplus, Produto proCplus) {
         BigDecimal estoque = BigDecimal.ZERO;
-        List<Produtoestoque> listEsroque = new QueryCplus(managerCplus).listTodosEstoques(proCplus.getCodprod());
+        List<Produtoestoque> listEsroque = new QueryCplus(managerCplus).listEstoquesPorProd(proCplus.getCodprod());
         for (Produtoestoque est : listEsroque) {
             estoque = est.getEstatu().subtract(est.getReservadoorcamento().subtract(est.getReservadoos()));
         }
@@ -599,7 +599,7 @@ public class ProdutoCplusDigimacro {
     
     private Integer EstoqueMinimoCplus(EntityManagerFactory managerCplus, Produto proCplus) {
         BigDecimal estoque = BigDecimal.ZERO;
-        List<Produtoestoque> listEsroque = new QueryCplus(managerCplus).listTodosEstoques(proCplus.getCodprod());
+        List<Produtoestoque> listEsroque = new QueryCplus(managerCplus).listEstoquesPorProd(proCplus.getCodprod());
         for (Produtoestoque est : listEsroque) {
             estoque = est.getQtdemin();
         }

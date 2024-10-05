@@ -5,6 +5,8 @@
  */
 package entidade.cplus;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
@@ -12,10 +14,9 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -26,23 +27,11 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "LOCALIZACAO", catalog = "", schema = "")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Localizacao.findAll", query = "SELECT l FROM Localizacao l")
-    , @NamedQuery(name = "Localizacao.findByCodloc", query = "SELECT l FROM Localizacao l WHERE l.codloc = :codloc")
-    , @NamedQuery(name = "Localizacao.findByCodigo", query = "SELECT l FROM Localizacao l WHERE l.codigo = :codigo")
-    , @NamedQuery(name = "Localizacao.findByDescricao", query = "SELECT l FROM Localizacao l WHERE l.descricao = :descricao")
-    , @NamedQuery(name = "Localizacao.findByRua", query = "SELECT l FROM Localizacao l WHERE l.rua = :rua")
-    , @NamedQuery(name = "Localizacao.findByBloco", query = "SELECT l FROM Localizacao l WHERE l.bloco = :bloco")
-    , @NamedQuery(name = "Localizacao.findByPrateleira", query = "SELECT l FROM Localizacao l WHERE l.prateleira = :prateleira")
-    , @NamedQuery(name = "Localizacao.findByArea", query = "SELECT l FROM Localizacao l WHERE l.area = :area")
-    , @NamedQuery(name = "Localizacao.findByClassificacao", query = "SELECT l FROM Localizacao l WHERE l.classificacao = :classificacao")
-    , @NamedQuery(name = "Localizacao.findBySecao", query = "SELECT l FROM Localizacao l WHERE l.secao = :secao")
-    , @NamedQuery(name = "Localizacao.findByGuid", query = "SELECT l FROM Localizacao l WHERE l.guid = :guid")
-    , @NamedQuery(name = "Localizacao.findByGalpao", query = "SELECT l FROM Localizacao l WHERE l.galpao = :galpao")
-    , @NamedQuery(name = "Localizacao.findByPallet", query = "SELECT l FROM Localizacao l WHERE l.pallet = :pallet")
-    , @NamedQuery(name = "Localizacao.findByTunel", query = "SELECT l FROM Localizacao l WHERE l.tunel = :tunel")
-    , @NamedQuery(name = "Localizacao.findByNaturezaendereco", query = "SELECT l FROM Localizacao l WHERE l.naturezaendereco = :naturezaendereco")})
+
 public class Localizacao implements Serializable {
+
+    @Transient
+    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -96,7 +85,9 @@ public class Localizacao implements Serializable {
     }
 
     public void setCodloc(String codloc) {
+        String oldCodloc = this.codloc;
         this.codloc = codloc;
+        changeSupport.firePropertyChange("codloc", oldCodloc, codloc);
     }
 
     public String getCodigo() {
@@ -104,7 +95,9 @@ public class Localizacao implements Serializable {
     }
 
     public void setCodigo(String codigo) {
+        String oldCodigo = this.codigo;
         this.codigo = codigo;
+        changeSupport.firePropertyChange("codigo", oldCodigo, codigo);
     }
 
     public String getDescricao() {
@@ -112,7 +105,9 @@ public class Localizacao implements Serializable {
     }
 
     public void setDescricao(String descricao) {
+        String oldDescricao = this.descricao;
         this.descricao = descricao;
+        changeSupport.firePropertyChange("descricao", oldDescricao, descricao);
     }
 
     public String getRua() {
@@ -120,7 +115,9 @@ public class Localizacao implements Serializable {
     }
 
     public void setRua(String rua) {
+        String oldRua = this.rua;
         this.rua = rua;
+        changeSupport.firePropertyChange("rua", oldRua, rua);
     }
 
     public String getBloco() {
@@ -128,7 +125,9 @@ public class Localizacao implements Serializable {
     }
 
     public void setBloco(String bloco) {
+        String oldBloco = this.bloco;
         this.bloco = bloco;
+        changeSupport.firePropertyChange("bloco", oldBloco, bloco);
     }
 
     public String getPrateleira() {
@@ -136,7 +135,9 @@ public class Localizacao implements Serializable {
     }
 
     public void setPrateleira(String prateleira) {
+        String oldPrateleira = this.prateleira;
         this.prateleira = prateleira;
+        changeSupport.firePropertyChange("prateleira", oldPrateleira, prateleira);
     }
 
     public String getArea() {
@@ -144,7 +145,9 @@ public class Localizacao implements Serializable {
     }
 
     public void setArea(String area) {
+        String oldArea = this.area;
         this.area = area;
+        changeSupport.firePropertyChange("area", oldArea, area);
     }
 
     public String getClassificacao() {
@@ -152,7 +155,9 @@ public class Localizacao implements Serializable {
     }
 
     public void setClassificacao(String classificacao) {
+        String oldClassificacao = this.classificacao;
         this.classificacao = classificacao;
+        changeSupport.firePropertyChange("classificacao", oldClassificacao, classificacao);
     }
 
     public String getSecao() {
@@ -160,7 +165,9 @@ public class Localizacao implements Serializable {
     }
 
     public void setSecao(String secao) {
+        String oldSecao = this.secao;
         this.secao = secao;
+        changeSupport.firePropertyChange("secao", oldSecao, secao);
     }
 
     public String getGuid() {
@@ -168,7 +175,9 @@ public class Localizacao implements Serializable {
     }
 
     public void setGuid(String guid) {
+        String oldGuid = this.guid;
         this.guid = guid;
+        changeSupport.firePropertyChange("guid", oldGuid, guid);
     }
 
     public String getGalpao() {
@@ -176,7 +185,9 @@ public class Localizacao implements Serializable {
     }
 
     public void setGalpao(String galpao) {
+        String oldGalpao = this.galpao;
         this.galpao = galpao;
+        changeSupport.firePropertyChange("galpao", oldGalpao, galpao);
     }
 
     public String getPallet() {
@@ -184,7 +195,9 @@ public class Localizacao implements Serializable {
     }
 
     public void setPallet(String pallet) {
+        String oldPallet = this.pallet;
         this.pallet = pallet;
+        changeSupport.firePropertyChange("pallet", oldPallet, pallet);
     }
 
     public String getTunel() {
@@ -192,7 +205,9 @@ public class Localizacao implements Serializable {
     }
 
     public void setTunel(String tunel) {
+        String oldTunel = this.tunel;
         this.tunel = tunel;
+        changeSupport.firePropertyChange("tunel", oldTunel, tunel);
     }
 
     public String getNaturezaendereco() {
@@ -200,7 +215,9 @@ public class Localizacao implements Serializable {
     }
 
     public void setNaturezaendereco(String naturezaendereco) {
+        String oldNaturezaendereco = this.naturezaendereco;
         this.naturezaendereco = naturezaendereco;
+        changeSupport.firePropertyChange("naturezaendereco", oldNaturezaendereco, naturezaendereco);
     }
 
     @XmlTransient
@@ -235,6 +252,14 @@ public class Localizacao implements Serializable {
     @Override
     public String toString() {
         return "entidade.cplus.Localizacao[ codloc=" + codloc + " ]";
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.removePropertyChangeListener(listener);
     }
     
 }
