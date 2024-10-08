@@ -116,6 +116,7 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
 
         jButtonImprimirRomaneio.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jButtonImprimirRomaneio.setText("Imprimir Romaneio");
+        jButtonImprimirRomaneio.setEnabled(false);
         jButtonImprimirRomaneio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonImprimirRomaneioActionPerformed(evt);
@@ -309,6 +310,11 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
         jTableSaidaProd.setRequestFocusEnabled(false);
         jTableSaidaProd.setRowHeight(25);
         jTableSaidaProd.getTableHeader().setReorderingAllowed(false);
+        jTableSaidaProd.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableSaidaProdMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTableSaidaProd);
         jTableSaidaProd.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (jTableSaidaProd.getColumnModel().getColumnCount() > 0) {
@@ -317,7 +323,6 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
             jTableSaidaProd.getColumnModel().getColumn(2).setPreferredWidth(50);
             jTableSaidaProd.getColumnModel().getColumn(3).setPreferredWidth(50);
             jTableSaidaProd.getColumnModel().getColumn(4).setPreferredWidth(10);
-            jTableSaidaProd.getColumnModel().getColumn(4).setCellRenderer(null);
             jTableSaidaProd.getColumnModel().getColumn(5).setPreferredWidth(20);
             jTableSaidaProd.getColumnModel().getColumn(6).setPreferredWidth(5);
         }
@@ -459,7 +464,12 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
 
     private void jTableSeriasSeparadosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableSeriasSeparadosMouseClicked
         jButtonExcluirSeria.setEnabled(true);
+        jButtonImprimirRomaneio.setEnabled(true);
     }//GEN-LAST:event_jTableSeriasSeparadosMouseClicked
+
+    private void jTableSaidaProdMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableSaidaProdMouseClicked
+    
+    }//GEN-LAST:event_jTableSaidaProdMouseClicked
 
     private void adicionarSerial() {
         int quantSeparada = 0;
@@ -528,21 +538,20 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
         for (Movendaprod e : listaProdutoPedido) {
             int coluna = jTableSaidaProd.getColumnModel().getColumnIndex("Cod. MovProd");
             int colunaSeparado = jTableSaidaProd.getColumnModel().getColumnIndex("Separado");
+             tabSaidaProd.addRow(new Object[]{e.getCodprod().getCodigo(), e.getCodprod().getNomeprod(), quantidadePacote(e), queryIntegrador.listPorSaidaProd(e.getCodmovprod()).size(), 
+                                    setor(e.getCodprod()) ,EstoqueCplus(e.getCodprod().getCodprod()), e.getCodmovprod()});
             String value = (String) jTableSaidaProd.getValueAt(linha, coluna);
             if (movProd.getCodmovprod() == null ? value == null : movProd.getCodmovprod().equals(value)) {
                 tabSaidaProd.setValueAt(quantSeparada, linha, colunaSeparado);
                 DefaultTableModel tabSerial = (DefaultTableModel) jTableSeriasSeparados.getModel();
                 for (SaidaSerial s : queryIntegrador.listSaidaSerial(serial, movProd.getCodmovprod())) {
-                    tabSerial.addRow(new Object[]{s.getIdSerial().getCodigoProduto(), s.getIdSerial().getNomeProduto(), s.getIdSerial().getSerial(), 
-                                                    setor(e.getCodprod()) ,EstoqueCplus(e.getCodprod().getCodprod()), s.getIdSaidaSerial()});
+                    tabSerial.addRow(new Object[]{s.getIdSerial().getCodigoProduto(), s.getIdSerial().getNomeProduto(), s.getIdSerial().getSerial(), s.getIdSaidaSerial()});
                     //colore as linhas da tabela
                     TableCellRenderer rendererSeparado = new ColorirLinhaImpar();
                     for (int c = 0; c < jTableSeriasSeparados.getColumnCount(); c++) {
                         jTableSeriasSeparados.setDefaultRenderer(jTableSeriasSeparados.getColumnClass(c), rendererSeparado);
-                    }
-                    
+                    }                   
                 }
-                colorirLinha();
             }
             //colore as linhas da tabela            
             TableCellRenderer renderer = new ColorirTabelaSaidaSerial();
@@ -609,6 +618,9 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
         }
         if (jTableSeriasSeparados.getRowCount() != 0) {
             jTableSeriasSeparados.setRowSelectionInterval(jTableSeriasSeparados.getRowCount() - 1, jTableSeriasSeparados.getRowCount() - 1);//seleciona ultima linha   
+            jButtonImprimirRomaneio.setEnabled(true);
+        }else{
+            jButtonImprimirRomaneio.setEnabled(false);
         }
     }
 
