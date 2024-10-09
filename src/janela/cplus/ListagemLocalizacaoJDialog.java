@@ -33,6 +33,7 @@ public class ListagemLocalizacaoJDialog extends javax.swing.JDialog {
         queryCplus = new QueryCplus(managerCplus);
         colunaCodLoc = jTableLocalizacao.getColumnModel().getColumnIndex("Codloc");
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
+        jTextFieldTermoPesquisa.requestFocus();
     }
 
     /**
@@ -93,6 +94,11 @@ public class ListagemLocalizacaoJDialog extends javax.swing.JDialog {
         columnBinding.setEditable(false);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
+        jTableLocalizacao.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTableLocalizacaoKeyPressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTableLocalizacao);
         if (jTableLocalizacao.getColumnModel().getColumnCount() > 0) {
             jTableLocalizacao.getColumnModel().getColumn(1).setPreferredWidth(10);
@@ -206,6 +212,10 @@ public class ListagemLocalizacaoJDialog extends javax.swing.JDialog {
         cancelamento();
     }//GEN-LAST:event_jButtonCancelarActionPerformed
 
+    private void jTableLocalizacaoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableLocalizacaoKeyPressed
+        finalizacao();
+    }//GEN-LAST:event_jTableLocalizacaoKeyPressed
+
      public void listarLocalizacao() {
         localizacaoList.clear();
         switch (jComboBoxTipoPesquisa.getSelectedIndex()) {
@@ -220,6 +230,8 @@ public class ListagemLocalizacaoJDialog extends javax.swing.JDialog {
                 }
             break;            
         }
+         jTextFieldTermoPesquisa.requestFocus();
+        jTextFieldTermoPesquisa.selectAll();
     }
      
      private void finalizacao(){

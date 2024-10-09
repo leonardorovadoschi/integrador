@@ -134,8 +134,9 @@
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jPanelControles" min="-2" pref="458" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
-              <Component id="jTabbedPaneAlteracaoPrecoProdutoCplus" min="-2" pref="481" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
+              <Component id="jTabbedPaneAlteracaoPrecoProdutoCplus" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -2140,7 +2141,7 @@
                     <StringItem index="0" value="Nome Produto"/>
                     <StringItem index="1" value="Nota Entrada"/>
                     <StringItem index="2" value="Origem"/>
-                    <StringItem index="3" value="% Legiao Menor que"/>
+                    <StringItem index="3" value="Setor Estoque"/>
                   </StringArray>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" value=""/>

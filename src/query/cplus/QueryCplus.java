@@ -162,6 +162,12 @@ public class QueryCplus {
         return query.getResultList();
     }
 
+    public List<Produto> listagemProdutoPorLocalizacao(String codLoc) {
+        EntityManager entityManager = getEntityManager();
+        Query query = entityManager.createQuery("SELECT p FROM Produto p where p.codloc =:codLoc");
+        query.setParameter("codLoc", codLoc);//primeiro parametro        
+        return query.getResultList();
+    }
     /**
      * Função que lista todos os seriais da saida
      *

@@ -98,7 +98,6 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         }
         colunaCodprod = jTableListagemProdutos.getColumnModel().getColumnIndex("Codprod");
         colunaProdutoFornecedor = jTableProdutoFornecedor.getColumnModel().getColumnIndex("Id Produtos");
-        //colunaCodigo = jTableListagemProdutos.getColumnModel().getColumnIndex("Codigo");
         // colunaCodmoventradaprod = jTableListagemEntradas.getColumnModel().getColumnIndex("Codmoveprod");
         jTextFieldMaximoResultadosSaida.setText(queryIntegrador.valorConfiguracao("maximo_resultados_listagem_saidas"));
         //jTextFieldMaximoDeResultadosEntradas.setText(queryIntegrador.valorConfiguracao("maximo_resultados_listagem_entradas"));
@@ -1242,7 +1241,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
 
         jPanelPesquisa.setBorder(javax.swing.BorderFactory.createTitledBorder("Pesquisas"));
 
-        jComboBoxTermoPesquisa.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Nome Produto", "Nota Entrada", "Origem", "% Legiao Menor que" }));
+        jComboBoxTermoPesquisa.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Nome Produto", "Nota Entrada", "Origem", "Setor Estoque" }));
         jComboBoxTermoPesquisa.setToolTipText("");
 
         jTextFieldTermoPesquisa.addActionListener(new java.awt.event.ActionListener() {
@@ -1868,8 +1867,9 @@ public class ProdutoJFrame extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanelControles, javax.swing.GroupLayout.PREFERRED_SIZE, 458, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jTabbedPaneAlteracaoPrecoProdutoCplus, javax.swing.GroupLayout.PREFERRED_SIZE, 481, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(1, 1, 1)
+                .addComponent(jTabbedPaneAlteracaoPrecoProdutoCplus)
+                .addContainerGap())
         );
 
         bindingGroup.bind();
@@ -1891,24 +1891,19 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         jButtonAtualizaListagemSaidas.setEnabled(false);
         jButtonAtualizaListagemEntradas.setEnabled(false);
         jButtonAtualizaMargemCusto.setEnabled(false);
-
         limpaCampos();
-
         switch (jComboBoxTermoPesquisa.getSelectedIndex()) {
             case 0:
                 pesquisaNomeProduto();
-                jTextFieldTermoPesquisa.requestFocus();
-                jTextFieldTermoPesquisa.selectAll();
                 break;
             case 1:
                 pesquisaNumeroNota();
-                jTextFieldTermoPesquisa.requestFocus();
-                jTextFieldTermoPesquisa.selectAll();
                 break;
             case 2:
                 pesquisaOrigemProduto();
-                jTextFieldTermoPesquisa.requestFocus();
-                jTextFieldTermoPesquisa.selectAll();
+                break;
+            case 3:               
+                pesquisaPorLocalizacao();
                 break;
         }
         jTabbedPaneAlteracaoPrecoProdutoCplus.setSelectedIndex(0);
@@ -1921,31 +1916,21 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         jButtonAtualizaListagemSaidas.setEnabled(false);
         jButtonAtualizaListagemEntradas.setEnabled(false);
         jButtonAtualizaMargemCusto.setEnabled(false);
-
         limpaCampos();
-
         switch (jComboBoxTermoPesquisa.getSelectedIndex()) {
             case 0:
-                pesquisaNomeProduto();
-                jTextFieldTermoPesquisa.requestFocus();
-                jTextFieldTermoPesquisa.selectAll();
+                pesquisaNomeProduto();                
                 break;
             case 1:
-                pesquisaNumeroNota();
-                jTextFieldTermoPesquisa.requestFocus();
-                jTextFieldTermoPesquisa.selectAll();
+                pesquisaNumeroNota();               
                 break;
             case 2:
-                pesquisaOrigemProduto();
-                jTextFieldTermoPesquisa.requestFocus();
-                jTextFieldTermoPesquisa.selectAll();
-            case 3:
-                pesquisaPorcentagemMenorQue("000000006");
-                jTextFieldTermoPesquisa.requestFocus();
-                jTextFieldTermoPesquisa.selectAll();
-
-        }
-
+                pesquisaOrigemProduto();               
+                break;
+            case 3:           
+                pesquisaPorLocalizacao();
+                break;
+        }       
         jTabbedPaneAlteracaoPrecoProdutoCplus.setSelectedIndex(0);
         jButtonGravar.setEnabled(false);
     }//GEN-LAST:event_jButtonPesquisarActionPerformed
@@ -2231,16 +2216,16 @@ public class ProdutoJFrame extends javax.swing.JFrame {
     private void jButtonEditarSetorEstoqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarSetorEstoqueActionPerformed
         this.listagemLocalizacaoJDialog.setVisible(true);
         if (this.listagemLocalizacaoJDialog.isCancelamento() == false) {
-            for(Produto p : queryCplus.listProduto(produtoCplus.getCodprod())){
+            for (Produto p : queryCplus.listProduto(produtoCplus.getCodprod())) {
                 try {
                     p.setCodloc(this.listagemLocalizacaoJDialog.getLocalizacao().getCodloc());
-                    new ProdutoJpaController(managerCplus).edit(p);  
+                    new ProdutoJpaController(managerCplus).edit(p);
                     jButtonEditarSetorEstoque.setEnabled(false);
                     //carregarTabela();
                 } catch (jpa.cplus.exceptions.NonexistentEntityException ex) {
-                    JOptionPane.showMessageDialog(null, "Houve um ero ao editar produto! \n"+ex);
+                    JOptionPane.showMessageDialog(null, "Houve um ero ao editar produto! \n" + ex);
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(null, "Houve um ero ao editar produto! \n"+ex);
+                    JOptionPane.showMessageDialog(null, "Houve um ero ao editar produto! \n" + ex);
                 }
             }
             carregarCampos();
@@ -2262,12 +2247,11 @@ public class ProdutoJFrame extends javax.swing.JFrame {
     private void calculaPorcentagemCusto() {
         int quantidadeEstoque = 0;
         double aliqPisCofins = 9.25;
-        //double aliqIcmsEntrada;
+        double creditoUnitarioIcms;
         //double aliqIcmsSaida = 0.00;
         double custoProdutoUnitario;
         // double custoMedioProdutoUnitario;
         double creditoUnitarioPisCofins;
-        double creditoUnitarioIcms;
         double valorIpiUnitario;
         double valorStUnitario;
         double debitoUnitarioPisCofins;
@@ -2322,7 +2306,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
                     break;
                 } //             
             } //fim for listagem entrada de compra
-            
+
             custoProdutoUnitario = valorProdutoEntrada / quantidadeEstoque;
             creditoUnitarioIcms = valorTotalCreditoIcms / quantidadeEstoque;
             creditoUnitarioPisCofins = valorTotalCreditoPisCofins / quantidadeEstoque;
@@ -2335,7 +2319,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
                 //valorStUnitario = produtoCplus.getValorsubsttributaria().doubleValue();
                 valorUnitarioComTributosComLucro = (valorIpiUnitario + valorStUnitario + custoProdutoUnitario) * porcentagemLugro;
                 debitoUnitarioPisCofins = (valorUnitarioComTributosComLucro * aliqPisCofins) / 100.00;
-               // debitoUnitarioIcms = (valorUnitarioComTributosComLucro * aliqPisCofins) / 100.00;
+                // debitoUnitarioIcms = (valorUnitarioComTributosComLucro * aliqPisCofins) / 100.00;
                 diferencaPisCofins = debitoUnitarioPisCofins - creditoUnitarioPisCofins;
                 //diferencaIcms = debitoUnitarioIcms - creditoUnitarioIcms;
                 //soma valor tributos com lucro
@@ -2354,7 +2338,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
                 condicaoIcms = true;
                 //JOptionPane.showMessageDialog(null, "Não foi possi encontrar o calculo de ICMS verifique no C-Plus!!!\n lista de resultados: " + listIcmsEstado.size());
             }
-        } 
+        }
         if (condicaoIcms == true && condicaoSt == true) {
             JOptionPane.showMessageDialog(null, "Não foi possi encontrar o calculo de ICMS verifique no C-Plus!!!\n ");
         }
@@ -2521,13 +2505,12 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         }
         return mensagem;
     }
-    
-     
-    private String setor(Produto codProd){
+
+    private String setor(Produto codProd) {
         String text = "";
-        for(Localizacao loc : queryCplus.listLocalizacao(codProd.getCodloc())){
-           text =  loc.getDescricao();
-       }
+        for (Localizacao loc : queryCplus.listLocalizacao(codProd.getCodloc())) {
+            text = loc.getDescricao();
+        }
         return text;
     }
 
@@ -2769,7 +2752,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         movendaprodList.clear();
         jTextFieldSetor.setText("");
         jButtonEditarSetorEstoque.setEnabled(false);
-                
+
     }
 
     private BigDecimal calculaValorVenda(BigDecimal margemLucro) {
@@ -2835,10 +2818,11 @@ public class ProdutoJFrame extends javax.swing.JFrame {
             if (movEntrada.getCodmoventr() != null) {
                 for (Produto prod : queryCplus.resultProdutosPorCodigoEntrada(movEntrada.getCodmoventr())) {
                     produtoList.add(prod);
-                    coloreLinhasImpars();
                 }
             }
         }
+        jTextFieldTermoPesquisa.requestFocus();
+        jTextFieldTermoPesquisa.selectAll();
     }
 
     private void pesquisaOrigemProduto() {
@@ -2849,9 +2833,10 @@ public class ProdutoJFrame extends javax.swing.JFrame {
             Character ch = jTextFieldTermoPesquisa.getText().charAt(0);
             for (Produto prod : queryCplus.resultPorOrigemProduto(ch)) {
                 produtoList.add(prod);
-                coloreLinhasImpars();
             }
         }
+        jTextFieldTermoPesquisa.requestFocus();
+        jTextFieldTermoPesquisa.selectAll();
     }
 
     private void pesquisaNomeProduto() {
@@ -2861,19 +2846,13 @@ public class ProdutoJFrame extends javax.swing.JFrame {
             produtoList.clear();
             for (Produto prod : queryCplus.resultPorNomeProdutoOuCodigo(jTextFieldTermoPesquisa.getText(), jCheckBoxSomenteItensAtivosCplus.isSelected())) {
                 produtoList.add(prod);
-                coloreLinhasImpars();
             }
         }
+        jTextFieldTermoPesquisa.requestFocus();
+        jTextFieldTermoPesquisa.selectAll();
     }
 
-    private void coloreLinhasImpars(){
-        //colore as linhas da tabela
-           // TableCellRenderer rendererSeparado = new ColorirLinhaImpar();
-            //for (int c = 0; c < jTableListagemProdutos.getColumnCount(); c++) {
-            //    jTableListagemProdutos.setDefaultRenderer(jTableListagemProdutos.getColumnClass(c), rendererSeparado);
-           // }
-            //**********************
-    }
+
     private void criaLog(Date dataExecucao, String mensagem, String tipoLog) {
         IntLogs log = new IntLogs();
         log.setDataExecucao(dataExecucao);
@@ -2881,17 +2860,18 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         log.setTipoLog(tipoLog);
         new IntLogsJpaController(managerIntegrador).create(log);
     }
-
-    private void pesquisaPorcentagemMenorQue(String codigoPreco) {
-        if ("".equals(jTextFieldTermoPesquisa.getText())) {
-            JOptionPane.showMessageDialog(null, "você deve informar o nome do Produto!!!");
-        } else {
+    
+    private void pesquisaPorLocalizacao(){
+       this.listagemLocalizacaoJDialog.setVisible(true);
+        if (this.listagemLocalizacaoJDialog.isCancelamento() == false) {
             produtoList.clear();
-            for (Produto prod : queryCplus.resultProPorcentagem(codigoPreco, formataCampo.stringParaDecimal(jTextFieldTermoPesquisa.getText(), casasDecimais))) {
-                produtoList.add(prod);
+            for (Produto p : queryCplus.listagemProdutoPorLocalizacao(this.listagemLocalizacaoJDialog.getLocalizacao().getCodloc())) {                                  
+               produtoList.add(p);
             }
-        }
+        }// TO
+        
     }
+
 
     private String partNumber() {
         //part Number 000000004

@@ -213,6 +213,9 @@
                       </Subbinding>
                     </BindingProperty>
                   </BindingProperties>
+                  <Events>
+                    <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTableLocalizacaoKeyPressed"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>

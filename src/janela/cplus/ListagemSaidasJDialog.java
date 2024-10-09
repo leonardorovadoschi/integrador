@@ -252,6 +252,11 @@ public class ListagemSaidasJDialog extends javax.swing.JDialog {
                 jTableListagemSaidasMouseClicked(evt);
             }
         });
+        jTableListagemSaidas.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTableListagemSaidasKeyPressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTableListagemSaidas);
         if (jTableListagemSaidas.getColumnModel().getColumnCount() > 0) {
             jTableListagemSaidas.getColumnModel().getColumn(0).setMinWidth(150);
@@ -355,6 +360,10 @@ public class ListagemSaidasJDialog extends javax.swing.JDialog {
              jLabelMensagem.setText("");
         }
     }//GEN-LAST:event_jTableListagemSaidasMouseClicked
+
+    private void jTableListagemSaidasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableListagemSaidasKeyPressed
+        finalizacao();
+    }//GEN-LAST:event_jTableListagemSaidasKeyPressed
 
     
     private void cancelamento(){
