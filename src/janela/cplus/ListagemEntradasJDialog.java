@@ -219,6 +219,11 @@ public class ListagemEntradasJDialog extends javax.swing.JDialog {
                 jTableListagemEntradasMouseClicked(evt);
             }
         });
+        jTableListagemEntradas.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTableListagemEntradasKeyPressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTableListagemEntradas);
         if (jTableListagemEntradas.getColumnModel().getColumnCount() > 0) {
             jTableListagemEntradas.getColumnModel().getColumn(0).setMinWidth(100);
@@ -300,7 +305,6 @@ public class ListagemEntradasJDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_jTableListagemEntradasMouseClicked
 
     private void jButtonOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOkActionPerformed
-
         finalizacao();
     }//GEN-LAST:event_jButtonOkActionPerformed
 
@@ -311,6 +315,10 @@ public class ListagemEntradasJDialog extends javax.swing.JDialog {
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
         cancelamento();
     }//GEN-LAST:event_jButtonCancelarActionPerformed
+
+    private void jTableListagemEntradasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableListagemEntradasKeyPressed
+        finalizacao();
+    }//GEN-LAST:event_jTableListagemEntradasKeyPressed
 
     private void cancelamento() {
         int cancelar = JOptionPane.showConfirmDialog(null, " Deseja realmente cancelar? \n O processo será encerrado!!", "Cancelar", JOptionPane.YES_NO_CANCEL_OPTION);

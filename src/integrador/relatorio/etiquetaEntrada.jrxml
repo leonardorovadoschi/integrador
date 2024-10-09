@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="etiquetaSerial" pageWidth="210" pageHeight="100" columnWidth="210" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="08d063ae-1ca9-4e02-9f6e-e1dacd277731">
-	<property name="ireport.zoom" value="2.0"/>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="etiquetaSerial" pageWidth="113" pageHeight="65" columnWidth="113" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="08d063ae-1ca9-4e02-9f6e-e1dacd277731">
+	<property name="ireport.zoom" value="6.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<queryString>
@@ -16,28 +16,32 @@
 		<band splitType="Stretch"/>
 	</background>
 	<detail>
-		<band height="100">
-			<textField isStretchWithOverflow="true">
-				<reportElement x="0" y="0" width="210" height="30" uuid="0381dc07-4b4c-43a2-8915-8e48fe95c73f"/>
+		<band height="65">
+			<elementGroup>
+				<componentElement>
+					<reportElement x="5" y="29" width="105" height="22" uuid="bd8b7a27-edd7-47c1-8b27-f52c8dcd6781">
+						<property name="net.sf.jasperreports.export.pdf.tag.tr"/>
+					</reportElement>
+					<jr:Code128 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" moduleWidth="1.5" textPosition="none">
+						<jr:codeExpression><![CDATA[$F{serial}]]></jr:codeExpression>
+					</jr:Code128>
+				</componentElement>
+			</elementGroup>
+			<textField>
+				<reportElement x="0" y="50" width="113" height="10" uuid="283a965e-adcb-4a9c-afc2-6f7178d1d093"/>
 				<textElement textAlignment="Center">
-					<font fontName="DejaVu Sans" size="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+					<font fontName="DejaVu Sans" size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{serial}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="5" y="10" width="108" height="15" uuid="0381dc07-4b4c-43a2-8915-8e48fe95c73f"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans" size="7" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 					<paragraph lineSpacing="Proportional"/>
 				</textElement>
 				<textFieldExpression><![CDATA[" "+$F{nomeProduto}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="0" y="78" width="210" height="22" uuid="283a965e-adcb-4a9c-afc2-6f7178d1d093"/>
-				<textElement textAlignment="Center">
-					<font fontName="DejaVu Sans" size="11" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{serial}]]></textFieldExpression>
-			</textField>
-			<componentElement>
-				<reportElement x="6" y="30" width="200" height="46" uuid="bd8b7a27-edd7-47c1-8b27-f52c8dcd6781"/>
-				<jr:Code128 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" moduleWidth="1.5" textPosition="none">
-					<jr:codeExpression><![CDATA[$F{serial}]]></jr:codeExpression>
-				</jr:Code128>
-			</componentElement>
 		</band>
 	</detail>
 </jasperReport>
