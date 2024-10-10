@@ -16,7 +16,7 @@ import query.cplus.QueryCplus;
  * @author leonardo
  */
 public class RenderLocalizacao extends DefaultTableCellRenderer{
-    private EntityManagerFactory emf;
+    private final EntityManagerFactory emf;
 
     public RenderLocalizacao(EntityManagerFactory managerCplus) {       
         emf = managerCplus;

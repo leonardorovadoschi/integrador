@@ -76,6 +76,7 @@ public class ListagemEntradasJDialog extends javax.swing.JDialog {
         jComboBoxTipoPesquisa1.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jComboBoxTipoPesquisa1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Num Nota", "Por Cliente", "Data", "Código Produto" }));
         jComboBoxTipoPesquisa1.setToolTipText("Selecione a opção que desejar!");
+        jComboBoxTipoPesquisa1.setFocusable(false);
 
         jTextFieldTermoPesquisa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

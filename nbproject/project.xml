@@ -6,8 +6,8 @@
         <data xmlns="http://www.netbeans.org/ns/j2se-project/3">
             <name>PrestaShop</name>
             <source-roots>
-                <root id="src.lista_integrador.dir"/>
                 <root id="src.dir"/>
+                <root id="src.Integrador2.dir"/>
             </source-roots>
             <test-roots>
                 <root id="test.src.dir"/>

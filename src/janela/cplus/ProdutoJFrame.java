@@ -135,46 +135,6 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         movendaprodList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(new java.util.LinkedList(movendaprodQuery.getResultList()));
         moventradaprodQuery = java.beans.Beans.isDesignTime() ? null : cplusPUEntityManager.createQuery("SELECT prod FROM Moventradaprod prod WHERE prod.codmoventr.codmoventr =\"009999999\"");
         moventradaprodList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(moventradaprodQuery.getResultList());
-        jTabbedPaneAlteracaoPrecoProdutoCplus = new javax.swing.JTabbedPane();
-        jPanelAbaListaProdutos = new javax.swing.JPanel();
-        jScrollPaneListagemProdutos = new javax.swing.JScrollPane();
-        jTableListagemProdutos = new javax.swing.JTable();
-        jPanelComparacaoProdutosAllnations = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTableProdutoFornecedor = new javax.swing.JTable();
-        jPanelControleFornecedor = new javax.swing.JPanel();
-        jButtonRelacionarProdutoFornecedor = new javax.swing.JButton();
-        jButtonAtivarNoSite = new javax.swing.JButton();
-        jButtonDesativarSite = new javax.swing.JButton();
-        jButtonExcluirregistroFornecedor = new javax.swing.JButton();
-        jPanelconfiguracoesAba = new javax.swing.JPanel();
-        jPanelCasasDecimais = new javax.swing.JPanel();
-        jRadioButtonDuasDecimais = new javax.swing.JRadioButton();
-        jRadioButtonUmaDecimal = new javax.swing.JRadioButton();
-        jRadioButtonTresDecimais = new javax.swing.JRadioButton();
-        jRadioButtonQuatroDecimais = new javax.swing.JRadioButton();
-        jRadioButtonCustoUltimaCompra = new javax.swing.JRadioButton();
-        jRadioButtonCustoSystema = new javax.swing.JRadioButton();
-        jPanelTiposdecalculos = new javax.swing.JPanel();
-        jRadioButtonMargemCustoCplus = new javax.swing.JRadioButton();
-        jRadioButtonMargemSobreCustoMedioCplus = new javax.swing.JRadioButton();
-        jRadioButtonMargemSobreCustoUltimaCompra = new javax.swing.JRadioButton();
-        jPanelInformacaoEstoque = new javax.swing.JPanel();
-        jCheckBoxMostrarItensCarrinhoMagento = new javax.swing.JCheckBox();
-        jPanelListagemDeVendas = new javax.swing.JPanel();
-        jButtonAtualizaListagemSaidas = new javax.swing.JButton();
-        jTextFieldMaximoResultadosSaida = new javax.swing.JTextField();
-        jLabelMaximoDeResultadosSaida = new javax.swing.JLabel();
-        jCheckBoxSomenteVendas = new javax.swing.JCheckBox();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTableListagemDeVendas = new javax.swing.JTable();
-        jPanelListagemEntradas = new javax.swing.JPanel();
-        jButtonAtualizaListagemEntradas = new javax.swing.JButton();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jCheckBoxSomenteCompras = new javax.swing.JCheckBox();
-        jLabel5 = new javax.swing.JLabel();
-        jTextFieldMaximoResultadoEntrada = new javax.swing.JTextField();
         jPanelControles = new javax.swing.JPanel();
         jPanelEstoque = new javax.swing.JPanel();
         jTextFieldEstoqueAtual = new javax.swing.JTextField();
@@ -263,703 +223,49 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         jScrollPane5 = new javax.swing.JScrollPane();
         jTextAreaProdutoComprado = new javax.swing.JTextArea();
         jButtonEditarSetorEstoque = new javax.swing.JButton();
+        jTabbedPaneAlteracaoPrecoProdutoCplus = new javax.swing.JTabbedPane();
+        jPanelAbaListaProdutos = new javax.swing.JPanel();
+        jScrollPaneListagemProdutos = new javax.swing.JScrollPane();
+        jTableListagemProdutos = new javax.swing.JTable();
+        jPanelComparacaoProdutosAllnations = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTableProdutoFornecedor = new javax.swing.JTable();
+        jPanelControleFornecedor = new javax.swing.JPanel();
+        jButtonRelacionarProdutoFornecedor = new javax.swing.JButton();
+        jButtonAtivarNoSite = new javax.swing.JButton();
+        jButtonDesativarSite = new javax.swing.JButton();
+        jButtonExcluirregistroFornecedor = new javax.swing.JButton();
+        jPanelconfiguracoesAba = new javax.swing.JPanel();
+        jPanelCasasDecimais = new javax.swing.JPanel();
+        jRadioButtonDuasDecimais = new javax.swing.JRadioButton();
+        jRadioButtonUmaDecimal = new javax.swing.JRadioButton();
+        jRadioButtonTresDecimais = new javax.swing.JRadioButton();
+        jRadioButtonQuatroDecimais = new javax.swing.JRadioButton();
+        jRadioButtonCustoUltimaCompra = new javax.swing.JRadioButton();
+        jRadioButtonCustoSystema = new javax.swing.JRadioButton();
+        jPanelTiposdecalculos = new javax.swing.JPanel();
+        jRadioButtonMargemCustoCplus = new javax.swing.JRadioButton();
+        jRadioButtonMargemSobreCustoMedioCplus = new javax.swing.JRadioButton();
+        jRadioButtonMargemSobreCustoUltimaCompra = new javax.swing.JRadioButton();
+        jPanelInformacaoEstoque = new javax.swing.JPanel();
+        jCheckBoxMostrarItensCarrinhoMagento = new javax.swing.JCheckBox();
+        jPanelListagemDeVendas = new javax.swing.JPanel();
+        jButtonAtualizaListagemSaidas = new javax.swing.JButton();
+        jTextFieldMaximoResultadosSaida = new javax.swing.JTextField();
+        jLabelMaximoDeResultadosSaida = new javax.swing.JLabel();
+        jCheckBoxSomenteVendas = new javax.swing.JCheckBox();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTableListagemDeVendas = new javax.swing.JTable();
+        jPanelListagemEntradas = new javax.swing.JPanel();
+        jButtonAtualizaListagemEntradas = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jCheckBoxSomenteCompras = new javax.swing.JCheckBox();
+        jLabel5 = new javax.swing.JLabel();
+        jTextFieldMaximoResultadoEntrada = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Alteração de Preço ");
-
-        jTableListagemProdutos.setAutoCreateRowSorter(true);
-        jTableListagemProdutos.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
-        jTableListagemProdutos.setColumnSelectionAllowed(true);
-        jTableListagemProdutos.setFocusable(false);
-        jTableListagemProdutos.setRowHeight(25);
-
-        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, produtoList, jTableListagemProdutos);
-        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${lastChange}"));
-        columnBinding.setColumnName("Ultima Atualização");
-        columnBinding.setColumnClass(java.util.Date.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${datreaj}"));
-        columnBinding.setColumnName("Data Reajuste");
-        columnBinding.setColumnClass(java.util.Date.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codigo}"));
-        columnBinding.setColumnName("Codigo");
-        columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${nomeprodweb}"));
-        columnBinding.setColumnName("Nome Site");
-        columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${produtoprecoCollection}"));
-        columnBinding.setColumnName("Preço Normal");
-        columnBinding.setColumnClass(java.util.Collection.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${produtoprecoCollection}"));
-        columnBinding.setColumnName("Margem");
-        columnBinding.setColumnClass(java.util.Collection.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${produtoestoqueCollection}"));
-        columnBinding.setColumnName("Estoque Disponível");
-        columnBinding.setColumnClass(java.util.Collection.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codloc}"));
-        columnBinding.setColumnName("Localização");
-        columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${nomeprod}"));
-        columnBinding.setColumnName("Nome C-plus");
-        columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${totoutroscustos}"));
-        columnBinding.setColumnName("Total Outros Custos");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valoutroscustos}"));
-        columnBinding.setColumnName("val. Outros Custos");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${custoreal}"));
-        columnBinding.setColumnName("Custo Real");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${customedio}"));
-        columnBinding.setColumnName("Custo Médio");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${precusto}"));
-        columnBinding.setColumnName("Preço Custo");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${produtoestoqueCollection}"));
-        columnBinding.setColumnName("Estoque Atual");
-        columnBinding.setColumnClass(java.util.Collection.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${produtoestoqueCollection}"));
-        columnBinding.setColumnName("Reser. O.S");
-        columnBinding.setColumnClass(java.util.Collection.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${produtoestoqueCollection}"));
-        columnBinding.setColumnName("Reser. Orçamento");
-        columnBinding.setColumnClass(java.util.Collection.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${nomeprod}"));
-        columnBinding.setColumnName("Nome C-Plus");
-        columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codprod}"));
-        columnBinding.setColumnName("Codprod");
-        columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${produtocodigoCollection}"));
-        columnBinding.setColumnName("EAN");
-        columnBinding.setColumnClass(java.util.Collection.class);
-        columnBinding.setEditable(false);
-        bindingGroup.addBinding(jTableBinding);
-        jTableBinding.bind();
-        jTableListagemProdutos.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTableListagemProdutosMouseClicked(evt);
-            }
-        });
-        jScrollPaneListagemProdutos.setViewportView(jTableListagemProdutos);
-        jTableListagemProdutos.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        if (jTableListagemProdutos.getColumnModel().getColumnCount() > 0) {
-            jTableListagemProdutos.getColumnModel().getColumn(0).setPreferredWidth(80);
-            jTableListagemProdutos.getColumnModel().getColumn(1).setPreferredWidth(80);
-            jTableListagemProdutos.getColumnModel().getColumn(2).setPreferredWidth(100);
-            jTableListagemProdutos.getColumnModel().getColumn(3).setPreferredWidth(350);
-            jTableListagemProdutos.getColumnModel().getColumn(4).setCellRenderer(new integrador.render.produto.RenderPrecoVenda());
-            jTableListagemProdutos.getColumnModel().getColumn(5).setMinWidth(70);
-            jTableListagemProdutos.getColumnModel().getColumn(5).setPreferredWidth(70);
-            jTableListagemProdutos.getColumnModel().getColumn(5).setMaxWidth(200);
-            jTableListagemProdutos.getColumnModel().getColumn(5).setCellRenderer(new RenderMargemVenda());
-            jTableListagemProdutos.getColumnModel().getColumn(6).setCellRenderer(new RenderEstoqueDisponivel());
-            jTableListagemProdutos.getColumnModel().getColumn(7).setCellRenderer(new RenderLocalizacao(managerCplus));
-            jTableListagemProdutos.getColumnModel().getColumn(8).setMinWidth(300);
-            jTableListagemProdutos.getColumnModel().getColumn(8).setPreferredWidth(200);
-            jTableListagemProdutos.getColumnModel().getColumn(8).setMaxWidth(500);
-            jTableListagemProdutos.getColumnModel().getColumn(9).setCellRenderer(new integrador.render.RenderPreco());
-            jTableListagemProdutos.getColumnModel().getColumn(10).setCellRenderer(new integrador.render.RenderPreco());
-            jTableListagemProdutos.getColumnModel().getColumn(11).setCellRenderer(new integrador.render.RenderPreco());
-            jTableListagemProdutos.getColumnModel().getColumn(12).setCellRenderer(new integrador.render.RenderPreco());
-            jTableListagemProdutos.getColumnModel().getColumn(13).setCellRenderer(new integrador.render.RenderPreco());
-            jTableListagemProdutos.getColumnModel().getColumn(14).setCellRenderer(new RenderEstoqueAtual());
-            jTableListagemProdutos.getColumnModel().getColumn(15).setCellRenderer(new RenderEstoqueReservaOs());
-            jTableListagemProdutos.getColumnModel().getColumn(16).setCellRenderer(new RenderEstoqueReservaOrcamento());
-            jTableListagemProdutos.getColumnModel().getColumn(19).setPreferredWidth(90);
-            jTableListagemProdutos.getColumnModel().getColumn(19).setCellRenderer(new RenderCodigoEan());
-        }
-
-        javax.swing.GroupLayout jPanelAbaListaProdutosLayout = new javax.swing.GroupLayout(jPanelAbaListaProdutos);
-        jPanelAbaListaProdutos.setLayout(jPanelAbaListaProdutosLayout);
-        jPanelAbaListaProdutosLayout.setHorizontalGroup(
-            jPanelAbaListaProdutosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPaneListagemProdutos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1375, Short.MAX_VALUE)
-        );
-        jPanelAbaListaProdutosLayout.setVerticalGroup(
-            jPanelAbaListaProdutosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPaneListagemProdutos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 447, Short.MAX_VALUE)
-        );
-
-        jTabbedPaneAlteracaoPrecoProdutoCplus.addTab("Listagem Produtos C-Plus", jPanelAbaListaProdutos);
-
-        jTableProdutoFornecedor.setAutoCreateRowSorter(true);
-        jTableProdutoFornecedor.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
-        jTableProdutoFornecedor.getTableHeader().setReorderingAllowed(false);
-
-        jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, produtoFornecedorList, jTableProdutoFornecedor);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${idProdutos}"));
-        columnBinding.setColumnName("Id Produtos");
-        columnBinding.setColumnClass(Integer.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${ean}"));
-        columnBinding.setColumnName("EAN");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${descricao}"));
-        columnBinding.setColumnName("Descricao");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${departamento}"));
-        columnBinding.setColumnName("Fornecedor");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${disponivel}"));
-        columnBinding.setColumnName("Disponivel");
-        columnBinding.setColumnClass(Integer.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${ativo}"));
-        columnBinding.setColumnName("Ativo");
-        columnBinding.setColumnClass(Integer.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${ultimaImportacao}"));
-        columnBinding.setColumnName("Ultima Importação");
-        columnBinding.setColumnClass(java.util.Date.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valorCustoRs}"));
-        columnBinding.setColumnName("Valor Custo RS");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${precoCustoComSt}"));
-        columnBinding.setColumnName("Custo Com ST");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${precoCusto}"));
-        columnBinding.setColumnName("Custo Sem ST");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${estoque}"));
-        columnBinding.setColumnName("Estoque");
-        columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${partNumber}"));
-        columnBinding.setColumnName("Part Number");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${origemProduto}"));
-        columnBinding.setColumnName("Origem Produto");
-        columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${fabricante}"));
-        columnBinding.setColumnName("Fabricante");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codigo}"));
-        columnBinding.setColumnName("Codigo");
-        columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${ncm}"));
-        columnBinding.setColumnName("Ncm");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${porcentagemOutrosCustos}"));
-        columnBinding.setColumnName("Aliq. Outros Custos");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${porcentagemStRs}"));
-        columnBinding.setColumnName("Aliq. ST RS");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valorStRs}"));
-        columnBinding.setColumnName("Valor ST RS");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        bindingGroup.addBinding(jTableBinding);
-        jTableBinding.bind();
-        jTableProdutoFornecedor.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTableProdutoFornecedorMouseClicked(evt);
-            }
-        });
-        jScrollPane2.setViewportView(jTableProdutoFornecedor);
-        if (jTableProdutoFornecedor.getColumnModel().getColumnCount() > 0) {
-            jTableProdutoFornecedor.getColumnModel().getColumn(1).setPreferredWidth(90);
-            jTableProdutoFornecedor.getColumnModel().getColumn(2).setPreferredWidth(350);
-            jTableProdutoFornecedor.getColumnModel().getColumn(3).setPreferredWidth(100);
-            jTableProdutoFornecedor.getColumnModel().getColumn(4).setCellRenderer(new RenderAllDisponivel());
-            jTableProdutoFornecedor.getColumnModel().getColumn(5).setCellRenderer(new RenderAllAtivo());
-            jTableProdutoFornecedor.getColumnModel().getColumn(7).setCellRenderer(new integrador.render.RenderPreco());
-            jTableProdutoFornecedor.getColumnModel().getColumn(8).setCellRenderer(new integrador.render.RenderPreco());
-            jTableProdutoFornecedor.getColumnModel().getColumn(9).setCellRenderer(new integrador.render.RenderPreco());
-            jTableProdutoFornecedor.getColumnModel().getColumn(11).setPreferredWidth(90);
-            jTableProdutoFornecedor.getColumnModel().getColumn(15).setPreferredWidth(90);
-            jTableProdutoFornecedor.getColumnModel().getColumn(18).setCellRenderer(new integrador.render.RenderPreco());
-        }
-
-        jButtonRelacionarProdutoFornecedor.setText("Relacionar Produto Com Fornecedor");
-        jButtonRelacionarProdutoFornecedor.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonRelacionarProdutoFornecedorActionPerformed(evt);
-            }
-        });
-
-        jButtonAtivarNoSite.setFont(new java.awt.Font("Arial", 1, 10)); // NOI18N
-        jButtonAtivarNoSite.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/play.png"))); // NOI18N
-        jButtonAtivarNoSite.setText("Ativar no Site");
-        jButtonAtivarNoSite.setEnabled(false);
-        jButtonAtivarNoSite.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonAtivarNoSiteActionPerformed(evt);
-            }
-        });
-
-        jButtonDesativarSite.setFont(new java.awt.Font("Arial", 1, 10)); // NOI18N
-        jButtonDesativarSite.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/stop.png"))); // NOI18N
-        jButtonDesativarSite.setText("Desativar no Site");
-        jButtonDesativarSite.setEnabled(false);
-        jButtonDesativarSite.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonDesativarSiteActionPerformed(evt);
-            }
-        });
-
-        jButtonExcluirregistroFornecedor.setFont(new java.awt.Font("Arial", 1, 10)); // NOI18N
-        jButtonExcluirregistroFornecedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/delete.png"))); // NOI18N
-        jButtonExcluirregistroFornecedor.setText("Excluir Registro");
-        jButtonExcluirregistroFornecedor.setEnabled(false);
-        jButtonExcluirregistroFornecedor.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonExcluirregistroFornecedorActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanelControleFornecedorLayout = new javax.swing.GroupLayout(jPanelControleFornecedor);
-        jPanelControleFornecedor.setLayout(jPanelControleFornecedorLayout);
-        jPanelControleFornecedorLayout.setHorizontalGroup(
-            jPanelControleFornecedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelControleFornecedorLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButtonRelacionarProdutoFornecedor)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 461, Short.MAX_VALUE)
-                .addComponent(jButtonAtivarNoSite)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButtonDesativarSite)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonExcluirregistroFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        jPanelControleFornecedorLayout.setVerticalGroup(
-            jPanelControleFornecedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelControleFornecedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jButtonRelacionarProdutoFornecedor)
-                .addComponent(jButtonAtivarNoSite)
-                .addComponent(jButtonDesativarSite)
-                .addComponent(jButtonExcluirregistroFornecedor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        javax.swing.GroupLayout jPanelComparacaoProdutosAllnationsLayout = new javax.swing.GroupLayout(jPanelComparacaoProdutosAllnations);
-        jPanelComparacaoProdutosAllnations.setLayout(jPanelComparacaoProdutosAllnationsLayout);
-        jPanelComparacaoProdutosAllnationsLayout.setHorizontalGroup(
-            jPanelComparacaoProdutosAllnationsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelComparacaoProdutosAllnationsLayout.createSequentialGroup()
-                .addComponent(jPanelControleFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanelComparacaoProdutosAllnationsLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2))
-        );
-        jPanelComparacaoProdutosAllnationsLayout.setVerticalGroup(
-            jPanelComparacaoProdutosAllnationsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelComparacaoProdutosAllnationsLayout.createSequentialGroup()
-                .addComponent(jPanelControleFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 393, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        jTabbedPaneAlteracaoPrecoProdutoCplus.addTab("Relação Preços Fornecedores", jPanelComparacaoProdutosAllnations);
-
-        jPanelCasasDecimais.setBorder(javax.swing.BorderFactory.createTitledBorder("Padrões"));
-
-        buttonGroupCasasDecimais.add(jRadioButtonDuasDecimais);
-        jRadioButtonDuasDecimais.setSelected(true);
-        jRadioButtonDuasDecimais.setText("Duas (0,00)");
-
-        buttonGroupCasasDecimais.add(jRadioButtonUmaDecimal);
-        jRadioButtonUmaDecimal.setText("Uma (0,0)");
-
-        buttonGroupCasasDecimais.add(jRadioButtonTresDecimais);
-        jRadioButtonTresDecimais.setText("Três (0,000)");
-
-        buttonGroupCasasDecimais.add(jRadioButtonQuatroDecimais);
-        jRadioButtonQuatroDecimais.setText("Quatro (0,0000)");
-
-        buttonGroupCustoProduto.add(jRadioButtonCustoUltimaCompra);
-        jRadioButtonCustoUltimaCompra.setText("Custos Ulima Compra");
-
-        buttonGroupCustoProduto.add(jRadioButtonCustoSystema);
-        jRadioButtonCustoSystema.setSelected(true);
-        jRadioButtonCustoSystema.setText("Custos Sistema");
-
-        javax.swing.GroupLayout jPanelCasasDecimaisLayout = new javax.swing.GroupLayout(jPanelCasasDecimais);
-        jPanelCasasDecimais.setLayout(jPanelCasasDecimaisLayout);
-        jPanelCasasDecimaisLayout.setHorizontalGroup(
-            jPanelCasasDecimaisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jRadioButtonQuatroDecimais, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jRadioButtonTresDecimais, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jRadioButtonDuasDecimais, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jRadioButtonUmaDecimal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jRadioButtonCustoUltimaCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-            .addComponent(jRadioButtonCustoSystema, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanelCasasDecimaisLayout.setVerticalGroup(
-            jPanelCasasDecimaisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelCasasDecimaisLayout.createSequentialGroup()
-                .addComponent(jRadioButtonUmaDecimal)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jRadioButtonDuasDecimais)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jRadioButtonTresDecimais)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jRadioButtonQuatroDecimais)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jRadioButtonCustoUltimaCompra)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jRadioButtonCustoSystema)
-                .addContainerGap(29, Short.MAX_VALUE))
-        );
-
-        jPanelTiposdecalculos.setBorder(javax.swing.BorderFactory.createTitledBorder("Tipos de Margem"));
-
-        buttonGroupTiposDeMargem.add(jRadioButtonMargemCustoCplus);
-        jRadioButtonMargemCustoCplus.setSelected(true);
-        jRadioButtonMargemCustoCplus.setText("Margem sobre custo C-Plus");
-
-        buttonGroupTiposDeMargem.add(jRadioButtonMargemSobreCustoMedioCplus);
-        jRadioButtonMargemSobreCustoMedioCplus.setText("Margem sobre custo médio C-Plus");
-
-        buttonGroupTiposDeMargem.add(jRadioButtonMargemSobreCustoUltimaCompra);
-        jRadioButtonMargemSobreCustoUltimaCompra.setText("Margem sobre custo Ultima Compra");
-
-        javax.swing.GroupLayout jPanelTiposdecalculosLayout = new javax.swing.GroupLayout(jPanelTiposdecalculos);
-        jPanelTiposdecalculos.setLayout(jPanelTiposdecalculosLayout);
-        jPanelTiposdecalculosLayout.setHorizontalGroup(
-            jPanelTiposdecalculosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelTiposdecalculosLayout.createSequentialGroup()
-                .addGroup(jPanelTiposdecalculosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jRadioButtonMargemCustoCplus)
-                    .addComponent(jRadioButtonMargemSobreCustoMedioCplus)
-                    .addComponent(jRadioButtonMargemSobreCustoUltimaCompra))
-                .addGap(0, 10, Short.MAX_VALUE))
-        );
-        jPanelTiposdecalculosLayout.setVerticalGroup(
-            jPanelTiposdecalculosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelTiposdecalculosLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jRadioButtonMargemCustoCplus)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jRadioButtonMargemSobreCustoMedioCplus)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jRadioButtonMargemSobreCustoUltimaCompra)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jPanelInformacaoEstoque.setBorder(javax.swing.BorderFactory.createTitledBorder("Informação de Estoque"));
-
-        jCheckBoxMostrarItensCarrinhoMagento.setSelected(true);
-        jCheckBoxMostrarItensCarrinhoMagento.setText("Mostrar Itens Carrinho Magento");
-
-        javax.swing.GroupLayout jPanelInformacaoEstoqueLayout = new javax.swing.GroupLayout(jPanelInformacaoEstoque);
-        jPanelInformacaoEstoque.setLayout(jPanelInformacaoEstoqueLayout);
-        jPanelInformacaoEstoqueLayout.setHorizontalGroup(
-            jPanelInformacaoEstoqueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelInformacaoEstoqueLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jCheckBoxMostrarItensCarrinhoMagento, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(146, Short.MAX_VALUE))
-        );
-        jPanelInformacaoEstoqueLayout.setVerticalGroup(
-            jPanelInformacaoEstoqueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelInformacaoEstoqueLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jCheckBoxMostrarItensCarrinhoMagento)
-                .addContainerGap(70, Short.MAX_VALUE))
-        );
-
-        javax.swing.GroupLayout jPanelconfiguracoesAbaLayout = new javax.swing.GroupLayout(jPanelconfiguracoesAba);
-        jPanelconfiguracoesAba.setLayout(jPanelconfiguracoesAbaLayout);
-        jPanelconfiguracoesAbaLayout.setHorizontalGroup(
-            jPanelconfiguracoesAbaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelconfiguracoesAbaLayout.createSequentialGroup()
-                .addGap(223, 223, 223)
-                .addComponent(jPanelCasasDecimais, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanelTiposdecalculos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanelInformacaoEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 306, Short.MAX_VALUE))
-        );
-        jPanelconfiguracoesAbaLayout.setVerticalGroup(
-            jPanelconfiguracoesAbaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelconfiguracoesAbaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanelconfiguracoesAbaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanelCasasDecimais, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanelconfiguracoesAbaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jPanelInformacaoEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jPanelTiposdecalculos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jTabbedPaneAlteracaoPrecoProdutoCplus.addTab("Configurações De Calculos", jPanelconfiguracoesAba);
-
-        jButtonAtualizaListagemSaidas.setText("Atualiza Listagem de Saidas");
-        jButtonAtualizaListagemSaidas.setEnabled(false);
-        jButtonAtualizaListagemSaidas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonAtualizaListagemSaidasActionPerformed(evt);
-            }
-        });
-
-        jLabelMaximoDeResultadosSaida.setText("Máximo de resultados:");
-
-        jCheckBoxSomenteVendas.setSelected(true);
-        jCheckBoxSomenteVendas.setText("Somente Vendas:");
-
-        jTableListagemDeVendas.setAutoCreateRowSorter(true);
-        jTableListagemDeVendas.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
-        jTableListagemDeVendas.setColumnSelectionAllowed(true);
-        jTableListagemDeVendas.getTableHeader().setReorderingAllowed(false);
-
-        jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, movendaprodList, jTableListagemDeVendas);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmovenda.data}"));
-        columnBinding.setColumnName("Data");
-        columnBinding.setColumnClass(java.util.Date.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmovenda.hora}"));
-        columnBinding.setColumnName("Hora");
-        columnBinding.setColumnClass(java.util.Date.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${quantidade}"));
-        columnBinding.setColumnName("Quantidade");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmovenda.codcli.nomecli}"));
-        columnBinding.setColumnName("Cliente");
-        columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmovenda.codcli.cnpj}"));
-        columnBinding.setColumnName("CNPJ");
-        columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmovenda.codcli.cidade}"));
-        columnBinding.setColumnName("Cidade");
-        columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmovenda.numnota}"));
-        columnBinding.setColumnName("Número Nota");
-        columnBinding.setColumnClass(Integer.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmovenda.numped}"));
-        columnBinding.setColumnName("Número Pedido");
-        columnBinding.setColumnClass(Integer.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valorunitario}"));
-        columnBinding.setColumnName("Valor Unitário");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valortotal}"));
-        columnBinding.setColumnName("Valor Total");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${customedio}"));
-        columnBinding.setColumnName("Custo Médio");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${custoreal}"));
-        columnBinding.setColumnName("Custo Real");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valorcofins}"));
-        columnBinding.setColumnName("Valor COFINS");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${aliqcofins}"));
-        columnBinding.setColumnName("Aliq. COFINS");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${basecofins}"));
-        columnBinding.setColumnName("Base Cofins");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${aliqpis}"));
-        columnBinding.setColumnName("Aliq. Pis");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${basepis}"));
-        columnBinding.setColumnName("Base Pis");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${quantidadedevolvida}"));
-        columnBinding.setColumnName("Qua. Devolvida");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${aliqicms}"));
-        columnBinding.setColumnName("Aliq Icms");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${baseicms}"));
-        columnBinding.setColumnName("Base Icms");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valorsubsttributaria}"));
-        columnBinding.setColumnName("Valor ST");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valoricms}"));
-        columnBinding.setColumnName("Valor Icms");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${basesubsttributaria}"));
-        columnBinding.setColumnName("Base ST");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        bindingGroup.addBinding(jTableBinding);
-        jTableBinding.bind();
-        jScrollPane1.setViewportView(jTableListagemDeVendas);
-        jTableListagemDeVendas.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        if (jTableListagemDeVendas.getColumnModel().getColumnCount() > 0) {
-            jTableListagemDeVendas.getColumnModel().getColumn(1).setCellRenderer(new integrador.render.RenderHora());
-            jTableListagemDeVendas.getColumnModel().getColumn(2).setCellRenderer(new RenderNumeroInteiro());
-            jTableListagemDeVendas.getColumnModel().getColumn(3).setPreferredWidth(250);
-            jTableListagemDeVendas.getColumnModel().getColumn(4).setPreferredWidth(120);
-            jTableListagemDeVendas.getColumnModel().getColumn(5).setPreferredWidth(120);
-            jTableListagemDeVendas.getColumnModel().getColumn(8).setCellRenderer(new integrador.render.RenderPreco());
-            jTableListagemDeVendas.getColumnModel().getColumn(9).setCellRenderer(new integrador.render.RenderPreco());
-            jTableListagemDeVendas.getColumnModel().getColumn(10).setCellRenderer(new integrador.render.RenderPreco());
-            jTableListagemDeVendas.getColumnModel().getColumn(11).setCellRenderer(new integrador.render.RenderPreco());
-            jTableListagemDeVendas.getColumnModel().getColumn(12).setCellRenderer(new integrador.render.RenderPreco());
-            jTableListagemDeVendas.getColumnModel().getColumn(13).setCellRenderer( new RenderPorcentagem());
-            jTableListagemDeVendas.getColumnModel().getColumn(14).setCellRenderer(new integrador.render.RenderPreco());
-            jTableListagemDeVendas.getColumnModel().getColumn(15).setCellRenderer( new RenderPorcentagem());
-            jTableListagemDeVendas.getColumnModel().getColumn(16).setCellRenderer(new integrador.render.RenderPreco());
-            jTableListagemDeVendas.getColumnModel().getColumn(17).setCellRenderer(new RenderNumeroInteiro());
-            jTableListagemDeVendas.getColumnModel().getColumn(18).setCellRenderer( new RenderPorcentagem());
-            jTableListagemDeVendas.getColumnModel().getColumn(19).setCellRenderer(new integrador.render.RenderPreco());
-            jTableListagemDeVendas.getColumnModel().getColumn(20).setCellRenderer(new integrador.render.RenderPreco());
-            jTableListagemDeVendas.getColumnModel().getColumn(21).setCellRenderer(new integrador.render.RenderPreco());
-            jTableListagemDeVendas.getColumnModel().getColumn(22).setCellRenderer(new integrador.render.RenderPreco());
-        }
-
-        javax.swing.GroupLayout jPanelListagemDeVendasLayout = new javax.swing.GroupLayout(jPanelListagemDeVendas);
-        jPanelListagemDeVendas.setLayout(jPanelListagemDeVendasLayout);
-        jPanelListagemDeVendasLayout.setHorizontalGroup(
-            jPanelListagemDeVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelListagemDeVendasLayout.createSequentialGroup()
-                .addGroup(jPanelListagemDeVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelListagemDeVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jButtonAtualizaListagemSaidas)
-                        .addGroup(jPanelListagemDeVendasLayout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(jLabelMaximoDeResultadosSaida, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(jTextFieldMaximoResultadosSaida, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanelListagemDeVendasLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jCheckBoxSomenteVendas)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1131, Short.MAX_VALUE))
-        );
-        jPanelListagemDeVendasLayout.setVerticalGroup(
-            jPanelListagemDeVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelListagemDeVendasLayout.createSequentialGroup()
-                .addComponent(jButtonAtualizaListagemSaidas)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanelListagemDeVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextFieldMaximoResultadosSaida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelMaximoDeResultadosSaida))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jCheckBoxSomenteVendas)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-        );
-
-        jTabbedPaneAlteracaoPrecoProdutoCplus.addTab("Listagem de Vendas", jPanelListagemDeVendas);
-
-        jButtonAtualizaListagemEntradas.setText("Atualiza Entradas");
-        jButtonAtualizaListagemEntradas.setEnabled(false);
-        jButtonAtualizaListagemEntradas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonAtualizaListagemEntradasActionPerformed(evt);
-            }
-        });
-
-        jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, moventradaprodList, jTable1);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmoventr.data}"));
-        columnBinding.setColumnName("Data");
-        columnBinding.setColumnClass(java.util.Date.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valorunitario}"));
-        columnBinding.setColumnName("Valor Unitario");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${quantidade}"));
-        columnBinding.setColumnName("Quantidade");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${complemento}"));
-        columnBinding.setColumnName("Codigo Fornecedor");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${aliqicms}"));
-        columnBinding.setColumnName("Aliq ICMS");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${aliqipi}"));
-        columnBinding.setColumnName("Aliq IPI");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmoventr.codForn.nomeforn}"));
-        columnBinding.setColumnName("Fornecedor");
-        columnBinding.setColumnClass(String.class);
-        bindingGroup.addBinding(jTableBinding);
-        jTableBinding.bind();
-        jScrollPane3.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(60);
-            jTable1.getColumnModel().getColumn(1).setPreferredWidth(60);
-            jTable1.getColumnModel().getColumn(1).setCellRenderer(new integrador.render.RenderPreco());
-            jTable1.getColumnModel().getColumn(2).setPreferredWidth(40);
-            jTable1.getColumnModel().getColumn(2).setCellRenderer(new RenderNumeroInteiro());
-            jTable1.getColumnModel().getColumn(3).setPreferredWidth(120);
-            jTable1.getColumnModel().getColumn(4).setPreferredWidth(40);
-            jTable1.getColumnModel().getColumn(4).setCellRenderer(new RenderPorcentagem());
-            jTable1.getColumnModel().getColumn(5).setPreferredWidth(40);
-            jTable1.getColumnModel().getColumn(5).setCellRenderer(new RenderPorcentagem());
-            jTable1.getColumnModel().getColumn(6).setPreferredWidth(240);
-        }
-
-        jCheckBoxSomenteCompras.setSelected(true);
-        jCheckBoxSomenteCompras.setText("Somente Compras");
-
-        jLabel5.setText("Max. Resul.");
-
-        jTextFieldMaximoResultadoEntrada.setText("20");
-
-        javax.swing.GroupLayout jPanelListagemEntradasLayout = new javax.swing.GroupLayout(jPanelListagemEntradas);
-        jPanelListagemEntradas.setLayout(jPanelListagemEntradasLayout);
-        jPanelListagemEntradasLayout.setHorizontalGroup(
-            jPanelListagemEntradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelListagemEntradasLayout.createSequentialGroup()
-                .addGroup(jPanelListagemEntradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonAtualizaListagemEntradas)
-                    .addGroup(jPanelListagemEntradasLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanelListagemEntradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBoxSomenteCompras)
-                            .addGroup(jPanelListagemEntradasLayout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextFieldMaximoResultadoEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 1186, Short.MAX_VALUE))
-        );
-        jPanelListagemEntradasLayout.setVerticalGroup(
-            jPanelListagemEntradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelListagemEntradasLayout.createSequentialGroup()
-                .addComponent(jButtonAtualizaListagemEntradas)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jCheckBoxSomenteCompras)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanelListagemEntradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(jTextFieldMaximoResultadoEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(339, Short.MAX_VALUE))
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-        );
-
-        jTabbedPaneAlteracaoPrecoProdutoCplus.addTab("Listagem de Entradas", jPanelListagemEntradas);
 
         jPanelControles.setBorder(javax.swing.BorderFactory.createTitledBorder("Controles"));
 
@@ -1788,11 +1094,705 @@ public class ProdutoJFrame extends javax.swing.JFrame {
             }
         });
 
+        jTableListagemProdutos.setAutoCreateRowSorter(true);
+        jTableListagemProdutos.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        jTableListagemProdutos.setColumnSelectionAllowed(true);
+        jTableListagemProdutos.setFocusable(false);
+        jTableListagemProdutos.setRowHeight(25);
+
+        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, produtoList, jTableListagemProdutos);
+        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${lastChange}"));
+        columnBinding.setColumnName("Ultima Atualização");
+        columnBinding.setColumnClass(java.util.Date.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${datreaj}"));
+        columnBinding.setColumnName("Data Reajuste");
+        columnBinding.setColumnClass(java.util.Date.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codigo}"));
+        columnBinding.setColumnName("Codigo");
+        columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${nomeprodweb}"));
+        columnBinding.setColumnName("Nome Site");
+        columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${produtoprecoCollection}"));
+        columnBinding.setColumnName("Preço Normal");
+        columnBinding.setColumnClass(java.util.Collection.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${produtoprecoCollection}"));
+        columnBinding.setColumnName("Margem");
+        columnBinding.setColumnClass(java.util.Collection.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${produtoestoqueCollection}"));
+        columnBinding.setColumnName("Estoque Disponível");
+        columnBinding.setColumnClass(java.util.Collection.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codloc}"));
+        columnBinding.setColumnName("Localização");
+        columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${nomeprod}"));
+        columnBinding.setColumnName("Nome C-plus");
+        columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${totoutroscustos}"));
+        columnBinding.setColumnName("Total Outros Custos");
+        columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valoutroscustos}"));
+        columnBinding.setColumnName("val. Outros Custos");
+        columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${custoreal}"));
+        columnBinding.setColumnName("Custo Real");
+        columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${customedio}"));
+        columnBinding.setColumnName("Custo Médio");
+        columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${precusto}"));
+        columnBinding.setColumnName("Preço Custo");
+        columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${produtoestoqueCollection}"));
+        columnBinding.setColumnName("Estoque Atual");
+        columnBinding.setColumnClass(java.util.Collection.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${produtoestoqueCollection}"));
+        columnBinding.setColumnName("Reser. O.S");
+        columnBinding.setColumnClass(java.util.Collection.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${produtoestoqueCollection}"));
+        columnBinding.setColumnName("Reser. Orçamento");
+        columnBinding.setColumnClass(java.util.Collection.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${nomeprod}"));
+        columnBinding.setColumnName("Nome C-Plus");
+        columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codprod}"));
+        columnBinding.setColumnName("Codprod");
+        columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${produtocodigoCollection}"));
+        columnBinding.setColumnName("EAN");
+        columnBinding.setColumnClass(java.util.Collection.class);
+        columnBinding.setEditable(false);
+        bindingGroup.addBinding(jTableBinding);
+        jTableBinding.bind();
+        jTableListagemProdutos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableListagemProdutosMouseClicked(evt);
+            }
+        });
+        jScrollPaneListagemProdutos.setViewportView(jTableListagemProdutos);
+        jTableListagemProdutos.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        if (jTableListagemProdutos.getColumnModel().getColumnCount() > 0) {
+            jTableListagemProdutos.getColumnModel().getColumn(0).setPreferredWidth(80);
+            jTableListagemProdutos.getColumnModel().getColumn(1).setPreferredWidth(80);
+            jTableListagemProdutos.getColumnModel().getColumn(2).setPreferredWidth(100);
+            jTableListagemProdutos.getColumnModel().getColumn(3).setPreferredWidth(350);
+            jTableListagemProdutos.getColumnModel().getColumn(4).setCellRenderer(new integrador.render.produto.RenderPrecoVenda());
+            jTableListagemProdutos.getColumnModel().getColumn(5).setMinWidth(70);
+            jTableListagemProdutos.getColumnModel().getColumn(5).setPreferredWidth(70);
+            jTableListagemProdutos.getColumnModel().getColumn(5).setMaxWidth(200);
+            jTableListagemProdutos.getColumnModel().getColumn(5).setCellRenderer(new RenderMargemVenda());
+            jTableListagemProdutos.getColumnModel().getColumn(6).setCellRenderer(new RenderEstoqueDisponivel());
+            jTableListagemProdutos.getColumnModel().getColumn(7).setCellRenderer(new RenderLocalizacao(managerCplus));
+            jTableListagemProdutos.getColumnModel().getColumn(8).setMinWidth(300);
+            jTableListagemProdutos.getColumnModel().getColumn(8).setPreferredWidth(200);
+            jTableListagemProdutos.getColumnModel().getColumn(8).setMaxWidth(500);
+            jTableListagemProdutos.getColumnModel().getColumn(9).setCellRenderer(new integrador.render.RenderPreco());
+            jTableListagemProdutos.getColumnModel().getColumn(10).setCellRenderer(new integrador.render.RenderPreco());
+            jTableListagemProdutos.getColumnModel().getColumn(11).setCellRenderer(new integrador.render.RenderPreco());
+            jTableListagemProdutos.getColumnModel().getColumn(12).setCellRenderer(new integrador.render.RenderPreco());
+            jTableListagemProdutos.getColumnModel().getColumn(13).setCellRenderer(new integrador.render.RenderPreco());
+            jTableListagemProdutos.getColumnModel().getColumn(14).setCellRenderer(new RenderEstoqueAtual());
+            jTableListagemProdutos.getColumnModel().getColumn(15).setCellRenderer(new RenderEstoqueReservaOs());
+            jTableListagemProdutos.getColumnModel().getColumn(16).setCellRenderer(new RenderEstoqueReservaOrcamento());
+            jTableListagemProdutos.getColumnModel().getColumn(19).setPreferredWidth(90);
+            jTableListagemProdutos.getColumnModel().getColumn(19).setCellRenderer(new RenderCodigoEan());
+        }
+
+        javax.swing.GroupLayout jPanelAbaListaProdutosLayout = new javax.swing.GroupLayout(jPanelAbaListaProdutos);
+        jPanelAbaListaProdutos.setLayout(jPanelAbaListaProdutosLayout);
+        jPanelAbaListaProdutosLayout.setHorizontalGroup(
+            jPanelAbaListaProdutosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPaneListagemProdutos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1241, Short.MAX_VALUE)
+        );
+        jPanelAbaListaProdutosLayout.setVerticalGroup(
+            jPanelAbaListaProdutosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPaneListagemProdutos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE)
+        );
+
+        jTabbedPaneAlteracaoPrecoProdutoCplus.addTab("Listagem Produtos C-Plus", jPanelAbaListaProdutos);
+
+        jTableProdutoFornecedor.setAutoCreateRowSorter(true);
+        jTableProdutoFornecedor.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        jTableProdutoFornecedor.getTableHeader().setReorderingAllowed(false);
+
+        jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, produtoFornecedorList, jTableProdutoFornecedor);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${idProdutos}"));
+        columnBinding.setColumnName("Id Produtos");
+        columnBinding.setColumnClass(Integer.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${ean}"));
+        columnBinding.setColumnName("EAN");
+        columnBinding.setColumnClass(String.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${descricao}"));
+        columnBinding.setColumnName("Descricao");
+        columnBinding.setColumnClass(String.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${departamento}"));
+        columnBinding.setColumnName("Fornecedor");
+        columnBinding.setColumnClass(String.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${disponivel}"));
+        columnBinding.setColumnName("Disponivel");
+        columnBinding.setColumnClass(Integer.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${ativo}"));
+        columnBinding.setColumnName("Ativo");
+        columnBinding.setColumnClass(Integer.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${ultimaImportacao}"));
+        columnBinding.setColumnName("Ultima Importação");
+        columnBinding.setColumnClass(java.util.Date.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valorCustoRs}"));
+        columnBinding.setColumnName("Valor Custo RS");
+        columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${precoCustoComSt}"));
+        columnBinding.setColumnName("Custo Com ST");
+        columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${precoCusto}"));
+        columnBinding.setColumnName("Custo Sem ST");
+        columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${estoque}"));
+        columnBinding.setColumnName("Estoque");
+        columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${partNumber}"));
+        columnBinding.setColumnName("Part Number");
+        columnBinding.setColumnClass(String.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${origemProduto}"));
+        columnBinding.setColumnName("Origem Produto");
+        columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${fabricante}"));
+        columnBinding.setColumnName("Fabricante");
+        columnBinding.setColumnClass(String.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codigo}"));
+        columnBinding.setColumnName("Codigo");
+        columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${ncm}"));
+        columnBinding.setColumnName("Ncm");
+        columnBinding.setColumnClass(String.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${porcentagemOutrosCustos}"));
+        columnBinding.setColumnName("Aliq. Outros Custos");
+        columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${porcentagemStRs}"));
+        columnBinding.setColumnName("Aliq. ST RS");
+        columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valorStRs}"));
+        columnBinding.setColumnName("Valor ST RS");
+        columnBinding.setColumnClass(java.math.BigDecimal.class);
+        bindingGroup.addBinding(jTableBinding);
+        jTableBinding.bind();
+        jTableProdutoFornecedor.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableProdutoFornecedorMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(jTableProdutoFornecedor);
+        if (jTableProdutoFornecedor.getColumnModel().getColumnCount() > 0) {
+            jTableProdutoFornecedor.getColumnModel().getColumn(1).setPreferredWidth(90);
+            jTableProdutoFornecedor.getColumnModel().getColumn(2).setPreferredWidth(350);
+            jTableProdutoFornecedor.getColumnModel().getColumn(3).setPreferredWidth(100);
+            jTableProdutoFornecedor.getColumnModel().getColumn(4).setCellRenderer(new RenderAllDisponivel());
+            jTableProdutoFornecedor.getColumnModel().getColumn(5).setCellRenderer(new RenderAllAtivo());
+            jTableProdutoFornecedor.getColumnModel().getColumn(7).setCellRenderer(new integrador.render.RenderPreco());
+            jTableProdutoFornecedor.getColumnModel().getColumn(8).setCellRenderer(new integrador.render.RenderPreco());
+            jTableProdutoFornecedor.getColumnModel().getColumn(9).setCellRenderer(new integrador.render.RenderPreco());
+            jTableProdutoFornecedor.getColumnModel().getColumn(11).setPreferredWidth(90);
+            jTableProdutoFornecedor.getColumnModel().getColumn(15).setPreferredWidth(90);
+            jTableProdutoFornecedor.getColumnModel().getColumn(18).setCellRenderer(new integrador.render.RenderPreco());
+        }
+
+        jButtonRelacionarProdutoFornecedor.setText("Relacionar Produto Com Fornecedor");
+        jButtonRelacionarProdutoFornecedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonRelacionarProdutoFornecedorActionPerformed(evt);
+            }
+        });
+
+        jButtonAtivarNoSite.setFont(new java.awt.Font("Arial", 1, 10)); // NOI18N
+        jButtonAtivarNoSite.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/play.png"))); // NOI18N
+        jButtonAtivarNoSite.setText("Ativar no Site");
+        jButtonAtivarNoSite.setEnabled(false);
+        jButtonAtivarNoSite.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAtivarNoSiteActionPerformed(evt);
+            }
+        });
+
+        jButtonDesativarSite.setFont(new java.awt.Font("Arial", 1, 10)); // NOI18N
+        jButtonDesativarSite.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/stop.png"))); // NOI18N
+        jButtonDesativarSite.setText("Desativar no Site");
+        jButtonDesativarSite.setEnabled(false);
+        jButtonDesativarSite.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDesativarSiteActionPerformed(evt);
+            }
+        });
+
+        jButtonExcluirregistroFornecedor.setFont(new java.awt.Font("Arial", 1, 10)); // NOI18N
+        jButtonExcluirregistroFornecedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/delete.png"))); // NOI18N
+        jButtonExcluirregistroFornecedor.setText("Excluir Registro");
+        jButtonExcluirregistroFornecedor.setEnabled(false);
+        jButtonExcluirregistroFornecedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonExcluirregistroFornecedorActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanelControleFornecedorLayout = new javax.swing.GroupLayout(jPanelControleFornecedor);
+        jPanelControleFornecedor.setLayout(jPanelControleFornecedorLayout);
+        jPanelControleFornecedorLayout.setHorizontalGroup(
+            jPanelControleFornecedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelControleFornecedorLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButtonRelacionarProdutoFornecedor)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 461, Short.MAX_VALUE)
+                .addComponent(jButtonAtivarNoSite)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButtonDesativarSite)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonExcluirregistroFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanelControleFornecedorLayout.setVerticalGroup(
+            jPanelControleFornecedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelControleFornecedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(jButtonRelacionarProdutoFornecedor)
+                .addComponent(jButtonAtivarNoSite)
+                .addComponent(jButtonDesativarSite)
+                .addComponent(jButtonExcluirregistroFornecedor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jPanelComparacaoProdutosAllnationsLayout = new javax.swing.GroupLayout(jPanelComparacaoProdutosAllnations);
+        jPanelComparacaoProdutosAllnations.setLayout(jPanelComparacaoProdutosAllnationsLayout);
+        jPanelComparacaoProdutosAllnationsLayout.setHorizontalGroup(
+            jPanelComparacaoProdutosAllnationsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelComparacaoProdutosAllnationsLayout.createSequentialGroup()
+                .addComponent(jPanelControleFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanelComparacaoProdutosAllnationsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2))
+        );
+        jPanelComparacaoProdutosAllnationsLayout.setVerticalGroup(
+            jPanelComparacaoProdutosAllnationsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelComparacaoProdutosAllnationsLayout.createSequentialGroup()
+                .addComponent(jPanelControleFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jTabbedPaneAlteracaoPrecoProdutoCplus.addTab("Relação Preços Fornecedores", jPanelComparacaoProdutosAllnations);
+
+        jPanelCasasDecimais.setBorder(javax.swing.BorderFactory.createTitledBorder("Padrões"));
+
+        buttonGroupCasasDecimais.add(jRadioButtonDuasDecimais);
+        jRadioButtonDuasDecimais.setSelected(true);
+        jRadioButtonDuasDecimais.setText("Duas (0,00)");
+
+        buttonGroupCasasDecimais.add(jRadioButtonUmaDecimal);
+        jRadioButtonUmaDecimal.setText("Uma (0,0)");
+
+        buttonGroupCasasDecimais.add(jRadioButtonTresDecimais);
+        jRadioButtonTresDecimais.setText("Três (0,000)");
+
+        buttonGroupCasasDecimais.add(jRadioButtonQuatroDecimais);
+        jRadioButtonQuatroDecimais.setText("Quatro (0,0000)");
+
+        buttonGroupCustoProduto.add(jRadioButtonCustoUltimaCompra);
+        jRadioButtonCustoUltimaCompra.setText("Custos Ulima Compra");
+
+        buttonGroupCustoProduto.add(jRadioButtonCustoSystema);
+        jRadioButtonCustoSystema.setSelected(true);
+        jRadioButtonCustoSystema.setText("Custos Sistema");
+
+        javax.swing.GroupLayout jPanelCasasDecimaisLayout = new javax.swing.GroupLayout(jPanelCasasDecimais);
+        jPanelCasasDecimais.setLayout(jPanelCasasDecimaisLayout);
+        jPanelCasasDecimaisLayout.setHorizontalGroup(
+            jPanelCasasDecimaisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jRadioButtonQuatroDecimais, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jRadioButtonTresDecimais, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jRadioButtonDuasDecimais, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jRadioButtonUmaDecimal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jRadioButtonCustoUltimaCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addComponent(jRadioButtonCustoSystema, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanelCasasDecimaisLayout.setVerticalGroup(
+            jPanelCasasDecimaisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelCasasDecimaisLayout.createSequentialGroup()
+                .addComponent(jRadioButtonUmaDecimal)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jRadioButtonDuasDecimais)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jRadioButtonTresDecimais)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jRadioButtonQuatroDecimais)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jRadioButtonCustoUltimaCompra)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jRadioButtonCustoSystema)
+                .addContainerGap(29, Short.MAX_VALUE))
+        );
+
+        jPanelTiposdecalculos.setBorder(javax.swing.BorderFactory.createTitledBorder("Tipos de Margem"));
+
+        buttonGroupTiposDeMargem.add(jRadioButtonMargemCustoCplus);
+        jRadioButtonMargemCustoCplus.setSelected(true);
+        jRadioButtonMargemCustoCplus.setText("Margem sobre custo C-Plus");
+
+        buttonGroupTiposDeMargem.add(jRadioButtonMargemSobreCustoMedioCplus);
+        jRadioButtonMargemSobreCustoMedioCplus.setText("Margem sobre custo médio C-Plus");
+
+        buttonGroupTiposDeMargem.add(jRadioButtonMargemSobreCustoUltimaCompra);
+        jRadioButtonMargemSobreCustoUltimaCompra.setText("Margem sobre custo Ultima Compra");
+
+        javax.swing.GroupLayout jPanelTiposdecalculosLayout = new javax.swing.GroupLayout(jPanelTiposdecalculos);
+        jPanelTiposdecalculos.setLayout(jPanelTiposdecalculosLayout);
+        jPanelTiposdecalculosLayout.setHorizontalGroup(
+            jPanelTiposdecalculosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelTiposdecalculosLayout.createSequentialGroup()
+                .addGroup(jPanelTiposdecalculosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jRadioButtonMargemCustoCplus)
+                    .addComponent(jRadioButtonMargemSobreCustoMedioCplus)
+                    .addComponent(jRadioButtonMargemSobreCustoUltimaCompra))
+                .addGap(0, 10, Short.MAX_VALUE))
+        );
+        jPanelTiposdecalculosLayout.setVerticalGroup(
+            jPanelTiposdecalculosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelTiposdecalculosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jRadioButtonMargemCustoCplus)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jRadioButtonMargemSobreCustoMedioCplus)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jRadioButtonMargemSobreCustoUltimaCompra)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jPanelInformacaoEstoque.setBorder(javax.swing.BorderFactory.createTitledBorder("Informação de Estoque"));
+
+        jCheckBoxMostrarItensCarrinhoMagento.setSelected(true);
+        jCheckBoxMostrarItensCarrinhoMagento.setText("Mostrar Itens Carrinho Magento");
+
+        javax.swing.GroupLayout jPanelInformacaoEstoqueLayout = new javax.swing.GroupLayout(jPanelInformacaoEstoque);
+        jPanelInformacaoEstoque.setLayout(jPanelInformacaoEstoqueLayout);
+        jPanelInformacaoEstoqueLayout.setHorizontalGroup(
+            jPanelInformacaoEstoqueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelInformacaoEstoqueLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jCheckBoxMostrarItensCarrinhoMagento, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(146, Short.MAX_VALUE))
+        );
+        jPanelInformacaoEstoqueLayout.setVerticalGroup(
+            jPanelInformacaoEstoqueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelInformacaoEstoqueLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jCheckBoxMostrarItensCarrinhoMagento)
+                .addContainerGap(70, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jPanelconfiguracoesAbaLayout = new javax.swing.GroupLayout(jPanelconfiguracoesAba);
+        jPanelconfiguracoesAba.setLayout(jPanelconfiguracoesAbaLayout);
+        jPanelconfiguracoesAbaLayout.setHorizontalGroup(
+            jPanelconfiguracoesAbaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelconfiguracoesAbaLayout.createSequentialGroup()
+                .addGap(223, 223, 223)
+                .addComponent(jPanelCasasDecimais, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanelTiposdecalculos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanelInformacaoEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 321, Short.MAX_VALUE))
+        );
+        jPanelconfiguracoesAbaLayout.setVerticalGroup(
+            jPanelconfiguracoesAbaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelconfiguracoesAbaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelconfiguracoesAbaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanelCasasDecimais, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanelconfiguracoesAbaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jPanelInformacaoEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPanelTiposdecalculos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jTabbedPaneAlteracaoPrecoProdutoCplus.addTab("Configurações De Calculos", jPanelconfiguracoesAba);
+
+        jButtonAtualizaListagemSaidas.setText("Atualiza Listagem de Saidas");
+        jButtonAtualizaListagemSaidas.setEnabled(false);
+        jButtonAtualizaListagemSaidas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAtualizaListagemSaidasActionPerformed(evt);
+            }
+        });
+
+        jLabelMaximoDeResultadosSaida.setText("Máximo de resultados:");
+
+        jCheckBoxSomenteVendas.setSelected(true);
+        jCheckBoxSomenteVendas.setText("Somente Vendas:");
+
+        jTableListagemDeVendas.setAutoCreateRowSorter(true);
+        jTableListagemDeVendas.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        jTableListagemDeVendas.setColumnSelectionAllowed(true);
+        jTableListagemDeVendas.getTableHeader().setReorderingAllowed(false);
+
+        jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, movendaprodList, jTableListagemDeVendas);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmovenda.data}"));
+        columnBinding.setColumnName("Data");
+        columnBinding.setColumnClass(java.util.Date.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmovenda.hora}"));
+        columnBinding.setColumnName("Hora");
+        columnBinding.setColumnClass(java.util.Date.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${quantidade}"));
+        columnBinding.setColumnName("Quantidade");
+        columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmovenda.codcli.nomecli}"));
+        columnBinding.setColumnName("Cliente");
+        columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmovenda.codcli.cnpj}"));
+        columnBinding.setColumnName("CNPJ");
+        columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmovenda.codcli.cidade}"));
+        columnBinding.setColumnName("Cidade");
+        columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmovenda.numnota}"));
+        columnBinding.setColumnName("Número Nota");
+        columnBinding.setColumnClass(Integer.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmovenda.numped}"));
+        columnBinding.setColumnName("Número Pedido");
+        columnBinding.setColumnClass(Integer.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valorunitario}"));
+        columnBinding.setColumnName("Valor Unitário");
+        columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valortotal}"));
+        columnBinding.setColumnName("Valor Total");
+        columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${customedio}"));
+        columnBinding.setColumnName("Custo Médio");
+        columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${custoreal}"));
+        columnBinding.setColumnName("Custo Real");
+        columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valorcofins}"));
+        columnBinding.setColumnName("Valor COFINS");
+        columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${aliqcofins}"));
+        columnBinding.setColumnName("Aliq. COFINS");
+        columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${basecofins}"));
+        columnBinding.setColumnName("Base Cofins");
+        columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${aliqpis}"));
+        columnBinding.setColumnName("Aliq. Pis");
+        columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${basepis}"));
+        columnBinding.setColumnName("Base Pis");
+        columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${quantidadedevolvida}"));
+        columnBinding.setColumnName("Qua. Devolvida");
+        columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${aliqicms}"));
+        columnBinding.setColumnName("Aliq Icms");
+        columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${baseicms}"));
+        columnBinding.setColumnName("Base Icms");
+        columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valorsubsttributaria}"));
+        columnBinding.setColumnName("Valor ST");
+        columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valoricms}"));
+        columnBinding.setColumnName("Valor Icms");
+        columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${basesubsttributaria}"));
+        columnBinding.setColumnName("Base ST");
+        columnBinding.setColumnClass(java.math.BigDecimal.class);
+        bindingGroup.addBinding(jTableBinding);
+        jTableBinding.bind();
+        jScrollPane1.setViewportView(jTableListagemDeVendas);
+        jTableListagemDeVendas.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        if (jTableListagemDeVendas.getColumnModel().getColumnCount() > 0) {
+            jTableListagemDeVendas.getColumnModel().getColumn(1).setCellRenderer(new integrador.render.RenderHora());
+            jTableListagemDeVendas.getColumnModel().getColumn(2).setCellRenderer(new RenderNumeroInteiro());
+            jTableListagemDeVendas.getColumnModel().getColumn(3).setPreferredWidth(250);
+            jTableListagemDeVendas.getColumnModel().getColumn(4).setPreferredWidth(120);
+            jTableListagemDeVendas.getColumnModel().getColumn(5).setPreferredWidth(120);
+            jTableListagemDeVendas.getColumnModel().getColumn(8).setCellRenderer(new integrador.render.RenderPreco());
+            jTableListagemDeVendas.getColumnModel().getColumn(9).setCellRenderer(new integrador.render.RenderPreco());
+            jTableListagemDeVendas.getColumnModel().getColumn(10).setCellRenderer(new integrador.render.RenderPreco());
+            jTableListagemDeVendas.getColumnModel().getColumn(11).setCellRenderer(new integrador.render.RenderPreco());
+            jTableListagemDeVendas.getColumnModel().getColumn(12).setCellRenderer(new integrador.render.RenderPreco());
+            jTableListagemDeVendas.getColumnModel().getColumn(13).setCellRenderer( new RenderPorcentagem());
+            jTableListagemDeVendas.getColumnModel().getColumn(14).setCellRenderer(new integrador.render.RenderPreco());
+            jTableListagemDeVendas.getColumnModel().getColumn(15).setCellRenderer( new RenderPorcentagem());
+            jTableListagemDeVendas.getColumnModel().getColumn(16).setCellRenderer(new integrador.render.RenderPreco());
+            jTableListagemDeVendas.getColumnModel().getColumn(17).setCellRenderer(new RenderNumeroInteiro());
+            jTableListagemDeVendas.getColumnModel().getColumn(18).setCellRenderer( new RenderPorcentagem());
+            jTableListagemDeVendas.getColumnModel().getColumn(19).setCellRenderer(new integrador.render.RenderPreco());
+            jTableListagemDeVendas.getColumnModel().getColumn(20).setCellRenderer(new integrador.render.RenderPreco());
+            jTableListagemDeVendas.getColumnModel().getColumn(21).setCellRenderer(new integrador.render.RenderPreco());
+            jTableListagemDeVendas.getColumnModel().getColumn(22).setCellRenderer(new integrador.render.RenderPreco());
+        }
+
+        javax.swing.GroupLayout jPanelListagemDeVendasLayout = new javax.swing.GroupLayout(jPanelListagemDeVendas);
+        jPanelListagemDeVendas.setLayout(jPanelListagemDeVendasLayout);
+        jPanelListagemDeVendasLayout.setHorizontalGroup(
+            jPanelListagemDeVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelListagemDeVendasLayout.createSequentialGroup()
+                .addGroup(jPanelListagemDeVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelListagemDeVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jButtonAtualizaListagemSaidas)
+                        .addGroup(jPanelListagemDeVendasLayout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(jLabelMaximoDeResultadosSaida, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jTextFieldMaximoResultadosSaida, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanelListagemDeVendasLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jCheckBoxSomenteVendas)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1066, Short.MAX_VALUE))
+        );
+        jPanelListagemDeVendasLayout.setVerticalGroup(
+            jPanelListagemDeVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelListagemDeVendasLayout.createSequentialGroup()
+                .addComponent(jButtonAtualizaListagemSaidas)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanelListagemDeVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldMaximoResultadosSaida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelMaximoDeResultadosSaida))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jCheckBoxSomenteVendas)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+        );
+
+        jTabbedPaneAlteracaoPrecoProdutoCplus.addTab("Listagem de Vendas", jPanelListagemDeVendas);
+
+        jButtonAtualizaListagemEntradas.setText("Atualiza Entradas");
+        jButtonAtualizaListagemEntradas.setEnabled(false);
+        jButtonAtualizaListagemEntradas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAtualizaListagemEntradasActionPerformed(evt);
+            }
+        });
+
+        jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, moventradaprodList, jTable1);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmoventr.data}"));
+        columnBinding.setColumnName("Data");
+        columnBinding.setColumnClass(java.util.Date.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valorunitario}"));
+        columnBinding.setColumnName("Valor Unitario");
+        columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${quantidade}"));
+        columnBinding.setColumnName("Quantidade");
+        columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${complemento}"));
+        columnBinding.setColumnName("Codigo Fornecedor");
+        columnBinding.setColumnClass(String.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${aliqicms}"));
+        columnBinding.setColumnName("Aliq ICMS");
+        columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${aliqipi}"));
+        columnBinding.setColumnName("Aliq IPI");
+        columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmoventr.codForn.nomeforn}"));
+        columnBinding.setColumnName("Fornecedor");
+        columnBinding.setColumnClass(String.class);
+        bindingGroup.addBinding(jTableBinding);
+        jTableBinding.bind();
+        jScrollPane3.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setPreferredWidth(60);
+            jTable1.getColumnModel().getColumn(1).setPreferredWidth(60);
+            jTable1.getColumnModel().getColumn(1).setCellRenderer(new integrador.render.RenderPreco());
+            jTable1.getColumnModel().getColumn(2).setPreferredWidth(40);
+            jTable1.getColumnModel().getColumn(2).setCellRenderer(new RenderNumeroInteiro());
+            jTable1.getColumnModel().getColumn(3).setPreferredWidth(120);
+            jTable1.getColumnModel().getColumn(4).setPreferredWidth(40);
+            jTable1.getColumnModel().getColumn(4).setCellRenderer(new RenderPorcentagem());
+            jTable1.getColumnModel().getColumn(5).setPreferredWidth(40);
+            jTable1.getColumnModel().getColumn(5).setCellRenderer(new RenderPorcentagem());
+            jTable1.getColumnModel().getColumn(6).setPreferredWidth(240);
+        }
+
+        jCheckBoxSomenteCompras.setSelected(true);
+        jCheckBoxSomenteCompras.setText("Somente Compras");
+
+        jLabel5.setText("Max. Resul.");
+
+        jTextFieldMaximoResultadoEntrada.setText("20");
+
+        javax.swing.GroupLayout jPanelListagemEntradasLayout = new javax.swing.GroupLayout(jPanelListagemEntradas);
+        jPanelListagemEntradas.setLayout(jPanelListagemEntradasLayout);
+        jPanelListagemEntradasLayout.setHorizontalGroup(
+            jPanelListagemEntradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelListagemEntradasLayout.createSequentialGroup()
+                .addGroup(jPanelListagemEntradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonAtualizaListagemEntradas)
+                    .addGroup(jPanelListagemEntradasLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanelListagemEntradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jCheckBoxSomenteCompras)
+                            .addGroup(jPanelListagemEntradasLayout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextFieldMaximoResultadoEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 1108, Short.MAX_VALUE))
+        );
+        jPanelListagemEntradasLayout.setVerticalGroup(
+            jPanelListagemEntradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelListagemEntradasLayout.createSequentialGroup()
+                .addComponent(jButtonAtualizaListagemEntradas)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jCheckBoxSomenteCompras)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanelListagemEntradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jTextFieldMaximoResultadoEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(216, Short.MAX_VALUE))
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+        );
+
+        jTabbedPaneAlteracaoPrecoProdutoCplus.addTab("Listagem de Entradas", jPanelListagemEntradas);
+
         javax.swing.GroupLayout jPanelControlesLayout = new javax.swing.GroupLayout(jPanelControles);
         jPanelControles.setLayout(jPanelControlesLayout);
         jPanelControlesLayout.setHorizontalGroup(
             jPanelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelControlesLayout.createSequentialGroup()
+            .addGroup(jPanelControlesLayout.createSequentialGroup()
                 .addGroup(jPanelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelControlesLayout.createSequentialGroup()
                         .addComponent(jPanelOutros, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1820,6 +1820,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
                     .addComponent(jPanelCustos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane5))
                 .addContainerGap())
+            .addComponent(jTabbedPaneAlteracaoPrecoProdutoCplus)
         );
         jPanelControlesLayout.setVerticalGroup(
             jPanelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1852,7 +1853,8 @@ public class ProdutoJFrame extends javax.swing.JFrame {
                                 .addComponent(jPanelArredondamentoVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButtonEditarSetorEstoque)))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jTabbedPaneAlteracaoPrecoProdutoCplus, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -1860,16 +1862,10 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanelControles, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(jTabbedPaneAlteracaoPrecoProdutoCplus)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanelControles, javax.swing.GroupLayout.PREFERRED_SIZE, 458, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(1, 1, 1)
-                .addComponent(jTabbedPaneAlteracaoPrecoProdutoCplus)
-                .addContainerGap())
+            .addComponent(jPanelControles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         bindingGroup.bind();

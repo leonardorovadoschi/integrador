@@ -16,6 +16,7 @@ import entidade.integrador.EntradaSerial;
 import entidade.integrador.SerialProduto;
 import integrador.relatorio.ImprimeRelatorio;
 import janela.cplus.ListagemLocalizacaoJDialog;
+import janela.cplus.ListagemProdutoJDialog;
 import java.awt.Toolkit;
 import java.io.File;
 import java.math.BigDecimal;
@@ -58,7 +59,8 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
         listagemUsuarioJDialog = new ListagemUsuarioJDialog(parent, true, managerCplus);
         colunaSerial = jTableSerialDigitado.getColumnModel().getColumnIndex("Serial");
-        this.listagemLocalizacaoJDialog = new ListagemLocalizacaoJDialog(parent, true, managerCplus);
+        //this.listagemLocalizacaoJDialog = new ListagemLocalizacaoJDialog(parent, true, managerCplus);
+        this.listagemProdutoJDialog = new ListagemProdutoJDialog(parent, true, managerCplus);
     }
 
     /**
@@ -93,7 +95,7 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
         jTextFieldNumeroDeItens = new javax.swing.JTextField();
         jToggleButtonEntradaSequencial = new javax.swing.JToggleButton();
-        jButtonEditarSetorEstoque = new javax.swing.JButton();
+        jButtonEditarProduto = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Processo de Entrada de Seriais");
@@ -281,12 +283,12 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
             }
         });
 
-        jButtonEditarSetorEstoque.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        jButtonEditarSetorEstoque.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/Edit.png"))); // NOI18N
-        jButtonEditarSetorEstoque.setText("Editar Setor Estoque");
-        jButtonEditarSetorEstoque.addActionListener(new java.awt.event.ActionListener() {
+        jButtonEditarProduto.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jButtonEditarProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/Edit.png"))); // NOI18N
+        jButtonEditarProduto.setText("Editar Produto");
+        jButtonEditarProduto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonEditarSetorEstoqueActionPerformed(evt);
+                jButtonEditarProdutoActionPerformed(evt);
             }
         });
 
@@ -311,7 +313,7 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
                             .addComponent(jLabel1)
                             .addComponent(jToggleButtonEntradaSequencial))
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jButtonEditarSetorEstoque, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButtonEditarProduto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanelInformacoesLayout.setVerticalGroup(
@@ -322,7 +324,7 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonExcluirSerialSelecionado)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButtonEditarSetorEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButtonEditarProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -409,7 +411,8 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
             s.getIdSerial().setNomeProduto(movEntradaProd.getCodprod().getCodigo() + "-" + s.getIdSerial().getNomeProduto());
             listText.add(s.getIdSerial());
         }
-        new ImprimeRelatorio().imprimeRelatorioPeloArquivo(queryIntegrador.valorConfiguracao("caminho_ENTRADA_SERIAL"), listText);
+       // new ImprimeRelatorio().imprimeRelatorioPeloArquivo(queryIntegrador.valorConfiguracao("caminho_ENTRADA_SERIAL"), listText);
+        new ImprimeRelatorio().imprimeRelatorioPeloJar("/integrador/relatorio/etiquetaEntrada.jrxml", listText);
         dispose();
         setVisible(false);
     }//GEN-LAST:event_jButtonImprimirEtiquetaActionPerformed
@@ -422,8 +425,8 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_jToggleButtonEntradaSequencialActionPerformed
 
-    private void jButtonEditarSetorEstoqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarSetorEstoqueActionPerformed
-                     
+    private void jButtonEditarProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarProdutoActionPerformed
+           /**          
             this.listagemLocalizacaoJDialog.setVisible(true);
             if (this.listagemLocalizacaoJDialog.isCancelamento() == false) {
                 for(Produto p : queryCplus.listProduto(movEntradaProd.getCodprod().getCodprod())){
@@ -437,8 +440,10 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
                         JOptionPane.showMessageDialog(null, "Houve um ero ao editar produto! \n"+ex);
                     }
                 }           
-        }
-    }//GEN-LAST:event_jButtonEditarSetorEstoqueActionPerformed
+        }*/      
+        this.listagemProdutoJDialog.setTermoPesquisa(produto.getCodigo());
+        this.listagemProdutoJDialog.setVisible(true);
+    }//GEN-LAST:event_jButtonEditarProdutoActionPerformed
 
     private void excluirSerialSelecionado() {
        // DefaultTableModel tabelaEntradaSerial = (DefaultTableModel) jTableSerialDigitado.getModel();
@@ -818,11 +823,12 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
     private List<Produtocodigo> listCodigo;
     private Produto produto;
     private int quantidadePacote;
-    private final ListagemLocalizacaoJDialog listagemLocalizacaoJDialog;
+    //private final ListagemLocalizacaoJDialog listagemLocalizacaoJDialog;
+    private final ListagemProdutoJDialog listagemProdutoJDialog;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCancelarEntrada;
-    private javax.swing.JButton jButtonEditarSetorEstoque;
+    private javax.swing.JButton jButtonEditarProduto;
     private javax.swing.JButton jButtonExcluirSerialSelecionado;
     private javax.swing.JButton jButtonGerarSeriais;
     private javax.swing.JButton jButtonGravar;

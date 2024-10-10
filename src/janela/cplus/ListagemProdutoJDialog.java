@@ -6,7 +6,10 @@
 
 package janela.cplus;
 
+import entidade.cplus.Localizacao;
 import entidade.cplus.Produto;
+import integrador.render.produto.RenderEstoqueDisponivel;
+import integrador.render.produto.RenderLocalizacao;
 import java.awt.Toolkit;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
@@ -23,6 +26,8 @@ public class ListagemProdutoJDialog extends javax.swing.JDialog {
     /**
      * Creates new form ListagemProdutoJDialog
      * @param parent
+     * @param modal
+     * @param managerCplus1
      */
     public ListagemProdutoJDialog(java.awt.Frame parent, boolean modal, EntityManagerFactory managerCplus1) {
         super(parent, modal);
@@ -31,6 +36,10 @@ public class ListagemProdutoJDialog extends javax.swing.JDialog {
         queryCplus = new QueryCplus(managerCplus);
         formatacaoCampos = new FormataCampos(); 
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
+        this.listagemLocalizacaoJDialog = new ListagemLocalizacaoJDialog(parent, true, managerCplus);
+        new RenderLocalizacao(managerCplus);
+        //new RenderEstoqueDisponivel();
+        
     }
 
     /**
@@ -53,14 +62,21 @@ public class ListagemProdutoJDialog extends javax.swing.JDialog {
         jButtonOk = new javax.swing.JButton();
         jButtonCancelar = new javax.swing.JButton();
         jCheckBoxAtivo = new javax.swing.JCheckBox();
+        jButtonEditarSetorEstoque = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTableProdutos = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanelPesquisa.setBorder(javax.swing.BorderFactory.createTitledBorder("Pesquisa"));
 
         jComboBoxTipo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Nome ou Codigo" }));
+
+        jTextFieldTermoDaPesquisa.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextFieldTermoDaPesquisaKeyPressed(evt);
+            }
+        });
 
         jButtonPesquisar.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jButtonPesquisar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/pesquisar.png"))); // NOI18N
@@ -91,21 +107,35 @@ public class ListagemProdutoJDialog extends javax.swing.JDialog {
 
         jCheckBoxAtivo.setText("Ativo:");
 
+        jButtonEditarSetorEstoque.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jButtonEditarSetorEstoque.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/Edit.png"))); // NOI18N
+        jButtonEditarSetorEstoque.setText("Editar Setor Estoque");
+        jButtonEditarSetorEstoque.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEditarSetorEstoqueActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelPesquisaLayout = new javax.swing.GroupLayout(jPanelPesquisa);
         jPanelPesquisa.setLayout(jPanelPesquisaLayout);
         jPanelPesquisaLayout.setHorizontalGroup(
             jPanelPesquisaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelPesquisaLayout.createSequentialGroup()
-                .addGroup(jPanelPesquisaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(jPanelPesquisaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelPesquisaLayout.createSequentialGroup()
+                        .addComponent(jComboBoxTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                     .addGroup(jPanelPesquisaLayout.createSequentialGroup()
                         .addComponent(jCheckBoxAtivo, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(jPanelPesquisaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanelPesquisaLayout.createSequentialGroup()
+                        .addComponent(jButtonEditarSetorEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(54, 54, 54)
                         .addComponent(jButtonOk)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButtonCancelar))
                     .addGroup(jPanelPesquisaLayout.createSequentialGroup()
-                        .addComponent(jComboBoxTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextFieldTermoDaPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -122,42 +152,53 @@ public class ListagemProdutoJDialog extends javax.swing.JDialog {
                 .addGroup(jPanelPesquisaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonOk)
                     .addComponent(jButtonCancelar)
-                    .addComponent(jCheckBoxAtivo)))
+                    .addComponent(jCheckBoxAtivo)
+                    .addComponent(jButtonEditarSetorEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
-        jTable1.getTableHeader().setReorderingAllowed(false);
+        jTableProdutos.getTableHeader().setReorderingAllowed(false);
 
-        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, produtoList, jTable1);
-        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codprod}"));
-        columnBinding.setColumnName("Codprod");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codigo}"));
+        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, produtoList, jTableProdutos);
+        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codigo}"));
         columnBinding.setColumnName("Codigo");
         columnBinding.setColumnClass(String.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${nomeprod}"));
         columnBinding.setColumnName("Nome");
         columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codunidade}"));
-        columnBinding.setColumnName("Codunidade");
-        columnBinding.setColumnClass(entidade.cplus.Unidade.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codloc}"));
+        columnBinding.setColumnName("Setor");
+        columnBinding.setColumnClass(String.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${unidade}"));
+        columnBinding.setColumnName("Unidade");
+        columnBinding.setColumnClass(String.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${flaginativo}"));
         columnBinding.setColumnName("Flaginativo");
         columnBinding.setColumnClass(Character.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${datreaj}"));
-        columnBinding.setColumnName("Datreaj");
+        columnBinding.setColumnName("Data Reajuste");
         columnBinding.setColumnClass(java.util.Date.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${unidade}"));
-        columnBinding.setColumnName("Unidade");
-        columnBinding.setColumnClass(String.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${pesoliquido}"));
         columnBinding.setColumnName("Pesoliquido");
         columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codprod}"));
+        columnBinding.setColumnName("Codprod");
+        columnBinding.setColumnClass(String.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${produtoestoqueCollection}"));
+        columnBinding.setColumnName("Estoque");
+        columnBinding.setColumnClass(java.util.Collection.class);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(1).setPreferredWidth(80);
-            jTable1.getColumnModel().getColumn(2).setPreferredWidth(340);
+        jTableProdutos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableProdutosMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTableProdutos);
+        if (jTableProdutos.getColumnModel().getColumnCount() > 0) {
+            jTableProdutos.getColumnModel().getColumn(0).setPreferredWidth(80);
+            jTableProdutos.getColumnModel().getColumn(1).setPreferredWidth(340);
+            jTableProdutos.getColumnModel().getColumn(2).setCellRenderer(null);
+            jTableProdutos.getColumnModel().getColumn(8).setCellRenderer(new RenderEstoqueDisponivel());
         }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -194,11 +235,53 @@ public class ListagemProdutoJDialog extends javax.swing.JDialog {
         cancelamento();
     }//GEN-LAST:event_jButtonCancelarActionPerformed
 
+    private void jButtonEditarSetorEstoqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarSetorEstoqueActionPerformed
+        this.listagemLocalizacaoJDialog.setVisible(true);
+        if (this.listagemLocalizacaoJDialog.isCancelamento() == false) {
+            for(Produto p : queryCplus.listProduto(getProduto().getCodprod())){
+                try {
+                    p.setCodloc(this.listagemLocalizacaoJDialog.getLocalizacao().getCodloc());
+                    new ProdutoJpaController(managerCplus).edit(p);
+                    pesquisas();
+                } catch (jpa.cplus.exceptions.NonexistentEntityException ex) {
+                    JOptionPane.showMessageDialog(null, "Houve um ero ao editar produto! \n"+ex);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, "Houve um ero ao editar produto! \n"+ex);
+                }
+            }
+        }
+    }//GEN-LAST:event_jButtonEditarSetorEstoqueActionPerformed
+
+    private void jTableProdutosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableProdutosMouseClicked
+         int colunaCodMoVenda = jTableProdutos.getColumnModel().getColumnIndex("Codprod");
+        String cod = jTableProdutos.getValueAt(jTableProdutos.getSelectedRow(), colunaCodMoVenda).toString();
+            if (cod != null) {
+                setProduto(new ProdutoJpaController(managerCplus).findProduto(cod));
+            }
+    }//GEN-LAST:event_jTableProdutosMouseClicked
+
+    private void jTextFieldTermoDaPesquisaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldTermoDaPesquisaKeyPressed
+       pesquisas();
+    }//GEN-LAST:event_jTextFieldTermoDaPesquisaKeyPressed
+
     public void setTermoPesquisa(String termo) {
         jComboBoxTipo.setSelectedIndex(0);
         jTextFieldTermoDaPesquisa.setText(termo);
-       
-        pesquisas();      
+        this.termoPesquisa = termo; 
+         List<Produto> listP;
+        if (!"".equals(termoPesquisa)) {
+                    listP = queryCplus.resultPorNomeProdutoOuCodigo(termoPesquisa, jCheckBoxAtivo.isSelected());                    
+                    if (listP.size() < 1) {
+                        JOptionPane.showMessageDialog(null, "Não foi encontrado resultado para essa pesquisa!!! ");
+                    } else {      
+                        produtoList.clear();
+                        for (Produto sai : listP) {
+                            produtoList.add(sai);
+                        }
+                    }  
+                }else{
+                    JOptionPane.showMessageDialog(null, "A digite algo na pesquisa!!! ");
+                }
     }
     
      private void cancelamento() {
@@ -210,11 +293,11 @@ public class ListagemProdutoJDialog extends javax.swing.JDialog {
     }
 
     private void finalizacao() {
-        int colunaCodMoVenda = jTable1.getColumnModel().getColumnIndex("Codprod");
-        if (jTable1.getSelectedRow() == -1) {
+        int colunaCodMoVenda = jTableProdutos.getColumnModel().getColumnIndex("Codprod");
+        if (jTableProdutos.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(null, "Você deve selecionar uma linha na tabela!!! ");
         } else {
-            String cod = jTable1.getValueAt(jTable1.getSelectedRow(), colunaCodMoVenda).toString();
+            String cod = jTableProdutos.getValueAt(jTableProdutos.getSelectedRow(), colunaCodMoVenda).toString();
             if (cod != null) {
                 setProduto(new ProdutoJpaController(managerCplus).findProduto(cod));
                 setCancelamento(false);
@@ -242,9 +325,16 @@ public class ListagemProdutoJDialog extends javax.swing.JDialog {
                 }else{
                     JOptionPane.showMessageDialog(null, "A digite algo na pesquisa!!! ");
                 }
-                break;
-            
+                break;            
         }
+    }
+    
+     private String setor(Produto codProd){
+        String text = "";
+        for(Localizacao loc : queryCplus.listLocalizacao(codProd.getCodloc())){
+           text =  loc.getDescricao();
+       }
+        return text;
     }
 
     public Produto getProduto() {
@@ -311,17 +401,20 @@ public class ListagemProdutoJDialog extends javax.swing.JDialog {
     private final FormataCampos formatacaoCampos;
     private Produto produto;
     private boolean cancelamento;
-
+    private final ListagemLocalizacaoJDialog listagemLocalizacaoJDialog;
+    private String termoPesquisa;
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.persistence.EntityManager cplusPUEntityManager;
     private javax.swing.JButton jButtonCancelar;
+    private javax.swing.JButton jButtonEditarSetorEstoque;
     private javax.swing.JButton jButtonOk;
     private javax.swing.JButton jButtonPesquisar;
     private javax.swing.JCheckBox jCheckBoxAtivo;
     private javax.swing.JComboBox jComboBoxTipo;
     private javax.swing.JPanel jPanelPesquisa;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTableProdutos;
     private javax.swing.JTextField jTextFieldTermoDaPesquisa;
     private java.util.List<entidade.cplus.Produto> produtoList;
     private javax.persistence.Query produtoQuery;

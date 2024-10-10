@@ -157,6 +157,7 @@
               </StringArray>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Selecione a op&#xe7;&#xe3;o que desejar!"/>
+            <Property name="focusable" type="boolean" value="false"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="jTextFieldTermoPesquisa">
