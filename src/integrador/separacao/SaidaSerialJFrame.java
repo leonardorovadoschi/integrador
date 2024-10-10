@@ -21,6 +21,7 @@ import entidade.integrador.SaidaSerial;
 import entidade.integrador.SerialProduto;
 import integrador.relatorio.ImprimeRelatorio;
 import integrador.render.produto.RenderLocalizacao;
+import janela.cplus.ListagemProdutoJDialog;
 import janela.cplus.ListagemSaidasJDialog;
 import java.awt.Color;
 import java.awt.Toolkit;
@@ -36,6 +37,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import jpa.cplus.MovendaJpaController;
+import jpa.cplus.MovendaprodJpaController;
 import jpa.cplus.ProdutoJpaController;
 import jpa.cplus.exceptions.NonexistentEntityException;
 import jpa.integrador.IntConfiguracaoJpaController;
@@ -75,6 +77,7 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
         //colunaCodMovProdutoSaida = jTableProdutosPedido.getColumnModel().getColumnIndex("Codmovprod");
         //colunaQuantidadeConferida = jTableProdutosPedido.getColumnModel().getColumnIndex("Quant Conferida");   
         //colunaCodMovProdutoSerial = jTableSerialSaida.getColumnModel().getColumnIndex("Codmovendaprodserial");
+        this.listagemProdutoJDialog = new ListagemProdutoJDialog(this, true, managerCplus);
      new RenderLocalizacao(managerCplus);
 
     }
@@ -91,6 +94,7 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
         jPanelConfiguracaoLista = new javax.swing.JPanel();
         jButtonImprimirRomaneio = new javax.swing.JButton();
         jButtonExcluirSeria = new javax.swing.JButton();
+        jButtonEditarProduto = new javax.swing.JButton();
         jTextFieldTextoAviso = new javax.swing.JTextField();
         jPanelInformacoes = new javax.swing.JPanel();
         jLabelItensFaltando = new javax.swing.JLabel();
@@ -133,15 +137,30 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
             }
         });
 
+        jButtonEditarProduto.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jButtonEditarProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/Edit.png"))); // NOI18N
+        jButtonEditarProduto.setText("Editar Produto");
+        jButtonEditarProduto.setEnabled(false);
+        jButtonEditarProduto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEditarProdutoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelConfiguracaoListaLayout = new javax.swing.GroupLayout(jPanelConfiguracaoLista);
         jPanelConfiguracaoLista.setLayout(jPanelConfiguracaoListaLayout);
         jPanelConfiguracaoListaLayout.setHorizontalGroup(
             jPanelConfiguracaoListaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelConfiguracaoListaLayout.createSequentialGroup()
-                .addGap(171, 171, 171)
-                .addGroup(jPanelConfiguracaoListaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonImprimirRomaneio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonExcluirSeria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelConfiguracaoListaLayout.createSequentialGroup()
+                .addGroup(jPanelConfiguracaoListaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanelConfiguracaoListaLayout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonEditarProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanelConfiguracaoListaLayout.createSequentialGroup()
+                        .addGap(171, 171, 171)
+                        .addGroup(jPanelConfiguracaoListaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButtonImprimirRomaneio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButtonExcluirSeria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(54, 54, 54))
         );
         jPanelConfiguracaoListaLayout.setVerticalGroup(
@@ -150,7 +169,9 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
                 .addComponent(jButtonImprimirRomaneio)
                 .addGap(42, 42, 42)
                 .addComponent(jButtonExcluirSeria)
-                .addGap(0, 40, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonEditarProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         jTextFieldTextoAviso.setEditable(false);
@@ -382,18 +403,18 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(87, 87, 87)
                         .addComponent(jPanelInformacoes, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(jPanelPesquisas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanelConfiguracaoLista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanelConfiguracaoLista, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextFieldTextoAviso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 533, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 535, Short.MAX_VALUE))
             .addComponent(jScrollPane2)
         );
 
@@ -468,8 +489,36 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jTableSeriasSeparadosMouseClicked
 
     private void jTableSaidaProdMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableSaidaProdMouseClicked
-    
+    jButtonEditarProduto.setEnabled(true);
     }//GEN-LAST:event_jTableSaidaProdMouseClicked
+
+    private void jButtonEditarProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarProdutoActionPerformed
+
+        /**
+        * this.listagemLocalizacaoJDialog.setVisible(true); if
+        * (this.listagemLocalizacaoJDialog.isCancelamento() == false) {
+            * for(Produto p :
+                * queryCplus.listProduto(movEntradaProd.getCodprod().getCodprod())){
+                * try {
+                    * p.setCodloc(this.listagemLocalizacaoJDialog.getLocalizacao().getCodloc());
+                    * new ProdutoJpaController(managerCplus).edit(p);
+                    * jButtonEditarSetorEstoque.setEnabled(false); carregarTabela(); }
+                * catch (jpa.cplus.exceptions.NonexistentEntityException ex) {
+                    * JOptionPane.showMessageDialog(null, "Houve um ero ao editar produto!
+                        * \n"+ex); } catch (Exception ex) { JOptionPane.showMessageDialog(null,
+                        * "Houve um ero ao editar produto! \n"+ex); } } }
+        */
+        if (jTableSaidaProd.getRowCount() > 0 && jTableSaidaProd.getSelectedRow() != -1) {
+            int colunaCodMovProd = jTableSaidaProd.getColumnModel().getColumnIndex("Codmoveprod");
+            String codMovProd = jTableSaidaProd.getValueAt(jTableSaidaProd.getSelectedRow(), colunaCodMovProd).toString();
+            Movendaprod movEntradaProd = new MovendaprodJpaController(managerCplus).findMovendaprod(codMovProd);
+            this.listagemProdutoJDialog.setTermoPesquisa(movEntradaProd.getCodprod().getCodigo());
+            this.listagemProdutoJDialog.setVisible(true);
+            jButtonEditarProduto.setEnabled(false);
+        } else {
+            JOptionPane.showMessageDialog(null, "Selecione uma linha");
+        }
+    }//GEN-LAST:event_jButtonEditarProdutoActionPerformed
 
     private void adicionarSerial() {
         int quantSeparada = 0;
@@ -971,6 +1020,7 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
     // QuerySerial querySerial;
     private final QueryCplus queryCplus;
     private final QueryIntegrador queryIntegrador;
+    private final ListagemProdutoJDialog listagemProdutoJDialog;
     //int colunaCodMovProdutoSaida;
     //int colunaQuantidadeConferida;
     //int quantidadeSaidas;
@@ -978,6 +1028,7 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCancelarSeparacao;
+    private javax.swing.JButton jButtonEditarProduto;
     private javax.swing.JButton jButtonExcluirSeria;
     private javax.swing.JButton jButtonFechar;
     private javax.swing.JButton jButtonImprimirRomaneio;

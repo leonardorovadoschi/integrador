@@ -32,7 +32,7 @@ public class ListagemProdutoJDialog extends javax.swing.JDialog {
     public ListagemProdutoJDialog(java.awt.Frame parent, boolean modal, EntityManagerFactory managerCplus1) {
         super(parent, modal);
         initComponents();
-        managerCplus = managerCplus1;
+        this.managerCplus = managerCplus1;
         queryCplus = new QueryCplus(managerCplus);
         formatacaoCampos = new FormataCampos(); 
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
@@ -110,6 +110,7 @@ public class ListagemProdutoJDialog extends javax.swing.JDialog {
         jButtonEditarSetorEstoque.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jButtonEditarSetorEstoque.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/Edit.png"))); // NOI18N
         jButtonEditarSetorEstoque.setText("Editar Setor Estoque");
+        jButtonEditarSetorEstoque.setEnabled(false);
         jButtonEditarSetorEstoque.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonEditarSetorEstoqueActionPerformed(evt);
@@ -197,7 +198,7 @@ public class ListagemProdutoJDialog extends javax.swing.JDialog {
         if (jTableProdutos.getColumnModel().getColumnCount() > 0) {
             jTableProdutos.getColumnModel().getColumn(0).setPreferredWidth(80);
             jTableProdutos.getColumnModel().getColumn(1).setPreferredWidth(340);
-            jTableProdutos.getColumnModel().getColumn(2).setCellRenderer(null);
+            jTableProdutos.getColumnModel().getColumn(2).setCellRenderer(new RenderLocalizacao(managerCplus));
             jTableProdutos.getColumnModel().getColumn(8).setCellRenderer(new RenderEstoqueDisponivel());
         }
 
@@ -257,6 +258,7 @@ public class ListagemProdutoJDialog extends javax.swing.JDialog {
         String cod = jTableProdutos.getValueAt(jTableProdutos.getSelectedRow(), colunaCodMoVenda).toString();
             if (cod != null) {
                 setProduto(new ProdutoJpaController(managerCplus).findProduto(cod));
+                jButtonEditarSetorEstoque.setEnabled(true);
             }
     }//GEN-LAST:event_jTableProdutosMouseClicked
 
@@ -282,6 +284,7 @@ public class ListagemProdutoJDialog extends javax.swing.JDialog {
                 }else{
                     JOptionPane.showMessageDialog(null, "A digite algo na pesquisa!!! ");
                 }
+        jButtonEditarSetorEstoque.setEnabled(false);
     }
     
      private void cancelamento() {
@@ -327,6 +330,7 @@ public class ListagemProdutoJDialog extends javax.swing.JDialog {
                 }
                 break;            
         }
+          jButtonEditarSetorEstoque.setEnabled(false);
     }
     
      private String setor(Produto codProd){

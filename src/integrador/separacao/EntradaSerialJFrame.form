@@ -149,7 +149,7 @@
                       </Group>
                       <Group type="102" attributes="0">
                           <EmptySpace max="32767" attributes="0"/>
-                          <Component id="jButtonEditarSetorEstoque" min="-2" pref="187" max="-2" attributes="0"/>
+                          <Component id="jButtonEditarProduto" min="-2" pref="187" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
@@ -173,7 +173,7 @@
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jButtonListaSerialProduto" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jButtonListaSerialEntrada" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jButtonEditarSetorEstoque" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
+                              <Component id="jButtonEditarProduto" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -259,7 +259,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonFecharActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButtonEditarSetorEstoque">
+        <Component class="javax.swing.JButton" name="jButtonEditarProduto">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Arial" size="12" style="1"/>
@@ -267,11 +267,11 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/icones/Edit.png"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Editar Setor Estoque"/>
+            <Property name="text" type="java.lang.String" value="Editar Produto"/>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonEditarSetorEstoqueActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonEditarProdutoActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

@@ -20,7 +20,7 @@ public class RenderLocalizacao extends DefaultTableCellRenderer{
 
     public RenderLocalizacao(EntityManagerFactory managerCplus) {       
         emf = managerCplus;
-        setHorizontalAlignment(SwingConstants.RIGHT);
+        setHorizontalAlignment(SwingConstants.CENTER);
     }
 
     @Override

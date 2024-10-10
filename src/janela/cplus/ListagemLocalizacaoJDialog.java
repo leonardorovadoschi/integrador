@@ -6,6 +6,7 @@
 package janela.cplus;
 
 import entidade.cplus.Localizacao;
+import integrador.render.RenderCenter;
 import java.awt.Toolkit;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
@@ -34,6 +35,7 @@ public class ListagemLocalizacaoJDialog extends javax.swing.JDialog {
         colunaCodLoc = jTableLocalizacao.getColumnModel().getColumnIndex("Codloc");
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
         jTextFieldTermoPesquisa.requestFocus();
+        new RenderCenter();
     }
 
     /**
@@ -101,6 +103,7 @@ public class ListagemLocalizacaoJDialog extends javax.swing.JDialog {
         });
         jScrollPane1.setViewportView(jTableLocalizacao);
         if (jTableLocalizacao.getColumnModel().getColumnCount() > 0) {
+            jTableLocalizacao.getColumnModel().getColumn(0).setCellRenderer(new RenderCenter());
             jTableLocalizacao.getColumnModel().getColumn(1).setPreferredWidth(10);
         }
 
