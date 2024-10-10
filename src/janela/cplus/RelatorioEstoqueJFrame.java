@@ -462,9 +462,9 @@ public class RelatorioEstoqueJFrame extends javax.swing.JFrame {
             Comparator ordemNome = new ComparadorNomeProduto();
             Collections.sort(listaProdutosEstoque, ordemNome);
             if (jCheckBoxRelatorioUmaLinha.isSelected()) {
-                new ImprimeRelatorio().imprimeRelatorio("/integrador/relatorio/Relatorio_Inventario_contabil.jrxml", listaProdutosEstoque);
+                new ImprimeRelatorio().imprimeRelatorioPeloJar("/integrador/relatorio/Relatorio_Inventario_contabil.jrxml", listaProdutosEstoque);
             } else {
-                new ImprimeRelatorio().imprimeRelatorio("/integrador/relatorio/Relatorio_Inventario.jrxml", listaProdutosEstoque);
+                new ImprimeRelatorio().imprimeRelatorioPeloJar("/integrador/relatorio/Relatorio_Inventario.jrxml", listaProdutosEstoque);
             }
         } else {
             JOptionPane.showMessageDialog(null, "Não ha dados a serem impressos \n");
@@ -567,7 +567,7 @@ public class RelatorioEstoqueJFrame extends javax.swing.JFrame {
         if (listProd.size() > 0) {
             Comparator ordemNome = new ComparadorNomeProduto();
             Collections.sort(listProd, ordemNome);
-            new ImprimeRelatorio().imprimeRelatorio("/integrador/relatorio/Relatorio_Inventario.jrxml", listProd);
+            new ImprimeRelatorio().imprimeRelatorioPeloJar("/integrador/relatorio/Relatorio_Inventario.jrxml", listProd);
         }
     }
 

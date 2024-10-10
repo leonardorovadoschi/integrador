@@ -498,7 +498,7 @@ public class SaidaSerialJFrameOld extends javax.swing.JFrame {
         if (movenda != null) {
             // ImprimirRelatorio rel = new ImprimirRelatorio();
             // rel.imprimirRomaneio(movenda.getNumped());
-            new ImprimeRelatorio().imprimeRelatorio(queryIntegrador.valorConfiguracao("caminho_RELATORIO_ROMANEIO_SERIAIS"), movendaprodList);
+            new ImprimeRelatorio().imprimeRelatorioPeloArquivo(queryIntegrador.valorConfiguracao("caminho_RELATORIO_ROMANEIO_SERIAIS"), movendaprodList);
         }
     }//GEN-LAST:event_jButtonImprimirRomaneioActionPerformed
 
@@ -534,7 +534,7 @@ public class SaidaSerialJFrameOld extends javax.swing.JFrame {
                         // new ManutencaoVenda().alteraValorProdutos(var, queryCplus, movenda, pedidoIntegrador, managerCplus);
                         new ManutencaoVenda().alteraValorProdutos(queryCplus, movenda, order, managerCplus, managerPrestaShop, managerIntegrador);
                         movenda = new MovendaJpaController(managerCplus).findMovenda(movenda.getCodmovenda());
-                        new ImprimeRelatorio().imprimeRelatorio("/integrador/relatorio/CupomNFCe.jrxml", new ManutencaoVenda().listaRelatorio(movenda, nfc));
+                        new ImprimeRelatorio().imprimeRelatorioPeloJar("/integrador/relatorio/CupomNFCe.jrxml", new ManutencaoVenda().listaRelatorio(movenda, nfc));
                     }
                 }
             }

@@ -253,7 +253,7 @@ public class PedidoDigimacroCplus {
                                     }
                                 }//for order item
                                 if (imprimir) {
-                                    new ImprimeRelatorio().imprimeRelatorio("/integrador/relatorio/Orcamento.jrxml", new ManutencaoVenda().imprimirOrcamento(order, managerCplus, managerPrestaShop));
+                                    new ImprimeRelatorio().imprimeRelatorioPeloJar("/integrador/relatorio/Orcamento.jrxml", new ManutencaoVenda().imprimirOrcamento(order, managerCplus, managerPrestaShop));
                                 }
                             }//for orçamento
                             lidtOrcamento = new QueryCplus(managerCplus).listOrcamentoEntregaTelefone(order.getReference());

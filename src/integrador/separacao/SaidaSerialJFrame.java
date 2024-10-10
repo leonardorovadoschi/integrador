@@ -458,7 +458,7 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
                 }
                 movProd.setMovendaprodserialCollection(listMovSerial);
             }
-            new ImprimeRelatorio().imprimeRelatorio(queryIntegrador.valorConfiguracao("caminho_RELATORIO_ROMANEIO_SERIAIS"), movendaprodList);
+            new ImprimeRelatorio().imprimeRelatorioPeloArquivo(queryIntegrador.valorConfiguracao("caminho_RELATORIO_ROMANEIO_SERIAIS"), movendaprodList);
         }
     }//GEN-LAST:event_jButtonImprimirRomaneioActionPerformed
 

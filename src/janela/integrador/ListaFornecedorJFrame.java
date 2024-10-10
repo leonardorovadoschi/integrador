@@ -525,7 +525,7 @@ public class ListaFornecedorJFrame extends javax.swing.JFrame {
             if (listProdAll.size() > 0) {
                 Comparator ordemNome = new OrdenaNomeAll();
                 Collections.sort(listProdAll, ordemNome);
-                new ImprimeRelatorio().imprimeRelatorio("/integrador/relatorio/ListaProdutosAllNations.jrxml", listProdAll);
+                new ImprimeRelatorio().imprimeRelatorioPeloJar("/integrador/relatorio/ListaProdutosAllNations.jrxml", listProdAll);
             } else {
                 JOptionPane.showMessageDialog(null, "Não ha dados a serem impressos \n");
             }

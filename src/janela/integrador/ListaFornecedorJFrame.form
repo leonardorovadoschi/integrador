@@ -63,7 +63,7 @@
                       <Component id="jButtonImportarListaAldo" alignment="0" max="32767" attributes="0"/>
                       <Component id="jButtonImportarProdutosColecao" alignment="0" max="32767" attributes="0"/>
                       <Component id="jButtonImportarProdutosAgis" alignment="0" max="32767" attributes="0"/>
-                      <Component id="jButtonImportarAllNations" alignment="0" pref="193" max="32767" attributes="0"/>
+                      <Component id="jButtonImportarAllNations" alignment="0" pref="0" max="32767" attributes="0"/>
                       <Component id="jButtonListaAlcateia" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>

@@ -1966,7 +1966,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
 
     private void jButtonImprimeNFCeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonImprimeNFCeActionPerformed
         
-        new ImprimeRelatorio().imprimeRelatorio("/integrador/relatorio/CupomNFCe.jrxml", new ManutencaoVenda().listaRelatorio(movenda, nfc));
+        new ImprimeRelatorio().imprimeRelatorioPeloJar("/integrador/relatorio/CupomNFCe.jrxml", new ManutencaoVenda().listaRelatorio(movenda, nfc));
     }//GEN-LAST:event_jButtonImprimeNFCeActionPerformed
 
     private void jButtonTrocaVendedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTrocaVendedorActionPerformed

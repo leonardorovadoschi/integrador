@@ -8,11 +8,9 @@ package integrador.rma;
 import entidade.cplus.Cliente;
 import entidade.cplus.Documento;
 import entidade.cplus.Movendaprod;
-import entidade.cplus.Produtoserial;
 import entidade.cplus.Tipomovimento;
 import entidade.cplus.Unidade;
 import entidade.integrador.SaidaSerial;
-import entidade.integrador.SerialProduto;
 import integrador.relatorio.ImprimeRelatorio;
 import integrador.render.RenderPorcentagem;
 import integrador.render.RenderPreco;
@@ -489,7 +487,7 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonOperacaoActionPerformed
 
     private void jButtonImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonImprimirActionPerformed
-        new ImprimeRelatorio().imprimeRelatorio(queryIntegrador.valorConfiguracao("caminho_RELATORIO_ESPELHO_RMA"), movendaprodList);
+        new ImprimeRelatorio().imprimeRelatorioPeloArquivo(queryIntegrador.valorConfiguracao("caminho_RELATORIO_ESPELHO_RMA"), movendaprodList);
     }//GEN-LAST:event_jButtonImprimirActionPerformed
 
     private void jButtonRemoverProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRemoverProdutoActionPerformed

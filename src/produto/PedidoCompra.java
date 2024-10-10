@@ -36,7 +36,7 @@ public class PedidoCompra {
         if (l.size() > 0) {
             Comparator ordemNome = new ComparadorNomeProdCompra();
             Collections.sort(l, ordemNome);
-            new ImprimeRelatorio().imprimeRelatorio("/integrador/relatorio/PedidoCompra.jrxml", l);
+            new ImprimeRelatorio().imprimeRelatorioPeloJar("/integrador/relatorio/PedidoCompra.jrxml", l);
         }
     }
 

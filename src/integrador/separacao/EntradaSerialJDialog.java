@@ -409,7 +409,7 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
             s.getIdSerial().setNomeProduto(movEntradaProd.getCodprod().getCodigo() + "-" + s.getIdSerial().getNomeProduto());
             listText.add(s.getIdSerial());
         }
-        new ImprimeRelatorio().imprimeRelatorio(queryIntegrador.valorConfiguracao("caminho_ENTRADA_SERIAL"), listText);
+        new ImprimeRelatorio().imprimeRelatorioPeloArquivo(queryIntegrador.valorConfiguracao("caminho_ENTRADA_SERIAL"), listText);
         dispose();
         setVisible(false);
     }//GEN-LAST:event_jButtonImprimirEtiquetaActionPerformed
