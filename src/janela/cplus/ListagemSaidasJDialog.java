@@ -84,6 +84,7 @@ public class ListagemSaidasJDialog extends javax.swing.JDialog {
         jComboBoxTipoPesquisa.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jComboBoxTipoPesquisa.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Numero Pedido", "Numero Nota", "Numero Cupom", "Por Data", "Entrega Telefone", "Numero NFC-e", "Observações" }));
         jComboBoxTipoPesquisa.setToolTipText("Selecione o que quer pesquisar!");
+        jComboBoxTipoPesquisa.setFocusable(false);
         jComboBoxTipoPesquisa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxTipoPesquisaActionPerformed(evt);

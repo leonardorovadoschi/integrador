@@ -146,13 +146,14 @@
                           <Component id="jLabelStatusEntrada" min="-2" pref="303" max="-2" attributes="0"/>
                           <EmptySpace pref="417" max="32767" attributes="0"/>
                           <Component id="jButtonFechar" min="-2" pref="120" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
                       </Group>
-                      <Group type="102" attributes="0">
-                          <EmptySpace max="32767" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="jButtonEditarProduto" min="-2" pref="187" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -268,7 +269,6 @@
               <Image iconType="3" name="/icones/Edit.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Editar Produto"/>
-            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonEditarProdutoActionPerformed"/>

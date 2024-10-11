@@ -3,17 +3,23 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package janela.cplus;
 
 import entidade.cplus.Localizacao;
 import entidade.cplus.Produto;
+import entidade.cplus.Produtoestoque;
 import integrador.render.produto.RenderEstoqueDisponivel;
 import integrador.render.produto.RenderLocalizacao;
+import integrador.separacao.ColorirLinhaImpar;
+import integrador.separacao.ColorirTabelaEntradaSerial;
 import java.awt.Toolkit;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import jpa.cplus.ProdutoJpaController;
 import query.cplus.QueryCplus;
 
@@ -25,6 +31,7 @@ public class ListagemProdutoJDialog extends javax.swing.JDialog {
 
     /**
      * Creates new form ListagemProdutoJDialog
+     *
      * @param parent
      * @param modal
      * @param managerCplus1
@@ -32,14 +39,13 @@ public class ListagemProdutoJDialog extends javax.swing.JDialog {
     public ListagemProdutoJDialog(java.awt.Frame parent, boolean modal, EntityManagerFactory managerCplus1) {
         super(parent, modal);
         initComponents();
-        this.managerCplus = managerCplus1;
+        managerCplus = managerCplus1;
         queryCplus = new QueryCplus(managerCplus);
-        formatacaoCampos = new FormataCampos(); 
+        formatacaoCampos = new FormataCampos();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
         this.listagemLocalizacaoJDialog = new ListagemLocalizacaoJDialog(parent, true, managerCplus);
-        new RenderLocalizacao(managerCplus);
         //new RenderEstoqueDisponivel();
-        
+
     }
 
     /**
@@ -50,7 +56,6 @@ public class ListagemProdutoJDialog extends javax.swing.JDialog {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         cplusPUEntityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("cplusPU").createEntityManager();
         produtoQuery = java.beans.Beans.isDesignTime() ? null : cplusPUEntityManager.createQuery("SELECT p FROM Produto p where p.codprod =0000000");
@@ -63,6 +68,8 @@ public class ListagemProdutoJDialog extends javax.swing.JDialog {
         jButtonCancelar = new javax.swing.JButton();
         jCheckBoxAtivo = new javax.swing.JCheckBox();
         jButtonEditarSetorEstoque = new javax.swing.JButton();
+        jTextFieldMaxResult = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableProdutos = new javax.swing.JTable();
 
@@ -71,10 +78,11 @@ public class ListagemProdutoJDialog extends javax.swing.JDialog {
         jPanelPesquisa.setBorder(javax.swing.BorderFactory.createTitledBorder("Pesquisa"));
 
         jComboBoxTipo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Nome ou Codigo" }));
+        jComboBoxTipo.setFocusable(false);
 
-        jTextFieldTermoDaPesquisa.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTextFieldTermoDaPesquisaKeyPressed(evt);
+        jTextFieldTermoDaPesquisa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldTermoDaPesquisaActionPerformed(evt);
             }
         });
 
@@ -117,30 +125,38 @@ public class ListagemProdutoJDialog extends javax.swing.JDialog {
             }
         });
 
+        jTextFieldMaxResult.setText("20");
+
+        jLabel1.setText("Máximo de Resultados:");
+
         javax.swing.GroupLayout jPanelPesquisaLayout = new javax.swing.GroupLayout(jPanelPesquisa);
         jPanelPesquisa.setLayout(jPanelPesquisaLayout);
         jPanelPesquisaLayout.setHorizontalGroup(
             jPanelPesquisaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelPesquisaLayout.createSequentialGroup()
-                .addGroup(jPanelPesquisaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelPesquisaLayout.createSequentialGroup()
-                        .addComponent(jComboBoxTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                    .addGroup(jPanelPesquisaLayout.createSequentialGroup()
-                        .addComponent(jCheckBoxAtivo, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(jPanelPesquisaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanelPesquisaLayout.createSequentialGroup()
-                        .addComponent(jButtonEditarSetorEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(54, 54, 54)
+                        .addContainerGap()
+                        .addComponent(jComboBoxTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanelPesquisaLayout.createSequentialGroup()
+                        .addComponent(jCheckBoxAtivo)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel1)
+                        .addGap(5, 5, 5)))
+                .addGroup(jPanelPesquisaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelPesquisaLayout.createSequentialGroup()
+                        .addComponent(jTextFieldMaxResult, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(42, 42, 42)
+                        .addComponent(jButtonEditarSetorEstoque)
+                        .addGap(27, 27, 27)
                         .addComponent(jButtonOk)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButtonCancelar))
                     .addGroup(jPanelPesquisaLayout.createSequentialGroup()
                         .addComponent(jTextFieldTermoDaPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(44, 44, 44)
                         .addComponent(jButtonPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 166, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanelPesquisaLayout.setVerticalGroup(
             jPanelPesquisaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -154,41 +170,35 @@ public class ListagemProdutoJDialog extends javax.swing.JDialog {
                     .addComponent(jButtonOk)
                     .addComponent(jButtonCancelar)
                     .addComponent(jCheckBoxAtivo)
-                    .addComponent(jButtonEditarSetorEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jButtonEditarSetorEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldMaxResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
-        jTableProdutos.getTableHeader().setReorderingAllowed(false);
+        jTableProdutos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
 
-        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, produtoList, jTableProdutos);
-        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codigo}"));
-        columnBinding.setColumnName("Codigo");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${nomeprod}"));
-        columnBinding.setColumnName("Nome");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codloc}"));
-        columnBinding.setColumnName("Setor");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${unidade}"));
-        columnBinding.setColumnName("Unidade");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${flaginativo}"));
-        columnBinding.setColumnName("Flaginativo");
-        columnBinding.setColumnClass(Character.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${datreaj}"));
-        columnBinding.setColumnName("Data Reajuste");
-        columnBinding.setColumnClass(java.util.Date.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${pesoliquido}"));
-        columnBinding.setColumnName("Pesoliquido");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codprod}"));
-        columnBinding.setColumnName("Codprod");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${produtoestoqueCollection}"));
-        columnBinding.setColumnName("Estoque");
-        columnBinding.setColumnClass(java.util.Collection.class);
-        bindingGroup.addBinding(jTableBinding);
-        jTableBinding.bind();
+            },
+            new String [] {
+                "Código", "Nome", "Uidade", "Setor", "Estoque", "Codprod"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, true, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTableProdutos.getTableHeader().setReorderingAllowed(false);
         jTableProdutos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTableProdutosMouseClicked(evt);
@@ -196,10 +206,11 @@ public class ListagemProdutoJDialog extends javax.swing.JDialog {
         });
         jScrollPane1.setViewportView(jTableProdutos);
         if (jTableProdutos.getColumnModel().getColumnCount() > 0) {
-            jTableProdutos.getColumnModel().getColumn(0).setPreferredWidth(80);
+            jTableProdutos.getColumnModel().getColumn(0).setPreferredWidth(120);
             jTableProdutos.getColumnModel().getColumn(1).setPreferredWidth(340);
-            jTableProdutos.getColumnModel().getColumn(2).setCellRenderer(new RenderLocalizacao(managerCplus));
-            jTableProdutos.getColumnModel().getColumn(8).setCellRenderer(new RenderEstoqueDisponivel());
+            jTableProdutos.getColumnModel().getColumn(2).setPreferredWidth(40);
+            jTableProdutos.getColumnModel().getColumn(3).setPreferredWidth(40);
+            jTableProdutos.getColumnModel().getColumn(4).setPreferredWidth(40);
         }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -208,7 +219,7 @@ public class ListagemProdutoJDialog extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanelPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 145, Short.MAX_VALUE))
+                .addGap(0, 336, Short.MAX_VALUE))
             .addComponent(jScrollPane1)
         );
         layout.setVerticalGroup(
@@ -218,8 +229,6 @@ public class ListagemProdutoJDialog extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 453, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
-
-        bindingGroup.bind();
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -239,60 +248,62 @@ public class ListagemProdutoJDialog extends javax.swing.JDialog {
     private void jButtonEditarSetorEstoqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarSetorEstoqueActionPerformed
         this.listagemLocalizacaoJDialog.setVisible(true);
         if (this.listagemLocalizacaoJDialog.isCancelamento() == false) {
-            for(Produto p : queryCplus.listProduto(getProduto().getCodprod())){
+            for (Produto p : queryCplus.listProduto(getProduto().getCodprod())) {
                 try {
                     p.setCodloc(this.listagemLocalizacaoJDialog.getLocalizacao().getCodloc());
                     new ProdutoJpaController(managerCplus).edit(p);
                     pesquisas();
                 } catch (jpa.cplus.exceptions.NonexistentEntityException ex) {
-                    JOptionPane.showMessageDialog(null, "Houve um ero ao editar produto! \n"+ex);
+                    JOptionPane.showMessageDialog(null, "Houve um ero ao editar produto! \n" + ex);
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(null, "Houve um ero ao editar produto! \n"+ex);
+                    JOptionPane.showMessageDialog(null, "Houve um ero ao editar produto! \n" + ex);
                 }
             }
         }
     }//GEN-LAST:event_jButtonEditarSetorEstoqueActionPerformed
 
     private void jTableProdutosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableProdutosMouseClicked
-         int colunaCodMoVenda = jTableProdutos.getColumnModel().getColumnIndex("Codprod");
+        int colunaCodMoVenda = jTableProdutos.getColumnModel().getColumnIndex("Codprod");
         String cod = jTableProdutos.getValueAt(jTableProdutos.getSelectedRow(), colunaCodMoVenda).toString();
-            if (cod != null) {
-                setProduto(new ProdutoJpaController(managerCplus).findProduto(cod));
-                jButtonEditarSetorEstoque.setEnabled(true);
-            }
+        if (cod != null) {
+            setProduto(new ProdutoJpaController(managerCplus).findProduto(cod));
+            jButtonEditarSetorEstoque.setEnabled(true);
+        }
     }//GEN-LAST:event_jTableProdutosMouseClicked
 
-    private void jTextFieldTermoDaPesquisaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldTermoDaPesquisaKeyPressed
+    private void jTextFieldTermoDaPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldTermoDaPesquisaActionPerformed
        pesquisas();
-    }//GEN-LAST:event_jTextFieldTermoDaPesquisaKeyPressed
+    }//GEN-LAST:event_jTextFieldTermoDaPesquisaActionPerformed
 
     public void setTermoPesquisa(String termo) {
         jComboBoxTipo.setSelectedIndex(0);
         jTextFieldTermoDaPesquisa.setText(termo);
-        this.termoPesquisa = termo; 
-         List<Produto> listP;
+        jTextFieldTermoDaPesquisa.selectAll();
+        this.termoPesquisa = termo;
+        List<Produto> listP = new ArrayList<>();       
         if (!"".equals(termoPesquisa)) {
-                    listP = queryCplus.resultPorNomeProdutoOuCodigo(termoPesquisa, jCheckBoxAtivo.isSelected());                    
-                    if (listP.size() < 1) {
-                        JOptionPane.showMessageDialog(null, "Não foi encontrado resultado para essa pesquisa!!! ");
-                    } else {      
-                        produtoList.clear();
-                        for (Produto sai : listP) {
-                            produtoList.add(sai);
-                        }
-                    }  
-                }else{
-                    JOptionPane.showMessageDialog(null, "A digite algo na pesquisa!!! ");
+            listP = queryCplus.resultPorNomeProdutoOuCodigo(termoPesquisa, jCheckBoxAtivo.isSelected(), maximoResultado(jTextFieldMaxResult.getText()));
+            if (listP.size() < 1) {
+                JOptionPane.showMessageDialog(null, "Não foi encontrado resultado para essa pesquisa!!! ");
+            } else {
+                produtoList.clear();
+                for (Produto sai : listP) {
+                    produtoList.add(sai);
                 }
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "A digite algo na pesquisa!!! ");
+        }
+        carregarTabela(listP);
         jButtonEditarSetorEstoque.setEnabled(false);
     }
-    
-     private void cancelamento() {
+
+    private void cancelamento() {
         int cancelar = JOptionPane.showConfirmDialog(null, " Deseja realmente cancelar? \n O processo será encerrado!!", "Cancelar", JOptionPane.YES_NO_CANCEL_OPTION);
-            if (cancelar == JOptionPane.YES_OPTION) {
-                setCancelamento(true);
-                dispose();
-            }
+        if (cancelar == JOptionPane.YES_OPTION) {
+            setCancelamento(true);
+            dispose();
+        }
     }
 
     private void finalizacao() {
@@ -311,33 +322,80 @@ public class ListagemProdutoJDialog extends javax.swing.JDialog {
         }
     }
 
+    private Integer maximoResultado(String txt) {
+        boolean condicao = true;
+        if (txt == null || txt.equals("")) {
+            condicao = false;
+        }
+        for (int i = 0; i < txt.length(); i++) {
+            char c = txt.charAt(i);
+            if (c < '0' || c > '9') {
+                condicao = false;
+            }
+        }
+        int maxResult = 20;
+        if (condicao) {
+            maxResult = Integer.parseInt(this.jTextFieldMaxResult.getText());
+        } else {
+            maxResult = 30;
+            jTextFieldMaxResult.setText("30");
+            JOptionPane.showMessageDialog(null, "São aceitos apenas numeros!!! ");
+        }
+        return maxResult;
+    }
+
     private void pesquisas() {
-        List<Produto> listP;
-         switch (jComboBoxTipo.getSelectedIndex()) {
+        List<Produto> listP = new ArrayList<>();     
+        switch (jComboBoxTipo.getSelectedIndex()) {
             case 0://por numero do pedido 
                 produtoList.clear();
                 if (!"".equals(jTextFieldTermoDaPesquisa.getText())) {
-                    listP = queryCplus.resultPorNomeProdutoOuCodigo(jTextFieldTermoDaPesquisa.getText(), jCheckBoxAtivo.isSelected());                    
+                    listP = queryCplus.resultPorNomeProdutoOuCodigo(jTextFieldTermoDaPesquisa.getText(), jCheckBoxAtivo.isSelected(), maximoResultado(jTextFieldMaxResult.getText()));
                     if (listP.size() < 1) {
                         JOptionPane.showMessageDialog(null, "Não foi encontrado resultado para essa pesquisa!!! ");
-                    } else {                       
+                    } else {
                         for (Produto sai : listP) {
                             produtoList.add(sai);
                         }
-                    }  
-                }else{
+                    }
+                } else {
                     JOptionPane.showMessageDialog(null, "A digite algo na pesquisa!!! ");
                 }
-                break;            
+                carregarTabela(listP);
+                break;
         }
-          jButtonEditarSetorEstoque.setEnabled(false);
+        jTextFieldTermoDaPesquisa.selectAll();
+        jButtonEditarSetorEstoque.setEnabled(false);
     }
-    
-     private String setor(Produto codProd){
+
+    private void carregarTabela(List<Produto> listProd) {
+        DefaultTableModel tab = (DefaultTableModel) jTableProdutos.getModel();
+        while (jTableProdutos.getModel().getRowCount() > 0) {
+            ((DefaultTableModel) jTableProdutos.getModel()).removeRow(0);
+        }
+        for (Produto prod : listProd) {
+            tab.addRow(new Object[]{prod.getCodigo(), prod.getNomeprod(), prod.getUnidade(), setor(prod), EstoqueCplus(prod.getCodprod()), prod.getCodprod()});
+            TableCellRenderer rendererSeparado = new ColorirLinhaImpar();
+            for (int c = 0; c < jTableProdutos.getColumnCount(); c++) {
+                jTableProdutos.setDefaultRenderer(jTableProdutos.getColumnClass(c), rendererSeparado);
+            }
+        }
+    }
+
+    private Integer EstoqueCplus(String codProd) {
+        BigDecimal estoque = BigDecimal.ZERO;
+        List<Produtoestoque> listEsroque = new QueryCplus(managerCplus).listEstoquesPorProd(codProd);
+        for (Produtoestoque est : listEsroque) {
+            estoque = est.getEstatu().subtract(est.getReservadoorcamento().subtract(est.getReservadoos()));
+        }
+        return estoque.intValue();
+    }
+
+    private String setor(Produto codProd) {
         String text = "";
-        for(Localizacao loc : queryCplus.listLocalizacao(codProd.getCodloc())){
-           text =  loc.getDescricao();
-       }
+        for (Localizacao loc : queryCplus.listLocalizacao(codProd.getCodloc())) {
+            text = loc.getDescricao();
+        }
         return text;
     }
 
@@ -356,8 +414,7 @@ public class ListagemProdutoJDialog extends javax.swing.JDialog {
     public void setCancelamento(boolean cancelamento) {
         this.cancelamento = cancelamento;
     }
-    
-    
+
     /**
      * @param args the command line arguments
      */
@@ -399,7 +456,7 @@ public class ListagemProdutoJDialog extends javax.swing.JDialog {
             }
         });
     }
-    
+
     private final QueryCplus queryCplus;
     private static EntityManagerFactory managerCplus;
     private final FormataCampos formatacaoCampos;
@@ -407,7 +464,7 @@ public class ListagemProdutoJDialog extends javax.swing.JDialog {
     private boolean cancelamento;
     private final ListagemLocalizacaoJDialog listagemLocalizacaoJDialog;
     private String termoPesquisa;
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.persistence.EntityManager cplusPUEntityManager;
     private javax.swing.JButton jButtonCancelar;
@@ -416,14 +473,14 @@ public class ListagemProdutoJDialog extends javax.swing.JDialog {
     private javax.swing.JButton jButtonPesquisar;
     private javax.swing.JCheckBox jCheckBoxAtivo;
     private javax.swing.JComboBox jComboBoxTipo;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanelPesquisa;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableProdutos;
+    private javax.swing.JTextField jTextFieldMaxResult;
     private javax.swing.JTextField jTextFieldTermoDaPesquisa;
     private java.util.List<entidade.cplus.Produto> produtoList;
     private javax.persistence.Query produtoQuery;
-    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
-   
 }

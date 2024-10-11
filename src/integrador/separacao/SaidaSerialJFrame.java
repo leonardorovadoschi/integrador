@@ -140,7 +140,6 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
         jButtonEditarProduto.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jButtonEditarProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/Edit.png"))); // NOI18N
         jButtonEditarProduto.setText("Editar Produto");
-        jButtonEditarProduto.setEnabled(false);
         jButtonEditarProduto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonEditarProdutoActionPerformed(evt);
@@ -489,7 +488,7 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jTableSeriasSeparadosMouseClicked
 
     private void jTableSaidaProdMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableSaidaProdMouseClicked
-    jButtonEditarProduto.setEnabled(true);
+    //jButtonEditarProduto.setEnabled(true);
     }//GEN-LAST:event_jTableSaidaProdMouseClicked
 
     private void jButtonEditarProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarProdutoActionPerformed
@@ -509,14 +508,14 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
                         * "Houve um ero ao editar produto! \n"+ex); } } }
         */
         if (jTableSaidaProd.getRowCount() > 0 && jTableSaidaProd.getSelectedRow() != -1) {
-            int colunaCodMovProd = jTableSaidaProd.getColumnModel().getColumnIndex("Codmoveprod");
+            int colunaCodMovProd = jTableSaidaProd.getColumnModel().getColumnIndex("Cod. MovProd");
             String codMovProd = jTableSaidaProd.getValueAt(jTableSaidaProd.getSelectedRow(), colunaCodMovProd).toString();
             Movendaprod movEntradaProd = new MovendaprodJpaController(managerCplus).findMovendaprod(codMovProd);
             this.listagemProdutoJDialog.setTermoPesquisa(movEntradaProd.getCodprod().getCodigo());
             this.listagemProdutoJDialog.setVisible(true);
-            jButtonEditarProduto.setEnabled(false);
+           // jButtonEditarProduto.setEnabled(false);
         } else {
-            JOptionPane.showMessageDialog(null, "Selecione uma linha");
+           this.listagemProdutoJDialog.setVisible(true);
         }
     }//GEN-LAST:event_jButtonEditarProdutoActionPerformed
 
@@ -627,13 +626,6 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
             estoque = est.getEstatu().subtract(est.getReservadoorcamento().subtract(est.getReservadoos()));
         }
         return estoque.intValue();
-    }
-
-    private void colorirLinha() {
-        TableCellRenderer renderer = new ColorirTabelaEntradaSerial();
-        for (int c = 0; c < jTableSaidaProd.getColumnCount(); c++) {
-            jTableSaidaProd.setDefaultRenderer(jTableSaidaProd.getColumnClass(c), renderer);
-        }
     }
 
     private void carregaTabelas() {

@@ -806,14 +806,14 @@ public class QueryCplus {
     }
 
     /**
-     * FunÃ§Ã£o que separa as palavras de uma frase e converte em dermos
+     * Função que separa as palavras de uma frase e converte em dermos
      * separados
      *
      * @param nomeProduto
      * @param ativo resultado de produtos ativos
      * @return retorna uma lista de Produtos
      */
-    public List<Produto> resultPorNomeProdutoOuCodigo(String nomeProduto, Boolean ativo) {
+    public List<Produto> resultPorNomeProdutoOuCodigo(String nomeProduto, Boolean ativo, int maxResul) {
         if (!"".equals(nomeProduto)) {
             nomeProduto = nomeProduto.trim();
             String[] listPalavras = nomeProduto.split(" ");
@@ -841,7 +841,7 @@ public class QueryCplus {
             quer = quer + " ORDER BY EST.estatu DESC";
 
             EntityManager em = getEntityManager();
-            Query query = em.createQuery("SELECT p  FROM Produtoestoque est INNER JOIN EST.produto p WHERE " + querCodigo + quer);
+            Query query = em.createQuery("SELECT p FROM Produtoestoque est INNER JOIN EST.produto p WHERE " + querCodigo + quer).setMaxResults(maxResul);
             if (listPalavras.length < 2) {
                 query.setParameter("codigo", "%" + nomeProduto.trim() + "%");//primeiro parametro 
             }

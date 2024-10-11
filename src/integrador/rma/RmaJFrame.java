@@ -8,6 +8,7 @@ package integrador.rma;
 import entidade.cplus.Calculoicmsestado;
 import entidade.cplus.Cliente;
 import entidade.cplus.Fornecedor;
+import entidade.cplus.Localizacao;
 import entidade.cplus.Movenda;
 import entidade.cplus.Movendaprod;
 import entidade.cplus.Moventrada;
@@ -40,6 +41,7 @@ import jpa.cplus.MovendaJpaController;
 import jpa.cplus.MovendaprodJpaController;
 import jpa.cplus.MoventradaJpaController;
 import jpa.cplus.MoventradaprodJpaController;
+import jpa.cplus.ProdutoJpaController;
 import jpa.cplus.TipomovimentoJpaController;
 import jpa.cplus.exceptions.NonexistentEntityException;
 import jpa.integrador.EntradaSerialJpaController;
@@ -117,6 +119,8 @@ public class RmaJFrame extends javax.swing.JFrame {
         jButtonExecutar = new javax.swing.JButton();
         jLabelEstoqueDisponivelCplus = new javax.swing.JLabel();
         jTextFieldEstoqueCplus = new javax.swing.JTextField();
+        jLabelSetor = new javax.swing.JLabel();
+        jTextFieldLocalizacao = new javax.swing.JTextField();
         jPanelManutençãoSerial = new javax.swing.JPanel();
         jButtonEditarSerial = new javax.swing.JButton();
         jButtonExcluiSerial = new javax.swing.JButton();
@@ -131,6 +135,7 @@ public class RmaJFrame extends javax.swing.JFrame {
         jComboBoxTermoPesquisa.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jComboBoxTermoPesquisa.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Serial", "Nota Entrada", "Listagem Saida", "Produto" }));
         jComboBoxTermoPesquisa.setToolTipText("Selecione aqui o tipo da pesquisa que desejar!");
+        jComboBoxTermoPesquisa.setFocusable(false);
         jComboBoxTermoPesquisa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxTermoPesquisaActionPerformed(evt);
@@ -348,6 +353,12 @@ public class RmaJFrame extends javax.swing.JFrame {
         jLabelEstoqueDisponivelCplus.setText("Estoque Disp. C-Plus:");
 
         jTextFieldEstoqueCplus.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jTextFieldEstoqueCplus.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
+        jLabelSetor.setText("Setor:");
+
+        jTextFieldLocalizacao.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jTextFieldLocalizacao.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         javax.swing.GroupLayout jPanelManutencaoSerialLayout = new javax.swing.GroupLayout(jPanelManutencaoSerial);
         jPanelManutencaoSerial.setLayout(jPanelManutencaoSerialLayout);
@@ -363,9 +374,13 @@ public class RmaJFrame extends javax.swing.JFrame {
                         .addComponent(jButtonExecutar, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jCheckBoxDevolucao, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(76, 76, 76)
-                .addComponent(jLabelEstoqueDisponivelCplus, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanelManutencaoSerialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabelEstoqueDisponivelCplus, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelSetor))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
-                .addComponent(jTextFieldEstoqueCplus, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanelManutencaoSerialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextFieldEstoqueCplus, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldLocalizacao, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(327, 327, 327))
         );
         jPanelManutencaoSerialLayout.setVerticalGroup(
@@ -379,9 +394,14 @@ public class RmaJFrame extends javax.swing.JFrame {
                             .addComponent(jButtonExecutar))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jCheckBoxDevolucao))
-                    .addGroup(jPanelManutencaoSerialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabelEstoqueDisponivelCplus)
-                        .addComponent(jTextFieldEstoqueCplus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanelManutencaoSerialLayout.createSequentialGroup()
+                        .addGroup(jPanelManutencaoSerialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabelEstoqueDisponivelCplus)
+                            .addComponent(jTextFieldEstoqueCplus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanelManutencaoSerialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabelSetor)
+                            .addComponent(jTextFieldLocalizacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -483,7 +503,8 @@ public class RmaJFrame extends javax.swing.JFrame {
         serial = jTableProdutoSerial.getValueAt(jTableProdutoSerial.getSelectedRow(), colunaSerial).toString();
         for (SerialProduto ser : queryIntegrador.listSerialExato(serial)) {
             carregaTabelaEntradaSerial(ser);
-            mostraEstoque(ser.getCodProduto());
+            jTextFieldEstoqueCplus.setText(String.valueOf(estoqueCplus(ser.getCodProduto())));
+            jTextFieldLocalizacao.setText(setor(new ProdutoJpaController(managerCplus).findProduto(ser.getCodProduto())));
         }
         //mostraEstoque(jTableProdutoSerial.getValueAt(jTableProdutoSerial.getSelectedRow(), colunaCodProd).toString());
     }//GEN-LAST:event_jTableProdutoSerialMouseClicked
@@ -683,7 +704,7 @@ public class RmaJFrame extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(null, "Serial editado com sucesso!!");
                         jTextFieldArgumentoPesquisa.setText(serialNovo);
                         jTableProdutoSerial.setValueAt(serialNovo, row, colunaSerial);
-                       // tipoDePesquisa();
+                        // tipoDePesquisa();
                     } catch (NonexistentEntityException ex) {
                         JOptionPane.showMessageDialog(null, "Houve um erro ao editar o serial! \n!!" + ex);
                     } catch (Exception ex) {
@@ -700,16 +721,21 @@ public class RmaJFrame extends javax.swing.JFrame {
         }
     }
 
-    private void mostraEstoque(String codProduto) {
-        for (Produtoestoque estoque : queryCplus.listEstoquesPorProd(codProduto)) {
-            double disponivel;
-            double resOS = estoque.getReservadoos().doubleValue();
-            double resOrcamento = estoque.getReservadoorcamento().doubleValue();
-            double estoquAtual = estoque.getEstatu().doubleValue();
-            disponivel = estoquAtual - resOS - resOrcamento;
-            jTextFieldEstoqueCplus.setText(formatacaoDeCampos.bigDecimalParaString(new BigDecimal(disponivel), 0));
+    private Integer estoqueCplus(String codProd) {
+        BigDecimal estoque = BigDecimal.ZERO;
+        List<Produtoestoque> listEsroque = queryCplus.listEstoquesPorProd(codProd);
+        for (Produtoestoque est : listEsroque) {
+            estoque = est.getEstatu().subtract(est.getReservadoorcamento().subtract(est.getReservadoos()));
         }
+        return estoque.intValue();
+    }
 
+    private String setor(Produto codProd) {
+        String text = "";
+        for (Localizacao loc : queryCplus.listLocalizacao(codProd.getCodloc())) {
+            text = loc.getDescricao();
+        }
+        return text;
     }
 
     /**
@@ -1225,8 +1251,10 @@ public class RmaJFrame extends javax.swing.JFrame {
                 } else {
                     JOptionPane.showMessageDialog(null, "Não há valor para pesquisa!!! ");
                 }
-                break;           
+                break;
         }
+        jTextFieldEstoqueCplus.setText("");
+        jTextFieldLocalizacao.setText("");
     }
 
     /**
@@ -1307,6 +1335,7 @@ public class RmaJFrame extends javax.swing.JFrame {
     private javax.swing.JComboBox jComboBoxTermoPesquisa;
     private javax.swing.JLabel jLabelEstoqueDisponivelCplus;
     private javax.swing.JLabel jLabelOqueDesejafazer;
+    private javax.swing.JLabel jLabelSetor;
     private javax.swing.JPanel jPanelListagemEntradas;
     private javax.swing.JPanel jPanelListagemSaidas;
     private javax.swing.JPanel jPanelManutencaoSerial;
@@ -1320,6 +1349,7 @@ public class RmaJFrame extends javax.swing.JFrame {
     private javax.swing.JTable jTableSaidaSerial;
     private javax.swing.JTextField jTextFieldArgumentoPesquisa;
     private javax.swing.JTextField jTextFieldEstoqueCplus;
+    private javax.swing.JTextField jTextFieldLocalizacao;
     private java.util.List<entidade.integrador.SerialProduto> serialProdutoList;
     private javax.persistence.Query serialProdutoQuery;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;

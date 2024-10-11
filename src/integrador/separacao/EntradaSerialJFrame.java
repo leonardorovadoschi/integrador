@@ -53,7 +53,6 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
         queryCplus = new QueryCplus(managerCplus);
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
         colunaCodMovProd = jTableEntradaProd.getColumnModel().getColumnIndex("Codmoveprod");
-        this.listagemLocalizacaoJDialog = new ListagemLocalizacaoJDialog(this, true, managerCplus);
         this.listagemProdutoJDialog = new ListagemProdutoJDialog(this, true, managerCplus);
 
         //new RenderPreco();
@@ -174,7 +173,6 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
         jButtonEditarProduto.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jButtonEditarProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/Edit.png"))); // NOI18N
         jButtonEditarProduto.setText("Editar Produto");
-        jButtonEditarProduto.setEnabled(false);
         jButtonEditarProduto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonEditarProdutoActionPerformed(evt);
@@ -198,11 +196,12 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
                         .addGap(91, 91, 91)
                         .addComponent(jLabelStatusEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 417, Short.MAX_VALUE)
-                        .addComponent(jButtonFechar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jButtonFechar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(25, 25, 25))
                     .addGroup(jPanelPrincipalLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtonEditarProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(25, 25, 25))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButtonEditarProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanelPrincipalLayout.setVerticalGroup(
             jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -283,7 +282,6 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
     private void jTableEntradaProdMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableEntradaProdMouseClicked
         verificaEntradaProdutoCompleta();
         jButtonListaSerialProduto.setEnabled(true);
-        jButtonEditarProduto.setEnabled(true);
     }//GEN-LAST:event_jTableEntradaProdMouseClicked
 
     private void jButtonListaSerialProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonListaSerialProdutoActionPerformed
@@ -297,21 +295,6 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonListaSerialProdutoActionPerformed
 
     private void jButtonEditarProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarProdutoActionPerformed
-
-        /**
-         * this.listagemLocalizacaoJDialog.setVisible(true); if
-         * (this.listagemLocalizacaoJDialog.isCancelamento() == false) {
-         * for(Produto p :
-         * queryCplus.listProduto(movEntradaProd.getCodprod().getCodprod())){
-         * try {
-         * p.setCodloc(this.listagemLocalizacaoJDialog.getLocalizacao().getCodloc());
-         * new ProdutoJpaController(managerCplus).edit(p);
-         * jButtonEditarSetorEstoque.setEnabled(false); carregarTabela(); }
-         * catch (jpa.cplus.exceptions.NonexistentEntityException ex) {
-         * JOptionPane.showMessageDialog(null, "Houve um ero ao editar produto!
-         * \n"+ex); } catch (Exception ex) { JOptionPane.showMessageDialog(null,
-         * "Houve um ero ao editar produto! \n"+ex); } } }
-         */
         if (jTableEntradaProd.getRowCount() > 0 && jTableEntradaProd.getSelectedRow() != -1) {
             colunaCodMovProd = jTableEntradaProd.getColumnModel().getColumnIndex("Codmoveprod");
             String codMovProd = jTableEntradaProd.getValueAt(jTableEntradaProd.getSelectedRow(), colunaCodMovProd).toString();
@@ -320,7 +303,7 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
             this.listagemProdutoJDialog.setVisible(true);
             jButtonEditarProduto.setEnabled(false);
         } else {
-            JOptionPane.showMessageDialog(null, "Selecione uma linha");
+            this.listagemProdutoJDialog.setVisible(true);
         }
     }//GEN-LAST:event_jButtonEditarProdutoActionPerformed
 
@@ -346,7 +329,7 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
         //  }
     }
 
-    public void carregarTabela() {
+    private void carregarTabela() {
         List<Moventradaprod> moEntradaProduto = queryCplus.listagemMovEntradaProdPorEntrada(movEntrada.getCodmoventr());
         DefaultTableModel tab = (DefaultTableModel) jTableEntradaProd.getModel();
         while (jTableEntradaProd.getModel().getRowCount() > 0) {
@@ -482,7 +465,6 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
     private Moventrada movEntrada;
     private Moventradaprod movEntradaProd;
     private int colunaCodMovProd;
-    private final ListagemLocalizacaoJDialog listagemLocalizacaoJDialog;
     private final ListagemProdutoJDialog listagemProdutoJDialog;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -137,6 +137,7 @@
               </StringArray>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Selecione aqui o tipo da pesquisa que desejar!"/>
+            <Property name="focusable" type="boolean" value="false"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBoxTermoPesquisaActionPerformed"/>
@@ -451,9 +452,15 @@
                       <Component id="jCheckBoxDevolucao" alignment="0" min="-2" pref="190" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="76" max="-2" attributes="0"/>
-                  <Component id="jLabelEstoqueDisponivelCplus" min="-2" pref="120" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Component id="jLabelEstoqueDisponivelCplus" min="-2" pref="120" max="-2" attributes="0"/>
+                      <Component id="jLabelSetor" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <EmptySpace pref="31" max="32767" attributes="0"/>
-                  <Component id="jTextFieldEstoqueCplus" min="-2" pref="40" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="jTextFieldEstoqueCplus" min="-2" pref="40" max="-2" attributes="0"/>
+                      <Component id="jTextFieldLocalizacao" min="-2" pref="38" max="-2" attributes="0"/>
+                  </Group>
                   <EmptySpace min="-2" pref="327" max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -471,9 +478,16 @@
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="jCheckBoxDevolucao" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                          <Component id="jLabelEstoqueDisponivelCplus" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTextFieldEstoqueCplus" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="jLabelEstoqueDisponivelCplus" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jTextFieldEstoqueCplus" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="jLabelSetor" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jTextFieldLocalizacao" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                   </Group>
                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -533,6 +547,20 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Arial" size="12" style="1"/>
             </Property>
+            <Property name="horizontalAlignment" type="int" value="0"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabelSetor">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Setor:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="jTextFieldLocalizacao">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Arial" size="12" style="1"/>
+            </Property>
+            <Property name="horizontalAlignment" type="int" value="0"/>
           </Properties>
         </Component>
       </SubComponents>
