@@ -168,7 +168,7 @@ public class IntegracaoOderco {
             proFornecedor.setDisponivel(1);
             proFornecedor.setEstoque(estado);
 
-            BigDecimal precoUnitario = prod.getPreco_RS().divide(new BigDecimal(prod.getMultiplo()), 3 ,BigDecimal.ROUND_HALF_UP);
+            BigDecimal precoUnitario = prod.getPreco_RS().divide(new BigDecimal(prod.getMultiplo()), 3 ,RoundingMode.HALF_UP);
             if (prod.getFaturamento() == 1) {
                 proFornecedor.setPrecoCustoComSt(precoUnitario.setScale(2, RoundingMode.UP));
                 proFornecedor.setPorcentagemStRs(utilitario.calculoPrcentagemSubstituicao(proFornecedor, managerCplus));
@@ -222,7 +222,7 @@ public class IntegracaoOderco {
                     proFornecedor.setNomeFornecedor("ODERCO");
                     proFornecedor.setDescricao(prod.getTitulo());
                     proFornecedor.setDisponivel(1);
-                    BigDecimal precoUnitario = prod.getPreco_RS().divide(new BigDecimal(prod.getMultiplo()), 3 ,BigDecimal.ROUND_HALF_UP);
+                    BigDecimal precoUnitario = prod.getPreco_RS().divide(new BigDecimal(prod.getMultiplo()), 3 ,RoundingMode.HALF_UP);
                     if (prod.getFaturamento() == 1) {
                         proFornecedor.setPrecoCustoComSt(precoUnitario.setScale(2, RoundingMode.UP));
                         proFornecedor.setPorcentagemStRs(utilitario.calculoPrcentagemSubstituicao(proFornecedor, managerCplus));

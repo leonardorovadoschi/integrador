@@ -22,6 +22,7 @@ import entidade.prestaShop.PsStockAvailable;
 import janela.cplus.FormataCampos;
 import java.awt.Color;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -525,10 +526,10 @@ public class EditOrderDetailsJDialog extends javax.swing.JDialog {
      private String textPreco(Integer idGroup) {
         String txtNormal = " Quant.\t  % \tValor\n";
         PsGroup psGroup = new PsGroupJpaController(managerPrestaShop).findPsGroup(idGroup);
-        BigDecimal redGrup = psGroup.getReduction().divide(new BigDecimal("100.00"), BigDecimal.ROUND_HALF_UP);
+        BigDecimal redGrup = psGroup.getReduction().divide(new BigDecimal("100.00"), RoundingMode.HALF_UP);
         BigDecimal valRedGrupo = psProduct.getPrice().multiply(BigDecimal.ONE.subtract(redGrup));
         psGroup = new PsGroupJpaController(managerPrestaShop).findPsGroup(idGroup);
-        redGrup = psGroup.getReduction().divide(new BigDecimal("100.00"), BigDecimal.ROUND_HALF_UP);
+        redGrup = psGroup.getReduction().divide(new BigDecimal("100.00"), RoundingMode.HALF_UP);
         valRedGrupo = psProduct.getPrice().multiply(BigDecimal.ONE.subtract(redGrup));
         txtNormal = "Quant.\t  % \tValor\n";
         txtNormal = txtNormal + "  1" + " \t" + "0.00% \t" + formataCampos.bigDecimalParaString(valRedGrupo, 2) + "  \n";
@@ -553,7 +554,7 @@ public class EditOrderDetailsJDialog extends javax.swing.JDialog {
         }
         for (PsSpecificPrice sp : queryPrestaShop.listPsSpecificPriceAllGroup(psProduct.getIdProduct(), "percentage", idGroup)) {
             txtNormal = txtNormal + " " + sp.getFromQuantity() + " \t" + formataCampos.bigDecimalParaString(sp.getReduction().multiply(new BigDecimal("100.00")), 2) + "% \t"
-                    + formataCampos.bigDecimalParaString(valRedGrupo.multiply(BigDecimal.ONE.subtract(sp.getReduction())).setScale(2, BigDecimal.ROUND_HALF_UP), 2) + "\n";
+                    + formataCampos.bigDecimalParaString(valRedGrupo.multiply(BigDecimal.ONE.subtract(sp.getReduction())).setScale(2, RoundingMode.HALF_UP), 2) + "\n";
         }
         return txtNormal;
     }
@@ -570,7 +571,7 @@ public class EditOrderDetailsJDialog extends javax.swing.JDialog {
     }
 
     private BigDecimal reducaoGroup() {
-        BigDecimal val = psGroup.getReduction().divide(new BigDecimal("100.00"), BigDecimal.ROUND_HALF_UP);
+        BigDecimal val = psGroup.getReduction().divide(new BigDecimal("100.00"), RoundingMode.HALF_UP);
         return val;
     }
 
@@ -588,7 +589,7 @@ public class EditOrderDetailsJDialog extends javax.swing.JDialog {
                 } else {//quando for percentage
                     if (sp.getFromQuantity() <= quant) {
                         reducaoPorcentagem = sp.getReduction();
-                        precoDois = val.multiply(BigDecimal.ONE.subtract(reducaoPorcentagem)).setScale(2, BigDecimal.ROUND_HALF_UP); //redução porcentagem quantidade
+                        precoDois = val.multiply(BigDecimal.ONE.subtract(reducaoPorcentagem)).setScale(2, RoundingMode.HALF_UP); //redução porcentagem quantidade
                     }
                 }
             } else {//if que verifica se a data está nula
@@ -602,7 +603,7 @@ public class EditOrderDetailsJDialog extends javax.swing.JDialog {
                     } else {//quando for percentage
                         if (sp.getFromQuantity() <= quant) {
                             reducaoPorcentagem = sp.getReduction();
-                            precoDois = val.multiply(BigDecimal.ONE.subtract(reducaoPorcentagem)).setScale(2, BigDecimal.ROUND_HALF_UP); //redução porcentagem quantidade
+                            precoDois = val.multiply(BigDecimal.ONE.subtract(reducaoPorcentagem)).setScale(2, RoundingMode.HALF_UP); //redução porcentagem quantidade
                         }
                     }
                 }//if que verifica se a data final é menor que a data atual  

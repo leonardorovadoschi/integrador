@@ -41,6 +41,7 @@ import entidade.prestaShop.PsTagCountPK;
 import entidade.prestaShop.PsTaxRulesGroup;
 import janela.cplus.FormataCampos;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Connection;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -514,7 +515,7 @@ public class ProdutoCplusDigimacro {
         for (Produtopreco pr : listPreco) {
             preco = pr.getPreco().multiply(new BigDecimal("1.11"));
         }
-        return preco.setScale(2, BigDecimal.ROUND_HALF_UP);
+        return preco.setScale(2, RoundingMode.HALF_UP);
     }
 
     /**
@@ -691,7 +692,7 @@ public class ProdutoCplusDigimacro {
         listBigDecimal.add(new BigDecimal("3.0"));
         for (BigDecimal bd : listBigDecimal) {
             //PsSpecificPrice psSP = new PsSpecificPrice();
-            List<PsSpecificPrice> listPSSP = new QueryPrestaShop(managerPrestaShop).listPsSpecificPrice(pp.getIdProduct(), bd.divide(new BigDecimal("100.0"), 7, BigDecimal.ROUND_HALF_UP), 7);
+            List<PsSpecificPrice> listPSSP = new QueryPrestaShop(managerPrestaShop).listPsSpecificPrice(pp.getIdProduct(), bd.divide(new BigDecimal("100.0"), 7, RoundingMode.HALF_UP), 7);
             if (listPSSP.isEmpty()) {
                 PsSpecificPrice psSP = new PsSpecificPrice();
                 psSP.setIdSpecificPriceRule(0);
@@ -707,7 +708,7 @@ public class ProdutoCplusDigimacro {
                 psSP.setPrice(new BigDecimal("-1.0"));
                 //psSP.setPrice(precoDiferenciado.multiply(new BigDecimal("0.9")));
                 psSP.setFromQuantity(defineQuantidadePreco(pp, bd));
-                psSP.setReduction(bd.divide(new BigDecimal("100.0"), 7, BigDecimal.ROUND_HALF_UP));
+                psSP.setReduction(bd.divide(new BigDecimal("100.0"), 7, RoundingMode.HALF_UP));
                 psSP.setReductionTax(true);
                 psSP.setReductionType("percentage");
                 psSP.setFrom(new Date(System.currentTimeMillis()));
@@ -759,7 +760,7 @@ public class ProdutoCplusDigimacro {
         listBigDecimal.add(new BigDecimal("3.0"));
         for (BigDecimal bd : listBigDecimal) {
             //PsSpecificPrice psSP = new PsSpecificPrice();
-            List<PsSpecificPrice> listPSSP = new QueryPrestaShop(managerPrestaShop).listPsSpecificPrice(pp.getIdProduct(), bd.divide(new BigDecimal("100.0"), 4, BigDecimal.ROUND_HALF_UP), 4);
+            List<PsSpecificPrice> listPSSP = new QueryPrestaShop(managerPrestaShop).listPsSpecificPrice(pp.getIdProduct(), bd.divide(new BigDecimal("100.0"), 4, RoundingMode.HALF_UP), 4);
             if (listPSSP.isEmpty()) {
                 PsSpecificPrice psSP = new PsSpecificPrice();
                 psSP.setIdSpecificPriceRule(0);
@@ -774,7 +775,7 @@ public class ProdutoCplusDigimacro {
                 psSP.setIdProductAttribute(0);
                 psSP.setPrice(new BigDecimal("-1.0"));
                 psSP.setFromQuantity(defineQuantidadePreco(pp, bd));
-                psSP.setReduction(bd.divide(new BigDecimal("100.0"), 4, BigDecimal.ROUND_HALF_UP));
+                psSP.setReduction(bd.divide(new BigDecimal("100.0"), 4, RoundingMode.HALF_UP));
                 psSP.setReductionTax(true);
                 psSP.setReductionType("percentage");
                 psSP.setFrom(new Date(System.currentTimeMillis()));
@@ -1153,7 +1154,7 @@ public class ProdutoCplusDigimacro {
     private boolean emPromocao(PsProductShop pp, Produto proCplus, EntityManagerFactory managerCplus) {
         boolean condicao = false;
         double precoCplus = precoPrincipal(managerCplus, proCplus).doubleValue();
-        double precoPrestaShop = pp.getPrice().setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        double precoPrestaShop = pp.getPrice().setScale(2, RoundingMode.HALF_UP).doubleValue();
         if (precoCplus < precoPrestaShop) {
             condicao = true;
         }

@@ -37,6 +37,7 @@ import entidade.prestaShop.PsTagCountPK;
 import entidade.prestaShop.PsTaxRulesGroup;
 import janela.cplus.FormataCampos;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -637,7 +638,7 @@ public class PackProduto {
         listBigDecimal.add(new BigDecimal("3.0"));
         for (BigDecimal bd : listBigDecimal) {
             //PsSpecificPrice psSP = new PsSpecificPrice();
-            List<PsSpecificPrice> listPSSP = new QueryPrestaShop(managerPrestaShop).listPsSpecificPrice(pp.getIdProduct(), bd.divide(new BigDecimal("100.0"), 3, BigDecimal.ROUND_HALF_UP), 4);
+            List<PsSpecificPrice> listPSSP = new QueryPrestaShop(managerPrestaShop).listPsSpecificPrice(pp.getIdProduct(), bd.divide(new BigDecimal("100.0"), 3, RoundingMode.HALF_UP), 4);
             /*
             if (listPSSP.isEmpty()) {
                 PsSpecificPrice psSP = new PsSpecificPrice();

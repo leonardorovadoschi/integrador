@@ -7,6 +7,7 @@ package janela.cplus;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
@@ -191,7 +192,7 @@ public class FormataCampos {
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null, "Alguns dos campos de valores\n Não São Válidos" + ex);
             }
-            bdValue = bdValue.setScale(casasDecimais, BigDecimal.ROUND_HALF_UP);
+            bdValue = bdValue.setScale(casasDecimais, RoundingMode.HALF_UP);
             return bdValue;
         }
     }

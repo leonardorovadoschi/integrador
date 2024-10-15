@@ -26,6 +26,7 @@ import entidade.cplus.Unidade;
 import entidade.cplus.Usuario;
 import janela.cplus.FormataCampos;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
@@ -220,58 +221,58 @@ public class SaidaFornecedorCplus {
     
      private BigDecimal valorUnitarioVenda(Moventradaprod prod) {
         BigDecimal val = prod.getValortotal().subtract(prod.getValordescontorateado());
-        val = val.divide(prod.getQuantidade(), 4, BigDecimal.ROUND_HALF_UP);
+        val = val.divide(prod.getQuantidade(), 4, RoundingMode.HALF_UP);
         return val;
     }
 
     private BigDecimal valorSTEntrada(Moventradaprod prod, BigDecimal quantidadeEspelho) {
         BigDecimal val = BigDecimal.ZERO;      
-         val = prod.getValorsubsttributaria().divide(prod.getQuantidade(), 4, BigDecimal.ROUND_HALF_UP);
-        val = val.multiply(quantidadeEspelho).setScale(2, BigDecimal.ROUND_HALF_UP);
+         val = prod.getValorsubsttributaria().divide(prod.getQuantidade(), 4, RoundingMode.HALF_UP);
+        val = val.multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);
         
         return val;
     }
 
     private BigDecimal valorBaseSTEntrada(Moventradaprod prod, BigDecimal quantidadeEspelho) {      
         BigDecimal val = BigDecimal.ZERO;
-        val = prod.getBasesubsttributaria().divide(prod.getQuantidade(), 4, BigDecimal.ROUND_HALF_UP);
-        val = val.multiply(quantidadeEspelho).setScale(2, BigDecimal.ROUND_HALF_UP);
+        val = prod.getBasesubsttributaria().divide(prod.getQuantidade(), 4, RoundingMode.HALF_UP);
+        val = val.multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);
         return val;
     }
 
     private BigDecimal valorBaseCofinsEntrada(Moventradaprod prod, BigDecimal quantidadeEspelho) {
         BigDecimal val = BigDecimal.ZERO;
-        val = prod.getBasecofins().divide(prod.getQuantidade(), 4, BigDecimal.ROUND_HALF_UP);
-        val = val.multiply(quantidadeEspelho).setScale(2, BigDecimal.ROUND_HALF_UP);
+        val = prod.getBasecofins().divide(prod.getQuantidade(), 4, RoundingMode.HALF_UP);
+        val = val.multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);
         return val;
     }
 
     private BigDecimal valorBasePisEntrada(Moventradaprod prod, BigDecimal quantidadeEspelho) {
         BigDecimal val = BigDecimal.ZERO;
-        val = prod.getBasepis().divide(prod.getQuantidade(), 4, BigDecimal.ROUND_HALF_UP);
-        val = val.multiply(quantidadeEspelho).setScale(2, BigDecimal.ROUND_HALF_UP);       
+        val = prod.getBasepis().divide(prod.getQuantidade(), 4, RoundingMode.HALF_UP);
+        val = val.multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);       
         return val;
     }
 
     private BigDecimal valorCofinsEntrada(Moventradaprod prod, BigDecimal quantidadeEspelho) {
         BigDecimal val = BigDecimal.ZERO;
-        val = prod.getValorcofins().divide(prod.getQuantidade(), 4, BigDecimal.ROUND_HALF_UP);
-        val = val.multiply(quantidadeEspelho).setScale(2, BigDecimal.ROUND_HALF_UP);
+        val = prod.getValorcofins().divide(prod.getQuantidade(), 4, RoundingMode.HALF_UP);
+        val = val.multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);
         return val;
     }
 
     private BigDecimal valorPisEntrada(Moventradaprod prod, BigDecimal quantidadeEspelho) {
         BigDecimal val = BigDecimal.ZERO;
-        val = prod.getValorpis().divide(prod.getQuantidade(), 4, BigDecimal.ROUND_HALF_UP);
-        val = val.multiply(quantidadeEspelho).setScale(2, BigDecimal.ROUND_HALF_UP);
+        val = prod.getValorpis().divide(prod.getQuantidade(), 4, RoundingMode.HALF_UP);
+        val = val.multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);
         return val;
     }
 
     private BigDecimal valorBaseIpiEntrada(Moventradaprod prod, BigDecimal quantidadeEspelho) {
         BigDecimal val = BigDecimal.ZERO;
         if (prod.getBaseipi() != null) {
-            val = prod.getBaseipi().divide(prod.getQuantidade(), 4, BigDecimal.ROUND_HALF_UP);
-            val = val.multiply(quantidadeEspelho).setScale(2, BigDecimal.ROUND_HALF_UP);
+            val = prod.getBaseipi().divide(prod.getQuantidade(), 4, RoundingMode.HALF_UP);
+            val = val.multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);
         }
         return val;
     }
@@ -279,28 +280,28 @@ public class SaidaFornecedorCplus {
     private BigDecimal valorIpiEntrada(Moventradaprod prod, BigDecimal quantidadeEspelho) {
         BigDecimal val = BigDecimal.ZERO;
         if (prod.getBaseipi() != null) {
-            val = prod.getValoripi().divide(prod.getQuantidade(), 4, BigDecimal.ROUND_HALF_UP);
-            val = val.multiply(quantidadeEspelho).setScale(2, BigDecimal.ROUND_HALF_UP);
+            val = prod.getValoripi().divide(prod.getQuantidade(), 4, RoundingMode.HALF_UP);
+            val = val.multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);
         }
         return val;
     }
 
     private BigDecimal valorBaseIcmsEntrada(Moventradaprod prod, BigDecimal quantidadeEspelho) {
         BigDecimal val = BigDecimal.ZERO;
-         val = prod.getBaseicms().divide(prod.getQuantidade(), 4, BigDecimal.ROUND_HALF_UP);
-        val = val.multiply(quantidadeEspelho).setScale(2, BigDecimal.ROUND_HALF_UP);
+         val = prod.getBaseicms().divide(prod.getQuantidade(), 4, RoundingMode.HALF_UP);
+        val = val.multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);
         return val;
     }
 
     private BigDecimal valorIcmsEntrada(Moventradaprod prod, BigDecimal quantidadeEspelho) {
         BigDecimal val = BigDecimal.ZERO;
-            val = prod.getValoricms().divide(prod.getQuantidade(), 4, BigDecimal.ROUND_HALF_UP);
-            val = val.multiply(quantidadeEspelho).setScale(2, BigDecimal.ROUND_HALF_UP);
+            val = prod.getValoricms().divide(prod.getQuantidade(), 4, RoundingMode.HALF_UP);
+            val = val.multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);
         return val;
     }
 
     private BigDecimal valorTotalProdutoEntradao(Moventradaprod prod, BigDecimal quantidadeEspelho) {
-        BigDecimal val = valorUnitarioVenda(prod).multiply(quantidadeEspelho).setScale(2, BigDecimal.ROUND_HALF_UP);
+        BigDecimal val = valorUnitarioVenda(prod).multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);
         return val;
     }
     

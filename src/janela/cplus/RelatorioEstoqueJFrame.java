@@ -286,18 +286,18 @@ public class RelatorioEstoqueJFrame extends javax.swing.JFrame {
 
                 if ("102".equals(prodEstoque.getProduto().getCfopdentrouf())) {
                     creditoIcms = valorTotalIcms;
-                    prodEstoque.getProduto().setPercoutroscustos(new BigDecimal(creditoIcms).setScale(2, BigDecimal.ROUND_HALF_UP));
+                    prodEstoque.getProduto().setPercoutroscustos(new BigDecimal(creditoIcms).setScale(2, RoundingMode.HALF_UP));
                 } else {
                     prodEstoque.getProduto().setPercoutroscustos(BigDecimal.ZERO);
                 }
                 creditoPisCofins = valorTotalPisCofins;
-                prodEstoque.getProduto().setPercoutroscustos2(new BigDecimal(creditoPisCofins).setScale(2, BigDecimal.ROUND_HALF_UP));
+                prodEstoque.getProduto().setPercoutroscustos2(new BigDecimal(creditoPisCofins).setScale(2, RoundingMode.HALF_UP));
 
                 valorStUnitario = valorTotalSt;
-                prodEstoque.getProduto().setValorsubsttributaria(new BigDecimal(valorStUnitario).setScale(2, BigDecimal.ROUND_HALF_UP));
+                prodEstoque.getProduto().setValorsubsttributaria(new BigDecimal(valorStUnitario).setScale(2, RoundingMode.HALF_UP));
 
                 valorIpiUnitario = valorTotalIpi;
-                prodEstoque.getProduto().setValoripi(new BigDecimal(valorIpiUnitario).setScale(2, BigDecimal.ROUND_HALF_UP));
+                prodEstoque.getProduto().setValoripi(new BigDecimal(valorIpiUnitario).setScale(2, RoundingMode.HALF_UP));
 
                 creditoIcms = valorTotalIcms / quantidadeEstoque;
                 creditoPisCofins = valorTotalPisCofins / quantidadeEstoque;
@@ -305,7 +305,7 @@ public class RelatorioEstoqueJFrame extends javax.swing.JFrame {
                 valorIpiUnitario = valorTotalIpi / quantidadeEstoque;
                 custoProdutoUnitario = valorProdutos / quantidadeEstoque;
                 custoProdutoUnitario = custoProdutoUnitario + valorIpiUnitario + valorStUnitario - creditoIcms - creditoPisCofins;
-                prodEstoque.getProduto().setPrecusto(new BigDecimal(custoProdutoUnitario).setScale(2, BigDecimal.ROUND_HALF_UP));
+                prodEstoque.getProduto().setPrecusto(new BigDecimal(custoProdutoUnitario).setScale(2, RoundingMode.HALF_UP));
 
                 prodEstoque.setEstatu(new BigDecimal(quantidadeEstoque));
                 double custoreal = custoProdutoUnitario + creditoPisCofins;
@@ -539,19 +539,19 @@ public class RelatorioEstoqueJFrame extends javax.swing.JFrame {
                 //valor crédito ICMS caso tenha                                                           
                 if ("102".equals(prodEstoque.getProduto().getCfopdentrouf())) {
                     creditoIcms = valorTotalIcms;
-                    prodEstoque.getProduto().setPercoutroscustos(new BigDecimal(creditoIcms).setScale(2, BigDecimal.ROUND_HALF_UP));
+                    prodEstoque.getProduto().setPercoutroscustos(new BigDecimal(creditoIcms).setScale(2, RoundingMode.HALF_UP));
                 } else {
                     prodEstoque.getProduto().setPercoutroscustos(BigDecimal.ZERO);
                 }
                 //valor total crédito PIS e COFINS
                 creditoPisCofins = valorTotalPisCofins;
-                prodEstoque.getProduto().setPercoutroscustos2(new BigDecimal(creditoPisCofins).setScale(2, BigDecimal.ROUND_HALF_UP));
+                prodEstoque.getProduto().setPercoutroscustos2(new BigDecimal(creditoPisCofins).setScale(2, RoundingMode.HALF_UP));
                 //valor total sub. tributária
                 valorStUnitario = valorTotalSt;
-                prodEstoque.getProduto().setValorsubsttributaria(new BigDecimal(valorStUnitario).setScale(2, BigDecimal.ROUND_HALF_UP));
+                prodEstoque.getProduto().setValorsubsttributaria(new BigDecimal(valorStUnitario).setScale(2, RoundingMode.HALF_UP));
 
                 valorIpiUnitario = valorTotalIpi;//valor total IPI
-                prodEstoque.getProduto().setValoripi(new BigDecimal(valorIpiUnitario).setScale(2, BigDecimal.ROUND_HALF_UP));
+                prodEstoque.getProduto().setValoripi(new BigDecimal(valorIpiUnitario).setScale(2, RoundingMode.HALF_UP));
                 //custo unitário tirando crédito impostos
                 creditoIcms = valorTotalIcms / quantidadeEstoque;
                 creditoPisCofins = valorTotalPisCofins / quantidadeEstoque;
@@ -559,7 +559,7 @@ public class RelatorioEstoqueJFrame extends javax.swing.JFrame {
                 valorIpiUnitario = valorTotalIpi / quantidadeEstoque;
                 custoProdutoUnitario = valorProdutos / quantidadeEstoque;
                 custoProdutoUnitario = custoProdutoUnitario + valorIpiUnitario + valorStUnitario - creditoIcms - creditoPisCofins;
-                prodEstoque.getProduto().setPrecusto(new BigDecimal(custoProdutoUnitario).setScale(2, BigDecimal.ROUND_HALF_UP));
+                prodEstoque.getProduto().setPrecusto(new BigDecimal(custoProdutoUnitario).setScale(2, RoundingMode.HALF_UP));
 
                 listProd.add(prodEstoque);
             }//fim if com estoque maior que zero

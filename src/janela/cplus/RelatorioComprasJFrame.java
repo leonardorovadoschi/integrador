@@ -14,6 +14,7 @@ import entidade.cplus.Produtoestoque;
 import entidade.integrador.ProdFornecedor;
 import java.awt.Toolkit;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -732,7 +733,7 @@ public class RelatorioComprasJFrame extends javax.swing.JFrame {
                 jTextFieldSujestao.setText(String.valueOf((int) sugestao));
                 jDateChooserInicioAvaliacao.setDate(inicioAvaliacao);
                 jDateChooserFimAvaliacao.setDate(fimAvaliacao);
-                jTextFieldMediaDiaria.setText(formataCampo.bigDecimalParaString(new BigDecimal(mediaDiaria).setScale(3, BigDecimal.ROUND_HALF_UP), 3));
+                jTextFieldMediaDiaria.setText(formataCampo.bigDecimalParaString(new BigDecimal(mediaDiaria).setScale(3, RoundingMode.HALF_UP), 3));
                 jTextFieldNumeroDiasCalculo.setText(formataCampo.bigDecimalParaString(numerodeDiasCalculo, 0));
             }
         }
@@ -825,7 +826,7 @@ public class RelatorioComprasJFrame extends javax.swing.JFrame {
                 //   prodFor.getIdProduto.setSugestaoCompra((int) sugestao);
                 //  prodFor.getIdProduto().setPeriodoAvaliacaoInicio(inicioAvaliacao);
                 //   prodFor.getIdProduto().setPeriodoAvalicaoFim(fimAvaliacao);
-                //   prodFor.getIdProduto().setMediaDiariaVenda(new BigDecimal(mediaDiaria).setScale(3, BigDecimal.ROUND_HALF_UP));
+                //   prodFor.getIdProduto().setMediaDiariaVenda(new BigDecimal(mediaDiaria).setScale(3, RoundingMode.HALF_UP));
                 produtosAllnationsList.add(prodFor);
             }
         }
@@ -908,9 +909,9 @@ public class RelatorioComprasJFrame extends javax.swing.JFrame {
         if (numerodeDiasCalculo.doubleValue() == 0.00) {
             totBig = totalVendas;
         } else {
-            totBig = totalVendas.divide(numerodeDiasCalculo, 3 ,BigDecimal.ROUND_HALF_UP);
+            totBig = totalVendas.divide(numerodeDiasCalculo, 3 ,RoundingMode.HALF_UP);
         }
-        //BigDecimal totBig = new BigDecimal(tot).setScale(3, BigDecimal.ROUND_HALF_UP);
+        //BigDecimal totBig = new BigDecimal(tot).setScale(3, RoundingMode.HALF_UP);
         return totBig.doubleValue();
     }
 

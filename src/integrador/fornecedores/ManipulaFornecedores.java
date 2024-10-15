@@ -8,13 +8,13 @@ package integrador.fornecedores;
 import entidade.cplus.Calculoicmsestado;
 import entidade.cplus.Produto;
 import entidade.integrador.ProdFornecedor;
-
-import query.cplus.QueryCplus;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
 import jpa.cplus.ProdutoJpaController;
+import query.cplus.QueryCplus;
 
 /**
  *
@@ -52,7 +52,7 @@ public class ManipulaFornecedores {
                 JOptionPane.showMessageDialog(null, "Alguns dos campos de valores\n Não São Válido" + ex);
             }
             //round half up the number using the scale given by the configuration
-            bdValue = bdValue.setScale(4, BigDecimal.ROUND_HALF_UP);
+            bdValue = bdValue.setScale(4, RoundingMode.HALF_UP);
             return bdValue;
         }
     }
@@ -140,7 +140,7 @@ public class ManipulaFornecedores {
         double aliqOutrosCustos = proAllnations.getPorcentagemOutrosCustos().doubleValue() / 100;
         double aliqTotal = (aliqOutrosCustos + aliqSt) + 1;
         double valortotal = proAllnations.getPrecoCusto().doubleValue() * aliqTotal;
-        return new BigDecimal(valortotal).setScale(2, BigDecimal.ROUND_HALF_UP);
+        return new BigDecimal(valortotal).setScale(2, RoundingMode.HALF_UP);
     }
 
     public BigDecimal calculaPorcentagemCusto(BigDecimal custoSemSt, ProdFornecedor prodFornecedor, EntityManagerFactory managerCplus) {
@@ -228,7 +228,7 @@ public class ManipulaFornecedores {
                 condicao = true;
             }
         } while (condicao == false);
-        return new BigDecimal(porcentagemCusto).setScale(2, BigDecimal.ROUND_HALF_UP);
+        return new BigDecimal(porcentagemCusto).setScale(2, RoundingMode.HALF_UP);
     }
 
     private Calculoicmsestado localizaCalculoIcmsSaida(ProdFornecedor produtosAllnations, EntityManagerFactory managerCplus) {
@@ -348,6 +348,6 @@ public class ManipulaFornecedores {
             total = 0.00;
         }
 
-        return new BigDecimal(total).setScale(2, BigDecimal.ROUND_HALF_UP);
+        return new BigDecimal(total).setScale(2, RoundingMode.HALF_UP);
     }
 }

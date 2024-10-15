@@ -23,6 +23,7 @@ import entidade.prestaShop.PsProductLang;
 import entidade.prestaShop.PsStockAvailable;
 import java.awt.Toolkit;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -611,7 +612,7 @@ public class IntegracaoJFrame extends javax.swing.JFrame {
         for (Produtopreco pr : listPreco) {
             preco = pr.getPreco().multiply(new BigDecimal("1.11"));
         }
-        return preco.setScale(2, BigDecimal.ROUND_HALF_UP);
+        return preco.setScale(2, RoundingMode.HALF_UP);
     }
 
     private Integer estoqueCplus(EntityManagerFactory managerCplus, Produto proCplus) {

@@ -21,6 +21,7 @@ import entidade.cplus.Unidade;
 import entidade.cplus.Usuario;
 import janela.cplus.FormataCampos;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
@@ -162,12 +163,12 @@ public class SaidaClienteCplus {
     
      private BigDecimal valorUnitario(Movendaprod prod) {
         BigDecimal val = prod.getValortotal().subtract(prod.getValordescontorateado());
-        val = val.divide(prod.getQuantidade(), 4, BigDecimal.ROUND_HALF_UP);
+        val = val.divide(prod.getQuantidade(), 4, RoundingMode.HALF_UP);
         return val;
     }
      
       private BigDecimal valorTotalProduto(Movendaprod prod, BigDecimal quantidadeEspelho) {
-        BigDecimal val = valorUnitario(prod).multiply(quantidadeEspelho).setScale(2, BigDecimal.ROUND_HALF_UP);
+        BigDecimal val = valorUnitario(prod).multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);
         return val;
     }
 

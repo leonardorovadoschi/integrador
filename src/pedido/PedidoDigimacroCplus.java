@@ -230,9 +230,9 @@ public class PedidoDigimacroCplus {
                                             BigDecimal precUni = P.getPrice();
                                             int quanProdutosPack = psP.getQuantity();//quantidade de produtos que tem no pacote
                                             BigDecimal quantidade = new BigDecimal(quantPack * quanProdutosPack);//é a quantidade do pacote x quantidade de pacote comprado
-                                            BigDecimal redGrup = G.getReduction().divide(new BigDecimal("100.00"), BigDecimal.ROUND_HALF_UP);
+                                            BigDecimal redGrup = G.getReduction().divide(new BigDecimal("100.00"), RoundingMode.HALF_UP);
                                             precUni = precUni.multiply(BigDecimal.ONE.subtract(redGrup)); //redução do grupo
-                                            precUni = precUni.multiply((BigDecimal.ONE.subtract(descPac))).setScale(2, BigDecimal.ROUND_HALF_UP); //redução do pacote de produto
+                                            precUni = precUni.multiply((BigDecimal.ONE.subtract(descPac))).setScale(2, RoundingMode.HALF_UP); //redução do pacote de produto
                                             orderItem.setProductId(psP.getPsPackPK().getIdProductItem());
                                             orderItem.setEcotax(BigDecimal.ZERO);
                                             orderItem.setProductQuantity(quantidade.intValue());
@@ -367,7 +367,7 @@ public class PedidoDigimacroCplus {
                 if (cliRuim) {
                     prod.setValorsubsttributaria(BigDecimal.ZERO);
                 } else {
-                    prod.setValorsubsttributaria(orderItem.getEcotax().setScale(2, BigDecimal.ROUND_HALF_UP));
+                    prod.setValorsubsttributaria(orderItem.getEcotax().setScale(2, RoundingMode.HALF_UP));
                 }
                 double aliqIcms;
                 double baseIcms;
@@ -382,7 +382,7 @@ public class PedidoDigimacroCplus {
                 BigDecimal valorTotal;
                 BigDecimal valUni;
                 prod.setQuantidade(new BigDecimal(orderItem.getProductQuantity()));
-                valUni = orderItem.getUnitPriceTaxIncl().setScale(2, BigDecimal.ROUND_HALF_UP);
+                valUni = orderItem.getUnitPriceTaxIncl().setScale(2, RoundingMode.HALF_UP);
                 valorTotal = valUni.multiply(prod.getQuantidade());
                 prod.setValorunitario(valUni);
 
@@ -607,15 +607,15 @@ public class PedidoDigimacroCplus {
                     orcamento.setAliqdesconto(BigDecimal.ZERO);
                     orcamento.setValordesconto(BigDecimal.ZERO);
                 } else if (valorDesconto.doubleValue() > 0) {//quando for desconto
-                    valorTaxa = valorDesconto.divide(valTotalProdutos, 6, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal("100.00"));
+                    valorTaxa = valorDesconto.divide(valTotalProdutos, 6, RoundingMode.HALF_UP).multiply(new BigDecimal("100.00"));
                     orcamento.setAliqdesconto(valorTaxa);
-                    orcamento.setValordesconto(valorDesconto.setScale(2, BigDecimal.ROUND_HALF_UP));
+                    orcamento.setValordesconto(valorDesconto.setScale(2, RoundingMode.HALF_UP));
                     orcamento.setFlagtipodesconto('A');
                 } else {//quando passar a ser acréscimo
                     valorDesconto = psOrders.getTotalPaidTaxIncl().subtract(valTotalProdutos);
-                    valorTaxa = valorDesconto.divide(valTotalProdutos, 4, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal("100.00"));
+                    valorTaxa = valorDesconto.divide(valTotalProdutos, 4, RoundingMode.HALF_UP).multiply(new BigDecimal("100.00"));
                     orcamento.setAliqacrescimo(valorTaxa);
-                    orcamento.setValoracrescimo(valorDesconto.setScale(2, BigDecimal.ROUND_HALF_UP));
+                    orcamento.setValoracrescimo(valorDesconto.setScale(2, RoundingMode.HALF_UP));
                     orcamento.setFlagtipoacrescimo('A');
                 }
             }

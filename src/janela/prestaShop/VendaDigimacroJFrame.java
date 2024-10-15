@@ -40,6 +40,7 @@ import janela.integrador.ClienteCplusDigimacro;
 import janela.integrador.ClienteDigimacroCplus;
 import java.awt.Toolkit;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -1205,8 +1206,8 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         Connection conn = new ConexaoPrestaShop().getConnection();
         List<PsOrderCommission> lisyOrderCommissions = new ConexaoPrestaShop().listPsOrderCommission(conn, psOrders.getIdOrder());
         if ("custompaymentmethod_3".equals(psOrders.getModule())) { //se o metodo de pagamento for com desconto           
-            //valTotal = totProd.multiply(new BigDecimal("0.985")).setScale(2, BigDecimal.ROUND_HALF_UP);
-            valDesconto = totProd.multiply(new BigDecimal("0.015")).setScale(2, BigDecimal.ROUND_HALF_UP);
+            //valTotal = totProd.multiply(new BigDecimal("0.985")).setScale(2, RoundingMode.HALF_UP);
+            valDesconto = totProd.multiply(new BigDecimal("0.015")).setScale(2, RoundingMode.HALF_UP);
             desFormaPagamento = valDesconto.doubleValue();
             if (lisyOrderCommissions.isEmpty()) {
                 new ConexaoPrestaShop().criaPsOrderCommission(conn, psOrders.getIdOrder(), 1, 0.0, 0.0, desFormaPagamento, desFormaPagamento);
@@ -1214,7 +1215,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
                 new ConexaoPrestaShop().editaDescontoPsOrderCommission(conn, psOrders.getIdOrder(), 0.00, desFormaPagamento);
             }
         } else if ("custompaymentmethod_6".equals(psOrders.getModule())) { //se o metodo de pagamento for com acrécimo           
-            valAcrecimo = totProd.multiply(new BigDecimal("0.0379")).setScale(2, BigDecimal.ROUND_HALF_UP);
+            valAcrecimo = totProd.multiply(new BigDecimal("0.0379")).setScale(2, RoundingMode.HALF_UP);
             if (lisyOrderCommissions.isEmpty()) {
                 new ConexaoPrestaShop().criaPsOrderCommission(conn, psOrders.getIdOrder(), 1, valAcrecimo.doubleValue(), valAcrecimo.doubleValue(), 0.00, 0.00);
             } else {
@@ -1226,7 +1227,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
             }
         }
         new ConexaoPrestaShop().closeConnection();
-        valDesconto = valDesconto.add(psOrders.getTotalDiscountsTaxIncl()).setScale(2, BigDecimal.ROUND_HALF_UP);
+        valDesconto = valDesconto.add(psOrders.getTotalDiscountsTaxIncl()).setScale(2, RoundingMode.HALF_UP);
         valTotal = totProd.subtract(valDesconto);
         valTotal = valTotal.add(valAcrecimo);
         BigDecimal valFrete = valorFrete(valTotal);

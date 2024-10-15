@@ -21,6 +21,7 @@ import entidade.cplus.Unidade;
 import entidade.cplus.Usuario;
 import janela.cplus.FormataCampos;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
@@ -108,7 +109,7 @@ public class EntradaClienteCplus {
 
     private BigDecimal valorUnitarioVenda(Movendaprod prod) {
         BigDecimal val = prod.getValortotal().subtract(prod.getValordescontorateado());
-        val = val.divide(prod.getQuantidade(), 4, BigDecimal.ROUND_HALF_UP);
+        val = val.divide(prod.getQuantidade(), 4, RoundingMode.HALF_UP);
         return val;
     }
 
@@ -116,8 +117,8 @@ public class EntradaClienteCplus {
         String devolucao = movimento.getFlagdevolucao().toString();
         BigDecimal val = BigDecimal.ZERO;
         if ("Y".equals(devolucao)) {
-         val = prod.getValorsubsttributaria().divide(prod.getQuantidade(), 4, BigDecimal.ROUND_HALF_UP);
-        val = val.multiply(quantidadeEspelho).setScale(2, BigDecimal.ROUND_HALF_UP);
+         val = prod.getValorsubsttributaria().divide(prod.getQuantidade(), 4, RoundingMode.HALF_UP);
+        val = val.multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);
         }
         return val;
     }
@@ -126,8 +127,8 @@ public class EntradaClienteCplus {
         String devolucao = movimento.getFlagdevolucao().toString();
         BigDecimal val = BigDecimal.ZERO;
         if ("Y".equals(devolucao)) {
-        val = prod.getBasesubsttributaria().divide(prod.getQuantidade(), 4, BigDecimal.ROUND_HALF_UP);
-        val = val.multiply(quantidadeEspelho).setScale(2, BigDecimal.ROUND_HALF_UP);
+        val = prod.getBasesubsttributaria().divide(prod.getQuantidade(), 4, RoundingMode.HALF_UP);
+        val = val.multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);
         }
         return val;
     }
@@ -136,8 +137,8 @@ public class EntradaClienteCplus {
         String devolucao = movimento.getFlagdevolucao().toString();
         BigDecimal val = BigDecimal.ZERO;
         if ("Y".equals(devolucao)) {
-        val = prod.getBasecofins().divide(prod.getQuantidade(), 4, BigDecimal.ROUND_HALF_UP);
-        val = val.multiply(quantidadeEspelho).setScale(2, BigDecimal.ROUND_HALF_UP);
+        val = prod.getBasecofins().divide(prod.getQuantidade(), 4, RoundingMode.HALF_UP);
+        val = val.multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);
         }
         return val;
     }
@@ -146,8 +147,8 @@ public class EntradaClienteCplus {
         String devolucao = movimento.getFlagdevolucao().toString();
         BigDecimal val = BigDecimal.ZERO;
         if ("Y".equals(devolucao)) {
-        val = prod.getBasepis().divide(prod.getQuantidade(), 4, BigDecimal.ROUND_HALF_UP);
-        val = val.multiply(quantidadeEspelho).setScale(2, BigDecimal.ROUND_HALF_UP);
+        val = prod.getBasepis().divide(prod.getQuantidade(), 4, RoundingMode.HALF_UP);
+        val = val.multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);
         }
         return val;
     }
@@ -156,8 +157,8 @@ public class EntradaClienteCplus {
         String devolucao = movimento.getFlagdevolucao().toString();
         BigDecimal val = BigDecimal.ZERO;
         if ("Y".equals(devolucao)) {
-        val = prod.getValorcofins().divide(prod.getQuantidade(), 4, BigDecimal.ROUND_HALF_UP);
-        val = val.multiply(quantidadeEspelho).setScale(2, BigDecimal.ROUND_HALF_UP);
+        val = prod.getValorcofins().divide(prod.getQuantidade(), 4, RoundingMode.HALF_UP);
+        val = val.multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);
         }
         return val;
     }
@@ -166,8 +167,8 @@ public class EntradaClienteCplus {
         String devolucao = movimento.getFlagdevolucao().toString();
         BigDecimal val = BigDecimal.ZERO;
         if ("Y".equals(devolucao)) {
-        val = prod.getValorpis().divide(prod.getQuantidade(), 4, BigDecimal.ROUND_HALF_UP);
-        val = val.multiply(quantidadeEspelho).setScale(2, BigDecimal.ROUND_HALF_UP);
+        val = prod.getValorpis().divide(prod.getQuantidade(), 4, RoundingMode.HALF_UP);
+        val = val.multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);
         }
         return val;
     }
@@ -175,8 +176,8 @@ public class EntradaClienteCplus {
     private BigDecimal valorBaseIpiEntrada(Movendaprod prod, BigDecimal quantidadeEspelho) {
         BigDecimal val = BigDecimal.ZERO;
         if (prod.getBaseipi() != null) {
-            val = prod.getBaseipi().divide(prod.getQuantidade(), 4, BigDecimal.ROUND_HALF_UP);
-            val = val.multiply(quantidadeEspelho).setScale(2, BigDecimal.ROUND_HALF_UP);
+            val = prod.getBaseipi().divide(prod.getQuantidade(), 4, RoundingMode.HALF_UP);
+            val = val.multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);
         }
         return val;
     }
@@ -184,8 +185,8 @@ public class EntradaClienteCplus {
     private BigDecimal valorIpiEntrada(Movendaprod prod, BigDecimal quantidadeEspelho) {
         BigDecimal val = BigDecimal.ZERO;
         if (prod.getBaseipi() != null) {
-            val = prod.getValoripi().divide(prod.getQuantidade(), 4, BigDecimal.ROUND_HALF_UP);
-            val = val.multiply(quantidadeEspelho).setScale(2, BigDecimal.ROUND_HALF_UP);
+            val = prod.getValoripi().divide(prod.getQuantidade(), 4, RoundingMode.HALF_UP);
+            val = val.multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);
         }
         return val;
     }
@@ -194,8 +195,8 @@ public class EntradaClienteCplus {
         String devolucao = movimento.getFlagdevolucao().toString();
         BigDecimal val = BigDecimal.ZERO;
         if ("Y".equals(devolucao)) {
-         val = prod.getBaseicms().divide(prod.getQuantidade(), 4, BigDecimal.ROUND_HALF_UP);
-        val = val.multiply(quantidadeEspelho).setScale(2, BigDecimal.ROUND_HALF_UP);
+         val = prod.getBaseicms().divide(prod.getQuantidade(), 4, RoundingMode.HALF_UP);
+        val = val.multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);
         }
         return val;
     }
@@ -204,14 +205,14 @@ public class EntradaClienteCplus {
         String devolucao = movimento.getFlagdevolucao().toString();
         BigDecimal val = BigDecimal.ZERO;
         if ("Y".equals(devolucao)) {
-            val = prod.getValoricms().divide(prod.getQuantidade(), 4, BigDecimal.ROUND_HALF_UP);
-            val = val.multiply(quantidadeEspelho).setScale(2, BigDecimal.ROUND_HALF_UP);
+            val = prod.getValoricms().divide(prod.getQuantidade(), 4, RoundingMode.HALF_UP);
+            val = val.multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);
         }
         return val;
     }
 
     private BigDecimal valorTotalProdutoEntradao(Movendaprod prod, BigDecimal quantidadeEspelho) {
-        BigDecimal val = valorUnitarioVenda(prod).multiply(quantidadeEspelho).setScale(2, BigDecimal.ROUND_HALF_UP);
+        BigDecimal val = valorUnitarioVenda(prod).multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);
         return val;
     }
 
@@ -527,9 +528,9 @@ public class EntradaClienteCplus {
 
             valTotalNota = valFrete + valotrasDespesas + valSt + valIpi;
 
-            entrada.setValortotalprodutos(new BigDecimal(valTotalProdutos).setScale(4, BigDecimal.ROUND_HALF_UP));
-            entrada.setValortotalnota(new BigDecimal(valTotalNota).setScale(4, BigDecimal.ROUND_HALF_UP));
-            entrada.setValortotalipi(new BigDecimal(valIpi).setScale(4, BigDecimal.ROUND_HALF_UP));
+            entrada.setValortotalprodutos(new BigDecimal(valTotalProdutos).setScale(4, RoundingMode.HALF_UP));
+            entrada.setValortotalnota(new BigDecimal(valTotalNota).setScale(4, RoundingMode.HALF_UP));
+            entrada.setValortotalipi(new BigDecimal(valIpi).setScale(4, RoundingMode.HALF_UP));
         }
         try {
             new MoventradaJpaController(managerCplus).edit(entrada);

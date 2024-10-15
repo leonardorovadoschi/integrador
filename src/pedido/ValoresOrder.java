@@ -13,6 +13,7 @@ import entidade.prestaShop.PsPack;
 import entidade.prestaShop.PsProduct;
 import entidade.prestaShop.PsSpecificPrice;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import jpa.prestaShop.PsCustomerJpaController;
@@ -44,10 +45,10 @@ public class ValoresOrder {
         BigDecimal valDesconto = BigDecimal.ZERO;
         BigDecimal totProd = totalProdOrder(managerPrestaShop, order);
         if ("custompaymentmethod_3".equals(order.getModule())) { //se o metodo de pagamento for com desconto            
-            valTotal = totProd.multiply(new BigDecimal("0.985")).setScale(2, BigDecimal.ROUND_HALF_UP);          
-            valDesconto = totProd.subtract(valTotal).setScale(2, BigDecimal.ROUND_HALF_UP);           
+            valTotal = totProd.multiply(new BigDecimal("0.985")).setScale(2, RoundingMode.HALF_UP);          
+            valDesconto = totProd.subtract(valTotal).setScale(2, RoundingMode.HALF_UP);           
         } 
-        valDesconto = valDesconto.add(order.getTotalDiscountsTaxIncl()).setScale(2, BigDecimal.ROUND_HALF_UP);
+        valDesconto = valDesconto.add(order.getTotalDiscountsTaxIncl()).setScale(2, RoundingMode.HALF_UP);
         return valDesconto;
     }
     
@@ -65,10 +66,10 @@ public class ValoresOrder {
         BigDecimal valDesconto = BigDecimal.ZERO;
         BigDecimal totProd = totalOrderSemPacote(managerPrestaShop, order);
         if ("custompaymentmethod_3".equals(order.getModule())) { //se o metodo de pagamento for com desconto           
-            valTotal = totProd.multiply(new BigDecimal("0.985")).setScale(2, BigDecimal.ROUND_HALF_UP);        
-            valDesconto = totProd.subtract(valTotal).setScale(2, BigDecimal.ROUND_HALF_UP);           
+            valTotal = totProd.multiply(new BigDecimal("0.985")).setScale(2, RoundingMode.HALF_UP);        
+            valDesconto = totProd.subtract(valTotal).setScale(2, RoundingMode.HALF_UP);           
         } 
-        valDesconto = valDesconto.add(order.getTotalDiscountsTaxIncl()).setScale(2, BigDecimal.ROUND_HALF_UP);
+        valDesconto = valDesconto.add(order.getTotalDiscountsTaxIncl()).setScale(2, RoundingMode.HALF_UP);
         valTotal = totProd.subtract(valDesconto);
         return valTotal;
     }
@@ -112,9 +113,9 @@ public class ValoresOrder {
                     BigDecimal precUni = P.getPrice();
                     int quanProdutosPack = psP.getQuantity();//quantidade de produtos que tem no pacote
                     BigDecimal quantidade = new BigDecimal(quantPack * quanProdutosPack);//é a quantidade do pacote x quantidade de pacote comprado
-                    BigDecimal redGrup = G.getReduction().divide(new BigDecimal("100.00"), BigDecimal.ROUND_HALF_UP);
+                    BigDecimal redGrup = G.getReduction().divide(new BigDecimal("100.00"), RoundingMode.HALF_UP);
                     precUni = precUni.multiply(BigDecimal.ONE.subtract(redGrup)); //redução do grupo
-                    precUni = precUni.multiply((BigDecimal.ONE.subtract(descPac))).setScale(2, BigDecimal.ROUND_HALF_UP); //redução do pacote de produto
+                    precUni = precUni.multiply((BigDecimal.ONE.subtract(descPac))).setScale(2, RoundingMode.HALF_UP); //redução do pacote de produto
                     orderItem.setProductId(psP.getPsPackPK().getIdProductItem());
                     orderItem.setEcotax(BigDecimal.ZERO);
                     orderItem.setProductQuantity(quantidade.intValue());
