@@ -719,6 +719,8 @@ public class RmaJFrame extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "O serial Novo deve ser digitado!!");
             }
         }
+        jTextFieldArgumentoPesquisa.requestFocus();
+        jTextFieldArgumentoPesquisa.selectAll();
     }
 
     private Integer estoqueCplus(String codProd) {

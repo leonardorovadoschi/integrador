@@ -301,7 +301,7 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
             movEntradaProd = new MoventradaprodJpaController(managerCplus).findMoventradaprod(codMovProd);
             this.listagemProdutoJDialog.setTermoPesquisa(movEntradaProd.getCodprod().getCodigo());
             this.listagemProdutoJDialog.setVisible(true);
-            jButtonEditarProduto.setEnabled(false);
+            //jButtonEditarProduto.setEnabled(false);
         } else {
             this.listagemProdutoJDialog.setVisible(true);
         }
