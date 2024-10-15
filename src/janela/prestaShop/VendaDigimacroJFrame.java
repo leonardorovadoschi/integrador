@@ -328,6 +328,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         });
 
         jComboBoxPagamento.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " " }));
+        jComboBoxPagamento.setFocusable(false);
         jComboBoxPagamento.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jComboBoxPagamentoMouseClicked(evt);
@@ -335,6 +336,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         });
 
         jComboBoxState.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " " }));
+        jComboBoxState.setFocusable(false);
 
         jLabel1.setText("Desc Avulso:");
 
@@ -360,6 +362,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         });
 
         jComboBoxShipping.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " " }));
+        jComboBoxShipping.setFocusable(false);
         jComboBoxShipping.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jComboBoxShippingMouseClicked(evt);
@@ -1059,15 +1062,9 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonCancelarOrdersActionPerformed
 
     private void jButtonShippingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonShippingActionPerformed
-        try {
-            if (jComboBoxShipping.getSelectedIndex() == 1) {
-                psOrders.setIdCarrier(19);
-            }
-            if (jComboBoxShipping.getSelectedIndex() == 2) {
-                psOrders.setIdCarrier(32);
-            }
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Houve um erro ao trocatipo de Frete\n VERIFIQUE!!! \n" + ex);
+
+        for (PsCarrier c : queryPrestaShop.listCarrier((String) jComboBoxShipping.getSelectedItem())) {
+            psOrders.setIdCarrier(c.getIdCarrier());
         }
         editaOrders();
         carregaCampos();
@@ -1273,7 +1270,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
                     val = new BigDecimal("45.00");
                 }
             }
-             if ("São Miguel".equals(c.getName())) {
+            if ("São Miguel".equals(c.getName())) {
                 if (valTotal.doubleValue() < 3000.00) {
                     val = new BigDecimal("20.00");
                 }

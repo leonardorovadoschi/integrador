@@ -699,12 +699,32 @@ public class QueryPrestaShop implements Serializable {
         query.setParameter("idOrder", idOrder);
         return query.getResultList();
     }
-    
+    /**
+     * Retorna uma lista de transportadora pelo id que não foi deletada
+     * deleted = false
+     * @param idCerrier
+     * @return 
+     */
     public List<PsCarrier> listCarrier(Integer idCerrier) {
         EntityManager em = getEntityManager();
         boolean deleted = false;
         Query query = em.createQuery("SELECT c FROM PsCarrier c WHERE c.idCarrier =:idCerrier AND c.deleted =:deleted");
         query.setParameter("idCerrier", idCerrier);
+        query.setParameter("deleted", deleted);
+        return query.getResultList();
+    }
+    
+    /**
+     * Retorna uma lista de transportadora pelo nome da transportadora que não foi deletada
+     * deleted = false
+     * @param name
+     * @return 
+     */
+    public List<PsCarrier> listCarrier(String name) {
+        EntityManager em = getEntityManager();
+        boolean deleted = false;
+        Query query = em.createQuery("SELECT c FROM PsCarrier c WHERE c.name =:name AND c.deleted =:deleted");
+        query.setParameter("name", name);
         query.setParameter("deleted", deleted);
         return query.getResultList();
     }
