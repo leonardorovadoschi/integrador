@@ -22,7 +22,7 @@ import entidade.cplus.Produtopreco;
 import entidade.integrador.IntLogs;
 import entidade.integrador.ProdFornecedor;
 import entidade.prestaShop.PsProduct;
-import integrador.render.RenderNomeFornecedor;
+import integrador.render.RenderDataEHora;
 import integrador.render.RenderNumeroInteiro;
 import integrador.render.RenderPorcentagem;
 import integrador.render.produto.RenderAllAtivo;
@@ -34,7 +34,6 @@ import integrador.render.produto.RenderEstoqueReservaOrcamento;
 import integrador.render.produto.RenderEstoqueReservaOs;
 import integrador.render.produto.RenderLocalizacao;
 import integrador.render.produto.RenderMargemVenda;
-import integrador.separacao.ColorirLinhaImpar;
 import java.awt.Color;
 import java.awt.Toolkit;
 import java.math.BigDecimal;
@@ -45,7 +44,6 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
-import javax.swing.table.TableCellRenderer;
 import jpa.cplus.AuditoriaJpaController;
 import jpa.cplus.CampocustommasterJpaController;
 import jpa.cplus.CampocustomvalorJpaController;
@@ -108,6 +106,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         decimaisArredondamento = Integer.valueOf(queryIntegrador.valorConfiguracao("casas_decimais_ARREDONDAMENTO"));
         //new RenderLocalizacao(managerCplus);
         this.listagemLocalizacaoJDialog = new ListagemLocalizacaoJDialog(this, true, managerCplus);
+        new RenderDataEHora();
     }
 
     /**
@@ -1195,10 +1194,12 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         jScrollPaneListagemProdutos.setViewportView(jTableListagemProdutos);
         jTableListagemProdutos.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (jTableListagemProdutos.getColumnModel().getColumnCount() > 0) {
-            jTableListagemProdutos.getColumnModel().getColumn(0).setPreferredWidth(80);
+            jTableListagemProdutos.getColumnModel().getColumn(0).setPreferredWidth(100);
+            jTableListagemProdutos.getColumnModel().getColumn(0).setCellRenderer(new RenderDataEHora());
             jTableListagemProdutos.getColumnModel().getColumn(1).setPreferredWidth(80);
+            jTableListagemProdutos.getColumnModel().getColumn(1).setCellRenderer(new RenderDataEHora());
             jTableListagemProdutos.getColumnModel().getColumn(2).setPreferredWidth(100);
-            jTableListagemProdutos.getColumnModel().getColumn(3).setPreferredWidth(350);
+            jTableListagemProdutos.getColumnModel().getColumn(3).setPreferredWidth(420);
             jTableListagemProdutos.getColumnModel().getColumn(4).setCellRenderer(new integrador.render.produto.RenderPrecoVenda());
             jTableListagemProdutos.getColumnModel().getColumn(5).setMinWidth(70);
             jTableListagemProdutos.getColumnModel().getColumn(5).setPreferredWidth(70);
@@ -1809,7 +1810,6 @@ public class ProdutoJFrame extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelControlesLayout.createSequentialGroup()
                         .addGroup(jPanelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanelControlesLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jCheckBoxAtivo, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jCheckBoxNoSite))

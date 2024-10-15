@@ -154,7 +154,6 @@
                       <Group type="102" alignment="1" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jCheckBoxAtivo" min="-2" pref="69" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jCheckBoxNoSite" min="-2" max="-2" attributes="0"/>
@@ -1523,22 +1522,26 @@
                         <Property name="autoResizeMode" type="int" value="0"/>
                         <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                           <TableColumnModel selectionModel="1">
-                            <Column maxWidth="-1" minWidth="-1" prefWidth="80" resizable="true">
+                            <Column maxWidth="-1" minWidth="-1" prefWidth="100" resizable="true">
                               <Title/>
                               <Editor/>
-                              <Renderer/>
+                              <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                                <Connection code="new RenderDataEHora()" type="code"/>
+                              </Renderer>
                             </Column>
                             <Column maxWidth="-1" minWidth="-1" prefWidth="80" resizable="true">
                               <Title/>
                               <Editor/>
-                              <Renderer/>
+                              <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                                <Connection code="new RenderDataEHora()" type="code"/>
+                              </Renderer>
                             </Column>
                             <Column maxWidth="-1" minWidth="-1" prefWidth="100" resizable="true">
                               <Title/>
                               <Editor/>
                               <Renderer/>
                             </Column>
-                            <Column maxWidth="-1" minWidth="-1" prefWidth="350" resizable="true">
+                            <Column maxWidth="-1" minWidth="-1" prefWidth="420" resizable="true">
                               <Title/>
                               <Editor/>
                               <Renderer/>

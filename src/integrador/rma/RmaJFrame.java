@@ -125,6 +125,7 @@ public class RmaJFrame extends javax.swing.JFrame {
         jButtonEditarSerial = new javax.swing.JButton();
         jButtonExcluiSerial = new javax.swing.JButton();
         jButtonExcluiEntradaSerial = new javax.swing.JButton();
+        jButtonEditarProduto = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Manutenção de RMA");
@@ -434,6 +435,15 @@ public class RmaJFrame extends javax.swing.JFrame {
             }
         });
 
+        jButtonEditarProduto.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jButtonEditarProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/Edit.png"))); // NOI18N
+        jButtonEditarProduto.setText("Editar Produto");
+        jButtonEditarProduto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEditarProdutoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelManutençãoSerialLayout = new javax.swing.GroupLayout(jPanelManutençãoSerial);
         jPanelManutençãoSerial.setLayout(jPanelManutençãoSerialLayout);
         jPanelManutençãoSerialLayout.setHorizontalGroup(
@@ -442,18 +452,20 @@ public class RmaJFrame extends javax.swing.JFrame {
                 .addGroup(jPanelManutençãoSerialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButtonExcluiSerial, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
                     .addComponent(jButtonEditarSerial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonExcluiEntradaSerial, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE))
+                    .addComponent(jButtonExcluiEntradaSerial, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
+                    .addComponent(jButtonEditarProduto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanelManutençãoSerialLayout.setVerticalGroup(
             jPanelManutençãoSerialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelManutençãoSerialLayout.createSequentialGroup()
-                .addContainerGap(30, Short.MAX_VALUE)
                 .addComponent(jButtonExcluiEntradaSerial)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonEditarSerial)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonExcluiSerial))
+                .addComponent(jButtonExcluiSerial)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonEditarProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -571,6 +583,11 @@ public class RmaJFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Você deve selecionar uma linha na tabela Listagem de Seriais!!! ");
         }
     }//GEN-LAST:event_jButtonExcluiEntradaSerialActionPerformed
+
+    private void jButtonEditarProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarProdutoActionPerformed
+      
+            this.listagemProdutoJDialog.setVisible(true);
+    }//GEN-LAST:event_jButtonEditarProdutoActionPerformed
 
     private void limpaTabelas() {
         while (jTableEntradaSerial.getModel().getRowCount() > 0) {
@@ -1327,6 +1344,7 @@ public class RmaJFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.persistence.EntityManager entityManager;
+    private javax.swing.JButton jButtonEditarProduto;
     private javax.swing.JButton jButtonEditarSerial;
     private javax.swing.JButton jButtonExcluiEntradaSerial;
     private javax.swing.JButton jButtonExcluiSerial;
