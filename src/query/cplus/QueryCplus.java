@@ -1266,11 +1266,19 @@ public class QueryCplus {
         query.setParameter("obcervacao", "%" + obcervacao.trim() + "%");//primeiro parametro          
         return query.getResultList();
     }
-
+    
+    public List<Movenda> listaMovendaPorProduto(Produto pro, Integer maxResult) {
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery("SELECT ven.codmovenda FROM Movendaprod ven WHERE ven.codprod =:pro ORDER BY VEN.codmovenda.numped DESC");
+        query.setParameter("pro", pro);//primeiro parametro 
+        query.setMaxResults(maxResult);
+        return query.getResultList();
+    }
+    
     public List<Nfceletronica> listaNFC(String codMovenda) {
         EntityManager em = getEntityManager();
         Query query = em.createQuery("SELECT nfc FROM Nfceletronica nfc WHERE nfc.codmovenda.codmovenda =:codMovenda");
-        query.setParameter("codMovenda", codMovenda);//primeiro parametro          
+        query.setParameter("codMovenda", codMovenda);//primeiro parametro   
         return query.getResultList();
     }
 

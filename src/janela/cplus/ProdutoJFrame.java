@@ -8,7 +8,6 @@ package janela.cplus;
 import entidade.cplus.Auditoria;
 import entidade.cplus.Calculoicmsestado;
 import entidade.cplus.Campocustomvalor;
-import entidade.cplus.Fornproduto;
 import entidade.cplus.Localizacao;
 import entidade.cplus.Movenda;
 import entidade.cplus.Movendaprod;
@@ -20,27 +19,14 @@ import entidade.cplus.Produtocodigo;
 import entidade.cplus.Produtoestoque;
 import entidade.cplus.Produtopreco;
 import entidade.integrador.IntLogs;
-import entidade.integrador.ProdFornecedor;
 import entidade.prestaShop.PsProduct;
-import integrador.render.RenderDataEHora;
-import integrador.render.RenderNumeroInteiro;
-import integrador.render.RenderPorcentagem;
-import integrador.render.produto.RenderAllAtivo;
-import integrador.render.produto.RenderAllDisponivel;
-import integrador.render.produto.RenderCodigoEan;
-import integrador.render.produto.RenderEstoqueAtual;
-import integrador.render.produto.RenderEstoqueDisponivel;
-import integrador.render.produto.RenderEstoqueReservaOrcamento;
-import integrador.render.produto.RenderEstoqueReservaOs;
-import integrador.render.produto.RenderLocalizacao;
-import integrador.render.produto.RenderMargemVenda;
+import integrador.render.ConfTabelaProduto;
 import java.awt.Color;
 import java.awt.Toolkit;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -55,7 +41,6 @@ import jpa.cplus.ProdutocaracteristicaJpaController;
 import jpa.cplus.ProdutoprecoJpaController;
 import jpa.cplus.exceptions.NonexistentEntityException;
 import jpa.integrador.IntLogsJpaController;
-import jpa.integrador.ProdFornecedorJpaController;
 import produto.PedidoCompra;
 import query.cplus.QueryCplus;
 import query.integrador.QueryIntegrador;
@@ -94,6 +79,8 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         jTextFieldNomeSite.setDocument(new LimiteDigitos(100));//limite digitos no campo
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
         this.listagemLocalizacaoJDialog = new ListagemLocalizacaoJDialog(this, true, managerCplus);
+        this.listagemSaidasJDialog = new ListagemSaidasJDialog(this, true, managerCplus);
+        jTableListagemProdutos.setDefaultRenderer(Object.class, new ConfTabelaProduto());
     }
 
     /**
@@ -196,6 +183,11 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         jTableListagemProdutos = new javax.swing.JTable();
         jTextFieldMaxResult = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
+        jMenuBarProdutos = new javax.swing.JMenuBar();
+        jMenuListagem = new javax.swing.JMenu();
+        jMenuItemListagemSaidas = new javax.swing.JMenuItem();
+        jMenuItemListagemEntradas = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Alteração de Preço ");
@@ -424,9 +416,9 @@ public class ProdutoJFrame extends javax.swing.JFrame {
                     .addComponent(jLabelTotalOutrosCustos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
                 .addGroup(jPanelCustosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextFieldPrecoCusto, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 60, Short.MAX_VALUE)
-                    .addComponent(jTextFieldCustoReal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 60, Short.MAX_VALUE)
-                    .addComponent(jTextFieldValorSubstituicaoTributaria, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 60, Short.MAX_VALUE)
+                    .addComponent(jTextFieldPrecoCusto, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
+                    .addComponent(jTextFieldCustoReal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
+                    .addComponent(jTextFieldValorSubstituicaoTributaria, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
                     .addComponent(jTextFieldValorOutrosCustos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextFieldCustoMedio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextFieldValorIpi, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
@@ -1043,9 +1035,14 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         });
         jTableListagemProdutos.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         jTableListagemProdutos.getTableHeader().setReorderingAllowed(false);
+        jTableListagemProdutos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableListagemProdutosMouseClicked(evt);
+            }
+        });
         jScrollPane6.setViewportView(jTableListagemProdutos);
         if (jTableListagemProdutos.getColumnModel().getColumnCount() > 0) {
-            jTableListagemProdutos.getColumnModel().getColumn(0).setPreferredWidth(100);
+            jTableListagemProdutos.getColumnModel().getColumn(0).setPreferredWidth(120);
             jTableListagemProdutos.getColumnModel().getColumn(1).setPreferredWidth(80);
             jTableListagemProdutos.getColumnModel().getColumn(2).setPreferredWidth(100);
             jTableListagemProdutos.getColumnModel().getColumn(3).setPreferredWidth(420);
@@ -1063,7 +1060,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
             jPanelAbaListaProdutosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelAbaListaProdutosLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE))
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE))
         );
 
         jTabbedPaneAlteracaoPrecoProdutoCplus.addTab("Listagem Produtos C-Plus", jPanelAbaListaProdutos);
@@ -1129,21 +1126,44 @@ public class ProdutoJFrame extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(jButtonEditarSetorEstoque))
                             .addComponent(jPanelArredondamentoVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTabbedPaneAlteracaoPrecoProdutoCplus))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jTabbedPaneAlteracaoPrecoProdutoCplus, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanelControlesLayout.createSequentialGroup()
-                        .addGroup(jPanelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanelControlesLayout.createSequentialGroup()
+                                .addGroup(jPanelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(jPanelControlesLayout.createSequentialGroup()
+                                        .addContainerGap()
+                                        .addComponent(jPanelDataMovimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jPanelEstoque, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPanelPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanelControlesLayout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(jPanelDataMovimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jPanelEstoque, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanelPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanelControlesLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanelCustos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jPanelCustos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
+
+        jMenuListagem.setText("Listagem");
+
+        jMenuItemListagemSaidas.setText("Listagem Saidas");
+        jMenuItemListagemSaidas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemListagemSaidasActionPerformed(evt);
+            }
+        });
+        jMenuListagem.add(jMenuItemListagemSaidas);
+
+        jMenuItemListagemEntradas.setText("Listagem Entradas");
+        jMenuListagem.add(jMenuItemListagemEntradas);
+
+        jMenuBarProdutos.add(jMenuListagem);
+
+        jMenu3.setText("Edit");
+        jMenuBarProdutos.add(jMenu3);
+
+        setJMenuBar(jMenuBarProdutos);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -1153,7 +1173,9 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanelControles, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 8, Short.MAX_VALUE)
+                .addComponent(jPanelControles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -1394,6 +1416,19 @@ public class ProdutoJFrame extends javax.swing.JFrame {
             carregarCampos();
         }// TODO add your handling code here:
     }//GEN-LAST:event_jButtonEditarSetorEstoqueActionPerformed
+
+    private void jTableListagemProdutosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableListagemProdutosMouseClicked
+        carregarCampos();
+    }//GEN-LAST:event_jTableListagemProdutosMouseClicked
+
+    private void jMenuItemListagemSaidasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemListagemSaidasActionPerformed
+        if (produtoCplus != null) {
+            this.listagemSaidasJDialog.setListSaidas(queryCplus.listaMovendaPorProduto(produtoCplus, Integer.valueOf(jTextFieldMaxResult.getText())));
+        } else {
+            this.listagemSaidasJDialog.setListSaidas(new ArrayList<>());
+        }
+        this.listagemSaidasJDialog.setVisible(true);
+    }//GEN-LAST:event_jMenuItemListagemSaidasActionPerformed
 
     private String tamanhoString(String str, int tamanhoString) {
         String str2 = "";
@@ -1781,7 +1816,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
             }
             for (Moventradaprod movPro : queryCplus.resultProdutoEntrada(codProdutoTabela, movEnt.getCodmoventr())) {
                 BigDecimal totalCusto = movPro.getValorunitario().add(movPro.getValorsubsttributaria().divide(movPro.getQuantidade()));
-                totalCusto = totalCusto.add(movPro.getValoripi().divide(movPro.getQuantidade()));
+                totalCusto = totalCusto.add(movPro.getValoripi().divide(movPro.getQuantidade(), 4, RoundingMode.HALF_UP));
 
                 jTextFieldUltimaQuantidadeComprada.setText(format.bigDecimalParaString(movPro.getQuantidade(), 0));
 //                precoCustoUltimaCompra = totalCusto;
@@ -1898,6 +1933,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         }
         jButtonGravar.setEnabled(false);
         jButtonEditarSetorEstoque.setEnabled(true);
+        jButtonAtualizaMargemCusto.setEnabled(true);
         jTextFieldSetor.setText(setor(produtoCplus));
     }
 
@@ -1945,9 +1981,10 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         jTextFieldComprimento.setText("");
         jComboBoxOrigemProduto.setSelectedIndex(9);
         movendaprodList.clear();
+        moventradaprodList.clear();
         jTextFieldSetor.setText("");
         jButtonEditarSetorEstoque.setEnabled(false);
-
+        produtoCplus = new Produto();
     }
 
     private BigDecimal calculaValorVenda(BigDecimal margemLucro) {
@@ -2212,7 +2249,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
     private List<Produtopreco> listPrecoProduto;
     private List<Produtoestoque> listEstoqueProduto;
     private final ListagemEntradasJDialog listagemEntradasJDialog;
-    // private final int decimaisArredondamento;
+    private final ListagemSaidasJDialog listagemSaidasJDialog;
     private final ListagemLocalizacaoJDialog listagemLocalizacaoJDialog;
     private final List<Produto> produtoList = new ArrayList<>();
     private final List<Movendaprod> movendaprodList = new ArrayList<>();
@@ -2263,6 +2300,11 @@ public class ProdutoJFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelValorOutrasDespesas;
     private javax.swing.JLabel jLabelValorOutrosCustos;
     private javax.swing.JLabel jLabelValorSt;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenuBar jMenuBarProdutos;
+    private javax.swing.JMenuItem jMenuItemListagemEntradas;
+    private javax.swing.JMenuItem jMenuItemListagemSaidas;
+    private javax.swing.JMenu jMenuListagem;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanelAbaListaProdutos;
     private javax.swing.JPanel jPanelArredondamentoVenda;

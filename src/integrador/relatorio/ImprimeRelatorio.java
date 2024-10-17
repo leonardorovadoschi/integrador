@@ -7,9 +7,13 @@
 package integrador.relatorio;
 
 import integrador.rma.EspelhoRmaJFrame;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Collection;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -35,15 +39,18 @@ public class ImprimeRelatorio {
      */
     public boolean imprimeRelatorioPeloJar(String caminhoArquivo, List lista){
         boolean condicao = true;
-        InputStream inputStream = EspelhoRmaJFrame.class.getResourceAsStream(caminhoArquivo);
-        try {
+         try {
+        InputStream inputStream = new FileInputStream(caminhoArquivo);      
             JasperReport report = JasperCompileManager.compileReport(inputStream);
             JasperPrint print = JasperFillManager.fillReport(report, null, new JRBeanCollectionDataSource(lista));  
             //JasperPrint print = JasperFillManager.fillReport(caminhoArquivo, null, new JRBeanCollectionDataSource(lista));  
             JasperViewer.viewReport(print, false);
         } catch (JRException e) {
             condicao = false;
-            JOptionPane.showMessageDialog(null, "HOUVE UM ERRO AO IMPRIMIR RELATÓRIO, Verifique!! \n" + e, "Erro Imprimir", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(ImprimeRelatorio.class.getName()).log(Level.SEVERE, null, e);
+           //OptionPane.showMessageDialog(null, "HOUVE UM ERRO AO IMPRIMIR RELATÓRIO, Verifique!! \n" + e, "Erro Imprimir", JOptionPane.ERROR_MESSAGE);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(ImprimeRelatorio.class.getName()).log(Level.SEVERE, null, ex);
         }
         return condicao;
     }
