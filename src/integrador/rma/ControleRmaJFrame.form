@@ -2,30 +2,6 @@
 
 <Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <NonVisualComponents>
-    <Component class="javax.persistence.EntityManager" name="cplusPUEntityManager">
-      <Properties>
-        <Property name="persistenceUnit" type="java.lang.String" value="cplusPU"/>
-      </Properties>
-    </Component>
-    <Component class="javax.persistence.Query" name="movendaproddevolucaocompraQuery">
-      <Properties>
-        <Property name="query" type="java.lang.String" value="SELECT prod FROM Movendaproddevolucaocompra prod WHERE prod.codmovendaproddevolucaocompra =&quot;999999999&quot;"/>
-        <Property name="entityManager" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$EMProperty$EntityManagerEditor">
-          <ComponentRef name="cplusPUEntityManager"/>
-        </Property>
-      </Properties>
-    </Component>
-    <Component class="java.util.List" name="movendaproddevolucaocompraList">
-      <Properties>
-        <Property name="query" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$QueryBeanProperty$QueryEditor">
-          <ComponentRef name="movendaproddevolucaocompraQuery"/>
-        </Property>
-        <Property name="observable" type="boolean" value="true"/>
-      </Properties>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;entidade.cplus.Movendaproddevolucaocompra&gt;"/>
-      </AuxValues>
-    </Component>
     <Component class="javax.swing.ButtonGroup" name="buttonGroupFiltros">
     </Component>
     <Component class="javax.swing.ButtonGroup" name="buttonGroupTipoSolucao">
@@ -167,70 +143,6 @@
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
           </Properties>
-          <BindingProperties>
-            <BindingProperty name="elements" source="movendaproddevolucaocompraList" target="jTableControleRma" targetPath="elements" updateStrategy="0" immediately="true">
-              <Subbinding sourcePath="${codprod.codigo}">
-                <BindingParameter name="NAME" value="C&#xf3;digo"/>
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
-              </Subbinding>
-              <Subbinding sourcePath="${codprod.nomeprod}">
-                <BindingParameter name="NAME" value="Descri&#xe7;&#xe3;o"/>
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
-              </Subbinding>
-              <Subbinding sourcePath="${codmovprod.codmovenda.numped}">
-                <BindingParameter name="NAME" value="Num. Pedido"/>
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Integer.class"/>
-              </Subbinding>
-              <Subbinding sourcePath="${codmovprod.codmovenda.numnota}">
-                <BindingParameter name="NAME" value="Num. Nota"/>
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Integer.class"/>
-              </Subbinding>
-              <Subbinding sourcePath="${codforn.nomeforn}">
-                <BindingParameter name="NAME" value="Nume Fornecedor"/>
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
-              </Subbinding>
-              <Subbinding sourcePath="${codforn.estado}">
-                <BindingParameter name="NAME" value="Estado"/>
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
-              </Subbinding>
-              <Subbinding sourcePath="${quantidade}">
-                <BindingParameter name="NAME" value="Quantidade"/>
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.math.BigDecimal.class"/>
-              </Subbinding>
-              <Subbinding sourcePath="${quantidaderetornada}">
-                <BindingParameter name="NAME" value="Quantidade Retornada"/>
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.math.BigDecimal.class"/>
-              </Subbinding>
-              <Subbinding sourcePath="${valorcusto}">
-                <BindingParameter name="NAME" value="Valor Custo"/>
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.math.BigDecimal.class"/>
-              </Subbinding>
-              <Subbinding sourcePath="${valorretornado}">
-                <BindingParameter name="NAME" value="Valor Retornado"/>
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.math.BigDecimal.class"/>
-              </Subbinding>
-              <Subbinding sourcePath="${motivodevolucao}">
-                <BindingParameter name="NAME" value="Motivo Dev."/>
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
-              </Subbinding>
-              <Subbinding sourcePath="${historico}">
-                <BindingParameter name="NAME" value="Historico"/>
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
-              </Subbinding>
-              <Subbinding sourcePath="${dataprevistadevolucao}">
-                <BindingParameter name="NAME" value="Data Prevista Devolu&#xe7;&#xe3;o"/>
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.util.Date.class"/>
-              </Subbinding>
-              <Subbinding sourcePath="${datasaida}">
-                <BindingParameter name="NAME" value="Data Saida"/>
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.util.Date.class"/>
-              </Subbinding>
-              <Subbinding sourcePath="${codmovendaproddevolucaocompra}">
-                <BindingParameter name="NAME" value="Codmovendaproddevolucaocompra"/>
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
-              </Subbinding>
-            </BindingProperty>
-          </BindingProperties>
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTableControleRmaMouseClicked"/>
           </Events>
@@ -430,7 +342,7 @@
                       </Group>
                       <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jTextFieldQuantidadeSolucionada" pref="60" max="32767" attributes="0"/>
+                          <Component id="jTextFieldQuantidadeSolucionada" max="32767" attributes="0"/>
                           <Component id="jTextFieldValorSolucionado" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace pref="355" max="32767" attributes="0"/>

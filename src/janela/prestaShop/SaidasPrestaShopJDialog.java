@@ -5,10 +5,12 @@
  */
 package janela.prestaShop;
 
+import entidade.prestaShop.PsCustomer;
 import entidade.prestaShop.PsOrders;
 import integrador.render.RenderCustomerNome;
 import integrador.render.RenderDataEHora;
 import integrador.render.RenderPreco;
+import integrador.separacao.ColorirLinhaImpar;
 import janela.cplus.FormataCampos;
 import static janela.prestaShop.ListPsProductJDialog.managerIntegrador;
 import java.awt.Toolkit;
@@ -17,6 +19,8 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import jpa.prestaShop.PsOrdersJpaController;
 import query.prestaShop.QueryPrestaShop;
 
@@ -35,25 +39,19 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
      * @param managerIntegrador1
      */
     public SaidasPrestaShopJDialog(java.awt.Frame parent, boolean modal, EntityManagerFactory managerPrestaShop1, EntityManagerFactory managerIntegrador1) {
-        super(parent, modal);
-        //new RenderDataEHora();
-        //new RenderCustomerNome(managerPrestaShop);
-        //new RenderPreco()
+        super(parent, modal);      
         managerIntegrador = managerIntegrador1;
         managerPrestaShop = managerPrestaShop1;
         queryPrestaShop = new QueryPrestaShop(managerPrestaShop);
         initComponents();
-
-        //shopUrl = new QueryIntegrador(managerIntegrador).valorConfiguracao("shopURL");
-        //key = new QueryIntegrador(managerIntegrador).valorConfiguracao("shopKEY");
-        //this.ws = new ClienteWebService(shopUrl, key, false);
-        
-        idOrder = jTableListOrders.getColumnModel().getColumnIndex("Id Order");
-        formataCampos = new FormataCampos();
-        jDateChooserDataInicial.setDate(formataCampos.alteraDiaData(formataCampos.dataAtual(), -2));
-        jDateChooserDataFinal.setDate(formataCampos.alteraDiaData(formataCampos.dataAtual(), 1));
+        idOrder = jTableOrders.getColumnModel().getColumnIndex("Id Order");
+        format = new FormataCampos();
+        jDateChooserDataInicial.setDate(format.alteraDiaData(format.dataAtual(), -2));
+        jDateChooserDataFinal.setDate(format.alteraDiaData(format.dataAtual(), 1));
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
         controleDeAcesso();
+        psOrdersList = new ArrayList<>();
+
     }
 
     /**
@@ -64,12 +62,8 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         buttonGroupStatusPedido = new javax.swing.ButtonGroup();
-        PrestaShopPUEntityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("PrestaShopPU").createEntityManager();
-        psOrdersQuery = java.beans.Beans.isDesignTime() ? null : PrestaShopPUEntityManager.createQuery("SELECT p FROM PsOrders p").setMaxResults(10);
-        psOrdersList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(new java.util.LinkedList(psOrdersQuery.getResultList()));
         jPanelPesquisa = new javax.swing.JPanel();
         jComboBoxTipoPesquisa = new javax.swing.JComboBox();
         jTextFieldTermoPesquisa = new javax.swing.JTextField();
@@ -85,8 +79,8 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
         jRadioButtonEmSeparacao = new javax.swing.JRadioButton();
         jButtonOk = new javax.swing.JButton();
         jButtonCancelar = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTableListOrders = new javax.swing.JTable();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTableOrders = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Pesquisa de Saidas");
@@ -174,7 +168,7 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
                         .addComponent(jRadioButtonEmSeparacao)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jRadioButtonTodos)))
-                .addGap(0, 195, Short.MAX_VALUE))
+                .addGap(0, 332, Short.MAX_VALUE))
         );
         jPanelPesquisaLayout.setVerticalGroup(
             jPanelPesquisaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -217,116 +211,43 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
             }
         });
 
-        jTableListOrders.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        jTableOrders.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Id Order", "Referencia", "Cliente", "Pagamento", "Total Desc.", "Total", "Total Frete", "Data Add", "Data Atua."
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false
+            };
 
-        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, psOrdersList, jTableListOrders);
-        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${idOrder}"));
-        columnBinding.setColumnName("Id Order");
-        columnBinding.setColumnClass(Integer.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${reference}"));
-        columnBinding.setColumnName("Reference");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${idCustomer}"));
-        columnBinding.setColumnName("Cliente");
-        columnBinding.setColumnClass(Integer.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${payment}"));
-        columnBinding.setColumnName("Payment");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${totalPaidTaxExcl}"));
-        columnBinding.setColumnName("Total Paid Tax Excl");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${totalDiscountsTaxIncl}"));
-        columnBinding.setColumnName("Total Discounts Tax Incl");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${totalDiscountsTaxExcl}"));
-        columnBinding.setColumnName("Total Discounts Tax Excl");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${totalPaidTaxIncl}"));
-        columnBinding.setColumnName("Total Paid Tax Incl");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${totalShipping}"));
-        columnBinding.setColumnName("Total Shipping");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${totalShippingTaxIncl}"));
-        columnBinding.setColumnName("Total Shipping Tax Incl");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${totalShippingTaxExcl}"));
-        columnBinding.setColumnName("Total Shipping Tax Excl");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${invoiceNumber}"));
-        columnBinding.setColumnName("Invoice Number");
-        columnBinding.setColumnClass(Integer.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${dateAdd}"));
-        columnBinding.setColumnName("Date Add");
-        columnBinding.setColumnClass(java.util.Date.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${dateUpd}"));
-        columnBinding.setColumnName("Date Upd");
-        columnBinding.setColumnClass(java.util.Date.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${idCarrier}"));
-        columnBinding.setColumnName("Id Carrier");
-        columnBinding.setColumnClass(Integer.class);
-        bindingGroup.addBinding(jTableBinding);
-        jTableBinding.bind();
-        jTableListOrders.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                jTableListOrdersMousePressed(evt);
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(jTableListOrders);
-        if (jTableListOrders.getColumnModel().getColumnCount() > 0) {
-            jTableListOrders.getColumnModel().getColumn(0).setPreferredWidth(30);
-            jTableListOrders.getColumnModel().getColumn(1).setMinWidth(80);
-            jTableListOrders.getColumnModel().getColumn(1).setPreferredWidth(100);
-            jTableListOrders.getColumnModel().getColumn(1).setMaxWidth(300);
-            jTableListOrders.getColumnModel().getColumn(2).setMinWidth(350);
-            jTableListOrders.getColumnModel().getColumn(2).setPreferredWidth(400);
-            jTableListOrders.getColumnModel().getColumn(2).setMaxWidth(800);
-            jTableListOrders.getColumnModel().getColumn(2).setCellRenderer(new RenderCustomerNome(managerPrestaShop));
-            jTableListOrders.getColumnModel().getColumn(3).setMinWidth(100);
-            jTableListOrders.getColumnModel().getColumn(3).setPreferredWidth(100);
-            jTableListOrders.getColumnModel().getColumn(3).setMaxWidth(300);
-            jTableListOrders.getColumnModel().getColumn(4).setMinWidth(100);
-            jTableListOrders.getColumnModel().getColumn(4).setPreferredWidth(150);
-            jTableListOrders.getColumnModel().getColumn(4).setMaxWidth(300);
-            jTableListOrders.getColumnModel().getColumn(4).setCellRenderer(new RenderPreco());
-            jTableListOrders.getColumnModel().getColumn(5).setMinWidth(100);
-            jTableListOrders.getColumnModel().getColumn(5).setPreferredWidth(150);
-            jTableListOrders.getColumnModel().getColumn(5).setMaxWidth(300);
-            jTableListOrders.getColumnModel().getColumn(5).setCellRenderer(new RenderPreco());
-            jTableListOrders.getColumnModel().getColumn(6).setMinWidth(100);
-            jTableListOrders.getColumnModel().getColumn(6).setPreferredWidth(150);
-            jTableListOrders.getColumnModel().getColumn(6).setMaxWidth(300);
-            jTableListOrders.getColumnModel().getColumn(6).setCellRenderer(new RenderPreco());
-            jTableListOrders.getColumnModel().getColumn(7).setMinWidth(100);
-            jTableListOrders.getColumnModel().getColumn(7).setPreferredWidth(150);
-            jTableListOrders.getColumnModel().getColumn(7).setMaxWidth(300);
-            jTableListOrders.getColumnModel().getColumn(7).setCellRenderer(new RenderPreco());
-            jTableListOrders.getColumnModel().getColumn(8).setMinWidth(100);
-            jTableListOrders.getColumnModel().getColumn(8).setPreferredWidth(150);
-            jTableListOrders.getColumnModel().getColumn(8).setMaxWidth(300);
-            jTableListOrders.getColumnModel().getColumn(8).setCellRenderer(new RenderPreco());
-            jTableListOrders.getColumnModel().getColumn(9).setMinWidth(100);
-            jTableListOrders.getColumnModel().getColumn(9).setPreferredWidth(150);
-            jTableListOrders.getColumnModel().getColumn(9).setMaxWidth(300);
-            jTableListOrders.getColumnModel().getColumn(9).setCellRenderer(new RenderPreco());
-            jTableListOrders.getColumnModel().getColumn(10).setMinWidth(100);
-            jTableListOrders.getColumnModel().getColumn(10).setPreferredWidth(150);
-            jTableListOrders.getColumnModel().getColumn(10).setMaxWidth(300);
-            jTableListOrders.getColumnModel().getColumn(10).setCellRenderer(new RenderPreco());
-            jTableListOrders.getColumnModel().getColumn(11).setMinWidth(50);
-            jTableListOrders.getColumnModel().getColumn(11).setPreferredWidth(50);
-            jTableListOrders.getColumnModel().getColumn(11).setMaxWidth(300);
-            jTableListOrders.getColumnModel().getColumn(12).setMinWidth(150);
-            jTableListOrders.getColumnModel().getColumn(12).setPreferredWidth(200);
-            jTableListOrders.getColumnModel().getColumn(12).setMaxWidth(300);
-            jTableListOrders.getColumnModel().getColumn(12).setCellRenderer(new RenderDataEHora());
-            jTableListOrders.getColumnModel().getColumn(13).setMinWidth(150);
-            jTableListOrders.getColumnModel().getColumn(13).setPreferredWidth(200);
-            jTableListOrders.getColumnModel().getColumn(13).setMaxWidth(300);
-            jTableListOrders.getColumnModel().getColumn(13).setCellRenderer(new RenderDataEHora());
-            jTableListOrders.getColumnModel().getColumn(14).setMinWidth(30);
-            jTableListOrders.getColumnModel().getColumn(14).setPreferredWidth(30);
-            jTableListOrders.getColumnModel().getColumn(14).setMaxWidth(100);
+        jTableOrders.getTableHeader().setReorderingAllowed(false);
+        jTableOrders.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableOrdersMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTableOrders);
+        if (jTableOrders.getColumnModel().getColumnCount() > 0) {
+            jTableOrders.getColumnModel().getColumn(0).setPreferredWidth(30);
+            jTableOrders.getColumnModel().getColumn(1).setPreferredWidth(100);
+            jTableOrders.getColumnModel().getColumn(2).setPreferredWidth(400);
         }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -340,10 +261,9 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
                 .addComponent(jButtonCancelar)
                 .addGap(98, 98, 98))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1152, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jPanelPesquisa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanelPesquisa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -351,15 +271,13 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanelPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(7, 7, 7)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 446, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonOk)
                     .addComponent(jButtonCancelar))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
-
-        bindingGroup.bind();
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -384,9 +302,9 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
         controleDeAcesso();
     }//GEN-LAST:event_jComboBoxTipoPesquisaItemStateChanged
 
-    private void jTableListOrdersMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableListOrdersMousePressed
-        jButtonOk.setEnabled(true);
-    }//GEN-LAST:event_jTableListOrdersMousePressed
+    private void jTableOrdersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableOrdersMouseClicked
+       jButtonOk.setEnabled(true);
+    }//GEN-LAST:event_jTableOrdersMouseClicked
 
     private void controleDeAcesso() {
         switch (jComboBoxTipoPesquisa.getSelectedIndex()) {
@@ -530,24 +448,7 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
             case 2://sem argumento
                 psOrdersList.clear();
                 listPsOrders = new ArrayList<>();
-                if (!"".equals(jTextFieldTermoPesquisa.getText())) {
-                    
-                    /**
-                    try {
-                        HashMap<String, Object> getSchemaOpt = new HashMap();
-                        getSchemaOpt.put("url", shopUrl + "/api/orders?filter[id]=" + jTextFieldTermoPesquisa.getText().trim());
-                        Document document;
-                        document = ws.getFuncao(getSchemaOpt);
-                        NodeList nList = document.getElementsByTagName("order");
-                        for (String id : ws.retornaListaId(nList)) {
-                            getSchemaOpt.put("url", shopUrl + "/api/orders/" + id);
-                            document = ws.getFuncao(getSchemaOpt);
-                            listPsOrders.add(new WebOrders().xmlParaEntidade(document, ws));
-                        }
-                    } catch (PrestaShopWebserviceException ex) {
-                        JOptionPane.showMessageDialog(null, "Erro ao consultar Web Service: \n" + ex);
-                    }
-                    */
+                if (!"".equals(jTextFieldTermoPesquisa.getText())) {                    
                    listPsOrders = queryPrestaShop.listPsOrders(Integer.valueOf(jTextFieldTermoPesquisa.getText().trim()));
                 }
                 if (listPsOrders.size() < 1) {
@@ -566,25 +467,42 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
                 break;
         }
         jButtonOk.setEnabled(false);
+        carregaTabelaOrdersl();
+    }
+    
+    private void carregaTabelaOrdersl(){
+        DefaultTableModel tab = (DefaultTableModel) jTableOrders.getModel();
+        while (jTableOrders.getModel().getRowCount() > 0) {
+            ((DefaultTableModel) jTableOrders.getModel()).removeRow(0);
+        }
+        for (PsOrders e : psOrdersList) {
+             //"Id Order", "Referencia", "Cliente", "Pagamento", "Total Desc.", 
+             //"Total", "Total Frete", "Data Add", "Data Atua."
+            tab.addRow(new Object[]{e.getIdOrder(), e.getReference(), nomeCliente(e.getIdCustomer()),e.getPayment(), format.bigDecimalParaString(e.getTotalDiscountsTaxIncl(), 2) , 
+                format.bigDecimalParaString(e.getTotalPaidTaxIncl(), 2), format.bigDecimalParaString(e.getTotalShippingTaxIncl(), 2), format.dataStringDataCompleta(e.getDateAdd(),0), format.dataStringDataCompleta(e.getDateAdd(),0)});
+        }
+        colorirLinha();   
+    }
+    
+    private String nomeCliente(Integer idCustomer){
+        String txt = "";
+        for(PsCustomer valor : queryPrestaShop.listCustomer(idCustomer)){                     
+                txt = valor.getFirstname() + " " + valor.getLastname();  
+                }
+        return txt;
+    }
+    
+    private void colorirLinha() {
+        TableCellRenderer renderer = new ColorirLinhaImpar();
+        for (int c = 0; c < jTableOrders.getColumnCount(); c++) {
+            jTableOrders.setDefaultRenderer(jTableOrders.getColumnClass(c), renderer);
+        }
     }
 
     private void finalizacao() {
-        idOrder = jTableListOrders.getColumnModel().getColumnIndex("Id Order");
-        Integer cod = Integer.valueOf(jTableListOrders.getValueAt(jTableListOrders.getSelectedRow(), idOrder).toString());
-        if (cod != null) {
-            /**
-            try {
-                HashMap<String, Object> getSchemaOpt = new HashMap();
-                getSchemaOpt.put("url", shopUrl + "/api/orders/" + cod);
-                Document document;
-                document = ws.getFuncao(getSchemaOpt);
-                psOrders = new WebOrders().xmlParaEntidade(document, ws);
-                // psOrders = new PsOrdersJpaController(managerPrestaShop).findPsOrders(cod);
-            } catch (PrestaShopWebserviceException ex) {
-                JOptionPane.showMessageDialog(null, "Erro ao consultar Web Service: \n" + ex);
-                setCancelamento(true);
-            }
-            */
+        idOrder = jTableOrders.getColumnModel().getColumnIndex("Id Order");
+        Integer cod = Integer.valueOf(jTableOrders.getValueAt(jTableOrders.getSelectedRow(), idOrder).toString());
+        if (cod != null) {           
             psOrders = new PsOrdersJpaController(managerPrestaShop).findPsOrders(cod);
             setCancelamento(false);
             dispose();
@@ -656,7 +574,9 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
     private boolean cancelamento;
     private PsOrders psOrders;
     private int idOrder;
-    private final FormataCampos formataCampos;
+    private final FormataCampos format;
+    private List<PsOrders> psOrdersList;
+ 
    // private final String shopUrl;
    // private final String key;
    // private ClienteWebService ws;
@@ -665,7 +585,6 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.persistence.EntityManager PrestaShopPUEntityManager;
     private javax.swing.ButtonGroup buttonGroupStatusPedido;
     private javax.swing.JButton jButtonCancelar;
     private javax.swing.JButton jButtonOk;
@@ -681,11 +600,8 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
     private javax.swing.JRadioButton jRadioButtonPendente;
     private javax.swing.JRadioButton jRadioButtonProcessado;
     private javax.swing.JRadioButton jRadioButtonTodos;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTableListOrders;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTableOrders;
     private javax.swing.JTextField jTextFieldTermoPesquisa;
-    private java.util.List<entidade.prestaShop.PsOrders> psOrdersList;
-    private javax.persistence.Query psOrdersQuery;
-    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }

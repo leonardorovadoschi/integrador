@@ -33,8 +33,7 @@ public class RenderPrecoVenda  extends DefaultTableCellRenderer{
                              Number numberValue = (Number)preco.getPreco();
                              NumberFormat formatter = NumberFormat.getCurrencyInstance();
                              result = formatter.format(numberValue.doubleValue());
-                        }
-                    
+                        }                   
                 }
             
         }

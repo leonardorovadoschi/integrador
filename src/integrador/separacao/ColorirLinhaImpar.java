@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.Component;
 import javax.swing.JLabel;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
@@ -19,12 +20,14 @@ import javax.swing.table.TableCellRenderer;
 public class ColorirLinhaImpar implements TableCellRenderer{
 
     public static final DefaultTableCellRenderer DEFAULT_RENDERER = new DefaultTableCellRenderer();
+     
     //int line;
     //String valor;
     //int coluna;
     //int coluna1;
     //int quant;
     //int quant1;
+    
 
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value,

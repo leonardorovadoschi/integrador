@@ -10,6 +10,7 @@ import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -162,6 +163,14 @@ public class FormataCampos {
         }
         return data;
     }
+    
+    public String bigDecimalParaPorcentagem(BigDecimal dec){
+       // String txt = "";
+        Number numberValue = (Number) dec;
+            NumberFormat formatter = NumberFormat.getPercentInstance();
+            formatter.setMinimumFractionDigits(3);
+            return String.valueOf(formatter.format(numberValue.doubleValue() / 100));
+    }
 
     /**
      * Função que controla a entrada pelo usuario faz a inversão de virgura
@@ -180,7 +189,7 @@ public class FormataCampos {
             textValue = textValue.replaceAll(",", ".");
         }
         if (virgula == 1 && ponto == 0) {
-            double valor = new Double(textValue);
+            double valor = Double.valueOf(textValue);
             textValue = String.valueOf(valor);
         }
         if (textValue.equals("")) {

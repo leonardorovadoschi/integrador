@@ -20,6 +20,7 @@ import jpa.cplus.MovendaproddevolucaocompraJpaController;
 import query.cplus.QueryCplus;
 import query.integrador.QueryIntegrador;
 
+
 /**
  *
  * @author leonardo
@@ -43,7 +44,7 @@ public class ControleRmaJFrame extends javax.swing.JFrame {
         formatacaoDeCampos = new FormataCampos();
         //VariavelStatica var = new VariavelStatica();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
-        decimaisArredondamento = Integer.valueOf(queryIntegrador.valorConfiguracao("casas_decimais_ARREDONDAMENTO"));
+        decimaisArredondamento = Integer.parseInt(queryIntegrador.valorConfiguracao("casas_decimais_ARREDONDAMENTO"));
     }
 
     /**
@@ -54,11 +55,7 @@ public class ControleRmaJFrame extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        cplusPUEntityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("cplusPU").createEntityManager();
-        movendaproddevolucaocompraQuery = java.beans.Beans.isDesignTime() ? null : cplusPUEntityManager.createQuery("SELECT prod FROM Movendaproddevolucaocompra prod WHERE prod.codmovendaproddevolucaocompra =\"999999999\"");
-        movendaproddevolucaocompraList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(movendaproddevolucaocompraQuery.getResultList());
         buttonGroupFiltros = new javax.swing.ButtonGroup();
         buttonGroupTipoSolucao = new javax.swing.ButtonGroup();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -90,55 +87,6 @@ public class ControleRmaJFrame extends javax.swing.JFrame {
 
         jTableControleRma.setAutoCreateRowSorter(true);
         jTableControleRma.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
-
-        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, movendaproddevolucaocompraList, jTableControleRma);
-        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codprod.codigo}"));
-        columnBinding.setColumnName("Código");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codprod.nomeprod}"));
-        columnBinding.setColumnName("Descrição");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmovprod.codmovenda.numped}"));
-        columnBinding.setColumnName("Num. Pedido");
-        columnBinding.setColumnClass(Integer.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmovprod.codmovenda.numnota}"));
-        columnBinding.setColumnName("Num. Nota");
-        columnBinding.setColumnClass(Integer.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codforn.nomeforn}"));
-        columnBinding.setColumnName("Nume Fornecedor");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codforn.estado}"));
-        columnBinding.setColumnName("Estado");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${quantidade}"));
-        columnBinding.setColumnName("Quantidade");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${quantidaderetornada}"));
-        columnBinding.setColumnName("Quantidade Retornada");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valorcusto}"));
-        columnBinding.setColumnName("Valor Custo");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valorretornado}"));
-        columnBinding.setColumnName("Valor Retornado");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${motivodevolucao}"));
-        columnBinding.setColumnName("Motivo Dev.");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${historico}"));
-        columnBinding.setColumnName("Historico");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${dataprevistadevolucao}"));
-        columnBinding.setColumnName("Data Prevista Devolução");
-        columnBinding.setColumnClass(java.util.Date.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${datasaida}"));
-        columnBinding.setColumnName("Data Saida");
-        columnBinding.setColumnClass(java.util.Date.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmovendaproddevolucaocompra}"));
-        columnBinding.setColumnName("Codmovendaproddevolucaocompra");
-        columnBinding.setColumnClass(String.class);
-        bindingGroup.addBinding(jTableBinding);
-        jTableBinding.bind();
         jTableControleRma.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTableControleRmaMouseClicked(evt);
@@ -219,7 +167,7 @@ public class ControleRmaJFrame extends javax.swing.JFrame {
                             .addComponent(jComboBoxTipoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextFieldTermoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButtonPesquisar))
-                        .addGap(0, 12, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelPesquisasLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(jPanelPesquisasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -280,7 +228,7 @@ public class ControleRmaJFrame extends javax.swing.JFrame {
                     .addComponent(jLabelValorSolucionado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(5, 5, 5)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextFieldQuantidadeSolucionada, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
+                    .addComponent(jTextFieldQuantidadeSolucionada)
                     .addComponent(jTextFieldValorSolucionado))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 355, Short.MAX_VALUE)
                 .addComponent(jButtonSolucionar, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -300,7 +248,7 @@ public class ControleRmaJFrame extends javax.swing.JFrame {
                     .addComponent(jRadioButtonSolucinarValorParcial)
                     .addComponent(jLabelValorSolucionado)
                     .addComponent(jTextFieldValorSolucionado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 9, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         jTabbedPaneControleRma.addTab("Solucionar RMA", jPanel1);
@@ -320,26 +268,12 @@ public class ControleRmaJFrame extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE))
         );
 
-        bindingGroup.bind();
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextFieldTermoPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldTermoPesquisaActionPerformed
         decisaoPesquisa();
     }//GEN-LAST:event_jTextFieldTermoPesquisaActionPerformed
-
-    private void jTableControleRmaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableControleRmaMouseClicked
-       jTextFieldQuantidadeSolucionada.setText("");
-        jTextFieldValorSolucionado.setText("");
-        if(jRadioButtonSolucinarValorParcial.isSelected()){
-           jTextFieldValorSolucionado.setEnabled(true);
-           jTextFieldQuantidadeSolucionada.setEnabled(false);
-       }else if(jRadioButtonSolucionarItemParcial.isSelected()){
-           jTextFieldQuantidadeSolucionada.setEnabled(true);
-           jTextFieldValorSolucionado.setEnabled(false);
-       }
-    }//GEN-LAST:event_jTableControleRmaMouseClicked
 
     private void jButtonSolucionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSolucionarActionPerformed
         solucionar();
@@ -350,6 +284,18 @@ public class ControleRmaJFrame extends javax.swing.JFrame {
     private void jRadioButtonSolucionarListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonSolucionarListaActionPerformed
         jTextFieldValorSolucionado.setEnabled(true);
     }//GEN-LAST:event_jRadioButtonSolucionarListaActionPerformed
+
+    private void jTableControleRmaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableControleRmaMouseClicked
+        jTextFieldQuantidadeSolucionada.setText("");
+        jTextFieldValorSolucionado.setText("");
+        if(jRadioButtonSolucinarValorParcial.isSelected()){
+            jTextFieldValorSolucionado.setEnabled(true);
+            jTextFieldQuantidadeSolucionada.setEnabled(false);
+        }else if(jRadioButtonSolucionarItemParcial.isSelected()){
+            jTextFieldQuantidadeSolucionada.setEnabled(true);
+            jTextFieldValorSolucionado.setEnabled(false);
+        }
+    }//GEN-LAST:event_jTableControleRmaMouseClicked
 
     private void decisaoPesquisa(){
         switch (jComboBoxTipoPesquisa.getSelectedIndex()) {
@@ -391,7 +337,7 @@ public class ControleRmaJFrame extends javax.swing.JFrame {
             filtro = "T";
         }
         listRma = querySerial.listagemControlaDevolucaoPorSaida(this.listagemSaidasJDialog.getMoVenda().getCodmovenda(), filtro);
-        movendaproddevolucaocompraList.clear();
+        //movendaproddevolucaocompraList.clear();
         jTextFieldValorTotalLista.setText("");
         jTextFieldTotalItensLista.setText("");
         BigDecimal valor = new BigDecimal(BigInteger.ZERO);
@@ -399,7 +345,7 @@ public class ControleRmaJFrame extends javax.swing.JFrame {
         for(Movendaproddevolucaocompra dev : listRma){
             valor.add(dev.getValorcusto());
             quantidade.add(dev.getQuantidade());
-            movendaproddevolucaocompraList.add(dev);
+           // movendaproddevolucaocompraList.add(dev);
         }
         totalListagem(valor, quantidade); 
     }
@@ -414,7 +360,7 @@ public class ControleRmaJFrame extends javax.swing.JFrame {
             filtro = "T";
         }
          listRma = querySerial.listagemControlaDevolucaoPorFornecedor(this.listagemFornecedorJDialog.getFornecedor().getCodforn(), filtro);
-        movendaproddevolucaocompraList.clear();
+        //movendaproddevolucaocompraList.clear();
          jTextFieldValorTotalLista.setText("");
         jTextFieldTotalItensLista.setText("");
         BigDecimal valor = new BigDecimal(BigInteger.ZERO);
@@ -422,7 +368,7 @@ public class ControleRmaJFrame extends javax.swing.JFrame {
         for(Movendaproddevolucaocompra dev : listRma){
             valor.add(dev.getValorcusto());
             quantidade.add(dev.getQuantidade());
-            movendaproddevolucaocompraList.add(dev);
+          //  movendaproddevolucaocompraList.add(dev);
         }
         totalListagem(valor, quantidade);
     }
@@ -568,7 +514,6 @@ public class ControleRmaJFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroupFiltros;
     private javax.swing.ButtonGroup buttonGroupTipoSolucao;
-    private javax.persistence.EntityManager cplusPUEntityManager;
     private javax.swing.JButton jButtonPesquisar;
     private javax.swing.JButton jButtonSolucionar;
     private javax.swing.JComboBox jComboBoxTipoPesquisa;
@@ -592,8 +537,5 @@ public class ControleRmaJFrame extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldTotalItensLista;
     private javax.swing.JTextField jTextFieldValorSolucionado;
     private javax.swing.JTextField jTextFieldValorTotalLista;
-    private java.util.List<entidade.cplus.Movendaproddevolucaocompra> movendaproddevolucaocompraList;
-    private javax.persistence.Query movendaproddevolucaocompraQuery;
-    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }

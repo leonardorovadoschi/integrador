@@ -23,6 +23,7 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
+import javax.swing.table.DefaultTableModel;
 import jpa.cplus.CfopJpaController;
 import jpa.cplus.MovendaprodJpaController;
 import query.cplus.QueryCplus;
@@ -51,9 +52,8 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
         colunaCodMovendaProd = jTableItensEspelho.getColumnModel().getColumnIndex("Codmovprod");
         mensagem = new ArrayList<>();
         queryIntegrador = new QueryIntegrador(managerIntegrador);
-        //var = var1;
-        //decimaisArredondamento = Integer.valueOf(queryIntegrador.valorConfiguracao("casas_decimais_ARREDONDAMENTO"));
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
+        movendaprodList = new ArrayList<>();
     }
 
     /**
@@ -64,12 +64,8 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         buttonGroupOperacao = new javax.swing.ButtonGroup();
-        cplusPUEntityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("cplusPU").createEntityManager();
-        movendaprodQuery = java.beans.Beans.isDesignTime() ? null : cplusPUEntityManager.createQuery("SELECT prod FROM Movendaprod prod WHERE prod.codmovprod = \"99999900\"");
-        movendaprodList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(movendaprodQuery.getResultList());
         jPanelDadosModelo = new javax.swing.JPanel();
         jTextFieldNomeOperacao = new javax.swing.JTextField();
         jLabelDescricaoOperacao = new javax.swing.JLabel();
@@ -92,11 +88,11 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
         jButtonInserir = new javax.swing.JButton();
         jButtonNovo = new javax.swing.JButton();
         jButtonRemoverProduto = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTableItensEspelho = new javax.swing.JTable();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextAreaObservacos = new javax.swing.JTextArea();
         jButtonEditarMensagem = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTableItensEspelho = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Espelho RMA");
@@ -192,7 +188,7 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
             .addGroup(jPanelControleLayout.createSequentialGroup()
                 .addGap(0, 0, 0)
                 .addGroup(jPanelControleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonRemoverProduto, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
+                    .addComponent(jButtonRemoverProduto, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
                     .addComponent(jButtonInserir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButtonImprimir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButtonNovo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
@@ -262,7 +258,7 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
                 .addGroup(jPanelDadosModeloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonPesquisaCliente)
                     .addComponent(jButtonOperacao))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanelDadosModeloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldNomeOperacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelDescricaoOperacao)
@@ -290,103 +286,6 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
             .addComponent(jPanelControle, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        jTableItensEspelho.setAutoCreateRowSorter(true);
-        jTableItensEspelho.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
-
-        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, movendaprodList, jTableItensEspelho);
-        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codprod.codigo}"));
-        columnBinding.setColumnName("Cod.");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codprod.nomeprod}"));
-        columnBinding.setColumnName("Descrição");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codsituacaotributaria}"));
-        columnBinding.setColumnName("CST");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codcfop.codcfop}"));
-        columnBinding.setColumnName("CFOP");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codprod.codclassificacaofiscal.codigoclassificacaofiscal}"));
-        columnBinding.setColumnName("NCM");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${quantidade}"));
-        columnBinding.setColumnName("Quantidade");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valorunitario}"));
-        columnBinding.setColumnName("Valor Unit.");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valortotal}"));
-        columnBinding.setColumnName("Valor Total");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${cstcofins}"));
-        columnBinding.setColumnName("CST COFINS");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${cstpis}"));
-        columnBinding.setColumnName("CST PIS");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valorpis}"));
-        columnBinding.setColumnName("Valor PIS");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${aliqpis}"));
-        columnBinding.setColumnName("Aliq. PIS");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${basepis}"));
-        columnBinding.setColumnName("Base PIS");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valorcofins}"));
-        columnBinding.setColumnName("Valor COFINS");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${aliqcofins}"));
-        columnBinding.setColumnName("Aliq. COFINS");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${basecofins}"));
-        columnBinding.setColumnName("Base COFINS");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valorsubsttributaria}"));
-        columnBinding.setColumnName("Valor ST");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${basesubsttributaria}"));
-        columnBinding.setColumnName("Base ST");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${aliqicms}"));
-        columnBinding.setColumnName("Aliq. ICMS");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${baseicms}"));
-        columnBinding.setColumnName("Base ICMS");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valoricms}"));
-        columnBinding.setColumnName("Valor ICMS");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmovprod}"));
-        columnBinding.setColumnName("Codmovprod");
-        columnBinding.setColumnClass(String.class);
-        bindingGroup.addBinding(jTableBinding);
-        jTableBinding.bind();
-        jTableItensEspelho.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTableItensEspelhoMouseClicked(evt);
-            }
-        });
-        jScrollPane2.setViewportView(jTableItensEspelho);
-        if (jTableItensEspelho.getColumnModel().getColumnCount() > 0) {
-            jTableItensEspelho.getColumnModel().getColumn(0).setPreferredWidth(120);
-            jTableItensEspelho.getColumnModel().getColumn(1).setPreferredWidth(350);
-            jTableItensEspelho.getColumnModel().getColumn(4).setPreferredWidth(120);
-            jTableItensEspelho.getColumnModel().getColumn(6).setCellRenderer(new RenderPreco());
-            jTableItensEspelho.getColumnModel().getColumn(7).setCellRenderer(new RenderPreco());
-            jTableItensEspelho.getColumnModel().getColumn(10).setCellRenderer(new RenderPreco());
-            jTableItensEspelho.getColumnModel().getColumn(11).setCellRenderer(new RenderPorcentagem());
-            jTableItensEspelho.getColumnModel().getColumn(12).setCellRenderer(new RenderPreco());
-            jTableItensEspelho.getColumnModel().getColumn(13).setCellRenderer(new RenderPreco());
-            jTableItensEspelho.getColumnModel().getColumn(14).setCellRenderer(new RenderPorcentagem());
-            jTableItensEspelho.getColumnModel().getColumn(15).setCellRenderer(new RenderPreco());
-            jTableItensEspelho.getColumnModel().getColumn(16).setCellRenderer(new RenderPreco());
-            jTableItensEspelho.getColumnModel().getColumn(17).setCellRenderer(new RenderPreco());
-            jTableItensEspelho.getColumnModel().getColumn(18).setCellRenderer(new RenderPorcentagem());
-            jTableItensEspelho.getColumnModel().getColumn(19).setCellRenderer(new RenderPreco());
-            jTableItensEspelho.getColumnModel().getColumn(20).setCellRenderer(new RenderPreco());
-        }
-
         jTextAreaObservacos.setColumns(30);
         jTextAreaObservacos.setRows(5);
         jScrollPane1.setViewportView(jTextAreaObservacos);
@@ -400,36 +299,71 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
             }
         });
 
+        jTableItensEspelho.setAutoCreateRowSorter(true);
+        jTableItensEspelho.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Codigo", "Nome", "CST", "CFOP", "NCM", "Quantidade", "Val. Unit.", "Val. Total", "CST Cofins", "CST Pis", "Base Cofins", "Base Pis", "Valor Cofins", "Valor Pis", "Aliq. ICMS", "Base ICMS", "Valor ICMS", "Codmovprod"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTableItensEspelho.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        jTableItensEspelho.getTableHeader().setReorderingAllowed(false);
+        jTableItensEspelho.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableItensEspelhoMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(jTableItensEspelho);
+        if (jTableItensEspelho.getColumnModel().getColumnCount() > 0) {
+            jTableItensEspelho.getColumnModel().getColumn(0).setPreferredWidth(120);
+            jTableItensEspelho.getColumnModel().getColumn(1).setPreferredWidth(400);
+        }
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButtonEditarMensagem)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 641, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
-                    .addComponent(jPanelDadosModelo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 641, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButtonEditarMensagem)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanelDadosModelo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanelDadosModelo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonEditarMensagem))
-                .addContainerGap(75, Short.MAX_VALUE))
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonEditarMensagem)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-
-        bindingGroup.bind();
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -503,10 +437,6 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButtonRemoverProdutoActionPerformed
 
-    private void jTableItensEspelhoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableItensEspelhoMouseClicked
-        jButtonRemoverProduto.setEnabled(true);
-    }//GEN-LAST:event_jTableItensEspelhoMouseClicked
-
     private void jButtonNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNovoActionPerformed
         limpaCampos();
     }//GEN-LAST:event_jButtonNovoActionPerformed
@@ -517,6 +447,41 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButtonEditarMensagemActionPerformed
 
+    private void jTableItensEspelhoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableItensEspelhoMouseClicked
+       jButtonRemoverProduto.setEnabled(true);
+    }//GEN-LAST:event_jTableItensEspelhoMouseClicked
+
+    private void carregaTabelaMovendaprod() {
+        DefaultTableModel tab = (DefaultTableModel) jTableItensEspelho.getModel();
+        while (jTableItensEspelho.getModel().getRowCount() > 0) {
+            ((DefaultTableModel) jTableItensEspelho.getModel()).removeRow(0);
+        }
+        for (Movendaprod e : movendaprodList) {
+            //"Codigo", "Nome", "CST", "CFOP", "NCM", 
+            //"Quantidade", "Val. Unit.", "Val. Total", "CST Cofins", "CST Pis", 
+            //"Base Cofins", "Base Pis", "Valor Cofins", "Valor Pis", 
+            //"Aliq. ICMS", "Base ICMS", "Valor ICMS", "Codmovprod"
+            tab.addRow(new Object[]{e.getCodprod().getCodigo(), 
+                e.getCodprod().getNomeprod(), 
+                e.getCodsituacaotributaria(), 
+                e.getCodcfop().getCodcfop(), 
+                e.getCodprod().getCodclassificacaofiscal().getCodclassificacaofiscal(),
+                format.bigDecimalParaString(e.getQuantidade(), 0), 
+                format.bigDecimalParaString(e.getValorunitario(), 2), 
+                format.bigDecimalParaString(e.getValortotal(), 2), 
+                e.getCstcofins(), e.getCstpis(),
+                format.bigDecimalParaString(e.getBasecofins(), 2), 
+                format.bigDecimalParaString(e.getBasepis(), 2),
+                format.bigDecimalParaString(e.getValorcofins(), 2), 
+                format.bigDecimalParaString(e.getValorpis(), 2),
+                format.bigDecimalParaPorcentagem(e.getBasecofins()), 
+                format.bigDecimalParaString(e.getBaseicms(), 2), 
+                format.bigDecimalParaString(e.getValoricms(), 2), 
+                e.getCodmovprod()});
+        }
+  
+    }
+    
     private BigDecimal valorUnitarioCompra(Movendaprod prod) {
         BigDecimal val = prod.getValortotal().subtract(prod.getValordescontorateado());
         val = val.add(prod.getValoracrescimorateado());
@@ -698,6 +663,7 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
                 movendaprodList.add(prod);
             }
         }
+        carregaTabelaMovendaprod();
     }
 
     private String mensagemNota(Movendaprod movSaidaProd) {
@@ -793,10 +759,8 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new EspelhoRmaJFrame(managerCplus, managerIntegrador).setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new EspelhoRmaJFrame(managerCplus, managerIntegrador).setVisible(true);
         });
     }
 
@@ -808,13 +772,14 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
     private final ListagemSerialSaidaJDialog listagemSerialSaidaJDialog;
     private static EntityManagerFactory managerCplus;
     private static EntityManagerFactory managerIntegrador;
-    private List<String> mensagem;
+    private final List<String> mensagem;
     private final QueryIntegrador queryIntegrador;
+    private final List<Movendaprod> movendaprodList;
+    private final FormataCampos format = new FormataCampos();
    // private List<SaidaSerial> listSerial;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroupOperacao;
-    private javax.persistence.EntityManager cplusPUEntityManager;
     private javax.swing.JButton jButtonEditarMensagem;
     private javax.swing.JButton jButtonImprimir;
     private javax.swing.JButton jButtonInserir;
@@ -833,7 +798,7 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
     private javax.swing.JRadioButton jRadioButtonDevolucao;
     private javax.swing.JRadioButton jRadioButtonTrocaEmGarantia;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTableItensEspelho;
     private javax.swing.JTextArea jTextAreaObservacos;
     private javax.swing.JTextField jTextFieldCfop;
@@ -842,9 +807,6 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldNomeFantasia;
     private javax.swing.JTextField jTextFieldNomeOperacao;
     private javax.swing.JTextField jTextFieldRazaoCliente;
-    private java.util.List<entidade.cplus.Movendaprod> movendaprodList;
-    private javax.persistence.Query movendaprodQuery;
-    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
 }
