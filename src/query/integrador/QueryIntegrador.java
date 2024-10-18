@@ -16,19 +16,20 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import jpa.integrador.IntConfiguracaoJpaController;
+import prestashop.Manager;
 
 /**
  *
  * @author leo
  */
 public class QueryIntegrador {
-    public QueryIntegrador (EntityManagerFactory emf) {
-        this.emf = emf;
+    public QueryIntegrador () {
+        this.emf = Manager.getManagerIntegrador();
     }
     private EntityManagerFactory emf = null;
 
-    public EntityManager getEntityManager() {
-        return emf.createEntityManager();
+    private EntityManager getEntityManager() {
+       return emf.createEntityManager();
     }
     public List <IntLogs> resultLogs() {
         EntityManager em = getEntityManager();
@@ -37,7 +38,7 @@ public class QueryIntegrador {
         return query.getResultList();
     }
     /**
-     * Função que bisca o tipo de Configuração e retorna o Valor da Configuração
+     * Função que busca o tipo de Configuração e retorna o Valor da Configuração
      * @param tipoConfiguracao
      * @return 
      */

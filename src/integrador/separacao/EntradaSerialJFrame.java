@@ -49,7 +49,7 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
         this.entradaSerialJDialog = new EntradaSerialJDialog(this, true, managerCplus, managerIntegrador1);
         this.listagemSerialEntradaJDialog = new ListagemSerialEntradaJDialog(this, true, managerCplus, managerIntegrador);
         //querySerial = new QuerySerial(managerCplus);
-        queryIntegrador = new QueryIntegrador(managerIntegrador);
+        queryIntegrador = new QueryIntegrador();
         queryCplus = new QueryCplus(managerCplus);
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
         colunaCodMovProd = jTableEntradaProd.getColumnModel().getColumnIndex("Codmoveprod");

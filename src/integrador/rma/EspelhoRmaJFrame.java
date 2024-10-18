@@ -26,6 +26,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.swing.table.DefaultTableModel;
 import jpa.cplus.CfopJpaController;
 import jpa.cplus.MovendaprodJpaController;
+import prestashop.ConfiguracaoNoBD;
 import query.cplus.QueryCplus;
 import query.integrador.QueryIntegrador;
 
@@ -51,7 +52,7 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
    //     listSerial = new ArrayList<>();
         colunaCodMovendaProd = jTableItensEspelho.getColumnModel().getColumnIndex("Codmovprod");
         mensagem = new ArrayList<>();
-        queryIntegrador = new QueryIntegrador(managerIntegrador);
+        queryIntegrador = new QueryIntegrador();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
         movendaprodList = new ArrayList<>();
     }
@@ -422,7 +423,7 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonOperacaoActionPerformed
 
     private void jButtonImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonImprimirActionPerformed
-        new ImprimeRelatorio().imprimeRelatorioPeloJar(queryIntegrador.valorConfiguracao("caminho_RELATORIO_ESPELHO_RMA"), movendaprodList);
+        new ImprimeRelatorio().imprimeRelatorioPeloJar(ConfiguracaoNoBD.getCaminhoEspelhoRma(), movendaprodList);
     }//GEN-LAST:event_jButtonImprimirActionPerformed
 
     private void jButtonRemoverProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRemoverProdutoActionPerformed

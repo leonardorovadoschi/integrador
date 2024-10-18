@@ -72,7 +72,7 @@ public class RmaJFrame extends javax.swing.JFrame {
         managerIntegrador = managerIntegrador1;
         managerPrestaShop = managerPrestaShop1;
         user = usuario;
-        queryIntegrador = new QueryIntegrador(managerIntegrador);
+        queryIntegrador = new QueryIntegrador();
         queryCplus = new QueryCplus(managerCplus);
         formatacaoDeCampos = new FormataCampos();
         this.listagemEntradasJDialog = new ListagemEntradasJDialog(this, true, managerCplus);

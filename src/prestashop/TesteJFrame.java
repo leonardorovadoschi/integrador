@@ -6,6 +6,7 @@
 package prestashop;
 
 import entidade.integrador.EntradaSerial;
+import entidade.integrador.IntConfiguracao;
 import entidade.integrador.SerialProduto;
 import integrador.relatorio.ImprimeRelatorio;
 import java.io.File;
@@ -15,6 +16,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import jpa.integrador.IntConfiguracaoJpaController;
 import query.cplus.QueryCplus;
 import query.integrador.QueryIntegrador;
 
@@ -30,9 +32,11 @@ public class TesteJFrame extends javax.swing.JFrame {
     public TesteJFrame() {
         initComponents();
         managerCplus = Persistence.createEntityManagerFactory("cplusPU");
-        managerIntegrador = Persistence.createEntityManagerFactory("integradorPU");
+        //managerIntegrador = Persistence.createEntityManagerFactory("integradorPU");
         managerPrestaShop = Persistence.createEntityManagerFactory("PrestaShopPU");
-        queryIntegrador = new QueryIntegrador(managerIntegrador);
+        queryIntegrador = new QueryIntegrador();
+        this.configuracoesJDialog = new ConfiguracoesJDialog(this, true);
+        carregaConfiguracoes();
     }
 
     /**
@@ -43,67 +47,19 @@ public class TesteJFrame extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        integradorPUEntityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("integradorPU").createEntityManager();
-        serialProdutoQuery = java.beans.Beans.isDesignTime() ? null : integradorPUEntityManager.createQuery("SELECT s FROM SerialProduto s").setMaxResults(20);
-        serialProdutoList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(serialProdutoQuery.getResultList());
         chooser = new javax.swing.JFileChooser();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jButtonImprimirEtiqueta = new javax.swing.JButton();
 
         chooser.setCurrentDirectory(new java.io.File("C:\\lista_integrador\\relatorio\\etiquetaEntrada.jrxml"));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, serialProdutoList, jTable1);
-        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${entradaSerialCollection}"));
-        columnBinding.setColumnName("Entrada Serial Collection");
-        columnBinding.setColumnClass(java.util.Collection.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${saidaSerialCollection}"));
-        columnBinding.setColumnName("Saida Serial Collection");
-        columnBinding.setColumnClass(java.util.Collection.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${serial}"));
-        columnBinding.setColumnName("Serial");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${nomeProduto}"));
-        columnBinding.setColumnName("Nome Produto");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${data}"));
-        columnBinding.setColumnName("Data");
-        columnBinding.setColumnClass(java.util.Date.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codigoProduto}"));
-        columnBinding.setColumnName("Codigo Produto");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codProduto}"));
-        columnBinding.setColumnName("Cod Produto");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${idSerial}"));
-        columnBinding.setColumnName("Id Serial");
-        columnBinding.setColumnClass(Integer.class);
-        bindingGroup.addBinding(jTableBinding);
-        jTableBinding.bind();
-        jScrollPane1.setViewportView(jTable1);
-
-        jButton1.setText("jButton1");
-
         jButton2.setText("Imprimir por jar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
-            }
-        });
-
-        jButtonImprimirEtiqueta.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        jButtonImprimirEtiqueta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/imprimir.png"))); // NOI18N
-        jButtonImprimirEtiqueta.setText("Imprimir Por arquivo");
-        jButtonImprimirEtiqueta.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonImprimirEtiquetaActionPerformed(evt);
             }
         });
 
@@ -115,57 +71,55 @@ public class TesteJFrame extends javax.swing.JFrame {
                 .addGap(21, 21, 21)
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonImprimirEtiqueta, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(338, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 790, Short.MAX_VALUE)
-                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2)
-                .addGap(18, 18, 18)
-                .addComponent(jButtonImprimirEtiqueta)
-                .addGap(31, 31, 31)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(516, Short.MAX_VALUE))
         );
-
-        bindingGroup.bind();
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonImprimirEtiquetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonImprimirEtiquetaActionPerformed
-        List<SerialProduto> listText = new ArrayList<>();
-        for (EntradaSerial s : queryIntegrador.listPorEntradaProd("001042711")) {
-            s.getIdSerial().setNomeProduto(s.getIdSerial().getCodigoProduto() + "-" + s.getIdSerial().getNomeProduto());
-            listText.add(s.getIdSerial());
-        }
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Selecione apenas JRXML e JASPER", "jrxml", "jasper");
-        //JFileChooser chooser = new JFileChooser();
-        chooser.setFileFilter(filter);
-        chooser.setDialogTitle("Selecione os arquivos");
-        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        int retorno = chooser.showOpenDialog(this);
-        if (retorno == JFileChooser.APPROVE_OPTION) {          
-        File file = chooser.getSelectedFile();
-            new ImprimeRelatorio().imprimeRelatorioPeloArquivo(file.getPath().replace("\\", "/"), listText);
-        jTextField1.setText(file.getPath().replace("\\", "/"));
-        }
-    }//GEN-LAST:event_jButtonImprimirEtiquetaActionPerformed
-
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        this.configuracoesJDialog.setCarregaCampos();
+        this.configuracoesJDialog.setVisible(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void carregaConfiguracoes() {
+        for (IntConfiguracao c : new IntConfiguracaoJpaController(Manager.getManagerIntegrador()).findIntConfiguracaoEntities()) {
+            switch (c.getTipo()) {
+                case "caminho_ARQUIVO_AUDIO_FINALIZADO":
+                    ConfiguracaoNoBD.setCaminhoAudioFinalizado(c.getValor());
+                    ConfiguracaoNoBD.setTipoAudioFinalizado(c.getTipo());
+                    break;
+                case "caminho_ARQUIVO_AUDIO_ERRO":
+                    ConfiguracaoNoBD.setCaminhoAudioErro(c.getValor());
+                    ConfiguracaoNoBD.setTipoAudioErro(c.getTipo());
+                    break;
+                case "caminho_RELATORIO_ROMANEIO_SERIAIS":
+                    ConfiguracaoNoBD.setCaminhoRomaneioSeriais(c.getValor());
+                    ConfiguracaoNoBD.setTipoRomaneioSeriais(c.getTipo());
+                    break;
+                case "caminho_RELATORIO_ESPELHO_RMA":
+                    ConfiguracaoNoBD.setCaminhoEspelhoRma(c.getValor());
+                    ConfiguracaoNoBD.setTipoEspelhoRma(c.getTipo());
+                    break;
+                case "caminho_ENTRADA_SERIAL":
+                    ConfiguracaoNoBD.setCaminhoEtiquetaSerial(c.getValor());
+                    ConfiguracaoNoBD.setTipoEtiquetaSerial(c.getTipo());
+                    break;
+            }
+        }
+    }
+
+    private void imprimirArquivo() {
         List<SerialProduto> listText = new ArrayList<>();
         for (EntradaSerial s : queryIntegrador.listPorEntradaProd("001042711")) {
             s.getIdSerial().setNomeProduto(s.getIdSerial().getCodigoProduto() + "-" + s.getIdSerial().getNomeProduto());
@@ -177,12 +131,12 @@ public class TesteJFrame extends javax.swing.JFrame {
         chooser.setDialogTitle("Selecione os arquivos");
         chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         int retorno = chooser.showOpenDialog(this);
-        if (retorno == JFileChooser.APPROVE_OPTION) {          
-        File file = chooser.getSelectedFile();
+        if (retorno == JFileChooser.APPROVE_OPTION) {
+            File file = chooser.getSelectedFile();
             new ImprimeRelatorio().imprimeRelatorioPeloJar(file.getPath().replace("\\", "/"), listText);
-        jTextField1.setText(file.getPath().replace("\\", "/"));
+            jTextField1.setText(file.getPath().replace("\\", "/"));
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }
 
     /**
      * @param args the command line arguments
@@ -219,21 +173,14 @@ public class TesteJFrame extends javax.swing.JFrame {
         });
     }
 
-    private final EntityManagerFactory managerIntegrador;
+    //private final EntityManagerFactory managerIntegrador;
     private final EntityManagerFactory managerPrestaShop;
     private final EntityManagerFactory managerCplus;
     private final QueryIntegrador queryIntegrador;
+    private final ConfiguracoesJDialog configuracoesJDialog;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFileChooser chooser;
-    private javax.persistence.EntityManager integradorPUEntityManager;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButtonImprimirEtiqueta;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
-    private java.util.List<entidade.integrador.SerialProduto> serialProdutoList;
-    private javax.persistence.Query serialProdutoQuery;
-    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }

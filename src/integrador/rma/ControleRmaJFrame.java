@@ -39,7 +39,7 @@ public class ControleRmaJFrame extends javax.swing.JFrame {
         listagemSaidasJDialog = new ListagemSaidasJDialog(this, true, managerCplus);
         listagemFornecedorJDialog = new ListagemFornecedorJDialog(this, true, managerCplus);
         querySerial = new QueryCplus(managerCplus);
-        queryIntegrador = new QueryIntegrador(managerIntegrador);
+        queryIntegrador = new QueryIntegrador();
         colunaCodDevolucao = jTableControleRma.getColumnModel().getColumnIndex("Codmovendaproddevolucaocompra");
         formatacaoDeCampos = new FormataCampos();
         //VariavelStatica var = new VariavelStatica();

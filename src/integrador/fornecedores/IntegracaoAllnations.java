@@ -34,7 +34,7 @@ public class IntegracaoAllnations {
 
     private void deletarProdutos(EntityManagerFactory managerIntegrador) {
         // ManipulaFornecedores utilitario = new ManipulaFornecedores();
-        List<ProdFornecedor> listProdFornecedor = new QueryIntegrador(managerIntegrador).listaProdFornecedor("ALL NATIONS");
+        List<ProdFornecedor> listProdFornecedor = new QueryIntegrador().listaProdFornecedor("ALL NATIONS");
         for (ProdFornecedor proForn : listProdFornecedor) {
             try {
                 new ProdFornecedorJpaController(managerIntegrador).destroy(proForn.getIdProdutos());

@@ -40,7 +40,7 @@ public class IntegracaoNhs {
     
     private void lerArquivoNhsTxt(EntityManagerFactory managerIntegrador, EntityManagerFactory managerCplus, EntityManagerFactory managerDigimacro) throws FileNotFoundException, IOException, ParseException {
         List<EntidadeNhs> listScannerNhs = new ArrayList<EntidadeNhs>();     
-        Scanner scanner = new Scanner(new FileReader(new QueryIntegrador(managerIntegrador).valorConfiguracao("caminho_ARQUIVO_TXT_NHS"))).useDelimiter("\\t|\\n");
+        Scanner scanner = new Scanner(new FileReader(new QueryIntegrador().valorConfiguracao("caminho_ARQUIVO_TXT_NHS"))).useDelimiter("\\t|\\n");
         while (scanner.hasNext()) {
             EntidadeNhs proNhs = new EntidadeNhs();
             proNhs.setEan(scanner.next());
@@ -59,7 +59,7 @@ public class IntegracaoNhs {
     private void atualizaBanco(List<EntidadeNhs> listProdNhs, EntityManagerFactory managerIntegrador, EntityManagerFactory managerCplus, EntityManagerFactory managerDigimacro) {
         ManipulaFornecedores utilitario = new ManipulaFornecedores();
         for (EntidadeNhs prodNhs : listProdNhs) {
-            List<ProdFornecedor> listProdAll = new QueryIntegrador(managerIntegrador).resultEanEEstoque(prodNhs.getEan(), "PR", "NHS");
+            List<ProdFornecedor> listProdAll = new QueryIntegrador().resultEanEEstoque(prodNhs.getEan(), "PR", "NHS");
             if (listProdAll.isEmpty()) {
   //              criarProdutoAldo(prodNhs, managerIntegrador, managerCplus);
             } else {

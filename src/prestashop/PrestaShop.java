@@ -5,9 +5,6 @@
  */
 package prestashop;
 
-import janela.cplus.RelatorioEstoqueJFrame;
-
-import janela.prestaShop.VendaDigimacroJFrame;
 import javax.swing.JFrame;
 
 /**
@@ -16,11 +13,11 @@ import javax.swing.JFrame;
  */
 public class PrestaShop {
 
-    //static PrincipalJFrame frameIntegracao;
-    static TesteJFrame frameIntegracao;
+    static PrincipalJFrame frameIntegracao;
+    //static TesteJFrame frameIntegracao;
     //static VendaDigimacroJFrame siteJFrame;
     //static RelatorioEstoqueJFrame relatorioEstoqueJFrame;
-
+      
     /**
      * @param args the command line arguments
      */
@@ -28,7 +25,7 @@ public class PrestaShop {
 
         java.awt.EventQueue.invokeLater(() -> {
             if (frameIntegracao == null || !frameIntegracao.isDisplayable()) {
-                frameIntegracao = new TesteJFrame();
+                frameIntegracao = new PrincipalJFrame();
                 //frameIntegracao.setLocationRelativeTo(this); //opcional
             } else {
                 frameIntegracao.setExtendedState(JFrame.NORMAL);
@@ -36,7 +33,6 @@ public class PrestaShop {
             }
             frameIntegracao.setVisible(true);
         });
-
     }
 
 }

@@ -80,7 +80,7 @@ public class ManutencaoVenda {
 
     private void editaMovenda(QueryCplus queryCplus, Movenda movenda, BigDecimal valorTotalPedido, EntityManagerFactory managerCplus, EntityManagerFactory managerIntegrador) {
         movenda.setValortotalnota(valorTotalPedido);
-        movenda.setCodcli(new ClienteJpaController(managerCplus).findCliente(new QueryIntegrador(managerIntegrador).valorConfiguracao("cliente_CODIGO_PARA_CUPOM")));
+        movenda.setCodcli(new ClienteJpaController(managerCplus).findCliente(new QueryIntegrador().valorConfiguracao("cliente_CODIGO_PARA_CUPOM")));
         try {
             new MovendaJpaController(managerCplus).edit(movenda);
             for (Contareceber cr : queryCplus.resultReceberPorVenda(movenda.getCodmovenda())) {

@@ -66,7 +66,7 @@ public class IntegracaoJFrame extends javax.swing.JFrame {
         managerCplus = managerCplus1;
         managerPrestaShop = managerPrestaShop1;
         //managerLegiao = managerMagentoLegiao1;
-        queryIntegrador = new QueryIntegrador(managerIntegrador);
+        queryIntegrador = new QueryIntegrador();
         queryCplus = new QueryCplus(managerCplus);
         queryPrestaShop = new QueryPrestaShop(managerPrestaShop);
         initComponents();

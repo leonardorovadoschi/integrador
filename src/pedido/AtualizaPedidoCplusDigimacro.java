@@ -120,7 +120,7 @@ public class AtualizaPedidoCplusDigimacro {
         for (Movendaprod prod : listMovendaProd) {
             quanMovendaProd = quanMovendaProd + quantidadeSaida(prod, managerCplus);
         }
-        List<SaidaSerial> listSerial = new QueryIntegrador(managerIntegrador).listPorSaida(movenda.getCodmovenda());
+        List<SaidaSerial> listSerial = new QueryIntegrador().listPorSaida(movenda.getCodmovenda());
         if (quanMovendaProd == listSerial.size()) {         
             condicao = true;
         }

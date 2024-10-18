@@ -15,7 +15,6 @@ import entidade.cplus.Unidade;
 import entidade.integrador.EntradaSerial;
 import entidade.integrador.SerialProduto;
 import integrador.relatorio.ImprimeRelatorio;
-import janela.cplus.ListagemLocalizacaoJDialog;
 import janela.cplus.ListagemProdutoJDialog;
 import java.awt.Toolkit;
 import java.io.File;
@@ -23,15 +22,13 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import jpa.cplus.ProdutoJpaController;
 import jpa.integrador.EntradaSerialJpaController;
 import jpa.integrador.SerialProdutoJpaController;
 import jpa.integrador.exceptions.NonexistentEntityException;
+import prestashop.ConfiguracaoNoBD;
 import query.cplus.QueryCplus;
 import query.integrador.QueryIntegrador;
 
@@ -54,7 +51,7 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
         initComponents();
         managerCplus = managerCplus1;
         managerIntegrador = managerIntegrador1;
-        queryIntegrador = new QueryIntegrador(managerIntegrador);
+        queryIntegrador = new QueryIntegrador();
         queryCplus = new QueryCplus(managerCplus);
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
         listagemUsuarioJDialog = new ListagemUsuarioJDialog(parent, true, managerCplus);
@@ -397,9 +394,8 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
         for (EntradaSerial s : queryIntegrador.listPorEntradaProd(movEntradaProd.getCodmoveprod())) {
             s.getIdSerial().setNomeProduto(movEntradaProd.getCodprod().getCodigo() + "-" + s.getIdSerial().getNomeProduto());
             listText.add(s.getIdSerial());
-        }
-       // new ImprimeRelatorio().imprimeRelatorioPeloArquivo(queryIntegrador.valorConfiguracao("caminho_ENTRADA_SERIAL"), listText);
-        new ImprimeRelatorio().imprimeRelatorioPeloJar("/integrador/relatorio/etiquetaEntrada.jrxml", listText);
+        }    
+        new ImprimeRelatorio().imprimeRelatorioPeloJar(ConfiguracaoNoBD.getCaminhoEtiquetaSerial(), listText);
         dispose();
         setVisible(false);
     }//GEN-LAST:event_jButtonImprimirEtiquetaActionPerformed

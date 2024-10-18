@@ -844,9 +844,6 @@
                   </Events>
                 </Component>
                 <Component class="com.toedter.calendar.JDateChooser" name="jDateChooserDataInicialCustomer">
-                  <Properties>
-                    <Property name="dateFormatString" type="java.lang.String" value="dd/MM/yyyy"/>
-                  </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabelDataInicialCustomer">
                   <Properties>
@@ -859,9 +856,6 @@
                   </Properties>
                 </Component>
                 <Component class="com.toedter.calendar.JDateChooser" name="jDateChooserDataFinalCustomer">
-                  <Properties>
-                    <Property name="dateFormatString" type="java.lang.String" value="dd/MM/yyyy"/>
-                  </Properties>
                 </Component>
               </SubComponents>
             </Container>

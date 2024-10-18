@@ -47,7 +47,7 @@ public class EntradaSerialJDialogOld extends javax.swing.JDialog {
         initComponents();
         managerCplus = managerCplus1; 
         managerIntegrador = managerIntegrador1;
-        queryIntegrador = new QueryIntegrador(managerIntegrador);
+        queryIntegrador = new QueryIntegrador();
         queryCplus = new QueryCplus(managerCplus);
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
         listagemUsuarioJDialog = new ListagemUsuarioJDialog(parent, true, managerCplus);

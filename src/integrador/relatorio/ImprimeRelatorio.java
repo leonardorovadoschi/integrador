@@ -6,14 +6,10 @@
 
 package integrador.relatorio;
 
-import integrador.rma.EspelhoRmaJFrame;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.Collection;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -47,21 +43,23 @@ public class ImprimeRelatorio {
             JasperViewer.viewReport(print, false);
         } catch (JRException e) {
             condicao = false;
-            Logger.getLogger(ImprimeRelatorio.class.getName()).log(Level.SEVERE, null, e);
-           //OptionPane.showMessageDialog(null, "HOUVE UM ERRO AO IMPRIMIR RELATÓRIO, Verifique!! \n" + e, "Erro Imprimir", JOptionPane.ERROR_MESSAGE);
+            //Logger.getLogger(ImprimeRelatorio.class.getName()).log(Level.SEVERE, null, e);
+           JOptionPane.showMessageDialog(null, "HOUVE UM ERRO AO IMPRIMIR RELATÓRIO, Verifique!! \n" + e, "Erro Imprimir", JOptionPane.ERROR_MESSAGE);
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(ImprimeRelatorio.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "HOUVE UM ERRO AO ABRIR ARQUIVO, Verifique!! \n" + ex, "Erro Imprimir", JOptionPane.ERROR_MESSAGE);
+            //Logger.getLogger(ImprimeRelatorio.class.getName()).log(Level.SEVERE, null, ex);
         }
         return condicao;
     }
     /**
+     * NÃO FUNCIONA DIREITO
      * Imprime relatorio fora do jar, é preciso usar a extensão "jasper"
      * ex. do caminho C:\\lista_integrador\\relatorio\\etiquetaEntrada.jasper
      * @param caminhoArquivo
      * @param lista
      * @return 
      */
-    public boolean imprimeRelatorioPeloArquivo(String caminhoArquivo, List lista){
+    private boolean imprimeRelatorioPeloArquivo(String caminhoArquivo, List lista){
         boolean condicao = true;
         //InputStream inputStream = EspelhoRmaJFrame.class.getResourceAsStream(caminhoArquivo);
         try {
@@ -75,18 +73,5 @@ public class ImprimeRelatorio {
         }
         return condicao;
     }
-    
-    private boolean imprimeRelatorioColection(String caminhoArquivo, Collection lista){
-        boolean condicao = true;
-        InputStream inputStream = EspelhoRmaJFrame.class.getResourceAsStream(caminhoArquivo);
-        try {
-            JasperReport report = JasperCompileManager.compileReport(inputStream);
-            JasperPrint print = JasperFillManager.fillReport(report, null, new JRBeanCollectionDataSource(lista));  
-            JasperViewer.viewReport(print, false);
-        } catch (JRException e) {
-            condicao = false;
-            JOptionPane.showMessageDialog(null, "HOUVE UM ERRO AO IMPRIMIR RELATÓRIO, Verifique!! \n" + e, "Erro Imprimir", JOptionPane.ERROR_MESSAGE);
-        }
-        return condicao;
-    }
+       
 }

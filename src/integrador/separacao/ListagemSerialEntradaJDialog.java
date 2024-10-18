@@ -21,6 +21,7 @@ import jpa.cplus.MoventradaJpaController;
 import jpa.integrador.EntradaSerialJpaController;
 import jpa.integrador.SerialProdutoJpaController;
 import jpa.integrador.exceptions.NonexistentEntityException;
+import prestashop.ConfiguracaoNoBD;
 import query.cplus.QueryCplus;
 import query.integrador.QueryIntegrador;
 
@@ -44,7 +45,7 @@ public class ListagemSerialEntradaJDialog extends javax.swing.JDialog {
         managerCplus = managerCplus1;
         managerIntegrador = managerIntegrador1;
         queryCplus = new QueryCplus(managerCplus);
-        queryIntegrador = new QueryIntegrador(managerIntegrador);
+        queryIntegrador = new QueryIntegrador();
         //this.entradaSerialJFrame= new EntradaSerialJFrame(managerCplus, managerIntegrador);
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
         //colunaIdEntradaSerial = jTableEntradaSerial.getColumnModel().getColumnIndex("ID Entrada Serial");
@@ -222,7 +223,7 @@ public class ListagemSerialEntradaJDialog extends javax.swing.JDialog {
             s.getIdSerial().setNomeProduto(s.getIdSerial().getCodigoProduto() + "-" + s.getIdSerial().getNomeProduto());
             listText.add(s.getIdSerial());
         }
-        new ImprimeRelatorio().imprimeRelatorioPeloArquivo(queryIntegrador.valorConfiguracao("caminho_ENTRADA_SERIAL"), listText);
+        new ImprimeRelatorio().imprimeRelatorioPeloJar(ConfiguracaoNoBD.getCaminhoEtiquetaSerial(), listText);
         dispose();
         setVisible(false);
     }//GEN-LAST:event_jButtonImprimirEtiquetaActionPerformed

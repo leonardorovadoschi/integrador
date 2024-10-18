@@ -43,6 +43,7 @@ import jpa.cplus.exceptions.NonexistentEntityException;
 import jpa.integrador.IntConfiguracaoJpaController;
 import jpa.integrador.IntLogsJpaController;
 import jpa.integrador.SaidaSerialJpaController;
+import prestashop.ConfiguracaoNoBD;
 import query.cplus.QueryCplus;
 import query.integrador.QueryIntegrador;
 
@@ -67,7 +68,7 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
         queryCplus = new QueryCplus(managerCplus);
         //queryPrestaShop = new QueryPrestaShop(managerPrestaShop);
         managerIntegrador = managerIntegrador1;
-        queryIntegrador = new QueryIntegrador(managerIntegrador);
+        queryIntegrador = new QueryIntegrador();
         this.listagemSaidasJDialog = new ListagemSaidasJDialog(this, true, managerCplus);
         this.listagemUsuarioJDialog = new ListagemUsuarioJDialog(this, true, managerCplus);
         this.listagemUsuarioJDialog.setLocationRelativeTo(null);
@@ -478,7 +479,7 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
                 }
                 movProd.setMovendaprodserialCollection(listMovSerial);
             }
-            new ImprimeRelatorio().imprimeRelatorioPeloArquivo(queryIntegrador.valorConfiguracao("caminho_RELATORIO_ROMANEIO_SERIAIS"), movendaprodList);
+            new ImprimeRelatorio().imprimeRelatorioPeloJar(ConfiguracaoNoBD.getCaminhoRomaneioSeriais(), movendaprodList);
         }
     }//GEN-LAST:event_jButtonImprimirRomaneioActionPerformed
 

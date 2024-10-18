@@ -60,7 +60,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
         colunaCodMovendaProduto = jTableMovendaProd.getColumnModel().getColumnIndex("Codmovprod");
         colunaMovDocReferenciado = jTableDocDevolucaoFornecedor.getColumnModel().getColumnIndex("Codmovdocreferenciado");
         queryCplus = new QueryCplus(managerCplus);
-        queryIntegrador = new QueryIntegrador(managerIntegrador);
+        queryIntegrador = new QueryIntegrador();
         this.listagemSaidasJDialog = new ListagemSaidasJDialog(this, true, managerCplus);
         this.listagemEntradasJDialog = new ListagemEntradasJDialog(this, true, managerCplus);
         this.listagemClientesJDialog = new ListagemClientesJDialog(this, true, managerCplus);

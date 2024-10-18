@@ -44,7 +44,7 @@ public class SaidaClienteCplus {
     public boolean saidaClienteCplus(boolean controlaEstoque, Tipomovimento movimentoSaidaCliente, Calculoicmsestado calculoIcmsEstado, Cliente cliente, Movendaprod movSaidaProd,
             String serial, Usuario usuario, EntityManagerFactory managerCplus, EntityManagerFactory managerIntegrador) {
         queryCplus = new QueryCplus(managerCplus);
-        queryIntegrador = new QueryIntegrador(managerIntegrador);
+        queryIntegrador = new QueryIntegrador();
         //decimaisArredondamento =  Integer.valueOf(queryIntegrador.valorConfiguracao("casas_decimais_ARREDONDAMENTO"));
         boolean condicao = true;           
         if (condicao) {

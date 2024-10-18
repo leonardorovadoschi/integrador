@@ -41,6 +41,7 @@ import jpa.cplus.ProdutocaracteristicaJpaController;
 import jpa.cplus.ProdutoprecoJpaController;
 import jpa.cplus.exceptions.NonexistentEntityException;
 import jpa.integrador.IntLogsJpaController;
+import prestashop.Manager;
 import produto.PedidoCompra;
 import query.cplus.QueryCplus;
 import query.integrador.QueryIntegrador;
@@ -59,18 +60,15 @@ public class ProdutoJFrame extends javax.swing.JFrame {
     /**
      * Creates new form AlteracaoPrecoProdutoJFrame
      *
-     * @param managerCplus1
-     * @param managerIntegracao1
-     * @param managerPrestaShop1
      */
-    public ProdutoJFrame(EntityManagerFactory managerCplus1, EntityManagerFactory managerIntegracao1, EntityManagerFactory managerPrestaShop1) {
+    public ProdutoJFrame() {
         format = new FormataCampos();
-        managerIntegrador = managerIntegracao1;
-        managerPrestaShop = managerPrestaShop1;
-        managerCplus = managerCplus1;
+        //managerIntegrador = managerIntegracao1;
+        //managerPrestaShop = managerPrestaShop1;
+        //managerCplus = managerCplus1;
         queryCplus = new QueryCplus(managerCplus);
         queryPrestaShop = new QueryPrestaShop(managerPrestaShop);
-        queryIntegrador = new QueryIntegrador(managerIntegrador);
+        queryIntegrador = new QueryIntegrador();
         initComponents();
         jTextFieldTermoPesquisa.requestFocus();
         colunaCodprod = jTableListagemProdutos.getColumnModel().getColumnIndex("Codprod");
@@ -1789,9 +1787,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
             } catch (Exception ex) {
                 criaLog(new Date(System.currentTimeMillis()), "Erro ao editar custo médio no C-plus no Frame Alteracao de preï¿½o \n" + ex, "Erro Editar");
             }
-        } else {
-            precoCustoMedioSistema = produtoCplus.getCustomedio();
-        }
+        } 
 
         jTextFieldPrecoCusto.setText(format.bigDecimalParaString(produtoCplus.getPrecusto(), 2));
         jTextFieldCustoReal.setText(format.bigDecimalParaString(produtoCplus.getCustoreal(), 2));
@@ -2088,7 +2084,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         log.setDataExecucao(dataExecucao);
         log.setMensagem(mensagem);
         log.setTipoLog(tipoLog);
-        new IntLogsJpaController(managerIntegrador).create(log);
+        new IntLogsJpaController(Manager.getManagerIntegrador()).create(log);
     }
 
     private void pesquisaPorLocalizacao() {
@@ -2227,12 +2223,12 @@ public class ProdutoJFrame extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
-            new ProdutoJFrame(managerCplus, managerIntegrador, managerPrestaShop).setVisible(true);
+            new ProdutoJFrame().setVisible(true);
         });
     }
 
-    private static EntityManagerFactory managerIntegrador;
-    private static EntityManagerFactory managerPrestaShop;
+   // private static EntityManagerFactory managerIntegrador;
+   //private static EntityManagerFactory managerPrestaShop;
     private static EntityManagerFactory managerCplus;
     private final QueryCplus queryCplus;
     private final QueryIntegrador queryIntegrador;
@@ -2243,9 +2239,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
     //private final int colunaProdutoFornecedor;
 
     private Produto produtoCplus;
-    private BigDecimal precoCustoRealSistema;
-    private BigDecimal precoCustoMedioSistema;
-    //private BigDecimal precoCustoUltimaCompra;
+    private BigDecimal precoCustoRealSistema;   
     private List<Produtopreco> listPrecoProduto;
     private List<Produtoestoque> listEstoqueProduto;
     private final ListagemEntradasJDialog listagemEntradasJDialog;

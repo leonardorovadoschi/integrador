@@ -119,10 +119,10 @@ public class SaidaFornecedorCplus {
                                   String serial, EntityManagerFactory managerIntegrador, EntityManagerFactory managerCplus) {
         boolean condicao = true;
         Movendaprod saidaProd = new Movendaprod();
-        Integer configCont = Integer.valueOf(new QueryIntegrador(managerIntegrador).valorConfiguracao("increment_tabela_movenda_prod"));
+        Integer configCont = Integer.valueOf(new QueryIntegrador().valorConfiguracao("increment_tabela_movenda_prod"));
         configCont--;
         try {
-           new QueryIntegrador(managerIntegrador).atualizaValorConfiguracao("increment_tabela_movenda_prod", String.valueOf(configCont));
+           new QueryIntegrador().atualizaValorConfiguracao("increment_tabela_movenda_prod", String.valueOf(configCont));
             } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Houve um erro ao Gravar Configuraçãode Entrada Produto!!!\n " + ex);
             condicao = false;
@@ -315,10 +315,10 @@ public class SaidaFornecedorCplus {
     private void controleDevolucaofornecedor(Fornecedor fornecedor, Movendaprod saidaProd, EntityManagerFactory managerCplus, EntityManagerFactory managerIntegrador) {
         List<Movendaproddevolucaocompra> listDevProd = queryCplus.listagemControlaDevolucaoPorSaidaProd(saidaProd.getCodmovprod());
         if (listDevProd.isEmpty()) {
-            Integer configCont = Integer.valueOf(new QueryIntegrador(managerIntegrador).valorConfiguracao("increment_tabela_movenda_controla_devolucao"));
+            Integer configCont = Integer.valueOf(new QueryIntegrador().valorConfiguracao("increment_tabela_movenda_controla_devolucao"));
             configCont--;
             try {
-               new QueryIntegrador(managerIntegrador).atualizaValorConfiguracao("increment_tabela_movenda_controla_devolucao", String.valueOf(configCont));
+               new QueryIntegrador().atualizaValorConfiguracao("increment_tabela_movenda_controla_devolucao", String.valueOf(configCont));
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, "Houve um erro ao Gravar Configuração de Entrada Produto!!!\n " + ex);
             }
@@ -362,10 +362,10 @@ public class SaidaFornecedorCplus {
     private void relacaoNotaParaDevolucaoFornecedor(Movenda movSaida, Moventrada movEntrada, EntityManagerFactory managerCplus, EntityManagerFactory managerIntegrador) {
         List<Movdocreferenciado> lisNota = queryCplus.relacaoNotaDevolucaoFornecedor(movEntrada.getCodmoventr(), movSaida.getCodmovenda());
         if (lisNota.isEmpty()) {
-            Integer configCont = Integer.valueOf(new QueryIntegrador(managerIntegrador).valorConfiguracao("increment_tabela_movenda_doc_referencia"));
+            Integer configCont = Integer.valueOf(new QueryIntegrador().valorConfiguracao("increment_tabela_movenda_doc_referencia"));
             configCont--;
             try {
-                new QueryIntegrador(managerIntegrador).atualizaValorConfiguracao("increment_tabela_movenda_doc_referencia", String.valueOf(configCont));
+                new QueryIntegrador().atualizaValorConfiguracao("increment_tabela_movenda_doc_referencia", String.valueOf(configCont));
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, "Houve um erro ao Gravar Configuração de Entrada Produto!!!\n " + ex);
             }

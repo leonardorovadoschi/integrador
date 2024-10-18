@@ -314,7 +314,7 @@ public class ProdutoCplusDigimacro {
             pp.setIndexed(true);
         } else {
             ///////////////////////////////////////////////////////////////
-            if (sobEncomendaAtivo(managerIntegrador, proCplus)) {
+            if (sobEncomendaAtivo(proCplus)) {
                 pp.setActive(true);
                 pp.setIndexed(true);
             } else {
@@ -1273,7 +1273,7 @@ public class ProdutoCplusDigimacro {
                     pps.setIndexed(true);
                 } else {
                     /////////////////////////////////////////////////////////////////////////////////////////////
-                    if (sobEncomendaAtivo(managerIntegrador, proCplus)) {
+                    if (sobEncomendaAtivo(proCplus)) {
                         pps.setActive(true);
                         pps.setIndexed(true);
                     } else {
@@ -1401,8 +1401,8 @@ public class ProdutoCplusDigimacro {
         new ConexaoPrestaShop().closeConnection();
     }
 
-    private boolean sobEncomendaAtivo(EntityManagerFactory managerIntegrador, Produto proCplus) {
-        List<ProdFornecedor> listFor = new QueryIntegrador(managerIntegrador).listProdFornecedor(proCplus.getCodprod());
+    private boolean sobEncomendaAtivo(Produto proCplus) {
+        List<ProdFornecedor> listFor = new QueryIntegrador().listProdFornecedor(proCplus.getCodprod());
         boolean condicao = false;
         for (ProdFornecedor pro : listFor) {
             if (pro.getAtivo() == 1 && pro.getDisponivel() == 1) {

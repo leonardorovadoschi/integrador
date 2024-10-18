@@ -95,7 +95,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         usuario = usuario1;
         queryPrestaShop = new QueryPrestaShop(managerPrestaShop);
         initComponents();
-        codCaracteristicaCliente = new QueryIntegrador(managerIntegrador).valorConfiguracao("cliente_CARACTERISTICA_CPLUS_DIGIMACRO");
+        codCaracteristicaCliente = new QueryIntegrador().valorConfiguracao("cliente_CARACTERISTICA_CPLUS_DIGIMACRO");
         queryCplus = new QueryCplus(managerCplus);
         this.listagemSaidasMagentoJDialog = new SaidasPrestaShopJDialog(this, true, managerPrestaShop, managerIntegrador);
         this.editOrderDetailsJDialog = new EditOrderDetailsJDialog(this, true, managerPrestaShop, managerCplus, usuario);

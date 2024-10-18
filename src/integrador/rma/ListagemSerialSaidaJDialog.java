@@ -32,7 +32,7 @@ public class ListagemSerialSaidaJDialog extends javax.swing.JDialog {
         //managerCplus = managerCplus1;
         managerIntegrador = managerIntegrador1;
         //queryCplus = new QueryCplus(managerCplus);
-        queryIntegrador = new QueryIntegrador(managerIntegrador);
+        queryIntegrador = new QueryIntegrador();
         colunaIdSaidaSerial = jTableSaidaSerial.getColumnModel().getColumnIndex("Id Saida Serial");
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
         // setCancelamento(true);

@@ -160,7 +160,7 @@ public class ClienteDigimacroCplus {
             new ConexaoDB().atualizarCodigo("CLIENTE", "CODCLI", codCl ++);
             //cria caracteristica da loja
             Clientecaracteristica caracteristica = new Clientecaracteristica();
-            caracteristica.setCodcaracteristicapessoa(new CaracteristicapessoaJpaController(managerCplus).findCaracteristicapessoa(new QueryIntegrador(managerIntegrador).valorConfiguracao("cliente_CARACTERISTICA_CPLUS_DIGIMACRO")));
+            caracteristica.setCodcaracteristicapessoa(new CaracteristicapessoaJpaController(managerCplus).findCaracteristicapessoa(new QueryIntegrador().valorConfiguracao("cliente_CARACTERISTICA_CPLUS_DIGIMACRO")));
             caracteristica.setCodcli(new ClienteJpaController(managerCplus).findCliente(cli.getCodcli()));
 
             caracteristica.setDatacaracteristica(new Date(System.currentTimeMillis()));

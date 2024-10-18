@@ -300,7 +300,7 @@ public class ClienteCplusDigimacro {
      */
     private Integer grupoId(EntityManagerFactory managerIntegrador, EntityManagerFactory managerCplus, Cliente cliente) {
         Integer valor;
-        List<Cliente> listCliCplus = new QueryCplus(managerCplus).listCaracteristicaCliente(new QueryIntegrador(managerIntegrador).valorConfiguracao("cliente_CARACTERISTICA_CPLUS_DIGIMACRO_RUIM"), cliente.getCodcli());
+        List<Cliente> listCliCplus = new QueryCplus(managerCplus).listCaracteristicaCliente(new QueryIntegrador().valorConfiguracao("cliente_CARACTERISTICA_CPLUS_DIGIMACRO_RUIM"), cliente.getCodcli());
         if (listCliCplus.size() == 1) {
             valor = 5; //cliente ruim         
         } else {

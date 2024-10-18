@@ -48,7 +48,7 @@ public class IntegracaoAgis {
     private void lerArquivoAgisTxt(EntityManagerFactory managerIntegrador, EntityManagerFactory managerCplus, EntityManagerFactory managerDigimacro) throws FileNotFoundException {
         List<EntidadeAgis> listProd = new ArrayList<>();
         
-        Scanner scanner = new Scanner(new FileReader(new QueryIntegrador(managerIntegrador).valorConfiguracao("caminho_ARQUIVO_TXT_AGIS"))).useDelimiter("\\t|\\n");
+        Scanner scanner = new Scanner(new FileReader(new QueryIntegrador().valorConfiguracao("caminho_ARQUIVO_TXT_AGIS"))).useDelimiter("\\t|\\n");
         while (scanner.hasNext()) {
             EntidadeAgis proAllnations = new EntidadeAgis();         
             proAllnations.setPartNumber(scanner.next().trim());
@@ -66,7 +66,7 @@ public class IntegracaoAgis {
         List<ProdFornecedor> listProdIntegrador;
         for (EntidadeAgis prodList : listProd) {
             if (!"".equals(prodList.getPrecoSP())) {
-                listProdIntegrador = new QueryIntegrador(managerIntegrador).resultPartNumberSnd(prodList.getPartNumber(), "AGIS", "SP");
+                listProdIntegrador = new QueryIntegrador().resultPartNumberSnd(prodList.getPartNumber(), "AGIS", "SP");
                 if (listProdIntegrador.isEmpty()) {
                    // criarProdutosAllnationsIntegrador("SP", prodList.getPrecoSP(), prodList, managerIntegrador, managerCplus);
                 } else if (listProdIntegrador.size() == 1) {
@@ -75,14 +75,14 @@ public class IntegracaoAgis {
                     }
                 }
             }else{//fim if que verifica estado de ES
-                listProdIntegrador = new QueryIntegrador(managerIntegrador).resultPartNumberSnd(prodList.getPartNumber(), "AGIS", "SP");
+                listProdIntegrador = new QueryIntegrador().resultPartNumberSnd(prodList.getPartNumber(), "AGIS", "SP");
                 for (ProdFornecedor proAllIntegrador : listProdIntegrador) {
                // editaProdutosAllnationsIntegrador(0, "SP", prodList.getPrecoES(), proAllIntegrador, prodList, managerIntegrador, managerCplus, managerDigimacro);
             }
             }
             
             if (!"".equals(prodList.getPrecoRJ())) {
-                listProdIntegrador = new QueryIntegrador(managerIntegrador).resultPartNumberSnd(prodList.getPartNumber(), "AGIS", "RJ");
+                listProdIntegrador = new QueryIntegrador().resultPartNumberSnd(prodList.getPartNumber(), "AGIS", "RJ");
                 if (listProdIntegrador.isEmpty()) {
               //      criarProdutosAllnationsIntegrador("RJ", prodList.getPrecoRJ(), prodList, managerIntegrador, managerCplus);
                 } else if (listProdIntegrador.size() == 1) {
@@ -91,14 +91,14 @@ public class IntegracaoAgis {
                     }
                 }
             }else{//fim if que verifica estado de ES
-                listProdIntegrador = new QueryIntegrador(managerIntegrador).resultPartNumberSnd(prodList.getPartNumber(), "AGIS", "RJ");
+                listProdIntegrador = new QueryIntegrador().resultPartNumberSnd(prodList.getPartNumber(), "AGIS", "RJ");
                 for (ProdFornecedor proAllIntegrador : listProdIntegrador) {
              //   editaProdutosAllnationsIntegrador(0, "RJ", prodList.getPrecoES(), proAllIntegrador, prodList, managerIntegrador, managerCplus, managerDigimacro);
             }
             }
             
             if (!"".equals(prodList.getPrecoES())) {
-                listProdIntegrador = new QueryIntegrador(managerIntegrador).resultPartNumberSnd(prodList.getPartNumber(), "AGIS", "ES");
+                listProdIntegrador = new QueryIntegrador().resultPartNumberSnd(prodList.getPartNumber(), "AGIS", "ES");
                 if (listProdIntegrador.isEmpty()) {
                  //   criarProdutosAllnationsIntegrador("ES", prodList.getPrecoES(), prodList, managerIntegrador, managerCplus);
                 } else if (listProdIntegrador.size() == 1) {
@@ -107,7 +107,7 @@ public class IntegracaoAgis {
                     }
                 }
             }else{//fim if que verifica estado de ES
-                listProdIntegrador = new QueryIntegrador(managerIntegrador).resultPartNumberSnd(prodList.getPartNumber(), "AGIS", "ES");
+                listProdIntegrador = new QueryIntegrador().resultPartNumberSnd(prodList.getPartNumber(), "AGIS", "ES");
                 for (ProdFornecedor proAllIntegrador : listProdIntegrador) {
               //  editaProdutosAllnationsIntegrador(0, "ES", prodList.getPrecoES(), proAllIntegrador, prodList, managerIntegrador, managerCplus, managerDigimacro);
             }

@@ -42,7 +42,7 @@ public class IntegracaoOderco {
         ManipulaFornecedores utilitario = new ManipulaFornecedores();
         
         try {         
-            String txt = new QueryIntegrador(managerIntegrador).valorConfiguracao("caminho_ARQUIVO_TXT_ODERCO");          
+            String txt = new QueryIntegrador().valorConfiguracao("caminho_ARQUIVO_TXT_ODERCO");          
             File is = new File(txt);         
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
@@ -115,7 +115,7 @@ public class IntegracaoOderco {
     
     private void removeProdutosInexistentes(List<ProdutoOderco> listProOder, EntityManagerFactory managerIntegracao, EntityManagerFactory managerDigimacro) {
         // ManipulaFornecedores utilitario = new ManipulaFornecedores();
-        List<ProdFornecedor> listAllIntegrador = new QueryIntegrador(managerIntegracao).listaProdFornecedor("ODERCO");
+        List<ProdFornecedor> listAllIntegrador = new QueryIntegrador().listaProdFornecedor("ODERCO");
         for (ProdFornecedor proIntegrador : listAllIntegrador) {
             boolean remover = true;
 
@@ -209,7 +209,7 @@ public class IntegracaoOderco {
         } else {
             estado = "ES";
         }
-        List<ProdFornecedor> listProdutoIntegrador = new QueryIntegrador(managerIntegrador).resultEanEEstoque(prod.getCodigobarras(), estado, "ODERCO");
+        List<ProdFornecedor> listProdutoIntegrador = new QueryIntegrador().resultEanEEstoque(prod.getCodigobarras(), estado, "ODERCO");
         if (listProdutoIntegrador.isEmpty()) {
             if (prod.getPreco_RS().doubleValue() > 0.00 && "S".equals(prod.getEstoque())) {
                criarProdutosAllnationsIntegrador(utilitario, prod, managerIntegrador, managerCplus, managerDigimacro);

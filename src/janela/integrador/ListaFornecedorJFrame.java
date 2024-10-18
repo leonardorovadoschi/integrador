@@ -7,7 +7,6 @@ package janela.integrador;
 
 import integrador.fornecedores.EntidadeColecao;
 import integrador.fornecedores.IntegracaoAgis;
-import integrador.fornecedores.IntegracaoAldo;
 import integrador.fornecedores.IntegracaoAllnations;
 import integrador.fornecedores.IntegracaoColecao;
 import integrador.fornecedores.IntegracaoNhs;
@@ -76,7 +75,6 @@ public class ListaFornecedorJFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanelConfiguracao = new javax.swing.JPanel();
-        jButtonImportarListaAldo = new javax.swing.JButton();
         jButtonImportarProdutosColecao = new javax.swing.JButton();
         jButtonImportarProdutosAgis = new javax.swing.JButton();
         jButtonImportarAllNations = new javax.swing.JButton();
@@ -91,13 +89,6 @@ public class ListaFornecedorJFrame extends javax.swing.JFrame {
         setTitle("Manutenção de Preços Fornecedores");
 
         jPanelConfiguracao.setBorder(javax.swing.BorderFactory.createTitledBorder("Ações"));
-
-        jButtonImportarListaAldo.setText("Importar Lista Aldo");
-        jButtonImportarListaAldo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonImportarListaAldoActionPerformed(evt);
-            }
-        });
 
         jButtonImportarProdutosColecao.setText("Importa Lista Coleção");
         jButtonImportarProdutosColecao.setToolTipText("Referencia - Descrição - Modelo - NCM - EAN - Marca - Caixa Master - %IPI - Giro - %ICMS - Sem IPI - Com IPI");
@@ -157,10 +148,9 @@ public class ListaFornecedorJFrame extends javax.swing.JFrame {
                 .addGroup(jPanelConfiguracaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jButtonImportaNhs, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButtonListaOderco, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonImportarListaAldo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButtonImportarProdutosColecao, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButtonImportarProdutosAgis, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonImportarAllNations, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
+                    .addComponent(jButtonImportarAllNations, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
                     .addComponent(jButtonListaAlcateia, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(jButtonImprimeAll, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -168,8 +158,7 @@ public class ListaFornecedorJFrame extends javax.swing.JFrame {
         jPanelConfiguracaoLayout.setVerticalGroup(
             jPanelConfiguracaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelConfiguracaoLayout.createSequentialGroup()
-                .addComponent(jButtonImportarListaAldo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(29, 29, 29)
                 .addComponent(jButtonImportarProdutosColecao)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonImportarProdutosAgis)
@@ -212,18 +201,6 @@ public class ListaFornecedorJFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonImportarListaAldoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonImportarListaAldoActionPerformed
-        new Thread(() -> {
-            manutencaoBotoes(false);
-            int cancelar = JOptionPane.showConfirmDialog(null, " Deseja realmente executar essa tarefa", "Executar", JOptionPane.YES_NO_CANCEL_OPTION);
-            if (cancelar == JOptionPane.YES_OPTION) {
-                new IntegracaoAldo().integradorAldo(managerIntegrador, managerCplus, managerDigimacro);
-            }
-            manutencaoBotoes(true);
-        }).start();
-
-    }//GEN-LAST:event_jButtonImportarListaAldoActionPerformed
-
     private void jButtonImportarProdutosColecaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonImportarProdutosColecaoActionPerformed
         // String campos = "Referencia - Descrição - Modelo - NCM - EAN - Marca - Caixa Master - %IPI - Giro - %ICMS - Sem IPI - Com IPI";
         new Thread(() -> {
@@ -235,7 +212,7 @@ public class ListaFornecedorJFrame extends javax.swing.JFrame {
                 Scanner scanner;
                 List<EntidadeColecao> listProdCole = new ArrayList<>();
                 try {
-                    scanner = new Scanner(new FileReader(new QueryIntegrador(managerIntegrador).valorConfiguracao("caminho_ARQUIVO_TXT_COLECAO"))).useDelimiter("\\t|\\n");
+                    scanner = new Scanner(new FileReader(new QueryIntegrador().valorConfiguracao("caminho_ARQUIVO_TXT_COLECAO"))).useDelimiter("\\t|\\n");
                     String tex = "";
                     while (scanner.hasNext()) {
                         EntidadeColecao proColecao = new EntidadeColecao();
@@ -442,7 +419,6 @@ public class ListaFornecedorJFrame extends javax.swing.JFrame {
 
     private void manutencaoBotoes(boolean condicao) {
         jButtonImportarAllNations.setEnabled(condicao);
-        jButtonImportarListaAldo.setEnabled(condicao);
         jButtonImportarProdutosAgis.setEnabled(condicao);
         jButtonImportarProdutosColecao.setEnabled(condicao);
         jButtonListaAlcateia.setEnabled(condicao);
@@ -606,7 +582,6 @@ public class ListaFornecedorJFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonImportaNhs;
     private javax.swing.JButton jButtonImportarAllNations;
-    private javax.swing.JButton jButtonImportarListaAldo;
     private javax.swing.JButton jButtonImportarProdutosAgis;
     private javax.swing.JButton jButtonImportarProdutosColecao;
     private javax.swing.JButton jButtonImprimeAll;

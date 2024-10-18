@@ -60,7 +60,6 @@
                   <Group type="103" groupAlignment="1" max="-2" attributes="0">
                       <Component id="jButtonImportaNhs" alignment="0" max="32767" attributes="0"/>
                       <Component id="jButtonListaOderco" alignment="0" max="32767" attributes="0"/>
-                      <Component id="jButtonImportarListaAldo" alignment="0" max="32767" attributes="0"/>
                       <Component id="jButtonImportarProdutosColecao" alignment="0" max="32767" attributes="0"/>
                       <Component id="jButtonImportarProdutosAgis" alignment="0" max="32767" attributes="0"/>
                       <Component id="jButtonImportarAllNations" alignment="0" pref="0" max="32767" attributes="0"/>
@@ -74,8 +73,7 @@
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <Component id="jButtonImportarListaAldo" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                   <Component id="jButtonImportarProdutosColecao" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jButtonImportarProdutosAgis" min="-2" max="-2" attributes="0"/>
@@ -96,14 +94,6 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JButton" name="jButtonImportarListaAldo">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Importar Lista Aldo"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonImportarListaAldoActionPerformed"/>
-          </Events>
-        </Component>
         <Component class="javax.swing.JButton" name="jButtonImportarProdutosColecao">
           <Properties>
             <Property name="text" type="java.lang.String" value="Importa Lista Cole&#xe7;&#xe3;o"/>

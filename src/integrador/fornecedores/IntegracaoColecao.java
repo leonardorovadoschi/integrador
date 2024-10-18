@@ -35,7 +35,7 @@ public class IntegracaoColecao {
 
     private void lerArquivoColecaoTxt(List<EntidadeColecao> listProdCole, EntityManagerFactory managerIntegrador, EntityManagerFactory managerCplus) {
        
-        List<ProdFornecedor> listAllIntegrador = new QueryIntegrador(managerIntegrador).listaProdFornecedor("COLECAO");
+        List<ProdFornecedor> listAllIntegrador = new QueryIntegrador().listaProdFornecedor("COLECAO");
         for (ProdFornecedor proIntegrador : listAllIntegrador) {
             try {
                 new ProdFornecedorJpaController(managerIntegrador).destroy(proIntegrador.getIdProdutos());
@@ -50,7 +50,7 @@ public class IntegracaoColecao {
 
     private void removeProdutosInexistentes(List<EntidadeColecao> listProdAldo, EntityManagerFactory managerIntegrador) {
         // ManipulaFornecedores utilitario = new ManipulaFornecedores();
-        List<ProdFornecedor> listAllIntegrador = new QueryIntegrador(managerIntegrador).listaProdFornecedor("COLECAO");
+        List<ProdFornecedor> listAllIntegrador = new QueryIntegrador().listaProdFornecedor("COLECAO");
         for (ProdFornecedor proIntegrador : listAllIntegrador) {
             boolean remover = true;
             for (EntidadeColecao produtoColecao : listProdAldo) {
@@ -77,7 +77,7 @@ public class IntegracaoColecao {
         //ManipulaFornecedores utilitario = new ManipulaFornecedores();
         for (EntidadeColecao proCol : listProdCole) {
            // List<ProdFornecedor> listProdAll = new QueryIntegrador(managerIntegrador).resultCodigoFornecedor(proCol.getReferencia(), "COLECAO");
-            List<ProdFornecedor> listProdAll = new QueryIntegrador(managerIntegrador).resultCodigoFornecedor(proCol.getEan(), "COLECAO");
+            List<ProdFornecedor> listProdAll = new QueryIntegrador().resultCodigoFornecedor(proCol.getEan(), "COLECAO");
             if (listProdAll.isEmpty()) {
                 criarProdutoColecao(proCol, managerIntegrador, managerCplus);
             } else {

@@ -42,7 +42,7 @@ public class RelatorioComprasJFrame extends javax.swing.JFrame {
         managerCplus = managerCplus1;
         managerIntegrador = managerIntegrador1;
         queryCplus = new QueryCplus(managerCplus);
-        queryIntegrador = new QueryIntegrador(managerIntegrador);
+        queryIntegrador = new QueryIntegrador();
         jDateChooserDataFinal.setDate(formataCampos.alteraDiaData(formataCampos.dataAtual(), 0));
         jDateChooserDataInicial.setDate(formataCampos.alteraDiaData(formataCampos.dataAtual(), -90));
         jTextFieldNumeroDiasCompra.setText("30");

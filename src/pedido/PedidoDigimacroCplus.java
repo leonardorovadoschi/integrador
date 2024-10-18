@@ -82,18 +82,14 @@ public class PedidoDigimacroCplus {
                 condicao = false;
             }
         }
-        if (condicao) {
-            if (order.getModule().equals("custompaymentmethod_1")) {
-                listCliente = new QueryCplus(managerCplus).listCliente(new QueryIntegrador(managerIntegrador).valorConfiguracao("cliente_CODIGO_PARA_CUPOM"));
-            } else {
-                listCliente = new QueryCplus(managerCplus).listClientCpfCnpj(new PsCustomerJpaController(managerPrestaShop).findPsCustomer(order.getIdCustomer()).getSiret().replaceAll("[^0-9]", ""));
-            }//fim else que verifica se cliente não é cupom
+        if (condicao) {          
+                listCliente = new QueryCplus(managerCplus).listClientCpfCnpj(new PsCustomerJpaController(managerPrestaShop).findPsCustomer(order.getIdCustomer()).getSiret().replaceAll("[^0-9]", ""));        
             // }//fim for orderPayment
             if (listCliente.isEmpty()) {//if lista cliente
                 JOptionPane.showMessageDialog(null, "não foi possivel localizar o cliente, Verifique!!! \n Código Cliente Site é: " + new PsCustomerJpaController(managerPrestaShop).findPsCustomer(order.getIdOrder()).getLastname());
             } else {
                 for (Cliente cliente : listCliente) {
-                    List<Clientecaracteristica> listCarac = new QueryCplus(managerCplus).listClienteCaracteristica(new QueryIntegrador(managerIntegrador).valorConfiguracao("cliente_CARACTERISTICA_CPLUS_DIGIMACRO"), cliente.getCodcli());
+                    List<Clientecaracteristica> listCarac = new QueryCplus(managerCplus).listClienteCaracteristica(new QueryIntegrador().valorConfiguracao("cliente_CARACTERISTICA_CPLUS_DIGIMACRO"), cliente.getCodcli());
                     if (listCarac.size() == 1) {
 
                         if (verificaEndereco(managerIntegrador, managerPrestaShop, cliente, order) == false) {
@@ -281,7 +277,7 @@ public class PedidoDigimacroCplus {
 
     private String observacao(Cliente cli, PsOrders order, EntityManagerFactory managerIntegrador, EntityManagerFactory managerPrestaShop) {
         String obs = "";
-        if (new QueryIntegrador(managerIntegrador).valorConfiguracao("cliente_CODIGO_PARA_CUPOM").equals(cli.getCodcli())) {
+        if (new QueryIntegrador().valorConfiguracao("cliente_CODIGO_PARA_CUPOM").equals(cli.getCodcli())) {
             obs = "Nome: " + new PsCustomerJpaController(managerPrestaShop).findPsCustomer(order.getIdCustomer()).getFirstname() + " "
                     + new PsCustomerJpaController(managerPrestaShop).findPsCustomer(order.getIdCustomer()).getLastname() + " \n"
                     + "CNPJ/CPF: " + new FormataCampos().mascaraCNPJouCPF(new PsCustomerJpaController(managerPrestaShop).findPsCustomer(order.getIdCustomer()).getSiret()) + "\n";
@@ -314,7 +310,7 @@ public class PedidoDigimacroCplus {
         } else {
             //JOptionPane.showMessageDialog(null, "ENDEREÇO DO SITE DIFERENTE DO C-PLUS, Verifique!!! \n Cliente: " + cliente.getNomecli());
         }
-        if (listText.size() > 0 || new QueryIntegrador(managerIntegrador).valorConfiguracao("cliente_CODIGO_PARA_CUPOM").equals(cliente.getCodcli())) {
+        if (listText.size() > 0 || new QueryIntegrador().valorConfiguracao("cliente_CODIGO_PARA_CUPOM").equals(cliente.getCodcli())) {
             condicao = true;
         }
         return condicao;
@@ -360,7 +356,7 @@ public class PedidoDigimacroCplus {
                 prod.setCodpreco(new PrecoJpaController(managerCplus).findPreco("000000001"));
                 boolean cliRuim = false;
                 for (Clientecaracteristica cliCaract : orcamento.getCodcli().getClientecaracteristicaCollection()) {
-                    if (cliCaract.getCodcli().getCodcli() == null ? new QueryIntegrador(managerIntegrador).valorConfiguracao("cliente_CARACTERISTICA_CPLUS_DIGIMACRO_RUIM") == null : cliCaract.getCodcli().getCodcli().equals(new QueryIntegrador(managerIntegrador).valorConfiguracao("cliente_CARACTERISTICA_CPLUS_DIGIMACRO_RUIM"))) {
+                    if (cliCaract.getCodcli().getCodcli() == null ? new QueryIntegrador().valorConfiguracao("cliente_CARACTERISTICA_CPLUS_DIGIMACRO_RUIM") == null : cliCaract.getCodcli().getCodcli().equals(new QueryIntegrador().valorConfiguracao("cliente_CARACTERISTICA_CPLUS_DIGIMACRO_RUIM"))) {
                         cliRuim = true;
                     }
                 }
