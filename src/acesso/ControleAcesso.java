@@ -14,14 +14,15 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import prestashop.Manager;
 
 /**
  *
  * @author leonardo
  */
 public class ControleAcesso implements Serializable{
-     public ControleAcesso (EntityManagerFactory managerCplus) {
-        this.managerCplus = managerCplus;
+     public ControleAcesso () {
+        this.managerCplus = Manager.getManagerCplus();
     }
     private EntityManagerFactory managerCplus = null;
 
@@ -29,13 +30,13 @@ public class ControleAcesso implements Serializable{
         return managerCplus.createEntityManager();
     }
     /**
-     * Funï¿½ï¿½o vai retornar True se Usuario tiver acesso
+     * Função vai retornar True se Usuario tiver acesso
      * @param usuario
      * @param descricaoAcesso
      * @return 
      */
     public boolean verificaAcessoUsuario(Usuario usuario, String descricaoAcesso){
-        QueryCplus queryCplus = new QueryCplus(managerCplus); 
+        QueryCplus queryCplus = new QueryCplus(); 
         boolean condicao = true;
         List<Sistemaacesso> listSistemaAcesso = queryCplus.listagemSistemaAcesso(descricaoAcesso);
         for(Sistemaacesso acess : listSistemaAcesso){

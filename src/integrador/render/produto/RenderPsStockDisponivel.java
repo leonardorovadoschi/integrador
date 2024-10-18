@@ -34,7 +34,7 @@ public class RenderPsStockDisponivel extends DefaultTableCellRenderer {
         if ((aValue != null) && (aValue instanceof Integer)) {
            // PsProduct psProduct;
            // psProduct = new PsProductJpaController(emf).findPsProduct(Integer.valueOf(aValue.toString()));
-            for (PsStockAvailable sa : new QueryPrestaShop(emf).listPsStockAvailable((Integer) aValue, 1)) {
+            for (PsStockAvailable sa : new QueryPrestaShop().listPsStockAvailable((Integer) aValue, 1)) {
                 nome = String.valueOf(sa.getQuantity());
                 v = sa.getQuantity();
             }

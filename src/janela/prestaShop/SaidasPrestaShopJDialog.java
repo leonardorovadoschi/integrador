@@ -7,21 +7,17 @@ package janela.prestaShop;
 
 import entidade.prestaShop.PsCustomer;
 import entidade.prestaShop.PsOrders;
-import integrador.render.RenderCustomerNome;
-import integrador.render.RenderDataEHora;
-import integrador.render.RenderPreco;
 import integrador.separacao.ColorirLinhaImpar;
 import janela.cplus.FormataCampos;
-import static janela.prestaShop.ListPsProductJDialog.managerIntegrador;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import jpa.prestaShop.PsOrdersJpaController;
+import prestashop.Manager;
 import query.prestaShop.QueryPrestaShop;
 
 /**
@@ -35,14 +31,12 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
      *
      * @param parent
      * @param modal
-     * @param managerPrestaShop1
-     * @param managerIntegrador1
      */
-    public SaidasPrestaShopJDialog(java.awt.Frame parent, boolean modal, EntityManagerFactory managerPrestaShop1, EntityManagerFactory managerIntegrador1) {
+    public SaidasPrestaShopJDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);      
-        managerIntegrador = managerIntegrador1;
-        managerPrestaShop = managerPrestaShop1;
-        queryPrestaShop = new QueryPrestaShop(managerPrestaShop);
+        //managerIntegrador = managerIntegrador1;
+       // managerPrestaShop = managerPrestaShop1;
+        queryPrestaShop = new QueryPrestaShop();
         initComponents();
         idOrder = jTableOrders.getColumnModel().getColumnIndex("Id Order");
         format = new FormataCampos();
@@ -503,7 +497,7 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
         idOrder = jTableOrders.getColumnModel().getColumnIndex("Id Order");
         Integer cod = Integer.valueOf(jTableOrders.getValueAt(jTableOrders.getSelectedRow(), idOrder).toString());
         if (cod != null) {           
-            psOrders = new PsOrdersJpaController(managerPrestaShop).findPsOrders(cod);
+            psOrders = new PsOrdersJpaController(Manager.getManagerPrestaShop()).findPsOrders(cod);
             setCancelamento(false);
             dispose();
         } else {
@@ -557,7 +551,7 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                SaidasPrestaShopJDialog dialog = new SaidasPrestaShopJDialog(new javax.swing.JFrame(), true,managerPrestaShop, managerIntegrador);
+                SaidasPrestaShopJDialog dialog = new SaidasPrestaShopJDialog(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -570,7 +564,7 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
     }
 
       private final QueryPrestaShop queryPrestaShop;
-    static EntityManagerFactory managerPrestaShop;
+    //static EntityManagerFactory managerPrestaShop;
     private boolean cancelamento;
     private PsOrders psOrders;
     private int idOrder;

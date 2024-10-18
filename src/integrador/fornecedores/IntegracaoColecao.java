@@ -114,7 +114,7 @@ public class IntegracaoColecao {
     private void criarProdutoColecao(EntidadeColecao proCol, EntityManagerFactory managerIntegrador, EntityManagerFactory managerCplus) {
         // utilitario = new ManipulaFornecedores();
        // List<Produto> listProdIntegracao = new QueryCplus(managerCplus).listProdutoEan(proCol.getEan().trim());
-         List<Produto> listProdIntegracao = new QueryCplus(managerCplus).listProdutoCodigoPrincipal(proCol.getEan().trim());
+         List<Produto> listProdIntegracao = new QueryCplus().listProdutoCodigoPrincipal(proCol.getEan().trim());
         for (Produto produto : listProdIntegracao) {
             boolean condicaoSalvar = true;
             ProdFornecedor prodForn = new ProdFornecedor();

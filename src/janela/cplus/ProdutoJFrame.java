@@ -30,7 +30,6 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import jpa.cplus.AuditoriaJpaController;
@@ -46,10 +45,6 @@ import produto.PedidoCompra;
 import query.cplus.QueryCplus;
 import query.integrador.QueryIntegrador;
 import query.prestaShop.QueryPrestaShop;
-//import jpa.integracao.ConfiguracaoJpaController;
-//import jpa.integracao.LogsDeExecucaoJpaController;
-//import jpa.integracao.ProdutoIntegracaoJpaController;
-//import jpa.integracao.ProdutosAllnationsJpaController;
 
 /**
  *
@@ -66,18 +61,18 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         //managerIntegrador = managerIntegracao1;
         //managerPrestaShop = managerPrestaShop1;
         //managerCplus = managerCplus1;
-        queryCplus = new QueryCplus(managerCplus);
-        queryPrestaShop = new QueryPrestaShop(managerPrestaShop);
+        queryCplus = new QueryCplus(Manager.getManagerCplus());
+        queryPrestaShop = new QueryPrestaShop(Manager.getManagerPrestaShop());
         queryIntegrador = new QueryIntegrador();
         initComponents();
         jTextFieldTermoPesquisa.requestFocus();
         colunaCodprod = jTableListagemProdutos.getColumnModel().getColumnIndex("Codprod");
-        this.listagemEntradasJDialog = new ListagemEntradasJDialog(this, true, managerCplus);
+        this.listagemEntradasJDialog = new ListagemEntradasJDialog(this, true, Manager.getManagerCplus());
         jTextFieldNomeCplus.setDocument(new LimiteDigitos(50));//limite de digitos no campo
         jTextFieldNomeSite.setDocument(new LimiteDigitos(100));//limite digitos no campo
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
-        this.listagemLocalizacaoJDialog = new ListagemLocalizacaoJDialog(this, true, managerCplus);
-        this.listagemSaidasJDialog = new ListagemSaidasJDialog(this, true, managerCplus);
+        this.listagemLocalizacaoJDialog = new ListagemLocalizacaoJDialog(this, true, Manager.getManagerCplus());
+        this.listagemSaidasJDialog = new ListagemSaidasJDialog(this, true, Manager.getManagerCplus());
         jTableListagemProdutos.setDefaultRenderer(Object.class, new ConfTabelaProduto());
     }
 
@@ -1402,7 +1397,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
             for (Produto p : queryCplus.listProduto(produtoCplus.getCodprod())) {
                 try {
                     p.setCodloc(this.listagemLocalizacaoJDialog.getLocalizacao().getCodloc());
-                    new ProdutoJpaController(managerCplus).edit(p);
+                    new ProdutoJpaController(Manager.getManagerCplus()).edit(p);
                     jButtonEditarSetorEstoque.setEnabled(false);
                     //carregarTabela();
                 } catch (jpa.cplus.exceptions.NonexistentEntityException ex) {
@@ -1525,7 +1520,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
             }
             listIcmsEstado = queryCplus.listcalculoIcmsEstadol("RS", "RS", "5102", produtoCplus.getCodcalculoicms().getCodcalculoicms());
             if (listIcmsEstado.size() == 1) {
-                jTextFieldPercOutrosCustos.setText(format.bigDecimalParaString(new CalculoDeCusto().custoMediouUniComIpi(listIcmsEstado, produtoCplus, managerCplus), 2));
+                jTextFieldPercOutrosCustos.setText(format.bigDecimalParaString(new CalculoDeCusto().custoMediouUniComIpi(listIcmsEstado, produtoCplus, Manager.getManagerCplus()), 2));
             } else {
                 condicaoIcms = true;
                 //JOptionPane.showMessageDialog(null, "Não foi possi encontrar o calculo de ICMS verifique no C-Plus!!!\n lista de resultados: " + listIcmsEstado.size());
@@ -1555,7 +1550,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
                     case "000000001":
                         preco.setPreco(format.stringParaDecimal(jTextFieldPrecoNormal.getText(), 2));
                         preco.setMargem(calculaMargemPraGravarBanco(jTextFieldPrecoNormal.getText()));
-                        new ProdutoprecoJpaController(managerCplus).edit(preco);
+                        new ProdutoprecoJpaController(Manager.getManagerCplus()).edit(preco);
                         break;
                 }
             }
@@ -1580,14 +1575,14 @@ public class ProdutoJFrame extends javax.swing.JFrame {
                 if (listProdCaracteristica.size() == 1) {
                     for (Produtocaracteristica prodCar : listProdCaracteristica) {
                         prodCar.setCodcaracteristica("000000005");
-                        new ProdutocaracteristicaJpaController(managerCplus).edit(prodCar);
+                        new ProdutocaracteristicaJpaController(Manager.getManagerCplus()).edit(prodCar);
                     }
                 }
             } else {
                 if (listProdCaracteristica.size() == 1) {
                     for (Produtocaracteristica prodCar : listProdCaracteristica) {
                         prodCar.setCodcaracteristica("000000001");
-                        new ProdutocaracteristicaJpaController(managerCplus).edit(prodCar);
+                        new ProdutocaracteristicaJpaController(Manager.getManagerCplus()).edit(prodCar);
                     }
                 }
             }
@@ -1626,7 +1621,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
                 }
                 produtoCplus.setFlagorigemproduto(origem);
             }
-            new ProdutoJpaController(managerCplus).edit(produtoCplus);
+            new ProdutoJpaController(Manager.getManagerCplus()).edit(produtoCplus);
 
             // List<ProdutoIntegracao> listProdIntegracao = queryIntegrador.resultCodigoProdutosCplus(produtoCplus.getCodprod());
             // if(listProdIntegracao.size() == 1){
@@ -1669,7 +1664,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
             auditoria.setIdentidadeorigem(produtoCplus.getCodprod());
             auditoria.setCodacesso("000033241");
             if (!"".equals(auditoria.getDetalhelog())) {
-                new AuditoriaJpaController(managerCplus).create(auditoria);
+                new AuditoriaJpaController(Manager.getManagerCplus()).create(auditoria);
             }
             queryIntegrador.atualizaValorConfiguracao("increment_tabela_auditoria", String.valueOf(cont));
 
@@ -1724,7 +1719,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
                 e.getNomeprod(),//"Nome C-Plus"
                 format.bigDecimalParaString(e.getCustoreal(), 2), //"Custo Real"
                 format.bigDecimalParaString(e.getPrecusto(), 2), //"Preço Custo"
-                new PedidoCompra().produtoComprado(managerCplus, e.getCodprod()), //"Pedido Compra"
+                new PedidoCompra().produtoComprado(Manager.getManagerCplus(), e.getCodprod()), //"Pedido Compra"
                 eanProduto(e), //"EAN"
                 e.getCodprod(), //"Codprod"
         });
@@ -1773,7 +1768,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
 
     private void carregarCampos() {
         String codProdutoTabela = jTableListagemProdutos.getValueAt(jTableListagemProdutos.getSelectedRow(), colunaCodprod).toString();
-        produtoCplus = new ProdutoJpaController(managerCplus).findProduto(codProdutoTabela);
+        produtoCplus = new ProdutoJpaController(Manager.getManagerCplus()).findProduto(codProdutoTabela);
         if (produtoCplus.getDatreaj() != null) {
             jTextFieldDataUltimoReajuste.setText(format.dataStringSoData(produtoCplus.getDatreaj(), 0));
         }
@@ -1781,7 +1776,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         if (produtoCplus.getCustomedio().doubleValue() <= 0.0001) {
             produtoCplus.setCustomedio(produtoCplus.getCustoreal());
             try {
-                new ProdutoJpaController(managerCplus).edit(produtoCplus);
+                new ProdutoJpaController(Manager.getManagerCplus()).edit(produtoCplus);
             } catch (NonexistentEntityException ex) {
                 criaLog(new Date(System.currentTimeMillis()), "Erro ao editar custo médio no C-plus no Frame Alteracao de preço \n" + ex, "Erro Editar");
             } catch (Exception ex) {
@@ -2118,13 +2113,13 @@ public class ProdutoJFrame extends javax.swing.JFrame {
                 Integer configCont = Integer.valueOf(queryIntegrador.valorConfiguracao("increment_tabela_campo_valor"));
                 Campocustomvalor ca = new Campocustomvalor();
                 ca.setCodcampocustomvalor(String.format("%09d", configCont));
-                ca.setCodcampocustommaster(new CampocustommasterJpaController(managerCplus).findCampocustommaster(codCampoCustomMaster));
+                ca.setCodcampocustommaster(new CampocustommasterJpaController(Manager.getManagerCplus()).findCampocustommaster(codCampoCustomMaster));
                 ca.setCodcampocustomlista("");
                 ca.setIdentidadeorigem(produtoCplus.getCodprod());
                 ca.setNomeentidadeorigem("PRODUTO");
                 ca.setValor(valor);
                 try {
-                    new CampocustomvalorJpaController(managerCplus).create(ca);
+                    new CampocustomvalorJpaController(Manager.getManagerCplus()).create(ca);
                     /////////////////////////////////////////////////////////////
                     configCont--;
                     queryIntegrador.atualizaValorConfiguracao("increment_tabela_campo_valor", String.valueOf(configCont));
@@ -2137,7 +2132,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
             for (Campocustomvalor campo : listCampo) {
                 campo.setValor(valor);
                 try {
-                    new CampocustomvalorJpaController(managerCplus).edit(campo);
+                    new CampocustomvalorJpaController(Manager.getManagerCplus()).edit(campo);
                 } catch (Exception ex) {
                     criaLog(new Date(System.currentTimeMillis()), "Erro ao editar campo personalizado COMPLEMENTO FISCAL no C-plus no Frame Alteracao de preço \n" + ex, "Erro Editar");
                 }
@@ -2152,7 +2147,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
             Integer configCont = Integer.valueOf(queryIntegrador.valorConfiguracao("increment_tabela_campo_valor"));
             Campocustomvalor ca = new Campocustomvalor();
             ca.setCodcampocustomvalor(String.format("%09d", configCont));
-            ca.setCodcampocustommaster(new CampocustommasterJpaController(managerCplus).findCampocustommaster(codCampoCustomMaster));
+            ca.setCodcampocustommaster(new CampocustommasterJpaController(Manager.getManagerCplus()).findCampocustommaster(codCampoCustomMaster));
             ca.setCodcampocustomlista("");
             ca.setIdentidadeorigem(produtoCplus.getCodprod());
             ca.setNomeentidadeorigem("PRODUTO");
@@ -2161,7 +2156,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
             try {
                 queryIntegrador.atualizaValorConfiguracao("increment_tabela_campo_valor", String.valueOf(configCont));
 
-                new CampocustomvalorJpaController(managerCplus).create(ca);
+                new CampocustomvalorJpaController(Manager.getManagerCplus()).create(ca);
 
             } catch (Exception ex) {
                 criaLog(new Date(System.currentTimeMillis()), "Erro ao criar campo personalizado PART NUMBER no C-plus no Frame Alteracao de preço \n" + ex, "Erro Criar");
@@ -2170,7 +2165,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
             for (Campocustomvalor campo : listCampo) {
                 campo.setValor(valor);
                 try {
-                    new CampocustomvalorJpaController(managerCplus).edit(campo);
+                    new CampocustomvalorJpaController(Manager.getManagerCplus()).edit(campo);
                 } catch (Exception ex) {
                     criaLog(new Date(System.currentTimeMillis()), "Erro ao editar campo personalizado PART NUMBER no C-plus no Frame Alteracao de preço \n" + ex, "Erro Editar");
                 }
@@ -2229,7 +2224,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
 
    // private static EntityManagerFactory managerIntegrador;
    //private static EntityManagerFactory managerPrestaShop;
-    private static EntityManagerFactory managerCplus;
+    //private static EntityManagerFactory managerCplus;
     private final QueryCplus queryCplus;
     private final QueryIntegrador queryIntegrador;
     private final QueryPrestaShop queryPrestaShop;

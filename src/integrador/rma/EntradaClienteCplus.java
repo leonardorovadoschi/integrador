@@ -24,7 +24,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
 import jpa.cplus.CfopJpaController;
 import jpa.cplus.MovendaJpaController;
@@ -33,6 +32,7 @@ import jpa.cplus.MovendaprodJpaController;
 import jpa.cplus.MoventradaJpaController;
 import jpa.cplus.MoventradaprodJpaController;
 import jpa.cplus.exceptions.NonexistentEntityException;
+import prestashop.Manager;
 import query.cplus.QueryCplus;
 import query.integrador.QueryIntegrador;
 
@@ -55,23 +55,21 @@ public class EntradaClienteCplus {
      * @param movendaProd
      * @param serial
      * @param usuario
-     * @param managerCplus
-     * @param managerIntegrador
      * @return false se houver erro
      */
     public boolean entradaClienteCplus(Tipomovimento movimento, Calculoicmsestado calculoIcmsEstado, Cliente cliente, Movendaprod movendaProd,
-            String serial, Usuario usuario, EntityManagerFactory managerCplus, EntityManagerFactory managerIntegrador) {
-        queryCplus = new QueryCplus(managerCplus);
+            String serial, Usuario usuario) {
+        queryCplus = new QueryCplus();
         queryIntegrador = new QueryIntegrador();
        // decimaisArredondamento = Integer.valueOf(queryIntegrador.valorConfiguracao("casas_decimais_ARREDONDAMENTO"));
         boolean condicao = true;
         List<Moventrada> listMoventrada = queryCplus.listagemMoventradaCliente(movimento.getCodigo(), cliente.getCodcli());
         if (listMoventrada.isEmpty()) {
-            if (criarEntrada(movimento, cliente, movendaProd.getCodmovenda(), usuario, managerCplus, managerIntegrador)) {
+            if (criarEntrada(movimento, cliente, movendaProd.getCodmovenda(), usuario)) {
                 List<Moventrada> listEntrada = queryCplus.listagemMoventradaCliente(movimento.getCodigo(), cliente.getCodcli());
                 if (listEntrada.size() == 1) {
                     for (Moventrada entrada : listEntrada) {
-                        if (criaEntradaProd(cliente, usuario, movimento, calculoIcmsEstado, entrada, movendaProd, serial, managerCplus, managerIntegrador) == false) {
+                        if (criaEntradaProd(cliente, usuario, movimento, calculoIcmsEstado, entrada, movendaProd, serial) == false) {
                             condicao = false;
                         }
                     }
@@ -86,12 +84,12 @@ public class EntradaClienteCplus {
                 for (Moventrada entrada : listMoventrada) {
                     List<Moventradaprod> listMovEntradaProd = queryCplus.listagemMovEntradaProd(entrada.getCodmoventr(), movendaProd.getCodprod().getCodprod(), movendaProd.getValorunitario());
                     if (listMovEntradaProd.isEmpty()) {
-                        if (criaEntradaProd(cliente, usuario, movimento, calculoIcmsEstado, entrada, movendaProd, serial, managerCplus, managerIntegrador) == false) {
+                        if (criaEntradaProd(cliente, usuario, movimento, calculoIcmsEstado, entrada, movendaProd, serial) == false) {
                             condicao = false;
                         }
                     } else {
                         for (Moventradaprod prod : listMovEntradaProd) {
-                            if (editaEntradaProd(cliente, usuario, movimento, calculoIcmsEstado, prod, entrada, movendaProd, serial, managerCplus, managerIntegrador) == false) {
+                            if (editaEntradaProd(cliente, usuario, movimento, calculoIcmsEstado, prod, entrada, movendaProd, serial) == false) {
                                 condicao = false;
                             }
                         }
@@ -223,11 +221,9 @@ public class EntradaClienteCplus {
      * @param movEntrada
      * @param movendaProd
      * @param serial
-     * @param managerIntegrador
-     * @param managerCplus
      */
     private boolean criaEntradaProd(Cliente cliente, Usuario usuario, Tipomovimento movimento, Calculoicmsestado calculoIcmsEstado, Moventrada movEntrada, Movendaprod movendaProd,
-            String serial, EntityManagerFactory managerCplus, EntityManagerFactory managerIntegrador) {
+            String serial) {
         boolean condicao = true;
         Moventradaprod entradaProd = new Moventradaprod();
         Integer configCont = Integer.valueOf(queryIntegrador.valorConfiguracao("increment_tabela_moventrada_prod"));
@@ -235,12 +231,12 @@ public class EntradaClienteCplus {
         BigDecimal quant = quantidadeConversaoEntrada(movendaProd);        
         if ("RS".equals(cliente.getEstado())) {           
             if ("5405".equals(movendaProd.getCodcfop().getCodcfop())) {
-                entradaProd.setCodcfop(new CfopJpaController(managerCplus).findCfop("1411"));
+                entradaProd.setCodcfop(new CfopJpaController(Manager.getManagerCplus()).findCfop("1411"));
             } else {              
-                entradaProd.setCodcfop(new CfopJpaController(managerCplus).findCfop("1202"));
+                entradaProd.setCodcfop(new CfopJpaController(Manager.getManagerCplus()).findCfop("1202"));
             }
         } else {
-            entradaProd.setCodcfop(new CfopJpaController(managerCplus).findCfop("2202"));
+            entradaProd.setCodcfop(new CfopJpaController(Manager.getManagerCplus()).findCfop("2202"));
         }      
         String configString = String.format("%09d", configCont);
         entradaProd.setCodmoveprod(configString);
@@ -291,16 +287,16 @@ public class EntradaClienteCplus {
         entradaProd.setCstpis(calculoIcmsEstado.getCstpis());
         entradaProd.setCstcofins(calculoIcmsEstado.getCstcofins());
         try {
-            new MoventradaprodJpaController(managerCplus).create(entradaProd);
+            new MoventradaprodJpaController(Manager.getManagerCplus()).create(entradaProd);
 
-            editaEntrada(movEntrada, managerCplus);
-            mensagemEntrada(movendaProd, serial, movEntrada, managerCplus);
-            mensagemNotaFiscal(new MovendaJpaController(managerCplus).findMovenda(movendaProd.getCodmovenda().getCodmovenda()), movEntrada, managerCplus);
+            editaEntrada(movEntrada);
+            mensagemEntrada(movendaProd, serial, movEntrada);
+            mensagemNotaFiscal(new MovendaJpaController(Manager.getManagerCplus()).findMovenda(movendaProd.getCodmovenda().getCodmovenda()), movEntrada);
             String devolucao = movimento.getFlagdevolucao().toString();
             if ("Y".equals(devolucao)) {
-                Moventradaprod entPro = new MoventradaprodJpaController(managerCplus).findMoventradaprod(String.format("%09d", configCont));
-                new LancamentoVale().lancamentoVale(usuario, movEntrada.getCodcli(), movendaProd.getCodmovenda(), movEntrada, managerCplus);
-                devolucaoCliente(usuario, entPro, movendaProd, managerCplus, managerIntegrador);
+                Moventradaprod entPro = new MoventradaprodJpaController(Manager.getManagerCplus()).findMoventradaprod(String.format("%09d", configCont));
+                new LancamentoVale().lancamentoVale(usuario, movEntrada.getCodcli(), movendaProd.getCodmovenda(), movEntrada);
+                devolucaoCliente(usuario, entPro, movendaProd);
             }
             /////////////////////////////////////////////////////////////
             configCont--;
@@ -317,14 +313,11 @@ public class EntradaClienteCplus {
     /**
      * Função que preenche a tabela Movendadevolucao, e complementa a venda com
      * quantidade devolvida
-     *
      * @param usuario
      * @param entradaProd
      * @param vendaProd
-     * @param managerCplus
-     * @param managerIntegrador
      */
-    private void devolucaoCliente(Usuario usuario, Moventradaprod entradaProd, Movendaprod vendaProd, EntityManagerFactory managerCplus, EntityManagerFactory managerIntegrador) {
+    private void devolucaoCliente(Usuario usuario, Moventradaprod entradaProd, Movendaprod vendaProd) {
         List<Movendadevolucao> listDevCliente = queryCplus.listagemMoVendaDevolucaoCliente(entradaProd.getCodmoveprod(), vendaProd.getCodmovprod());
         if (listDevCliente.isEmpty()) {
             Integer configCont = new ConexaoDB().ultimoCodigo("MOVENDADEVOLUCAO", "CODMOVENDADEVOLUCAO");
@@ -336,9 +329,9 @@ public class EntradaClienteCplus {
             dev.setData(new Date(System.currentTimeMillis()));
             dev.setCoduser(usuario.getCoduser());
             try {
-                new MovendadevolucaoJpaController(managerCplus).create(dev);
+                new MovendadevolucaoJpaController(Manager.getManagerCplus()).create(dev);
                 vendaProd.setQuantidadedevolvida(entradaProd.getQuantidade());
-                new MovendaprodJpaController(managerCplus).edit(vendaProd);
+                new MovendaprodJpaController(Manager.getManagerCplus()).edit(vendaProd);
                 configCont++;
                 new ConexaoDB().atualizarCodigo("MOVENDADEVOLUCAO", "CODMOVENDADEVOLUCAO", configCont);
             } catch (NonexistentEntityException ex) {
@@ -351,9 +344,9 @@ public class EntradaClienteCplus {
                 dev.setQuantidadedevolucao(entradaProd.getQuantidade());
                 dev.setData(new Date(System.currentTimeMillis()));
                 try {
-                    new MovendadevolucaoJpaController(managerCplus).edit(dev);
+                    new MovendadevolucaoJpaController(Manager.getManagerCplus()).edit(dev);
                     vendaProd.setQuantidadedevolvida(entradaProd.getQuantidade());
-                    new MovendaprodJpaController(managerCplus).edit(vendaProd);
+                    new MovendaprodJpaController(Manager.getManagerCplus()).edit(vendaProd);
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, "Houve um erro ao Gravar Configuração de devolução cliente!!!\n " + ex);
                 }
@@ -368,10 +361,9 @@ public class EntradaClienteCplus {
      * @param movEntrada
      * @param movendaProd
      * @param serial
-     * @param managerCplus
      */
     private boolean editaEntradaProd(Cliente cliente, Usuario usuario, Tipomovimento movimento, Calculoicmsestado calculoIcmsEstado, Moventradaprod movEntradaProd,
-            Moventrada movEntrada, Movendaprod movendaProd, String serial, EntityManagerFactory managerCplus, EntityManagerFactory managerIntegrador) {
+            Moventrada movEntrada, Movendaprod movendaProd, String serial) {
         boolean condicao = true;
         BigDecimal quant = movEntradaProd.getQuantidade();
         //quant = quant + 1.00;
@@ -396,15 +388,15 @@ public class EntradaClienteCplus {
 
         movEntradaProd.setValordescontorateado(BigDecimal.ZERO);
         try {
-            new MoventradaprodJpaController(managerCplus).edit(movEntradaProd);
-            Moventrada entrada = new MoventradaJpaController(managerCplus).findMoventrada(movEntrada.getCodmoventr());
-            editaEntrada(entrada, managerCplus);
-            mensagemEntrada(movendaProd, serial, entrada, managerCplus);
-            mensagemNotaFiscal(new MovendaJpaController(managerCplus).findMovenda(movendaProd.getCodmovenda().getCodmovenda()), entrada, managerCplus);
+            new MoventradaprodJpaController(Manager.getManagerCplus()).edit(movEntradaProd);
+            Moventrada entrada = new MoventradaJpaController(Manager.getManagerCplus()).findMoventrada(movEntrada.getCodmoventr());
+            editaEntrada(entrada);
+            mensagemEntrada(movendaProd, serial, entrada);
+            mensagemNotaFiscal(new MovendaJpaController(Manager.getManagerCplus()).findMovenda(movendaProd.getCodmovenda().getCodmovenda()), entrada);
             String devolucao = movimento.getFlagdevolucao().toString();
             if ("Y".equals(devolucao)) {
-                new LancamentoVale().lancamentoVale(usuario, movEntrada.getCodcli(), movendaProd.getCodmovenda(), entrada, managerCplus);
-                devolucaoCliente(usuario, movEntradaProd, movendaProd, managerCplus, managerIntegrador);
+                new LancamentoVale().lancamentoVale(usuario, movEntrada.getCodcli(), movendaProd.getCodmovenda(), entrada);
+                devolucaoCliente(usuario, movEntradaProd, movendaProd);
             }
         } catch (NonexistentEntityException ex) {
             JOptionPane.showMessageDialog(null, "Houve um erro ao Editar Entrada Produto!!!\n " + ex);
@@ -426,7 +418,7 @@ public class EntradaClienteCplus {
      * @param managerCplus
      * @param managerIntegrador
      */
-    private boolean criarEntrada(Tipomovimento movimento, Cliente cliente, Movenda movenda, Usuario usuario, EntityManagerFactory managerCplus, EntityManagerFactory managerIntegrador) {
+    private boolean criarEntrada(Tipomovimento movimento, Cliente cliente, Movenda movenda, Usuario usuario) {
         boolean condicao = true;
         Moventrada entrada = new Moventrada();
         Integer configCont = new ConexaoDB().ultimoCodigo("MOVENTRADA", "CODMOVENTR");
@@ -466,7 +458,7 @@ public class EntradaClienteCplus {
         entrada.setValortotalii(BigDecimal.ZERO);
         entrada.setValoricmsincentfiscal(BigDecimal.ZERO);
         try {
-            new MoventradaJpaController(managerCplus).create(entrada);
+            new MoventradaJpaController(Manager.getManagerCplus()).create(entrada);
             configCont++;
             new ConexaoDB().atualizarCodigo("MOVENTRADA", "CODMOVENTR", configCont);
         } catch (Exception ex) {
@@ -482,7 +474,7 @@ public class EntradaClienteCplus {
      * @param entrada
      * @param managerCplus
      */
-    private boolean editaEntrada(Moventrada entrada, EntityManagerFactory managerCplus) {
+    private boolean editaEntrada(Moventrada entrada) {
         boolean condicao = true;
         List<Moventradaprod> listMovProd = queryCplus.listagemMovEntradaProdPorEntrada(entrada.getCodmoventr());
         if (listMovProd.isEmpty()) {
@@ -533,7 +525,7 @@ public class EntradaClienteCplus {
             entrada.setValortotalipi(new BigDecimal(valIpi).setScale(4, RoundingMode.HALF_UP));
         }
         try {
-            new MoventradaJpaController(managerCplus).edit(entrada);
+            new MoventradaJpaController(Manager.getManagerCplus()).edit(entrada);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Houve um erro ao Gravar Entrada!!!\n " + ex);
             condicao = false;
@@ -548,7 +540,7 @@ public class EntradaClienteCplus {
      * @param serial
      * @param movEntrada
      */
-    private void mensagemEntrada(Movendaprod movendaProd, String serial, Moventrada movEntrada, EntityManagerFactory managerCplus) {
+    private void mensagemEntrada(Movendaprod movendaProd, String serial, Moventrada movEntrada) {
         String mensagem;
         if (movEntrada.getObs() == null) {
             mensagem = "";
@@ -558,7 +550,7 @@ public class EntradaClienteCplus {
         mensagem = mensagem + "Entrada ref. Pedido " + movendaProd.getCodmovenda().getNumped() + ", Data Lançamento: " + new FormataCampos().dataStringSoData(new Date(System.currentTimeMillis()), 0) + " produto " + movendaProd.getCodprod().getNomeprod() + " com serial " + serial + "\n";
         movEntrada.setObs(mensagem);
         try {
-            new MoventradaJpaController(managerCplus).edit(movEntrada);
+            new MoventradaJpaController(Manager.getManagerCplus()).edit(movEntrada);
         } catch (NonexistentEntityException ex) {
             JOptionPane.showMessageDialog(null, "Houve um erro ao Criar Mensagem de entrada!!!\n " + ex);
         } catch (Exception ex) {
@@ -566,7 +558,7 @@ public class EntradaClienteCplus {
         }
     }
 
-    private void mensagemNotaFiscal(Movenda movenda, Moventrada movEntrada, EntityManagerFactory managerCplus) {
+    private void mensagemNotaFiscal(Movenda movenda, Moventrada movEntrada) {
         boolean notaExistente = false;
         if (movEntrada.getObsnotafiscal() != null && movenda.getNumnota() != null) {
             String[] mensagemEntrada = movEntrada.getObsnotafiscal().split(" ");
@@ -587,7 +579,7 @@ public class EntradaClienteCplus {
             mens = mens + "referente a Nota Nº: " + movenda.getNumnota().toString() + " Data: " + new FormataCampos().dataStringSoData(movenda.getData(), 0) + "\n";
             movEntrada.setObsnotafiscal(mens);
             try {
-                new MoventradaJpaController(managerCplus).edit(movEntrada);
+                new MoventradaJpaController(Manager.getManagerCplus()).edit(movEntrada);
             } catch (NonexistentEntityException ex) {
                 JOptionPane.showMessageDialog(null, "Houve um erro ao Criar Mensagem da Nota!!!\n " + ex);
             } catch (Exception ex) {

@@ -29,7 +29,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
 import jpa.cplus.MovdocreferenciadoJpaController;
 import jpa.cplus.MovendaJpaController;
@@ -39,6 +38,7 @@ import jpa.cplus.MovendaprodserialJpaController;
 import jpa.cplus.PrecoJpaController;
 import jpa.cplus.ProdutoestoqueJpaController;
 import jpa.cplus.exceptions.NonexistentEntityException;
+import prestashop.Manager;
 import query.cplus.QueryCplus;
 import query.integrador.QueryIntegrador;
 
@@ -61,21 +61,19 @@ public class SaidaFornecedorCplus {
      * @param movEntradaProd
      * @param serial
      * @param usuario
-     * @param managerCplus
-     * @param managerIntegrador
      * @return false se houver erro
      */
     public boolean saidaFornecedorCplus(boolean controlaEstoque, Tipomovimento movimentoSaidaFornecedor, Calculoicmsestado calculoIcmsEstado, Fornecedor fornecedor, Moventradaprod movEntradaProd,
-            String serial, Usuario usuario, EntityManagerFactory managerCplus, EntityManagerFactory managerIntegrador) {
-        queryCplus = new QueryCplus(managerCplus);
+            String serial, Usuario usuario) {
+        queryCplus = new QueryCplus();
         boolean condicao = true;           
             List<Movenda> listMovenda = queryCplus.listagemMovendaFornecedor(movimentoSaidaFornecedor.getCodigo(), fornecedor.getCodforn());
             if (listMovenda.isEmpty()) {               
-                if(criarSaida(movimentoSaidaFornecedor, fornecedor, usuario, managerCplus, managerIntegrador)){               
+                if(criarSaida(movimentoSaidaFornecedor, fornecedor, usuario)){               
                 List<Movenda> listSaida = queryCplus.listagemMovendaFornecedor(movimentoSaidaFornecedor.getCodigo(), fornecedor.getCodforn());
                 if (listSaida.size() == 1) {
                     for (Movenda saida : listSaida) {
-                        if(criaSaidaProd(controlaEstoque, fornecedor, movimentoSaidaFornecedor, calculoIcmsEstado, saida, movEntradaProd, serial, managerIntegrador, managerCplus) == false){
+                        if(criaSaidaProd(controlaEstoque, fornecedor, movimentoSaidaFornecedor, calculoIcmsEstado, saida, movEntradaProd, serial) == false){
                             condicao = false;
                         }
                     }
@@ -89,12 +87,12 @@ public class SaidaFornecedorCplus {
                     for (Movenda saida : listSaida) {
                         List<Movendaprod> listMovSaidaProd = queryCplus.listagemMovSaidaProd(saida.getCodmovenda(), movEntradaProd.getCodprod().getCodprod(), movEntradaProd.getValorunitario());
                         if (listMovSaidaProd.isEmpty()) {
-                            if(criaSaidaProd(controlaEstoque, fornecedor, movimentoSaidaFornecedor, calculoIcmsEstado, saida, movEntradaProd, serial, managerIntegrador, managerCplus) ==false){
+                            if(criaSaidaProd(controlaEstoque, fornecedor, movimentoSaidaFornecedor, calculoIcmsEstado, saida, movEntradaProd, serial) ==false){
                                 condicao = false;
                             }
                         } else {
                             for (Movendaprod prod : listMovSaidaProd) {
-                                if(editaSaidaProd(controlaEstoque, fornecedor, movimentoSaidaFornecedor, prod, saida, movEntradaProd, serial, managerCplus, managerIntegrador) == false){
+                                if(editaSaidaProd(controlaEstoque, fornecedor, movimentoSaidaFornecedor, prod, saida, movEntradaProd, serial) == false){
                                     condicao = false;
                                 }
                             }
@@ -116,7 +114,7 @@ public class SaidaFornecedorCplus {
      * @param managerCplus 
      */
     private boolean criaSaidaProd(boolean controlaEstoque, Fornecedor fornecedor, Tipomovimento movimento, Calculoicmsestado calculoIcmsEstado, Movenda movSaida, Moventradaprod movEntradaProd, 
-                                  String serial, EntityManagerFactory managerIntegrador, EntityManagerFactory managerCplus) {
+                                  String serial) {
         boolean condicao = true;
         Movendaprod saidaProd = new Movendaprod();
         Integer configCont = Integer.valueOf(new QueryIntegrador().valorConfiguracao("increment_tabela_movenda_prod"));
@@ -161,7 +159,7 @@ public class SaidaFornecedorCplus {
             saidaProd.setFlag2('Y');
             saidaProd.setFlag3('N');
             saidaProd.setValoriss(BigDecimal.ZERO);
-            saidaProd.setCodpreco(new PrecoJpaController(managerCplus).findPreco("000000001"));
+            saidaProd.setCodpreco(new PrecoJpaController(Manager.getManagerCplus()).findPreco("000000001"));
             saidaProd.setPrecotabela(movEntradaProd.getValorunitario());
             saidaProd.setCustoreal(movEntradaProd.getValorunitario());
             saidaProd.setCustomedio(movEntradaProd.getValorunitario());
@@ -201,20 +199,20 @@ public class SaidaFornecedorCplus {
             saidaProd.setCstpis(calculoIcmsEstado.getCstpis());
             saidaProd.setCstcofins(calculoIcmsEstado.getCstcofins());
             try {
-                new MovendaprodJpaController(managerCplus).create(saidaProd);              
+                new MovendaprodJpaController(Manager.getManagerCplus()).create(saidaProd);              
                 String controlaDevolucao = movimento.getFlagdevolucaocompra().toString();
                 if("Y".equals(controlaDevolucao) ){
-                    controleDevolucaofornecedor(fornecedor, new MovendaprodJpaController(managerCplus).findMovendaprod(configString), managerCplus, managerIntegrador);
+                    controleDevolucaofornecedor(fornecedor, new MovendaprodJpaController(Manager.getManagerCplus()).findMovendaprod(configString));
                 }
                  if(controlaEstoque){
-                    atualizaEstoque(movEntradaProd.getCodprod(), managerCplus);
+                    atualizaEstoque(movEntradaProd.getCodprod());
                 }
             } catch (Exception ex) {
                JOptionPane.showMessageDialog(null, "Houve um erro ao Gravar Entrada Produto!!!\n " + ex);
                condicao = false;
             }
-            editaSaida(movimento, movSaida, managerCplus);
-            mensagemEntrada(movEntradaProd, serial, movSaida, managerCplus);
+            editaSaida(movimento, movSaida);
+            mensagemEntrada(movEntradaProd, serial, movSaida);
         }
         return condicao;
     }
@@ -312,7 +310,7 @@ public class SaidaFornecedorCplus {
      * @param managerCplus
      * @param managerIntegrador 
      */
-    private void controleDevolucaofornecedor(Fornecedor fornecedor, Movendaprod saidaProd, EntityManagerFactory managerCplus, EntityManagerFactory managerIntegrador) {
+    private void controleDevolucaofornecedor(Fornecedor fornecedor, Movendaprod saidaProd) {
         List<Movendaproddevolucaocompra> listDevProd = queryCplus.listagemControlaDevolucaoPorSaidaProd(saidaProd.getCodmovprod());
         if (listDevProd.isEmpty()) {
             Integer configCont = Integer.valueOf(new QueryIntegrador().valorConfiguracao("increment_tabela_movenda_controla_devolucao"));
@@ -335,9 +333,9 @@ public class SaidaFornecedorCplus {
             devProd.setValorretornado(BigDecimal.ZERO);
 
             try {
-                new MovendaproddevolucaocompraJpaController(managerCplus).create(devProd);
+                new MovendaproddevolucaocompraJpaController(Manager.getManagerCplus()).create(devProd);
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, "Houve um erro ao Gravar Controle de devoluï¿½ï¿½o!!!\n " + ex);
+                JOptionPane.showMessageDialog(null, "Houve um erro ao Gravar Controle de devolulção!!!\n " + ex);
             }
         } else if (listDevProd.size() == 1) {
             for (Movendaproddevolucaocompra dev : listDevProd) {
@@ -345,9 +343,9 @@ public class SaidaFornecedorCplus {
                 dev.setValorcusto(saidaProd.getValortotal().add(saidaProd.getValorsubsttributaria().add(saidaProd.getValoripi())));
                 dev.setDatasaida(new Date(System.currentTimeMillis()));
                 try {
-                    new MovendaproddevolucaocompraJpaController(managerCplus).edit(dev);
+                    new MovendaproddevolucaocompraJpaController(Manager.getManagerCplus()).edit(dev);
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(null, "Houve um erro ao Editar Controle de devoluï¿½ï¿½o!!!\n " + ex);
+                    JOptionPane.showMessageDialog(null, "Houve um erro ao Editar Controle de devolução!!!\n " + ex);
                 }
             }
         }
@@ -359,7 +357,7 @@ public class SaidaFornecedorCplus {
      * @param managerCplus
      * @param managerIntegrador 
      */
-    private void relacaoNotaParaDevolucaoFornecedor(Movenda movSaida, Moventrada movEntrada, EntityManagerFactory managerCplus, EntityManagerFactory managerIntegrador) {
+    private void relacaoNotaParaDevolucaoFornecedor(Movenda movSaida, Moventrada movEntrada) {
         List<Movdocreferenciado> lisNota = queryCplus.relacaoNotaDevolucaoFornecedor(movEntrada.getCodmoventr(), movSaida.getCodmovenda());
         if (lisNota.isEmpty()) {
             Integer configCont = Integer.valueOf(new QueryIntegrador().valorConfiguracao("increment_tabela_movenda_doc_referencia"));
@@ -381,7 +379,7 @@ public class SaidaFornecedorCplus {
             refNota.setIdentidadeorigem(movSaida.getCodmovenda());
             refNota.setIdentidadeorigemref(movEntrada.getCodmoventr());                  
             try {
-                new MovdocreferenciadoJpaController(managerCplus).create(refNota);
+                new MovdocreferenciadoJpaController(Manager.getManagerCplus()).create(refNota);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, "Houve um erro ao Gravar Referencia de Nota de compra!!!\n " + ex);
             }
@@ -396,7 +394,7 @@ public class SaidaFornecedorCplus {
      * @param managerCplus 
      */
     private boolean editaSaidaProd(boolean controlaEstoque, Fornecedor fornecedor, Tipomovimento movimento, Movendaprod movSaidaProd, Movenda movSaida, 
-            Moventradaprod movEntradaProd, String serial, EntityManagerFactory managerCplus, EntityManagerFactory managerIntegrador) {
+            Moventradaprod movEntradaProd, String serial) {
         boolean condicao = true;       
         BigDecimal quant = movSaidaProd.getQuantidade();
         //quant = quant + 1.00;
@@ -420,20 +418,20 @@ public class SaidaFornecedorCplus {
         movSaidaProd.setAliqpis(movEntradaProd.getAliqpis());
         movSaidaProd.setValorpis(valorPisEntrada(movEntradaProd, quant));         
         try {
-            new MovendaprodJpaController(managerCplus).edit(movSaidaProd);
-            editaSaida(movimento, movSaida, managerCplus);
-            mensagemEntrada(movEntradaProd, serial, movSaida, managerCplus);
+            new MovendaprodJpaController(Manager.getManagerCplus()).edit(movSaidaProd);
+            editaSaida(movimento, movSaida);
+            mensagemEntrada(movEntradaProd, serial, movSaida);
             String devolucao = movimento.getFlagdevolucao().toString();
                 if("Y".equals(devolucao)){
-                relacaoNotaParaDevolucaoFornecedor(movSaida, movEntradaProd.getCodmoventr(), managerCplus, managerIntegrador);
+                relacaoNotaParaDevolucaoFornecedor(movSaida, movEntradaProd.getCodmoventr());
                 }
                 
                 String controlaDevolucao = movimento.getFlagdevolucaocompra().toString();
                 if("Y".equals(controlaDevolucao) ){
-                    controleDevolucaofornecedor(fornecedor, movSaidaProd, managerCplus, managerIntegrador);
+                    controleDevolucaofornecedor(fornecedor, movSaidaProd);
                 }
                 if(controlaEstoque){
-                    atualizaEstoque(movEntradaProd.getCodprod(), managerCplus);
+                    atualizaEstoque(movEntradaProd.getCodprod());
                 }
                // editaSeriaSaida(serial, movSaidaProd, managerCplus);
         } catch (NonexistentEntityException ex) {
@@ -446,7 +444,7 @@ public class SaidaFornecedorCplus {
         return condicao;
     }
     
-    private void atualizaEstoque(Produto produto, EntityManagerFactory managerCplus){
+    private void atualizaEstoque(Produto produto){
         List<Produtoestoque> listestoque = queryCplus.listEstoquesPorProd(produto.getCodprod());
         for(Produtoestoque estoque : listestoque){
             BigDecimal estoqueNovo = estoque.getEstatu();
@@ -454,7 +452,7 @@ public class SaidaFornecedorCplus {
             estoque.setEstatu(estoqueNovo);
             estoque.setLastChange(new Date(System.currentTimeMillis()));
             try {
-                new ProdutoestoqueJpaController(managerCplus).edit(estoque);
+                new ProdutoestoqueJpaController(Manager.getManagerCplus()).edit(estoque);
             } catch (Exception ex) {
                JOptionPane.showMessageDialog(null, "Houve um erro ao Atualizar Estoque Produto!!!\n " + ex);
             }
@@ -466,11 +464,9 @@ public class SaidaFornecedorCplus {
      * @param cliente
      * @param movenda
      * @param usuario
-     * @param numNota
-     * @param managerCplus
-     * @param managerIntegrador 
+     * @param numNota 
      */
-    private boolean criarSaida(Tipomovimento movimento, Fornecedor fornecedor, Usuario usuario, EntityManagerFactory managerCplus, EntityManagerFactory managerIntegrador) {
+    private boolean criarSaida(Tipomovimento movimento, Fornecedor fornecedor, Usuario usuario) {
         boolean condicao = true;
         Movenda saida = new Movenda();
         //decrement para tabela MovEntrada
@@ -570,7 +566,7 @@ public class SaidaFornecedorCplus {
             }
            // saida.setValoricmsincentfiscal(BigDecimal.ZERO);
             try {
-                new MovendaJpaController(managerCplus).create(saida);
+                new MovendaJpaController(Manager.getManagerCplus()).create(saida);
                 numPedido ++;
                 new ConexaoDB().atualizarCodigo("MOVENDA", "NUMPED", numPedido);
                 numCodMovenda ++;
@@ -587,7 +583,7 @@ public class SaidaFornecedorCplus {
      * @param saida
      * @param managerCplus
      */
-    private boolean editaSaida(Tipomovimento movimento, Movenda saida, EntityManagerFactory managerCplus) {
+    private boolean editaSaida(Tipomovimento movimento, Movenda saida) {
        boolean condicao = true;
         List<Movendaprod> listMovProd = queryCplus.listMovendaProd(saida.getCodmovenda());
         if (listMovProd.isEmpty()) {
@@ -654,7 +650,7 @@ public class SaidaFornecedorCplus {
             }
         }
         try {
-            new MovendaJpaController(managerCplus).edit(saida);
+            new MovendaJpaController(Manager.getManagerCplus()).edit(saida);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Houve um erro ao Gravar Entrada!!!\n " + ex);
             condicao = false;
@@ -668,13 +664,13 @@ public class SaidaFornecedorCplus {
      * @param serial
      * @param movSaida
      */
-    private void editaSeriaSaida(String serial, Movendaprod saidaProd, EntityManagerFactory managerCplus){
+    private void editaSeriaSaida(String serial, Movendaprod saidaProd){
         List<Movendaprodserial> listSaidaSerial = queryCplus.listagemSaidaSerialExato(serial);
         if(listSaidaSerial.size() == 1){
             for(Movendaprodserial ser : listSaidaSerial){
                 ser.setCodmovprod(saidaProd);
                 try {
-                    new MovendaprodserialJpaController(managerCplus).edit(ser);
+                    new MovendaprodserialJpaController(Manager.getManagerCplus()).edit(ser);
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, "Houve um erro ao editar serial na saida!!!\n " +ex );
                 }
@@ -683,7 +679,7 @@ public class SaidaFornecedorCplus {
              JOptionPane.showMessageDialog(null, "Não foi possivel editar a saida do Serial!!!\n " );
         }
     }
-    private void mensagemEntrada(Moventradaprod movEntradaProd, String serial, Movenda movSaida, EntityManagerFactory managerCplus) {
+    private void mensagemEntrada(Moventradaprod movEntradaProd, String serial, Movenda movSaida) {
         String mensagem;
         if(movSaida.getObs() == null){
             mensagem = "";
@@ -693,7 +689,7 @@ public class SaidaFornecedorCplus {
         mensagem = mensagem + "Saida ref. Nota de Compra: " + movEntradaProd.getCodmoventr().getNumnota() + ", Data Lançamento: "+new FormataCampos().dataStringSoData(new Date(System.currentTimeMillis()), 0)+ " produto " + movEntradaProd.getCodprod().getNomeprod() + " com serial " + serial + "\n";
         movSaida.setObs(mensagem);
         try {
-            new MovendaJpaController(managerCplus).edit(movSaida);
+            new MovendaJpaController(Manager.getManagerCplus()).edit(movSaida);
         } catch (NonexistentEntityException ex) {
             JOptionPane.showMessageDialog(null, "Houve um erro ao Criar Mensagem de entrada!!!\n " + ex);
         } catch (Exception ex) {

@@ -27,7 +27,7 @@ private EntityManagerFactory emf;
     public void setValue(Object aValue) {
         String nome = "";
         if ((aValue != null) && ( aValue instanceof String)) {                     
-            for(Fornecedor valor : new QueryCplus(emf).resultFornecedor(aValue.toString())){
+            for(Fornecedor valor : new QueryCplus().resultFornecedor(aValue.toString())){
            // valor = new FornecedorJpaController(emf).findFornecedor(aValue.toString());          
                 nome = valor.getNomeforn();
             }

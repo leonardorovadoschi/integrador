@@ -24,6 +24,7 @@ import jpa.prestaShop.PsAddressJpaController;
 import jpa.prestaShop.PsCustomerGroupJpaController;
 import jpa.prestaShop.PsCustomerJpaController;
 import jpa.prestaShop.exceptions.NonexistentEntityException;
+import prestashop.Manager;
 import query.cplus.QueryCplus;
 import query.integrador.QueryIntegrador;
 import query.prestaShop.QueryPrestaShop;
@@ -45,18 +46,14 @@ public class ClienteCplusDigimacro {
     }
 
     /**
-     * FunÃ§Ã£o que atualiza cliente no magento na loja DIGIMACRO os parametro e
-     * valores devem ser modificados nessa funÃ§Ã£o
-     *
-     * @param managerCplus
-     * @param managerIntegrador
+     * Função que atualiza cliente no magento na loja DIGIMACRO os parametro e
+     * valores devem ser modificados nessa função
      * @param cliente Objeto ClienteIntegrador
-     * @param managerPrestaShop
      * @return se houver erro vai retornar false
      */
-    public boolean atualizaClienteDigimacro(EntityManagerFactory managerCplus, EntityManagerFactory managerIntegrador, Cliente cliente, EntityManagerFactory managerPrestaShop) {
+    public boolean atualizaClienteDigimacro(Cliente cliente) {
         setCondicaoErro(true);
-        List<PsCustomer> listCustomer = new QueryPrestaShop(managerPrestaShop).listClienteEmail(cliente.getEmail().trim());
+        List<PsCustomer> listCustomer = new QueryPrestaShop().listClienteEmail(cliente.getEmail().trim());
         // if (verificaEmailDuplicado(managerPrestaShop, listCustomer, cliente)) {
         if (listCustomer.isEmpty()) {//SE NAO EXISTIR VAI CRIAR
             PsCustomer pc = new PsCustomer();
@@ -65,7 +62,7 @@ public class ClienteCplusDigimacro {
             if (cliente.getSexo() != null) {
                 pc.setIdGender(sexo(cliente.getSexo().toString()));
             }
-            pc.setIdDefaultGroup(grupoId(managerIntegrador, managerCplus, cliente));
+            pc.setIdDefaultGroup(grupoId(cliente));
             pc.setIdLang(2);
             pc.setIdRisk(1);
             if (!"".equals(cliente.getConjfantasia())) {
@@ -102,15 +99,15 @@ public class ClienteCplusDigimacro {
             pc.setDateAdd(new Date(System.currentTimeMillis()));
             pc.setDateUpd(new Date(System.currentTimeMillis()));
             pc.setTipo(cliente.getFlagfisica().toString());
-            new PsCustomerJpaController(managerPrestaShop).create(pc);
+            new PsCustomerJpaController(Manager.getManagerPrestaShop()).create(pc);
 
-            criaCustomerGroup(managerIntegrador, managerPrestaShop, pc);
-            criarAdderess(managerPrestaShop, pc, cliente);
+            criaCustomerGroup(pc);
+            criarAdderess( pc, cliente);
 
         } else if (listCustomer.size() == 1) {//EDITA CASO HAJA UM REGISTRO
             for (PsCustomer pc : listCustomer) {
                 boolean condicao = true;
-                if (verificaEndereco(managerPrestaShop, cliente, pc) == false) {
+                if (verificaEndereco(cliente, pc) == false) {
                     int cancelar = JOptionPane.showConfirmDialog(null, " O endereço do C-plus está diferente do entereço do Site "
                             + "\n Cliente: " + cliente.getNomecli()
                             + "\n Cpf/Cnpj: " + cpfCnpj(cliente)
@@ -128,7 +125,7 @@ public class ClienteCplusDigimacro {
                     if (cliente.getSexo() != null) {
                         pc.setIdGender(sexo(cliente.getSexo().toString()));
                     }
-                    pc.setIdDefaultGroup(grupoId(managerIntegrador, managerCplus, cliente));
+                    pc.setIdDefaultGroup(grupoId(cliente));
                     pc.setIdLang(2);
                     pc.setIdRisk(1);
                     if (!"".equals(cliente.getConjfantasia())) {
@@ -165,30 +162,30 @@ public class ClienteCplusDigimacro {
                     pc.setTipo(cliente.getFlagfisica().toString());
 
                     try {
-                        new PsCustomerJpaController(managerPrestaShop).edit(pc);
+                        new PsCustomerJpaController(Manager.getManagerPrestaShop()).edit(pc);
                     } catch (Exception ex) {
-                        criaLog(managerIntegrador, " Erro ao Editar Customer Group: \n " + ex, "ERRO EDITAR");
+                        criaLog(" Erro ao Editar Customer Group: \n " + ex, "ERRO EDITAR");
                     }
                     //Customer Group/////
-                    List<PsCustomerGroup> pcgList = new QueryPrestaShop(managerPrestaShop).listCustomerGroup(pc.getIdCustomer());
+                    List<PsCustomerGroup> pcgList = new QueryPrestaShop().listCustomerGroup(pc.getIdCustomer());
                     switch (pcgList.size()) {
                         case 0:
-                            criaCustomerGroup(managerIntegrador, managerPrestaShop, pc);
+                            criaCustomerGroup( pc);
                             break;
                         case 1:
-                            editaCustomerGroup(managerIntegrador, managerPrestaShop, pcgList, pc);
+                            editaCustomerGroup(pcgList, pc);
                             break;
                         default:
-                            excluiCustomerGroup(managerIntegrador, managerPrestaShop, pcgList, pc);
-                            criaCustomerGroup(managerIntegrador, managerPrestaShop, pc);
+                            excluiCustomerGroup(pcgList, pc);
+                            criaCustomerGroup( pc);
                             break;
                     }
                     ///Endereço//////
-                    List<PsAddress> paList = new QueryPrestaShop(managerPrestaShop).listAddress(false, pc.getIdCustomer());
+                    List<PsAddress> paList = new QueryPrestaShop().listAddress(false, pc.getIdCustomer());
                     if (paList.isEmpty()) {
-                        criarAdderess(managerPrestaShop, pc, cliente);
+                        criarAdderess( pc, cliente);
                     } else if (paList.size() == 1) {
-                        editarAdderess(managerIntegrador, managerPrestaShop, paList, pc, cliente);
+                        editarAdderess( paList, pc, cliente);
                     } else if (paList.size() > 1) {
                         JOptionPane.showMessageDialog(null, "O cliente: " + cliente.getNomecli() + " Possui mais que um endereço");
                     }
@@ -209,13 +206,13 @@ public class ClienteCplusDigimacro {
      * @param managerPrestaShop
      * @param pc
      */
-    private void criaCustomerGroup(EntityManagerFactory managerIntegrador, EntityManagerFactory managerPrestaShop, PsCustomer pc) {
+    private void criaCustomerGroup(PsCustomer pc) {
         PsCustomerGroup pcg = new PsCustomerGroup();
         pcg.setPsCustomerGroupPK(new PsCustomerGroupPK(pc.getIdCustomer(), pc.getIdDefaultGroup()));
         try {
-            new PsCustomerGroupJpaController(managerPrestaShop).create(pcg);
+            new PsCustomerGroupJpaController(Manager.getManagerPrestaShop()).create(pcg);
         } catch (Exception ex) {
-            criaLog(managerIntegrador, " Erro ao Criar Customer Group: \n " + ex, "ERRO CRIAR");
+            criaLog(" Erro ao Criar Customer Group: \n " + ex, "ERRO CRIAR");
         }
     }
 
@@ -235,27 +232,7 @@ public class ClienteCplusDigimacro {
         return txt;
     }
 
-    private boolean verificaEmailDuplicado(EntityManagerFactory managerPrestaShop, List<PsCustomer> listCustomer, Cliente cliente) {
-        boolean condicao = true;
-        List<PsCustomer> listCustMail = new QueryPrestaShop(managerPrestaShop).listClienteEmail(cliente.getEmail().trim());
-        for (PsCustomer customerMail : listCustMail) {
-            if (listCustomer.isEmpty()) {
-                condicao = false;
-            } else {
-                for (PsCustomer customer : listCustomer) {
-                    if (!Objects.equals(customerMail.getEmail(), customer.getEmail())) {
-                        condicao = false;
-                    }
-                }
-            }
-            if (condicao == false) {
-                JOptionPane.showMessageDialog(null, "O E-Mail: " + customerMail.getEmail() + " já possui cadastro no Site \n Em Nome de: " + customerMail.getFirstname() + " " + customerMail.getLastname());
-            }
-        }
-        return condicao;
-    }
-
-    private boolean verificaEndereco(EntityManagerFactory managerPrestaShop, Cliente cliente, PsCustomer customer) {
+    private boolean verificaEndereco(Cliente cliente, PsCustomer customer) {
         boolean condicao = false;
         String ende = cliente.getEndereco();
         //String bairro = cliente.getBairro();
@@ -271,7 +248,7 @@ public class ClienteCplusDigimacro {
         } else {
             complemento = cliente.getComplementologradouro();
         }
-        List<PsAddress> listText = new QueryPrestaShop(managerPrestaShop).listEndereco(false, customer.getIdCustomer(), endereco(ende, numero, complemento));
+        List<PsAddress> listText = new QueryPrestaShop().listEndereco(false, customer.getIdCustomer(), endereco(ende, numero, complemento));
         if (listText.size() > 0) {
             condicao = true;
         } else {
@@ -280,9 +257,9 @@ public class ClienteCplusDigimacro {
         return condicao;
     }
 
-    private int idEstado(EntityManagerFactory managerPrestaShop, Cliente cli, int id_pais) {
+    private int idEstado(Cliente cli, int id_pais) {
         int id = 0;
-        List<PsState> listEstado = new QueryPrestaShop(managerPrestaShop).listEstado(id_pais, cli.getEstado());
+        List<PsState> listEstado = new QueryPrestaShop().listEstado(id_pais, cli.getEstado());
         for (PsState ps : listEstado) {
             id = ps.getIdState();
         }
@@ -290,7 +267,7 @@ public class ClienteCplusDigimacro {
     }
 
     /**
-     * FunÃ§Ã£o que verifica qual Ã© o grupo de clientes baseado na
+     * Função que verifica qual é o grupo de clientes baseado na
      * caracteristica do c-plus
      *
      * @param managerIntegrador
@@ -298,9 +275,9 @@ public class ClienteCplusDigimacro {
      * @param cliente
      * @return
      */
-    private Integer grupoId(EntityManagerFactory managerIntegrador, EntityManagerFactory managerCplus, Cliente cliente) {
+    private Integer grupoId(Cliente cliente) {
         Integer valor;
-        List<Cliente> listCliCplus = new QueryCplus(managerCplus).listCaracteristicaCliente(new QueryIntegrador().valorConfiguracao("cliente_CARACTERISTICA_CPLUS_DIGIMACRO_RUIM"), cliente.getCodcli());
+        List<Cliente> listCliCplus = new QueryCplus().listCaracteristicaCliente(new QueryIntegrador().valorConfiguracao("cliente_CARACTERISTICA_CPLUS_DIGIMACRO_RUIM"), cliente.getCodcli());
         if (listCliCplus.size() == 1) {
             valor = 5; //cliente ruim         
         } else {
@@ -454,41 +431,41 @@ public class ClienteCplusDigimacro {
      * @param mensagem
      * @param tipoLog
      */
-    private void criaLog(EntityManagerFactory managerIntegracao, String mensagem, String tipoLog) {
+    private void criaLog(String mensagem, String tipoLog) {
         IntLogs log = new IntLogs();
         log.setDataExecucao(new Date(System.currentTimeMillis()));
         log.setMensagem(mensagem);
         log.setTipoLog(tipoLog);
-        new IntLogsJpaController(managerIntegracao).create(log);
+        new IntLogsJpaController(Manager.getManagerIntegrador()).create(log);
     }
 
-    private void editaCustomerGroup(EntityManagerFactory managerIntegrador, EntityManagerFactory managerPrestaShop, List<PsCustomerGroup> pcgList, PsCustomer pc) {
+    private void editaCustomerGroup(List<PsCustomerGroup> pcgList, PsCustomer pc) {
         for (PsCustomerGroup pcg : pcgList) {
             pcg.setPsCustomerGroupPK(new PsCustomerGroupPK(pc.getIdCustomer(), pc.getIdDefaultGroup()));
             try {
-                new PsCustomerGroupJpaController(managerPrestaShop).edit(pcg);
+                new PsCustomerGroupJpaController(Manager.getManagerPrestaShop()).edit(pcg);
             } catch (Exception ex) {
-                criaLog(managerIntegrador, " Erro ao Editar Customer Group: \n " + ex, "ERRO EDITAR");
+                criaLog(" Erro ao Editar Customer Group: \n " + ex, "ERRO EDITAR");
             }
         }
     }
 
-    private void excluiCustomerGroup(EntityManagerFactory managerIntegrador, EntityManagerFactory managerPrestaShop, List<PsCustomerGroup> pcgList, PsCustomer pc) {
+    private void excluiCustomerGroup(List<PsCustomerGroup> pcgList, PsCustomer pc) {
         for (PsCustomerGroup pcg : pcgList) {
             try {
-                new PsCustomerGroupJpaController(managerPrestaShop).destroy(new PsCustomerGroupPK(pc.getIdCustomer(), pcg.getPsCustomerGroupPK().getIdGroup()));
+                new PsCustomerGroupJpaController(Manager.getManagerPrestaShop()).destroy(new PsCustomerGroupPK(pc.getIdCustomer(), pcg.getPsCustomerGroupPK().getIdGroup()));
             } catch (NonexistentEntityException ex) {
-                criaLog(managerIntegrador, " Erro ao Excluir Customer Group: \n " + ex, "ERRO EXCLUIR");
+                criaLog( " Erro ao Excluir Customer Group: \n " + ex, "ERRO EXCLUIR");
             }
         }
     }
 
-    private void criarAdderess(EntityManagerFactory managerPrestaShop, PsCustomer pc, Cliente cliente) {
+    private void criarAdderess(PsCustomer pc, Cliente cliente) {
         int id_country = 58; //Brasil no caso
         //= Integer.parseInt(new IntConfiguracaoJpaController(managerIntegrador).valor("COUNTRY_ID"));
         PsAddress pa = new PsAddress();
         pa.setIdCountry(id_country);
-        pa.setIdState(idEstado(managerPrestaShop, cliente, id_country));
+        pa.setIdState(idEstado(cliente, id_country));
         pa.setIdCustomer(pc.getIdCustomer());
         pa.setIdManufacturer(0);
         pa.setIdSupplier(0);
@@ -537,7 +514,7 @@ public class ClienteCplusDigimacro {
         pa.setDeleted(false);
         pa.setOther("");
 
-        new PsAddressJpaController(managerPrestaShop).create(pa);
+        new PsAddressJpaController(Manager.getManagerPrestaShop()).create(pa);
     }
 
     private String tamanhoString(String str, int tamanhoString) {
@@ -552,12 +529,12 @@ public class ClienteCplusDigimacro {
         return str2;
     }
 
-    private void editarAdderess(EntityManagerFactory managerIntegrador, EntityManagerFactory managerPrestaShop, List<PsAddress> paList, PsCustomer pc, Cliente cliente) {
+    private void editarAdderess(List<PsAddress> paList, PsCustomer pc, Cliente cliente) {
         int id_country = 58; //Brasil no caso
         //   Integer.parseInt(new IntConfiguracaoJpaController(managerIntegrador).valor("COUNTRY_ID"));
         for (PsAddress pa : paList) {
             pa.setIdCountry(id_country);
-            pa.setIdState(idEstado(managerPrestaShop, cliente, id_country));
+            pa.setIdState(idEstado( cliente, id_country));
             pa.setIdCustomer(pc.getIdCustomer());
             //pa.setIdManufacturer(0);
             //pa.setIdSupplier(0);
@@ -606,19 +583,19 @@ public class ClienteCplusDigimacro {
             pa.setOther("");
             try {
                 //pa.setDeleted(false);
-                new PsAddressJpaController(managerPrestaShop).edit(pa);
+                new PsAddressJpaController(Manager.getManagerPrestaShop()).edit(pa);
             } catch (Exception ex) {
-                criaLog(managerIntegrador, " Erro ao Editar Address: \n " + ex, "ERRO EDITAR");
+                criaLog( " Erro ao Editar Address: \n " + ex, "ERRO EDITAR");
             }
         }
     }
 
-    private void excluirAdderess(EntityManagerFactory managerIntegrador, EntityManagerFactory managerPrestaShop, List<PsAddress> paList) {
+    private void excluirAdderess(List<PsAddress> paList) {
         for (PsAddress pa : paList) {
             try {
-                new PsAddressJpaController(managerPrestaShop).destroy(pa.getIdAddress());
+                new PsAddressJpaController(Manager.getManagerPrestaShop()).destroy(pa.getIdAddress());
             } catch (NonexistentEntityException ex) {
-                criaLog(managerIntegrador, " Erro ao Excluir Address: \n " + ex, "ERRO EXCLUIR");
+                criaLog( " Erro ao Excluir Address: \n " + ex, "ERRO EXCLUIR");
             }
         }
     }

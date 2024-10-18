@@ -19,6 +19,7 @@ import javax.persistence.EntityManagerFactory;
 import jpa.prestaShop.PsCustomerJpaController;
 import jpa.prestaShop.PsGroupJpaController;
 import jpa.prestaShop.PsProductJpaController;
+import prestashop.Manager;
 import query.prestaShop.QueryPrestaShop;
 
 /**
@@ -36,14 +37,13 @@ public class ValoresOrder {
     }
     /**
      * Função que retorna o total de desconto do pedido, descontos de pagamento e descontos a vulsa
-     * @param managerPrestaShop
      * @param order
      * @return 
      */
-    public BigDecimal valorTotalDesconto (EntityManagerFactory managerPrestaShop, PsOrders order){
+    public BigDecimal valorTotalDesconto (PsOrders order){
         BigDecimal valTotal;
         BigDecimal valDesconto = BigDecimal.ZERO;
-        BigDecimal totProd = totalProdOrder(managerPrestaShop, order);
+        BigDecimal totProd = totalProdOrder( order);
         if ("custompaymentmethod_3".equals(order.getModule())) { //se o metodo de pagamento for com desconto            
             valTotal = totProd.multiply(new BigDecimal("0.985")).setScale(2, RoundingMode.HALF_UP);          
             valDesconto = totProd.subtract(valTotal).setScale(2, RoundingMode.HALF_UP);           
@@ -52,19 +52,18 @@ public class ValoresOrder {
         return valDesconto;
     }
     
-    public BigDecimal valorTotalComDesconto(EntityManagerFactory managerPrestaShop, PsOrders order){
-        return totalProdOrder(managerPrestaShop, order).subtract(valorTotalDesconto(managerPrestaShop, order));
+    public BigDecimal valorTotalComDesconto( PsOrders order){
+        return totalProdOrder(order).subtract(valorTotalDesconto(order));
     }
     /**
      * Função que dá 1.5% de desconto, pelo método de pagamento á vista 
-     * @param managerPrestaShop
      * @param order
      * @return 
      */
-    private BigDecimal totalOrderComDescontoSemPacote(EntityManagerFactory managerPrestaShop, PsOrders order){
+    private BigDecimal totalOrderComDescontoSemPacote(PsOrders order){
        BigDecimal valTotal;
         BigDecimal valDesconto = BigDecimal.ZERO;
-        BigDecimal totProd = totalOrderSemPacote(managerPrestaShop, order);
+        BigDecimal totProd = totalOrderSemPacote(order);
         if ("custompaymentmethod_3".equals(order.getModule())) { //se o metodo de pagamento for com desconto           
             valTotal = totProd.multiply(new BigDecimal("0.985")).setScale(2, RoundingMode.HALF_UP);        
             valDesconto = totProd.subtract(valTotal).setScale(2, RoundingMode.HALF_UP);           
@@ -74,9 +73,9 @@ public class ValoresOrder {
         return valTotal;
     }
     
-    private BigDecimal totalOrderSemPacote(EntityManagerFactory managerPrestaShop, PsOrders order){
+    private BigDecimal totalOrderSemPacote(PsOrders order){
         BigDecimal totProd =  BigDecimal.ZERO;
-        for (PsOrderDetail od : new QueryPrestaShop(managerPrestaShop).listOrderDetail(order.getIdOrder())) {
+        for (PsOrderDetail od : new QueryPrestaShop().listOrderDetail(order.getIdOrder())) {
            totProd = totProd.add(od.getTotalPriceTaxIncl());
            // totPeso = totPeso.add(od.getProductWeight());
         }
@@ -86,21 +85,20 @@ public class ValoresOrder {
     /**
      * Função que manda o total dos itens incluido os itens do Pacote de produtos obs: o valor quando a pacote 
      * pode ser diferente do total de produtos no site
-     * @param managerPrestaShop
      * @param order
      * @return 
      */
-    private BigDecimal totalProdOrder(EntityManagerFactory managerPrestaShop, PsOrders order) {
+    private BigDecimal totalProdOrder(PsOrders order) {
         BigDecimal totProd = BigDecimal.ZERO;
-        for (PsOrderDetail orderItem : new QueryPrestaShop(managerPrestaShop).listPsOrderDetail(order.getIdOrder())) {
-            if (new PsProductJpaController(managerPrestaShop).findPsProduct(orderItem.getProductId()).getCacheIsPack()) {
-                //for (PsPack psP : new QueryPrestaShop(managerPrestaShop).listPack(new PsProductJpaController(managerPrestaShop).findPsProduct(orderItem.getProductId()).getIdProduct())) {
-                PsCustomer C = new PsCustomerJpaController(managerPrestaShop).findPsCustomer(order.getIdCustomer());
-                PsGroup G = new PsGroupJpaController(managerPrestaShop).findPsGroup(C.getIdDefaultGroup());
+        for (PsOrderDetail orderItem : new QueryPrestaShop().listPsOrderDetail(order.getIdOrder())) {
+            if (new PsProductJpaController(Manager.getManagerPrestaShop()).findPsProduct(orderItem.getProductId()).getCacheIsPack()) {
+                //for (PsPack psP : new QueryPrestaShop().listPack(new PsProductJpaController(managerPrestaShop).findPsProduct(orderItem.getProductId()).getIdProduct())) {
+                PsCustomer C = new PsCustomerJpaController(Manager.getManagerPrestaShop()).findPsCustomer(order.getIdCustomer());
+                PsGroup G = new PsGroupJpaController(Manager.getManagerPrestaShop()).findPsGroup(C.getIdDefaultGroup());
                 BigDecimal descPac = BigDecimal.ZERO;
-                List<PsSpecificPrice> listPric = new QueryPrestaShop(managerPrestaShop).listPsSpecificPrice(orderItem.getProductId(), G.getIdGroup());
+                List<PsSpecificPrice> listPric = new QueryPrestaShop().listPsSpecificPrice(orderItem.getProductId(), G.getIdGroup());
                 if (listPric.isEmpty()) {
-                    listPric = new QueryPrestaShop(managerPrestaShop).listPsSpecificPrice(orderItem.getProductId(), 0);// para todos os grupos
+                    listPric = new QueryPrestaShop().listPsSpecificPrice(orderItem.getProductId(), 0);// para todos os grupos
                 }
                 for (PsSpecificPrice specificPrice : listPric) {
                     if ("percentage".equals(specificPrice.getReductionType())) {
@@ -108,8 +106,8 @@ public class ValoresOrder {
                     }
                 }
                 int quantPack = orderItem.getProductQuantity();// tem que receber o valor fora do pacote
-                for (PsPack psP : new QueryPrestaShop(managerPrestaShop).listPack(orderItem.getProductId())) {
-                    PsProduct P = new PsProductJpaController(managerPrestaShop).findPsProduct(psP.getPsPackPK().getIdProductItem());
+                for (PsPack psP : new QueryPrestaShop().listPack(orderItem.getProductId())) {
+                    PsProduct P = new PsProductJpaController(Manager.getManagerPrestaShop()).findPsProduct(psP.getPsPackPK().getIdProductItem());
                     BigDecimal precUni = P.getPrice();
                     int quanProdutosPack = psP.getQuantity();//quantidade de produtos que tem no pacote
                     BigDecimal quantidade = new BigDecimal(quantPack * quanProdutosPack);//é a quantidade do pacote x quantidade de pacote comprado

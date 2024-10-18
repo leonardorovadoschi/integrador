@@ -26,12 +26,12 @@ public class ListagemUsuarioJDialog extends javax.swing.JDialog {
      * @param modal
      * @param managerCplus1
      */
-    public ListagemUsuarioJDialog(java.awt.Frame parent, boolean modal, EntityManagerFactory managerCplus1) {
+    public ListagemUsuarioJDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        managerCplus = managerCplus1;
+        //managerCplus = managerCplus1;
         //managerPrestaShop = managerPrestaShop1;
-        queryCplus = new QueryCplus(managerCplus);
+        queryCplus = new QueryCplus();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
     }
 
@@ -194,7 +194,7 @@ public class ListagemUsuarioJDialog extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                ListagemUsuarioJDialog dialog = new ListagemUsuarioJDialog(new javax.swing.JFrame(), true, managerCplus);
+                ListagemUsuarioJDialog dialog = new ListagemUsuarioJDialog(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -210,7 +210,7 @@ public class ListagemUsuarioJDialog extends javax.swing.JDialog {
    private boolean cancelamento;
    private final QueryCplus queryCplus;
    // VariavelStatica variavelStatica;
-    static EntityManagerFactory managerCplus;
+    //static EntityManagerFactory managerCplus;
     //static EntityManagerFactory managerPrestaShop;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

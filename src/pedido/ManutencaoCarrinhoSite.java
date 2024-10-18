@@ -22,6 +22,7 @@ import jpa.prestaShop.PsCartJpaController;
 import jpa.prestaShop.PsCartRuleJpaController;
 import jpa.prestaShop.PsCartRuleLangJpaController;
 import jpa.prestaShop.exceptions.NonexistentEntityException;
+import prestashop.Manager;
 import query.prestaShop.QueryPrestaShop;
 
 /**
@@ -30,20 +31,20 @@ import query.prestaShop.QueryPrestaShop;
  */
 public class ManutencaoCarrinhoSite {
 
-    public void DeletaCarrinhoVazio(PsCart cart, EntityManagerFactory managerPrestaShop) {
-        List<PsCartProduct> listProdCart = new QueryPrestaShop(managerPrestaShop).listCarProduct(cart.getIdCart());
+    public void DeletaCarrinhoVazio(PsCart cart) {
+        List<PsCartProduct> listProdCart = new QueryPrestaShop().listCarProduct(cart.getIdCart());
         if (listProdCart.isEmpty()) {
             try {
-                for (PsCartCartRule cartCartRule : new QueryPrestaShop(managerPrestaShop).listCartCartRule(cart.getIdCart())) {
-                    for (PsCartRule cartRule : new QueryPrestaShop(managerPrestaShop).listCartRule(cartCartRule.getPsCartCartRulePK().getIdCartRule())) {
-                        //for (PsCartRuleLang cartRuleLang : new QueryPrestaShop(managerPrestaShop).listCartRuleLang(cartCartRule.getPsCartCartRulePK().getIdCartRule())) {                         
-                            new PsCartRuleLangJpaController(managerPrestaShop).destroy(new PsCartRuleLangPK(cartRule.getIdCartRule(), 2));                          
-                            new PsCartCartRuleJpaController(managerPrestaShop).destroy(new PsCartCartRulePK(cart.getIdCart(), cartRule.getIdCartRule()));
-                            new PsCartRuleJpaController(managerPrestaShop).destroy(cartRule.getIdCartRule());
+                for (PsCartCartRule cartCartRule : new QueryPrestaShop().listCartCartRule(cart.getIdCart())) {
+                    for (PsCartRule cartRule : new QueryPrestaShop().listCartRule(cartCartRule.getPsCartCartRulePK().getIdCartRule())) {
+                        //for (PsCartRuleLang cartRuleLang : new QueryPrestaShop().listCartRuleLang(cartCartRule.getPsCartCartRulePK().getIdCartRule())) {                         
+                            new PsCartRuleLangJpaController(Manager.getManagerPrestaShop()).destroy(new PsCartRuleLangPK(cartRule.getIdCartRule(), 2));                          
+                            new PsCartCartRuleJpaController(Manager.getManagerPrestaShop()).destroy(new PsCartCartRulePK(cart.getIdCart(), cartRule.getIdCartRule()));
+                            new PsCartRuleJpaController(Manager.getManagerPrestaShop()).destroy(cartRule.getIdCartRule());
                        // }
                     }
                 }
-                new PsCartJpaController(managerPrestaShop).destroy(cart.getIdCart());
+                new PsCartJpaController(Manager.getManagerPrestaShop()).destroy(cart.getIdCart());
             } catch (NonexistentEntityException ex) {
                  JOptionPane.showMessageDialog(null, "HOUVE UM ERRO AO EXCLUIR CARRINHO, Verifique!! \n" + ex, "Erro Excluir", JOptionPane.ERROR_MESSAGE);
             }

@@ -47,7 +47,6 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
 import jpa.integrador.IntLogsJpaController;
 import jpa.prestaShop.PsCategoryProductJpaController;
@@ -64,6 +63,7 @@ import jpa.prestaShop.PsStockAvailableJpaController;
 import jpa.prestaShop.PsTagCountJpaController;
 import jpa.prestaShop.PsTagJpaController;
 import jpa.prestaShop.exceptions.NonexistentEntityException;
+import prestashop.Manager;
 import query.cplus.QueryCplus;
 import query.integrador.QueryIntegrador;
 import query.prestaShop.QueryPrestaShop;
@@ -77,33 +77,29 @@ public class ProdutoCplusDigimacro {
     boolean promo;
 
     /**
-     * FunÃ§Ã£o encarregada de verificar se o produto serÃ¡ criado ou atualizado
-     *
-     * @param managerIntegrador
-     * @param managerCplus
-     * @param managerPrestaShop
+     * Função encarregada de verificar se o produto será criado ou atualizado   
      * @param proCplus
      * @return
      */
-    public boolean produtoCplusDigimacro(EntityManagerFactory managerIntegrador, EntityManagerFactory managerCplus, EntityManagerFactory managerPrestaShop, Produto proCplus) {
+    public boolean produtoCplusDigimacro(Produto proCplus) {
         boolean condicao = true;
         promo = false;
-        List<PsProduct> listProdSite = new QueryPrestaShop(managerPrestaShop).listagemProdutoSite(proCplus.getCodprod());
+        List<PsProduct> listProdSite = new QueryPrestaShop().listagemProdutoSite(proCplus.getCodprod());
         // List<PsProduct> listProdSite = new QueryPrestaShop(managerPrestaShop).listagemProdutoSite("000001942");
         switch (listProdSite.size()) {
             case 0:
-                if (produtoAtivo(proCplus) && EstoqueCplus(managerCplus, proCplus) > 0) {
-                    criarProdutoSite(managerIntegrador, managerCplus, managerPrestaShop, proCplus);
-                    if (fatorConversao(proCplus, managerCplus) > 1) {
-                        new PackProduto().produtoCplusDigimacro(managerIntegrador, managerCplus, managerPrestaShop, proCplus);
+                if (produtoAtivo(proCplus) && EstoqueCplus(proCplus) > 0) {
+                    criarProdutoSite(proCplus);
+                    if (fatorConversao(proCplus) > 1) {
+                        new PackProduto().produtoCplusDigimacro(proCplus);
                     }
                 }
                 break;
             case 1:
                 for (PsProduct pp : listProdSite) {
-                    editaProdutoSite(managerCplus, managerIntegrador, managerPrestaShop, proCplus, pp);
-                    if (fatorConversao(proCplus, managerCplus) > 1) {
-                        new PackProduto().produtoCplusDigimacro(managerIntegrador, managerCplus, managerPrestaShop, proCplus);
+                    editaProdutoSite(proCplus, pp);
+                    if (fatorConversao(proCplus) > 1) {
+                        new PackProduto().produtoCplusDigimacro(proCplus);
                     }
                 }
                 break;
@@ -112,21 +108,21 @@ public class ProdutoCplusDigimacro {
                 for (PsProduct pp : listProdSite) {
                     log = log + pp.getReference() + "\n";
                 }
-                criaLog(managerIntegrador, log, "ERRO PRODUTO");
+                criaLog(log, "ERRO PRODUTO");
                 break;
         }
         return condicao;
     }
 
-    public boolean produtoCplusDigimacroEstoque(EntityManagerFactory managerIntegrador, EntityManagerFactory managerCplus, EntityManagerFactory managerPrestaShop, Produto proCplus) {
+    public boolean produtoCplusDigimacroEstoque(Produto proCplus) {
         boolean condicao = true;
         promo = false;
-        List<PsProduct> listProdSite = new QueryPrestaShop(managerPrestaShop).listagemProdutoSite(proCplus.getCodprod());
+        List<PsProduct> listProdSite = new QueryPrestaShop().listagemProdutoSite(proCplus.getCodprod());
         if (listProdSite.size() == 1) {
             for (PsProduct pp : listProdSite) {
-                editaProdutoSite(managerCplus, managerIntegrador, managerPrestaShop, proCplus, pp);
-                if (fatorConversao(proCplus, managerCplus) > 1) {
-                    new PackProduto().produtoCplusDigimacro(managerIntegrador, managerCplus, managerPrestaShop, proCplus);
+                editaProdutoSite(proCplus, pp);
+                if (fatorConversao(proCplus) > 1) {
+                    new PackProduto().produtoCplusDigimacro(proCplus);
                 }
             }
         } else if (listProdSite.size() > 1) {
@@ -134,13 +130,13 @@ public class ProdutoCplusDigimacro {
             for (PsProduct pp : listProdSite) {
                 log = log + pp.getReference() + "\n";
             }
-            criaLog(managerIntegrador, log, "ERRO PRODUTO");
+            criaLog(log, "ERRO PRODUTO");
         }
         return condicao;
     }
 
     /**
-     * FunÃ§Ã£o que cria um produto no prestaShop
+     * Funçao que cria um produto no prestaShop
      *
      * @param managerIntegrador
      * @param managerCplus
@@ -148,18 +144,18 @@ public class ProdutoCplusDigimacro {
      * @param proCplus
      * @return
      */
-    private boolean criarProdutoSite(EntityManagerFactory managerIntegrador, EntityManagerFactory managerCplus, EntityManagerFactory managerPrestaShop, Produto proCplus) {
+    private boolean criarProdutoSite(Produto proCplus) {
         boolean condicao = true;
         PsProduct pp1 = new PsProduct();
         pp1.setIdSupplier(0);
-        pp1.setIdManufacturer(marcaFabricante(managerPrestaShop, managerIntegrador, proCplus));
-        pp1.setIdCategoryDefault(categoriaPadrao(managerPrestaShop, proCplus));
+        pp1.setIdManufacturer(marcaFabricante(proCplus));
+        pp1.setIdCategoryDefault(categoriaPadrao(proCplus));
         pp1.setIdShopDefault(1);
-        pp1.setIdTaxRulesGroup(taxRulesGroup(managerPrestaShop, proCplus));
+        pp1.setIdTaxRulesGroup(taxRulesGroup(proCplus));
         pp1.setOnSale(false);
-        pp1.setLowStockThreshold(EstoqueMinimoCplus(managerCplus, proCplus));
+        pp1.setLowStockThreshold(EstoqueMinimoCplus(proCplus));
         //pp1.setOnlineOnly(false);
-        pp1.setEan13(eanCplus(managerCplus, proCplus));
+        pp1.setEan13(eanCplus(proCplus));
         pp1.setIsbn("");
         pp1.setUpc("");
         pp1.setEcotax(BigDecimal.ZERO);
@@ -167,7 +163,7 @@ public class ProdutoCplusDigimacro {
         pp1.setMinimalQuantity(1);
         pp1.setLowStockThreshold(0);
         pp1.setLowStockAlert(true);
-        pp1.setPrice(precoPrincipal(managerCplus, proCplus));
+        pp1.setPrice(precoPrincipal(proCplus));
         //pp1.setWholesalePrice(proCplus.getCustoreal());
         pp1.setWholesalePrice(BigDecimal.ZERO);
         pp1.setUnity("");
@@ -198,7 +194,7 @@ public class ProdutoCplusDigimacro {
         pp1.setCustomizable((short) 0);
         pp1.setUploadableFiles((short) 0);
         pp1.setTextFields((short) 0);
-        if (produtoAtivo(proCplus) && quanEstoqeuCplus(managerCplus, proCplus) > 0) {
+        if (produtoAtivo(proCplus) && quanEstoqeuCplus(proCplus) > 0) {
             pp1.setActive(true);
             pp1.setIndexed(true);
         } else {
@@ -212,7 +208,7 @@ public class ProdutoCplusDigimacro {
         pp1.setShowCondition(true);
         pp1.setCondition1("new");
         //pp1.setShowPrice(true);
-        if ("116".equals(proCplus.getCodsec().getClassificacao()) || fatorConversao(proCplus, managerCplus) > 1) {
+        if ("116".equals(proCplus.getCodsec().getClassificacao()) || fatorConversao(proCplus) > 1) {
             //pp1.setIndexed(false);
             pp1.setVisibility("none");
             pp1.setShowPrice(false);
@@ -237,24 +233,24 @@ public class ProdutoCplusDigimacro {
         pp1.setState(1);
         // pp1.setDepth(BigDecimal.ZERO);
 
-        new PsProductJpaController(managerPrestaShop).create(pp1);
+        new PsProductJpaController(Manager.getManagerPrestaShop()).create(pp1);
 
-        List<PsProduct> listProdSite = new QueryPrestaShop(managerPrestaShop).listagemProdutoSite(proCplus.getCodprod());
+        List<PsProduct> listProdSite = new QueryPrestaShop().listagemProdutoSite(proCplus.getCodprod());
         for (PsProduct pp : listProdSite) {
-            produtoLang(pp, proCplus, managerPrestaShop, managerIntegrador, managerCplus);
-            produtoShop(pp, proCplus, managerPrestaShop, managerIntegrador, managerCplus);
-            produtoStockAvailable(pp, proCplus, managerPrestaShop, managerIntegrador, managerCplus);
+            produtoLang(pp, proCplus);
+            produtoShop(pp, proCplus);
+            produtoStockAvailable(pp, proCplus);
             try {
-                if (fatorConversao(proCplus, managerCplus) == 1) {
-                    precoQuntidade(proCplus, pp, managerPrestaShop, managerIntegrador, managerCplus);
-                    gerenciaTags(managerPrestaShop, managerIntegrador, proCplus, pp);
-                    categoriaProduto(promo, pp, proCplus, managerPrestaShop, managerIntegrador);
+                if (fatorConversao(proCplus) == 1) {
+                    precoQuntidade(proCplus, pp);
+                    gerenciaTags(proCplus, pp);
+                    categoriaProduto(promo, pp, proCplus);
                 } else {
-                    categoriaProdutoPack(pp, proCplus, managerPrestaShop, managerIntegrador);
+                    categoriaProdutoPack(pp, proCplus);
                 }
-                produtoTransportadora(pp, managerPrestaShop, managerIntegrador);
+                produtoTransportadora(pp);
             } catch (Exception ex) {
-                criaLog(managerIntegrador, "Houve um erro ao criar PsProductLang ex. " + ex, "ERRO CRIAR");
+                criaLog( "Houve um erro ao criar PsProductLang ex. " + ex, "ERRO CRIAR");
             }
         }
         return condicao;
@@ -278,20 +274,17 @@ public class ProdutoCplusDigimacro {
 
     /**
      * Função para editar produto no site
-     *
-     * @param managerIntegrador
-     * @param managerPrestaShop
      * @param proCplus
      * @param pp produto prestaShop
      */
-    private void editaProdutoSite(EntityManagerFactory managerCplus, EntityManagerFactory managerIntegrador, EntityManagerFactory managerPrestaShop, Produto proCplus, PsProduct pp) {
-        pp.setIdManufacturer(marcaFabricante(managerPrestaShop, managerIntegrador, proCplus));
-        pp.setIdCategoryDefault(categoriaPadrao(managerPrestaShop, proCplus));
-        pp.setIdTaxRulesGroup(taxRulesGroup(managerPrestaShop, proCplus));
-        pp.setEan13(eanCplus(managerCplus, proCplus));
-        pp.setPrice(precoPrincipal(managerCplus, proCplus));
+    private void editaProdutoSite(Produto proCplus, PsProduct pp) {
+        pp.setIdManufacturer(marcaFabricante(proCplus));
+        pp.setIdCategoryDefault(categoriaPadrao( proCplus));
+        pp.setIdTaxRulesGroup(taxRulesGroup(proCplus));
+        pp.setEan13(eanCplus(proCplus));
+        pp.setPrice(precoPrincipal(proCplus));
         pp.setReference(proCplus.getCodprod());
-        pp.setLowStockThreshold(EstoqueMinimoCplus(managerCplus, proCplus));
+        pp.setLowStockThreshold(EstoqueMinimoCplus(proCplus));
         if (proCplus.getLargura() != null) {
             pp.setWidth(proCplus.getLargura());
         } else {
@@ -309,7 +302,7 @@ public class ProdutoCplusDigimacro {
         }
         pp.setWeight(proCplus.getPesobruto());
         pp.setOutOfStock(2);
-        if (produtoAtivo(proCplus) && quanEstoqeuCplus(managerCplus, proCplus) > 0) {
+        if (produtoAtivo(proCplus) && quanEstoqeuCplus(proCplus) > 0) {
             pp.setActive(true);
             pp.setIndexed(true);
         } else {
@@ -348,34 +341,30 @@ public class ProdutoCplusDigimacro {
         //pp.setWholesalePrice(proCplus.getCustoreal());
         pp.setWholesalePrice(BigDecimal.ZERO);
         try {
-            new PsProductJpaController(managerPrestaShop).edit(pp);
-            produtoLang(pp, proCplus, managerPrestaShop, managerIntegrador, managerCplus);
-            produtoShop(pp, proCplus, managerPrestaShop, managerIntegrador, managerCplus);
-            produtoStockAvailable(pp, proCplus, managerPrestaShop, managerIntegrador, managerCplus);
-            if (fatorConversao(proCplus, managerCplus) == 1) {
-                precoQuntidade(proCplus, pp, managerPrestaShop, managerIntegrador, managerCplus);
-                gerenciaTags(managerPrestaShop, managerIntegrador, proCplus, pp);
-                categoriaProduto(promo, pp, proCplus, managerPrestaShop, managerIntegrador);
-                new PackProduto().atualizarPackProdutoCriado(managerIntegrador, managerPrestaShop, pp);
+            new PsProductJpaController(Manager.getManagerPrestaShop()).edit(pp);
+            produtoLang(pp, proCplus);
+            produtoShop(pp, proCplus);
+            produtoStockAvailable(pp, proCplus);
+            if (fatorConversao(proCplus) == 1) {
+                precoQuntidade(proCplus, pp);
+                gerenciaTags(proCplus, pp);
+                categoriaProduto(promo, pp, proCplus);
+                new PackProduto().atualizarPackProdutoCriado(pp);
             } else {
-                categoriaProdutoPack(pp, proCplus, managerPrestaShop, managerIntegrador);
-            }
-            //categoriaProduto(promo, pp, proCplus, managerPrestaShop, managerIntegrador);
-            produtoTransportadora(pp, managerPrestaShop, managerIntegrador);
-            //atualizar pacote de produto criado
-            // new PackProduto().atualizarPackProdutoCriado(managerIntegrador, managerPrestaShop, pp);
-
+                categoriaProdutoPack(pp, proCplus);
+            }          
+            produtoTransportadora(pp);           
         } catch (Exception ex) {
-            criaLog(managerIntegrador, "Houve um erro ao criar PsProductLang ex. " + ex, "ERRO EDITAR");
+            criaLog("Houve um erro ao criar PsProductLang ex. " + ex, "ERRO EDITAR");
         }
     }
 
-    private void produtoLang(PsProduct pp, Produto proCplus, EntityManagerFactory managerPrestaShop, EntityManagerFactory managerIntegrador, EntityManagerFactory managerCplus) {
-        List<PsProductLang> listPPL = new QueryPrestaShop(managerPrestaShop).listPsProductLang(pp.getIdProduct(), 2);
+    private void produtoLang(PsProduct pp, Produto proCplus) {
+        List<PsProductLang> listPPL = new QueryPrestaShop().listPsProductLang(pp.getIdProduct(), 2);
         if (listPPL.isEmpty()) {
             PsProductLang ppl = new PsProductLang();
             ppl.setPsProductLangPK(new PsProductLangPK(pp.getIdProduct(), 1, 2));
-            ppl.setDescription(observacao(proCplus, managerCplus));
+            ppl.setDescription(observacao(proCplus));
             ppl.setDescriptionShort(tamanhoString(proCplus.getAplicacao(), 799));
             ppl.setLinkRewrite(linkRewrite(proCplus));
             ppl.setMetaDescription(tamanhoString(metaDescription(proCplus), 160));
@@ -388,14 +377,14 @@ public class ProdutoCplusDigimacro {
             ppl.setDeliveryInStock("Entrega Imediata");
             ppl.setDeliveryOutStock("Sem Previsão");
             try {
-                new PsProductLangJpaController(managerPrestaShop).create(ppl);
+                new PsProductLangJpaController(Manager.getManagerPrestaShop()).create(ppl);
             } catch (Exception ex) {
-                criaLog(managerIntegrador, "Houve um erro ao criar PsProductLang ex. " + ex, "ERRO CRIAR");
+                criaLog("Houve um erro ao criar PsProductLang ex. " + ex, "ERRO CRIAR");
             }
         } else {
             for (PsProductLang ppl : listPPL) {
                 //ppl.setPsProductLangPK(new PsProductLangPK(pp.getIdProduct(), 1, 2));
-                ppl.setDescription(observacao(proCplus, managerCplus));
+                ppl.setDescription(observacao(proCplus));
                 ppl.setDescriptionShort(tamanhoString(proCplus.getAplicacao(), 799));
                 ppl.setLinkRewrite(linkRewrite(proCplus));
                 ppl.setMetaDescription(tamanhoString(metaDescription(proCplus), 160));
@@ -408,32 +397,32 @@ public class ProdutoCplusDigimacro {
                 ppl.setDeliveryInStock("Entrega Imediata");
                 ppl.setDeliveryOutStock("Sem Previsão");
                 try {
-                    new PsProductLangJpaController(managerPrestaShop).edit(ppl);
+                    new PsProductLangJpaController(Manager.getManagerPrestaShop()).edit(ppl);
                     //////////////////////
-                    produtoRelacionado(managerPrestaShop, ppl, pp);
+                    produtoRelacionado(ppl, pp);
                 } catch (Exception ex) {
-                    criaLog(managerIntegrador, "Houve um erro ao editar PsProductLang Produto: " + ppl.getName() + " ex. " + ex, "ERRO EDITAR");
+                    criaLog( "Houve um erro ao editar PsProductLang Produto: " + ppl.getName() + " ex. " + ex, "ERRO EDITAR");
                 }
             }
         }
     }
 
-    private String observacao(Produto proCplus, EntityManagerFactory managerCplus) {
+    private String observacao(Produto proCplus) {
         String ob = "";
         if (proCplus != null) {
-            ob = proCplus.getObs() + " <p>EAN: " + eanCplus(managerCplus, proCplus) + "</p>"
-                    + " <p>Part Number: " + partNumber(proCplus, managerCplus) + "</p> <p>NCM: "
+            ob = proCplus.getObs() + " <p>EAN: " + eanCplus(proCplus) + "</p>"
+                    + " <p>Part Number: " + partNumber(proCplus) + "</p> <p>NCM: "
                     + new FormataCampos().mascaraNCM(proCplus.getCodclassificacaofiscal().getCodigoclassificacaofiscal()) + " </p>";
         }
         return ob;
     }
 
-    private String partNumber(Produto proCplus, EntityManagerFactory managerCplus) {
+    private String partNumber(Produto proCplus) {
         //part Number 000000004
         //complemento Fiscal 000000003
         String codCampoCustomMaster = "000000004";
         String retorno = "";
-        for (Campocustomvalor campo : new QueryCplus(managerCplus).listCampoMaster(proCplus.getCodprod(), codCampoCustomMaster)) {
+        for (Campocustomvalor campo : new QueryCplus().listCampoMaster(proCplus.getCodprod(), codCampoCustomMaster)) {
             if (campo.getValor() != null) {
                 retorno = campo.getValor();
             }
@@ -442,23 +431,22 @@ public class ProdutoCplusDigimacro {
     }
 
     /**
-     * FunÃ§Ã£o que relaciona o calculo do icms do Cplus para o site
-     *
+     * Função que relaciona o calculo do icms do Cplus para o site
      * @param managerPrestaShop
      * @param pro
      * @return
      */
-    private int taxRulesGroup(EntityManagerFactory managerPrestaShop, Produto pro) {
+    private int taxRulesGroup(Produto pro) {
         int var = 0;
-        List<PsTaxRulesGroup> listT = new QueryPrestaShop(managerPrestaShop).listPorNomeCalculoIcms(pro.getCodcalculoicms().getNomecalculoicms());
+        List<PsTaxRulesGroup> listT = new QueryPrestaShop().listPorNomeCalculoIcms(pro.getCodcalculoicms().getNomecalculoicms());
         for (PsTaxRulesGroup cl : listT) {
             var = cl.getIdTaxRulesGroup();
         }
         return var;
     }
 
-    private boolean taxaProdutosICMSDfifenciada(EntityManagerFactory managerCplus, EntityManagerFactory managerPrestaShop, Produto pro) {
-        List<PsTaxRulesGroup> listT = new QueryPrestaShop(managerPrestaShop).listPorNomeCalculoIcms(pro.getCodcalculoicms().getNomecalculoicms());
+    private boolean taxaProdutosICMSDfifenciada(Produto pro) {
+        List<PsTaxRulesGroup> listT = new QueryPrestaShop().listPorNomeCalculoIcms(pro.getCodcalculoicms().getNomecalculoicms());
         boolean condicao = false;
         for (PsTaxRulesGroup cl : listT) {
             String[] names = cl.getName().split("-");
@@ -478,12 +466,12 @@ public class ProdutoCplusDigimacro {
      * @param mensagem
      * @param tipoLog
      */
-    private void criaLog(EntityManagerFactory managerIntegracao, String mensagem, String tipoLog) {
+    private void criaLog(String mensagem, String tipoLog) {
         IntLogs log = new IntLogs();
         log.setDataExecucao(new Date(System.currentTimeMillis()));
         log.setMensagem(mensagem);
         log.setTipoLog(tipoLog);
-        new IntLogsJpaController(managerIntegracao).create(log);
+        new IntLogsJpaController(Manager.getManagerIntegrador()).create(log);
     }
 
     /**
@@ -493,9 +481,9 @@ public class ProdutoCplusDigimacro {
      * @param proCplus
      * @return
      */
-    private String eanCplus(EntityManagerFactory managerCplus, Produto proCplus) {
+    private String eanCplus(Produto proCplus) {
         String tex = "";
-        List<Produtocodigo> listPrdCod = new QueryCplus(managerCplus).resultEanProduto(proCplus.getCodprod());
+        List<Produtocodigo> listPrdCod = new QueryCplus().resultEanProduto(proCplus.getCodprod());
         for (Produtocodigo pc : listPrdCod) {
             if (pc.getCodigo().length() < 14) {
                 tex = pc.getCodigo();
@@ -504,14 +492,14 @@ public class ProdutoCplusDigimacro {
         return tex;
     }
 
-    private Integer categoriaPadrao(EntityManagerFactory managerPrestaShop, Produto proCplus) {
+    private Integer categoriaPadrao(Produto proCplus) {
         int catId = 2;
         return catId;
     }
 
-    private BigDecimal precoPrincipal(EntityManagerFactory managerCplus, Produto proCplus) {
+    private BigDecimal precoPrincipal(Produto proCplus) {
         BigDecimal preco = BigDecimal.ZERO;
-        List<Produtopreco> listPreco = new QueryCplus(managerCplus).listPrecos(proCplus.getCodprod(), "000000001");
+        List<Produtopreco> listPreco = new QueryCplus().listPrecos(proCplus.getCodprod(), "000000001");
         for (Produtopreco pr : listPreco) {
             preco = pr.getPreco().multiply(new BigDecimal("1.11"));
         }
@@ -561,21 +549,21 @@ public class ProdutoCplusDigimacro {
 
     }
 
-    private Integer quanEstoquePrestaShop(EntityManagerFactory managerPrestaShop, PsProduct proPrestaShop) {
+    private Integer quanEstoquePrestaShop(PsProduct proPrestaShop) {
         //Integer estoque = 0;
         int stock = 0;
         //  List<PsStockAvailable> listEsroque = new QueryPrestaShop(managerPrestaShop).listEstoqueProduto(proPrestaShop.getIdProduct());
-        for (PsStockAvailable est : new QueryPrestaShop(managerPrestaShop).listEstoqueProduto(proPrestaShop.getIdProduct())) {
+        for (PsStockAvailable est : new QueryPrestaShop().listEstoqueProduto(proPrestaShop.getIdProduct())) {
             stock = est.getPhysicalQuantity();
         }
 
         return stock;
     }
 
-    private Integer quanEstoqeuCplus(EntityManagerFactory managerCplus, Produto proCplus) {
+    private Integer quanEstoqeuCplus(Produto proCplus) {
         BigDecimal estoque = BigDecimal.ZERO;
         int stock;
-        List<Produtoestoque> listEsroque = new QueryCplus(managerCplus).listEstoquesPorProd(proCplus.getCodprod());
+        List<Produtoestoque> listEsroque = new QueryCplus().listEstoquesPorProd(proCplus.getCodprod());
         for (Produtoestoque est : listEsroque) {
             estoque = est.getEstatu().subtract(est.getReservadoorcamento().subtract(est.getReservadoos()));
         }
@@ -585,114 +573,43 @@ public class ProdutoCplusDigimacro {
 
     /**
      * Função que verifica as reservas dos pedidos no c-plus e no site
-     *
      * @param produto
      * @return BigDecimal
      */
-    private Integer EstoqueCplus(EntityManagerFactory managerCplus, Produto proCplus) {
+    private Integer EstoqueCplus(Produto proCplus) {
         BigDecimal estoque = BigDecimal.ZERO;
-        List<Produtoestoque> listEsroque = new QueryCplus(managerCplus).listEstoquesPorProd(proCplus.getCodprod());
+        List<Produtoestoque> listEsroque = new QueryCplus().listEstoquesPorProd(proCplus.getCodprod());
         for (Produtoestoque est : listEsroque) {
             estoque = est.getEstatu().subtract(est.getReservadoorcamento().subtract(est.getReservadoos()));
         }
         return estoque.intValue();
     }
     
-    private Integer EstoqueMinimoCplus(EntityManagerFactory managerCplus, Produto proCplus) {
+    private Integer EstoqueMinimoCplus(Produto proCplus) {
         BigDecimal estoque = BigDecimal.ZERO;
-        List<Produtoestoque> listEsroque = new QueryCplus(managerCplus).listEstoquesPorProd(proCplus.getCodprod());
+        List<Produtoestoque> listEsroque = new QueryCplus().listEstoquesPorProd(proCplus.getCodprod());
         for (Produtoestoque est : listEsroque) {
             estoque = est.getQtdemin();
         }
         return estoque.intValue();
     }
 
-    private void precoQuntidade(Produto pro, PsProduct pp, EntityManagerFactory managerPrestaShop, EntityManagerFactory managerIntegrador, EntityManagerFactory managerCplus) {
-        precoQuantidadeJuridica(pp, managerPrestaShop, managerIntegrador);
-        precoQuantidadeJuridicaDiferenciada(pro, pp, managerPrestaShop, managerIntegrador, managerCplus);
+    private void precoQuntidade(Produto pro, PsProduct pp) {
+        precoQuantidadeJuridica(pp);
+        precoQuantidadeJuridicaDiferenciada(pro, pp);
 
     }
 
-    private void precoQuantidadeJuridicaDiferenciada(Produto pro, PsProduct pp, EntityManagerFactory managerPrestaShop, EntityManagerFactory managerIntegrador, EntityManagerFactory managerCplus) {
-        /*
-         BigDecimal precoDiferenciado = precoPrincipalDiferenciado(managerCplus, pro);
-         if (taxaProdutosICMSDfifenciada(managerCplus, managerPrestaShop, pro)) {
-         List<PsSpecificPrice> listPSSPdif = new QueryPrestaShop(managerPrestaShop).listPsSpecificPrice(pp.getIdProduct(), "amount", 7);
-         if (listPSSPdif.isEmpty()) {
-         PsSpecificPrice psSP = new PsSpecificPrice();
-         psSP.setIdSpecificPriceRule(0);
-         psSP.setIdCart(0);
-         psSP.setIdProduct(pp.getIdProduct());
-         psSP.setIdShop(1);
-         psSP.setIdShopGroup(0);
-         psSP.setIdCurrency(1);
-         psSP.setIdCountry(58);
-         psSP.setIdGroup(7);
-         psSP.setIdCustomer(0);
-         psSP.setIdProductAttribute(0);
-         //
-         List<Calculoicmsestado> listCalculoIcmsEstado = new QueryCplus(managerCplus).listcalculoIcmsEstadol("RS", "RS", "5102", pro.getCodcalculoicms().getCodcalculoicms());
-         psSP.setPrice(precoDiferenciado);
-         for (Calculoicmsestado cst : listCalculoIcmsEstado) {
-         if ("20".equals(cst.getCodsituacaotributariadif())) {
-         psSP.setPrice(precoPrincipal(managerCplus, pro));
-         }
-         }
-
-         // psSP.setPrice(precoPrincipalDiferenciado(managerCplus, pro));
-         //
-         psSP.setFromQuantity(1);
-         psSP.setReduction(BigDecimal.ZERO);
-         psSP.setReductionTax(true);
-         psSP.setReductionType("amount");
-         psSP.setFrom(new Date(System.currentTimeMillis()));
-         psSP.setTo(new FormataCampos().alteraDiaData(new Date(System.currentTimeMillis()), 360));
-         new PsSpecificPriceJpaController(managerPrestaShop).create(psSP);
-         } else if (listPSSPdif.size() == 1) {
-         for (PsSpecificPrice psSP : listPSSPdif) {
-         //psSP.setIdSpecificPriceRule(0);
-         // psSP.setIdCart(0);
-         //psSP.setIdProduct(pp.getIdProduct());
-         // psSP.setIdShop(1);
-         // psSP.setIdShopGroup(0);
-         // psSP.setIdCurrency(1);
-         // psSP.setIdCountry(58);
-         // psSP.setIdGroup(7);
-         // psSP.setIdCustomer(0);
-         // psSP.setIdProductAttribute(0);
-         //
-         List<Calculoicmsestado> listCalculoIcmsEstado = new QueryCplus(managerCplus).listcalculoIcmsEstadol("RS", "RS", "5102", pro.getCodcalculoicms().getCodcalculoicms());
-         psSP.setPrice(precoDiferenciado);
-         for (Calculoicmsestado cst : listCalculoIcmsEstado) {
-         if ("20".equals(cst.getCodsituacaotributariadif())) {
-         psSP.setPrice(precoPrincipal(managerCplus, pro));
-         }
-         }
-         //
-         // psSP.setFromQuantity(1);
-         //psSP.setReduction(bd.divide(new BigDecimal("100.0")));
-         //psSP.setReductionTax(true);
-         //psSP.setReductionType("percentage");
-         //psSP.setFrom(new );
-         psSP.setTo(new FormataCampos().alteraDiaData(new Date(System.currentTimeMillis()), 360));
-         try {
-         new PsSpecificPriceJpaController(managerPrestaShop).edit(psSP);
-         } catch (Exception ex) {
-         criaLog(managerIntegrador, "Houve um erro ao criar PsSpecificPrice ex. " + ex, "ERRO EDITAR");
-         }
-         }
-         }
-         }
-         */
-
-        List<BigDecimal> listBigDecimal = new ArrayList<>();
+    private void precoQuantidadeJuridicaDiferenciada(Produto pro, PsProduct pp) {
+        
+      List<BigDecimal> listBigDecimal = new ArrayList<>();
         listBigDecimal.add(new BigDecimal("0.5"));
         listBigDecimal.add(new BigDecimal("1.0"));
         listBigDecimal.add(new BigDecimal("2.0"));
         listBigDecimal.add(new BigDecimal("3.0"));
         for (BigDecimal bd : listBigDecimal) {
             //PsSpecificPrice psSP = new PsSpecificPrice();
-            List<PsSpecificPrice> listPSSP = new QueryPrestaShop(managerPrestaShop).listPsSpecificPrice(pp.getIdProduct(), bd.divide(new BigDecimal("100.0"), 7, RoundingMode.HALF_UP), 7);
+            List<PsSpecificPrice> listPSSP = new QueryPrestaShop().listPsSpecificPrice(pp.getIdProduct(), bd.divide(new BigDecimal("100.0"), 7, RoundingMode.HALF_UP), 7);
             if (listPSSP.isEmpty()) {
                 PsSpecificPrice psSP = new PsSpecificPrice();
                 psSP.setIdSpecificPriceRule(0);
@@ -713,7 +630,7 @@ public class ProdutoCplusDigimacro {
                 psSP.setReductionType("percentage");
                 psSP.setFrom(new Date(System.currentTimeMillis()));
                 psSP.setTo(new FormataCampos().alteraDiaData(new Date(System.currentTimeMillis()), 360));
-                new PsSpecificPriceJpaController(managerPrestaShop).create(psSP);
+                new PsSpecificPriceJpaController(Manager.getManagerPrestaShop()).create(psSP);
             } else if (listPSSP.size() == 1) {
                 for (PsSpecificPrice psSP : listPSSP) {
                     //psSP.setIdSpecificPriceRule(0);
@@ -735,24 +652,24 @@ public class ProdutoCplusDigimacro {
                     //psSP.setFrom(new );
                     psSP.setTo(new FormataCampos().alteraDiaData(new Date(System.currentTimeMillis()), 360));
                     try {
-                        new PsSpecificPriceJpaController(managerPrestaShop).edit(psSP);
+                        new PsSpecificPriceJpaController(Manager.getManagerPrestaShop()).edit(psSP);
                     } catch (Exception ex) {
-                        criaLog(managerIntegrador, "Houve um erro ao criar PsSpecificPrice ex. " + ex, "ERRO EDITAR");
+                        criaLog("Houve um erro ao criar PsSpecificPrice ex. " + ex, "ERRO EDITAR");
                     }
                 }
             } else {
                 for (PsSpecificPrice psSP : listPSSP) {
                     try {
-                        new PsSpecificPriceJpaController(managerPrestaShop).destroy(psSP.getIdSpecificPrice());
+                        new PsSpecificPriceJpaController(Manager.getManagerPrestaShop()).destroy(psSP.getIdSpecificPrice());
                     } catch (NonexistentEntityException ex) {
-                        criaLog(managerIntegrador, "Houve um erro ao excluir PsSpecificPrice ex. " + ex, "ERRO EXCLUIR");
+                        criaLog("Houve um erro ao excluir PsSpecificPrice ex. " + ex, "ERRO EXCLUIR");
                     }
                 }
             }
         }
     }
 
-    private void precoQuantidadeJuridica(PsProduct pp, EntityManagerFactory managerPrestaShop, EntityManagerFactory managerIntegrador) {
+    private void precoQuantidadeJuridica(PsProduct pp) {
         List<BigDecimal> listBigDecimal = new ArrayList<>();
         listBigDecimal.add(new BigDecimal("0.5"));
         listBigDecimal.add(new BigDecimal("1.0"));
@@ -760,7 +677,7 @@ public class ProdutoCplusDigimacro {
         listBigDecimal.add(new BigDecimal("3.0"));
         for (BigDecimal bd : listBigDecimal) {
             //PsSpecificPrice psSP = new PsSpecificPrice();
-            List<PsSpecificPrice> listPSSP = new QueryPrestaShop(managerPrestaShop).listPsSpecificPrice(pp.getIdProduct(), bd.divide(new BigDecimal("100.0"), 4, RoundingMode.HALF_UP), 4);
+            List<PsSpecificPrice> listPSSP = new QueryPrestaShop().listPsSpecificPrice(pp.getIdProduct(), bd.divide(new BigDecimal("100.0"), 4, RoundingMode.HALF_UP), 4);
             if (listPSSP.isEmpty()) {
                 PsSpecificPrice psSP = new PsSpecificPrice();
                 psSP.setIdSpecificPriceRule(0);
@@ -780,38 +697,26 @@ public class ProdutoCplusDigimacro {
                 psSP.setReductionType("percentage");
                 psSP.setFrom(new Date(System.currentTimeMillis()));
                 psSP.setTo(new FormataCampos().alteraDiaData(new Date(System.currentTimeMillis()), 360));
-                new PsSpecificPriceJpaController(managerPrestaShop).create(psSP);
+                new PsSpecificPriceJpaController(Manager.getManagerPrestaShop()).create(psSP);
             } else if (listPSSP.size() == 1) {
                 for (PsSpecificPrice psSP : listPSSP) {
-                    //psSP.setIdSpecificPriceRule(0);
-                    // psSP.setIdCart(0);
-                    //psSP.setIdProduct(pp.getIdProduct());
-                    // psSP.setIdShop(1);
-                    // psSP.setIdShopGroup(0);
-                    // psSP.setIdCurrency(1);
-                    // psSP.setIdCountry(58);
-                    // psSP.setIdGroup(4);
-                    // psSP.setIdCustomer(0);
-                    // psSP.setIdProductAttribute(0);
+                   
                     psSP.setPrice(new BigDecimal("-1.0"));
                     psSP.setFromQuantity(defineQuantidadePreco(pp, bd));
-                    //psSP.setReduction(bd.divide(new BigDecimal("100.0")));
-                    //psSP.setReductionTax(true);
-                    //psSP.setReductionType("percentage");
-                    //psSP.setFrom(new );
+
                     psSP.setTo(new FormataCampos().alteraDiaData(new Date(System.currentTimeMillis()), 360));
                     try {
-                        new PsSpecificPriceJpaController(managerPrestaShop).edit(psSP);
+                        new PsSpecificPriceJpaController(Manager.getManagerPrestaShop()).edit(psSP);
                     } catch (Exception ex) {
-                        criaLog(managerIntegrador, "Houve um erro ao criar PsSpecificPrice ex. " + ex, "ERRO EDITAR");
+                        criaLog("Houve um erro ao criar PsSpecificPrice ex. " + ex, "ERRO EDITAR");
                     }
                 }
             } else {
                 for (PsSpecificPrice psSP : listPSSP) {
                     try {
-                        new PsSpecificPriceJpaController(managerPrestaShop).destroy(psSP.getIdSpecificPrice());
+                        new PsSpecificPriceJpaController(Manager.getManagerPrestaShop()).destroy(psSP.getIdSpecificPrice());
                     } catch (NonexistentEntityException ex) {
-                        criaLog(managerIntegrador, "Houve um erro ao excluir PsSpecificPrice ex. " + ex, "ERRO EXCLUIR");
+                        criaLog("Houve um erro ao excluir PsSpecificPrice ex. " + ex, "ERRO EXCLUIR");
                     }
                 }
             }
@@ -874,7 +779,7 @@ public class ProdutoCplusDigimacro {
         return quantidade;
     }
 
-    private void categoriaProduto(boolean promocao, PsProduct pp, Produto proCplus, EntityManagerFactory managerPrestaShop, EntityManagerFactory managerIntegrador) {
+    private void categoriaProduto(boolean promocao, PsProduct pp, Produto proCplus) {
         String sec;
         if (promocao) {
             sec = proCplus.getCodsec().getClassificacao() + ".143";
@@ -882,32 +787,32 @@ public class ProdutoCplusDigimacro {
             sec = proCplus.getCodsec().getClassificacao();
         }
         String[] listSecaoIntegrador = sec.split("\\.");
-        List<PsCategoryProduct> listPCP = new QueryPrestaShop(managerPrestaShop).listCategoriaProduto(pp.getIdProduct(), 2);
+        List<PsCategoryProduct> listPCP = new QueryPrestaShop().listCategoriaProduto(pp.getIdProduct(), 2);
         if (listPCP.isEmpty()) {
             PsCategoryProduct psCP = new PsCategoryProduct();
             psCP.setPsCategoryProductPK(new PsCategoryProductPK(2, pp.getIdProduct()));//categoria default
             try {
-                new PsCategoryProductJpaController(managerPrestaShop).create(psCP);
+                new PsCategoryProductJpaController(Manager.getManagerPrestaShop()).create(psCP);
             } catch (Exception ex) {
-                criaLog(managerIntegrador, "Houve um erro ao criar PsCategoryProduct ex. " + ex, "ERRO CRIAR");
+                criaLog("Houve um erro ao criar PsCategoryProduct ex. " + ex, "ERRO CRIAR");
             }
         }
         for (String secTemp : listSecaoIntegrador) {
             Integer secaoId = Integer.valueOf(secTemp);
-            listPCP = new QueryPrestaShop(managerPrestaShop).listCategoriaProduto(pp.getIdProduct(), secaoId);
+            listPCP = new QueryPrestaShop().listCategoriaProduto(pp.getIdProduct(), secaoId);
             if (listPCP.isEmpty()) {
                 PsCategoryProduct psCP = new PsCategoryProduct();
                 psCP.setPsCategoryProductPK(new PsCategoryProductPK(secaoId, pp.getIdProduct()));
                 try {
-                    new PsCategoryProductJpaController(managerPrestaShop).create(psCP);
+                    new PsCategoryProductJpaController(Manager.getManagerPrestaShop()).create(psCP);
                 } catch (Exception ex) {
-                    criaLog(managerIntegrador, "Houve um erro ao criar PsCategoryProduct ex. " + ex, "ERRO CRIAR");
+                    criaLog("Houve um erro ao criar PsCategoryProduct ex. " + ex, "ERRO CRIAR");
                 }
             }
 
         }
         //verifica categoria trocada
-        listPCP = new QueryPrestaShop(managerPrestaShop).listCategoriaProduto(pp.getIdProduct());
+        listPCP = new QueryPrestaShop().listCategoriaProduto(pp.getIdProduct());
         boolean condicao;
         for (PsCategoryProduct psCP : listPCP) {
             condicao = true;
@@ -919,43 +824,43 @@ public class ProdutoCplusDigimacro {
             }
             if (condicao) {
                 try {
-                    new PsCategoryProductJpaController(managerPrestaShop).destroy(psCP.getPsCategoryProductPK());
+                    new PsCategoryProductJpaController(Manager.getManagerPrestaShop()).destroy(psCP.getPsCategoryProductPK());
                 } catch (NonexistentEntityException ex) {
-                    criaLog(managerIntegrador, "Houve um erro ao excluir PsCategoryProduct ex. " + ex, "ERRO EXCLUIR");
+                    criaLog("Houve um erro ao excluir PsCategoryProduct ex. " + ex, "ERRO EXCLUIR");
                 }
             }
         }
     }
 
-    private void categoriaProdutoPack(PsProduct pp, Produto proCplus, EntityManagerFactory managerPrestaShop, EntityManagerFactory managerIntegrador) {
+    private void categoriaProdutoPack(PsProduct pp, Produto proCplus) {
         //String[] listSecaoIntegrador = proCplus.getCodsec().getClassificacao().split("\\.");
         String[] listSecaoIntegrador = "116".split("\\.");
-        List<PsCategoryProduct> listPCP = new QueryPrestaShop(managerPrestaShop).listCategoriaProduto(pp.getIdProduct(), 2);
+        List<PsCategoryProduct> listPCP = new QueryPrestaShop().listCategoriaProduto(pp.getIdProduct(), 2);
         if (listPCP.isEmpty()) {
             PsCategoryProduct psCP = new PsCategoryProduct();
             psCP.setPsCategoryProductPK(new PsCategoryProductPK(2, pp.getIdProduct()));//categoria default
             try {
-                new PsCategoryProductJpaController(managerPrestaShop).create(psCP);
+                new PsCategoryProductJpaController(Manager.getManagerPrestaShop()).create(psCP);
             } catch (Exception ex) {
-                criaLog(managerIntegrador, "Houve um erro ao criar PsCategoryProduct ex. " + ex, "ERRO CRIAR");
+                criaLog("Houve um erro ao criar PsCategoryProduct ex. " + ex, "ERRO CRIAR");
             }
         }
         for (String secTemp : listSecaoIntegrador) {
             Integer secaoId = Integer.valueOf(secTemp);
-            listPCP = new QueryPrestaShop(managerPrestaShop).listCategoriaProduto(pp.getIdProduct(), secaoId);
+            listPCP = new QueryPrestaShop().listCategoriaProduto(pp.getIdProduct(), secaoId);
             if (listPCP.isEmpty()) {
                 PsCategoryProduct psCP = new PsCategoryProduct();
                 psCP.setPsCategoryProductPK(new PsCategoryProductPK(secaoId, pp.getIdProduct()));
                 try {
-                    new PsCategoryProductJpaController(managerPrestaShop).create(psCP);
+                    new PsCategoryProductJpaController(Manager.getManagerPrestaShop()).create(psCP);
                 } catch (Exception ex) {
-                    criaLog(managerIntegrador, "Houve um erro ao criar PsCategoryProduct ex. " + ex, "ERRO CRIAR");
+                    criaLog("Houve um erro ao criar PsCategoryProduct ex. " + ex, "ERRO CRIAR");
                 }
             }
 
         }
         //verifica categoria trocada
-        listPCP = new QueryPrestaShop(managerPrestaShop).listCategoriaProduto(pp.getIdProduct());
+        listPCP = new QueryPrestaShop().listCategoriaProduto(pp.getIdProduct());
         boolean condicao;
         for (PsCategoryProduct psCP : listPCP) {
             condicao = true;
@@ -967,17 +872,17 @@ public class ProdutoCplusDigimacro {
             }
             if (condicao) {
                 try {
-                    new PsCategoryProductJpaController(managerPrestaShop).destroy(psCP.getPsCategoryProductPK());
+                    new PsCategoryProductJpaController(Manager.getManagerPrestaShop()).destroy(psCP.getPsCategoryProductPK());
                 } catch (NonexistentEntityException ex) {
-                    criaLog(managerIntegrador, "Houve um erro ao excluir PsCategoryProduct ex. " + ex, "ERRO EXCLUIR");
+                    criaLog("Houve um erro ao excluir PsCategoryProduct ex. " + ex, "ERRO EXCLUIR");
                 }
             }
         }
     }
 
-    private Integer fatorConversao(Produto prodCplus, EntityManagerFactory managerCplus) {
+    private Integer fatorConversao(Produto prodCplus) {
         Integer quantidade = 1;
-        for (Unidade un : new QueryCplus(managerCplus).resultPorUnidadeProduto(prodCplus.getUnidade())) {
+        for (Unidade un : new QueryCplus().resultPorUnidadeProduto(prodCplus.getUnidade())) {
             if (un.getFatorconversao().intValue() > 1) {
                 quantidade = un.getFatorconversao().intValue();
             }
@@ -985,7 +890,7 @@ public class ProdutoCplusDigimacro {
         return quantidade;
     }
 
-    private void gerenciaTags(EntityManagerFactory managerPrestaShop, EntityManagerFactory managerIntegrador, Produto proCplus, PsProduct pp) {
+    private void gerenciaTags(Produto proCplus, PsProduct pp) {
         String nomeProduto = proCplus.getNomeprodweb().trim().toLowerCase();
         nomeProduto = nomeProduto.replace("\"", "");
         nomeProduto = nomeProduto.replace("/", "");
@@ -995,35 +900,35 @@ public class ProdutoCplusDigimacro {
         String[] listaDePalavras = nomeProduto.split(" ");
         for (int cont = 0; listaDePalavras.length > cont; cont++) {
             if (listaDePalavras[cont].length() > 1) {
-                List<PsTag> listTag = new QueryPrestaShop(managerPrestaShop).resultPorNomeTag(listaDePalavras[cont].trim());
+                List<PsTag> listTag = new QueryPrestaShop().resultPorNomeTag(listaDePalavras[cont].trim());
                 if (listTag.isEmpty()) {
                     PsTag psT = new PsTag();
                     psT.setIdLang(2);
                     psT.setName(listaDePalavras[cont].trim());
-                    new PsTagJpaController(managerPrestaShop).create(psT);
-                    listTag = new QueryPrestaShop(managerPrestaShop).resultPorNomeTag(listaDePalavras[cont].trim());
+                    new PsTagJpaController(Manager.getManagerPrestaShop()).create(psT);
+                    listTag = new QueryPrestaShop().resultPorNomeTag(listaDePalavras[cont].trim());
                     for (PsTag pT : listTag) {
-                        manipulaProductTag(managerPrestaShop, managerIntegrador, pT, pp);
-                        manipulaTagCount(managerPrestaShop, managerIntegrador, pT, pp);
+                        manipulaProductTag(pT, pp);
+                        manipulaTagCount(pT, pp);
                     }
                 }
                 for (PsTag pT : listTag) {
-                    manipulaProductTag(managerPrestaShop, managerIntegrador, pT, pp);
-                    manipulaTagCount(managerPrestaShop, managerIntegrador, pT, pp);
+                    manipulaProductTag(pT, pp);
+                    manipulaTagCount(pT, pp);
                 }
             }
         }
-        deletaProductTag(managerPrestaShop, managerIntegrador, pp, listaDePalavras);
+        deletaProductTag(pp, listaDePalavras);
     }
 
-    private void deletaProductTag(EntityManagerFactory managerPrestaShop, EntityManagerFactory managerIntegrador, PsProduct pp, String[] listaDePalavras) {
+    private void deletaProductTag(PsProduct pp, String[] listaDePalavras) {
         boolean condicao;
-        List<PsProductTag> listPsPT = new QueryPrestaShop(managerPrestaShop).resultPsProductTag(pp.getIdProduct());
+        List<PsProductTag> listPsPT = new QueryPrestaShop().resultPsProductTag(pp.getIdProduct());
         for (PsProductTag psPT : listPsPT) {
             int idTag = 0;
             condicao = true;
             for (int cont = 0; listaDePalavras.length > cont; cont++) {
-                List<PsTag> listTag = new QueryPrestaShop(managerPrestaShop).resultPorNomeTag(listaDePalavras[cont].trim());
+                List<PsTag> listTag = new QueryPrestaShop().resultPorNomeTag(listaDePalavras[cont].trim());
                 for (PsTag pT : listTag) {
                     idTag = pT.getIdTag();
                     if (pT.getIdTag() == psPT.getPsProductTagPK().getIdTag());
@@ -1032,95 +937,95 @@ public class ProdutoCplusDigimacro {
             }
             if (condicao) {
                 try {
-                    new PsProductTagJpaController(managerPrestaShop).destroy(new PsProductTagPK(pp.getIdProduct(), idTag));
+                    new PsProductTagJpaController(Manager.getManagerPrestaShop()).destroy(new PsProductTagPK(pp.getIdProduct(), idTag));
                 } catch (NonexistentEntityException ex) {
-                    criaLog(managerIntegrador, "Houve um erro ao excluir PsProductTag ex. " + ex, "ERRO RXCLUIR");
+                    criaLog("Houve um erro ao excluir PsProductTag ex. " + ex, "ERRO RXCLUIR");
                 }
             }
         }
     }
 
-    private void manipulaTagCount(EntityManagerFactory managerPrestaShop, EntityManagerFactory managerIntegrador, PsTag pT, PsProduct pp) {
-        for (PsGroup pG : new PsGroupJpaController(managerPrestaShop).findPsGroupEntities()) {
-            List<PsTagCount> listPsTC = new QueryPrestaShop(managerPrestaShop).listTagCount(pT.getIdTag(), pG.getIdGroup());
+    private void manipulaTagCount(PsTag pT, PsProduct pp) {
+        for (PsGroup pG : new PsGroupJpaController(Manager.getManagerPrestaShop()).findPsGroupEntities()) {
+            List<PsTagCount> listPsTC = new QueryPrestaShop().listTagCount(pT.getIdTag(), pG.getIdGroup());
             if (listPsTC.isEmpty()) {
                 PsTagCount psTC = new PsTagCount();
-                List<PsProductTag> listPPT = new QueryPrestaShop(managerPrestaShop).resultPsProductTag(pp.getIdProduct());
+                List<PsProductTag> listPPT = new QueryPrestaShop().resultPsProductTag(pp.getIdProduct());
                 psTC.setCounter(listPPT.size());
                 psTC.setIdLang(2);
                 psTC.setIdShop(1);
                 psTC.setPsTagCountPK(new PsTagCountPK(pG.getIdGroup(), pT.getIdTag()));
                 try {
-                    new PsTagCountJpaController(managerPrestaShop).create(psTC);
+                    new PsTagCountJpaController(Manager.getManagerPrestaShop()).create(psTC);
                 } catch (Exception ex) {
-                    criaLog(managerIntegrador, "Houve um erro ao criar PsTagCount ex. " + ex, "ERRO CRIAR");
+                    criaLog("Houve um erro ao criar PsTagCount ex. " + ex, "ERRO CRIAR");
                 }
             }
         }
     }
 
-    private void manipulaProductTag(EntityManagerFactory managerPrestaShop, EntityManagerFactory managerIntegrador, PsTag pT, PsProduct pp) {
-        List<PsProductTag> listPsPT = new QueryPrestaShop(managerPrestaShop).listProductTag(pT.getIdTag(), pp.getIdProduct());
+    private void manipulaProductTag(PsTag pT, PsProduct pp) {
+        List<PsProductTag> listPsPT = new QueryPrestaShop().listProductTag(pT.getIdTag(), pp.getIdProduct());
         if (listPsPT.isEmpty()) {
             PsProductTag psPT = new PsProductTag();
             psPT.setIdLang(2);
             psPT.setPsProductTagPK(new PsProductTagPK(pp.getIdProduct(), pT.getIdTag()));
             try {
-                new PsProductTagJpaController(managerPrestaShop).create(psPT);
+                new PsProductTagJpaController(Manager.getManagerPrestaShop()).create(psPT);
             } catch (Exception ex) {
-                criaLog(managerIntegrador, "Houve um erro ao criar PsProductTag ex. " + ex, "ERRO CRIAR");
+                criaLog("Houve um erro ao criar PsProductTag ex. " + ex, "ERRO CRIAR");
             }
         }
     }
 
-    private Integer marcaFabricante(EntityManagerFactory managerPrestaShop, EntityManagerFactory managerIntegrador, Produto proCplus) {
+    private Integer marcaFabricante(Produto proCplus) {
         Integer idManuf = 1;
         String nomeFabricante = proCplus.getCodfabricante().getNomefabricante();
         if (nomeFabricante != null && !"".equals(nomeFabricante)) {
-            List<PsManufacturer> listPM = new QueryPrestaShop(managerPrestaShop).listManufacturer(nomeFabricante);
+            List<PsManufacturer> listPM = new QueryPrestaShop().listManufacturer(nomeFabricante);
             if (listPM.isEmpty()) {
                 PsManufacturer psM = new PsManufacturer();
                 psM.setName(nomeFabricante);
                 psM.setDateAdd(new Date(System.currentTimeMillis()));
                 psM.setDateUpd(new Date(System.currentTimeMillis()));
                 psM.setActive(true);
-                new PsManufacturerJpaController(managerPrestaShop).create(psM);
-                listPM = new QueryPrestaShop(managerPrestaShop).listManufacturer(nomeFabricante);
+                new PsManufacturerJpaController(Manager.getManagerPrestaShop()).create(psM);
+                listPM = new QueryPrestaShop().listManufacturer(nomeFabricante);
             }
             for (PsManufacturer pM : listPM) {
                 idManuf = pM.getIdManufacturer();
                 pM.setName(nomeFabricante);
                 try {
-                    new PsManufacturerJpaController(managerPrestaShop).edit(pM);
-                    List<PsManufacturerShop> listPMS = new QueryPrestaShop(managerPrestaShop).listManufacturerShop(pM.getIdManufacturer());
+                    new PsManufacturerJpaController(Manager.getManagerPrestaShop()).edit(pM);
+                    List<PsManufacturerShop> listPMS = new QueryPrestaShop().listManufacturerShop(pM.getIdManufacturer());
                     if (listPMS.isEmpty()) {
                         PsManufacturerShop pMS = new PsManufacturerShop();
                         pMS.setPsManufacturerShopPK(new PsManufacturerShopPK(pM.getIdManufacturer(), 1));
                         try {
-                            new PsManufacturerShopJpaController(managerPrestaShop).create(pMS);
+                            new PsManufacturerShopJpaController(Manager.getManagerPrestaShop()).create(pMS);
                         } catch (Exception ex) {
-                            criaLog(managerIntegrador, "Houve um erro ao criar PsManufacturerShop ex. " + ex, "ERRO CRIAR");
+                            criaLog("Houve um erro ao criar PsManufacturerShop ex. " + ex, "ERRO CRIAR");
                         }
                     }
-                    List<PsManufacturerLang> listPML = new QueryPrestaShop(managerPrestaShop).listManufacturerLang(pM.getIdManufacturer(), 2);
+                    List<PsManufacturerLang> listPML = new QueryPrestaShop().listManufacturerLang(pM.getIdManufacturer(), 2);
                     if (listPML.isEmpty()) {
                         PsManufacturerLang pML = new PsManufacturerLang();
                         pML.setPsManufacturerLangPK(new PsManufacturerLangPK(pM.getIdManufacturer(), 2));
                         try {
-                            new PsManufacturerLangJpaController(managerPrestaShop).create(pML);
+                            new PsManufacturerLangJpaController(Manager.getManagerPrestaShop()).create(pML);
                         } catch (Exception ex) {
-                            criaLog(managerIntegrador, "Houve um erro ao criar PsManufacturerLang ex. " + ex, "ERRO CRIAR");
+                            criaLog("Houve um erro ao criar PsManufacturerLang ex. " + ex, "ERRO CRIAR");
                         }
                     }
                 } catch (Exception ex) {
-                    criaLog(managerIntegrador, "Houve um erro ao editar PsManufacturerLang ex. " + ex, "ERRO EDITAR");
+                    criaLog( "Houve um erro ao editar PsManufacturerLang ex. " + ex, "ERRO EDITAR");
                 }
             }
         }
         return idManuf;
     }
 
-    private void produtoTransportadora(PsProduct pp, EntityManagerFactory managerPrestaShop, EntityManagerFactory managerIntegrador) {
+    private void produtoTransportadora(PsProduct pp) {
         /**
          * //List<PsCarrier> carrier = new
          * QueryPrestaShop(managerPrestaShop).listCarrier(true); for(PsCarrier
@@ -1151,9 +1056,9 @@ public class ProdutoCplusDigimacro {
         return str2;
     }
 
-    private boolean emPromocao(PsProductShop pp, Produto proCplus, EntityManagerFactory managerCplus) {
+    private boolean emPromocao(PsProductShop pp, Produto proCplus) {
         boolean condicao = false;
-        double precoCplus = precoPrincipal(managerCplus, proCplus).doubleValue();
+        double precoCplus = precoPrincipal(proCplus).doubleValue();
         double precoPrestaShop = pp.getPrice().setScale(2, RoundingMode.HALF_UP).doubleValue();
         if (precoCplus < precoPrestaShop) {
             condicao = true;
@@ -1190,21 +1095,21 @@ public class ProdutoCplusDigimacro {
         return condicao;
     }
 
-    private void produtoShop(PsProduct pp, Produto proCplus, EntityManagerFactory managerPrestaShop, EntityManagerFactory managerIntegrador, EntityManagerFactory managerCplus) {
-        List<PsProductShop> listPPS = new QueryPrestaShop(managerPrestaShop).listPsProductShop(pp.getIdProduct(), 1);
+    private void produtoShop(PsProduct pp, Produto proCplus) {
+        List<PsProductShop> listPPS = new QueryPrestaShop().listPsProductShop(pp.getIdProduct(), 1);
         if (listPPS.isEmpty()) {
             PsProductShop pps = new PsProductShop();
             pps.setPsProductShopPK(new PsProductShopPK(pp.getIdProduct(), 1));
-            pps.setIdCategoryDefault(categoriaPadrao(managerPrestaShop, proCplus));
-            pps.setIdTaxRulesGroup(taxRulesGroup(managerPrestaShop, proCplus));
+            pps.setIdCategoryDefault(categoriaPadrao( proCplus));
+            pps.setIdTaxRulesGroup(taxRulesGroup(proCplus));
             pps.setOnSale(false);
-            pps.setLowStockThreshold(EstoqueMinimoCplus(managerCplus, proCplus));
+            pps.setLowStockThreshold(EstoqueMinimoCplus(proCplus));
             //pps.setOnlineOnly(false);
             pps.setEcotax(BigDecimal.ZERO);
             pps.setMinimalQuantity(1);
             pps.setLowStockThreshold(0);
             pps.setLowStockAlert(true);
-            pps.setPrice(precoPrincipal(managerCplus, proCplus));
+            pps.setPrice(precoPrincipal( proCplus));
             pps.setWholesalePrice(proCplus.getCustoreal());
             pps.setUnity("");
             pps.setUnitPriceRatio(BigDecimal.ZERO);
@@ -1212,7 +1117,7 @@ public class ProdutoCplusDigimacro {
             pps.setCustomizable((short) 0);
             pps.setUploadableFiles((short) 0);
             pps.setTextFields((short) 0);
-            if (produtoAtivo(proCplus) && quanEstoqeuCplus(managerCplus, proCplus) > 0) {
+            if (produtoAtivo(proCplus) && quanEstoqeuCplus(proCplus) > 0) {
                 pps.setActive(true);
                 pps.setIndexed(true);
             } else {
@@ -1226,7 +1131,7 @@ public class ProdutoCplusDigimacro {
             pps.setShowCondition(false);
             pps.setCondition("new");
             //pps.setShowPrice(true);
-            if ("116".equals(proCplus.getCodsec().getClassificacao()) || fatorConversao(proCplus, managerCplus) > 1) {
+            if ("116".equals(proCplus.getCodsec().getClassificacao()) || fatorConversao(proCplus) > 1) {
                 pps.setShowPrice(false);
                 //pps.setIndexed(false);
                 pps.setVisibility("none");
@@ -1247,16 +1152,16 @@ public class ProdutoCplusDigimacro {
             pps.setDateUpd(new Date(System.currentTimeMillis()));
             pps.setPackStockType(3);
             try {
-                new PsProductShopJpaController(managerPrestaShop).create(pps);
+                new PsProductShopJpaController(Manager.getManagerPrestaShop()).create(pps);
             } catch (Exception ex) {
-                criaLog(managerIntegrador, "Houve um erro ao editar PsProductShop ex. " + ex, "ERRO EDITAR");
+                criaLog("Houve um erro ao editar PsProductShop ex. " + ex, "ERRO EDITAR");
             }
         } else {
             for (PsProductShop pps : listPPS) {
-                pps.setIdCategoryDefault(categoriaPadrao(managerPrestaShop, proCplus));
-                pps.setIdTaxRulesGroup(taxRulesGroup(managerPrestaShop, proCplus));
-                pps.setLowStockThreshold(EstoqueMinimoCplus(managerCplus, proCplus));
-                if (pps.getOnSale() == false && emPromocao(pps, proCplus, managerCplus)) {
+                pps.setIdCategoryDefault(categoriaPadrao( proCplus));
+                pps.setIdTaxRulesGroup(taxRulesGroup( proCplus));
+                pps.setLowStockThreshold(EstoqueMinimoCplus(proCplus));
+                if (pps.getOnSale() == false && emPromocao(pps, proCplus)) {
                     pps.setOnSale(true);
                     pps.setAvailableDate(new Date(System.currentTimeMillis()));
                 } else if (pps.getOnSale() && tirarPrecoPromocao(pps)) {
@@ -1267,8 +1172,8 @@ public class ProdutoCplusDigimacro {
                 } else {
                     promo = false;
                 }
-                pps.setPrice(precoPrincipal(managerCplus, proCplus));
-                if (produtoAtivo(proCplus) && quanEstoqeuCplus(managerCplus, proCplus) > 0) {
+                pps.setPrice(precoPrincipal(proCplus));
+                if (produtoAtivo(proCplus) && quanEstoqeuCplus(proCplus) > 0) {
                     pps.setActive(true);
                     pps.setIndexed(true);
                 } else {
@@ -1281,14 +1186,8 @@ public class ProdutoCplusDigimacro {
                         pps.setIndexed(false);
                     }
                 }
-               // if (fatorConversao(proCplus, managerCplus) > 1) {
-                //     pps.setIndexed(false);
-                //     pps.setVisibility("none");
-                //} else {
-                //pps.setIndexed(pps.getActive());
-                //     pps.setVisibility("both");
-                // }
-                if ("116".equals(proCplus.getCodsec().getClassificacao()) || fatorConversao(proCplus, managerCplus) > 1) {
+               
+                if ("116".equals(proCplus.getCodsec().getClassificacao()) || fatorConversao(proCplus) > 1) {
                     pps.setShowPrice(false);
                     pps.setIndexed(false);
                     pps.setVisibility("none");
@@ -1303,48 +1202,44 @@ public class ProdutoCplusDigimacro {
                 }
                 pps.setCacheDefaultAttribute(0);
                 pps.setAdvancedStockManagement(false);
-                if (quanEstoquePrestaShop(managerPrestaShop, pp) == 0 && quanEstoqeuCplus(managerCplus, proCplus) > 0) {
+                if (quanEstoquePrestaShop( pp) == 0 && quanEstoqeuCplus( proCplus) > 0) {
                     pps.setDateAdd(new Date(System.currentTimeMillis()));
                     pps.setDateUpd(new Date(System.currentTimeMillis()));
                 }
                 pps.setWholesalePrice(proCplus.getCustoreal());
                 try {
-                    new PsProductShopJpaController(managerPrestaShop).edit(pps);
+                    new PsProductShopJpaController(Manager.getManagerPrestaShop()).edit(pps);
                 } catch (Exception ex) {
-                    criaLog(managerIntegrador, "Houve um erro ao editar PsProductShop ex. " + ex, "ERRO EDITAR");
+                    criaLog( "Houve um erro ao editar PsProductShop ex. " + ex, "ERRO EDITAR");
                 }
             }
         }
     }
 
-    private void produtoStockAvailable(PsProduct pp, Produto proCplus, EntityManagerFactory managerPrestaShop, EntityManagerFactory managerIntegrador, EntityManagerFactory managerCplus) {
-        List<PsStockAvailable> listPSSA = new QueryPrestaShop(managerPrestaShop).listPsStockAvailable(pp.getIdProduct(), 1);
+    private void produtoStockAvailable(PsProduct pp, Produto proCplus) {
+        List<PsStockAvailable> listPSSA = new QueryPrestaShop().listPsStockAvailable(pp.getIdProduct(), 1);
         if (listPSSA.isEmpty()) {
             PsStockAvailable psSA = new PsStockAvailable();
             psSA.setIdProduct(pp.getIdProduct());
             psSA.setIdProductAttribute(0);
             psSA.setIdShop(1);
             psSA.setIdShopGroup(0);
-            psSA.setQuantity(quanEstoqeuCplus(managerCplus, proCplus));
-            psSA.setPhysicalQuantity(quanEstoqeuCplus(managerCplus, proCplus));
+            psSA.setQuantity(quanEstoqeuCplus(proCplus));
+            psSA.setPhysicalQuantity(quanEstoqeuCplus(proCplus));
             psSA.setReservedQuantity(0);
             psSA.setDependsOnStock(false);
             psSA.setOutOfStock(false);
             psSA.setLocation("");
-            new PsStockAvailableJpaController(managerPrestaShop).create(psSA);
+            new PsStockAvailableJpaController(Manager.getManagerPrestaShop()).create(psSA);
         } else {
             for (PsStockAvailable psSA : listPSSA) {
                 psSA.setIdProduct(pp.getIdProduct());
                 psSA.setIdProductAttribute(0);
                 psSA.setIdShop(1);
                 psSA.setIdShopGroup(0);
-                int reservaPrestaShop = reservaPrestaShop(managerCplus, managerPrestaShop, pp);
-                int quantidadeCplus = quanEstoqeuCplus(managerCplus, proCplus);
-                // if (psSA.getQuantity() < 1 && quantidadeCplus > 0) {
-                //    for (PsProductLang lang : new QueryPrestaShop(managerPrestaShop).listPsProductLang(pp.getIdProduct(), 2)) {
-                //       criaLog(managerIntegrador, "O produto: " + lang.getName() + " Terminou!", "ERRO COMPRAR");
-                //     }
-                //  }
+                int reservaPrestaShop = reservaPrestaShop(pp);
+                int quantidadeCplus = quanEstoqeuCplus(proCplus);
+               
                 psSA.setReservedQuantity(reservaPrestaShop);
                 //psSA.setQuantity(EstoqueCplusMenosReservaSite(managerCplus, managerPrestaShop, proCplus, pp));
                 psSA.setQuantity(quantidadeCplus - reservaPrestaShop);
@@ -1352,26 +1247,26 @@ public class ProdutoCplusDigimacro {
                 psSA.setDependsOnStock(false);
                 psSA.setOutOfStock(false);
                 try {
-                    new PsStockAvailableJpaController(managerPrestaShop).edit(psSA);
+                    new PsStockAvailableJpaController(Manager.getManagerPrestaShop()).edit(psSA);
                 } catch (Exception ex) {
-                    criaLog(managerIntegrador, "Houve um erro ao editar PsStockAvailable ex. " + ex, "ERRO EDITAR");
+                    criaLog("Houve um erro ao editar PsStockAvailable ex. " + ex, "ERRO EDITAR");
                 }
             }
         }
     }
 
-    private Integer reservaPrestaShop(EntityManagerFactory managerCplus, EntityManagerFactory managerPrestaShop, PsProduct pp) {
+    private Integer reservaPrestaShop(PsProduct pp) {
         int quantReserved = 0;
         List<Integer> list = new ArrayList<>();
         list.add(1);
         list.add(2);
         list.add(3);
         list.add(10);
-        List<PsOrders> listPsOrders = new QueryPrestaShop(managerPrestaShop).listPsOrdersState(list);
+        List<PsOrders> listPsOrders = new QueryPrestaShop().listPsOrdersState(list);
         for (PsOrders order : listPsOrders) {
-            List<Movenda> listMovenda = new QueryCplus(managerCplus).resultMovendaPorEntregaTelefone(order.getReference());
+            List<Movenda> listMovenda = new QueryCplus().resultMovendaPorEntregaTelefone(order.getReference());
             if (listMovenda.isEmpty()) {
-                for (PsOrderDetail prodDetail : new QueryPrestaShop(managerPrestaShop).listOrderDetail(order.getIdOrder())) {
+                for (PsOrderDetail prodDetail : new QueryPrestaShop().listOrderDetail(order.getIdOrder())) {
                     if (prodDetail.getProductId() == pp.getIdProduct()) {
                         quantReserved = quantReserved + prodDetail.getProductQuantity();
                     }
@@ -1381,13 +1276,13 @@ public class ProdutoCplusDigimacro {
         return quantReserved;
     }
 
-    private void produtoRelacionado(EntityManagerFactory managerPrestaShop, PsProductLang ppl, PsProduct pp) {
+    private void produtoRelacionado(PsProductLang ppl, PsProduct pp) {
         String[] listNome = ppl.getName().split(" ");
         int cont = 0;
         Connection conn = new ConexaoPrestaShop().getConnection();
-        for (PsProductLang prod : new QueryPrestaShop(managerPrestaShop).listPsProductLang(listNome[0])) {
+        for (PsProductLang prod : new QueryPrestaShop().listPsProductLang(listNome[0])) {
             if (ppl.getPsProductLangPK().getIdProduct() != prod.getPsProductLangPK().getIdProduct()) {
-                if (quanEstoquePrestaShop(managerPrestaShop, new PsProductJpaController(managerPrestaShop).findPsProduct(prod.getPsProductLangPK().getIdProduct())) > 0) {
+                if (quanEstoquePrestaShop( new PsProductJpaController(Manager.getManagerPrestaShop()).findPsProduct(prod.getPsProductLangPK().getIdProduct())) > 0) {
                     List<PsAccessory> listAcessory = new ConexaoPrestaShop().listPsAcessory(conn, ppl.getPsProductLangPK().getIdProduct(), prod.getPsProductLangPK().getIdProduct());
                     if (listAcessory.isEmpty()) {
                         if (cont < 10) {

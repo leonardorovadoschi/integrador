@@ -27,7 +27,7 @@ public class RenderLocalizacao extends DefaultTableCellRenderer{
     public void setValue(Object aValue) {
         String nome = "";
         if ((aValue != null) && (aValue instanceof String)) {         
-                for(Localizacao valor : new QueryCplus(emf).listLocalizacao(aValue.toString())){                     
+                for(Localizacao valor : new QueryCplus().listLocalizacao(aValue.toString())){                     
                 nome = valor.getDescricao();  
                 }
         } else {

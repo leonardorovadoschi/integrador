@@ -49,6 +49,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
+import prestashop.Manager;
 
 /**
  *
@@ -56,12 +57,12 @@ import javax.persistence.Query;
  */
 public class QueryPrestaShop implements Serializable {
 
-    public QueryPrestaShop(EntityManagerFactory emf) {
-        this.emf = emf;
+    public QueryPrestaShop() {
+        this.emf = Manager.getManagerPrestaShop();
     }
     private EntityManagerFactory emf = null;
 
-    public EntityManager getEntityManager() {
+    private EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 

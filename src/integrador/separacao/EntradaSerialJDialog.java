@@ -22,13 +22,13 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import jpa.integrador.EntradaSerialJpaController;
 import jpa.integrador.SerialProdutoJpaController;
 import jpa.integrador.exceptions.NonexistentEntityException;
 import prestashop.ConfiguracaoNoBD;
+import prestashop.Manager;
 import query.cplus.QueryCplus;
 import query.integrador.QueryIntegrador;
 
@@ -43,21 +43,19 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
      *
      * @param parent
      * @param modal
-     * @param managerCplus1
-     * @param managerIntegrador1
      */
-    public EntradaSerialJDialog(java.awt.Frame parent, boolean modal, EntityManagerFactory managerCplus1, EntityManagerFactory managerIntegrador1) {
+    public EntradaSerialJDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        managerCplus = managerCplus1;
-        managerIntegrador = managerIntegrador1;
+        //managerCplus = managerCplus1;
+       // managerIntegrador = managerIntegrador1;
         queryIntegrador = new QueryIntegrador();
-        queryCplus = new QueryCplus(managerCplus);
+        queryCplus = new QueryCplus();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
-        listagemUsuarioJDialog = new ListagemUsuarioJDialog(parent, true, managerCplus);
+        listagemUsuarioJDialog = new ListagemUsuarioJDialog(parent, true);
         colunaSerial = jTableSerialDigitado.getColumnModel().getColumnIndex("Serial");
-        //this.listagemLocalizacaoJDialog = new ListagemLocalizacaoJDialog(parent, true, managerCplus);
-        this.listagemProdutoJDialog = new ListagemProdutoJDialog(parent, true, managerCplus);
+        //this.listagemLocalizacaoJDialog = new ListagemLocalizacaoJDialog(parent, true, Manager.getManagerCplus());
+        this.listagemProdutoJDialog = new ListagemProdutoJDialog(parent, true, Manager.getManagerCplus());
     }
 
     /**
@@ -419,14 +417,14 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
             } else {
                 for (EntradaSerial es : sp.getEntradaSerialCollection()) {
                     try {
-                        new EntradaSerialJpaController(managerIntegrador).destroy(es.getIdEntradaSerial());
+                        new EntradaSerialJpaController(Manager.getManagerIntegrador()).destroy(es.getIdEntradaSerial());
                     } catch (NonexistentEntityException ex) {
                         tocarSomErro();
                         JOptionPane.showMessageDialog(null, "\n Erro ao Excluir Entrada Serial.\n " + ex);
                     }
                 }
                 try {
-                    new SerialProdutoJpaController(managerIntegrador).destroy(sp.getIdSerial());
+                    new SerialProdutoJpaController(Manager.getManagerIntegrador()).destroy(sp.getIdSerial());
                 } catch (NonexistentEntityException ex) {
                     tocarSomErro();
                     JOptionPane.showMessageDialog(null, "\n Erro ao Excluir Serial Produto.\n " + ex);
@@ -553,8 +551,8 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
         serialProd.setNomeProduto(produto.getNomeprod());
         serialProd.setData(new Date(System.currentTimeMillis()));
         try {
-            new SerialProdutoJpaController(managerIntegrador).create(serialProd);//Cria objeto no banco de dados
-            if (gravarEntradaSerial(new SerialProdutoJpaController(managerIntegrador).findSerialProduto(serialProd.getIdSerial()))) {
+            new SerialProdutoJpaController(Manager.getManagerIntegrador()).create(serialProd);//Cria objeto no banco de dados
+            if (gravarEntradaSerial(new SerialProdutoJpaController(Manager.getManagerIntegrador()).findSerialProduto(serialProd.getIdSerial()))) {
                 // condicao = true;
             }
         } catch (Exception ex) {
@@ -574,7 +572,7 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
         ent.setDevolvido(false);
         ent.setDataEntrada(new Date(System.currentTimeMillis()));
         try {
-            new EntradaSerialJpaController(managerIntegrador).create(ent);
+            new EntradaSerialJpaController(Manager.getManagerIntegrador()).create(ent);
         } catch (Exception ex) {
             tocarSomErro();
             JOptionPane.showMessageDialog(null, "\n Erro ao gravar Entrada Serial.\n " + ex);
@@ -587,8 +585,8 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
         List<EntradaSerial> listMovProdSerial = queryIntegrador.listPorEntradaProd(movEntradaProd.getCodmoveprod());
         for (EntradaSerial ent : listMovProdSerial) {
             try {
-                new EntradaSerialJpaController(managerIntegrador).destroy(ent.getIdEntradaSerial());
-                new SerialProdutoJpaController(managerIntegrador).destroy(ent.getIdSerial().getIdSerial());
+                new EntradaSerialJpaController(Manager.getManagerIntegrador()).destroy(ent.getIdEntradaSerial());
+                new SerialProdutoJpaController(Manager.getManagerIntegrador()).destroy(ent.getIdSerial().getIdSerial());
             } catch (NonexistentEntityException ex) {
                 tocarSomErro();
                 JOptionPane.showMessageDialog(null, "\n Erro ao Excluir Entrada Serial.\n " + ex);
@@ -713,7 +711,7 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
 
     public void setProduto(Produto produto) {
         this.produto = produto;
-        jTextFieldEstoqueCplus.setText(EstoqueCplus(managerCplus, produto.getCodprod()));
+        jTextFieldEstoqueCplus.setText(EstoqueCplus(produto.getCodprod()));
         jTextFieldSetor.setText(setor(produto));
     }
     
@@ -725,9 +723,9 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
         return text;
     }
     
-     private String EstoqueCplus(EntityManagerFactory managerCplus, String codProd) {
+     private String EstoqueCplus(String codProd) {
         BigDecimal estoque = BigDecimal.ZERO;
-        List<Produtoestoque> listEsroque = new QueryCplus(managerCplus).listEstoquesPorProd(codProd);
+        List<Produtoestoque> listEsroque = new QueryCplus().listEstoquesPorProd(codProd);
         for (Produtoestoque est : listEsroque) {
             estoque = est.getEstatu().subtract(est.getReservadoorcamento().subtract(est.getReservadoos()));
         }
@@ -764,7 +762,7 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                EntradaSerialJDialog dialog = new EntradaSerialJDialog(new javax.swing.JFrame(), true, managerCplus, managerIntegrador);
+                EntradaSerialJDialog dialog = new EntradaSerialJDialog(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -778,8 +776,8 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
 
     private final QueryCplus queryCplus;
     private final QueryIntegrador queryIntegrador;
-    private static EntityManagerFactory managerCplus;
-    private static EntityManagerFactory managerIntegrador;
+    //private static EntityManagerFactory managerCplus;
+    //private static EntityManagerFactory managerIntegrador;
     private Moventradaprod movEntradaProd;
     private final ListagemUsuarioJDialog listagemUsuarioJDialog;
     private int colunaSerial;

@@ -35,6 +35,7 @@ import jpa.prestaShop.PsGroupJpaController;
 import jpa.prestaShop.PsOrderDetailJpaController;
 import jpa.prestaShop.PsProductJpaController;
 import jpa.prestaShop.PsStockAvailableJpaController;
+import prestashop.Manager;
 import query.cplus.QueryCplus;
 import query.prestaShop.QueryPrestaShop;
 
@@ -49,19 +50,17 @@ public class EditOrderDetailsJDialog extends javax.swing.JDialog {
      *
      * @param parent
      * @param modal
-     * @param managerPrestaShop1
-     * @param managerCplus1
      * @param usuario1
      */
-    public EditOrderDetailsJDialog(java.awt.Frame parent, boolean modal, EntityManagerFactory managerPrestaShop1, EntityManagerFactory managerCplus1, Usuario usuario1) {
+    public EditOrderDetailsJDialog(java.awt.Frame parent, boolean modal, Usuario usuario1) {
         super(parent, modal);
         initComponents();
-        managerCplus = managerCplus1;
-        managerPrestaShop = managerPrestaShop1;
-        queryPrestaShop = new QueryPrestaShop(managerPrestaShop);
+        //managerCplus = managerCplus1;
+        //managerPrestaShop = managerPrestaShop1;
+        queryPrestaShop = new QueryPrestaShop();
         formataCampos = new FormataCampos();
         usuario = usuario1;
-        acesso = new ControleAcesso(managerCplus);
+        acesso = new ControleAcesso();
         if (acesso.verificaAcessoUsuario(usuario, "Alterar preço de venda")) {
             jTextFieldUnitarioComDesconto.setEnabled(true);
         }
@@ -409,7 +408,7 @@ public class EditOrderDetailsJDialog extends javax.swing.JDialog {
                 psOrderDetails.setDiscountQuantityApplied(false);
             }
             try {
-                new PsOrderDetailJpaController(managerPrestaShop).edit(psOrderDetails);
+                new PsOrderDetailJpaController(Manager.getManagerPrestaShop()).edit(psOrderDetails);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, "Erro ao edita PsOrderDetail: \n" + ex);
             }
@@ -431,7 +430,7 @@ public class EditOrderDetailsJDialog extends javax.swing.JDialog {
             cp.setIdShop(psOrders.getIdShop());
             cp.setDateAdd(new Date(System.currentTimeMillis()));
             try {
-                new PsCartProductJpaController(managerPrestaShop).create(cp);
+                new PsCartProductJpaController(Manager.getManagerPrestaShop()).create(cp);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, "Houve um erro ao criar PsCartProductJ!!!\n " + ex);
             }
@@ -440,7 +439,7 @@ public class EditOrderDetailsJDialog extends javax.swing.JDialog {
                 cartProd.setQuantity(quantMod);
                 cartProd.setDateAdd(new Date(System.currentTimeMillis()));
                 try {
-                    new PsCartProductJpaController(managerPrestaShop).edit(cartProd);
+                    new PsCartProductJpaController(Manager.getManagerPrestaShop()).edit(cartProd);
                 } catch (Exception ex) {
                    JOptionPane.showMessageDialog(null, "Houve um erro ao editar PsCartProductJ!!!\n " + ex);
                 }
@@ -455,7 +454,7 @@ public class EditOrderDetailsJDialog extends javax.swing.JDialog {
         int reser = stok.getPhysicalQuantity() - stok.getQuantity();
         stok.setReservedQuantity(reser);
         try {
-            new PsStockAvailableJpaController(managerPrestaShop).edit(stok);
+            new PsStockAvailableJpaController(Manager.getManagerPrestaShop()).edit(stok);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Houve um erro ao Atualizar Estoque PrestaShop!!!\n " + ex);
         }
@@ -466,15 +465,15 @@ public class EditOrderDetailsJDialog extends javax.swing.JDialog {
         if (psProduct.getCacheIsPack()) {
             for (PsPack psP : queryPrestaShop.listPack(psProduct.getIdProduct())) {
                 //this.psProduct = new PsProductJpaController(managerPrestaShop).findPsProduct(psP.getPsPackPK().getIdProductItem());
-                listestoque = new QueryCplus(managerCplus).listEstoquesPorProd(new PsProductJpaController(managerPrestaShop).findPsProduct(psP.getPsPackPK().getIdProductItem()).getReference());
+                listestoque = new QueryCplus().listEstoquesPorProd(new PsProductJpaController(Manager.getManagerPrestaShop()).findPsProduct(psP.getPsPackPK().getIdProductItem()).getReference());
             }
         } else {
-            listestoque = new QueryCplus(managerCplus).listEstoquesPorProd(psProduct.getReference());
+            listestoque = new QueryCplus().listEstoquesPorProd(psProduct.getReference());
         }
         for (Produtoestoque estoque : listestoque) {
             estoque.setLastChange(formataCampos.dataAtual());
             try {
-                new ProdutoestoqueJpaController(managerCplus).edit(estoque);
+                new ProdutoestoqueJpaController(Manager.getManagerCplus()).edit(estoque);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, "Houve um erro ao Atualizar Estoque C-Plus!!!\n " + ex);
             }
@@ -505,9 +504,9 @@ public class EditOrderDetailsJDialog extends javax.swing.JDialog {
     }
 
     private void carregaCampos() {
-        psCustomer = new PsCustomerJpaController(managerPrestaShop).findPsCustomer(psOrders.getIdCustomer());
+        psCustomer = new PsCustomerJpaController(Manager.getManagerPrestaShop()).findPsCustomer(psOrders.getIdCustomer());
         listSpecificPrice = queryPrestaShop.listPsSpecificPriceAllGroup(psProduct.getIdProduct(), psCustomer.getIdDefaultGroup());
-        psGroup = new PsGroupJpaController(managerPrestaShop).findPsGroup(psCustomer.getIdDefaultGroup());
+        psGroup = new PsGroupJpaController(Manager.getManagerPrestaShop()).findPsGroup(psCustomer.getIdDefaultGroup());
         BigDecimal valUn = valorProdUnitario(quantMod);
         jTextFieldReducaoGrupo.setText(formataCampos.bigDecimalParaString(psGroup.getReduction(), 2));
         jTextFieldPriceOriginal.setText(formataCampos.bigDecimalParaString(valorOriginal(), 2));
@@ -525,10 +524,10 @@ public class EditOrderDetailsJDialog extends javax.swing.JDialog {
      
      private String textPreco(Integer idGroup) {
         String txtNormal = " Quant.\t  % \tValor\n";
-        PsGroup psGroup = new PsGroupJpaController(managerPrestaShop).findPsGroup(idGroup);
+        PsGroup psGroup = new PsGroupJpaController(Manager.getManagerPrestaShop()).findPsGroup(idGroup);
         BigDecimal redGrup = psGroup.getReduction().divide(new BigDecimal("100.00"), RoundingMode.HALF_UP);
         BigDecimal valRedGrupo = psProduct.getPrice().multiply(BigDecimal.ONE.subtract(redGrup));
-        psGroup = new PsGroupJpaController(managerPrestaShop).findPsGroup(idGroup);
+        psGroup = new PsGroupJpaController(Manager.getManagerPrestaShop()).findPsGroup(idGroup);
         redGrup = psGroup.getReduction().divide(new BigDecimal("100.00"), RoundingMode.HALF_UP);
         valRedGrupo = psProduct.getPrice().multiply(BigDecimal.ONE.subtract(redGrup));
         txtNormal = "Quant.\t  % \tValor\n";
@@ -637,7 +636,7 @@ public class EditOrderDetailsJDialog extends javax.swing.JDialog {
     public void setObjetos(PsOrderDetail orderDetails, PsOrders order) {
         this.psOrderDetails = orderDetails;
         this.psOrders = order;
-        this.psProduct = new PsProductJpaController(managerPrestaShop).findPsProduct(orderDetails.getProductId());
+        this.psProduct = new PsProductJpaController(Manager.getManagerPrestaShop()).findPsProduct(orderDetails.getProductId());
         quantMod = orderDetails.getProductQuantity();
         carregaCampos();
     }
@@ -685,7 +684,7 @@ public class EditOrderDetailsJDialog extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                EditOrderDetailsJDialog dialog = new EditOrderDetailsJDialog(new javax.swing.JFrame(), true, managerPrestaShop, managerCplus, usuario);
+                EditOrderDetailsJDialog dialog = new EditOrderDetailsJDialog(new javax.swing.JFrame(), true, usuario);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -697,8 +696,8 @@ public class EditOrderDetailsJDialog extends javax.swing.JDialog {
         });
     }
     private PsStockAvailable stok;
-    static EntityManagerFactory managerCplus;
-    static EntityManagerFactory managerPrestaShop;
+    //static EntityManagerFactory managerCplus;
+    //static EntityManagerFactory managerPrestaShop;
     private final QueryPrestaShop queryPrestaShop;
     private PsOrderDetail psOrderDetails;
     private PsOrders psOrders;

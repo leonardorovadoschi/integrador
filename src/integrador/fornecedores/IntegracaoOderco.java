@@ -30,6 +30,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+import prestashop.Manager;
 import query.cplus.QueryCplus;
 
 /**
@@ -79,7 +80,7 @@ public class IntegracaoOderco {
 
                 if (!"".equals(prod.getCodigobarras()) && prod.getCodigobarras() != null) {
                     listProdOderco.add(prod);
-                    atualizaProdutosOderco(utilitario, prod, managerIntegrador, managerCplus, managerDigimacro); 
+                    atualizaProdutosOderco(utilitario, prod, managerIntegrador, Manager.getManagerCplus(), managerDigimacro); 
                 }
             }
             removeProdutosInexistentes(listProdOderco, managerIntegrador, managerDigimacro);
@@ -150,7 +151,7 @@ public class IntegracaoOderco {
     }
     
      private void criarProdutosAllnationsIntegrador(ManipulaFornecedores utilitario, ProdutoOderco prod, EntityManagerFactory managerIntegrador, EntityManagerFactory managerCplus, EntityManagerFactory managerDigimacro) {
-        List<Produto> listProdIntegrador = new QueryCplus(managerCplus).listProdutoEan(prod.getCodigobarras());
+        List<Produto> listProdIntegrador = new QueryCplus().listProdutoEan(prod.getCodigobarras());
         for (Produto prodInt : listProdIntegrador) {
             ProdFornecedor proFornecedor = new ProdFornecedor();
             String estado;
@@ -212,7 +213,7 @@ public class IntegracaoOderco {
         List<ProdFornecedor> listProdutoIntegrador = new QueryIntegrador().resultEanEEstoque(prod.getCodigobarras(), estado, "ODERCO");
         if (listProdutoIntegrador.isEmpty()) {
             if (prod.getPreco_RS().doubleValue() > 0.00 && "S".equals(prod.getEstoque())) {
-               criarProdutosAllnationsIntegrador(utilitario, prod, managerIntegrador, managerCplus, managerDigimacro);
+               criarProdutosAllnationsIntegrador(utilitario, prod, managerIntegrador, Manager.getManagerCplus(), managerDigimacro);
             }
         } else if (listProdutoIntegrador.size() == 1) {
             for (ProdFornecedor proFornecedor : listProdutoIntegrador) {
@@ -225,19 +226,19 @@ public class IntegracaoOderco {
                     BigDecimal precoUnitario = prod.getPreco_RS().divide(new BigDecimal(prod.getMultiplo()), 3 ,RoundingMode.HALF_UP);
                     if (prod.getFaturamento() == 1) {
                         proFornecedor.setPrecoCustoComSt(precoUnitario.setScale(2, RoundingMode.UP));
-                        proFornecedor.setPorcentagemStRs(utilitario.calculoPrcentagemSubstituicao(proFornecedor, managerCplus));
+                        proFornecedor.setPorcentagemStRs(utilitario.calculoPrcentagemSubstituicao(proFornecedor, Manager.getManagerCplus()));
                         precoCusto = utilitario.precoComStParaSemSt(proFornecedor.getPorcentagemStRs(), proFornecedor.getPrecoCustoComSt());
                         proFornecedor.setPrecoCusto(precoCusto);
-                        proFornecedor.setPorcentagemOutrosCustos(utilitario.calculaPorcentagemCusto(precoCusto, proFornecedor, managerCplus));
+                        proFornecedor.setPorcentagemOutrosCustos(utilitario.calculaPorcentagemCusto(precoCusto, proFornecedor, Manager.getManagerCplus()));
                         proFornecedor.setValorStRs(proFornecedor.getPrecoCustoComSt().subtract(precoCusto));
                         proFornecedor.setValorCustoRs(utilitario.precoCustoRs(proFornecedor));
                         //proAllIntegrador.setSubcategoria(utilitario.previsaoEntrega("PR"));
                     } else {
-                        proFornecedor.setPorcentagemStRs(utilitario.calculoPrcentagemSubstituicao(proFornecedor, managerCplus));
+                        proFornecedor.setPorcentagemStRs(utilitario.calculoPrcentagemSubstituicao(proFornecedor, Manager.getManagerCplus()));
                         precoCusto = precoUnitario.setScale(2, RoundingMode.UP);
                         proFornecedor.setPrecoCusto(precoCusto);
                         proFornecedor.setPrecoCustoComSt(utilitario.precoSemStParaComSt(proFornecedor.getPorcentagemStRs(), precoCusto));
-                        proFornecedor.setPorcentagemOutrosCustos(utilitario.calculaPorcentagemCusto(precoCusto, proFornecedor, managerCplus));
+                        proFornecedor.setPorcentagemOutrosCustos(utilitario.calculaPorcentagemCusto(precoCusto, proFornecedor, Manager.getManagerCplus()));
                         proFornecedor.setValorStRs(proFornecedor.getPrecoCustoComSt().subtract(precoCusto));
                         proFornecedor.setValorCustoRs(utilitario.precoCustoRs(proFornecedor));
                     }

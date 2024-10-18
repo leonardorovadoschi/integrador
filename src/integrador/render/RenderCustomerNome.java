@@ -30,7 +30,7 @@ public class RenderCustomerNome extends DefaultTableCellRenderer {
     public void setValue(Object aValue) {
         String nome = "";
         if ((aValue != null) && (aValue instanceof Integer)) {         
-                for(PsCustomer valor : new QueryPrestaShop(emf).listCustomer(Integer.valueOf(aValue.toString()))){                     
+                for(PsCustomer valor : new QueryPrestaShop().listCustomer(Integer.valueOf(aValue.toString()))){                     
                 nome = valor.getFirstname() + " " + valor.getLastname();  
                 }
         } else {

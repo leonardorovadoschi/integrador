@@ -345,7 +345,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
 
     private void jMenuItemAlteracaoDePrecoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemAlteracaoDePrecoActionPerformed
         if (alteracaoPrecoProduto == null || !alteracaoPrecoProduto.isDisplayable()) {
-            alteracaoPrecoProduto = new ProdutoJFrame(managerCplus, Manager.getManagerIntegrador(), managerPrestaShop);
+            alteracaoPrecoProduto = new ProdutoJFrame();
             alteracaoPrecoProduto.setLocationRelativeTo(this); //opcional  
         } else {
             alteracaoPrecoProduto.setExtendedState(JFrame.NORMAL);
@@ -479,17 +479,17 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     }
     
     private void atualizaCliente(){
-        for(Cliente cli : new QueryCplus(managerCplus).cliente('1')){
+        for(Cliente cli : new QueryCplus().cliente('1')){
          cli.setFlagusaaliqicmsdiferenciada('N');
          try {
-             new ClienteJpaController(managerCplus).edit(cli);
+             new ClienteJpaController(Manager.getManagerCplus()).edit(cli);
          } catch (NonexistentEntityException ex) {
              Logger.getLogger(PrincipalJFrame.class.getName()).log(Level.SEVERE, null, ex);
          } catch (Exception ex) {
              Logger.getLogger(PrincipalJFrame.class.getName()).log(Level.SEVERE, null, ex);
          }
      }
-      for(Cliente cli : new QueryCplus(managerCplus).cliente('2')){
+      for(Cliente cli : new QueryCplus().cliente('2')){
          cli.setFlagusaaliqicmsdiferenciada('Y');
          try {
              new ClienteJpaController(managerCplus).edit(cli);
@@ -499,10 +499,10 @@ public class PrincipalJFrame extends javax.swing.JFrame {
              Logger.getLogger(PrincipalJFrame.class.getName()).log(Level.SEVERE, null, ex);
          }
      }
-       for(Cliente cli : new QueryCplus(managerCplus).cliente('9')){
+       for(Cliente cli : new QueryCplus().cliente('9')){
          cli.setFlagusaaliqicmsdiferenciada('Y');
          try {
-             new ClienteJpaController(managerCplus).edit(cli);
+             new ClienteJpaController(Manager.getManagerCplus()).edit(cli);
          } catch (NonexistentEntityException ex) {
              Logger.getLogger(PrincipalJFrame.class.getName()).log(Level.SEVERE, null, ex);
          } catch (Exception ex) {
@@ -534,7 +534,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "HOUVE UM ERRO AO EXCLUIR CONFIGURACAO, Verifique!! \n" + ex, "Erro Integrador", JOptionPane.ERROR_MESSAGE);
                 }
             }
-            managerCplus.close();
+            Manager.getManagerCplus().close();
             //managerIntegrador.close();
             Manager.getManagerIntegrador().close();
             managerPrestaShop.close();

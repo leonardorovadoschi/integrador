@@ -42,6 +42,7 @@ import jpa.integrador.IntExecucaoJpaController;
 import jpa.integrador.IntLogsJpaController;
 import pedido.AtualizaPedidoCplusDigimacro;
 import pedido.ManutencaoCarrinhoSite;
+import prestashop.Manager;
 import produto.ProdutoCplusDigimacro;
 import produto.TaxRuleGroup;
 import query.cplus.QueryCplus;
@@ -56,19 +57,15 @@ public class IntegracaoJFrame extends javax.swing.JFrame {
 
     /**
      * Creates new form IntegracaoJFrame
-     *
-     * @param managerIntegrador1
-     * @param managerCplus1
-     * @param managerPrestaShop1
      */
-    public IntegracaoJFrame(EntityManagerFactory managerIntegrador1, EntityManagerFactory managerCplus1, EntityManagerFactory managerPrestaShop1) {
-        managerIntegrador = managerIntegrador1;
-        managerCplus = managerCplus1;
-        managerPrestaShop = managerPrestaShop1;
+    public IntegracaoJFrame() {
+        //managerIntegrador = managerIntegrador1;
+        //managerCplus = managerCplus1;
+        //managerPrestaShop = managerPrestaShop1;
         //managerLegiao = managerMagentoLegiao1;
         queryIntegrador = new QueryIntegrador();
-        queryCplus = new QueryCplus(managerCplus);
-        queryPrestaShop = new QueryPrestaShop(managerPrestaShop);
+        queryCplus = new QueryCplus();
+        queryPrestaShop = new QueryPrestaShop();
         initComponents();
         //executaManual = new Executa();
         condicaoParaBotaoIniciar = true;
@@ -430,8 +427,8 @@ public class IntegracaoJFrame extends javax.swing.JFrame {
             if (condicaoParaBotaoIniciar) {
                 condicaoParaBotaoIniciar = false;
                 // executaManual.executaCalculoIcms(false, managerIntegracao, managerCplus, managerDigimacro);
-                for (Calculoicms calIcms : new CalculoicmsJpaController(managerCplus).findCalculoicmsEntities()) {
-                    new TaxRuleGroup().atualizarPsTaxRuleGroup(managerCplus, managerPrestaShop, calIcms);
+                for (Calculoicms calIcms : new CalculoicmsJpaController(Manager.getManagerCplus()).findCalculoicmsEntities()) {
+                    new TaxRuleGroup().atualizarPsTaxRuleGroup(calIcms);
                 }
                 condicaoParaBotaoIniciar = true;
             }
@@ -460,17 +457,17 @@ public class IntegracaoJFrame extends javax.swing.JFrame {
         List<IntConfiguracao> listConfig = queryIntegrador.listagemConfiguracaoproTipoConfiguracao(retornaIpLocalIntegracao());
         for (IntConfiguracao config : listConfig) {
             try {
-                new IntConfiguracaoJpaController(managerIntegrador).destroy(config.getEntityId());
+                new IntConfiguracaoJpaController(Manager.getManagerIntegrador()).destroy(config.getEntityId());
             } catch (jpa.integrador.exceptions.NonexistentEntityException ex) {
                 condicao = false;
                 JOptionPane.showMessageDialog(null, "HOUVE UM ERRO AO EXCLUIR CONFIGURACAO, Verifique!! \n" + ex, "Erro Integrador", JOptionPane.ERROR_MESSAGE);
             }
         }
         if (condicao) {
-            for (IntExecucao ex : new IntExecucaoJpaController(managerIntegrador).findIntExecucaoEntities()) {
+            for (IntExecucao ex : new IntExecucaoJpaController(Manager.getManagerIntegrador()).findIntExecucaoEntities()) {
                 ex.setCondicao(1);
                 try {
-                    new IntExecucaoJpaController(managerIntegrador).edit(ex);
+                    new IntExecucaoJpaController(Manager.getManagerIntegrador()).edit(ex);
                 } catch (Exception ex1) {
                     JOptionPane.showMessageDialog(null, "HOUVE UM ERRO AO EDITAR A EXECUÇÃO, Verifique!! \n" + ex1, "Erro Integrador", JOptionPane.ERROR_MESSAGE);
                 }
@@ -493,18 +490,18 @@ public class IntegracaoJFrame extends javax.swing.JFrame {
                 jProgressBarIntegrador.setString(String.valueOf("Produtos Site verificados: " + count));
                 List<Produto> prodCplus = queryCplus.listProduto(pp.getReference());
                 if (prodCplus.isEmpty()) {
-                    criaLog(new Date(System.currentTimeMillis()), ", O produto com EAN: " + pp.getEan13() + "\n está no site mas não deveria estar", "Erro Informar", managerIntegrador);
+                    criaLog(new Date(System.currentTimeMillis()), ", O produto com EAN: " + pp.getEan13() + "\n está no site mas não deveria estar", "Erro Informar");
                 } else {
                     for (Produto produto : prodCplus) {
                         List<PsStockAvailable> estok = queryPrestaShop.listEstoqueProduto(pp.getIdProduct());
                         for (PsStockAvailable ps : estok) {
-                            if (ps.getPhysicalQuantity() != estoqueCplus(managerCplus, produto)) {
+                            if (ps.getPhysicalQuantity() != estoqueCplus(produto)) {
                                 criaLog(new Date(System.currentTimeMillis()), ", O produto com EAN: " + pp.getEan13() + " está com estoque diferente \n"
-                                        + "Estoque C-Plus: " + estoqueCplus(managerCplus, produto)
-                                        + "\n Estoque Site: " + ps.getPhysicalQuantity(), "Erro Informar", managerIntegrador);
+                                        + "Estoque C-Plus: " + estoqueCplus(produto)
+                                        + "\n Estoque Site: " + ps.getPhysicalQuantity(), "Erro Informar");
                                 produto.setLastChange(new Date(System.currentTimeMillis()));
                                 try {
-                                    new ProdutoJpaController(managerCplus).edit(produto);
+                                    new ProdutoJpaController(Manager.getManagerCplus()).edit(produto);
                                 } catch (NonexistentEntityException ex) {
                                     JOptionPane.showMessageDialog(null, "Erro ao Atualizar Produto, Verifique!! \n" + ex, "Erro Editar", JOptionPane.ERROR_MESSAGE);
                                 } catch (Exception ex) {
@@ -512,16 +509,16 @@ public class IntegracaoJFrame extends javax.swing.JFrame {
                                 }
                             }
                         }
-                        double prC = precoPrincipal(managerCplus, produto).doubleValue();
+                        double prC = precoPrincipal( produto).doubleValue();
                         double prP = pp.getPrice().doubleValue();
                         if (prC != prP) {
                             for (PsProductLang lan : queryPrestaShop.listPsProductLang(pp.getIdProduct(), 2)) {
                                 criaLog(new Date(System.currentTimeMillis()), ", O produto: " + lan.getName() + " está com preço diferente \n"
-                                        + "Preço C-Plus: " + precoPrincipal(managerCplus, produto)
-                                        + "\n Preço Site: " + pp.getPrice(), "Erro Informar", managerIntegrador);
+                                        + "Preço C-Plus: " + precoPrincipal(produto)
+                                        + "\n Preço Site: " + pp.getPrice(), "Erro Informar");
                                 produto.setLastChange(new Date(System.currentTimeMillis()));
                                 try {
-                                    new ProdutoJpaController(managerCplus).edit(produto);
+                                    new ProdutoJpaController(Manager.getManagerCplus()).edit(produto);
                                 } catch (NonexistentEntityException ex) {
                                     JOptionPane.showMessageDialog(null, "Erro ao Atualizar Produto, Verifique!! \n" + ex, "Erro Editar", JOptionPane.ERROR_MESSAGE);
                                 } catch (Exception ex) {
@@ -530,12 +527,12 @@ public class IntegracaoJFrame extends javax.swing.JFrame {
                             }
                         }
                         if (jCheckBoxInativoComEstoque.isSelected()) {
-                            if (pp.getActive() == false && estoqueCplus(managerCplus, produto) > 0) {
+                            if (pp.getActive() == false && estoqueCplus( produto) > 0) {
                                 criaLog(new Date(System.currentTimeMillis()), ", O produto: " + produto.getNomeprod() + " está com estoque e inativo\n",
-                                        "Erro Informar", managerIntegrador);
+                                        "Erro Informar");
                                 produto.setLastChange(new Date(System.currentTimeMillis()));
                                 try {
-                                    new ProdutoJpaController(managerCplus).edit(produto);
+                                    new ProdutoJpaController(Manager.getManagerCplus()).edit(produto);
                                 } catch (NonexistentEntityException ex) {
                                     JOptionPane.showMessageDialog(null, "Erro ao Atualizar Produto, Verifique!! \n" + ex, "Erro Editar", JOptionPane.ERROR_MESSAGE);
                                 } catch (Exception ex) {
@@ -560,14 +557,14 @@ public class IntegracaoJFrame extends javax.swing.JFrame {
                 for (Produto prod : listProd) {
                     jProgressBarIntegrador.setString(String.valueOf("Produtos Site Cplus: " + count));
                     existe = true;
-                    if (estoqueCplus(managerCplus, prod) > 0) {
+                    if (estoqueCplus(prod) > 0) {
                         for (PsProduct pp : prodPresta) {
                             if (prod.getCodprod() == null ? pp.getReference() == null : prod.getCodprod().equals(pp.getReference())) {
                                 existe = false;
                             }
                         }
                         if (existe) {
-                            criaLog(new Date(System.currentTimeMillis()), ", O produto: " + prod.getNomeprod() + "\n Não está no site ", "Erro Informar", managerIntegrador);
+                            criaLog(new Date(System.currentTimeMillis()), ", O produto: " + prod.getNomeprod() + "\n Não está no site ", "Erro Informar");
                         }
                     }
                     count++;
@@ -589,11 +586,11 @@ public class IntegracaoJFrame extends javax.swing.JFrame {
         if (cancelar == JOptionPane.YES_OPTION) {
             new Thread(() -> {
                 abrirFecharBotoes(false);
-                for (Produto proCplus : new ProdutoJpaController(managerCplus).findProdutoEntities()) {
-                    if (estoqueCplus(managerCplus, proCplus) > 0) {
+                for (Produto proCplus : new ProdutoJpaController(Manager.getManagerCplus()).findProdutoEntities()) {
+                    if (estoqueCplus( proCplus) > 0) {
                         proCplus.setLastChange(new Date(System.currentTimeMillis()));
                         try {
-                            new ProdutoJpaController(managerCplus).edit(proCplus);
+                            new ProdutoJpaController(Manager.getManagerCplus()).edit(proCplus);
                         } catch (NonexistentEntityException ex) {
                             Logger.getLogger(IntegracaoJFrame.class.getName()).log(Level.SEVERE, null, ex);
                         } catch (Exception ex) {
@@ -606,19 +603,19 @@ public class IntegracaoJFrame extends javax.swing.JFrame {
         }
     }
 
-    private BigDecimal precoPrincipal(EntityManagerFactory managerCplus, Produto proCplus) {
+    private BigDecimal precoPrincipal(Produto proCplus) {
         BigDecimal preco = BigDecimal.ZERO;
-        List<Produtopreco> listPreco = new QueryCplus(managerCplus).listPrecos(proCplus.getCodprod(), "000000001");
+        List<Produtopreco> listPreco = new QueryCplus().listPrecos(proCplus.getCodprod(), "000000001");
         for (Produtopreco pr : listPreco) {
             preco = pr.getPreco().multiply(new BigDecimal("1.11"));
         }
         return preco.setScale(2, RoundingMode.HALF_UP);
     }
 
-    private Integer estoqueCplus(EntityManagerFactory managerCplus, Produto proCplus) {
+    private Integer estoqueCplus(Produto proCplus) {
         BigDecimal estoque = BigDecimal.ZERO;
         int stock;
-        List<Produtoestoque> listEsroque = new QueryCplus(managerCplus).listEstoquesPorProd(proCplus.getCodprod());
+        List<Produtoestoque> listEsroque = new QueryCplus().listEstoquesPorProd(proCplus.getCodprod());
         for (Produtoestoque est : listEsroque) {
             estoque = est.getEstatu().subtract(est.getReservadoorcamento().subtract(est.getReservadoos()));
         }
@@ -650,15 +647,15 @@ public class IntegracaoJFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new IntegracaoJFrame(managerIntegrador, managerCplus, managerPrestaShop).setVisible(true);
+                new IntegracaoJFrame().setVisible(true);
             }
         });
     }
 
     private void integrarProduto(boolean manual) {
-        IntExecucao exeProduto = new IntExecucaoJpaController(managerIntegrador).findIntExecucao("produto");
+        IntExecucao exeProduto = new IntExecucaoJpaController(Manager.getManagerIntegrador()).findIntExecucao("produto");
         if (exeProduto.getCondicao() == 1) {
-            new AtualizaExecucaoIntegrador().atualizaExecucaoIntegradorCondicao(exeProduto, 0, managerIntegrador);
+            new AtualizaExecucaoIntegrador().atualizaExecucaoIntegradorCondicao(exeProduto, 0);
             boolean condicaoErro = true;
             int cont = 0;
             Calendar dataAtual = Calendar.getInstance();
@@ -679,9 +676,9 @@ public class IntegracaoJFrame extends javax.swing.JFrame {
                 for (Produto proCplus : listaProdCplus) {
                     List<Produtocaracteristica> lisCar = queryCplus.listCaracteristicaProduto(proCplus.getCodprod());
                     if (lisCar.size() == 1) {
-                        if (new ProdutoCplusDigimacro().produtoCplusDigimacro(managerIntegrador, managerCplus, managerPrestaShop, proCplus) == false) {
+                        if (new ProdutoCplusDigimacro().produtoCplusDigimacro( proCplus) == false) {
                             condicaoErro = false;
-                            criaLog(proCplus.getLastChange(), ", Erro ao Atualizar produto C-Plus Integrador Digimacro, Produto: " + proCplus.getNomeprod(), "Erro Editar", managerIntegrador);
+                            criaLog(proCplus.getLastChange(), ", Erro ao Atualizar produto C-Plus Integrador Digimacro, Produto: " + proCplus.getNomeprod(), "Erro Editar");
                         }
                     }
                     jProgressBarIntegrador.setString(String.valueOf("Atualizando Produto: " + proCplus.getNomeprod()));
@@ -691,10 +688,10 @@ public class IntegracaoJFrame extends javax.swing.JFrame {
                 }
                 if (condicaoErro == true) {
                     fimExecucao.add(Calendar.SECOND, -200);
-                    new AtualizaExecucaoIntegrador().atualizaExecucaoIntegradorData(exeProduto, fimExecucao.getTime(), managerIntegrador);
+                    new AtualizaExecucaoIntegrador().atualizaExecucaoIntegradorData(exeProduto, fimExecucao.getTime());
                 }
             }
-            new AtualizaExecucaoIntegrador().atualizaExecucaoIntegradorCondicao(exeProduto, 1, managerIntegrador);
+            new AtualizaExecucaoIntegrador().atualizaExecucaoIntegradorCondicao(exeProduto, 1);
         }
         jProgressBarIntegrador.setString("");
         jProgressBarIntegrador.setMinimum(0);
@@ -702,7 +699,7 @@ public class IntegracaoJFrame extends javax.swing.JFrame {
     }
 
     private void atualizarPedido(boolean manual) {
-        IntExecucao execucaoAjustaPedido = new IntExecucaoJpaController(managerIntegrador).findIntExecucao("ajusta_pedido");
+        IntExecucao execucaoAjustaPedido = new IntExecucaoJpaController(Manager.getManagerIntegrador()).findIntExecucao("ajusta_pedido");
         boolean condicao = true;
         if (execucaoAjustaPedido.getCondicao() == 1) {
             Calendar dataAtual = Calendar.getInstance();
@@ -711,7 +708,7 @@ public class IntegracaoJFrame extends javax.swing.JFrame {
             dataBanco.setTime(execucaoAjustaPedido.getUltimaExecucao());
             dataBanco.add(Calendar.SECOND, execucaoAjustaPedido.getTempo());
             if (dataAtual.after(dataBanco) || manual) {
-                new AtualizaExecucaoIntegrador().atualizaExecucaoIntegradorCondicao(execucaoAjustaPedido, 0, managerIntegrador);
+                new AtualizaExecucaoIntegrador().atualizaExecucaoIntegradorCondicao(execucaoAjustaPedido, 0);
                 List<Integer> list = new ArrayList<>();
                 list.add(1);
                 list.add(2);
@@ -736,16 +733,16 @@ public class IntegracaoJFrame extends javax.swing.JFrame {
                     } else {
                         jProgressBarIntegrador.setString(String.valueOf("Atualizando Pedido: " + order.getReference() + " Numero Pedido: " + order.getIdOrder()));
                     }
-                    new AtualizaPedidoCplusDigimacro().atualizarPedido(managerIntegrador, managerPrestaShop, managerCplus, order);
+                    new AtualizaPedidoCplusDigimacro().atualizarPedido( order);
                     cont++;
                     jProgressBarIntegrador.setValue(cont);
                     jLabelTotalRegistro.setText(cont + " de " + numRegistro + " Registros");
                     if (condicao) {
-                        new AtualizaExecucaoIntegrador().atualizaExecucaoIntegradorData(execucaoAjustaPedido, new Date(System.currentTimeMillis()), managerIntegrador);
+                        new AtualizaExecucaoIntegrador().atualizaExecucaoIntegradorData(execucaoAjustaPedido, new Date(System.currentTimeMillis()));
                     }
                 }
-                new AtualizaExecucaoIntegrador().atualizaExecucaoIntegradorCondicao(execucaoAjustaPedido, 1, managerIntegrador);
-            }//fim if que verifica se ha execuÃ§Ã£o
+                new AtualizaExecucaoIntegrador().atualizaExecucaoIntegradorCondicao(execucaoAjustaPedido, 1);
+            }//fim if que verifica se ha execusão
         }
         jProgressBarIntegrador.setString("");
         jProgressBarIntegrador.setMinimum(0);
@@ -753,9 +750,9 @@ public class IntegracaoJFrame extends javax.swing.JFrame {
     }
 
     private void DeletarCarrinhoVazio() {
-        IntExecucao exeCart = new IntExecucaoJpaController(managerIntegrador).findIntExecucao("deletar_carrinho_vazio");
+        IntExecucao exeCart = new IntExecucaoJpaController(Manager.getManagerIntegrador()).findIntExecucao("deletar_carrinho_vazio");
         if (exeCart.getCondicao() == 1) {
-            new AtualizaExecucaoIntegrador().atualizaExecucaoIntegradorCondicao(exeCart, 0, managerIntegrador);
+            new AtualizaExecucaoIntegrador().atualizaExecucaoIntegradorCondicao(exeCart, 0);
             boolean condicaoErro = true;
             Calendar dataAtual = Calendar.getInstance();
             dataAtual.setTime(new Date(System.currentTimeMillis()));
@@ -783,18 +780,18 @@ public class IntegracaoJFrame extends javax.swing.JFrame {
                         jProgressBarIntegrador.setString(String.valueOf("Deletando Carrinho do Cliente: " + cus.getFirstname()));
                     }
                                       
-                    new ManutencaoCarrinhoSite().DeletaCarrinhoVazio(cart, managerPrestaShop);
+                    new ManutencaoCarrinhoSite().DeletaCarrinhoVazio(cart);
                     cont++;
                     jLabelTotalRegistro.setText(cont + " de " + numRegistro + " Registros");
                     jProgressBarIntegrador.setValue(cont);
                 }
                 if (condicaoErro == true) {
                     fimExecucao.add(Calendar.MINUTE, -5);
-                    new AtualizaExecucaoIntegrador().atualizaExecucaoIntegradorData(exeCart, fimExecucao.getTime(), managerIntegrador);
-                    criaLog(new Date(System.currentTimeMillis()), "Exclusão de Carrinhos vazios executada com sucesso: ", "Informar", managerIntegrador);
+                    new AtualizaExecucaoIntegrador().atualizaExecucaoIntegradorData(exeCart, fimExecucao.getTime());
+                    criaLog(new Date(System.currentTimeMillis()), "Exclusão de Carrinhos vazios executada com sucesso: ", "Informar");
                 }
             }
-            new AtualizaExecucaoIntegrador().atualizaExecucaoIntegradorCondicao(exeCart, 1, managerIntegrador);
+            new AtualizaExecucaoIntegrador().atualizaExecucaoIntegradorCondicao(exeCart, 1);
             jProgressBarIntegrador.setString("");
             jProgressBarIntegrador.setMinimum(0);
             jProgressBarIntegrador.setValue(0);
@@ -802,9 +799,9 @@ public class IntegracaoJFrame extends javax.swing.JFrame {
     }
 
     private void integrarCliente(boolean manual) {
-        IntExecucao exeCliente = new IntExecucaoJpaController(managerIntegrador).findIntExecucao("cliente_integrador");
+        IntExecucao exeCliente = new IntExecucaoJpaController(Manager.getManagerIntegrador()).findIntExecucao("cliente_integrador");
         if (exeCliente.getCondicao() == 1) {
-            new AtualizaExecucaoIntegrador().atualizaExecucaoIntegradorCondicao(exeCliente, 0, managerIntegrador);
+            new AtualizaExecucaoIntegrador().atualizaExecucaoIntegradorCondicao(exeCliente, 0);
             boolean condicaoErro = true;
             Calendar dataAtual = Calendar.getInstance();
             dataAtual.setTime(new Date(System.currentTimeMillis()));
@@ -829,7 +826,7 @@ public class IntegracaoJFrame extends javax.swing.JFrame {
                     //String cod = cliC.getCodcli();
                     List<Clientecaracteristica> lisCar = queryCplus.listClienteCaracteristica(codCaracteristicaCliente, cliC.getCodcli());
                     if (lisCar.size() == 1) {
-                        new ClienteCplusDigimacro().atualizaClienteDigimacro(managerCplus, managerIntegrador, cliC, managerPrestaShop);
+                        new ClienteCplusDigimacro().atualizaClienteDigimacro(cliC);
                         jProgressBarIntegrador.setString(String.valueOf("Atualização Cliente: " + cliC.getNomecli()));
                     } else {
                         jProgressBarIntegrador.setString(String.valueOf("Cliente não Integrado: " + cliC.getNomecli()));
@@ -841,10 +838,10 @@ public class IntegracaoJFrame extends javax.swing.JFrame {
                 }
                 if (condicaoErro == true) {
                     fimExecucao.add(Calendar.MINUTE, -5);
-                    new AtualizaExecucaoIntegrador().atualizaExecucaoIntegradorData(exeCliente, fimExecucao.getTime(), managerIntegrador);
+                    new AtualizaExecucaoIntegrador().atualizaExecucaoIntegradorData(exeCliente, fimExecucao.getTime());
                 }
             }
-            new AtualizaExecucaoIntegrador().atualizaExecucaoIntegradorCondicao(exeCliente, 1, managerIntegrador);
+            new AtualizaExecucaoIntegrador().atualizaExecucaoIntegradorCondicao(exeCliente, 1);
             jProgressBarIntegrador.setString("");
             jProgressBarIntegrador.setMinimum(0);
             jProgressBarIntegrador.setValue(0);
@@ -882,9 +879,9 @@ public class IntegracaoJFrame extends javax.swing.JFrame {
     }
 
     private void integrarEstoque() {
-        IntExecucao execucaoEstoque = new IntExecucaoJpaController(managerIntegrador).findIntExecucao("ajusta_estoque");
+        IntExecucao execucaoEstoque = new IntExecucaoJpaController(Manager.getManagerIntegrador()).findIntExecucao("ajusta_estoque");
         if (execucaoEstoque.getCondicao() == 1) {
-            new AtualizaExecucaoIntegrador().atualizaExecucaoIntegradorCondicao(execucaoEstoque, 0, managerIntegrador);
+            new AtualizaExecucaoIntegrador().atualizaExecucaoIntegradorCondicao(execucaoEstoque, 0);
             int cont = 0;
             Calendar dataAtual = Calendar.getInstance();
             dataAtual.setTime(new Date(System.currentTimeMillis()));
@@ -908,9 +905,9 @@ public class IntegracaoJFrame extends javax.swing.JFrame {
                 for (Produtoestoque pe : listProdEstoque) {
                    List<Produtocaracteristica> lisCar = queryCplus.listCaracteristicaProduto(pe.getProduto().getCodprod());
                     if (lisCar.size() == 1) {
-                    if (new ProdutoCplusDigimacro().produtoCplusDigimacroEstoque(managerIntegrador, managerCplus, managerPrestaShop, pe.getProduto()) == false) {
+                    if (new ProdutoCplusDigimacro().produtoCplusDigimacroEstoque(pe.getProduto()) == false) {
                         condicaoErro = false;
-                        criaLog(pe.getLastChange(), ", Erro ao Atualizar produto C-Plus Integrador Digimacro, Produto: " + pe.getProduto().getNomeprod(), "Erro Editar", managerIntegrador);
+                        criaLog(pe.getLastChange(), ", Erro ao Atualizar produto C-Plus Integrador Digimacro, Produto: " + pe.getProduto().getNomeprod(), "Erro Editar");
                     }
                     }
                     jProgressBarIntegrador.setString(String.valueOf("Atualizando Produto: " + pe.getProduto().getNomeprod()));
@@ -921,41 +918,37 @@ public class IntegracaoJFrame extends javax.swing.JFrame {
                 if (condicaoErro == true) {
                     fimExecucao.add(Calendar.SECOND, -20);
                     //execucaoEstoque.setUltimaExecucao(fimExecucao.getTime());
-                    new AtualizaExecucaoIntegrador().atualizaExecucaoIntegradorData(execucaoEstoque, fimExecucao.getTime(), managerIntegrador);
+                    new AtualizaExecucaoIntegrador().atualizaExecucaoIntegradorData(execucaoEstoque, fimExecucao.getTime());
                     //criaLog(fimExecucao.getTime(), " Ajuste de Estoque Executado com sucesso!!  ", "Ediï¿½ï¿½o", managerIntegracao);                                      
                 }
             }
-            new AtualizaExecucaoIntegrador().atualizaExecucaoIntegradorCondicao(execucaoEstoque, 1, managerIntegrador);
+            new AtualizaExecucaoIntegrador().atualizaExecucaoIntegradorCondicao(execucaoEstoque, 1);
         } else {//fim if que verifica se já está sendo executado
-            criaLog(new Date(System.currentTimeMillis()), "A execução do Estoque está desativada, verificar no banco de dados integrador: ", "Erro Informar", managerIntegrador);
+            criaLog(new Date(System.currentTimeMillis()), "A execução do Estoque está desativada, verificar no banco de dados integrador: ", "Erro Informar");
         }
         jProgressBarIntegrador.setString("");
         jProgressBarIntegrador.setValue(0);
     }
 
-    private void criaLog(Date dataExecucao, String mensagem, String tipoLog, EntityManagerFactory managerIntegracao) {
+    private void criaLog(Date dataExecucao, String mensagem, String tipoLog) {
         IntLogs log = new IntLogs();
         log.setDataExecucao(dataExecucao);
 
         log.setMensagem(mensagem);
         log.setTipoLog(tipoLog);
-        new IntLogsJpaController(managerIntegracao).create(log);
+        new IntLogsJpaController(Manager.getManagerIntegrador()).create(log);
     }
 
     private void abrirFecharBotoes(boolean condicao) {
         jButtonAtualizaClienteCplusParaMagento.setEnabled(condicao);
         jButtonAtualizaTaxa.setEnabled(condicao);
-
         jButtonAtualizaProduto.setEnabled(condicao);
         jButtonExecucao.setEnabled(condicao);
         jButtonAtualizaPedido.setEnabled(condicao);
-
         jButtonParaExecucao.setEnabled(condicao);
-
         jProgressBarIntegrador.setValue(0);
         jProgressBarIntegrador.setString(String.valueOf(""));
         jLabelTotalRegistro.setText("");
-        //jButton1.setEnabled(condicao);
         jButtonVerificarProdutos.setEnabled(condicao);
         jButtonAtualizaTodosProdutos.setEnabled(condicao);
     }
@@ -1009,7 +1002,7 @@ public class IntegracaoJFrame extends javax.swing.JFrame {
             c.setValor("integracao_1");
             c.setDataCriacao(new Date(System.currentTimeMillis()));
             try {
-                new IntConfiguracaoJpaController(managerIntegrador).create(c);
+                new IntConfiguracaoJpaController(Manager.getManagerIntegrador()).create(c);
             } catch (Exception ex) {
                 condicao = false;
                 JOptionPane.showMessageDialog(null, "HOUVE UM ERRO AO CRIAR CONFIGURACAO, Verifique!! \n" + ex, "Erro Integrador", JOptionPane.ERROR_MESSAGE);
@@ -1018,7 +1011,7 @@ public class IntegracaoJFrame extends javax.swing.JFrame {
             for (IntConfiguracao config : listConfig) {
                 config.setValor("integracao_1");
                 try {
-                    new IntConfiguracaoJpaController(managerIntegrador).edit(config);
+                    new IntConfiguracaoJpaController(Manager.getManagerIntegrador()).edit(config);
                 } catch (Exception ex) {
                     condicao = false;
                     JOptionPane.showMessageDialog(null, "HOUVE UM ERRO AO EDITAR CONFIGURACAO, Verifique!! \n" + ex, "Erro Integrador", JOptionPane.ERROR_MESSAGE);
@@ -1029,7 +1022,7 @@ public class IntegracaoJFrame extends javax.swing.JFrame {
             for (IntConfiguracao config : listConfig) {
                 if (cont > 0) {
                     try {
-                        new IntConfiguracaoJpaController(managerIntegrador).destroy(config.getEntityId());
+                        new IntConfiguracaoJpaController(Manager.getManagerIntegrador()).destroy(config.getEntityId());
                     } catch (jpa.integrador.exceptions.NonexistentEntityException ex) {
                         condicao = false;
                         JOptionPane.showMessageDialog(null, "HOUVE UM ERRO AO EXCLUIR CONFIGURACAO, Verifique!! \n" + ex, "Erro Integrador", JOptionPane.ERROR_MESSAGE);
@@ -1055,9 +1048,9 @@ public class IntegracaoJFrame extends javax.swing.JFrame {
     private final QueryIntegrador queryIntegrador;
     private final QueryCplus queryCplus;
     private final QueryPrestaShop queryPrestaShop;
-    private static EntityManagerFactory managerIntegrador;
-    private static EntityManagerFactory managerCplus;
-    private static EntityManagerFactory managerPrestaShop;
+    //private static EntityManagerFactory managerIntegrador;
+    //private static EntityManagerFactory managerCplus;
+    //private static EntityManagerFactory managerPrestaShop;
     private final String codCaracteristicaCliente;
 
 

@@ -24,12 +24,12 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
 import jpa.cplus.MovendaJpaController;
 import jpa.cplus.MovendaprodJpaController;
 import jpa.cplus.ProdutoestoqueJpaController;
 import jpa.cplus.exceptions.NonexistentEntityException;
+import prestashop.Manager;
 import query.cplus.QueryCplus;
 import query.integrador.QueryIntegrador;
 
@@ -42,19 +42,19 @@ public class SaidaClienteCplus {
     private QueryIntegrador queryIntegrador;
     //private int decimaisArredondamento;
     public boolean saidaClienteCplus(boolean controlaEstoque, Tipomovimento movimentoSaidaCliente, Calculoicmsestado calculoIcmsEstado, Cliente cliente, Movendaprod movSaidaProd,
-            String serial, Usuario usuario, EntityManagerFactory managerCplus, EntityManagerFactory managerIntegrador) {
-        queryCplus = new QueryCplus(managerCplus);
+            String serial, Usuario usuario) {
+        queryCplus = new QueryCplus();
         queryIntegrador = new QueryIntegrador();
         //decimaisArredondamento =  Integer.valueOf(queryIntegrador.valorConfiguracao("casas_decimais_ARREDONDAMENTO"));
         boolean condicao = true;           
         if (condicao) {
             List<Movenda> listMovenda = queryCplus.listagemMovendaCliente(movimentoSaidaCliente.getCodigo(), cliente.getCodcli());
             if (listMovenda.isEmpty()) {               
-                if(criarSaida(movimentoSaidaCliente, cliente, usuario, managerCplus, managerIntegrador)){               
+                if(criarSaida(movimentoSaidaCliente, cliente, usuario)){               
                 List<Movenda> listSaida = queryCplus.listagemMovendaCliente(movimentoSaidaCliente.getCodigo(), cliente.getCodcli());
                 if (listSaida.size() == 1) {
                     for (Movenda saida : listSaida) {
-                        if(criaSaidaProd(controlaEstoque, calculoIcmsEstado, saida, movSaidaProd, serial, managerCplus) == false){
+                        if(criaSaidaProd(controlaEstoque, calculoIcmsEstado, saida, movSaidaProd, serial) == false){
                             condicao = false;
                         }
                     }
@@ -68,12 +68,12 @@ public class SaidaClienteCplus {
                     for (Movenda saida : listSaida) {
                         List<Movendaprod> listMovSaidaProd = queryCplus.listagemMovSaidaProd(saida.getCodmovenda(), movSaidaProd.getCodprod().getCodprod(), movSaidaProd.getValorunitario());
                         if (listMovSaidaProd.isEmpty()) {
-                            if(criaSaidaProd(controlaEstoque, calculoIcmsEstado, saida, movSaidaProd, serial, managerCplus) == false){
+                            if(criaSaidaProd(controlaEstoque, calculoIcmsEstado, saida, movSaidaProd, serial) == false){
                                 condicao = false;
                             }
                         } else {
                             for (Movendaprod prod : listMovSaidaProd) {
-                                if(editaSaidaProd(controlaEstoque, movSaidaProd, saida, prod , serial, managerCplus) == false){
+                                if(editaSaidaProd(controlaEstoque, movSaidaProd, saida, prod , serial) == false){
                                     condicao = false;
                                 }
                             }
@@ -87,7 +87,7 @@ public class SaidaClienteCplus {
         return condicao;
     }
 
-    private boolean criarSaida(Tipomovimento movimento, Cliente cliente, Usuario usuario, EntityManagerFactory managerCplus, EntityManagerFactory managerIntegrador) {
+    private boolean criarSaida(Tipomovimento movimento, Cliente cliente, Usuario usuario) {
         boolean condicao = true;
         Movenda saida = new Movenda();
         //decrement para tabela MovEntrada
@@ -149,7 +149,7 @@ public class SaidaClienteCplus {
             saida.setValortotaliss(BigDecimal.ZERO);
             saida.setFlagestoqueliberado('Y');         
             try {
-                new MovendaJpaController(managerCplus).create(saida);
+                new MovendaJpaController(Manager.getManagerCplus()).create(saida);
                 numPedido ++;
                 new ConexaoDB().atualizarCodigo("MOVENDA", "NUMPED", numPedido);
                 numCodMovenda ++;
@@ -173,7 +173,7 @@ public class SaidaClienteCplus {
     }
 
     private boolean criaSaidaProd(Boolean controlaEstoque, Calculoicmsestado calculoIcmsEstado, Movenda saida, Movendaprod movSaidaProd, 
-            String serial, EntityManagerFactory managerCplus) {
+            String serial) {
         boolean condicao = true;
         Movendaprod saidaProd = new Movendaprod();
         //IntConfiguracao configuracao = Integer.valueOf(queryIntegrador.valorCinfiguracao("increment_tabela_movenda_prod"));
@@ -240,24 +240,24 @@ public class SaidaClienteCplus {
             saidaProd.setCstpis(calculoIcmsEstado.getCstpis());
             saidaProd.setCstcofins(calculoIcmsEstado.getCstcofins());
             try {
-                new MovendaprodJpaController(managerCplus).create(saidaProd);
+                new MovendaprodJpaController(Manager.getManagerCplus()).create(saidaProd);
                                
             if(controlaEstoque){
-                atualizaEstoque(movSaidaProd.getCodprod(), managerCplus);
+                atualizaEstoque(movSaidaProd.getCodprod());
             }
                 
             } catch (Exception ex) {
                JOptionPane.showMessageDialog(null, "Houve um erro ao Gravar Entrada Produto!!!\n " + ex);
                condicao = false;
             }
-            editaSaida(saida, managerCplus);
-            mensagemEntrada(movSaidaProd, serial, saida, managerCplus);
+            editaSaida(saida);
+            mensagemEntrada(movSaidaProd, serial, saida);
        }
         return condicao;
     }
 
     private boolean editaSaidaProd(Boolean controlaEstoque, Movendaprod movSaidaProdVenda, Movenda saida, 
-            Movendaprod movSaidaProdNovo, String serial, EntityManagerFactory managerCplus) {
+            Movendaprod movSaidaProdNovo, String serial) {
         boolean condicao = true;
         BigDecimal quant = movSaidaProdNovo.getQuantidade();
        // quant = quant + 1.00;
@@ -281,12 +281,12 @@ public class SaidaClienteCplus {
         movSaidaProdNovo.setAliqpis(movSaidaProdVenda.getAliqpis());
         movSaidaProdNovo.setValorpis(BigDecimal.ZERO);         
         try {
-            new MovendaprodJpaController(managerCplus).edit(movSaidaProdNovo);
-            editaSaida(saida, managerCplus);          
+            new MovendaprodJpaController(Manager.getManagerCplus()).edit(movSaidaProdNovo);
+            editaSaida(saida);          
             if(controlaEstoque){
-                atualizaEstoque(movSaidaProdVenda.getCodprod(), managerCplus);
+                atualizaEstoque(movSaidaProdVenda.getCodprod());
             }
-            mensagemEntrada(movSaidaProdVenda, serial, saida, managerCplus);                                     
+            mensagemEntrada(movSaidaProdVenda, serial, saida);                                     
         } catch (NonexistentEntityException ex) {
             JOptionPane.showMessageDialog(null, "Houve um erro ao Editar Entrada Produto!!!\n " + ex);
             condicao = false;
@@ -297,7 +297,7 @@ public class SaidaClienteCplus {
         return condicao;
     }
 
-    private void atualizaEstoque(Produto produto, EntityManagerFactory managerCplus){
+    private void atualizaEstoque(Produto produto){
         List<Produtoestoque> listestoque = queryCplus.listEstoquesPorProd(produto.getCodprod());
         for(Produtoestoque estoque : listestoque){
             BigDecimal estoqueNovo = estoque.getEstatu();
@@ -305,14 +305,14 @@ public class SaidaClienteCplus {
             estoque.setEstatu(estoqueNovo);
             estoque.setLastChange(new Date(System.currentTimeMillis()));
             try {
-                new ProdutoestoqueJpaController(managerCplus).edit(estoque);
+                new ProdutoestoqueJpaController(Manager.getManagerCplus()).edit(estoque);
             } catch (Exception ex) {
                JOptionPane.showMessageDialog(null, "Houve um erro ao Atualizar Estoque Produto!!!\n " + ex);
             }
         }
     }
     
-    private boolean editaSaida(Movenda saida, EntityManagerFactory managerCplus) {
+    private boolean editaSaida(Movenda saida) {
          boolean condicao = true;
         List<Movendaprod> listMovProd = queryCplus.listMovendaProd(saida.getCodmovenda());
         if (listMovProd.isEmpty()) {
@@ -364,7 +364,7 @@ public class SaidaClienteCplus {
         
         }
         try {
-            new MovendaJpaController(managerCplus).edit(saida);
+            new MovendaJpaController(Manager.getManagerCplus()).edit(saida);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Houve um erro ao Gravar Entrada!!!\n " + ex);
             condicao = false;
@@ -372,7 +372,7 @@ public class SaidaClienteCplus {
         return condicao;
     }
 
-    private void mensagemEntrada(Movendaprod movSaidaProd, String serial, Movenda movSaida, EntityManagerFactory managerCplus) {
+    private void mensagemEntrada(Movendaprod movSaidaProd, String serial, Movenda movSaida) {
         String mensagem;
         if (movSaida.getObs() == null) {
             mensagem = "";
@@ -382,7 +382,7 @@ public class SaidaClienteCplus {
         mensagem = mensagem + "Saida ref. Pedido de Venda: " + movSaidaProd.getCodmovenda().getNumped() + ", Data Lan�amento: " + new FormataCampos().dataStringSoData(new Date(System.currentTimeMillis()), 0) + ", produto " + movSaidaProd.getCodprod().getNomeprod() + " com serial " + serial + "\n";
         movSaida.setObs(mensagem);
         try {
-            new MovendaJpaController(managerCplus).edit(movSaida);
+            new MovendaJpaController(Manager.getManagerCplus()).edit(movSaida);
         } catch (NonexistentEntityException ex) {
             JOptionPane.showMessageDialog(null, "Houve um erro ao Criar Mensagem de entrada!!!\n " + ex);
         } catch (Exception ex) {

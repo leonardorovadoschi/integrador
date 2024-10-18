@@ -35,10 +35,10 @@ public class RenderPsProductName extends DefaultTableCellRenderer {
         if ((aValue != null) && (aValue instanceof Integer)) {
             // int in = (Integer) aValue;
             //PsProductLang lan = new QueryPrestaShop(emf).psProductLang((Integer) aValue, 2);
-           for (PsProductLang lan : new QueryPrestaShop(emf).listPsProductLang((Integer) aValue, 2)) {
+           for (PsProductLang lan : new QueryPrestaShop().listPsProductLang((Integer) aValue, 2)) {
                 nome = lan.getName();
             }
-           for (PsStockAvailable sa : new QueryPrestaShop(emf).listPsStockAvailable((Integer) aValue, 1)) {            
+           for (PsStockAvailable sa : new QueryPrestaShop().listPsStockAvailable((Integer) aValue, 1)) {            
                 v = sa.getQuantity();
             }
         }

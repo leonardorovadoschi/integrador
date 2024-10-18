@@ -40,6 +40,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+import prestashop.Manager;
 import query.cplus.QueryCplus;
 import query.integrador.QueryIntegrador;
 import query.prestaShop.QueryPrestaShop;
@@ -50,42 +51,35 @@ import query.prestaShop.QueryPrestaShop;
  */
 public class ManutencaoVenda {
 
-    public void alteraValorProdutos(QueryCplus queryCplus, Movenda movenda, PsOrders order, EntityManagerFactory managerCplus, EntityManagerFactory managerPrestaShop, EntityManagerFactory managerIntegrador) {
+    public void alteraValorProdutos(QueryCplus queryCplus, Movenda movenda, PsOrders order) {
         for (Movendaprod movProdCplus : movenda.getMovendaprodCollection()) {
-            for (PsOrderDetail item : new QueryPrestaShop(managerPrestaShop).listPsOrderDetail(order.getIdOrder())) {
-                if (movProdCplus.getCodprod().getCodprod().equals(new PsProductJpaController(managerPrestaShop).findPsProduct(item.getProductId()).getReference())) {
+            for (PsOrderDetail item : new QueryPrestaShop().listPsOrderDetail(order.getIdOrder())) {
+                if (movProdCplus.getCodprod().getCodprod().equals(new PsProductJpaController(Manager.getManagerPrestaShop()).findPsProduct(item.getProductId()).getReference())) {
 
-                    //prodCplus.setValortotal(item.getTotalPriceTaxIncl());
-
-                    //prodCplus.setValorunitario(item.getUnitPriceTaxIncl());
-                   // BigDecimal quanConvertida = new BigDecimal(item.getProductQuantity()).multiply(fatorConversaoBigDecimal(movProdCplus.getCodprod(), managerCplus));
-                   //BigDecimal valUni = item.getTotalPriceTaxIncl().divide(quanConvertida, 2, BigDecimal.ROUND_HALF_DOWN);
                     BigDecimal valUni = item.getUnitPriceTaxIncl().divide(movProdCplus.getQuantidade(), 2 , RoundingMode.HALF_UP);
-                    //valUni = new ValoresOrder().valorUnitario(valUni);
-                    //BigDecimal valorTotal = new ValoresOrder().valorTotalItem(valUni, quanConvertida.intValue());
-                    //BigDecimal valorTotal = item.getTotalPriceTaxIncl();
+                   
                     movProdCplus.setValorunitario(valUni);
                     movProdCplus.setValortotal(item.getTotalPriceTaxIncl());
                 }
             }
             try {
-                new MovendaprodJpaController(managerCplus).edit(movProdCplus);
+                new MovendaprodJpaController(Manager.getManagerCplus()).edit(movProdCplus);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, "Erro ao editar!!!\n" + ex);
             }
         }
-        editaMovenda(queryCplus, movenda, new ValoresOrder().valorTotalPredido(order), managerCplus, managerIntegrador);
+        editaMovenda(queryCplus, movenda, new ValoresOrder().valorTotalPredido(order));
     }
        
 
-    private void editaMovenda(QueryCplus queryCplus, Movenda movenda, BigDecimal valorTotalPedido, EntityManagerFactory managerCplus, EntityManagerFactory managerIntegrador) {
+    private void editaMovenda(QueryCplus queryCplus, Movenda movenda, BigDecimal valorTotalPedido) {
         movenda.setValortotalnota(valorTotalPedido);
-        movenda.setCodcli(new ClienteJpaController(managerCplus).findCliente(new QueryIntegrador().valorConfiguracao("cliente_CODIGO_PARA_CUPOM")));
+        movenda.setCodcli(new ClienteJpaController(Manager.getManagerCplus()).findCliente(new QueryIntegrador().valorConfiguracao("cliente_CODIGO_PARA_CUPOM")));
         try {
-            new MovendaJpaController(managerCplus).edit(movenda);
+            new MovendaJpaController(Manager.getManagerCplus()).edit(movenda);
             for (Contareceber cr : queryCplus.resultReceberPorVenda(movenda.getCodmovenda())) {
                 cr.setValor(valorTotalPedido);
-                new ContareceberJpaController(managerCplus).edit(cr);
+                new ContareceberJpaController(Manager.getManagerCplus()).edit(cr);
             }
         } catch (NonexistentEntityException ex) {
             JOptionPane.showMessageDialog(null, "Erro ao atualizar total pedido!!!\n" + ex);
@@ -94,19 +88,19 @@ public class ManutencaoVenda {
         }
     }
 
-    public List<Orcamentoprod> imprimirOrcamento(PsOrders order, EntityManagerFactory managerCplus, EntityManagerFactory managerPrestaShop) {
-        List<Orcamento> lidtOrcamento = new QueryCplus(managerCplus).listOrcamentoEntregaTelefone(order.getReference());
+    public List<Orcamentoprod> imprimirOrcamento(PsOrders order) {
+        List<Orcamento> lidtOrcamento = new QueryCplus().listOrcamentoEntregaTelefone(order.getReference());
         List<Orcamentoprod> listMov = new ArrayList<>();
         for (Orcamento orc : lidtOrcamento) {
             //List<SalesFlatOrderItem> listProduto = new PedidoProdutoIntegradorJpaController(managerIntegracao).codigoPedido(pedidoIntegrador.getIdPedido());
             for (Orcamentoprod orcProd : orc.getOrcamentoprodCollection()) {
-                for (PsOrderDetail item : new QueryPrestaShop(managerPrestaShop).listPsOrderDetail(order.getIdOrder())) {
-                    if (new PsProductJpaController(managerPrestaShop).findPsProduct(item.getProductId()).getCacheIsPack()) {
-                        for (PsPack psP : new QueryPrestaShop(managerPrestaShop).listPack(new PsProductJpaController(managerPrestaShop).findPsProduct(item.getProductId()).getIdProduct())) {
+                for (PsOrderDetail item : new QueryPrestaShop().listPsOrderDetail(order.getIdOrder())) {
+                    if (new PsProductJpaController(Manager.getManagerPrestaShop()).findPsProduct(item.getProductId()).getCacheIsPack()) {
+                        for (PsPack psP : new QueryPrestaShop().listPack(new PsProductJpaController(Manager.getManagerPrestaShop()).findPsProduct(item.getProductId()).getIdProduct())) {
                             item.setProductId(psP.getPsPackPK().getIdProductItem());
                         }
                     }
-                    if (orcProd.getCodprod().getCodprod().equals(new PsProductJpaController(managerPrestaShop).findPsProduct(item.getProductId()).getReference())) {
+                    if (orcProd.getCodprod().getCodprod().equals(new PsProductJpaController(Manager.getManagerPrestaShop()).findPsProduct(item.getProductId()).getReference())) {
                         orcProd.setValorunitario(item.getUnitPriceTaxIncl());
                         //double precoTotalLiquido = precoUnitarioLiquido * quantidadeItem;
                         orcProd.setValortotal(item.getTotalPriceTaxIncl());

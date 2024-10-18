@@ -22,10 +22,10 @@ import java.math.RoundingMode;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
 import jpa.prestaShop.PsGroupJpaController;
 import jpa.prestaShop.PsProductJpaController;
+import prestashop.Manager;
 import produto.PedidoCompra;
 import query.prestaShop.QueryPrestaShop;
 
@@ -40,32 +40,18 @@ public class ListPsProductJDialog extends javax.swing.JDialog {
      *
      * @param parent
      * @param modal
-     * @param managerIntegrador1
-     * @param managerPrestaShop1
-     * @param managerCplus1
      * @param usuario1
      */
-    public ListPsProductJDialog(java.awt.Frame parent, boolean modal, EntityManagerFactory managerIntegrador1, EntityManagerFactory managerPrestaShop1, EntityManagerFactory managerCplus1, Usuario usuario1) {
-        super(parent, modal);
-        managerPrestaShop = managerPrestaShop1;
-        managerCplus = managerCplus1;
-        managerIntegrador = managerIntegrador1;
-
+    public ListPsProductJDialog(java.awt.Frame parent, boolean modal, Usuario usuario1) {
+        super(parent, modal);      
         initComponents();
 
-        formataCampos = new FormataCampos();
-        //shopUrl = new QueryIntegrador(managerIntegrador).valorConfiguracao("shopURL");
-        //key = new QueryIntegrador(managerIntegrador).valorConfiguracao("shopKEY");
+        formataCampos = new FormataCampos();     
         usuario = usuario1;
-        queryPrestaShop = new QueryPrestaShop(managerPrestaShop);
-        ControleAcesso acesso = new ControleAcesso(managerCplus);
+        queryPrestaShop = new QueryPrestaShop();
+        ControleAcesso acesso = new ControleAcesso();
         colunaEntityId = jTablePsProduct.getColumnModel().getColumnIndex("Id Product");
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
-        //new RenderPsProductName(managerPrestaShop);
-        //new RenderPsStockDisponivel(managerPrestaShop);
-        //new RenderPreco();
-        //new RenderPsProductPeso();
-
     }
 
     /**
@@ -201,8 +187,8 @@ public class ListPsProductJDialog extends javax.swing.JDialog {
         if (jTablePsProduct.getColumnModel().getColumnCount() > 0) {
             jTablePsProduct.getColumnModel().getColumn(0).setPreferredWidth(100);
             jTablePsProduct.getColumnModel().getColumn(1).setPreferredWidth(450);
-            jTablePsProduct.getColumnModel().getColumn(1).setCellRenderer(new RenderPsProductName(managerPrestaShop));
-            jTablePsProduct.getColumnModel().getColumn(2).setCellRenderer(new RenderPsStockDisponivel(managerPrestaShop));
+            jTablePsProduct.getColumnModel().getColumn(1).setCellRenderer(new RenderPsProductName(Manager.getManagerPrestaShop()));
+            jTablePsProduct.getColumnModel().getColumn(2).setCellRenderer(new RenderPsStockDisponivel(Manager.getManagerPrestaShop()));
             jTablePsProduct.getColumnModel().getColumn(3).setPreferredWidth(80);
             jTablePsProduct.getColumnModel().getColumn(3).setCellRenderer(new RenderPreco());
             jTablePsProduct.getColumnModel().getColumn(5).setCellRenderer(new RenderPsProductPeso());
@@ -372,13 +358,13 @@ public class ListPsProductJDialog extends javax.swing.JDialog {
     private void carregaCampos() {
         colunaEntityId = jTablePsProduct.getColumnModel().getColumnIndex("Id Product");
         int idProduto = Integer.valueOf(jTablePsProduct.getValueAt(jTablePsProduct.getSelectedRow(), colunaEntityId).toString());
-        psProduct = new PsProductJpaController(managerPrestaShop).findPsProduct(idProduto);
+        psProduct = new PsProductJpaController(Manager.getManagerPrestaShop()).findPsProduct(idProduto);
         if (estoqueDisponivel() > 0) {
             jButtonOk.setEnabled(true);
         } else {
             jButtonOk.setEnabled(false);
         }
-       jTextAreaProdutoComprado.setText(new PedidoCompra().produtoComprado(managerCplus, psProduct.getReference()));
+       jTextAreaProdutoComprado.setText(new PedidoCompra().produtoComprado( psProduct.getReference()));
         jTextAreaPrecoRuim.setText(textPreco(5));
         jTextAreaPrecoNormal.setText(textPreco(4));
         jTextAreaPrecoSemIe.setText(textPreco(7));
@@ -390,7 +376,7 @@ public class ListPsProductJDialog extends javax.swing.JDialog {
         //PsGroup psGroup = new PsGroupJpaController(managerPrestaShop).findPsGroup(idGroup);
         //BigDecimal redGrup = psGroup.getReduction().divide(new BigDecimal("100.00"), RoundingMode.HALF_UP);
        // BigDecimal valRedGrupo = psProduct.getPrice().multiply(BigDecimal.ONE.subtract(redGrup));
-        PsGroup psGroup = new PsGroupJpaController(managerPrestaShop).findPsGroup(idGroup);
+        PsGroup psGroup = new PsGroupJpaController(Manager.getManagerPrestaShop()).findPsGroup(idGroup);
         BigDecimal redGrup = psGroup.getReduction().divide(new BigDecimal("100.00"), RoundingMode.HALF_UP);
         BigDecimal valRedGrupo = psProduct.getPrice().multiply(BigDecimal.ONE.subtract(redGrup));
         String txtNormal = "Quant.\t  % \tValor\n";
@@ -433,7 +419,7 @@ public class ListPsProductJDialog extends javax.swing.JDialog {
     private void retornaObjeto() {
         colunaEntityId = jTablePsProduct.getColumnModel().getColumnIndex("Id Product");
         int idProduto = Integer.valueOf(jTablePsProduct.getValueAt(jTablePsProduct.getSelectedRow(), colunaEntityId).toString());
-        psProduct = new PsProductJpaController(managerPrestaShop).findPsProduct(idProduto);
+        psProduct = new PsProductJpaController(Manager.getManagerPrestaShop()).findPsProduct(idProduto);
         jButtonOk.setEnabled(false);
         dispose();
     }
@@ -517,7 +503,7 @@ public class ListPsProductJDialog extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                ListPsProductJDialog dialog = new ListPsProductJDialog(new javax.swing.JFrame(), true, managerIntegrador, managerPrestaShop, managerCplus, usuario);
+                ListPsProductJDialog dialog = new ListPsProductJDialog(new javax.swing.JFrame(), true, usuario);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -528,8 +514,8 @@ public class ListPsProductJDialog extends javax.swing.JDialog {
             }
         });
     }
-    static EntityManagerFactory managerPrestaShop;
-    static EntityManagerFactory managerCplus;
+    //static EntityManagerFactory managerPrestaShop;
+    //static EntityManagerFactory managerCplus;
     int colunaEntityId;
     //private SalesFlatOrder flatOrder;
     FormataCampos formataCampos;
@@ -541,7 +527,7 @@ public class ListPsProductJDialog extends javax.swing.JDialog {
     static Usuario usuario;
     //private final String shopUrl ;
     //private final String key;
-    static EntityManagerFactory managerIntegrador;
+    //static EntityManagerFactory managerIntegrador;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.persistence.EntityManager entityManager;

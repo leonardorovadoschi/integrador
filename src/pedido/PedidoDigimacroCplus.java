@@ -47,6 +47,7 @@ import jpa.cplus.VendedorJpaController;
 import jpa.prestaShop.PsCustomerJpaController;
 import jpa.prestaShop.PsGroupJpaController;
 import jpa.prestaShop.PsProductJpaController;
+import prestashop.Manager;
 import query.cplus.QueryCplus;
 import query.integrador.QueryIntegrador;
 import query.prestaShop.QueryPrestaShop;
@@ -57,9 +58,9 @@ import query.prestaShop.QueryPrestaShop;
  */
 public class PedidoDigimacroCplus {
 
-    public void criaPedidoCplus(EntityManagerFactory managerIntegrador, EntityManagerFactory managerCplus, PsOrders order, EntityManagerFactory managerPrestaShop) {
+    public void criaPedidoCplus(PsOrders order) {
         List<Cliente> listCliente = null;
-        List<Orcamento> lidtOrcamento = new QueryCplus(managerCplus).listOrcamentoEntregaTelefone(order.getReference());
+        List<Orcamento> lidtOrcamento = new QueryCplus().listOrcamentoEntregaTelefone(order.getReference());
         boolean condicao = true;
         if (lidtOrcamento.size() > 0) {
             int cancelar = JOptionPane.showConfirmDialog(null, " Deseja Importar novamente o Orçamento? \n O Orçamento no C-Plus Será Excluido!!", "Importar", JOptionPane.YES_NO_CANCEL_OPTION);
@@ -67,13 +68,13 @@ public class PedidoDigimacroCplus {
                 for (Orcamento orc : lidtOrcamento) {
                     for (Orcamentoprod prod : orc.getOrcamentoprodCollection()) {
                         try {
-                            new OrcamentoprodJpaController(managerCplus).destroy(prod.getCodorcprod());
+                            new OrcamentoprodJpaController(Manager.getManagerCplus()).destroy(prod.getCodorcprod());
                         } catch (jpa.cplus.exceptions.IllegalOrphanException | jpa.cplus.exceptions.NonexistentEntityException ex) {
                             JOptionPane.showMessageDialog(null, "Houve um Erro ao Excluir o Orçamento \n" + ex);
                         }
                     }
                     try {
-                        new OrcamentoJpaController(managerCplus).destroy(orc.getCodorc());
+                        new OrcamentoJpaController(Manager.getManagerCplus()).destroy(orc.getCodorc());
                     } catch (jpa.cplus.exceptions.IllegalOrphanException | jpa.cplus.exceptions.NonexistentEntityException ex) {
                         JOptionPane.showMessageDialog(null, "Houve um Erro ao Excluir o Orçamento \n" + ex);
                     }
@@ -83,23 +84,23 @@ public class PedidoDigimacroCplus {
             }
         }
         if (condicao) {          
-                listCliente = new QueryCplus(managerCplus).listClientCpfCnpj(new PsCustomerJpaController(managerPrestaShop).findPsCustomer(order.getIdCustomer()).getSiret().replaceAll("[^0-9]", ""));        
+                listCliente = new QueryCplus().listClientCpfCnpj(new PsCustomerJpaController(Manager.getManagerPrestaShop()).findPsCustomer(order.getIdCustomer()).getSiret().replaceAll("[^0-9]", ""));        
             // }//fim for orderPayment
             if (listCliente.isEmpty()) {//if lista cliente
-                JOptionPane.showMessageDialog(null, "não foi possivel localizar o cliente, Verifique!!! \n Código Cliente Site é: " + new PsCustomerJpaController(managerPrestaShop).findPsCustomer(order.getIdOrder()).getLastname());
+                JOptionPane.showMessageDialog(null, "não foi possivel localizar o cliente, Verifique!!! \n Código Cliente Site é: " + new PsCustomerJpaController(Manager.getManagerPrestaShop()).findPsCustomer(order.getIdOrder()).getLastname());
             } else {
                 for (Cliente cliente : listCliente) {
-                    List<Clientecaracteristica> listCarac = new QueryCplus(managerCplus).listClienteCaracteristica(new QueryIntegrador().valorConfiguracao("cliente_CARACTERISTICA_CPLUS_DIGIMACRO"), cliente.getCodcli());
+                    List<Clientecaracteristica> listCarac = new QueryCplus().listClienteCaracteristica(new QueryIntegrador().valorConfiguracao("cliente_CARACTERISTICA_CPLUS_DIGIMACRO"), cliente.getCodcli());
                     if (listCarac.size() == 1) {
 
-                        if (verificaEndereco(managerIntegrador, managerPrestaShop, cliente, order) == false) {
+                        if (verificaEndereco(cliente, order) == false) {
                             int cancelar = JOptionPane.showConfirmDialog(null, " O endereço do C-plus está diferente do entereço do Site "
                                     + "\n Cliente: " + cliente.getNomecli()
                                     + "\n Cpf/Cnpj: " + cpfCnpj(cliente)
                                     + "\n ATUALIZAR O ENDEREÇO??? "
                                     + "\n Data Atualização Cplus: "
                                     + new FormataCampos().dataStringDataCompleta(cliente.getLastChange(), 0) + "\n Data Atualização Site: "
-                                    + new FormataCampos().dataStringDataCompleta(new PsCustomerJpaController(managerPrestaShop).findPsCustomer(order.getIdCustomer()).getDateUpd(), 0), "Atualizar", JOptionPane.YES_NO_CANCEL_OPTION);
+                                    + new FormataCampos().dataStringDataCompleta(new PsCustomerJpaController(Manager.getManagerPrestaShop()).findPsCustomer(order.getIdCustomer()).getDateUpd(), 0), "Atualizar", JOptionPane.YES_NO_CANCEL_OPTION);
                             if (cancelar == JOptionPane.NO_OPTION) {
                                 condicao = false;
                             }
@@ -125,20 +126,20 @@ public class PedidoDigimacroCplus {
                             orc.setValorfcpsubsttributaria(BigDecimal.ZERO);
                             orc.setValoricmsdesonerado(BigDecimal.ZERO);
 
-                            orc.setCodpreco(new PrecoJpaController(managerCplus).findPreco("000000001"));
+                            orc.setCodpreco(new PrecoJpaController(Manager.getManagerCplus()).findPreco("000000001"));
                             if (cliente.getCodtrans() != null) {
-                                orc.setCodtrans(new TransportadoraJpaController(managerCplus).findTransportadora(cliente.getCodtrans().getCodtrans()));
+                                orc.setCodtrans(new TransportadoraJpaController(Manager.getManagerCplus()).findTransportadora(cliente.getCodtrans().getCodtrans()));
                             }
                             if (cliente.getCodfp() != null) {
-                                orc.setCodfp(new FormapagJpaController(managerCplus).findFormapag(cliente.getCodfp().getCodfp()));
+                                orc.setCodfp(new FormapagJpaController(Manager.getManagerCplus()).findFormapag(cliente.getCodfp().getCodfp()));
                             }
                             orc.setData(new Date(System.currentTimeMillis()));
                             orc.setFlagcli('Y');
                             orc.setNomecli(cliente.getNomecli());
-                            orc.setObs(observacao(cliente, order, managerIntegrador, managerPrestaShop));
+                            orc.setObs(observacao(cliente, order));
                             orc.setFlagreservado('N');
                             orc.setFlagpalm((short) 0);
-                            orc.setCodempresa(new EmpresaJpaController(managerCplus).findEmpresa(1));
+                            orc.setCodempresa(new EmpresaJpaController(Manager.getManagerCplus()).findEmpresa(1));
                             orc.setFlagstatus('O');
                             //orc.setValorfrete(order.getTotalShippingTaxIncl().setScale(2, RoundingMode.HALF_UP));
                             orc.setValorfrete(BigDecimal.ZERO);
@@ -151,7 +152,7 @@ public class PedidoDigimacroCplus {
                             } else {
                                 orc.setCodcfop(cliente.getCodtipomovimento().getCodcfopforauf());
                             }
-                            orc.setCodsetorestoque(new SetorestoqueJpaController(managerCplus).findSetorestoque("000000001"));
+                            orc.setCodsetorestoque(new SetorestoqueJpaController(Manager.getManagerCplus()).findSetorestoque("000000001"));
                             orc.setValorseguro(BigDecimal.ZERO);
                             orc.setBasesubsttributaria(BigDecimal.ZERO);
                             orc.setValorsubsttributaria(BigDecimal.ZERO);
@@ -173,10 +174,10 @@ public class PedidoDigimacroCplus {
                             orc.setValortotalipi(BigDecimal.ZERO);
                             orc.setValortotalprodutos(BigDecimal.ZERO);
                             if (cliente.getCodtipomovimento() != null) {
-                                orc.setCodtipomovimento(new TipomovimentoJpaController(managerCplus).findTipomovimento(cliente.getCodtipomovimento().getCodtipomovimento()));
+                                orc.setCodtipomovimento(new TipomovimentoJpaController(Manager.getManagerCplus()).findTipomovimento(cliente.getCodtipomovimento().getCodtipomovimento()));
                             }
                             orc.setCampovalor1(new BigDecimal(100.0000));
-                            orc.setCodorcamentostatus(new OrcamentostatusJpaController(managerCplus).findOrcamentostatus("000000001"));
+                            orc.setCodorcamentostatus(new OrcamentostatusJpaController(Manager.getManagerCplus()).findOrcamentostatus("000000001"));
                             orc.setFlagaltpaf('N');
                             int numOrcamento = new ConexaoDB().ultimoCodigo("ORCAMENTO", "NUMEROORCAMENTO");
                             orc.setNumeroorcamento(String.format("%09d", numOrcamento));
@@ -197,23 +198,23 @@ public class PedidoDigimacroCplus {
                             new ConexaoDB().atualizarCodigo("ORCAMENTO", "NUMEROORCAMENTO", numOrcamento);
 
                             try {
-                                new OrcamentoJpaController(managerCplus).create(orc);
+                                new OrcamentoJpaController(Manager.getManagerCplus()).create(orc);
                             } catch (Exception ex) {
                                 JOptionPane.showMessageDialog(null, "Houve um erro ao Importar Pedido!!! \n" + ex);
                             }
                             //List<PedidoProdutoIntegrador> listProduto = new PedidoProdutoIntegradorJpaController(managerIntegracao).codigoPedido(pedidoIntegrador.getIdPedido());                        
                             // for (PedidoProdutoIntegrador produto : listProduto) {
-                            lidtOrcamento = new QueryCplus(managerCplus).listOrcamentoEntregaTelefone(order.getReference());
+                            lidtOrcamento = new QueryCplus().listOrcamentoEntregaTelefone(order.getReference());
                             boolean imprimir = false;
                             for (Orcamento orcamento : lidtOrcamento) {
-                                for (PsOrderDetail orderItem : new QueryPrestaShop(managerPrestaShop).listPsOrderDetail(order.getIdOrder())) {
-                                    if (new PsProductJpaController(managerPrestaShop).findPsProduct(orderItem.getProductId()).getCacheIsPack()) {
-                                        PsCustomer C = new PsCustomerJpaController(managerPrestaShop).findPsCustomer(order.getIdCustomer());
-                                        PsGroup G = new PsGroupJpaController(managerPrestaShop).findPsGroup(C.getIdDefaultGroup());
+                                for (PsOrderDetail orderItem : new QueryPrestaShop().listPsOrderDetail(order.getIdOrder())) {
+                                    if (new PsProductJpaController(Manager.getManagerPrestaShop()).findPsProduct(orderItem.getProductId()).getCacheIsPack()) {
+                                        PsCustomer C = new PsCustomerJpaController(Manager.getManagerPrestaShop()).findPsCustomer(order.getIdCustomer());
+                                        PsGroup G = new PsGroupJpaController(Manager.getManagerPrestaShop()).findPsGroup(C.getIdDefaultGroup());
                                         BigDecimal descPac = BigDecimal.ZERO;
-                                        List<PsSpecificPrice> listPric = new QueryPrestaShop(managerPrestaShop).listPsSpecificPrice(orderItem.getProductId(), G.getIdGroup());
+                                        List<PsSpecificPrice> listPric = new QueryPrestaShop().listPsSpecificPrice(orderItem.getProductId(), G.getIdGroup());
                                         if (listPric.isEmpty()) {
-                                            listPric = new QueryPrestaShop(managerPrestaShop).listPsSpecificPrice(orderItem.getProductId(), 0);// para todos os grupos
+                                            listPric = new QueryPrestaShop().listPsSpecificPrice(orderItem.getProductId(), 0);// para todos os grupos
                                         }
                                         for (PsSpecificPrice specificPrice : listPric) {
                                             if ("percentage".equals(specificPrice.getReductionType())) {
@@ -221,8 +222,8 @@ public class PedidoDigimacroCplus {
                                             }
                                         }
                                         int quantPack = orderItem.getProductQuantity();// tem que receber o valor fora do pacote
-                                        for (PsPack psP : new QueryPrestaShop(managerPrestaShop).listPack(orderItem.getProductId())) {
-                                            PsProduct P = new PsProductJpaController(managerPrestaShop).findPsProduct(psP.getPsPackPK().getIdProductItem());
+                                        for (PsPack psP : new QueryPrestaShop().listPack(orderItem.getProductId())) {
+                                            PsProduct P = new PsProductJpaController(Manager.getManagerPrestaShop()).findPsProduct(psP.getPsPackPK().getIdProductItem());
                                             BigDecimal precUni = P.getPrice();
                                             int quanProdutosPack = psP.getQuantity();//quantidade de produtos que tem no pacote
                                             BigDecimal quantidade = new BigDecimal(quantPack * quanProdutosPack);//é a quantidade do pacote x quantidade de pacote comprado
@@ -235,26 +236,26 @@ public class PedidoDigimacroCplus {
                                             orderItem.setUnitPriceTaxIncl(precUni);
                                             orderItem.setTotalPriceTaxIncl(precUni.multiply(quantidade));
                                             if (imprimir) {
-                                                criaPedidoProdutoCplus(true, managerIntegrador, managerCplus, managerPrestaShop, orderItem, orcamento, cliente);
+                                                criaPedidoProdutoCplus(true, orderItem, orcamento, cliente);
                                             } else {
-                                                criaPedidoProdutoCplus(false, managerIntegrador, managerCplus, managerPrestaShop, orderItem, orcamento, cliente);
+                                                criaPedidoProdutoCplus(false, orderItem, orcamento, cliente);
                                             }
                                         }
                                     } else {
                                         if (imprimir) {
-                                            criaPedidoProdutoCplus(true, managerIntegrador, managerCplus, managerPrestaShop, orderItem, orcamento, cliente);
+                                            criaPedidoProdutoCplus(true, orderItem, orcamento, cliente);
                                         } else {
-                                            criaPedidoProdutoCplus(false, managerIntegrador, managerCplus, managerPrestaShop, orderItem, orcamento, cliente);
+                                            criaPedidoProdutoCplus(false, orderItem, orcamento, cliente);
                                         }
                                     }
                                 }//for order item
                                 if (imprimir) {
-                                    new ImprimeRelatorio().imprimeRelatorioPeloJar("/integrador/relatorio/Orcamento.jrxml", new ManutencaoVenda().imprimirOrcamento(order, managerCplus, managerPrestaShop));
+                                    new ImprimeRelatorio().imprimeRelatorioPeloJar("/integrador/relatorio/Orcamento.jrxml", new ManutencaoVenda().imprimirOrcamento(order));
                                 }
                             }//for orçamento
-                            lidtOrcamento = new QueryCplus(managerCplus).listOrcamentoEntregaTelefone(order.getReference());
+                            lidtOrcamento = new QueryCplus().listOrcamentoEntregaTelefone(order.getReference());
                             for (Orcamento orcamento : lidtOrcamento) {
-                                editaOrcamento(imprimir, order, orcamento, managerCplus);
+                                editaOrcamento(imprimir, order, orcamento);
                             }
                         }//if  que verifica alteração de endereço pelo cliente  
                     }
@@ -275,20 +276,20 @@ public class PedidoDigimacroCplus {
         return str;
     }
 
-    private String observacao(Cliente cli, PsOrders order, EntityManagerFactory managerIntegrador, EntityManagerFactory managerPrestaShop) {
+    private String observacao(Cliente cli, PsOrders order) {
         String obs = "";
         if (new QueryIntegrador().valorConfiguracao("cliente_CODIGO_PARA_CUPOM").equals(cli.getCodcli())) {
-            obs = "Nome: " + new PsCustomerJpaController(managerPrestaShop).findPsCustomer(order.getIdCustomer()).getFirstname() + " "
-                    + new PsCustomerJpaController(managerPrestaShop).findPsCustomer(order.getIdCustomer()).getLastname() + " \n"
-                    + "CNPJ/CPF: " + new FormataCampos().mascaraCNPJouCPF(new PsCustomerJpaController(managerPrestaShop).findPsCustomer(order.getIdCustomer()).getSiret()) + "\n";
+            obs = "Nome: " + new PsCustomerJpaController(Manager.getManagerPrestaShop()).findPsCustomer(order.getIdCustomer()).getFirstname() + " "
+                    + new PsCustomerJpaController(Manager.getManagerPrestaShop()).findPsCustomer(order.getIdCustomer()).getLastname() + " \n"
+                    + "CNPJ/CPF: " + new FormataCampos().mascaraCNPJouCPF(new PsCustomerJpaController(Manager.getManagerPrestaShop()).findPsCustomer(order.getIdCustomer()).getSiret()) + "\n";
         }
-        for (PsMessage mens : new QueryPrestaShop(managerPrestaShop).listPsMessage(order.getIdOrder())) {
+        for (PsMessage mens : new QueryPrestaShop().listPsMessage(order.getIdOrder())) {
             obs = obs + mens.getMessage() + "\n";
         }
         return obs;
     }
 
-    private boolean verificaEndereco(EntityManagerFactory managerIntegrador, EntityManagerFactory managerPrestaShop, Cliente cliente, PsOrders po) {
+    private boolean verificaEndereco(Cliente cliente, PsOrders po) {
         boolean condicao = false;
         String ende = cliente.getEndereco();
         //String bairro = cliente.getBairro();
@@ -304,7 +305,7 @@ public class PedidoDigimacroCplus {
         } else {
             complemento = cliente.getComplementologradouro();
         }
-        List<PsAddress> listText = new QueryPrestaShop(managerPrestaShop).listEndereco(false, po.getIdCustomer(), endereco(ende, numero, complemento));
+        List<PsAddress> listText = new QueryPrestaShop().listEndereco(false, po.getIdCustomer(), endereco(ende, numero, complemento));
         if (listText.size() > 0) {
             condicao = true;
         } else {
@@ -321,13 +322,13 @@ public class PedidoDigimacroCplus {
         return stringSeparada;
     }
 
-    private void criaPedidoProdutoCplus(boolean alterarValor, EntityManagerFactory managerIntegrador, EntityManagerFactory managerCplus, EntityManagerFactory managerPrestaShop, PsOrderDetail orderItem, Orcamento orcamento, Cliente cli) {
-        QueryCplus queryCplus = new QueryCplus(managerCplus);
+    private void criaPedidoProdutoCplus(boolean alterarValor, PsOrderDetail orderItem, Orcamento orcamento, Cliente cli) {
+        QueryCplus queryCplus = new QueryCplus();
         //int decimaisArredondamento = Integer.valueOf(new QueryIntegrador(managerIntegrador).valorConfiguracao("casas_decimais_ARREDONDAMENTO"));
         Calculoicmsestado calculoIcmsEstado = null;
         String cfop;
         String cfopSecundaria;
-        List<Produto> listProduto = queryCplus.listProduto(new PsProductJpaController(managerPrestaShop).findPsProduct(orderItem.getProductId()).getReference());
+        List<Produto> listProduto = queryCplus.listProduto(new PsProductJpaController(Manager.getManagerPrestaShop()).findPsProduct(orderItem.getProductId()).getReference());
         int count = 0;
         for (Produto prodCplus : listProduto) {
             if ("RS".equals(cli.getEstado())) {
@@ -349,11 +350,11 @@ public class PedidoDigimacroCplus {
                 Orcamentoprod prod = new Orcamentoprod();
                 prod.setCodorc(orcamento);
                 prod.setCodprod(prodCplus);
-                prod.setCodorcprod(new QueryCplus(managerCplus).incrementOrcProd());
+                prod.setCodorcprod(new QueryCplus().incrementOrcProd());
 
                 //prod.setCodorcprod(String.format("%06d", orderItem.getIdOrderDetail()));                            
-                prod.setCodempresa(new EmpresaJpaController(managerCplus).findEmpresa(1));
-                prod.setCodpreco(new PrecoJpaController(managerCplus).findPreco("000000001"));
+                prod.setCodempresa(new EmpresaJpaController(Manager.getManagerCplus()).findEmpresa(1));
+                prod.setCodpreco(new PrecoJpaController(Manager.getManagerCplus()).findPreco("000000001"));
                 boolean cliRuim = false;
                 for (Clientecaracteristica cliCaract : orcamento.getCodcli().getClientecaracteristicaCollection()) {
                     if (cliCaract.getCodcli().getCodcli() == null ? new QueryIntegrador().valorConfiguracao("cliente_CARACTERISTICA_CPLUS_DIGIMACRO_RUIM") == null : cliCaract.getCodcli().getCodcli().equals(new QueryIntegrador().valorConfiguracao("cliente_CARACTERISTICA_CPLUS_DIGIMACRO_RUIM"))) {
@@ -493,7 +494,7 @@ public class PedidoDigimacroCplus {
                 prod.setCodcalculoicms(calculoIcmsEstado.getCodcalculoicms().getCodcalculoicms());
                 prod.setCodclassificacaofiscal(prodCplus.getCodclassificacaofiscal().getCodclassificacaofiscal());
                 prod.setCodigoproduto(prodCplus.getCodigo());
-                for (Unidade un : new QueryCplus(managerCplus).resultPorUnidadeProduto(prodCplus.getUnidade())) {
+                for (Unidade un : new QueryCplus().resultPorUnidadeProduto(prodCplus.getUnidade())) {
                     prod.setUnidade(un.getCodunidade());
                 }
                 prod.setTipotributacao('T');
@@ -524,7 +525,7 @@ public class PedidoDigimacroCplus {
                
 
                 try {
-                    new OrcamentoprodJpaController(managerCplus).create(prod);
+                    new OrcamentoprodJpaController(Manager.getManagerCplus()).create(prod);
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, "Houve um erro ao Importar Produto do Pedido!!! \n" + ex);
                 }
@@ -533,13 +534,13 @@ public class PedidoDigimacroCplus {
                 List<Orcamentoprod> listOrcProd = queryCplus.listProdutosOrcemanto(orcamento.getCodorc());
                 for (Orcamentoprod prod : listOrcProd) {
                     try {
-                        new OrcamentoprodJpaController(managerCplus).destroy(prod.getCodorcprod());
+                        new OrcamentoprodJpaController(Manager.getManagerCplus()).destroy(prod.getCodorcprod());
                     } catch (jpa.cplus.exceptions.IllegalOrphanException | jpa.cplus.exceptions.NonexistentEntityException ex) {
                         JOptionPane.showMessageDialog(null, "Houve um erro ao Deletar produto do pedido no Integrador!!! \n" + ex);
                     }
                 }//fim for que deleta produto do pedido integrador
                 try {
-                    new OrcamentoJpaController(managerCplus).destroy(orcamento.getCodorc());
+                    new OrcamentoJpaController(Manager.getManagerCplus()).destroy(orcamento.getCodorc());
                 } catch (jpa.cplus.exceptions.IllegalOrphanException | jpa.cplus.exceptions.NonexistentEntityException ex) {
                     JOptionPane.showMessageDialog(null, "Houve um erro ao Deletar pedido no Integrador!!! \n" + ex);
                 }
@@ -547,9 +548,9 @@ public class PedidoDigimacroCplus {
         }//for produto
     }
 
-    private boolean editaOrcamento(boolean alteraValor, PsOrders psOrders, Orcamento orcamento, EntityManagerFactory managerCplus) {
+    private boolean editaOrcamento(boolean alteraValor, PsOrders psOrders, Orcamento orcamento) {
         boolean condicao = true;
-        QueryCplus queryCplus = new QueryCplus(managerCplus);
+        QueryCplus queryCplus = new QueryCplus();
         List<Orcamentoprod> listMovProd = queryCplus.listProdutosOrcemanto(orcamento.getCodorc());
         if (listMovProd.isEmpty()) {
             orcamento.setBaseicms(BigDecimal.ZERO);
@@ -625,7 +626,7 @@ public class PedidoDigimacroCplus {
         }
 
         try {
-            new OrcamentoJpaController(managerCplus).edit(orcamento);
+            new OrcamentoJpaController(Manager.getManagerCplus()).edit(orcamento);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Houve um erro ao Editar Orçamento!!!\n " + ex);
             condicao = false;
@@ -633,9 +634,9 @@ public class PedidoDigimacroCplus {
         return condicao;
     }
 
-    private Transportadora transportadora(EntityManagerFactory managerPrestaShop, EntityManagerFactory managerCplus, PsOrders order, Cliente cliente) {
+    private Transportadora transportadora(PsOrders order, Cliente cliente) {
         String codTrans = "000000054";
-        for (PsCarrier psCarrier : new QueryPrestaShop(managerPrestaShop).listPsCarrier(order.getIdCarrier())) {
+        for (PsCarrier psCarrier : new QueryPrestaShop().listPsCarrier(order.getIdCarrier())) {
             if ("Leomar".equals(psCarrier.getName())) {
                 //leomar "000000007";
                 codTrans = "000000007";
@@ -651,12 +652,12 @@ public class PedidoDigimacroCplus {
                 }
             }
         }
-        return new TransportadoraJpaController(managerCplus).findTransportadora(codTrans);
+        return new TransportadoraJpaController(Manager.getManagerCplus()).findTransportadora(codTrans);
     }
 
-    private BigDecimal fatorConversaoBigDecimal(Produto prodCplus, EntityManagerFactory managerCplus) {
+    private BigDecimal fatorConversaoBigDecimal(Produto prodCplus) {
         BigDecimal quantidade = BigDecimal.ONE;
-        for (Unidade un : new QueryCplus(managerCplus).resultPorUnidadeProduto(prodCplus.getUnidade())) {
+        for (Unidade un : new QueryCplus().resultPorUnidadeProduto(prodCplus.getUnidade())) {
             if (un.getFatorconversao().intValue() > 1) {
                 quantidade = un.getFatorconversao();
             }

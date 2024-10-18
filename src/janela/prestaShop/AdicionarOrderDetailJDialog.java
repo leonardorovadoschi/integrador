@@ -28,7 +28,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
 import jpa.cplus.ProdutoestoqueJpaController;
 import jpa.prestaShop.PsCartProductJpaController;
@@ -37,6 +36,7 @@ import jpa.prestaShop.PsGroupJpaController;
 import jpa.prestaShop.PsOrderDetailJpaController;
 import jpa.prestaShop.PsProductJpaController;
 import jpa.prestaShop.PsStockAvailableJpaController;
+import prestashop.Manager;
 import query.cplus.QueryCplus;
 import query.prestaShop.QueryPrestaShop;
 
@@ -51,20 +51,18 @@ public class AdicionarOrderDetailJDialog extends javax.swing.JDialog {
      *
      * @param parent
      * @param modal
-     * @param managerPrestaShop1
-     * @param managerCplus1
      * @param usuario1
      */
-    public AdicionarOrderDetailJDialog(java.awt.Frame parent, boolean modal, EntityManagerFactory managerPrestaShop1, EntityManagerFactory managerCplus1, Usuario usuario1) {
+    public AdicionarOrderDetailJDialog(java.awt.Frame parent, boolean modal, Usuario usuario1) {
         super(parent, modal);
         initComponents();
-        managerPrestaShop = managerPrestaShop1;
-        managerCplus = managerCplus1;
-        queryPrestaShop = new QueryPrestaShop(managerPrestaShop);
-        queryCplus = new QueryCplus(managerCplus);
+       // managerPrestaShop = managerPrestaShop1;
+       // managerCplus = managerCplus1;
+        queryPrestaShop = new QueryPrestaShop();
+        queryCplus = new QueryCplus();
         formataCampos = new FormataCampos();
         usuario = usuario1;
-        acesso = new ControleAcesso(managerCplus);
+        acesso = new ControleAcesso();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
         if (acesso.verificaAcessoUsuario(usuario, "Alterar preço de venda")) {
             jTextFieldUnitarioComDesconto.setEnabled(true);
@@ -456,7 +454,7 @@ public class AdicionarOrderDetailJDialog extends javax.swing.JDialog {
             item.setTotalRefundedTaxExcl(BigDecimal.ZERO);
             item.setTotalRefundedTaxIncl(BigDecimal.ZERO);
             item.setTaxName("");
-            new PsOrderDetailJpaController(managerPrestaShop).create(item);
+            new PsOrderDetailJpaController(Manager.getManagerPrestaShop()).create(item);
 
             editaEstoquePS(quantMod);
             atualizaCplus();
@@ -487,7 +485,7 @@ public class AdicionarOrderDetailJDialog extends javax.swing.JDialog {
             cp.setIdShop(psOrders.getIdShop());
             cp.setDateAdd(new Date(System.currentTimeMillis()));
             try {
-                new PsCartProductJpaController(managerPrestaShop).create(cp);
+                new PsCartProductJpaController(Manager.getManagerPrestaShop()).create(cp);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, "Houve um erro ao criar PsCartProductJ!!!\n " + ex);
             }
@@ -496,7 +494,7 @@ public class AdicionarOrderDetailJDialog extends javax.swing.JDialog {
                 cartProd.setQuantity(quantMod);
                 cartProd.setDateAdd(new Date(System.currentTimeMillis()));
                 try {
-                    new PsCartProductJpaController(managerPrestaShop).edit(cartProd);
+                    new PsCartProductJpaController(Manager.getManagerPrestaShop()).edit(cartProd);
                 } catch (Exception ex) {
                    JOptionPane.showMessageDialog(null, "Houve um erro ao editar PsCartProductJ!!!\n " + ex);
                 }
@@ -512,7 +510,7 @@ public class AdicionarOrderDetailJDialog extends javax.swing.JDialog {
         int reser = stok.getPhysicalQuantity() - stok.getQuantity();
         stok.setReservedQuantity(reser);
         try {
-            new PsStockAvailableJpaController(managerPrestaShop).edit(stok);
+            new PsStockAvailableJpaController(Manager.getManagerPrestaShop()).edit(stok);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Houve um erro ao Atualizar Estoque PrestaShop!!!\n " + ex);
         }
@@ -521,8 +519,8 @@ public class AdicionarOrderDetailJDialog extends javax.swing.JDialog {
     private void atualizaCplus() {
         List<Produtoestoque> listestoque = new ArrayList<>();
         if (psProduct.getCacheIsPack()) {
-            for (PsPack psP : new QueryPrestaShop(managerPrestaShop).listPack(psProduct.getIdProduct())) {
-                listestoque = queryCplus.listEstoquesPorProd(new PsProductJpaController(managerPrestaShop).findPsProduct(psP.getPsPackPK().getIdProductItem()).getReference());
+            for (PsPack psP : new QueryPrestaShop().listPack(psProduct.getIdProduct())) {
+                listestoque = queryCplus.listEstoquesPorProd(new PsProductJpaController(Manager.getManagerPrestaShop()).findPsProduct(psP.getPsPackPK().getIdProductItem()).getReference());
             }
         } else {
             listestoque = queryCplus.listEstoquesPorProd(psProduct.getReference());
@@ -530,7 +528,7 @@ public class AdicionarOrderDetailJDialog extends javax.swing.JDialog {
         for (Produtoestoque estoque : listestoque) {
             estoque.setLastChange(formataCampos.dataAtual());
             try {
-                new ProdutoestoqueJpaController(managerCplus).edit(estoque);
+                new ProdutoestoqueJpaController(Manager.getManagerCplus()).edit(estoque);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, "Houve um erro ao Atualizar Estoque C-Plus!!!\n " + ex);
             }
@@ -540,7 +538,7 @@ public class AdicionarOrderDetailJDialog extends javax.swing.JDialog {
     private boolean verificaEstoqueDisponivel(Integer quan) {
         // double quantidadeRequerida = quan.doubleValue() - quantidadeAntiga.doubleValue();
         boolean condicao = true;
-        List<PsStockAvailable> listEstoqItem = new QueryPrestaShop(managerPrestaShop).listEstoqueProduto(psProduct.getIdProduct());
+        List<PsStockAvailable> listEstoqItem = new QueryPrestaShop().listEstoqueProduto(psProduct.getIdProduct());
         for (PsStockAvailable estoqItem : listEstoqItem) {
             if (quan.doubleValue() <= estoqItem.getQuantity()) {
                 condicao = true;
@@ -552,9 +550,9 @@ public class AdicionarOrderDetailJDialog extends javax.swing.JDialog {
     }
 
     private void carregaCampos() {
-        psCustomer = new PsCustomerJpaController(managerPrestaShop).findPsCustomer(psOrders.getIdCustomer());
+        psCustomer = new PsCustomerJpaController(Manager.getManagerPrestaShop()).findPsCustomer(psOrders.getIdCustomer());
         listSpecificPrice = queryPrestaShop.listPsSpecificPriceAllGroup(psProduct.getIdProduct(), psCustomer.getIdDefaultGroup());
-        psGroup = new PsGroupJpaController(managerPrestaShop).findPsGroup(psCustomer.getIdDefaultGroup());
+        psGroup = new PsGroupJpaController(Manager.getManagerPrestaShop()).findPsGroup(psCustomer.getIdDefaultGroup());
         BigDecimal valUn = valorProdUnitario(quantMod);
         jTextFieldReducaoGrupo.setText(formataCampos.bigDecimalParaString(psGroup.getReduction(), 2));
         jTextFieldPriceOriginal.setText(formataCampos.bigDecimalParaString(valorOriginal(), 2));
@@ -597,10 +595,10 @@ public class AdicionarOrderDetailJDialog extends javax.swing.JDialog {
     
     private String textPreco(Integer idGroup) {
         String txtNormal = " Quant.\t  % \tValor\n";
-        PsGroup psGroup = new PsGroupJpaController(managerPrestaShop).findPsGroup(idGroup);
+        PsGroup psGroup = new PsGroupJpaController(Manager.getManagerPrestaShop()).findPsGroup(idGroup);
         BigDecimal redGrup = psGroup.getReduction().divide(new BigDecimal("100.00"), RoundingMode.HALF_UP);
         BigDecimal valRedGrupo = psProduct.getPrice().multiply(BigDecimal.ONE.subtract(redGrup));
-        psGroup = new PsGroupJpaController(managerPrestaShop).findPsGroup(idGroup);
+        psGroup = new PsGroupJpaController(Manager.getManagerPrestaShop()).findPsGroup(idGroup);
         redGrup = psGroup.getReduction().divide(new BigDecimal("100.00"), RoundingMode.HALF_UP);
         valRedGrupo = psProduct.getPrice().multiply(BigDecimal.ONE.subtract(redGrup));
         txtNormal = "Quant.\t  % \tValor\n";
@@ -758,7 +756,7 @@ public class AdicionarOrderDetailJDialog extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                AdicionarOrderDetailJDialog dialog = new AdicionarOrderDetailJDialog(new javax.swing.JFrame(), true, managerPrestaShop, managerCplus, usuario);
+                AdicionarOrderDetailJDialog dialog = new AdicionarOrderDetailJDialog(new javax.swing.JFrame(), true, usuario);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -770,8 +768,8 @@ public class AdicionarOrderDetailJDialog extends javax.swing.JDialog {
         });
     }
 
-    static EntityManagerFactory managerPrestaShop;
-    static EntityManagerFactory managerCplus;
+    //static EntityManagerFactory managerPrestaShop;
+    //static EntityManagerFactory managerCplus;
     private PsOrders psOrders;
     private final FormataCampos formataCampos;
     private boolean cancelamento;

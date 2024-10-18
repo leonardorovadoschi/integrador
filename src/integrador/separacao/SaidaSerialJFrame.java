@@ -44,6 +44,7 @@ import jpa.integrador.IntConfiguracaoJpaController;
 import jpa.integrador.IntLogsJpaController;
 import jpa.integrador.SaidaSerialJpaController;
 import prestashop.ConfiguracaoNoBD;
+import prestashop.Manager;
 import query.cplus.QueryCplus;
 import query.integrador.QueryIntegrador;
 
@@ -55,22 +56,18 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
 
     /**
      * Creates new form SaidaSerialJFrame
-     *
-     * @param managerCplus1
-     * @param managerIntegrador1
-     * @param managerPrestaShop1
      */
-    public SaidaSerialJFrame(EntityManagerFactory managerCplus1, EntityManagerFactory managerIntegrador1, EntityManagerFactory managerPrestaShop1) {
+    public SaidaSerialJFrame() {
         initComponents();
-        managerCplus = managerCplus1;
-        managerPrestaShop = managerPrestaShop1;
+        //managerCplus = managerCplus1;
+        //managerPrestaShop = managerPrestaShop1;
         //querySerial = new QuerySerial(managerCplus);
-        queryCplus = new QueryCplus(managerCplus);
+        queryCplus = new QueryCplus();
         //queryPrestaShop = new QueryPrestaShop(managerPrestaShop);
-        managerIntegrador = managerIntegrador1;
+        //managerIntegrador = managerIntegrador1;
         queryIntegrador = new QueryIntegrador();
-        this.listagemSaidasJDialog = new ListagemSaidasJDialog(this, true, managerCplus);
-        this.listagemUsuarioJDialog = new ListagemUsuarioJDialog(this, true, managerCplus);
+        this.listagemSaidasJDialog = new ListagemSaidasJDialog(this, true);
+        this.listagemUsuarioJDialog = new ListagemUsuarioJDialog(this, true);
         this.listagemUsuarioJDialog.setLocationRelativeTo(null);
         // this.serialJDialog = new SerialJDialog(this, true);
         this.listagemUsuarioJDialog.requestFocusInWindow();
@@ -78,8 +75,8 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
         //colunaCodMovProdutoSaida = jTableProdutosPedido.getColumnModel().getColumnIndex("Codmovprod");
         //colunaQuantidadeConferida = jTableProdutosPedido.getColumnModel().getColumnIndex("Quant Conferida");   
         //colunaCodMovProdutoSerial = jTableSerialSaida.getColumnModel().getColumnIndex("Codmovendaprodserial");
-        this.listagemProdutoJDialog = new ListagemProdutoJDialog(this, true, managerCplus);
-     new RenderLocalizacao(managerCplus);
+        this.listagemProdutoJDialog = new ListagemProdutoJDialog(this, true);
+     new RenderLocalizacao(Manager.getManagerCplus());
 
     }
 
@@ -494,24 +491,10 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
 
     private void jButtonEditarProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarProdutoActionPerformed
 
-        /**
-        * this.listagemLocalizacaoJDialog.setVisible(true); if
-        * (this.listagemLocalizacaoJDialog.isCancelamento() == false) {
-            * for(Produto p :
-                * queryCplus.listProduto(movEntradaProd.getCodprod().getCodprod())){
-                * try {
-                    * p.setCodloc(this.listagemLocalizacaoJDialog.getLocalizacao().getCodloc());
-                    * new ProdutoJpaController(managerCplus).edit(p);
-                    * jButtonEditarSetorEstoque.setEnabled(false); carregarTabela(); }
-                * catch (jpa.cplus.exceptions.NonexistentEntityException ex) {
-                    * JOptionPane.showMessageDialog(null, "Houve um ero ao editar produto!
-                        * \n"+ex); } catch (Exception ex) { JOptionPane.showMessageDialog(null,
-                        * "Houve um ero ao editar produto! \n"+ex); } } }
-        */
         if (jTableSaidaProd.getRowCount() > 0 && jTableSaidaProd.getSelectedRow() != -1) {
             int colunaCodMovProd = jTableSaidaProd.getColumnModel().getColumnIndex("Cod. MovProd");
             String codMovProd = jTableSaidaProd.getValueAt(jTableSaidaProd.getSelectedRow(), colunaCodMovProd).toString();
-            Movendaprod movEntradaProd = new MovendaprodJpaController(managerCplus).findMovendaprod(codMovProd);
+            Movendaprod movEntradaProd = new MovendaprodJpaController(Manager.getManagerCplus()).findMovendaprod(codMovProd);
             this.listagemProdutoJDialog.setTermoPesquisa(movEntradaProd.getCodprod().getCodigo());
             this.listagemProdutoJDialog.setVisible(true);
            // jButtonEditarProduto.setEnabled(false);
@@ -622,7 +605,7 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
     
      private Integer EstoqueCplus(String codProd) {
         BigDecimal estoque = BigDecimal.ZERO;
-        List<Produtoestoque> listEsroque = new QueryCplus(managerCplus).listEstoquesPorProd(codProd);
+        List<Produtoestoque> listEsroque = new QueryCplus().listEstoquesPorProd(codProd);
         for (Produtoestoque est : listEsroque) {
             estoque = est.getEstatu().subtract(est.getReservadoorcamento().subtract(est.getReservadoos()));
         }
@@ -669,7 +652,7 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
     private boolean verificaCodigos(List<SerialProduto> listSer, String textoDigitado) {
         boolean condicao = true;
         for (SerialProduto ser : listSer) {
-            Produto produto = new ProdutoJpaController(managerCplus).findProduto(ser.getCodProduto());
+            Produto produto = new ProdutoJpaController(Manager.getManagerCplus()).findProduto(ser.getCodProduto());
             if (produto.getCodigo() == null ? textoDigitado == null : produto.getCodigo().equals(textoDigitado)) {
                 condicao = false;
             } else {
@@ -693,13 +676,13 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
         }
         movenda.setObs(getStr + "Usuário: " + this.listagemUsuarioJDialog.getUsuario().getNome() + " " + mensagem + "\n");
         try {
-            new MovendaJpaController(managerCplus).edit(movenda);
+            new MovendaJpaController(Manager.getManagerCplus()).edit(movenda);
         } catch (NonexistentEntityException ex) {
-            criaLog(new Date(System.currentTimeMillis()), "Erro ao editar Pedido: " + ex, "Erro editar", managerIntegrador);
+            criaLog(new Date(System.currentTimeMillis()), "Erro ao editar Pedido: " + ex, "Erro editar");
         } catch (Exception ex) {
-            criaLog(new Date(System.currentTimeMillis()), "Erro ao editar Pedido: " + ex, "Erro editar", managerIntegrador);
+            criaLog(new Date(System.currentTimeMillis()), "Erro ao editar Pedido: " + ex, "Erro editar");
         }
-        criaLog(new Date(System.currentTimeMillis()), "Erro separarar, pedido: " + movenda.getNumped() + ", Usuário: " + this.listagemUsuarioJDialog.getUsuario().getNome() + mensagem + "\n", "Erro Separar", managerIntegrador);
+        criaLog(new Date(System.currentTimeMillis()), "Erro separarar, pedido: " + movenda.getNumped() + ", Usuário: " + this.listagemUsuarioJDialog.getUsuario().getNome() + mensagem + "\n", "Erro Separar");
     }
 
     private void removerSerialSelecionado() {
@@ -709,7 +692,7 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
             int coluna = jTableSeriasSeparados.getColumnModel().getColumnIndex("ID Saida Serial");
             int id = (int) jTableSeriasSeparados.getValueAt(jTableSeriasSeparados.getSelectedRow(), coluna);
             try {
-                new SaidaSerialJpaController(managerIntegrador).destroy(id);
+                new SaidaSerialJpaController(Manager.getManagerIntegrador()).destroy(id);
             } catch (jpa.integrador.exceptions.NonexistentEntityException ex) {
                 JOptionPane.showMessageDialog(null, "Erro ao excluir serial!! \n" + ex);
             }
@@ -730,7 +713,7 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
         List<IntConfiguracao> listConfig = queryIntegrador.listagemConfiguracaoproTipoConfiguracao(retornaIpLocal());
         for (IntConfiguracao config : listConfig) {
             try {
-                new IntConfiguracaoJpaController(managerIntegrador).destroy(config.getEntityId());
+                new IntConfiguracaoJpaController(Manager.getManagerIntegrador()).destroy(config.getEntityId());
             } catch (jpa.integrador.exceptions.NonexistentEntityException ex) {
                 condicao = false;
                 JOptionPane.showMessageDialog(null, "HOUVE UM ERRO AO EXCLUIR CONFIGURACAO, Verifique!! \n" + ex, "Erro Separar", JOptionPane.ERROR_MESSAGE);
@@ -779,7 +762,7 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
             c.setValor(movenda.getCodmovenda());
             c.setDataCriacao(new Date(System.currentTimeMillis()));
             try {
-                new IntConfiguracaoJpaController(managerIntegrador).create(c);
+                new IntConfiguracaoJpaController(Manager.getManagerIntegrador()).create(c);
             } catch (Exception ex) {
                 condicao = false;
                 JOptionPane.showMessageDialog(null, "HOUVE UM ERRO AO CRIAR CONFIGURAÇÃO, Verifique!! \n" + ex, "Erro Separar", JOptionPane.ERROR_MESSAGE);
@@ -788,7 +771,7 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
             for (IntConfiguracao config : listConfig) {
                 config.setValor(movenda.getCodmovenda());
                 try {
-                    new IntConfiguracaoJpaController(managerIntegrador).edit(config);
+                    new IntConfiguracaoJpaController(Manager.getManagerIntegrador()).edit(config);
                 } catch (Exception ex) {
                     condicao = false;
                     JOptionPane.showMessageDialog(null, "HOUVE UM ERRO AO EDITAR CONFIGURACAO, Verifique!! \n" + ex, "Erro Separar", JOptionPane.ERROR_MESSAGE);
@@ -799,7 +782,7 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
             for (IntConfiguracao config : listConfig) {
                 if (cont > 0) {
                     try {
-                        new IntConfiguracaoJpaController(managerIntegrador).destroy(config.getEntityId());
+                        new IntConfiguracaoJpaController(Manager.getManagerIntegrador()).destroy(config.getEntityId());
                     } catch (jpa.integrador.exceptions.NonexistentEntityException ex) {
                         condicao = false;
                         JOptionPane.showMessageDialog(null, "HOUVE UM ERRO AO EXCLUIR CONFIGURAÇÃO, Verifique!! \n" + ex, "Erro Separar", JOptionPane.ERROR_MESSAGE);
@@ -835,13 +818,13 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
         }//fim if adialog cancelado
     }
 
-    private void criaLog(Date dataExecucao, String mensagem, String tipoLog, EntityManagerFactory managerIntegrador) {
+    private void criaLog(Date dataExecucao, String mensagem, String tipoLog) {
         IntLogs log = new IntLogs();
         log.setDataExecucao(dataExecucao);
         // log.setUltimaExecucao(dataExecucao);
         log.setMensagem(mensagem);
         log.setTipoLog(tipoLog);
-        new IntLogsJpaController(managerIntegrador).create(log);
+        new IntLogsJpaController(Manager.getManagerIntegrador()).create(log);
     }
 
     private void gravarSaidaSerial(SerialProduto ser, Movendaprod movProd) {
@@ -852,7 +835,7 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
         mvps.setDevolvido(false);
         mvps.setIdSerial(ser);
         try {
-            new SaidaSerialJpaController(managerIntegrador).create(mvps);
+            new SaidaSerialJpaController(Manager.getManagerIntegrador()).create(mvps);
             // jButtonGravar.setEnabled(false);
             //jTextFieldSerial.setEnabled(false);         
         } catch (Exception ex) {
@@ -931,7 +914,7 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
             }
             movenda.setObsnotafiscal(romaneio);
             try {
-                new MovendaJpaController(managerCplus).edit(movenda);
+                new MovendaJpaController(Manager.getManagerCplus()).edit(movenda);
             } catch (NonexistentEntityException ex) {
                 JOptionPane.showMessageDialog(null, "ERRO AO EDITAR MOVENDA, Verifique!! \n" + ex, "Erro Separar", JOptionPane.ERROR_MESSAGE);
             } catch (Exception ex) {
@@ -997,27 +980,17 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new SaidaSerialJFrame(managerCplus, managerIntegrador, managerPrestaShop).setVisible(true);
+                new SaidaSerialJFrame().setVisible(true);
             }
         });
     }
     private Movenda movenda;
     private final ListagemSaidasJDialog listagemSaidasJDialog;
-
-    ListagemUsuarioJDialog listagemUsuarioJDialog;
-    //int colunaCodMovProdutoSerial;
+    ListagemUsuarioJDialog listagemUsuarioJDialog;    
     private List<Movendaprod> listaProdutoPedido;
-    private static EntityManagerFactory managerCplus;
-    private static EntityManagerFactory managerPrestaShop;
-    private static EntityManagerFactory managerIntegrador;
-    // QuerySerial querySerial;
     private final QueryCplus queryCplus;
     private final QueryIntegrador queryIntegrador;
-    private final ListagemProdutoJDialog listagemProdutoJDialog;
-    //int colunaCodMovProdutoSaida;
-    //int colunaQuantidadeConferida;
-    //int quantidadeSaidas;
-    //int quantidadTotalPedido;
+    private final ListagemProdutoJDialog listagemProdutoJDialog; 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCancelarSeparacao;

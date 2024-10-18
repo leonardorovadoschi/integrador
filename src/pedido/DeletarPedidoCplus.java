@@ -36,6 +36,7 @@ import jpa.cplus.MovendaprodserialJpaController;
 import jpa.cplus.NfceletronicaJpaController;
 import jpa.cplus.exceptions.IllegalOrphanException;
 import jpa.cplus.exceptions.NonexistentEntityException;
+import prestashop.Manager;
 
 /**
  *
@@ -44,18 +45,17 @@ import jpa.cplus.exceptions.NonexistentEntityException;
 public class DeletarPedidoCplus {
 
     /**
-     * Funï¿½ï¿½o que deleta pedido no c-plus e todas as tabelas de dependencia
+     * Função que deleta pedido no c-plus e todas as tabelas de dependencia
      * @param movenda
-     * @param managerCplus
-     * @return verdadeiro se nï¿½o houver erros
+     * @return verdadeiro se nâo houver erros
      */
-    public boolean deletarPedidoCplus(Movenda movenda, EntityManagerFactory managerCplus) {
+    public boolean deletarPedidoCplus(Movenda movenda) {
         boolean condicaoErro = true;
-        QueryCplus queryCplus = new QueryCplus(managerCplus);
-        DocumentodocrefJpaController documentodocrefJpaController = new DocumentodocrefJpaController(managerCplus);
-        MovendaprodJpaController movendaprodJpaController = new MovendaprodJpaController(managerCplus);
+        QueryCplus queryCplus = new QueryCplus();
+        DocumentodocrefJpaController documentodocrefJpaController = new DocumentodocrefJpaController(Manager.getManagerCplus());
+        MovendaprodJpaController movendaprodJpaController = new MovendaprodJpaController(Manager.getManagerCplus());
 
-        if ("Y".equals(movenda.getFlagcancelada().toString())) {//if que verifica se o Pedido estï¿½ cancelado
+        if ("Y".equals(movenda.getFlagcancelada().toString())) {//if que verifica se o Pedido está cancelado
             List<Documentodocref> listdocCref = queryCplus.resultDocumentodocref(movenda.getCodmovenda());
             for (Documentodocref cref : listdocCref) {
                 try {
@@ -70,7 +70,7 @@ public class DeletarPedidoCplus {
                 for (Movecfdocumentoitem ecfDocItem : ecfDoc.getMovecfdocumentoitemCollection()) {
                     try {
                         if (condicaoErro) {
-                            new MovecfdocumentoitemJpaController(managerCplus).destroy(ecfDocItem.getCodmovecfdocumentoitem());
+                            new MovecfdocumentoitemJpaController(Manager.getManagerCplus()).destroy(ecfDocItem.getCodmovecfdocumentoitem());
                         }
                     } catch (NonexistentEntityException ex) {
                         condicaoErro = false;
@@ -79,7 +79,7 @@ public class DeletarPedidoCplus {
                 }
                 try {
                     if (condicaoErro) {
-                        new MovecfdocumentoitemJpaController(managerCplus).destroy(ecfDoc.getCodmovecfdocumento());
+                        new MovecfdocumentoitemJpaController(Manager.getManagerCplus()).destroy(ecfDoc.getCodmovecfdocumento());
                     }
                 } catch (NonexistentEntityException ex) {
                     condicaoErro = false;
@@ -91,7 +91,7 @@ public class DeletarPedidoCplus {
                 for (Documentoitem item : doc.getDocumentoitemCollection()) {
                     try {
                         if (condicaoErro) {
-                            new DocumentoitemJpaController(managerCplus).destroy(item.getCoddocumentoitem());
+                            new DocumentoitemJpaController(Manager.getManagerCplus()).destroy(item.getCoddocumentoitem());
                         }
                     } catch (NonexistentEntityException ex) {
                         condicaoErro = false;
@@ -103,7 +103,7 @@ public class DeletarPedidoCplus {
                 }//fim for DocumentoItem                        
                 try {
                     if (condicaoErro) {
-                        new DocumentoJpaController(managerCplus).destroy(doc.getCoddocumento());
+                        new DocumentoJpaController(Manager.getManagerCplus()).destroy(doc.getCoddocumento());
                     }
                 } catch (IllegalOrphanException | NonexistentEntityException ex) {
                     condicaoErro = false;
@@ -116,7 +116,7 @@ public class DeletarPedidoCplus {
                 for (Moentregaprod entProd : listMoentregaProd) {
                     try {
                         if (condicaoErro) {
-                            new MoentregaprodJpaController(managerCplus).destroy(entProd.getId());
+                            new MoentregaprodJpaController(Manager.getManagerCplus()).destroy(entProd.getId());
                         }
                     } catch (NonexistentEntityException ex) {
                         condicaoErro = false;
@@ -127,7 +127,7 @@ public class DeletarPedidoCplus {
                 for (Movendaprodcomp comp : listVendaProdComp) {
                     try {
                         if (condicaoErro) {
-                            new MovendaprodcompJpaController(managerCplus).destroy(comp.getCodmovendaprodcomp());
+                            new MovendaprodcompJpaController(Manager.getManagerCplus()).destroy(comp.getCodmovendaprodcomp());
                         }
                     } catch (NonexistentEntityException ex) {
                         condicaoErro = false;
@@ -137,7 +137,7 @@ public class DeletarPedidoCplus {
                 for (Movendaprodserial serial : movProd.getMovendaprodserialCollection()) {
                     try {
                         if (condicaoErro) {
-                            new MovendaprodserialJpaController(managerCplus).destroy(serial.getCodmovendaprodserial());
+                            new MovendaprodserialJpaController(Manager.getManagerCplus()).destroy(serial.getCodmovendaprodserial());
                         }
                     } catch (NonexistentEntityException ex) {
                         condicaoErro = false;
@@ -149,7 +149,7 @@ public class DeletarPedidoCplus {
                 for (Movendaproddevolucaocompra devProd : listdevProd) {
                     try {
                         if (condicaoErro) {
-                            new MovendaproddevolucaocompraJpaController(managerCplus).destroy(devProd.getCodmovendaproddevolucaocompra());
+                            new MovendaproddevolucaocompraJpaController(Manager.getManagerCplus()).destroy(devProd.getCodmovendaproddevolucaocompra());
                         }
                     } catch (NonexistentEntityException ex) {
                         condicaoErro = false;
@@ -170,7 +170,7 @@ public class DeletarPedidoCplus {
             for (Nfceletronica nfc : listNfc) {
                 try {
                     if (condicaoErro) {
-                        new NfceletronicaJpaController(managerCplus).destroy(nfc.getCodnfceletronica());
+                        new NfceletronicaJpaController(Manager.getManagerCplus()).destroy(nfc.getCodnfceletronica());
                     }
                 } catch (NonexistentEntityException ex) {
                     condicaoErro = false;
@@ -181,7 +181,7 @@ public class DeletarPedidoCplus {
             for (Moentrega ent : listMoentrega) {
                 try {
                     if (condicaoErro) {
-                        new MoentregaJpaController(managerCplus).destroy(ent.getCodmovenda());
+                        new MoentregaJpaController(Manager.getManagerCplus()).destroy(ent.getCodmovenda());
                     }
                 } catch (NonexistentEntityException ex) {
                     condicaoErro = false;
@@ -191,7 +191,7 @@ public class DeletarPedidoCplus {
            
             try {
                 if (condicaoErro) {
-                    new MovendaJpaController(managerCplus).destroy(movenda.getCodmovenda());
+                    new MovendaJpaController(Manager.getManagerCplus()).destroy(movenda.getCodmovenda());
                 }
             } catch (IllegalOrphanException | NonexistentEntityException ex) {
                 condicaoErro = false;

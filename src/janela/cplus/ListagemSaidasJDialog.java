@@ -19,6 +19,7 @@ import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
 import jpa.cplus.MovendaJpaController;
+import prestashop.Manager;
 import query.cplus.QueryCplus;
 
 /**
@@ -31,13 +32,12 @@ public class ListagemSaidasJDialog extends javax.swing.JDialog {
      * Creates new form ListagemSaidasJDialog
      * @param parent
      * @param modal
-     * @param managerCplus1
      */
-    public ListagemSaidasJDialog(java.awt.Frame parent, boolean modal, EntityManagerFactory managerCplus1) {
+    public ListagemSaidasJDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        managerCplus = managerCplus1;
-        queryCplus = new QueryCplus(managerCplus);
+        //managerCplus = managerCplus1;
+        queryCplus = new QueryCplus();
         colunaCodMoVenda = jTableListagemSaidas.getColumnModel().getColumnIndex("codmovenda");
         colunaStatus = jTableListagemSaidas.getColumnModel().getColumnIndex("Status");
         indexComboBox = 0;
@@ -513,7 +513,7 @@ public class ListagemSaidasJDialog extends javax.swing.JDialog {
         } else {
             String cod = jTableListagemSaidas.getValueAt(jTableListagemSaidas.getSelectedRow(), colunaCodMoVenda).toString();
             if (cod != null) {
-                setMoVenda(new MovendaJpaController(managerCplus).findMovenda(cod));
+                setMoVenda(new MovendaJpaController(Manager.getManagerCplus()).findMovenda(cod));
                 setCancelamento(false);
                 dispose();
             } else {
@@ -596,7 +596,7 @@ public class ListagemSaidasJDialog extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                ListagemSaidasJDialog dialog = new ListagemSaidasJDialog(new javax.swing.JFrame(), true, managerCplus);
+                ListagemSaidasJDialog dialog = new ListagemSaidasJDialog(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -610,7 +610,7 @@ public class ListagemSaidasJDialog extends javax.swing.JDialog {
         
     //private String codMoVenda;
     private final QueryCplus queryCplus;
-    private static EntityManagerFactory managerCplus;
+    //private static EntityManagerFactory managerCplus;
     private int colunaCodMoVenda;
     int colunaStatus;
     private boolean cancelamento;

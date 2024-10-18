@@ -13,7 +13,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.EntityManagerFactory;
 import query.cplus.QueryCplus;
 
 /**
@@ -22,17 +21,17 @@ import query.cplus.QueryCplus;
  */
 public class PedidoCompra {
 
-    public String produtoComprado(EntityManagerFactory managerCplus, String codProdCplus) {
+    public String produtoComprado(String codProdCplus) {
         String txt = "";
-        for (Pedidoitem p : new QueryCplus(managerCplus).produtoCompra('S', codProdCplus)) {
+        for (Pedidoitem p : new QueryCplus().produtoCompra('S', codProdCplus)) {
             txt = txt + "Comprado: " + p.getQuantidade().intValue() + ", Previsão: " + incrementData(p.getCodped().getDataconfirmacao(), p.getCodped().getPrevisao()) + "\n";
         }
         return txt;
     }
 
-    public void produtosComprados(EntityManagerFactory managerCplus) {
+    public void produtosComprados() {
         //List<Pedidoitem> item = new ArrayList<>();
-        List<Pedidoitem> l = new QueryCplus(managerCplus).produtosComprados('S');
+        List<Pedidoitem> l = new QueryCplus().produtosComprados('S');
         if (l.size() > 0) {
             Comparator ordemNome = new ComparadorNomeProdCompra();
             Collections.sort(l, ordemNome);

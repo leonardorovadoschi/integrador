@@ -64,6 +64,7 @@ import jpa.prestaShop.PsOrdersJpaController;
 import jpa.prestaShop.PsProductJpaController;
 import jpa.prestaShop.PsStockAvailableJpaController;
 import pedido.PedidoDigimacroCplus;
+import prestashop.Manager;
 import produto.PedidoCompra;
 import query.cplus.QueryCplus;
 import query.integrador.QueryIntegrador;
@@ -77,30 +78,26 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
 
     /**
      * Creates new form VendaMagentoJFrame
-     *
-     * @param managerIntegrador1
-     * @param managerPrestaShop1
-     * @param managerCplus1
      * @param usuario1
      */
-    public VendaDigimacroJFrame(EntityManagerFactory managerIntegrador1, EntityManagerFactory managerPrestaShop1, EntityManagerFactory managerCplus1, Usuario usuario1) {
+    public VendaDigimacroJFrame(Usuario usuario1) {
 
         //new RenderCnpjCpf();
         //new RenderDataEHora();
         //new RenderCustomerNome();
         format = new FormataCampos();
-        managerPrestaShop = managerPrestaShop1;
-        managerIntegrador = managerIntegrador1;
-        managerCplus = managerCplus1;
+       // managerPrestaShop = managerPrestaShop1;
+        //managerIntegrador = managerIntegrador1;
+        //managerCplus = managerCplus1;
         usuario = usuario1;
-        queryPrestaShop = new QueryPrestaShop(managerPrestaShop);
+        queryPrestaShop = new QueryPrestaShop();
         initComponents();
         codCaracteristicaCliente = new QueryIntegrador().valorConfiguracao("cliente_CARACTERISTICA_CPLUS_DIGIMACRO");
-        queryCplus = new QueryCplus(managerCplus);
-        this.listagemSaidasMagentoJDialog = new SaidasPrestaShopJDialog(this, true, managerPrestaShop, managerIntegrador);
-        this.editOrderDetailsJDialog = new EditOrderDetailsJDialog(this, true, managerPrestaShop, managerCplus, usuario);
-        this.listPsProductJDialog = new ListPsProductJDialog(this, true, managerIntegrador, managerPrestaShop, managerCplus, usuario);
-        this.adicionarOrderDetailJDialog = new AdicionarOrderDetailJDialog(this, true, managerPrestaShop, managerCplus, usuario);
+        queryCplus = new QueryCplus();
+        this.listagemSaidasMagentoJDialog = new SaidasPrestaShopJDialog(this, true);
+        this.editOrderDetailsJDialog = new EditOrderDetailsJDialog(this, true, usuario);
+        this.listPsProductJDialog = new ListPsProductJDialog(this, true, usuario);
+        this.adicionarOrderDetailJDialog = new AdicionarOrderDetailJDialog(this, true, usuario);
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
         jDateChooserDataInicialCustomer.setDate(format.alteraDiaData(format.dataAtual(), -2));
         jDateChooserDataFinalCustomer.setDate(format.alteraDiaData(format.dataAtual(), 1));
@@ -757,8 +754,8 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonPesquisarActionPerformed
 
     private void jButtonImportarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonImportarPedidoActionPerformed
-        psOrders = new PsOrdersJpaController(managerPrestaShop).findPsOrders(psOrders.getIdOrder());
-        new PedidoDigimacroCplus().criaPedidoCplus(managerIntegrador, managerCplus, psOrders, managerPrestaShop);
+        psOrders = new PsOrdersJpaController(Manager.getManagerPrestaShop()).findPsOrders(psOrders.getIdOrder());
+        new PedidoDigimacroCplus().criaPedidoCplus(psOrders);
         jButtonImportarPedido.setEnabled(false);
         limpaCampos();
         JOptionPane.showMessageDialog(null, "Pedido importado com sucesso!!!");
@@ -790,8 +787,8 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
 
     private void jButtonAtualizaClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAtualizaClienteActionPerformed
         if (psOrders != null) {
-            for (Cliente cliente : queryCplus.listClientCpfCnpj(new PsCustomerJpaController(managerPrestaShop).findPsCustomer(psOrders.getIdCustomer()).getSiret())) {
-                new ClienteCplusDigimacro().atualizaClienteDigimacro(managerCplus, managerIntegrador, cliente, managerPrestaShop);
+            for (Cliente cliente : queryCplus.listClientCpfCnpj(new PsCustomerJpaController(Manager.getManagerPrestaShop()).findPsCustomer(psOrders.getIdCustomer()).getSiret())) {
+                new ClienteCplusDigimacro().atualizaClienteDigimacro(cliente);
             }
         }
         integrarCliente();
@@ -836,7 +833,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         if (condicaoPedido()) {
 //this.editOrderDetailsJDialog.setVisible(true);
             Integer cod = Integer.valueOf(jTableOrderDetail.getValueAt(jTableOrderDetail.getSelectedRow(), colunaOrderDetail).toString());
-            this.editOrderDetailsJDialog.setObjetos(new PsOrderDetailJpaController(managerPrestaShop).findPsOrderDetail(cod), psOrders);
+            this.editOrderDetailsJDialog.setObjetos(new PsOrderDetailJpaController(Manager.getManagerPrestaShop()).findPsOrderDetail(cod), psOrders);
             this.editOrderDetailsJDialog.setVisible(true);
             if (this.editOrderDetailsJDialog.isCancelamento() == false) {
                 //atualizaListOrderDetail(); //atualizar o list para garantir que valores atulizados sejam retornados                    
@@ -919,7 +916,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBoxShippingMouseClicked
 
     private void jButtonProdutosCompradosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonProdutosCompradosActionPerformed
-        new PedidoCompra().produtosComprados(managerCplus);
+        new PedidoCompra().produtosComprados();
     }//GEN-LAST:event_jButtonProdutosCompradosActionPerformed
 
     private void jTableOrderDetailMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableOrderDetailMouseClicked
@@ -961,8 +958,8 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
                 s.setReservedQuantity(s.getReservedQuantity() - qn);
                 s.setPhysicalQuantity(s.getQuantity() + s.getReservedQuantity());
                 try {
-                    new PsStockAvailableJpaController(managerPrestaShop).edit(s);
-                    atualizaCplus(new PsProductJpaController(managerPrestaShop).findPsProduct(s.getIdProduct()));
+                    new PsStockAvailableJpaController(Manager.getManagerPrestaShop()).edit(s);
+                    atualizaCplus(new PsProductJpaController(Manager.getManagerPrestaShop()).findPsProduct(s.getIdProduct()));
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, "Houve um erro ao Atualizar Estoque PrestaShop!!!\n " + ex);
                 }
@@ -973,10 +970,10 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         history.setIdOrder(psOrders.getIdOrder());
         history.setIdOrderState(6);
         history.setDateAdd(format.dataAtual());
-        new PsOrderHistoryJpaController(managerPrestaShop).create(history);
+        new PsOrderHistoryJpaController(Manager.getManagerPrestaShop()).create(history);
         psOrders.setCurrentState(6);
         try {
-            new PsOrdersJpaController(managerPrestaShop).edit(psOrders);
+            new PsOrdersJpaController(Manager.getManagerPrestaShop()).edit(psOrders);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Houve um erro ao cancelar orders !!!\n " + ex);
         }
@@ -991,7 +988,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
             int cancelar = JOptionPane.showConfirmDialog(null, " Deseja realmente excluir este item?", "Excluir", JOptionPane.YES_NO_CANCEL_OPTION);
             if (cancelar == JOptionPane.YES_OPTION) {
                 Integer cod = Integer.valueOf(jTableOrderDetail.getValueAt(jTableOrderDetail.getSelectedRow(), colunaOrderDetail).toString());
-                PsOrderDetail item = new PsOrderDetailJpaController(managerPrestaShop).findPsOrderDetail(cod);
+                PsOrderDetail item = new PsOrderDetailJpaController(Manager.getManagerPrestaShop()).findPsOrderDetail(cod);
                 int qn = item.getProductQuantity();
                 for (PsStockAvailable s : queryPrestaShop.listEstoqueProduto(item.getProductId())) {
                     //qn = s.getQuantity() + qn;              
@@ -999,14 +996,14 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
                     s.setReservedQuantity(s.getReservedQuantity() - qn);
                     s.setPhysicalQuantity(s.getQuantity() + s.getReservedQuantity());
                     try {
-                        new PsStockAvailableJpaController(managerPrestaShop).edit(s);
+                        new PsStockAvailableJpaController(Manager.getManagerPrestaShop()).edit(s);
 
                         List<PsCartProduct> listCartProduct = queryPrestaShop.listCarProduct(psOrders.getIdCart(), item.getProductId());
                         for (PsCartProduct cartProd : listCartProduct) {
-                            new PsCartProductJpaController(managerPrestaShop).destroy(new PsCartProductPK(cartProd.getPsCartProductPK().getIdCart(), cartProd.getPsCartProductPK().getIdProduct(), cartProd.getPsCartProductPK().getIdAddressDelivery(), 0, 0));
+                            new PsCartProductJpaController(Manager.getManagerPrestaShop()).destroy(new PsCartProductPK(cartProd.getPsCartProductPK().getIdCart(), cartProd.getPsCartProductPK().getIdProduct(), cartProd.getPsCartProductPK().getIdAddressDelivery(), 0, 0));
                         }
-                        new PsOrderDetailJpaController(managerPrestaShop).destroy(item.getIdOrderDetail());
-                        atualizaCplus(new PsProductJpaController(managerPrestaShop).findPsProduct(s.getIdProduct()));
+                        new PsOrderDetailJpaController(Manager.getManagerPrestaShop()).destroy(item.getIdOrderDetail());
+                        atualizaCplus(new PsProductJpaController(Manager.getManagerPrestaShop()).findPsProduct(s.getIdProduct()));
                     } catch (Exception ex) {
                         JOptionPane.showMessageDialog(null, "Houve um erro ao Atualizar Estoque PrestaShop!!!\n " + ex);
                     }
@@ -1018,16 +1015,16 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
     private void atualizaCplus(PsProduct pp) {
         List<Produtoestoque> listestoque = new ArrayList<>();
         if (pp.getCacheIsPack()) {
-            for (PsPack psP : new QueryPrestaShop(managerPrestaShop).listPack(pp.getIdProduct())) {
-                listestoque = new QueryCplus(managerCplus).listEstoquesPorProd(new PsProductJpaController(managerPrestaShop).findPsProduct(psP.getPsPackPK().getIdProductItem()).getReference());
+            for (PsPack psP : new QueryPrestaShop().listPack(pp.getIdProduct())) {
+                listestoque = new QueryCplus().listEstoquesPorProd(new PsProductJpaController(Manager.getManagerPrestaShop()).findPsProduct(psP.getPsPackPK().getIdProductItem()).getReference());
             }
         } else {
-            listestoque = new QueryCplus(managerCplus).listEstoquesPorProd(pp.getReference());
+            listestoque = new QueryCplus().listEstoquesPorProd(pp.getReference());
         }
         for (Produtoestoque estoque : listestoque) {
             estoque.setLastChange(format.dataAtual());
             try {
-                new ProdutoestoqueJpaController(managerCplus).edit(estoque);
+                new ProdutoestoqueJpaController(Manager.getManagerCplus()).edit(estoque);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, "Houve um erro ao Atualizar Estoque C-Plus!!!\n " + ex);
             }
@@ -1082,13 +1079,13 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         psOrders.setTotalPaidTaxIncl(valTotal.add(valFrete));
         psOrders.setTotalPaidTaxExcl(valTotal.add(valFrete));
         try {
-            new PsOrdersJpaController(managerPrestaShop).edit(psOrders);
+            new PsOrdersJpaController(Manager.getManagerPrestaShop()).edit(psOrders);
             for (PsOrderCarrier orderCarrier : queryPrestaShop.listPsOrderCarrier(psOrders.getIdOrder())) {
                 orderCarrier.setWeight(totPeso);
                 orderCarrier.setShippingCostTaxExcl(valFrete);
                 orderCarrier.setShippingCostTaxIncl(valFrete);
                 try {
-                    new PsOrderCarrierJpaController(managerPrestaShop).edit(orderCarrier);
+                    new PsOrderCarrierJpaController(Manager.getManagerPrestaShop()).edit(orderCarrier);
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, "Não foi possível editar PsOrderCarrier" + ex);
                 }
@@ -1140,12 +1137,12 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         for (PsOrderCartRule ocr : listOrderCartRule) {
             ocr.setDeleted((short) 1);
             try {
-                new PsOrderCartRuleJpaController(managerPrestaShop).edit(ocr);
+                new PsOrderCartRuleJpaController(Manager.getManagerPrestaShop()).edit(ocr);
                 valDescontoAvulso = BigDecimal.ZERO;
                 psOrders.setTotalDiscounts(valDescontoAvulso);
                 psOrders.setTotalDiscountsTaxExcl(valDescontoAvulso);
                 psOrders.setTotalDiscountsTaxIncl(valDescontoAvulso);
-                new PsOrdersJpaController(managerPrestaShop).edit(psOrders);
+                new PsOrdersJpaController(Manager.getManagerPrestaShop()).edit(psOrders);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, "Erro ao editar psOrders \n" + ex);
             }
@@ -1189,7 +1186,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
             cr.setDateAdd(format.dataAtual());
             cr.setDateUpd(format.dataAtual());
             cr.setCode("");
-            new PsCartRuleJpaController(managerPrestaShop).create(cr);
+            new PsCartRuleJpaController(Manager.getManagerPrestaShop()).create(cr);
 
             List<PsCartRule> listCartRule = queryPrestaShop.listCartRule(String.valueOf(psOrders.getIdOrder()));
             for (PsCartRule cartR : listCartRule) {
@@ -1202,13 +1199,13 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
                 ocr.setValueTaxExcl(valDescontoAvulso);
                 ocr.setFreeShipping(false);
                 ocr.setDeleted((short) 0);
-                new PsOrderCartRuleJpaController(managerPrestaShop).create(ocr);
+                new PsOrderCartRuleJpaController(Manager.getManagerPrestaShop()).create(ocr);
 
                 try {
                     PsCartRuleLang g = new PsCartRuleLang();
                     g.setName("Desconto Avulso feito por: " + usuario.getNome());
                     g.setPsCartRuleLangPK(new PsCartRuleLangPK(cartR.getIdCartRule(), 2));
-                    new PsCartRuleLangJpaController(managerPrestaShop).create(g);
+                    new PsCartRuleLangJpaController(Manager.getManagerPrestaShop()).create(g);
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, "Erro ao criar PsCartRuleLang \n" + ex);
                 }
@@ -1220,7 +1217,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
                 ocr.setValueTaxExcl(valDescontoAvulso);
                 ocr.setDeleted((short) 0);
                 try {
-                    new PsOrderCartRuleJpaController(managerPrestaShop).edit(ocr);
+                    new PsOrderCartRuleJpaController(Manager.getManagerPrestaShop()).edit(ocr);
 
                     List<PsCartRule> listCartRule = queryPrestaShop.listCartRule(ocr.getIdCartRule());
                     for (PsCartRule cr : listCartRule) {
@@ -1228,7 +1225,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
                         cr.setDescription(String.valueOf(psOrders.getIdOrder()));
                         cr.setReductionAmount(valDescontoAvulso);
                         cr.setDateUpd(format.dataAtual());
-                        new PsCartRuleJpaController(managerPrestaShop).edit(cr);
+                        new PsCartRuleJpaController(Manager.getManagerPrestaShop()).edit(cr);
                     }
 
                 } catch (Exception ex) {
@@ -1245,7 +1242,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         psOrders.setTotalPaidTaxExcl(psOrders.getTotalPaidTaxExcl().subtract(valDescontoAvulso));
 
         try {
-            new PsOrdersJpaController(managerPrestaShop).edit(psOrders);
+            new PsOrdersJpaController(Manager.getManagerPrestaShop()).edit(psOrders);
             editaOrders();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Erro ao editar PsOrders \n" + ex);
@@ -1261,7 +1258,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
                     List<Cliente> listemailCplus = queryCplus.resultPortCnpjOuCpf(cpfCnpj(psCustomer.getSiret()));
                     //new QueryIntegrador(managerIntegrador).valorConfiguracao("cliente_CARACTERISTICA_CPLUS_DIGIMACRO"), cliMagento.getEmail());
                     if (listemailCplus.isEmpty()) {
-                        new ClienteDigimacroCplus().criaClienteCplus(managerPrestaShop, managerIntegrador, managerCplus, psCustomer, usuario);
+                        new ClienteDigimacroCplus().criaClienteCplus(psCustomer, usuario);
 
                     } else {
                         JOptionPane.showMessageDialog(null, "Esse cadastro possui um CPF ou CNPJ cadastrado no C-Plus\nVERIFIQUE!!!");
@@ -1309,9 +1306,9 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
     }
 
     private void integrarCliente() {
-        IntExecucao exeProduto = new IntExecucaoJpaController(managerIntegrador).findIntExecucao("cliente_integrador");
+        IntExecucao exeProduto = new IntExecucaoJpaController(Manager.getManagerIntegrador()).findIntExecucao("cliente_integrador");
         if (exeProduto.getCondicao() == 1) {
-            new AtualizaExecucaoIntegrador().atualizaExecucaoIntegradorCondicao(exeProduto, 0, managerIntegrador);
+            new AtualizaExecucaoIntegrador().atualizaExecucaoIntegradorCondicao(exeProduto, 0);
             boolean condicaoErro = true;
             Calendar inicioExecucao = Calendar.getInstance();
             inicioExecucao.setTime(exeProduto.getUltimaExecucao());
@@ -1324,21 +1321,21 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
             for (Cliente cliCplus : listClienteCplusDigi) {
                 List<Clientecaracteristica> lisCar = queryCplus.listClienteCaracteristica(codCaracteristicaCliente, cliCplus.getCodcli());
                 if (lisCar.size() == 1) {
-                    new ClienteCplusDigimacro().atualizaClienteDigimacro(managerCplus, managerIntegrador, cliCplus, managerPrestaShop);
+                    new ClienteCplusDigimacro().atualizaClienteDigimacro(cliCplus);
                 }
             }
             if (condicaoErro == true) {
                 fimExecucao.add(Calendar.MINUTE, -1);
-                new AtualizaExecucaoIntegrador().atualizaExecucaoIntegradorData(exeProduto, fimExecucao.getTime(), managerIntegrador);
+                new AtualizaExecucaoIntegrador().atualizaExecucaoIntegradorData(exeProduto, fimExecucao.getTime());
             }
-            new AtualizaExecucaoIntegrador().atualizaExecucaoIntegradorCondicao(exeProduto, 1, managerIntegrador);
+            new AtualizaExecucaoIntegrador().atualizaExecucaoIntegradorCondicao(exeProduto, 1);
             // jProgressBarIntegrador.setString("");
             //  jProgressBarIntegrador.setMinimum(0);
         }//if que verifica se está em execução
     }
 
     private void carregaCampos() {
-        PsCustomer psCustomer = new PsCustomerJpaController(managerPrestaShop).findPsCustomer(psOrders.getIdCustomer());
+        PsCustomer psCustomer = new PsCustomerJpaController(Manager.getManagerPrestaShop()).findPsCustomer(psOrders.getIdCustomer());
         jTextFieldEmail.setText(psCustomer.getEmail());
         jTextFieldTotalProdutos.setText(format.bigDecimalParaString(psOrders.getTotalProducts(), 2));
         jTextFieldNome.setText(psCustomer.getFirstname() + " " + psCustomer.getLastname());
@@ -1554,13 +1551,13 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
-            new VendaDigimacroJFrame(managerIntegrador, managerPrestaShop, managerCplus, usuario).setVisible(true);
+            new VendaDigimacroJFrame(usuario).setVisible(true);
         });
     }
 
-    static EntityManagerFactory managerPrestaShop;
-    static EntityManagerFactory managerIntegrador;
-    static EntityManagerFactory managerCplus;
+    //static EntityManagerFactory managerPrestaShop;
+    //static EntityManagerFactory managerIntegrador;
+    //static EntityManagerFactory managerCplus;
     private final String codCaracteristicaCliente;
     private final FormataCampos format;
     private PsOrders psOrders;

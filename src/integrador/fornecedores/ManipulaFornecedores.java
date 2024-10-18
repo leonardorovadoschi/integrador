@@ -144,7 +144,7 @@ public class ManipulaFornecedores {
     }
 
     public BigDecimal calculaPorcentagemCusto(BigDecimal custoSemSt, ProdFornecedor prodFornecedor, EntityManagerFactory managerCplus) {
-        QueryCplus queryCplus = new QueryCplus(managerCplus);
+        QueryCplus queryCplus = new QueryCplus();
         //int quantidadeEstoque = 0;
         double aliqPisCofins = 9.25;
         double aliqIcmsEntrada;
@@ -232,7 +232,7 @@ public class ManipulaFornecedores {
     }
 
     private Calculoicmsestado localizaCalculoIcmsSaida(ProdFornecedor produtosAllnations, EntityManagerFactory managerCplus) {
-        QueryCplus queryCplus = new QueryCplus(managerCplus);
+        QueryCplus queryCplus = new QueryCplus();
         Calculoicmsestado retorno = null;
         boolean condicao = false;
         do {
@@ -261,7 +261,7 @@ public class ManipulaFornecedores {
     }
 
     private Calculoicmsestado localizaCalculoIcmsEntrada(ProdFornecedor prodFornecedor, EntityManagerFactory managerCplus) {
-        QueryCplus queryCplus = new QueryCplus(managerCplus);
+        QueryCplus queryCplus = new QueryCplus();
         Calculoicmsestado retorno = null;
         boolean condicao = false;
 

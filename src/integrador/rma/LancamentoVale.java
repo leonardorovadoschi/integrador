@@ -17,9 +17,9 @@ import janela.cplus.FormataCampos;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
 import jpa.cplus.ValeJpaController;
+import prestashop.Manager;
 import query.cplus.QueryCplus;
 
 /**
@@ -28,34 +28,34 @@ import query.cplus.QueryCplus;
  */
 public class LancamentoVale {
     QueryCplus querySerial;
-    public void lancamentoVale(Usuario usuario, Cliente cliente, Movenda saidaCliente, Moventrada entrada, EntityManagerFactory managerCplus){
-        querySerial = new QueryCplus(managerCplus);
+    public void lancamentoVale(Usuario usuario, Cliente cliente, Movenda saidaCliente, Moventrada entrada){
+        querySerial = new QueryCplus();
         List<Vale> listVale = querySerial.listagemValePorDevolucao(entrada.getCodmoventr(), cliente.getCodcli());
         if(listVale.isEmpty()){
-            criaVale(usuario, cliente, saidaCliente, entrada, managerCplus);
+            criaVale(usuario, cliente, saidaCliente, entrada);
         }else if(listVale.size() == 1){
             for(Vale vale : listVale){
-            editaVale(vale, usuario, saidaCliente, entrada, managerCplus);
+            editaVale(vale, usuario, saidaCliente, entrada);
             }
         }
         
     }
     
-    private BigDecimal valorVale (Moventrada entrada , EntityManagerFactory managerCplus){
+    private BigDecimal valorVale (Moventrada entrada ){
         BigDecimal val = BigDecimal.ZERO;
-        for(Moventradaprod prod : new QueryCplus(managerCplus).listagemMovEntradaProdPorEntrada(entrada.getCodmoventr())){
+        for(Moventradaprod prod : new QueryCplus().listagemMovEntradaProdPorEntrada(entrada.getCodmoventr())){
             val = val.add(prod.getValortotal());
         }
         return val;
     }
 
-    private void criaVale(Usuario usuario, Cliente cliente, Movenda saidaCliente, Moventrada entrada, EntityManagerFactory managerCplus) {
+    private void criaVale(Usuario usuario, Cliente cliente, Movenda saidaCliente, Moventrada entrada) {
         Vale val = new Vale();               
        int numVale = new ConexaoDB().ultimoCodigo("VALE", "NUMVALE");
        int codVale = new ConexaoDB().ultimoCodigo("VALE", "CODVALE");
         val.setNumvale(numVale);
         val.setCodmovenda(saidaCliente.getCodmovenda());
-        val.setValor(valorVale(entrada, managerCplus));
+        val.setValor(valorVale(entrada));
         val.setDatvale(new Date(System.currentTimeMillis()));
         val.setObs(entrada.getObs());
         val.setCodcli(cliente);
@@ -66,7 +66,7 @@ public class LancamentoVale {
         val.setCodvale(String.format("%09d", codVale));
         val.setFlagtipo('D');
         try {
-            new ValeJpaController(managerCplus).create(val);
+            new ValeJpaController(Manager.getManagerCplus()).create(val);
             numVale ++;
             new ConexaoDB().atualizarCodigo("VALE", "NUMVALE", numVale);
             codVale++;
@@ -77,14 +77,14 @@ public class LancamentoVale {
         }        
     }
 
-    private void editaVale(Vale val, Usuario usuario, Movenda saidaCliente, Moventrada entrada, EntityManagerFactory managerCplus) {       
+    private void editaVale(Vale val, Usuario usuario, Movenda saidaCliente, Moventrada entrada) {       
         val.setCodmovenda(saidaCliente.getCodmovenda());
-        val.setValor(valorVale(entrada, managerCplus));       
+        val.setValor(valorVale(entrada));       
         val.setObs(entrada.getObs());      
         val.setCoduser(usuario.getCoduser());
         val.setHoravale(new Date(System.currentTimeMillis()));
         try {            
-            new ValeJpaController(managerCplus).edit(val);
+            new ValeJpaController(Manager.getManagerCplus()).edit(val);
             JOptionPane.showMessageDialog(null, "vale Editado com Sucesso!!!\n Numero vale: " +val.getNumvale()+" Valor: "+val.getValor());
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Houve um erro ao Editar Vave!!!\n " + ex);

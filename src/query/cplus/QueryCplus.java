@@ -56,6 +56,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
+import prestashop.Manager;
 
 /**
  *
@@ -63,12 +64,12 @@ import javax.persistence.Query;
  */
 public class QueryCplus {
 
-    public QueryCplus(EntityManagerFactory emf) {
-        this.emf = emf;
+    public QueryCplus() {
+        this.emf = Manager.getManagerCplus();
     }
     private EntityManagerFactory emf = null;
 
-    public EntityManager getEntityManager() {
+    private EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
     

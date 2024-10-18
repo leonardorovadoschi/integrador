@@ -54,7 +54,7 @@ public class IntegracaoAllnations {
 
     private void criarProdutosAllnationsIntegrador(ProdutoAll prodAll, EntityManagerFactory managerIntegracao, EntityManagerFactory managerCplus, EntityManagerFactory managerDigimacro) {
         ManipulaFornecedores utilitario = new ManipulaFornecedores();
-        List<Produto> listProdIntegracao = new QueryCplus(managerCplus).listProdutoCodigoPrincipal(prodAll.getEAN().trim());
+        List<Produto> listProdIntegracao = new QueryCplus().listProdutoCodigoPrincipal(prodAll.getEAN().trim());
         for (Produto produto : listProdIntegracao) {
             ProdFornecedor proForn = new ProdFornecedor();
             proForn.setCodigoFornecedor(prodAll.getCODIGO());
