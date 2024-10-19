@@ -14,6 +14,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import prestashop.ConfiguracaoNoBD;
 import prestashop.Manager;
 
 /**
@@ -26,21 +27,20 @@ public class ControleAcesso implements Serializable{
     }
     private EntityManagerFactory managerCplus = null;
 
-    public EntityManager getEntityManager() {
+    private EntityManager getEntityManager() {
         return managerCplus.createEntityManager();
     }
     /**
      * Função vai retornar True se Usuario tiver acesso
-     * @param usuario
      * @param descricaoAcesso
      * @return 
      */
-    public boolean verificaAcessoUsuario(Usuario usuario, String descricaoAcesso){
+    public boolean verificaAcessoUsuario(String descricaoAcesso){
         QueryCplus queryCplus = new QueryCplus(); 
         boolean condicao = true;
         List<Sistemaacesso> listSistemaAcesso = queryCplus.listagemSistemaAcesso(descricaoAcesso);
         for(Sistemaacesso acess : listSistemaAcesso){
-            List<Usuarioacesso> listUsuarioAcesso = queryCplus.listagemUsuarioAcesso(usuario.getCoduser(), acess.getCodsistemaacesso());
+            List<Usuarioacesso> listUsuarioAcesso = queryCplus.listagemUsuarioAcesso(ConfiguracaoNoBD.getUsuario().getCoduser(), acess.getCodsistemaacesso());
             for(Usuarioacesso usrAcess: listUsuarioAcesso){
                 if(!"H".equals(usrAcess.getFlagacesso().toString())){
                     condicao = false;

@@ -27,7 +27,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
 import jpa.cplus.CfopJpaController;
 import jpa.cplus.ContareceberJpaController;
@@ -36,6 +35,7 @@ import jpa.cplus.MovendaJpaController;
 import jpa.cplus.MovendaprodJpaController;
 import jpa.cplus.MovendaproddevolucaocompraJpaController;
 import jpa.cplus.exceptions.NonexistentEntityException;
+import prestashop.Manager;
 import query.cplus.QueryCplus;
 import query.integrador.QueryIntegrador;
 
@@ -47,24 +47,19 @@ public class SaidaJFrame extends javax.swing.JFrame {
 
     /**
      * Creates new form ListagemVendasJFrame
-     *
-     * @param managerIntegrador1
-     * @param managerCplus1
      */
-    public SaidaJFrame(EntityManagerFactory managerIntegrador1, EntityManagerFactory managerCplus1) {
+    public SaidaJFrame() {
         initComponents();
         // var = var1;
         formataCampos = new FormataCampos();
-        managerCplus = managerCplus1;
-        managerIntegrador = managerIntegrador1;
         colunaCodMovendaProduto = jTableMovendaProd.getColumnModel().getColumnIndex("Codmovprod");
         colunaMovDocReferenciado = jTableDocDevolucaoFornecedor.getColumnModel().getColumnIndex("Codmovdocreferenciado");
-        queryCplus = new QueryCplus(managerCplus);
+        queryCplus = new QueryCplus();
         queryIntegrador = new QueryIntegrador();
-        this.listagemSaidasJDialog = new ListagemSaidasJDialog(this, true, managerCplus);
-        this.listagemEntradasJDialog = new ListagemEntradasJDialog(this, true, managerCplus);
-        this.listagemClientesJDialog = new ListagemClientesJDialog(this, true, managerCplus);
-        this.listagemVendedor = new ListagemVendedorJDialog(this, true, managerCplus);
+        this.listagemSaidasJDialog = new ListagemSaidasJDialog(this, true);
+        this.listagemEntradasJDialog = new ListagemEntradasJDialog(this, true);
+        this.listagemClientesJDialog = new ListagemClientesJDialog(this, true);
+        this.listagemVendedor = new ListagemVendedorJDialog(this, true);
         //querySerial = new QuerySerial(managerCplus);
         decimaisArredondamento = Integer.valueOf(queryIntegrador.valorConfiguracao("casas_decimais_ARREDONDAMENTO"));
     }
@@ -1956,7 +1951,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
     private void jButtonExcluirSaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirSaidaActionPerformed
         int cancelar = JOptionPane.showConfirmDialog(null, " Deseja realmente excluir a saida!!", "Excluir", JOptionPane.YES_NO_CANCEL_OPTION);
         if (cancelar == JOptionPane.YES_OPTION) {
-            new DeletarPedidoCplus().deletarPedidoCplus(movenda, managerCplus);
+            new DeletarPedidoCplus().deletarPedidoCplus(movenda);
         }
     }//GEN-LAST:event_jButtonExcluirSaidaActionPerformed
 
@@ -1973,7 +1968,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
         try {
             this.listagemVendedor.setVisible(true);
             movenda.setCodvended(this.listagemVendedor.getVendedor());
-            new MovendaJpaController(managerCplus).edit(movenda);
+            new MovendaJpaController(Manager.getManagerCplus()).edit(movenda);
         } catch (NonexistentEntityException ex) {
             JOptionPane.showMessageDialog(null, "Houve um erro ao alterar Vendedor!!! \n" + ex);
         } catch (Exception ex) {
@@ -2197,7 +2192,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
                             prod.setValoricms(new BigDecimal(valorIcms));
                             prod.setCodsituacaotributaria(calculoIcmsEstado.getCodsituacaotributaria());
                             try {
-                                new MovendaprodJpaController(managerCplus).edit(prod);
+                                new MovendaprodJpaController(Manager.getManagerCplus()).edit(prod);
                             } catch (NonexistentEntityException ex) {
                                 condicaoIcms = false;
                                 JOptionPane.showMessageDialog(null, "Houve um erro ao Editar Produto do Pedido!!! \n" + ex);
@@ -2209,7 +2204,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
                     }//fim for editar
                 }//if que verifica se todos os calculos de icms foram encontrados
                 if (condicaoIcms) {
-                    editaMovendaCliente(this.listagemClientesJDialog.getCliente(), movenda, managerCplus);
+                    editaMovendaCliente(this.listagemClientesJDialog.getCliente(), movenda);
                     carregaCamposSaida();
                 }
             } else {//if que verifica se a operação é nula
@@ -2226,7 +2221,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
             colunaMovDocReferenciado = jTableDocDevolucaoFornecedor.getColumnModel().getColumnIndex("Codmovdocreferenciado");
             String cod = jTableDocDevolucaoFornecedor.getValueAt(jTableDocDevolucaoFornecedor.getSelectedRow(), colunaMovDocReferenciado).toString();
             try {
-                new MovdocreferenciadoJpaController(managerCplus).destroy(cod);
+                new MovdocreferenciadoJpaController(Manager.getManagerCplus()).destroy(cod);
                 carregaLitaReferenciaDoc(movenda);
             } catch (NonexistentEntityException ex) {
                 JOptionPane.showMessageDialog(null, "Houve um erro ao Excluir Referencia de Nota de compra!!!\n " + ex);
@@ -2261,7 +2256,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
                 refNota.setIdentidadeorigem(movenda.getCodmovenda());
                 refNota.setIdentidadeorigemref(movEntrada.getCodmoventr());
                 try {
-                    new MovdocreferenciadoJpaController(managerCplus).create(refNota);
+                    new MovdocreferenciadoJpaController(Manager.getManagerCplus()).create(refNota);
                     configCont++;
                     new ConexaoDB().atualizarCodigo("MOVENDADOCREF", "CODMOVENDADOCREF", configCont);
                     carregaLitaReferenciaDoc(movenda);
@@ -2283,7 +2278,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
             List<Movendaproddevolucaocompra> list = queryCplus.listagemControlaDevolucaoPorSaidaProd(codMovProdSaida);
             for (Movendaproddevolucaocompra dev : list) {
                 try {
-                    new MovendaproddevolucaocompraJpaController(managerCplus).destroy(dev.getCodmovendaproddevolucaocompra());
+                    new MovendaproddevolucaocompraJpaController(Manager.getManagerCplus()).destroy(dev.getCodmovendaproddevolucaocompra());
                 } catch (NonexistentEntityException ex) {
                     JOptionPane.showMessageDialog(null, "Houve um erro ao deletar controle de devolução de compra!!! \n" + ex);
                 }
@@ -2308,7 +2303,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
             if (this.listagemSaidasJDialog.isCancelamento() == false) {
                 Movenda movendaAlterado = this.listagemSaidasJDialog.getMoVenda();
                 colunaCodMovendaProduto = jTableMovendaProd.getColumnModel().getColumnIndex("Codmovprod");
-                Movendaprod prod = new MovendaprodJpaController(managerCplus).findMovendaprod(jTableMovendaProd.getValueAt(jTableMovendaProd.getSelectedRow(), colunaCodMovendaProduto).toString());
+                Movendaprod prod = new MovendaprodJpaController(Manager.getManagerCplus()).findMovendaprod(jTableMovendaProd.getValueAt(jTableMovendaProd.getSelectedRow(), colunaCodMovendaProduto).toString());
                 prod.setCodmovenda(movendaAlterado);
                 
                 if (!"C".equals(movendaAlterado.getFlagcli().toString())) {
@@ -2329,7 +2324,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
                         devProd.setDataprevistadevolucao(new Date(System.currentTimeMillis()));
                         devProd.setValorretornado(BigDecimal.ZERO);
                         try {
-                            new MovendaproddevolucaocompraJpaController(managerCplus).create(devProd);
+                            new MovendaproddevolucaocompraJpaController(Manager.getManagerCplus()).create(devProd);
                             configCont++;
                             new ConexaoDB().atualizarCodigo("MOVENDAPRODDEVOLUCAOCOMPRA", "CODMOVENDAPRODDEVOLUCAOCOMPRA", configCont);
                         } catch (Exception ex) {
@@ -2342,7 +2337,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
                             dev.setValorcusto(prod.getValortotal().add(prod.getValorsubsttributaria().add(prod.getValoripi())));
                             dev.setDatasaida(new Date(System.currentTimeMillis()));
                             try {
-                                new MovendaproddevolucaocompraJpaController(managerCplus).edit(dev);
+                                new MovendaproddevolucaocompraJpaController(Manager.getManagerCplus()).edit(dev);
                             } catch (Exception ex) {
                                 JOptionPane.showMessageDialog(null, "Houve um erro ao Editar Controle de devoluÃ§Ã£o!!!\n " + ex);
                             }
@@ -2350,15 +2345,15 @@ public class SaidaJFrame extends javax.swing.JFrame {
                     }//fim if que verifica a quantidade da lista           
                 }//fim if que verifica se ï¿½ fornecedor se nï¿½o for nï¿½o controla devoluï¿½ï¿½o
                 try {
-                    new MovendaprodJpaController(managerCplus).edit(prod);
+                    new MovendaprodJpaController(Manager.getManagerCplus()).edit(prod);
                 } catch (NonexistentEntityException ex) {
                     JOptionPane.showMessageDialog(null, "Houve um erro ao trocar Produto de Pedido!!!\n " + ex);
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, "Houve um erro ao trocar Produto de Pedido!!!\n " + ex);
                 }
                 
-                editaMovenda(movendaAlterado, managerCplus);
-                editaMovenda(movenda, managerCplus);
+                editaMovenda(movendaAlterado);
+                editaMovenda(movenda);
                 movendaprodList.clear();
                 for (Movendaprod pro : queryCplus.listMovendaProd(movenda.getCodmovenda())) {
                     movendaprodList.add(pro);
@@ -2544,7 +2539,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
     
     private void carregarCamposSaidaProduto() {
         colunaCodMovendaProduto = jTableMovendaProd.getColumnModel().getColumnIndex("Codmovprod");
-        movProd = new MovendaprodJpaController(managerCplus).findMovendaprod(jTableMovendaProd.getValueAt(jTableMovendaProd.getSelectedRow(), colunaCodMovendaProduto).toString());
+        movProd = new MovendaprodJpaController(Manager.getManagerCplus()).findMovendaprod(jTableMovendaProd.getValueAt(jTableMovendaProd.getSelectedRow(), colunaCodMovendaProduto).toString());
         if (movProd.getCstpis() == null) {
             jComboBoxCstPisProd.setSelectedIndex(0);
         } else {
@@ -2720,7 +2715,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
         if (jTableMovendaProd.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(null, "Voce deve selecionar uma linha na tabela!!!");
         } else {
-            Movendaprod prod = new MovendaprodJpaController(managerCplus).findMovendaprod(jTableMovendaProd.getValueAt(jTableMovendaProd.getSelectedRow(), colunaCodMovendaProduto).toString());
+            Movendaprod prod = new MovendaprodJpaController(Manager.getManagerCplus()).findMovendaprod(jTableMovendaProd.getValueAt(jTableMovendaProd.getSelectedRow(), colunaCodMovendaProduto).toString());
             switch (jComboBoxCstPisProd.getSelectedIndex()) {
                 case 0:
                     prod.setCstpis("01");
@@ -2755,7 +2750,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
             prod.setValoripi(formataCampos.stringParaDecimal(jTextFieldValorIpiProd.getText(), decimaisArredondamento));
             prod.setBasesubsttributaria(formataCampos.stringParaDecimal(jTextFieldBaseSTProd.getText(), decimaisArredondamento));
             prod.setValorsubsttributaria(formataCampos.stringParaDecimal(jTextFieldValorSTProd.getText(), decimaisArredondamento));
-            prod.setCodcfop(new CfopJpaController(managerCplus).findCfop(jTextFieldCfopProduto.getText()));
+            prod.setCodcfop(new CfopJpaController(Manager.getManagerCplus()).findCfop(jTextFieldCfopProduto.getText()));
             if (jComboBoxOrigemProduto.getSelectedIndex() != 9) {
                 char origem;
                 switch (jComboBoxOrigemProduto.getSelectedIndex()) {
@@ -2847,8 +2842,8 @@ public class SaidaJFrame extends javax.swing.JFrame {
             }
             //  prod.setCodsituacaotributaria(nul);
             try {
-                new MovendaprodJpaController(managerCplus).edit(prod);
-                editaMovenda(prod.getCodmovenda(), managerCplus);
+                new MovendaprodJpaController(Manager.getManagerCplus()).edit(prod);
+                editaMovenda(prod.getCodmovenda());
                 carregaCamposSaida();
             } catch (NonexistentEntityException ex) {
                 JOptionPane.showMessageDialog(null, "Erro ao editar!!!\n" + ex);
@@ -2859,7 +2854,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
         }
     }
     
-    private boolean editaMovendaCliente(Cliente cli, Movenda saida, EntityManagerFactory managerCplus) {
+    private boolean editaMovendaCliente(Cliente cli, Movenda saida) {
         boolean condicao = true;
         List<Movendaprod> listMovProd = queryCplus.listMovendaProd(saida.getCodmovenda());
         if (listMovProd.isEmpty()) {
@@ -2917,11 +2912,11 @@ public class SaidaJFrame extends javax.swing.JFrame {
             saida.setIdentificadordestino('2');
         }
         try {
-            new MovendaJpaController(managerCplus).edit(saida);
+            new MovendaJpaController(Manager.getManagerCplus()).edit(saida);
             for (Contareceber cr : queryCplus.resultReceberPorVenda(movenda.getCodmovenda())) {
                 cr.setCodcli(cli);
                 cr.setDatvenc(new Date(System.currentTimeMillis()));
-                new ContareceberJpaController(managerCplus).edit(cr);
+                new ContareceberJpaController(Manager.getManagerCplus()).edit(cr);
             }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Houve um erro ao Gravar Entrada!!!\n " + ex);
@@ -2930,7 +2925,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
         return condicao;
     }
     
-    private boolean editaMovenda(Movenda saida, EntityManagerFactory managerCplus) {
+    private boolean editaMovenda(Movenda saida) {
         boolean condicao = true;
         List<Movendaprod> listMovProd = queryCplus.listMovendaProd(saida.getCodmovenda());
         if (listMovProd.isEmpty()) {
@@ -2991,7 +2986,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
                 saida.setIdentificadordestino('3');
         }
         try {
-            new MovendaJpaController(managerCplus).edit(saida);
+            new MovendaJpaController(Manager.getManagerCplus()).edit(saida);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Houve um erro ao Gravar Entrada!!!\n " + ex);
             condicao = false;
@@ -3032,7 +3027,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new SaidaJFrame(managerIntegrador, managerCplus).setVisible(true);
+                new SaidaJFrame().setVisible(true);
             }
         });
     }
@@ -3040,7 +3035,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
     int colunaCodMovendaProduto;
     int codMovenda = 0;
     int colunaMovDocReferenciado;
-    static EntityManagerFactory managerCplus;
+    //static EntityManagerFactory managerCplus;
     //static VariavelStatica var;
     private final FormataCampos formataCampos;
     private final QueryCplus queryCplus;
@@ -3051,7 +3046,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
     private Movenda movenda;
     private Movendaprod movProd;
     private final QueryIntegrador queryIntegrador;
-    private static EntityManagerFactory managerIntegrador;
+    //private static EntityManagerFactory managerIntegrador;
     private Nfceletronica nfc;
     private final int decimaisArredondamento;
 

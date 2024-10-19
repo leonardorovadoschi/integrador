@@ -40,14 +40,12 @@ public class ListPsProductJDialog extends javax.swing.JDialog {
      *
      * @param parent
      * @param modal
-     * @param usuario1
      */
-    public ListPsProductJDialog(java.awt.Frame parent, boolean modal, Usuario usuario1) {
+    public ListPsProductJDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);      
         initComponents();
 
         formataCampos = new FormataCampos();     
-        usuario = usuario1;
         queryPrestaShop = new QueryPrestaShop();
         ControleAcesso acesso = new ControleAcesso();
         colunaEntityId = jTablePsProduct.getColumnModel().getColumnIndex("Id Product");
@@ -503,7 +501,7 @@ public class ListPsProductJDialog extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                ListPsProductJDialog dialog = new ListPsProductJDialog(new javax.swing.JFrame(), true, usuario);
+                ListPsProductJDialog dialog = new ListPsProductJDialog(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -516,18 +514,14 @@ public class ListPsProductJDialog extends javax.swing.JDialog {
     }
     //static EntityManagerFactory managerPrestaShop;
     //static EntityManagerFactory managerCplus;
-    int colunaEntityId;
+    private int colunaEntityId;
     //private SalesFlatOrder flatOrder;
-    FormataCampos formataCampos;
-    QueryPrestaShop queryPrestaShop;
+    private FormataCampos formataCampos;
+    private QueryPrestaShop queryPrestaShop;
     private boolean cancelamento;
     //private BigDecimal quantidadeAntiga;
     PsProduct psProduct;
-    //private short groupId;
-    static Usuario usuario;
-    //private final String shopUrl ;
-    //private final String key;
-    //static EntityManagerFactory managerIntegrador;
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.persistence.EntityManager entityManager;

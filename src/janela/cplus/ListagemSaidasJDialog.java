@@ -8,7 +8,6 @@ package janela.cplus;
 
 
 import entidade.cplus.Movenda;
-import entidade.cplus.Produto;
 import integrador.render.RenderDataEHora;
 import integrador.render.RenderHora;
 import integrador.render.RenderPreco;
@@ -16,7 +15,6 @@ import integrador.render.RenderStatusPedido;
 import java.awt.Color;
 import java.awt.Toolkit;
 import java.util.List;
-import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
 import jpa.cplus.MovendaJpaController;
 import prestashop.Manager;

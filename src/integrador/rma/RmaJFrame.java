@@ -47,6 +47,7 @@ import jpa.cplus.exceptions.NonexistentEntityException;
 import jpa.integrador.EntradaSerialJpaController;
 import jpa.integrador.SaidaSerialJpaController;
 import jpa.integrador.SerialProdutoJpaController;
+import prestashop.Manager;
 import produto.ProdutoCplusDigimacro;
 import query.cplus.QueryCplus;
 import query.integrador.QueryIntegrador;
@@ -58,30 +59,21 @@ import query.integrador.QueryIntegrador;
 public class RmaJFrame extends javax.swing.JFrame {
 
     /**
-     * Creates new form RmaJFrame
-     *
-     * @param managerPrestaShop1
-     * @param managerCplus1
-     * @param managerIntegrador1
+     * Creates new form RmaJFrame     
      * @param usuario
      */
-    public RmaJFrame(EntityManagerFactory managerPrestaShop1, EntityManagerFactory managerCplus1, EntityManagerFactory managerIntegrador1, Usuario usuario) {
+    public RmaJFrame() {
         initComponents();
-
-        managerCplus = managerCplus1;
-        managerIntegrador = managerIntegrador1;
-        managerPrestaShop = managerPrestaShop1;
-        user = usuario;
         queryIntegrador = new QueryIntegrador();
-        queryCplus = new QueryCplus(managerCplus);
+        queryCplus = new QueryCplus();
         formatacaoDeCampos = new FormataCampos();
-        this.listagemEntradasJDialog = new ListagemEntradasJDialog(this, true, managerCplus);
-        this.listagemSaidasJDialog = new ListagemSaidasJDialog(this, true, managerCplus);
+        this.listagemEntradasJDialog = new ListagemEntradasJDialog(this, true);
+        this.listagemSaidasJDialog = new ListagemSaidasJDialog(this, true);
         //this.numeroNotaJDialog = new NumeroNotaJDialog(this, true);
-        this.listagemClientesJDialog = new ListagemClientesJDialog(this, true, managerCplus);
-        this.listagemOperacaoJDialog = new ListagemOperacaoJDialog(this, true, managerCplus);
-        this.listagemFornecedorJDialog = new ListagemFornecedorJDialog(this, true, managerCplus);
-        this.listagemProdutoJDialog = new ListagemProdutoJDialog(this, rootPaneCheckingEnabled, managerCplus);
+        this.listagemClientesJDialog = new ListagemClientesJDialog(this, true);
+        this.listagemOperacaoJDialog = new ListagemOperacaoJDialog(this, true);
+        this.listagemFornecedorJDialog = new ListagemFornecedorJDialog(this, true);
+        this.listagemProdutoJDialog = new ListagemProdutoJDialog(this, rootPaneCheckingEnabled);
         colunaSerial = jTableProdutoSerial.getColumnModel().getColumnIndex("Serial");
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
         clienteCupom = queryIntegrador.valorConfiguracao("cliente_CODIGO_PARA_CUPOM");
@@ -516,7 +508,7 @@ public class RmaJFrame extends javax.swing.JFrame {
         for (SerialProduto ser : queryIntegrador.listSerialExato(serial)) {
             carregaTabelaEntradaSerial(ser);
             jTextFieldEstoqueCplus.setText(String.valueOf(estoqueCplus(ser.getCodProduto())));
-            jTextFieldLocalizacao.setText(setor(new ProdutoJpaController(managerCplus).findProduto(ser.getCodProduto())));
+            jTextFieldLocalizacao.setText(setor(new ProdutoJpaController(Manager.getManagerCplus()).findProduto(ser.getCodProduto())));
         }
         //mostraEstoque(jTableProdutoSerial.getValueAt(jTableProdutoSerial.getSelectedRow(), colunaCodProd).toString());
     }//GEN-LAST:event_jTableProdutoSerialMouseClicked
@@ -558,17 +550,17 @@ public class RmaJFrame extends javax.swing.JFrame {
     private void jTableEntradaSerialMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableEntradaSerialMouseClicked
         int colIdEnt = jTableEntradaSerial.getColumnModel().getColumnIndex("Id Entrada Serial");
         int id = Integer.valueOf(jTableEntradaSerial.getValueAt(jTableEntradaSerial.getSelectedRow(), colIdEnt).toString());
-        EntradaSerial ent = new EntradaSerialJpaController(managerIntegrador).findEntradaSerial(id);
-        entrada = new MoventradaJpaController(managerCplus).findMoventrada(ent.getCodEntrada());
-        entradaProd = new MoventradaprodJpaController(managerCplus).findMoventradaprod(ent.getCodEntradaProd());
+        EntradaSerial ent = new EntradaSerialJpaController(Manager.getManagerIntegrador()).findEntradaSerial(id);
+        entrada = new MoventradaJpaController(Manager.getManagerCplus()).findMoventrada(ent.getCodEntrada());
+        entradaProd = new MoventradaprodJpaController(Manager.getManagerCplus()).findMoventradaprod(ent.getCodEntradaProd());
     }//GEN-LAST:event_jTableEntradaSerialMouseClicked
 
     private void jTableSaidaSerialMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableSaidaSerialMouseClicked
         int colIdSaida = jTableSaidaSerial.getColumnModel().getColumnIndex("id Saida Serial");
         int id = Integer.valueOf(jTableSaidaSerial.getValueAt(jTableSaidaSerial.getSelectedRow(), colIdSaida).toString());
-        SaidaSerial sai = new SaidaSerialJpaController(managerIntegrador).findSaidaSerial(id);
-        venda = new MovendaJpaController(managerCplus).findMovenda(sai.getCodSaida());
-        vendaProd = new MovendaprodJpaController(managerCplus).findMovendaprod(sai.getCodSaidaProd());
+        SaidaSerial sai = new SaidaSerialJpaController(Manager.getManagerIntegrador()).findSaidaSerial(id);
+        venda = new MovendaJpaController(Manager.getManagerCplus()).findMovenda(sai.getCodSaida());
+        vendaProd = new MovendaprodJpaController(Manager.getManagerCplus()).findMovendaprod(sai.getCodSaidaProd());
     }//GEN-LAST:event_jTableSaidaSerialMouseClicked
 
     private void jButtonExcluiEntradaSerialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluiEntradaSerialActionPerformed
@@ -609,15 +601,15 @@ public class RmaJFrame extends javax.swing.JFrame {
             //int comp = queryIntegrador.listPorEntradaProd(e.getCodmoveprod()).size();          
             String txt = "";
             String CNPJ = "";
-            entrada = new MoventradaJpaController(managerCplus).findMoventrada(e.getCodEntrada());
+            entrada = new MoventradaJpaController(Manager.getManagerCplus()).findMoventrada(e.getCodEntrada());
             if (entrada == null) {
                 Moventrada ent = new Moventrada();
                 ent.setData(formatacaoDeCampos.dataAtual());
                 ent.setNumnota(0);
-                ent.setCodtipomovimento(new TipomovimentoJpaController(managerCplus).findTipomovimento("000000001"));
+                ent.setCodtipomovimento(new TipomovimentoJpaController(Manager.getManagerCplus()).findTipomovimento("000000001"));
                 entrada = ent;
             }
-            entradaProd = new MoventradaprodJpaController(managerCplus).findMoventradaprod(e.getCodEntradaProd());
+            entradaProd = new MoventradaprodJpaController(Manager.getManagerCplus()).findMoventradaprod(e.getCodEntradaProd());
             if (entrada.getCodForn() != null) {
                 txt = entrada.getCodForn().getNomeforn();
                 CNPJ = formatacaoDeCampos.mascaraCNPJ(entrada.getCodForn().getCnpj());
@@ -632,12 +624,11 @@ public class RmaJFrame extends javax.swing.JFrame {
         while (jTableSaidaSerial.getModel().getRowCount() > 0) {
             ((DefaultTableModel) jTableSaidaSerial.getModel()).removeRow(0);
         }
-        for (SaidaSerial s : serial.getSaidaSerialCollection()) {
-            //venda = new MovendaJpaController(managerCplus).findMovenda(e.getCodSaida());
+        for (SaidaSerial s : serial.getSaidaSerialCollection()) {           
             String txt = "";
             String CNPJ = "";
-            venda = new MovendaJpaController(managerCplus).findMovenda(s.getCodSaida());
-            vendaProd = new MovendaprodJpaController(managerCplus).findMovendaprod(s.getCodSaidaProd());
+            venda = new MovendaJpaController(Manager.getManagerCplus()).findMovenda(s.getCodSaida());
+            vendaProd = new MovendaprodJpaController(Manager.getManagerCplus()).findMovendaprod(s.getCodSaidaProd());
             if (venda.getCodForn() != null) {
                 txt = venda.getCodForn().getNomeforn();
                 CNPJ = formatacaoDeCampos.mascaraCNPJ(venda.getCodForn().getCnpj());
@@ -673,14 +664,14 @@ public class RmaJFrame extends javax.swing.JFrame {
                 //List<Movendaprodserial> vendaSerial = queryCplus.listagemSaidaSerialExato(ser);
                 for (EntradaSerial veSerial : proSer.getEntradaSerialCollection()) {
                     try {
-                        new EntradaSerialJpaController(managerIntegrador).destroy(veSerial.getIdEntradaSerial());
+                        new EntradaSerialJpaController(Manager.getManagerIntegrador()).destroy(veSerial.getIdEntradaSerial());
 
                     } catch (jpa.integrador.exceptions.NonexistentEntityException ex) {
                         JOptionPane.showMessageDialog(null, "Houve um erro ao excluir o serial da Entrada!! \n" + ex);
                     }
                 }
                 try {
-                    new SerialProdutoJpaController(managerIntegrador).destroy(proSer.getIdSerial());
+                    new SerialProdutoJpaController(Manager.getManagerIntegrador()).destroy(proSer.getIdSerial());
                 } catch (jpa.integrador.exceptions.NonexistentEntityException ex) {
                     JOptionPane.showMessageDialog(null, "Houve um erro ao excluir o Serial Produto!! \n" + ex);
                 }
@@ -696,7 +687,7 @@ public class RmaJFrame extends javax.swing.JFrame {
         //List<Movendaprodserial> vendaSerial = queryCplus.listagemSaidaSerialExato(ser);
         for (SaidaSerial veSerial : listProdSerial) {
             try {
-                new SaidaSerialJpaController(managerIntegrador).destroy(veSerial.getIdSaidaSerial());
+                new SaidaSerialJpaController(Manager.getManagerIntegrador()).destroy(veSerial.getIdSaidaSerial());
                 tipoDePesquisa();
             } catch (jpa.integrador.exceptions.NonexistentEntityException ex) {
                 JOptionPane.showMessageDialog(null, "Houve um erro ao excluir o serial da saida!! \n" + ex);
@@ -717,7 +708,7 @@ public class RmaJFrame extends javax.swing.JFrame {
                 for (SerialProduto serialAntigo : listProdSerialAntigo) {
                     serialAntigo.setSerial(serialNovo);
                     try {
-                        new SerialProdutoJpaController(managerIntegrador).edit(serialAntigo);
+                        new SerialProdutoJpaController(Manager.getManagerIntegrador()).edit(serialAntigo);
                         JOptionPane.showMessageDialog(null, "Serial editado com sucesso!!");
                         jTextFieldArgumentoPesquisa.setText(serialNovo);
                         jTableProdutoSerial.setValueAt(serialNovo, row, colunaSerial);
@@ -764,7 +755,7 @@ public class RmaJFrame extends javax.swing.JFrame {
     private void atualizaEstoque(Produto prod) {
         //List<Produto> listProd = queryCplus.listProdutoSerial(jTableProdutoSerial.getValueAt(jTableProdutoSerial.getSelectedRow(), colunaCodProd).toString());
         //for (Produto prod : listProd) {
-        new ProdutoCplusDigimacro().produtoCplusDigimacro(managerIntegrador, managerCplus, managerPrestaShop, prod);
+        new ProdutoCplusDigimacro().produtoCplusDigimacro(prod);
         //}
     }
 
@@ -900,7 +891,7 @@ public class RmaJFrame extends javax.swing.JFrame {
                 }
                 if (listIcmsPorEstado.size() == 1) {
                     for (Calculoicmsestado cal : listIcmsPorEstado) {
-                        calculoIcmsEstado = new CalculoicmsestadoJpaController(managerCplus).findCalculoicmsestado(cal.getCodcalculoicmsestado());;
+                        calculoIcmsEstado = new CalculoicmsestadoJpaController(Manager.getManagerCplus()).findCalculoicmsestado(cal.getCodcalculoicmsestado());;
                         cancelaSaidaFornecedor = false;
                     }
                 } else {
@@ -928,7 +919,7 @@ public class RmaJFrame extends javax.swing.JFrame {
         // }
         if (cancelaSaidaFornecedor == false) {
 
-            if (new SaidaFornecedorCplus().saidaFornecedorCplus(controlaEstoque, movimentoSaidaFornecedor, calculoIcmsEstado, fornecedor, entradaProd, serial, user, managerCplus, managerIntegrador) == false) {
+            if (new SaidaFornecedorCplus().saidaFornecedorCplus(controlaEstoque, movimentoSaidaFornecedor, calculoIcmsEstado, fornecedor, entradaProd, serial) == false) {
                 cancelaSaidaFornecedor = true;
             }
 
@@ -1027,7 +1018,7 @@ public class RmaJFrame extends javax.swing.JFrame {
             }
             if (listIcmsPorEstado.size() == 1) {
                 for (Calculoicmsestado cal : listIcmsPorEstado) {
-                    calculoIcmsEstado = new CalculoicmsestadoJpaController(managerCplus).findCalculoicmsestado(cal.getCodcalculoicmsestado());;
+                    calculoIcmsEstado = new CalculoicmsestadoJpaController(Manager.getManagerCplus()).findCalculoicmsestado(cal.getCodcalculoicmsestado());;
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "Não foi Possivel localizar o Calculo ICMS para essa Operação verifique no C-Plus \n resultados encontrados: " + listIcmsPorEstado.size());
@@ -1037,7 +1028,7 @@ public class RmaJFrame extends javax.swing.JFrame {
         //Cliente clien = new ClienteJpaController(managerCplus).findCliente(codigoCliente);
         if (cancelaEntradaCliente == false) {
 
-            if (new EntradaClienteCplus().entradaClienteCplus(movimentoEntradaCliente, calculoIcmsEstado, cliente, vendaProd, serial, user, managerCplus, managerIntegrador) == false) {
+            if (new EntradaClienteCplus().entradaClienteCplus(movimentoEntradaCliente, calculoIcmsEstado, cliente, vendaProd, serial) == false) {
                 cancelaEntradaCliente = true;
             }
 
@@ -1131,7 +1122,7 @@ public class RmaJFrame extends javax.swing.JFrame {
                 }
                 if (listIcmsPorEstado.size() == 1) {
                     for (Calculoicmsestado cal : listIcmsPorEstado) {
-                        calculoIcmsEstado = new CalculoicmsestadoJpaController(managerCplus).findCalculoicmsestado(cal.getCodcalculoicmsestado());
+                        calculoIcmsEstado = new CalculoicmsestadoJpaController(Manager.getManagerCplus()).findCalculoicmsestado(cal.getCodcalculoicmsestado());
                     }
                 } else {
                     JOptionPane.showMessageDialog(null, "Não foi Possivel localizar o Calculo ICMS para essa Operação verifique no C-Plus \n resultados encontrados: " + listIcmsPorEstado.size());
@@ -1160,7 +1151,7 @@ public class RmaJFrame extends javax.swing.JFrame {
             }
         } while (cancelaSaidaCliente);
         if (cancelaSaidaCliente == false) {
-            if (new SaidaClienteCplus().saidaClienteCplus(controlaEstoque, movimentoSaidaCliente, calculoIcmsEstado, cliente, vendaProd, serial, user, managerCplus, managerIntegrador) == false) {
+            if (new SaidaClienteCplus().saidaClienteCplus(controlaEstoque, movimentoSaidaCliente, calculoIcmsEstado, cliente, vendaProd, serial) == false) {
                 cancelaSaidaCliente = true;
             } else {
                 atualizaEstoque(vendaProd.getCodprod());
@@ -1306,7 +1297,7 @@ public class RmaJFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new RmaJFrame(managerPrestaShop, managerCplus, managerIntegrador, user).setVisible(true);
+                new RmaJFrame().setVisible(true);
             }
         });
     }
@@ -1318,9 +1309,9 @@ public class RmaJFrame extends javax.swing.JFrame {
     private final ListagemFornecedorJDialog listagemFornecedorJDialog;
     private final ListagemProdutoJDialog listagemProdutoJDialog;
     private int colunaSerial;
-    private static EntityManagerFactory managerCplus;
-    private static EntityManagerFactory managerPrestaShop;
-    private static EntityManagerFactory managerIntegrador;
+    //private static EntityManagerFactory managerCplus;
+    //private static EntityManagerFactory managerPrestaShop;
+    //private static EntityManagerFactory managerIntegrador;
     private final QueryIntegrador queryIntegrador;
     private final QueryCplus queryCplus;
     private final FormataCampos formatacaoDeCampos;
@@ -1328,19 +1319,8 @@ public class RmaJFrame extends javax.swing.JFrame {
     private Moventrada entrada;
     private Moventradaprod entradaProd;
     private Movenda venda;
-    private Movendaprod vendaProd;
-    //int colunaCodClienteSaida;
-    //int colunaCodFornecedorEntrada;
-    //int colunaCodMovProdutoSaida;
-    //int colunaCodMovendaProdutoSerial;
-    //int colunaMovProdutoEntrada;
-    //int colunaNomeFornecedorEntrada;
-    //int colunaNomeClienteSaida;
-    //int colunaCodProd;
+    private Movendaprod vendaProd;   
     private final String clienteCupom;
-
-    //private final NumeroNotaJDialog numeroNotaJDialog;
-    static Usuario user;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.persistence.EntityManager entityManager;

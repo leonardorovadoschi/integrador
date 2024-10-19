@@ -12,8 +12,6 @@ import entidade.cplus.Tipomovimento;
 import entidade.cplus.Unidade;
 import entidade.integrador.SaidaSerial;
 import integrador.relatorio.ImprimeRelatorio;
-import integrador.render.RenderPorcentagem;
-import integrador.render.RenderPreco;
 import janela.cplus.FormataCampos;
 import janela.cplus.ListagemClientesJDialog;
 import janela.cplus.ListagemOperacaoJDialog;
@@ -22,11 +20,11 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.EntityManagerFactory;
 import javax.swing.table.DefaultTableModel;
 import jpa.cplus.CfopJpaController;
 import jpa.cplus.MovendaprodJpaController;
 import prestashop.ConfiguracaoNoBD;
+import prestashop.Manager;
 import query.cplus.QueryCplus;
 import query.integrador.QueryIntegrador;
 
@@ -37,18 +35,14 @@ import query.integrador.QueryIntegrador;
 public class EspelhoRmaJFrame extends javax.swing.JFrame {
 
     /**
-     * Creates new form EspelhoRmaJFrame
-     *
-     * @param managerCplus1
-     * @param managerIntegrador1
+     * Creates new form EspelhoRmaJFrame   
      */
-    public EspelhoRmaJFrame(EntityManagerFactory managerCplus1, EntityManagerFactory managerIntegrador1) {
+    public EspelhoRmaJFrame() {
         initComponents();
-        managerCplus = managerCplus1;
-        managerIntegrador = managerIntegrador1;
-        this.listagemClientesJDialog = new ListagemClientesJDialog(this, true, managerCplus);
-        this.listagemOperacaoJDialog = new ListagemOperacaoJDialog(this, true, managerCplus);
-        this.listagemSerialSaidaJDialog = new ListagemSerialSaidaJDialog(this, true, managerIntegrador);
+        
+        this.listagemClientesJDialog = new ListagemClientesJDialog(this, true);
+        this.listagemOperacaoJDialog = new ListagemOperacaoJDialog(this, true);
+        this.listagemSerialSaidaJDialog = new ListagemSerialSaidaJDialog(this, true);
    //     listSerial = new ArrayList<>();
         colunaCodMovendaProd = jTableItensEspelho.getColumnModel().getColumnIndex("Codmovprod");
         mensagem = new ArrayList<>();
@@ -542,8 +536,8 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
         if (this.listagemSerialSaidaJDialog.isCancelamento() == false) {
             SaidaSerial serial = this.listagemSerialSaidaJDialog.getSaidaSerial();
            // listSerial.add(serial);
-            Movendaprod prod = new MovendaprodJpaController(managerCplus).findMovendaprod(serial.getCodSaidaProd());
-            Movendaprod prod1 = new MovendaprodJpaController(managerCplus).findMovendaprod(serial.getCodSaidaProd());;
+            Movendaprod prod = new MovendaprodJpaController(Manager.getManagerCplus()).findMovendaprod(serial.getCodSaidaProd());
+            Movendaprod prod1 = new MovendaprodJpaController(Manager.getManagerCplus()).findMovendaprod(serial.getCodSaidaProd());;
             boolean condicao = true;
             BigDecimal quantidadeEspelho = quantidadeConversaoSaida(prod);
             for (Movendaprod vendaProd : movendaprodList) {
@@ -569,12 +563,12 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
                         prod.getCodmovenda().setCodcli(cliente);
                         if ("RS".equals(cliente.getEstado())) {
                             if ("5405".equals(prod.getCodcfop().getCodcfop())) {
-                                prod.setCodcfop(new CfopJpaController(managerCplus).findCfop("5411"));
+                                prod.setCodcfop(new CfopJpaController(Manager.getManagerCplus()).findCfop("5411"));
                             } else {
-                                prod.setCodcfop(new CfopJpaController(managerCplus).findCfop("5202"));
+                                prod.setCodcfop(new CfopJpaController(Manager.getManagerCplus()).findCfop("5202"));
                             }
                         } else {
-                            prod.setCodcfop(new CfopJpaController(managerCplus).findCfop("6202"));
+                            prod.setCodcfop(new CfopJpaController(Manager.getManagerCplus()).findCfop("6202"));
                         }
                     } else {
                         prod.setValorunitario(valorUnitarioCompra(prod1));
@@ -591,12 +585,12 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
                         prod.setValorpis(BigDecimal.ZERO);
                         prod.getCodmovenda().setCodcli(cliente);
                         if ("RS".equals(cliente.getEstado())) {
-                            prod.setCodcfop(new CfopJpaController(managerCplus).findCfop("5949"));
+                            prod.setCodcfop(new CfopJpaController(Manager.getManagerCplus()).findCfop("5949"));
                             prod.setCstcofins("49");
                             prod.setCstpis("49");
                             prod.setCodsituacaotributaria("41");
                         } else {
-                            prod.setCodcfop(new CfopJpaController(managerCplus).findCfop("6949"));
+                            prod.setCodcfop(new CfopJpaController(Manager.getManagerCplus()).findCfop("6949"));
                             prod.setCstcofins("49");
                             prod.setCstpis("49");
                         }
@@ -626,12 +620,12 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
                     prod.getCodmovenda().setCodcli(cliente);
                     if ("RS".equals(cliente.getEstado())) {
                         if ("5405".equals(prod1.getCodcfop().getCodcfop())) {
-                            prod.setCodcfop(new CfopJpaController(managerCplus).findCfop("5411"));
+                            prod.setCodcfop(new CfopJpaController(Manager.getManagerCplus()).findCfop("5411"));
                         } else {
-                            prod.setCodcfop(new CfopJpaController(managerCplus).findCfop("5202"));
+                            prod.setCodcfop(new CfopJpaController(Manager.getManagerCplus()).findCfop("5202"));
                         }
                     } else {
-                        prod.setCodcfop(new CfopJpaController(managerCplus).findCfop("6202"));
+                        prod.setCodcfop(new CfopJpaController(Manager.getManagerCplus()).findCfop("6202"));
                     }
                     //prod.getCodmovenda().setObs(mensagemNota(prod));
                 } else {
@@ -649,12 +643,12 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
                     prod.setValorpis(BigDecimal.ZERO);
                     prod.getCodmovenda().setCodcli(cliente);
                     if ("RS".equals(cliente.getEstado())) {
-                        prod.setCodcfop(new CfopJpaController(managerCplus).findCfop("5949"));
+                        prod.setCodcfop(new CfopJpaController(Manager.getManagerCplus()).findCfop("5949"));
                         prod.setCstcofins("49");
                         prod.setCstpis("49");
                         prod.setCodsituacaotributaria("41");
                     } else {
-                        prod.setCodcfop(new CfopJpaController(managerCplus).findCfop("6949"));
+                        prod.setCodcfop(new CfopJpaController(Manager.getManagerCplus()).findCfop("6949"));
                         prod.setCstcofins("49");
                         prod.setCstpis("49");
                     }
@@ -668,7 +662,7 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
     }
 
     private String mensagemNota(Movendaprod movSaidaProd) {
-        List<Documento> listDoc = new QueryCplus(managerCplus).resultDocumento(movSaidaProd.getCodmovenda().getNumped().toString());
+        List<Documento> listDoc = new QueryCplus().resultDocumento(movSaidaProd.getCodmovenda().getNumped().toString());
         String txt = "";
         if ("Y".equals(tipoMovimentoObjeto.getFlagdevolucao().toString())) {
             for (Documento doc : listDoc) {
@@ -704,7 +698,7 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
 
     private BigDecimal quantidadeConversaoSaida(Movendaprod movSaidaProd) {
         BigDecimal quantidade = BigDecimal.ONE;
-        for (Unidade un : new QueryCplus(managerCplus).resultPorUnidadeProduto(movSaidaProd.getCodprod().getUnidade())) {
+        for (Unidade un : new QueryCplus().resultPorUnidadeProduto(movSaidaProd.getCodprod().getUnidade())) {
             if (un.getFatorconversao().intValue() > 1) {
                 quantidade = un.getFatorconversao();
             }
@@ -761,7 +755,7 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
-            new EspelhoRmaJFrame(managerCplus, managerIntegrador).setVisible(true);
+            new EspelhoRmaJFrame().setVisible(true);
         });
     }
 
@@ -771,8 +765,8 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
     private final ListagemClientesJDialog listagemClientesJDialog;
     private final ListagemOperacaoJDialog listagemOperacaoJDialog;
     private final ListagemSerialSaidaJDialog listagemSerialSaidaJDialog;
-    private static EntityManagerFactory managerCplus;
-    private static EntityManagerFactory managerIntegrador;
+    //private static EntityManagerFactory managerCplus;
+    //private static EntityManagerFactory managerIntegrador;
     private final List<String> mensagem;
     private final QueryIntegrador queryIntegrador;
     private final List<Movendaprod> movendaprodList;

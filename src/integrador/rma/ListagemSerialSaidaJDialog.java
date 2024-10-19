@@ -11,6 +11,7 @@ import java.awt.Toolkit;
 import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
 import jpa.integrador.SaidaSerialJpaController;
+import prestashop.Manager;
 import query.integrador.QueryIntegrador;
 
 /**
@@ -23,15 +24,11 @@ public class ListagemSerialSaidaJDialog extends javax.swing.JDialog {
      * Creates new form ListagemSerialSaidaJDialog
      *
      * @param parent
-     * @param modal
-     * @param managerIntegrador1
+     * @param modal  
      */
-    public ListagemSerialSaidaJDialog(java.awt.Frame parent, boolean modal, EntityManagerFactory managerIntegrador1) {
+    public ListagemSerialSaidaJDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        initComponents();
-        //managerCplus = managerCplus1;
-        managerIntegrador = managerIntegrador1;
-        //queryCplus = new QueryCplus(managerCplus);
+        initComponents();      
         queryIntegrador = new QueryIntegrador();
         colunaIdSaidaSerial = jTableSaidaSerial.getColumnModel().getColumnIndex("Id Saida Serial");
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
@@ -202,7 +199,7 @@ public class ListagemSerialSaidaJDialog extends javax.swing.JDialog {
         colunaIdSaidaSerial = jTableSaidaSerial.getColumnModel().getColumnIndex("Id Saida Serial");
         String cod = jTableSaidaSerial.getValueAt(jTableSaidaSerial.getSelectedRow(), colunaIdSaidaSerial).toString();
         if (cod != null) {
-            setSaidaSerial(new SaidaSerialJpaController(managerIntegrador).findSaidaSerial(Integer.valueOf(cod)));
+            setSaidaSerial(new SaidaSerialJpaController(Manager.getManagerIntegrador()).findSaidaSerial(Integer.valueOf(cod)));
             setCancelamento(false);
             saidaSerialList.clear();
             dispose();
@@ -263,7 +260,7 @@ public class ListagemSerialSaidaJDialog extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                ListagemSerialSaidaJDialog dialog = new ListagemSerialSaidaJDialog(new javax.swing.JFrame(), true, managerIntegrador);
+                ListagemSerialSaidaJDialog dialog = new ListagemSerialSaidaJDialog(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -279,7 +276,7 @@ public class ListagemSerialSaidaJDialog extends javax.swing.JDialog {
     //private final QueryCplus queryCplus;
     private final QueryIntegrador queryIntegrador;
     //private static EntityManagerFactory managerCplus;
-    private static EntityManagerFactory managerIntegrador;
+    //private static EntityManagerFactory managerIntegrador;
     private boolean cancelamento;
     private int colunaIdSaidaSerial;
 

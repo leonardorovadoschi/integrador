@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import jpa.cplus.ProdutoJpaController;
+import prestashop.Manager;
 import query.cplus.QueryCplus;
 
 /**
@@ -33,14 +34,14 @@ public class ListagemProdutoJDialog extends javax.swing.JDialog {
      * @param modal
      * @param managerCplus1
      */
-    public ListagemProdutoJDialog(java.awt.Frame parent, boolean modal, EntityManagerFactory managerCplus1) {
+    public ListagemProdutoJDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        managerCplus = managerCplus1;
-        queryCplus = new QueryCplus(managerCplus);
+        //managerCplus = managerCplus1;
+        queryCplus = new QueryCplus();
         formatacaoCampos = new FormataCampos();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
-        this.listagemLocalizacaoJDialog = new ListagemLocalizacaoJDialog(parent, true, managerCplus);
+        this.listagemLocalizacaoJDialog = new ListagemLocalizacaoJDialog(parent, true);
         //new RenderEstoqueDisponivel();
 
     }
@@ -248,7 +249,7 @@ public class ListagemProdutoJDialog extends javax.swing.JDialog {
             for (Produto p : queryCplus.listProduto(getProduto().getCodprod())) {
                 try {
                     p.setCodloc(this.listagemLocalizacaoJDialog.getLocalizacao().getCodloc());
-                    new ProdutoJpaController(managerCplus).edit(p);
+                    new ProdutoJpaController(Manager.getManagerCplus()).edit(p);
                     pesquisas();
                 } catch (jpa.cplus.exceptions.NonexistentEntityException ex) {
                     JOptionPane.showMessageDialog(null, "Houve um ero ao editar produto! \n" + ex);
@@ -263,7 +264,7 @@ public class ListagemProdutoJDialog extends javax.swing.JDialog {
         int colunaCodMoVenda = jTableProdutos.getColumnModel().getColumnIndex("Codprod");
         String cod = jTableProdutos.getValueAt(jTableProdutos.getSelectedRow(), colunaCodMoVenda).toString();
         if (cod != null) {
-            setProduto(new ProdutoJpaController(managerCplus).findProduto(cod));
+            setProduto(new ProdutoJpaController(Manager.getManagerCplus()).findProduto(cod));
             jButtonEditarSetorEstoque.setEnabled(true);
         }
     }//GEN-LAST:event_jTableProdutosMouseClicked
@@ -310,7 +311,7 @@ public class ListagemProdutoJDialog extends javax.swing.JDialog {
         } else {
             String cod = jTableProdutos.getValueAt(jTableProdutos.getSelectedRow(), colunaCodMoVenda).toString();
             if (cod != null) {
-                setProduto(new ProdutoJpaController(managerCplus).findProduto(cod));
+                setProduto(new ProdutoJpaController(Manager.getManagerCplus()).findProduto(cod));
                 setCancelamento(false);
                 dispose();
             } else {
@@ -381,7 +382,7 @@ public class ListagemProdutoJDialog extends javax.swing.JDialog {
 
     private Integer EstoqueCplus(String codProd) {
         BigDecimal estoque = BigDecimal.ZERO;
-        List<Produtoestoque> listEsroque = new QueryCplus(managerCplus).listEstoquesPorProd(codProd);
+        List<Produtoestoque> listEsroque = new QueryCplus().listEstoquesPorProd(codProd);
         for (Produtoestoque est : listEsroque) {
             estoque = est.getEstatu().subtract(est.getReservadoorcamento().subtract(est.getReservadoos()));
         }
@@ -442,7 +443,7 @@ public class ListagemProdutoJDialog extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                ListagemProdutoJDialog dialog = new ListagemProdutoJDialog(new javax.swing.JFrame(), true, managerCplus);
+                ListagemProdutoJDialog dialog = new ListagemProdutoJDialog(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -455,7 +456,7 @@ public class ListagemProdutoJDialog extends javax.swing.JDialog {
     }
 
     private final QueryCplus queryCplus;
-    private static EntityManagerFactory managerCplus;
+    //private static EntityManagerFactory managerCplus;
     private final FormataCampos formatacaoCampos;
     private Produto produto;
     private boolean cancelamento;

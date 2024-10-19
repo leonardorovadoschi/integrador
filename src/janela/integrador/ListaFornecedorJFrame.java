@@ -49,19 +49,11 @@ import query.integrador.QueryIntegrador;
 public class ListaFornecedorJFrame extends javax.swing.JFrame {
 
     /**
-     * Creates new form ImportacaoListasFornecedoresJFrame
-     *
-     * @param managerDigimacro1
-     * @param managerIntegracao1
-     * @param managerCplus1
+     * Creates new form ImportacaoListasFornecedoresJFrame    
      */
-    public ListaFornecedorJFrame(EntityManagerFactory managerDigimacro1, EntityManagerFactory managerIntegracao1, EntityManagerFactory managerCplus1) {
+    public ListaFornecedorJFrame() {
         initComponents();
-
-        managerIntegrador = managerIntegracao1;
-        managerCplus = managerCplus1;
-        managerDigimacro = managerDigimacro1;
-        // managerLegiao = managerLegiao1;
+    
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
     }
 
@@ -248,7 +240,7 @@ public class ListaFornecedorJFrame extends javax.swing.JFrame {
 
                         }
                     }
-                    new IntegracaoColecao().integradorColecao(listProdCole, managerIntegrador, managerCplus);
+//                    new IntegracaoColecao().integradorColecao(listProdCole, managerIntegrador, managerCplus);
                 } catch (FileNotFoundException ex) {
                     Logger.getLogger(ListaFornecedorJFrame.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -264,7 +256,7 @@ public class ListaFornecedorJFrame extends javax.swing.JFrame {
             manutencaoBotoes(false);
             int cancelar = JOptionPane.showConfirmDialog(null, " Deseja realmente executar essa tarefa", "Executar", JOptionPane.YES_NO_CANCEL_OPTION);
             if (cancelar == JOptionPane.YES_OPTION) {
-                new IntegracaoAgis().integracaoAgis(managerIntegrador, managerCplus, managerDigimacro);
+//                new IntegracaoAgis().integracaoAgis(managerIntegrador, managerCplus, managerDigimacro);
             }
             manutencaoBotoes(true);
         }).start();
@@ -362,7 +354,7 @@ public class ListaFornecedorJFrame extends javax.swing.JFrame {
                                     + " - " + prod.getEAN() + "\n";
                             jTextArea1.setText(tex);
                     }
-                    new IntegracaoAllnations().integracaoAllnations(listProdAll, managerIntegrador, managerCplus, managerDigimacro);
+                    new IntegracaoAllnations().integracaoAllnations(listProdAll);
 
                 } catch (SOAPException ex) {
                     JOptionPane.showMessageDialog(null, "Erro na conexão SOAP /n" + ex);
@@ -399,7 +391,7 @@ public class ListaFornecedorJFrame extends javax.swing.JFrame {
             manutencaoBotoes(false);
             int cancelar = JOptionPane.showConfirmDialog(null, " Deseja realmente executar essa tarefa", "Executar", JOptionPane.YES_NO_CANCEL_OPTION);
             if (cancelar == JOptionPane.YES_OPTION) {
-                new IntegracaoOderco().integracaoOderco(managerIntegrador, managerCplus, managerDigimacro);
+//                new IntegracaoOderco().integracaoOderco();
             }
             manutencaoBotoes(true);
         }).start();
@@ -411,7 +403,7 @@ public class ListaFornecedorJFrame extends javax.swing.JFrame {
             manutencaoBotoes(false);
             int cancelar = JOptionPane.showConfirmDialog(null, " Deseja realmente executar essa tarefa", "Executar", JOptionPane.YES_NO_CANCEL_OPTION);
             if (cancelar == JOptionPane.YES_OPTION) {
-                new IntegracaoNhs().integradorNhs(managerIntegrador, managerCplus, managerDigimacro);
+              //  new IntegracaoNhs().integradorNhs();
             }
             manutencaoBotoes(true);
         }).start();
@@ -570,15 +562,12 @@ public class ListaFornecedorJFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ListaFornecedorJFrame(managerDigimacro, managerIntegrador, managerCplus).setVisible(true);
+                new ListaFornecedorJFrame().setVisible(true);
             }
         });
     }
 
-    static EntityManagerFactory managerIntegrador;
-    static EntityManagerFactory managerCplus;
-    static EntityManagerFactory managerDigimacro;
-    // static EntityManagerFactory managerLegiao;
+   
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonImportaNhs;
     private javax.swing.JButton jButtonImportarAllNations;

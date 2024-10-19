@@ -61,18 +61,18 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         //managerIntegrador = managerIntegracao1;
         //managerPrestaShop = managerPrestaShop1;
         //managerCplus = managerCplus1;
-        queryCplus = new QueryCplus(Manager.getManagerCplus());
-        queryPrestaShop = new QueryPrestaShop(Manager.getManagerPrestaShop());
+        queryCplus = new QueryCplus();
+        queryPrestaShop = new QueryPrestaShop();
         queryIntegrador = new QueryIntegrador();
         initComponents();
         jTextFieldTermoPesquisa.requestFocus();
         colunaCodprod = jTableListagemProdutos.getColumnModel().getColumnIndex("Codprod");
-        this.listagemEntradasJDialog = new ListagemEntradasJDialog(this, true, Manager.getManagerCplus());
+        this.listagemEntradasJDialog = new ListagemEntradasJDialog(this, true);
         jTextFieldNomeCplus.setDocument(new LimiteDigitos(50));//limite de digitos no campo
         jTextFieldNomeSite.setDocument(new LimiteDigitos(100));//limite digitos no campo
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
-        this.listagemLocalizacaoJDialog = new ListagemLocalizacaoJDialog(this, true, Manager.getManagerCplus());
-        this.listagemSaidasJDialog = new ListagemSaidasJDialog(this, true, Manager.getManagerCplus());
+        this.listagemLocalizacaoJDialog = new ListagemLocalizacaoJDialog(this, true);
+        this.listagemSaidasJDialog = new ListagemSaidasJDialog(this, true);
         jTableListagemProdutos.setDefaultRenderer(Object.class, new ConfTabelaProduto());
     }
 
@@ -1719,7 +1719,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
                 e.getNomeprod(),//"Nome C-Plus"
                 format.bigDecimalParaString(e.getCustoreal(), 2), //"Custo Real"
                 format.bigDecimalParaString(e.getPrecusto(), 2), //"Preço Custo"
-                new PedidoCompra().produtoComprado(Manager.getManagerCplus(), e.getCodprod()), //"Pedido Compra"
+                new PedidoCompra().produtoComprado( e.getCodprod()), //"Pedido Compra"
                 eanProduto(e), //"EAN"
                 e.getCodprod(), //"Codprod"
         });

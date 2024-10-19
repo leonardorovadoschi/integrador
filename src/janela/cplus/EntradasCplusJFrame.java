@@ -32,10 +32,10 @@ public class EntradasCplusJFrame extends javax.swing.JFrame {
      * @param managerCplus1
      * @param var1
      */
-    public EntradasCplusJFrame(EntityManagerFactory managerCplus1) {
+    public EntradasCplusJFrame() {
         initComponents();
          //var = var1;
-        managerCplus = managerCplus1; 
+        //managerCplus = managerCplus1; 
         jFormattedTextFieldDataFim.setValue(new Date(System.currentTimeMillis()));
         jFormattedTextFieldDataInicio.setValue(new Date(System.currentTimeMillis()));
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/integrador/icones/logo.png")));
@@ -264,8 +264,7 @@ public class EntradasCplusJFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPesquisarActionPerformed
-        
-            if(!"".equals(jListFabricante.getSelectedValue().toString())){
+                 if(!"".equals(jListFabricante.getSelectedValue().toString())){
                 try {
                     moventradaList.clear();
                     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -273,14 +272,14 @@ public class EntradasCplusJFrame extends javax.swing.JFrame {
                     Date dataFim = sdf.parse(jFormattedTextFieldDataFim.getText());
                     System.out.println("Data inicio: "+dataInicio);
                     System.out.println("Data fim: "+dataFim);
-                    for(Moventrada ent : new QueryCplus(managerCplus).listateste(jListFabricante.getSelectedValue().toString(), dataInicio, dataFim, jCheckBoxFornecedor.isSelected())){
+                    for(Moventrada ent : new QueryCplus().listateste(jListFabricante.getSelectedValue().toString(), dataInicio, dataFim, jCheckBoxFornecedor.isSelected())){
                         moventradaList.add(ent);
-                        System.out.println("Fornecedor: "+ent.getCodForn().getNomeforn()+", Nï¿½mero Nota: "+ent.getNumnota()+", Chave Danfe: "+ent.getNumerochavenfe()+"\n");
+                        //System.out.println("Fornecedor: "+ent.getCodForn().getNomeforn()+", Numero Nota: "+ent.getNumnota()+", Chave Danfe: "+ent.getNumerochavenfe()+"\n");
                     }   } catch (ParseException ex) {
                     Logger.getLogger(EntradasCplusJFrame.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }else{
-                JOptionPane.showMessageDialog(null, "Vocï¿½ deve selecionar um Fabricante");
+                JOptionPane.showMessageDialog(null, "Você deve selecionar um Fabricante");
             }
        
     }//GEN-LAST:event_jButtonPesquisarActionPerformed
@@ -316,7 +315,7 @@ public class EntradasCplusJFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new EntradasCplusJFrame(managerCplus).setVisible(true);
+                new EntradasCplusJFrame().setVisible(true);
             }
         });
     }

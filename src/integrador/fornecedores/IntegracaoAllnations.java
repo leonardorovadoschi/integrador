@@ -19,6 +19,7 @@ import javax.persistence.EntityManagerFactory;
 import jpa.integrador.IntLogsJpaController;
 import jpa.integrador.ProdFornecedorJpaController;
 import jpa.integrador.exceptions.NonexistentEntityException;
+import prestashop.Manager;
 import query.cplus.QueryCplus;
 
 /**
@@ -27,19 +28,19 @@ import query.cplus.QueryCplus;
  */
 public class IntegracaoAllnations {
 
-    public void integracaoAllnations(List<ProdutoAll> listProdAll, EntityManagerFactory managerIntegrador, EntityManagerFactory managerCplus, EntityManagerFactory managerDigimacro) {
-        deletarProdutos(managerIntegrador);
-        atualizaProdutosAllnations(listProdAll, managerIntegrador, managerCplus, managerDigimacro);
+    public void integracaoAllnations(List<ProdutoAll> listProdAll) {
+        deletarProdutos();
+      //  atualizaProdutosAllnations(listProdAll);
     }
 
-    private void deletarProdutos(EntityManagerFactory managerIntegrador) {
+    private void deletarProdutos() {
         // ManipulaFornecedores utilitario = new ManipulaFornecedores();
         List<ProdFornecedor> listProdFornecedor = new QueryIntegrador().listaProdFornecedor("ALL NATIONS");
         for (ProdFornecedor proForn : listProdFornecedor) {
             try {
-                new ProdFornecedorJpaController(managerIntegrador).destroy(proForn.getIdProdutos());
+                new ProdFornecedorJpaController(Manager.getManagerIntegrador()).destroy(proForn.getIdProdutos());
             } catch (NonexistentEntityException ex) {
-                criaLog(managerIntegrador, new Date(System.currentTimeMillis()), ", Erro ao Excluir Produto All Nations " + proForn.getDescricao() + "  " + ex, "Erro Excluir");
+                criaLog(new Date(System.currentTimeMillis()), ", Erro ao Excluir Produto All Nations " + proForn.getDescricao() + "  " + ex, "Erro Excluir");
             }
         }
     }
@@ -83,19 +84,19 @@ public class IntegracaoAllnations {
             proForn.setUltimaImportacao(new Date(System.currentTimeMillis()));
             proForn.setNcm(prodAll.getNCM());
             try {
-                new ProdFornecedorJpaController(managerIntegracao).create(proForn);
+                new ProdFornecedorJpaController(Manager.getManagerIntegrador()).create(proForn);
             } catch (Exception ex) {
-                criaLog(managerIntegracao, new Date(System.currentTimeMillis()), ", Erro na tabela ProdFornecedor no integrador " + prodAll.getDESCRICAO() + "  " + ex, "Erro Edição");
+                criaLog(new Date(System.currentTimeMillis()), ", Erro na tabela ProdFornecedor no integrador " + prodAll.getDESCRICAO() + "  " + ex, "Erro Edição");
             }
         }
     }
 
-    private void criaLog(EntityManagerFactory managerIntegracao, Date dataExecucao, String mensagem, String tipoLog) {
+    private void criaLog(Date dataExecucao, String mensagem, String tipoLog) {
         IntLogs log = new IntLogs();
         log.setDataExecucao(dataExecucao);
 
         log.setMensagem(mensagem);
         log.setTipoLog(tipoLog);
-        new IntLogsJpaController(managerIntegracao).create(log);
+        new IntLogsJpaController(Manager.getManagerIntegrador()).create(log);
     }
 }

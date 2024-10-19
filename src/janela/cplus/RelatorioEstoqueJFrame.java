@@ -24,11 +24,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
-import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
 import jpa.cplus.MoventradaJpaController;
 import jpa.cplus.ProdutoestoqueJpaController;
 import jpa.cplus.exceptions.NonexistentEntityException;
+import prestashop.Manager;
 import query.cplus.QueryCplus;
 
 /**
@@ -42,11 +42,9 @@ public class RelatorioEstoqueJFrame extends javax.swing.JFrame {
      *
      * @param managerCplus1
      */
-    public RelatorioEstoqueJFrame(EntityManagerFactory managerCplus1) {
+    public RelatorioEstoqueJFrame() {
         initComponents();
-
-        managerCplus = managerCplus1;
-        queryCplus = new QueryCplus(managerCplus);
+        queryCplus = new QueryCplus();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
         formatacaoCampos = new FormataCampos();
         jDateChooserDataInventario.setDate(formatacaoCampos.alteraHoraData(formatacaoCampos.dataAtual()));
@@ -220,7 +218,7 @@ public class RelatorioEstoqueJFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonGeraDadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGeraDadosActionPerformed
-        List<Produtoestoque> listProdEstoque = new ProdutoestoqueJpaController(managerCplus).findProdutoestoqueEntities();
+        List<Produtoestoque> listProdEstoque = new ProdutoestoqueJpaController(Manager.getManagerCplus()).findProdutoestoqueEntities();
         List<Produtoestoque> listProd = new ArrayList<>();
         verificaDataEmissaoNula();
         for (Produtoestoque prodEstoque : listProdEstoque) {
@@ -472,11 +470,11 @@ public class RelatorioEstoqueJFrame extends javax.swing.JFrame {
     }
 
     private void verificaDataEmissaoNula() {
-        for (Moventrada ent : new MoventradaJpaController(managerCplus).findMoventradaEntities()) {
+        for (Moventrada ent : new MoventradaJpaController(Manager.getManagerCplus()).findMoventradaEntities()) {
             if (ent.getDataemissao() == null) {
                 ent.setDataemissao(ent.getData());
                 try {
-                    new MoventradaJpaController(managerCplus).edit(ent);
+                    new MoventradaJpaController(Manager.getManagerCplus()).edit(ent);
                     System.out.println("Foi alterado data emissão " + ent.getCodmoventr());
                 } catch (NonexistentEntityException ex) {
                     JOptionPane.showMessageDialog(null, "Houve um erro ao editar data emissão \n" + ex);
@@ -488,7 +486,7 @@ public class RelatorioEstoqueJFrame extends javax.swing.JFrame {
     }
 
     private void calculaPorcentagemCusto(Produto prod) {
-        List<Produtoestoque> listProdEstoque = new ProdutoestoqueJpaController(managerCplus).findProdutoestoqueEntities();
+        List<Produtoestoque> listProdEstoque = new ProdutoestoqueJpaController(Manager.getManagerCplus()).findProdutoestoqueEntities();
         List<Produtoestoque> listProd = new ArrayList<>();
         for (Produtoestoque prodEstoque : listProdEstoque) {
             if (prodEstoque.getEstatu().doubleValue() > 0.00) {
@@ -601,13 +599,13 @@ public class RelatorioEstoqueJFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new RelatorioEstoqueJFrame(managerCplus).setVisible(true);
+                new RelatorioEstoqueJFrame().setVisible(true);
             }
         });
     }
-    static EntityManagerFactory managerCplus;
+    //static EntityManagerFactory managerCplus;
     private List<Produtoestoque> listaProdutosEstoque;
-    QueryCplus queryCplus;
+    private QueryCplus queryCplus;
     private final FormataCampos formatacaoCampos;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonGeraDados;

@@ -13,6 +13,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
 import jpa.cplus.ClienteJpaController;
 import integrador.render.RenderVendasCliente;
+import prestashop.Manager;
 import query.cplus.QueryCplus;
 
 /**
@@ -25,13 +26,12 @@ public class ListagemClientesJDialog extends javax.swing.JDialog {
      * Creates new form ListagemClientesJDialog
      * @param parent
      * @param modal
-     * @param managerCplus1
      */
-    public ListagemClientesJDialog(java.awt.Frame parent, boolean modal, EntityManagerFactory managerCplus1) {
+    public ListagemClientesJDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        managerCplus = managerCplus1;
-        queryCplus = new QueryCplus(managerCplus);
+        //managerCplus = managerCplus1;
+        queryCplus = new QueryCplus();
         colunaCodCli = jTablelistagemClientes.getColumnModel().getColumnIndex("Codcli");
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
     }
@@ -299,7 +299,7 @@ public class ListagemClientesJDialog extends javax.swing.JDialog {
         } else {
             String cod = jTablelistagemClientes.getValueAt(jTablelistagemClientes.getSelectedRow(), colunaCodCli).toString();
             if (cod != null) {
-                setCliente(new ClienteJpaController(managerCplus).findCliente(cod));
+                setCliente(new ClienteJpaController(Manager.getManagerCplus()).findCliente(cod));
                 setCancelamento(false);
                 dispose();
             } else {
@@ -417,7 +417,7 @@ public class ListagemClientesJDialog extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                ListagemClientesJDialog dialog = new ListagemClientesJDialog(new javax.swing.JFrame(), true, managerCplus);
+                ListagemClientesJDialog dialog = new ListagemClientesJDialog(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -429,7 +429,7 @@ public class ListagemClientesJDialog extends javax.swing.JDialog {
         });
     }
  private QueryCplus queryCplus;
- private static EntityManagerFactory managerCplus;
+ //private static EntityManagerFactory managerCplus;
  private Cliente  cliente;
  private int colunaCodCli;
  private boolean cancelamento;

@@ -18,7 +18,6 @@ import entidade.cplus.Produtoestoque;
 import entidade.cplus.Setorestoque;
 import entidade.cplus.Tipomovimento;
 import entidade.cplus.Unidade;
-import entidade.cplus.Usuario;
 import janela.cplus.FormataCampos;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -29,6 +28,7 @@ import jpa.cplus.MovendaJpaController;
 import jpa.cplus.MovendaprodJpaController;
 import jpa.cplus.ProdutoestoqueJpaController;
 import jpa.cplus.exceptions.NonexistentEntityException;
+import prestashop.ConfiguracaoNoBD;
 import prestashop.Manager;
 import query.cplus.QueryCplus;
 import query.integrador.QueryIntegrador;
@@ -42,7 +42,7 @@ public class SaidaClienteCplus {
     private QueryIntegrador queryIntegrador;
     //private int decimaisArredondamento;
     public boolean saidaClienteCplus(boolean controlaEstoque, Tipomovimento movimentoSaidaCliente, Calculoicmsestado calculoIcmsEstado, Cliente cliente, Movendaprod movSaidaProd,
-            String serial, Usuario usuario) {
+            String serial) {
         queryCplus = new QueryCplus();
         queryIntegrador = new QueryIntegrador();
         //decimaisArredondamento =  Integer.valueOf(queryIntegrador.valorConfiguracao("casas_decimais_ARREDONDAMENTO"));
@@ -50,7 +50,7 @@ public class SaidaClienteCplus {
         if (condicao) {
             List<Movenda> listMovenda = queryCplus.listagemMovendaCliente(movimentoSaidaCliente.getCodigo(), cliente.getCodcli());
             if (listMovenda.isEmpty()) {               
-                if(criarSaida(movimentoSaidaCliente, cliente, usuario)){               
+                if(criarSaida(movimentoSaidaCliente, cliente)){               
                 List<Movenda> listSaida = queryCplus.listagemMovendaCliente(movimentoSaidaCliente.getCodigo(), cliente.getCodcli());
                 if (listSaida.size() == 1) {
                     for (Movenda saida : listSaida) {
@@ -87,7 +87,7 @@ public class SaidaClienteCplus {
         return condicao;
     }
 
-    private boolean criarSaida(Tipomovimento movimento, Cliente cliente, Usuario usuario) {
+    private boolean criarSaida(Tipomovimento movimento, Cliente cliente) {
         boolean condicao = true;
         Movenda saida = new Movenda();
         //decrement para tabela MovEntrada
@@ -96,7 +96,7 @@ public class SaidaClienteCplus {
         Integer numCodMovenda = new ConexaoDB().ultimoCodigo("MOVENDA", "CODMOVENDA");                   
             saida.setCodmovenda(String.format("%09d", numCodMovenda));
             saida.setFlagcli('Y');
-            saida.setCoduser(usuario.getCoduser());
+            saida.setCoduser(ConfiguracaoNoBD.getUsuario().getCoduser());
             saida.setCodcli(cliente);
             //saida.setCodForn(fornecedor);
             

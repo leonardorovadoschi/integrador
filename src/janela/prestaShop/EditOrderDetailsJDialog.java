@@ -7,7 +7,6 @@ package janela.prestaShop;
 
 import acesso.ControleAcesso;
 import entidade.cplus.Produtoestoque;
-import entidade.cplus.Usuario;
 import entidade.prestaShop.PsCartProduct;
 import entidade.prestaShop.PsCartProductPK;
 import entidade.prestaShop.PsCustomer;
@@ -26,7 +25,6 @@ import java.math.RoundingMode;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
 import jpa.cplus.ProdutoestoqueJpaController;
 import jpa.prestaShop.PsCartProductJpaController;
@@ -50,18 +48,16 @@ public class EditOrderDetailsJDialog extends javax.swing.JDialog {
      *
      * @param parent
      * @param modal
-     * @param usuario1
      */
-    public EditOrderDetailsJDialog(java.awt.Frame parent, boolean modal, Usuario usuario1) {
+    public EditOrderDetailsJDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         //managerCplus = managerCplus1;
         //managerPrestaShop = managerPrestaShop1;
         queryPrestaShop = new QueryPrestaShop();
         formataCampos = new FormataCampos();
-        usuario = usuario1;
         acesso = new ControleAcesso();
-        if (acesso.verificaAcessoUsuario(usuario, "Alterar preço de venda")) {
+        if (acesso.verificaAcessoUsuario( "Alterar preço de venda")) {
             jTextFieldUnitarioComDesconto.setEnabled(true);
         }
         jTextFieldUnitarioComDesconto.setForeground(Color.black);
@@ -670,21 +666,17 @@ public class EditOrderDetailsJDialog extends javax.swing.JDialog {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(EditOrderDetailsJDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(EditOrderDetailsJDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(EditOrderDetailsJDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(EditOrderDetailsJDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                EditOrderDetailsJDialog dialog = new EditOrderDetailsJDialog(new javax.swing.JFrame(), true, usuario);
+                EditOrderDetailsJDialog dialog = new EditOrderDetailsJDialog(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -705,7 +697,6 @@ public class EditOrderDetailsJDialog extends javax.swing.JDialog {
     private boolean cancelamento;
     private int quantOrderDetails;
     private PsProduct psProduct;
-    static Usuario usuario;
     private final ControleAcesso acesso;
     private List<PsSpecificPrice> listSpecificPrice;
     private PsCustomer psCustomer;

@@ -14,9 +14,9 @@ import java.awt.Toolkit;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
-import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
 import jpa.cplus.MovendaproddevolucaocompraJpaController;
+import prestashop.Manager;
 import query.cplus.QueryCplus;
 import query.integrador.QueryIntegrador;
 
@@ -28,17 +28,13 @@ import query.integrador.QueryIntegrador;
 public class ControleRmaJFrame extends javax.swing.JFrame {
 
     /**
-     * Creates new form ControleRmaJFrame
-     * @param managerCplus1
-     * @param managerIntegrador1
+     * Creates new form ControleRmaJFrame   
      */
-    public ControleRmaJFrame(EntityManagerFactory managerCplus1, EntityManagerFactory managerIntegrador1) {
+    public ControleRmaJFrame() {
         initComponents();
-        managerCplus = managerCplus1;
-        managerIntegrador = managerIntegrador1;
-        listagemSaidasJDialog = new ListagemSaidasJDialog(this, true, managerCplus);
-        listagemFornecedorJDialog = new ListagemFornecedorJDialog(this, true, managerCplus);
-        querySerial = new QueryCplus(managerCplus);
+        listagemSaidasJDialog = new ListagemSaidasJDialog(this, true);
+        listagemFornecedorJDialog = new ListagemFornecedorJDialog(this, true);
+        querySerial = new QueryCplus();
         queryIntegrador = new QueryIntegrador();
         colunaCodDevolucao = jTableControleRma.getColumnModel().getColumnIndex("Codmovendaproddevolucaocompra");
         formatacaoDeCampos = new FormataCampos();
@@ -396,7 +392,7 @@ public class ControleRmaJFrame extends javax.swing.JFrame {
                     }else{
                    dev.setValorretornado(valorTexto);
                         try {
-                            new MovendaproddevolucaocompraJpaController(managerCplus).edit(dev);
+                            new MovendaproddevolucaocompraJpaController(Manager.getManagerCplus()).edit(dev);
                         } catch (Exception ex) {
                            JOptionPane.showMessageDialog(null, "houve um erro ao editar o valor retornado!!! \n"+ex);
                         }//fim catch
@@ -423,7 +419,7 @@ public class ControleRmaJFrame extends javax.swing.JFrame {
                         valorRet.multiply(quantItens);
                         dev.setValorretornado(valorRet.setScale(decimaisArredondamento, BigDecimal.ROUND_HALF_UP));
                          try {
-                            new MovendaproddevolucaocompraJpaController(managerCplus).edit(dev);
+                            new MovendaproddevolucaocompraJpaController(Manager.getManagerCplus()).edit(dev);
                         } catch (Exception ex) {
                            JOptionPane.showMessageDialog(null, "houve um erro ao editar o valor ou quantidade retornado!!! \n"+ex);
                         }//fim catch
@@ -444,7 +440,7 @@ public class ControleRmaJFrame extends javax.swing.JFrame {
                 if(valorTotal >= valorCusto){
                     dev.setValorretornado(dev.getValorcusto());
                     try {
-                        new MovendaproddevolucaocompraJpaController(managerCplus).edit(dev);
+                        new MovendaproddevolucaocompraJpaController(Manager.getManagerCplus()).edit(dev);
                         valorTotal = valorTotal - valorCusto;
                     } catch (Exception ex) {
                        JOptionPane.showMessageDialog(null, "Houve um erro ao editar o valor retornado!!! \n"+ex);
@@ -452,7 +448,7 @@ public class ControleRmaJFrame extends javax.swing.JFrame {
                 }else if(valorTotal > 0.00){
                     dev.setValorretornado(new BigDecimal(valorTotal));
                     try {
-                        new MovendaproddevolucaocompraJpaController(managerCplus).edit(dev);
+                        new MovendaproddevolucaocompraJpaController(Manager.getManagerCplus()).edit(dev);
                         valorTotal = 0.00;
                     } catch (Exception ex) {
                        JOptionPane.showMessageDialog(null, "Houve um erro ao editar o valor retornado!!! \n"+ex);
@@ -496,15 +492,15 @@ public class ControleRmaJFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ControleRmaJFrame(managerCplus, managerIntegrador).setVisible(true);
+                new ControleRmaJFrame().setVisible(true);
             }
         });
     }
 
     ListagemSaidasJDialog listagemSaidasJDialog;
     ListagemFornecedorJDialog listagemFornecedorJDialog;
-    private static EntityManagerFactory managerCplus;
-    private static EntityManagerFactory managerIntegrador;
+    //private static EntityManagerFactory managerCplus;
+    //private static EntityManagerFactory managerIntegrador;
     private QueryCplus querySerial;
     private QueryIntegrador queryIntegrador;
     List<Movendaproddevolucaocompra> listRma;

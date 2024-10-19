@@ -11,6 +11,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
 import java.awt.Toolkit;
 import jpa.cplus.MoventradaJpaController;
+import prestashop.Manager;
 import query.cplus.QueryCplus;
 
 /**
@@ -24,18 +25,17 @@ public class ListagemEntradasJDialog extends javax.swing.JDialog {
      *
      * @param parent
      * @param modal
-     * @param managerCplus1
      */
-    public ListagemEntradasJDialog(java.awt.Frame parent, boolean modal, EntityManagerFactory managerCplus1) {
+    public ListagemEntradasJDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         colunaCodMovEntrada = jTableListagemEntradas.getColumnModel().getColumnIndex("Codmoventr");
-        managerCplus = managerCplus1;
-        queryCplus = new QueryCplus(managerCplus);
+        //managerCplus = managerCplus1;
+        queryCplus = new QueryCplus();
         formataCampos = new FormataCampos();
         jDateChooserDataFinal.setDate(formataCampos.alteraDiaData(formataCampos.dataAtual(), 0));
         jDateChooserDataInicial.setDate(formataCampos.alteraDiaData(formataCampos.dataAtual(), -2));
-        listagemClientesJDialog = new ListagemClientesJDialog(parent, modal, managerCplus);
+        listagemClientesJDialog = new ListagemClientesJDialog(parent, modal);
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
     }
 
@@ -405,7 +405,7 @@ public class ListagemEntradasJDialog extends javax.swing.JDialog {
         } else {
             String cod = jTableListagemEntradas.getValueAt(jTableListagemEntradas.getSelectedRow(), colunaCodMovEntrada).toString();
             if (cod != null) {
-                setMovEntrada(new MoventradaJpaController(managerCplus).findMoventrada(cod));
+                setMovEntrada(new MoventradaJpaController(Manager.getManagerCplus()).findMoventrada(cod));
                 setCancelamento(false);
                 dispose();
             } else {
@@ -473,7 +473,7 @@ public class ListagemEntradasJDialog extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                ListagemEntradasJDialog dialog = new ListagemEntradasJDialog(new javax.swing.JFrame(), true, managerCplus);
+                ListagemEntradasJDialog dialog = new ListagemEntradasJDialog(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -490,7 +490,7 @@ public class ListagemEntradasJDialog extends javax.swing.JDialog {
     FormataCampos formataCampos;
     private int colunaCodMovEntrada;
     QueryCplus queryCplus;
-    static EntityManagerFactory managerCplus;
+    //static EntityManagerFactory managerCplus;
     boolean cancelamento;
     ListagemClientesJDialog listagemClientesJDialog;
 

@@ -6,14 +6,15 @@
 
 package prestashop;
 
-import integrador.relatorio.ImprimeRelatorio;
+import entidade.cplus.Caracteristica;
+import entidade.cplus.Caracteristicapessoa;
 import java.io.File;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import prestashop.ConfiguracaoNoBD;
+import jpa.cplus.CaracteristicaJpaController;
+import jpa.cplus.CaracteristicapessoaJpaController;
 import query.integrador.QueryIntegrador;
 
 /**
@@ -24,13 +25,16 @@ public class ConfiguracoesJDialog extends javax.swing.JDialog {
 
     /**
      * Creates new form ConfiguracoesJDialog
+     * @param parent
+     * @param modal
      */
     public ConfiguracoesJDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         queryIntegrador = new QueryIntegrador();
-        //carregaCampos();
-       // conf = configuracaoNoBD;
+       for(Caracteristicapessoa pes : new CaracteristicapessoaJpaController(Manager.getManagerCplus()).findCaracteristicapessoaEntities()){
+     jListCaracteristicaPessoa.add(pes.getNomecaracteristicapessoa());
+       }
     }
 
     /**
@@ -43,9 +47,12 @@ public class ConfiguracoesJDialog extends javax.swing.JDialog {
     private void initComponents() {
 
         chooser = new javax.swing.JFileChooser();
+        cplusPUEntityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("cplusPU").createEntityManager();
+        caracteristicapessoaQuery = java.beans.Beans.isDesignTime() ? null : cplusPUEntityManager.createQuery("SELECT c FROM Caracteristicapessoa c");
+        caracteristicapessoaList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : caracteristicapessoaQuery.getResultList();
         jTabbedPaneConfArquivos = new javax.swing.JTabbedPane();
         jPanelConfGerais = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
+        jPanelArquivos = new javax.swing.JPanel();
         jLabelSomFinalizado = new javax.swing.JLabel();
         jTextFieldSomFinalizado = new javax.swing.JTextField();
         jButtonSomFinalizado = new javax.swing.JButton();
@@ -61,6 +68,11 @@ public class ConfiguracoesJDialog extends javax.swing.JDialog {
         jButtonEtiquetaSerial = new javax.swing.JButton();
         jTextFieldEtiquetaSerial = new javax.swing.JTextField();
         jLabelEtiquetaSerial = new javax.swing.JLabel();
+        jPanelCliente = new javax.swing.JPanel();
+        jButtonClienteComDesconto = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jListCaracteristicaPessoa = new javax.swing.JList<>();
+        jSpinner = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Configurações");
@@ -71,11 +83,11 @@ public class ConfiguracoesJDialog extends javax.swing.JDialog {
         jPanelConfGerais.setLayout(jPanelConfGeraisLayout);
         jPanelConfGeraisLayout.setHorizontalGroup(
             jPanelConfGeraisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 720, Short.MAX_VALUE)
+            .addGap(0, 733, Short.MAX_VALUE)
         );
         jPanelConfGeraisLayout.setVerticalGroup(
             jPanelConfGeraisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 389, Short.MAX_VALUE)
+            .addGap(0, 390, Short.MAX_VALUE)
         );
 
         jTabbedPaneConfArquivos.addTab("Geral", jPanelConfGerais);
@@ -145,35 +157,35 @@ public class ConfiguracoesJDialog extends javax.swing.JDialog {
         jLabelEtiquetaSerial.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabelEtiquetaSerial.setText("Etiqueta Serial:");
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanelArquivosLayout = new javax.swing.GroupLayout(jPanelArquivos);
+        jPanelArquivos.setLayout(jPanelArquivosLayout);
+        jPanelArquivosLayout.setHorizontalGroup(
+            jPanelArquivosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelArquivosLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanelArquivosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelArquivosLayout.createSequentialGroup()
                         .addComponent(jLabelEtiquetaSerial, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextFieldEtiquetaSerial, javax.swing.GroupLayout.DEFAULT_SIZE, 492, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addGroup(jPanelArquivosLayout.createSequentialGroup()
                         .addComponent(jLabelSomFinalizado, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextFieldSomFinalizado))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addGroup(jPanelArquivosLayout.createSequentialGroup()
                         .addComponent(jLabelEspelhoRma, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextFieldEspelhoRma))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addGroup(jPanelArquivosLayout.createSequentialGroup()
                         .addComponent(jLabelRomaneioSeriais, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextFieldRomaneioSeriais))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addGroup(jPanelArquivosLayout.createSequentialGroup()
                         .addComponent(jLabelSomErro, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextFieldSomErro)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanelArquivosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButtonSomFinalizado)
                     .addComponent(jButtonSomErro)
                     .addComponent(jButtonRomaneioSeriais)
@@ -181,38 +193,70 @@ public class ConfiguracoesJDialog extends javax.swing.JDialog {
                     .addComponent(jButtonEtiquetaSerial))
                 .addContainerGap())
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        jPanelArquivosLayout.setVerticalGroup(
+            jPanelArquivosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelArquivosLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanelArquivosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelSomFinalizado)
                     .addComponent(jTextFieldSomFinalizado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonSomFinalizado))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanelArquivosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelSomErro)
                     .addComponent(jTextFieldSomErro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonSomErro))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanelArquivosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelRomaneioSeriais)
                     .addComponent(jTextFieldRomaneioSeriais, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonRomaneioSeriais))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanelArquivosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelEspelhoRma)
                     .addComponent(jTextFieldEspelhoRma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonEspelhoRma))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanelArquivosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelEtiquetaSerial)
                     .addComponent(jTextFieldEtiquetaSerial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonEtiquetaSerial))
                 .addContainerGap(229, Short.MAX_VALUE))
         );
 
-        jTabbedPaneConfArquivos.addTab("Arquivos", jPanel2);
+        jTabbedPaneConfArquivos.addTab("Arquivos", jPanelArquivos);
+
+        jButtonClienteComDesconto.setText("Cliente com Desconto");
+
+        jScrollPane1.setViewportView(jListCaracteristicaPessoa);
+
+        javax.swing.GroupLayout jPanelClienteLayout = new javax.swing.GroupLayout(jPanelCliente);
+        jPanelCliente.setLayout(jPanelClienteLayout);
+        jPanelClienteLayout.setHorizontalGroup(
+            jPanelClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelClienteLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanelClienteLayout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(74, 74, 74)
+                        .addComponent(jButtonClienteComDesconto)))
+                .addContainerGap(371, Short.MAX_VALUE))
+        );
+        jPanelClienteLayout.setVerticalGroup(
+            jPanelClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelClienteLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonClienteComDesconto)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 160, Short.MAX_VALUE)
+                .addComponent(jSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(62, 62, 62))
+        );
+
+        jTabbedPaneConfArquivos.addTab("Clientes", jPanelCliente);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -245,6 +289,7 @@ public class ConfiguracoesJDialog extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(null, "Houve um ero ao editar "+ConfiguracaoNoBD.getTipoAudioFinalizado()+"! \n" + ex);
             }
         }
+        new CarregaConfiguracao().carregar();
     }//GEN-LAST:event_jButtonSomFinalizadoActionPerformed
 
     private void jButtonSomErroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSomErroActionPerformed
@@ -264,6 +309,7 @@ public class ConfiguracoesJDialog extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(null, "Houve um ero ao editar "+ConfiguracaoNoBD.getTipoAudioErro()+"! \n" + ex);
             }
         }
+        new CarregaConfiguracao().carregar();
     }//GEN-LAST:event_jButtonSomErroActionPerformed
 
     private void jButtonRomaneioSeriaisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRomaneioSeriaisActionPerformed
@@ -283,6 +329,7 @@ public class ConfiguracoesJDialog extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(null, "Houve um ero ao editar "+ConfiguracaoNoBD.getTipoRomaneioSeriais()+"! \n" + ex);
             }
         }
+        new CarregaConfiguracao().carregar();
     }//GEN-LAST:event_jButtonRomaneioSeriaisActionPerformed
 
     private void jButtonEspelhoRmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEspelhoRmaActionPerformed
@@ -302,6 +349,7 @@ public class ConfiguracoesJDialog extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(null, "Houve um ero ao editar "+ConfiguracaoNoBD.getTipoEspelhoRma()+"! \n" + ex);
             }
         }
+        new CarregaConfiguracao().carregar();
     }//GEN-LAST:event_jButtonEspelhoRmaActionPerformed
 
     private void jButtonEtiquetaSerialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEtiquetaSerialActionPerformed
@@ -321,6 +369,7 @@ public class ConfiguracoesJDialog extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(null, "Houve um ero ao editar "+ConfiguracaoNoBD.getTipoEtiquetaSerial()+"! \n" + ex);
             }
         }
+        new CarregaConfiguracao().carregar();
     }//GEN-LAST:event_jButtonEtiquetaSerialActionPerformed
 
     public void setCarregaCampos(){
@@ -377,7 +426,11 @@ public class ConfiguracoesJDialog extends javax.swing.JDialog {
     private final QueryIntegrador queryIntegrador;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private java.util.List<entidade.cplus.Caracteristicapessoa> caracteristicapessoaList;
+    private javax.persistence.Query caracteristicapessoaQuery;
     private javax.swing.JFileChooser chooser;
+    private javax.persistence.EntityManager cplusPUEntityManager;
+    private javax.swing.JButton jButtonClienteComDesconto;
     private javax.swing.JButton jButtonEspelhoRma;
     private javax.swing.JButton jButtonEtiquetaSerial;
     private javax.swing.JButton jButtonRomaneioSeriais;
@@ -388,8 +441,12 @@ public class ConfiguracoesJDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabelRomaneioSeriais;
     private javax.swing.JLabel jLabelSomErro;
     private javax.swing.JLabel jLabelSomFinalizado;
-    private javax.swing.JPanel jPanel2;
+    private javax.swing.JList<String> jListCaracteristicaPessoa;
+    private javax.swing.JPanel jPanelArquivos;
+    private javax.swing.JPanel jPanelCliente;
     private javax.swing.JPanel jPanelConfGerais;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSpinner jSpinner;
     private javax.swing.JTabbedPane jTabbedPaneConfArquivos;
     private javax.swing.JTextField jTextFieldEspelhoRma;
     private javax.swing.JTextField jTextFieldEtiquetaSerial;

@@ -20,6 +20,7 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import jpa.cplus.ProdutoJpaController;
+import prestashop.Manager;
 import query.cplus.QueryCplus;
 import query.integrador.QueryIntegrador;
 
@@ -31,17 +32,14 @@ public class RelatorioComprasJFrame extends javax.swing.JFrame {
 
     /**
      * Creates new form RelatorioComprasJFrame
-     *
-     * @param managerIntegrador1
-     * @param managerCplus1
      */
-    public RelatorioComprasJFrame(EntityManagerFactory managerIntegrador1, EntityManagerFactory managerCplus1) {
+    public RelatorioComprasJFrame() {
         initComponents();
 
         formataCampos = new FormataCampos();
-        managerCplus = managerCplus1;
-        managerIntegrador = managerIntegrador1;
-        queryCplus = new QueryCplus(managerCplus);
+        //managerCplus = managerCplus1;
+        //managerIntegrador = managerIntegrador1;
+        queryCplus = new QueryCplus();
         queryIntegrador = new QueryIntegrador();
         jDateChooserDataFinal.setDate(formataCampos.alteraDiaData(formataCampos.dataAtual(), 0));
         jDateChooserDataInicial.setDate(formataCampos.alteraDiaData(formataCampos.dataAtual(), -90));
@@ -677,7 +675,7 @@ public class RelatorioComprasJFrame extends javax.swing.JFrame {
 
     private void jTableRelatorioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableRelatorioMouseClicked
         idProdCplus = jTableRelatorio.getValueAt(jTableRelatorio.getSelectedRow(), colunaCodprod).toString();
-        produtoCplus = new ProdutoJpaController(managerCplus).findProduto(idProdCplus);
+        produtoCplus = new ProdutoJpaController(Manager.getManagerCplus()).findProduto(idProdCplus);
         if (produtoCplus.getDatreaj() != null) {
             // jTextFieldDataUltimoReajuste.setText(formataCampo.dataStringSoData(produtoCplus.getDatreaj(), 0));
         }
@@ -979,13 +977,13 @@ public class RelatorioComprasJFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new RelatorioComprasJFrame(managerIntegrador, managerCplus).setVisible(true);
+                new RelatorioComprasJFrame().setVisible(true);
             }
         });
     }
 
-    static EntityManagerFactory managerCplus;
-    private static EntityManagerFactory managerIntegrador;
+    //static EntityManagerFactory managerCplus;
+    //private static EntityManagerFactory managerIntegrador;
     private final FormataCampos formataCampos;
     private final QueryCplus queryCplus;
     private BigDecimal numerodeDiasCalculo;

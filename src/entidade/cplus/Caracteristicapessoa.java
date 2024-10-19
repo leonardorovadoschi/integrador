@@ -5,6 +5,8 @@
  */
 package entidade.cplus;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
@@ -17,6 +19,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -38,6 +41,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Caracteristicapessoa.findByCodregistropai", query = "SELECT c FROM Caracteristicapessoa c WHERE c.codregistropai = :codregistropai")
     , @NamedQuery(name = "Caracteristicapessoa.findByGuid", query = "SELECT c FROM Caracteristicapessoa c WHERE c.guid = :guid")})
 public class Caracteristicapessoa implements Serializable {
+
+    @Transient
+    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -87,7 +93,9 @@ public class Caracteristicapessoa implements Serializable {
     }
 
     public void setCodcaracteristicapessoa(String codcaracteristicapessoa) {
+        String oldCodcaracteristicapessoa = this.codcaracteristicapessoa;
         this.codcaracteristicapessoa = codcaracteristicapessoa;
+        changeSupport.firePropertyChange("codcaracteristicapessoa", oldCodcaracteristicapessoa, codcaracteristicapessoa);
     }
 
     public String getCodigo() {
@@ -95,7 +103,9 @@ public class Caracteristicapessoa implements Serializable {
     }
 
     public void setCodigo(String codigo) {
+        String oldCodigo = this.codigo;
         this.codigo = codigo;
+        changeSupport.firePropertyChange("codigo", oldCodigo, codigo);
     }
 
     public String getNomecaracteristicapessoa() {
@@ -103,7 +113,9 @@ public class Caracteristicapessoa implements Serializable {
     }
 
     public void setNomecaracteristicapessoa(String nomecaracteristicapessoa) {
+        String oldNomecaracteristicapessoa = this.nomecaracteristicapessoa;
         this.nomecaracteristicapessoa = nomecaracteristicapessoa;
+        changeSupport.firePropertyChange("nomecaracteristicapessoa", oldNomecaracteristicapessoa, nomecaracteristicapessoa);
     }
 
     public String getClassificacao() {
@@ -111,7 +123,9 @@ public class Caracteristicapessoa implements Serializable {
     }
 
     public void setClassificacao(String classificacao) {
+        String oldClassificacao = this.classificacao;
         this.classificacao = classificacao;
+        changeSupport.firePropertyChange("classificacao", oldClassificacao, classificacao);
     }
 
     public Character getFlagtipo() {
@@ -119,7 +133,9 @@ public class Caracteristicapessoa implements Serializable {
     }
 
     public void setFlagtipo(Character flagtipo) {
+        Character oldFlagtipo = this.flagtipo;
         this.flagtipo = flagtipo;
+        changeSupport.firePropertyChange("flagtipo", oldFlagtipo, flagtipo);
     }
 
     public byte[] getImagem() {
@@ -127,7 +143,9 @@ public class Caracteristicapessoa implements Serializable {
     }
 
     public void setImagem(byte[] imagem) {
+        byte[] oldImagem = this.imagem;
         this.imagem = imagem;
+        changeSupport.firePropertyChange("imagem", oldImagem, imagem);
     }
 
     public String getObservacao() {
@@ -135,7 +153,9 @@ public class Caracteristicapessoa implements Serializable {
     }
 
     public void setObservacao(String observacao) {
+        String oldObservacao = this.observacao;
         this.observacao = observacao;
+        changeSupport.firePropertyChange("observacao", oldObservacao, observacao);
     }
 
     public Character getTipo() {
@@ -143,7 +163,9 @@ public class Caracteristicapessoa implements Serializable {
     }
 
     public void setTipo(Character tipo) {
+        Character oldTipo = this.tipo;
         this.tipo = tipo;
+        changeSupport.firePropertyChange("tipo", oldTipo, tipo);
     }
 
     public String getCodregistropai() {
@@ -151,7 +173,9 @@ public class Caracteristicapessoa implements Serializable {
     }
 
     public void setCodregistropai(String codregistropai) {
+        String oldCodregistropai = this.codregistropai;
         this.codregistropai = codregistropai;
+        changeSupport.firePropertyChange("codregistropai", oldCodregistropai, codregistropai);
     }
 
     public String getGuid() {
@@ -159,7 +183,9 @@ public class Caracteristicapessoa implements Serializable {
     }
 
     public void setGuid(String guid) {
+        String oldGuid = this.guid;
         this.guid = guid;
+        changeSupport.firePropertyChange("guid", oldGuid, guid);
     }
 
     @XmlTransient
@@ -203,6 +229,14 @@ public class Caracteristicapessoa implements Serializable {
     @Override
     public String toString() {
         return "entidade.cplus.Caracteristicapessoa[ codcaracteristicapessoa=" + codcaracteristicapessoa + " ]";
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.removePropertyChangeListener(listener);
     }
     
 }

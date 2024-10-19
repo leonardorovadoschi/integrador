@@ -11,7 +11,6 @@ import entidade.cplus.Cliente;
 import entidade.cplus.Movenda;
 import entidade.cplus.Moventrada;
 import entidade.cplus.Moventradaprod;
-import entidade.cplus.Usuario;
 import entidade.cplus.Vale;
 import janela.cplus.FormataCampos;
 import java.math.BigDecimal;
@@ -19,6 +18,7 @@ import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 import jpa.cplus.ValeJpaController;
+import prestashop.ConfiguracaoNoBD;
 import prestashop.Manager;
 import query.cplus.QueryCplus;
 
@@ -28,14 +28,14 @@ import query.cplus.QueryCplus;
  */
 public class LancamentoVale {
     QueryCplus querySerial;
-    public void lancamentoVale(Usuario usuario, Cliente cliente, Movenda saidaCliente, Moventrada entrada){
+    public void lancamentoVale( Cliente cliente, Movenda saidaCliente, Moventrada entrada){
         querySerial = new QueryCplus();
         List<Vale> listVale = querySerial.listagemValePorDevolucao(entrada.getCodmoventr(), cliente.getCodcli());
         if(listVale.isEmpty()){
-            criaVale(usuario, cliente, saidaCliente, entrada);
+            criaVale(cliente, saidaCliente, entrada);
         }else if(listVale.size() == 1){
             for(Vale vale : listVale){
-            editaVale(vale, usuario, saidaCliente, entrada);
+            editaVale(vale, saidaCliente, entrada);
             }
         }
         
@@ -49,7 +49,7 @@ public class LancamentoVale {
         return val;
     }
 
-    private void criaVale(Usuario usuario, Cliente cliente, Movenda saidaCliente, Moventrada entrada) {
+    private void criaVale(Cliente cliente, Movenda saidaCliente, Moventrada entrada) {
         Vale val = new Vale();               
        int numVale = new ConexaoDB().ultimoCodigo("VALE", "NUMVALE");
        int codVale = new ConexaoDB().ultimoCodigo("VALE", "CODVALE");
@@ -60,7 +60,7 @@ public class LancamentoVale {
         val.setObs(entrada.getObs());
         val.setCodcli(cliente);
         val.setCodmoventr(entrada.getCodmoventr());
-        val.setCoduser(usuario.getCoduser());
+        val.setCoduser(ConfiguracaoNoBD.getUsuario().getCoduser());
         val.setHoravale(new Date(System.currentTimeMillis()));
         val.setFlagdesconto('N');
         val.setCodvale(String.format("%09d", codVale));
@@ -77,11 +77,11 @@ public class LancamentoVale {
         }        
     }
 
-    private void editaVale(Vale val, Usuario usuario, Movenda saidaCliente, Moventrada entrada) {       
+    private void editaVale(Vale val, Movenda saidaCliente, Moventrada entrada) {       
         val.setCodmovenda(saidaCliente.getCodmovenda());
         val.setValor(valorVale(entrada));       
         val.setObs(entrada.getObs());      
-        val.setCoduser(usuario.getCoduser());
+        val.setCoduser(ConfiguracaoNoBD.getUsuario().getCoduser());
         val.setHoravale(new Date(System.currentTimeMillis()));
         try {            
             new ValeJpaController(Manager.getManagerCplus()).edit(val);

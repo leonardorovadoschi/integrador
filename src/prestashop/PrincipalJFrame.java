@@ -5,7 +5,6 @@
  */
 package prestashop;
 
-import entidade.cplus.Usuario;
 import acesso.ControleAcesso;
 import acesso.ListagemUsuarioJDialog;
 import entidade.cplus.Cliente;
@@ -29,8 +28,6 @@ import java.net.UnknownHostException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import jpa.cplus.ClienteJpaController;
@@ -50,38 +47,32 @@ public class PrincipalJFrame extends javax.swing.JFrame {
      */
     public PrincipalJFrame() {
         initComponents();
-        jLabelVersao.setText("2.2.1");
-        // var = new VariavelStatica();
-        managerCplus = Persistence.createEntityManagerFactory("cplusPU");
-        //managerIntegrador = Persistence.createEntityManagerFactory("integradorPU");
-        managerPrestaShop = Persistence.createEntityManagerFactory("PrestaShopPU");
+        jLabelVersao.setText("2.2.1");     
         queryIntegrador = new QueryIntegrador();
-        this.listagemUsuarioJDialog = new ListagemUsuarioJDialog(this, true, managerCplus);
+        this.listagemUsuarioJDialog = new ListagemUsuarioJDialog(this, true);
         this.listagemUsuarioJDialog.setLocationRelativeTo(null);
         this.listagemUsuarioJDialog.requestFocusInWindow();
         this.listagemUsuarioJDialog.setVisible(true);
-        acesso = new ControleAcesso(managerCplus);
+        acesso = new ControleAcesso();
         if (this.listagemUsuarioJDialog.isCancelamento() == true) {
             cancelamento();
         } else {
-            usuario = this.listagemUsuarioJDialog.getUsuario();
+            ConfiguracaoNoBD.setUsuario(this.listagemUsuarioJDialog.getUsuario()); 
         }
         setCondicao(true);
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
 
-        if (acesso.verificaAcessoUsuario(usuario, "Orçamento")) {
-            jMenuItemVendasDigimacro.setEnabled(true);
-        } else {
-            jMenuItemVendasDigimacro.setEnabled(false);
-        }
-        if (acesso.verificaAcessoUsuario(usuario, "Ordem de serviço")) {
-            jMenuManutencaoRma.setEnabled(true);
-        } else {
-            jMenuManutencaoRma.setEnabled(false);
-        }
+        
+        jMenuItemVendasDigimacro.setEnabled(acesso.verificaAcessoUsuario( "Editar Venda"));           
+        jMenuManutencaoRma.setEnabled(acesso.verificaAcessoUsuario( "Editar ordem de serviço"));
+        jMenuItemListagemVenda.setEnabled(acesso.verificaAcessoUsuario( "Editar orçamento"));
+        jMenuItemAlteracaoDePreco.setEnabled(acesso.verificaAcessoUsuario("Editar produtos"));
+        jMenuItemConfiguracao.setEnabled(acesso.verificaAcessoUsuario("Geral"));
+        jMenuIntegracao.setEnabled(acesso.verificaAcessoUsuario("Ponto de venda"));
+        
         jLabelHostLocal.setText(retornaIpLocal());
-        jLabelUsuario.setText("Nome Usuario: " + usuario.getNome());
-        carregaConfiguracoes();
+        jLabelUsuario.setText("Nome Usuario: " + ConfiguracaoNoBD.getUsuario().getNome());     
+        new CarregaConfiguracao().carregar();
     }
 
     /**
@@ -114,9 +105,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         jMenuVendaMagento = new javax.swing.JMenu();
         jMenuItemVendasDigimacro = new javax.swing.JMenuItem();
         jMenuProdutos = new javax.swing.JMenu();
-        jMenuManutencaoProdutosCplus = new javax.swing.JMenu();
         jMenuItemAlteracaoDePreco = new javax.swing.JMenuItem();
-        jMenuItemListaFornecedores = new javax.swing.JMenuItem();
         jMenuConfiguracao = new javax.swing.JMenu();
         jMenuItemConfiguracao = new javax.swing.JMenuItem();
 
@@ -235,8 +224,6 @@ public class PrincipalJFrame extends javax.swing.JFrame {
 
         jMenuProdutos.setText("Produtos");
 
-        jMenuManutencaoProdutosCplus.setText("Manutenção Produtos C-Plus");
-
         jMenuItemAlteracaoDePreco.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItemAlteracaoDePreco.setText("Alteração de Preços");
         jMenuItemAlteracaoDePreco.addActionListener(new java.awt.event.ActionListener() {
@@ -244,17 +231,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
                 jMenuItemAlteracaoDePrecoActionPerformed(evt);
             }
         });
-        jMenuManutencaoProdutosCplus.add(jMenuItemAlteracaoDePreco);
-
-        jMenuItemListaFornecedores.setText("Lista Fornecedores");
-        jMenuItemListaFornecedores.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemListaFornecedoresActionPerformed(evt);
-            }
-        });
-        jMenuManutencaoProdutosCplus.add(jMenuItemListaFornecedores);
-
-        jMenuProdutos.add(jMenuManutencaoProdutosCplus);
+        jMenuProdutos.add(jMenuItemAlteracaoDePreco);
 
         jMenuBar.add(jMenuProdutos);
 
@@ -322,7 +299,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         }
         if (aberto) {
             if (frameIntegracao == null || !frameIntegracao.isDisplayable()) {
-                frameIntegracao = new IntegracaoJFrame(Manager.getManagerIntegrador(), managerCplus, managerPrestaShop);
+                frameIntegracao = new IntegracaoJFrame();
                 frameIntegracao.setLocationRelativeTo(this); //opcional  
             } else {
                 frameIntegracao.setExtendedState(JFrame.NORMAL);
@@ -334,7 +311,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
 
     private void jMenuItemListagemVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemListagemVendaActionPerformed
         if (vendasJframe == null || !vendasJframe.isDisplayable()) {
-            vendasJframe = new SaidaJFrame(Manager.getManagerIntegrador(), managerCplus);
+            vendasJframe = new SaidaJFrame();
             vendasJframe.setLocationRelativeTo(this); //opcional  
         } else {
             vendasJframe.setExtendedState(JFrame.NORMAL);
@@ -356,7 +333,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
 
     private void jMenuItemEntradaSerialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemEntradaSerialActionPerformed
         if (entradaSerialJframe == null || !entradaSerialJframe.isDisplayable()) {
-            entradaSerialJframe = new EntradaSerialJFrame(managerCplus, Manager.getManagerIntegrador());
+            entradaSerialJframe = new EntradaSerialJFrame();
             entradaSerialJframe.setLocationRelativeTo(this); //opcional  
         } else {
             entradaSerialJframe.setExtendedState(JFrame.NORMAL);
@@ -367,7 +344,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
 
     private void jMenuItemRmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemRmaActionPerformed
         if (rmaJFrame == null || !rmaJFrame.isDisplayable()) {
-            rmaJFrame = new RmaJFrame(managerPrestaShop, managerCplus, Manager.getManagerIntegrador(), usuario);
+            rmaJFrame = new RmaJFrame();
             rmaJFrame.setLocationRelativeTo(this); //opcional  
         } else {
             rmaJFrame.setExtendedState(JFrame.NORMAL);
@@ -382,7 +359,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
 
     private void jMenuItemSeparacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSeparacaoActionPerformed
         if (saidaSerialJFrame == null || !saidaSerialJFrame.isDisplayable()) {
-            saidaSerialJFrame = new SaidaSerialJFrame(managerCplus, Manager.getManagerIntegrador(), managerPrestaShop);
+            saidaSerialJFrame = new SaidaSerialJFrame();
             saidaSerialJFrame.setLocationRelativeTo(this); //opcional  
         } else {
             saidaSerialJFrame.setExtendedState(JFrame.NORMAL);
@@ -393,7 +370,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
 
     private void jMenuItemVendasDigimacroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemVendasDigimacroActionPerformed
         if (vendaMagentoJFrame == null || !vendaMagentoJFrame.isDisplayable()) {
-            vendaMagentoJFrame = new VendaDigimacroJFrame(Manager.getManagerIntegrador(), managerPrestaShop, managerCplus, usuario);
+            vendaMagentoJFrame = new VendaDigimacroJFrame();
             vendaMagentoJFrame.setLocationRelativeTo(this); //opcional  
         } else {
             vendaMagentoJFrame.setExtendedState(JFrame.NORMAL);
@@ -404,7 +381,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
 
     private void jMenuItemEspelhoRmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemEspelhoRmaActionPerformed
         if (espelhoRmaJFrame == null || !espelhoRmaJFrame.isDisplayable()) {
-            espelhoRmaJFrame = new EspelhoRmaJFrame(managerCplus, Manager.getManagerIntegrador());
+            espelhoRmaJFrame = new EspelhoRmaJFrame();
             espelhoRmaJFrame.setLocationRelativeTo(this); //opcional  
         } else {
             espelhoRmaJFrame.setExtendedState(JFrame.NORMAL);
@@ -413,20 +390,9 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         espelhoRmaJFrame.setVisible(true);
     }//GEN-LAST:event_jMenuItemEspelhoRmaActionPerformed
 
-    private void jMenuItemListaFornecedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemListaFornecedoresActionPerformed
-         if (listaFornecedorJFrame == null || !listaFornecedorJFrame.isDisplayable()) {
-            listaFornecedorJFrame = new ListaFornecedorJFrame(managerPrestaShop, Manager.getManagerIntegrador(), managerCplus);
-            listaFornecedorJFrame.setLocationRelativeTo(this); //opcional  
-        } else {
-            listaFornecedorJFrame.setExtendedState(JFrame.NORMAL);
-            listaFornecedorJFrame.toFront();
-        }
-        listaFornecedorJFrame.setVisible(true);
-    }//GEN-LAST:event_jMenuItemListaFornecedoresActionPerformed
-
     private void jMenuItemComprasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemComprasActionPerformed
           if (relatorioComprasJFrame == null || !relatorioComprasJFrame.isDisplayable()) {
-            relatorioComprasJFrame = new RelatorioComprasJFrame(Manager.getManagerIntegrador(), managerCplus);
+            relatorioComprasJFrame = new RelatorioComprasJFrame();
             relatorioComprasJFrame.setLocationRelativeTo(this); //opcional  
         } else {
             relatorioComprasJFrame.setExtendedState(JFrame.NORMAL);
@@ -437,7 +403,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
 
     private void jMenuItemEstoqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemEstoqueActionPerformed
        if (relatorioEstoqueJFrame == null || !relatorioEstoqueJFrame.isDisplayable()) {
-            relatorioEstoqueJFrame = new RelatorioEstoqueJFrame(managerCplus);
+            relatorioEstoqueJFrame = new RelatorioEstoqueJFrame();
             relatorioEstoqueJFrame.setLocationRelativeTo(this); //opcional  
         } else {
             relatorioEstoqueJFrame.setExtendedState(JFrame.NORMAL);
@@ -451,32 +417,6 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         this.configuracoesJDialog.setVisible(true);
     }//GEN-LAST:event_jMenuItemConfiguracaoActionPerformed
 
-    private void carregaConfiguracoes() {
-        for (IntConfiguracao c : new IntConfiguracaoJpaController(Manager.getManagerIntegrador()).findIntConfiguracaoEntities()) {
-            switch (c.getTipo()) {
-                case "caminho_ARQUIVO_AUDIO_FINALIZADO":
-                    ConfiguracaoNoBD.setCaminhoAudioFinalizado(c.getValor());
-                    ConfiguracaoNoBD.setTipoAudioFinalizado(c.getTipo());
-                    break;
-                case "caminho_ARQUIVO_AUDIO_ERRO":
-                    ConfiguracaoNoBD.setCaminhoAudioErro(c.getValor());
-                    ConfiguracaoNoBD.setTipoAudioErro(c.getTipo());
-                    break;
-                case "caminho_RELATORIO_ROMANEIO_SERIAIS":
-                    ConfiguracaoNoBD.setCaminhoRomaneioSeriais(c.getValor());
-                    ConfiguracaoNoBD.setTipoRomaneioSeriais(c.getTipo());
-                    break;
-                case "caminho_RELATORIO_ESPELHO_RMA":
-                    ConfiguracaoNoBD.setCaminhoEspelhoRma(c.getValor());
-                    ConfiguracaoNoBD.setTipoEspelhoRma(c.getTipo());
-                    break;
-                case "caminho_ENTRADA_SERIAL":
-                    ConfiguracaoNoBD.setCaminhoEtiquetaSerial(c.getValor());
-                    ConfiguracaoNoBD.setTipoEtiquetaSerial(c.getTipo());
-                    break;
-            }
-        }
-    }
     
     private void atualizaCliente(){
         for(Cliente cli : new QueryCplus().cliente('1')){
@@ -492,7 +432,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
       for(Cliente cli : new QueryCplus().cliente('2')){
          cli.setFlagusaaliqicmsdiferenciada('Y');
          try {
-             new ClienteJpaController(managerCplus).edit(cli);
+             new ClienteJpaController(Manager.getManagerCplus()).edit(cli);
          } catch (NonexistentEntityException ex) {
              Logger.getLogger(PrincipalJFrame.class.getName()).log(Level.SEVERE, null, ex);
          } catch (Exception ex) {
@@ -537,7 +477,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
             Manager.getManagerCplus().close();
             //managerIntegrador.close();
             Manager.getManagerIntegrador().close();
-            managerPrestaShop.close();
+            Manager.getManagerPrestaShop().close();
             // managerMagentoLegiao.close();
 
             System.exit(0);
@@ -590,11 +530,11 @@ public class PrincipalJFrame extends javax.swing.JFrame {
 
     private SaidaSerialJFrame saidaSerialJFrame;
     //private final EntityManagerFactory managerIntegrador;
-    private final EntityManagerFactory managerPrestaShop;
-    private final EntityManagerFactory managerCplus;
+    //private final EntityManagerFactory managerPrestaShop;
+    //private final EntityManagerFactory managerCplus;
     //EntityManagerFactory managerMagentoLegiao;
     //VariavelStatica var; 
-    private Usuario usuario;
+//    private Usuario usuario;
     private final ListagemUsuarioJDialog listagemUsuarioJDialog;
     private final ControleAcesso acesso;
     private final QueryIntegrador queryIntegrador;
@@ -662,12 +602,10 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItemEntradaSerial;
     private javax.swing.JMenuItem jMenuItemEspelhoRma;
     private javax.swing.JMenuItem jMenuItemEstoque;
-    private javax.swing.JMenuItem jMenuItemListaFornecedores;
     private javax.swing.JMenuItem jMenuItemListagemVenda;
     private javax.swing.JMenuItem jMenuItemRma;
     private javax.swing.JMenuItem jMenuItemSeparacao;
     private javax.swing.JMenuItem jMenuItemVendasDigimacro;
-    private javax.swing.JMenu jMenuManutencaoProdutosCplus;
     private javax.swing.JMenu jMenuManutencaoRma;
     private javax.swing.JMenu jMenuProdutos;
     private javax.swing.JMenu jMenuSerial;

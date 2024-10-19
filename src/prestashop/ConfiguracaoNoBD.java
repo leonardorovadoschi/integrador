@@ -6,6 +6,10 @@
 
 package prestashop;
 
+import entidade.cplus.Usuario;
+import entidade.integrador.IntConfiguracao;
+import jpa.integrador.IntConfiguracaoJpaController;
+
 /**
  *
  * @author leo-note
@@ -23,6 +27,51 @@ public class ConfiguracaoNoBD {
    private static String tipoEspelhoRma;
    private static String caminhoEtiquetaSerial;
    private static String tipoEtiquetaSerial;
+   private static Usuario usuario;
+   private static String caminhoCaracteristicaCliente;
+   private static String tipoCaracteristicaCliente;
+   private static String caminhoCaracteristicaClienteRuim;
+   private static String tipoCaracteristicaClienteRuim;
+
+    public static String getCaminhoCaracteristicaCliente() {
+        return caminhoCaracteristicaCliente;
+    }
+
+    public static void setCaminhoCaracteristicaCliente(String caminhoCaracteristicaCliente) {
+        ConfiguracaoNoBD.caminhoCaracteristicaCliente = caminhoCaracteristicaCliente;
+    }
+
+    public static String getTipoCaracteristicaCliente() {
+        return tipoCaracteristicaCliente;
+    }
+
+    public static void setTipoCaracteristicaCliente(String tipoCaracteristicaCliente) {
+        ConfiguracaoNoBD.tipoCaracteristicaCliente = tipoCaracteristicaCliente;
+    }
+
+    public static String getCaminhoCaracteristicaClienteRuim() {
+        return caminhoCaracteristicaClienteRuim;
+    }
+
+    public static void setCaminhoCaracteristicaClienteRuim(String caminhoCaracteristicaClienteRuim) {
+        ConfiguracaoNoBD.caminhoCaracteristicaClienteRuim = caminhoCaracteristicaClienteRuim;
+    }
+
+    public static String getTipoCaracteristicaClienteRuim() {
+        return tipoCaracteristicaClienteRuim;
+    }
+
+    public static void setTipoCaracteristicaClienteRuim(String tipoCaracteristicaClienteRuim) {
+        ConfiguracaoNoBD.tipoCaracteristicaClienteRuim = tipoCaracteristicaClienteRuim;
+    }
+
+    public static Usuario getUsuario() {
+        return usuario;
+    }
+
+    public static void setUsuario(Usuario usuario) {
+        ConfiguracaoNoBD.usuario = usuario;
+    }
 
     public static String getTipoCasasDecimais() {
         return tipoCasasDecimais;
@@ -140,7 +189,32 @@ public class ConfiguracaoNoBD {
         ConfiguracaoNoBD.tipoEtiquetaSerial = tipoEtiquetaSerial;
     }
 
-  
+    public void carregaConfiguracoes() {
+        for (IntConfiguracao c : new IntConfiguracaoJpaController(Manager.getManagerIntegrador()).findIntConfiguracaoEntities()) {
+            switch (c.getTipo()) {
+                case "caminho_ARQUIVO_AUDIO_FINALIZADO":
+                    ConfiguracaoNoBD.setCaminhoAudioFinalizado(c.getValor());
+                    ConfiguracaoNoBD.setTipoAudioFinalizado(c.getTipo());
+                    break;
+                case "caminho_ARQUIVO_AUDIO_ERRO":
+                    ConfiguracaoNoBD.setCaminhoAudioErro(c.getValor());
+                    ConfiguracaoNoBD.setTipoAudioErro(c.getTipo());
+                    break;
+                case "caminho_RELATORIO_ROMANEIO_SERIAIS":
+                    ConfiguracaoNoBD.setCaminhoRomaneioSeriais(c.getValor());
+                    ConfiguracaoNoBD.setTipoRomaneioSeriais(c.getTipo());
+                    break;
+                case "caminho_RELATORIO_ESPELHO_RMA":
+                    ConfiguracaoNoBD.setCaminhoEspelhoRma(c.getValor());
+                    ConfiguracaoNoBD.setTipoEspelhoRma(c.getTipo());
+                    break;
+                case "caminho_ENTRADA_SERIAL":
+                    ConfiguracaoNoBD.setCaminhoEtiquetaSerial(c.getValor());
+                    ConfiguracaoNoBD.setTipoEtiquetaSerial(c.getTipo());
+                    break;
+            }
+        }
+    }
    
    
 }

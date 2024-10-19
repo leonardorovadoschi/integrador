@@ -13,6 +13,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
 import jpa.cplus.ClienteJpaController;
 import jpa.cplus.LocalizacaoJpaController;
+import prestashop.Manager;
 import query.cplus.QueryCplus;
 
 /**
@@ -25,15 +26,14 @@ public class ListagemLocalizacaoJDialog extends javax.swing.JDialog {
      * Creates new form ListagemLocalizacaoJDialog
      * @param parent
      * @param modal
-     * @param managerCplus1
      */
-    public ListagemLocalizacaoJDialog(java.awt.Frame parent, boolean modal, EntityManagerFactory managerCplus1) {
+    public ListagemLocalizacaoJDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        managerCplus = managerCplus1;
-        queryCplus = new QueryCplus(managerCplus);
+       // managerCplus = managerCplus1;
+        queryCplus = new QueryCplus();
         colunaCodLoc = jTableLocalizacao.getColumnModel().getColumnIndex("Codloc");
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
         jTextFieldTermoPesquisa.requestFocus();
         new RenderCenter();
     }
@@ -244,7 +244,7 @@ public class ListagemLocalizacaoJDialog extends javax.swing.JDialog {
         } else {
             String cod = jTableLocalizacao.getValueAt(jTableLocalizacao.getSelectedRow(), colunaCodLoc).toString();
             if (cod != null) {
-                setLocalizacao(new LocalizacaoJpaController(managerCplus).findLocalizacao(cod));
+                setLocalizacao(new LocalizacaoJpaController(Manager.getManagerCplus()).findLocalizacao(cod));
                 setCancelamento(false);
                 dispose();
             } else {
@@ -303,7 +303,7 @@ public class ListagemLocalizacaoJDialog extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                ListagemLocalizacaoJDialog dialog = new ListagemLocalizacaoJDialog(new javax.swing.JFrame(), true, managerCplus);
+                ListagemLocalizacaoJDialog dialog = new ListagemLocalizacaoJDialog(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -316,7 +316,7 @@ public class ListagemLocalizacaoJDialog extends javax.swing.JDialog {
     }
     
  private QueryCplus queryCplus;
- private static EntityManagerFactory managerCplus;
+ //private static EntityManagerFactory managerCplus;
  private boolean cancelamento;
  private String termoPesquisa;
  private int colunaCodLoc;

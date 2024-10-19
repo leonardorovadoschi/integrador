@@ -48,7 +48,7 @@ public class CalculoDeCusto {
         BigDecimal aliqPisCofins = new BigDecimal("0.0925");
         
         if(quantidadeEstoque.intValue() > 0){
-        for (Moventradaprod movProd : new QueryCplus(managerCplus).resultProdutoEntrada(prod.getCodprod(), true, 10)) {
+        for (Moventradaprod movProd : new QueryCplus().resultProdutoEntrada(prod.getCodprod(), true, 10)) {
             quanCompra = quanCompra.add(movProd.getQuantidade());
             if (quantidadeEstoque.intValue() >= quanCompra.intValue()) { //estoque maior que quantidade de compra
                 valorProdutos = valorProdutos.add(movProd.getValortotal());
@@ -136,7 +136,7 @@ public class CalculoDeCusto {
 
     private BigDecimal quantidadeEstoque(Produto prod, EntityManagerFactory managerCplus) {
         BigDecimal qntEstoque = BigDecimal.ZERO;
-        for (Produtoestoque estoque : new QueryCplus(managerCplus).listEstoquesPorProd(prod.getCodprod())) {
+        for (Produtoestoque estoque : new QueryCplus().listEstoquesPorProd(prod.getCodprod())) {
             qntEstoque = estoque.getEstatu().subtract(estoque.getReservadoorcamento().subtract(estoque.getReservadoos()));
         }
         return qntEstoque;

@@ -7,7 +7,6 @@ package janela.prestaShop;
 
 import acesso.ControleAcesso;
 import entidade.cplus.Produtoestoque;
-import entidade.cplus.Usuario;
 import entidade.prestaShop.PsCartProduct;
 import entidade.prestaShop.PsCartProductPK;
 import entidade.prestaShop.PsCustomer;
@@ -48,26 +47,20 @@ public class AdicionarOrderDetailJDialog extends javax.swing.JDialog {
 
     /**
      * Creates new form InsereSalesFlatOrderItemJDialog
-     *
      * @param parent
      * @param modal
-     * @param usuario1
      */
-    public AdicionarOrderDetailJDialog(java.awt.Frame parent, boolean modal, Usuario usuario1) {
+    public AdicionarOrderDetailJDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
        // managerPrestaShop = managerPrestaShop1;
        // managerCplus = managerCplus1;
         queryPrestaShop = new QueryPrestaShop();
         queryCplus = new QueryCplus();
-        formataCampos = new FormataCampos();
-        usuario = usuario1;
+        formataCampos = new FormataCampos();       
         acesso = new ControleAcesso();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
-        if (acesso.verificaAcessoUsuario(usuario, "Alterar preço de venda")) {
-            jTextFieldUnitarioComDesconto.setEnabled(true);
-        }
-        jTextFieldUnitarioComDesconto.setForeground(Color.black);
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));       
+        jTextFieldUnitarioComDesconto.setEnabled(acesso.verificaAcessoUsuario("Alterar preço de venda"));      
     }
 
     /**
@@ -756,7 +749,7 @@ public class AdicionarOrderDetailJDialog extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                AdicionarOrderDetailJDialog dialog = new AdicionarOrderDetailJDialog(new javax.swing.JFrame(), true, usuario);
+                AdicionarOrderDetailJDialog dialog = new AdicionarOrderDetailJDialog(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -776,7 +769,6 @@ public class AdicionarOrderDetailJDialog extends javax.swing.JDialog {
     private PsProduct psProduct;
     private final QueryPrestaShop queryPrestaShop;
     private final QueryCplus queryCplus;
-    static private Usuario usuario;
     private final ControleAcesso acesso;
     private int quantMod;
     private BigDecimal totalMod;

@@ -12,7 +12,6 @@ import entidade.cplus.Produto;
 import entidade.cplus.Produtoestoque;
 import entidade.cplus.Unidade;
 import janela.cplus.ListagemEntradasJDialog;
-import janela.cplus.ListagemLocalizacaoJDialog;
 import janela.cplus.ListagemProdutoJDialog;
 import java.awt.Color;
 import java.awt.Toolkit;
@@ -20,11 +19,11 @@ import java.math.BigDecimal;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.List;
-import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import jpa.cplus.MoventradaprodJpaController;
+import prestashop.Manager;
 import query.cplus.QueryCplus;
 import query.integrador.QueryIntegrador;
 
@@ -36,24 +35,20 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
 
     /**
      * Creates new form EntradaSerialJFrame
-     *
-     * @param managerCplus1
-     * @param managerIntegrador1
      */
-    public EntradaSerialJFrame(EntityManagerFactory managerCplus1, EntityManagerFactory managerIntegrador1) {
+    public EntradaSerialJFrame() {
         initComponents();
-        managerCplus = managerCplus1;
-        managerIntegrador = managerIntegrador1;
-        this.listagemEntradasJDialog = new ListagemEntradasJDialog(this, true, managerCplus);
+        
+        this.listagemEntradasJDialog = new ListagemEntradasJDialog(this, true);
         //this.listagemUsuarioJDialog = new ListagemUsuarioJDialog(this, true, managerCplus);
-        this.entradaSerialJDialog = new EntradaSerialJDialog(this, true, managerCplus, managerIntegrador1);
-        this.listagemSerialEntradaJDialog = new ListagemSerialEntradaJDialog(this, true, managerCplus, managerIntegrador);
+        this.entradaSerialJDialog = new EntradaSerialJDialog(this, true);
+        this.listagemSerialEntradaJDialog = new ListagemSerialEntradaJDialog(this, true);
         //querySerial = new QuerySerial(managerCplus);
         queryIntegrador = new QueryIntegrador();
-        queryCplus = new QueryCplus(managerCplus);
+        queryCplus = new QueryCplus();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
         colunaCodMovProd = jTableEntradaProd.getColumnModel().getColumnIndex("Codmoveprod");
-        this.listagemProdutoJDialog = new ListagemProdutoJDialog(this, true, managerCplus);
+        this.listagemProdutoJDialog = new ListagemProdutoJDialog(this, true);
 
         //new RenderPreco();
     }
@@ -251,7 +246,7 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
         if (jTableEntradaProd.getRowCount() > 0 && jTableEntradaProd.getSelectedRow() != -1) {
             colunaCodMovProd = jTableEntradaProd.getColumnModel().getColumnIndex("Codmoveprod");
             String codMovProd = jTableEntradaProd.getValueAt(jTableEntradaProd.getSelectedRow(), colunaCodMovProd).toString();
-            movEntradaProd = new MoventradaprodJpaController(managerCplus).findMoventradaprod(codMovProd);
+            movEntradaProd = new MoventradaprodJpaController(Manager.getManagerCplus()).findMoventradaprod(codMovProd);
             this.entradaSerialJDialog.setProduto(movEntradaProd.getCodprod());
             this.entradaSerialJDialog.setListCodigo(queryCplus.listagemProdutoCodigo(movEntradaProd.getCodprod().getCodprod()));
             this.entradaSerialJDialog.setMovEntradaProd(movEntradaProd);
@@ -298,7 +293,7 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
         if (jTableEntradaProd.getRowCount() > 0 && jTableEntradaProd.getSelectedRow() != -1) {
             colunaCodMovProd = jTableEntradaProd.getColumnModel().getColumnIndex("Codmoveprod");
             String codMovProd = jTableEntradaProd.getValueAt(jTableEntradaProd.getSelectedRow(), colunaCodMovProd).toString();
-            movEntradaProd = new MoventradaprodJpaController(managerCplus).findMoventradaprod(codMovProd);
+            movEntradaProd = new MoventradaprodJpaController(Manager.getManagerCplus()).findMoventradaprod(codMovProd);
             this.listagemProdutoJDialog.setTermoPesquisa(movEntradaProd.getCodprod().getCodigo());
             this.listagemProdutoJDialog.setVisible(true);
             //jButtonEditarProduto.setEnabled(false);
@@ -312,7 +307,7 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
         //   if (verificaEntradaAberta()) {
         colunaCodMovProd = jTableEntradaProd.getColumnModel().getColumnIndex("Codmoveprod");
         String codMovProd = jTableEntradaProd.getValueAt(jTableEntradaProd.getSelectedRow(), colunaCodMovProd).toString();
-        movEntradaProd = new MoventradaprodJpaController(managerCplus).findMoventradaprod(codMovProd);
+        movEntradaProd = new MoventradaprodJpaController(Manager.getManagerCplus()).findMoventradaprod(codMovProd);
         if (movEntradaProd.getCodmoveprod() != null || !"".equals(movEntradaProd.getCodmoveprod())) {
             int completo = queryIntegrador.listPorEntradaProd(movEntradaProd.getCodmoveprod()).size();
             if (quanPacote(movEntradaProd) != completo) {
@@ -352,7 +347,7 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
 
     private Integer EstoqueCplus(String codProd) {
         BigDecimal estoque = BigDecimal.ZERO;
-        List<Produtoestoque> listEsroque = new QueryCplus(managerCplus).listEstoquesPorProd(codProd);
+        List<Produtoestoque> listEsroque = new QueryCplus().listEstoquesPorProd(codProd);
         for (Produtoestoque est : listEsroque) {
             estoque = est.getEstatu().subtract(est.getReservadoorcamento().subtract(est.getReservadoos()));
         }
@@ -449,17 +444,15 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new EntradaSerialJFrame(managerCplus, managerIntegrador).setVisible(true);
+                new EntradaSerialJFrame().setVisible(true);
             }
         });
     }
 
-    //QuerySerial querySerial;
-    private static EntityManagerFactory managerCplus;
     private final ListagemEntradasJDialog listagemEntradasJDialog;
     private final ListagemSerialEntradaJDialog listagemSerialEntradaJDialog;
     private final EntradaSerialJDialog entradaSerialJDialog;
-    private static EntityManagerFactory managerIntegrador;
+    //private static EntityManagerFactory managerIntegrador;
     private final QueryCplus queryCplus;
     private final QueryIntegrador queryIntegrador;
     private Moventrada movEntrada;

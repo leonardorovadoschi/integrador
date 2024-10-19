@@ -46,16 +46,14 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
      */
     public EntradaSerialJDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        initComponents();
-        //managerCplus = managerCplus1;
-       // managerIntegrador = managerIntegrador1;
+        initComponents();       
         queryIntegrador = new QueryIntegrador();
         queryCplus = new QueryCplus();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
         listagemUsuarioJDialog = new ListagemUsuarioJDialog(parent, true);
         colunaSerial = jTableSerialDigitado.getColumnModel().getColumnIndex("Serial");
         //this.listagemLocalizacaoJDialog = new ListagemLocalizacaoJDialog(parent, true, Manager.getManagerCplus());
-        this.listagemProdutoJDialog = new ListagemProdutoJDialog(parent, true, Manager.getManagerCplus());
+        this.listagemProdutoJDialog = new ListagemProdutoJDialog(parent, true);
     }
 
     /**

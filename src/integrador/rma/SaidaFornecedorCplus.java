@@ -23,7 +23,7 @@ import entidade.cplus.Produtoestoque;
 import entidade.cplus.Setorestoque;
 import entidade.cplus.Tipomovimento;
 import entidade.cplus.Unidade;
-import entidade.cplus.Usuario;
+import prestashop.ConfiguracaoNoBD;
 import janela.cplus.FormataCampos;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -60,16 +60,15 @@ public class SaidaFornecedorCplus {
      * @param fornecedor
      * @param movEntradaProd
      * @param serial
-     * @param usuario
      * @return false se houver erro
      */
     public boolean saidaFornecedorCplus(boolean controlaEstoque, Tipomovimento movimentoSaidaFornecedor, Calculoicmsestado calculoIcmsEstado, Fornecedor fornecedor, Moventradaprod movEntradaProd,
-            String serial, Usuario usuario) {
+            String serial) {
         queryCplus = new QueryCplus();
         boolean condicao = true;           
             List<Movenda> listMovenda = queryCplus.listagemMovendaFornecedor(movimentoSaidaFornecedor.getCodigo(), fornecedor.getCodforn());
             if (listMovenda.isEmpty()) {               
-                if(criarSaida(movimentoSaidaFornecedor, fornecedor, usuario)){               
+                if(criarSaida(movimentoSaidaFornecedor, fornecedor)){               
                 List<Movenda> listSaida = queryCplus.listagemMovendaFornecedor(movimentoSaidaFornecedor.getCodigo(), fornecedor.getCodforn());
                 if (listSaida.size() == 1) {
                     for (Movenda saida : listSaida) {
@@ -463,43 +462,19 @@ public class SaidaFornecedorCplus {
      * Cria saida para cliente nas funções de devolução e remessa somente
      * @param cliente
      * @param movenda
-     * @param usuario
      * @param numNota 
      */
-    private boolean criarSaida(Tipomovimento movimento, Fornecedor fornecedor, Usuario usuario) {
+    private boolean criarSaida(Tipomovimento movimento, Fornecedor fornecedor) {
         boolean condicao = true;
         Movenda saida = new Movenda();
-        //decrement para tabela MovEntrada
-        /**
-        Configuracao configuracao = new ConfiguracaoJpaController(managerIntegrador).findConfiguracao("increment_tabela_movenda");
-        Integer configCont = Integer.valueOf(configuracao.getValorConfiguracao());
-        configCont--;
-        configuracao.setValorConfiguracao(Integer.toString(configCont));
-        try {
-            new ConfiguracaoJpaController(managerIntegrador).edit(configuracao);
-            } catch (Exception ex) {//fim catch da tabela configuraï¿½ï¿½o
-            JOptionPane.showMessageDialog(null, "Houve um erro ao Gravar Configuraï¿½ï¿½o de entrada!!!\n " + ex);
-            condicao = false;
-        }
         
-        configuracao = new ConfiguracaoJpaController(managerIntegrador).findConfiguracao("increment_tabela_movenda_numero_pedido");
-        Integer numPedido= Integer.valueOf(configuracao.getValorConfiguracao());
-        numPedido--;
-        configuracao.setValorConfiguracao(Integer.toString(numPedido));
-        try {
-            new ConfiguracaoJpaController(managerIntegrador).edit(configuracao);
-            } catch (Exception ex) {//fim catch da tabela configuraï¿½ï¿½o
-            JOptionPane.showMessageDialog(null, "Houve um erro ao Gravar Configuraï¿½ï¿½o de entrada!!!\n " + ex);
-            condicao = false;
-        }
-        */
        // if(condicao){
        Integer numPedido = new ConexaoDB().ultimoCodigo("MOVENDA", "NUMPED");
         Integer numCodMovenda = new ConexaoDB().ultimoCodigo("MOVENDA", "CODMOVENDA"); 
            // String configString = String.format("%09d", configCont);
             saida.setCodmovenda(String.format("%09d", numCodMovenda));
             saida.setFlagcli('N');
-            saida.setCoduser(usuario.getCoduser());
+            saida.setCoduser(ConfiguracaoNoBD.getUsuario().getCoduser());
             saida.setCodForn(fornecedor);           
             saida.setCodempresa(new Empresa(1));
             saida.setCodsetorestoque(new Setorestoque("000000001"));

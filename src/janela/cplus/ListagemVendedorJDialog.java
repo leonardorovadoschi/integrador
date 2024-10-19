@@ -7,9 +7,9 @@ package janela.cplus;
 
 import entidade.cplus.Vendedor;
 import java.awt.Toolkit;
-import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
 import jpa.cplus.VendedorJpaController;
+import prestashop.Manager;
 
 /**
  *
@@ -23,11 +23,10 @@ public class ListagemVendedorJDialog extends javax.swing.JDialog {
      * @param modal
      * @param managerCplus1
      */
-    public ListagemVendedorJDialog(java.awt.Frame parent, boolean modal, EntityManagerFactory managerCplus1) {
+    public ListagemVendedorJDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);        
         initComponents();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
-        managerCplus = managerCplus1;
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));     
         colunaCodVendedor = jTableVendedor.getColumnModel().getColumnIndex("Codvended");
     }
 
@@ -113,7 +112,7 @@ public class ListagemVendedorJDialog extends javax.swing.JDialog {
         } else {
             String cod = jTableVendedor.getValueAt(jTableVendedor.getSelectedRow(), colunaCodVendedor).toString();
             if (cod != null) {
-                setVendedor(new VendedorJpaController(managerCplus).findVendedor(cod));
+                setVendedor(new VendedorJpaController(Manager.getManagerCplus()).findVendedor(cod));
                 //setCancelamento(false);
                 dispose();
             } else {
@@ -161,7 +160,7 @@ public class ListagemVendedorJDialog extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                ListagemVendedorJDialog dialog = new ListagemVendedorJDialog(new javax.swing.JFrame(), true, managerCplus);
+                ListagemVendedorJDialog dialog = new ListagemVendedorJDialog(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -172,7 +171,7 @@ public class ListagemVendedorJDialog extends javax.swing.JDialog {
             }
         });
     }
-private static EntityManagerFactory managerCplus;
+//private static EntityManagerFactory managerCplus;
 private int colunaCodVendedor;
 private Vendedor vendedor;
     // Variables declaration - do not modify//GEN-BEGIN:variables

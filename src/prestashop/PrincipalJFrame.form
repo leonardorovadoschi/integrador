@@ -135,32 +135,17 @@
             <Property name="text" type="java.lang.String" value="Produtos"/>
           </Properties>
           <SubComponents>
-            <Menu class="javax.swing.JMenu" name="jMenuManutencaoProdutosCplus">
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemAlteracaoDePreco">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Manuten&#xe7;&#xe3;o Produtos C-Plus"/>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+A"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Altera&#xe7;&#xe3;o de Pre&#xe7;os"/>
               </Properties>
-              <SubComponents>
-                <MenuItem class="javax.swing.JMenuItem" name="jMenuItemAlteracaoDePreco">
-                  <Properties>
-                    <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                      <KeyStroke key="Ctrl+A"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="Altera&#xe7;&#xe3;o de Pre&#xe7;os"/>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemAlteracaoDePrecoActionPerformed"/>
-                  </Events>
-                </MenuItem>
-                <MenuItem class="javax.swing.JMenuItem" name="jMenuItemListaFornecedores">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Lista Fornecedores"/>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemListaFornecedoresActionPerformed"/>
-                  </Events>
-                </MenuItem>
-              </SubComponents>
-            </Menu>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemAlteracaoDePrecoActionPerformed"/>
+              </Events>
+            </MenuItem>
           </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenuConfiguracao">

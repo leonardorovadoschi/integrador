@@ -12,6 +12,7 @@ import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
 import jpa.cplus.FornecedorJpaController;
+import prestashop.Manager;
 import query.cplus.QueryCplus;
 
 /**
@@ -24,13 +25,11 @@ public class ListagemFornecedorJDialog extends javax.swing.JDialog {
      * Creates new form ListagemFornecedorJDialog
      * @param parent
      * @param modal
-     * @param managerCplus1
      */
-    public ListagemFornecedorJDialog(java.awt.Frame parent, boolean modal, EntityManagerFactory managerCplus1) {
+    public ListagemFornecedorJDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        managerCplus = managerCplus1;
-        queryCplus = new QueryCplus(managerCplus);
+        queryCplus = new QueryCplus();
         colunaCodFornecedor = jTableFornecedor.getColumnModel().getColumnIndex("Codforn");
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
     }
@@ -270,7 +269,7 @@ public class ListagemFornecedorJDialog extends javax.swing.JDialog {
         } else {
             String cod = jTableFornecedor.getValueAt(jTableFornecedor.getSelectedRow(), colunaCodFornecedor).toString();
             if (cod != null) {
-                setFornecedor(new FornecedorJpaController(managerCplus).findFornecedor(cod));
+                setFornecedor(new FornecedorJpaController(Manager.getManagerCplus()).findFornecedor(cod));
                 setCancelamento(false);
                 dispose();
             } else {
@@ -348,7 +347,7 @@ public class ListagemFornecedorJDialog extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                ListagemFornecedorJDialog dialog = new ListagemFornecedorJDialog(new javax.swing.JFrame(), true, managerCplus);
+                ListagemFornecedorJDialog dialog = new ListagemFornecedorJDialog(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -360,7 +359,7 @@ public class ListagemFornecedorJDialog extends javax.swing.JDialog {
         });
     }
  private final QueryCplus queryCplus;
- static EntityManagerFactory managerCplus;
+ //static EntityManagerFactory managerCplus;
  private Fornecedor  fornecedor;
  private int colunaCodFornecedor;
  private boolean cancelamento;

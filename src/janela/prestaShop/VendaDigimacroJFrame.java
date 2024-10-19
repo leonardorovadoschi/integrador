@@ -9,7 +9,6 @@ import acesso.ConexaoPrestaShop;
 import entidade.cplus.Cliente;
 import entidade.cplus.Clientecaracteristica;
 import entidade.cplus.Produtoestoque;
-import entidade.cplus.Usuario;
 import entidade.integrador.IntExecucao;
 import entidade.prestaShop.PsAddress;
 import entidade.prestaShop.PsCarrier;
@@ -45,7 +44,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-import javax.persistence.EntityManagerFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -64,6 +62,7 @@ import jpa.prestaShop.PsOrdersJpaController;
 import jpa.prestaShop.PsProductJpaController;
 import jpa.prestaShop.PsStockAvailableJpaController;
 import pedido.PedidoDigimacroCplus;
+import prestashop.ConfiguracaoNoBD;
 import prestashop.Manager;
 import produto.PedidoCompra;
 import query.cplus.QueryCplus;
@@ -78,26 +77,18 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
 
     /**
      * Creates new form VendaMagentoJFrame
-     * @param usuario1
      */
-    public VendaDigimacroJFrame(Usuario usuario1) {
-
-        //new RenderCnpjCpf();
-        //new RenderDataEHora();
-        //new RenderCustomerNome();
-        format = new FormataCampos();
-       // managerPrestaShop = managerPrestaShop1;
-        //managerIntegrador = managerIntegrador1;
-        //managerCplus = managerCplus1;
-        usuario = usuario1;
+    public VendaDigimacroJFrame() {
+       
+        format = new FormataCampos();     
         queryPrestaShop = new QueryPrestaShop();
         initComponents();
         codCaracteristicaCliente = new QueryIntegrador().valorConfiguracao("cliente_CARACTERISTICA_CPLUS_DIGIMACRO");
         queryCplus = new QueryCplus();
         this.listagemSaidasMagentoJDialog = new SaidasPrestaShopJDialog(this, true);
-        this.editOrderDetailsJDialog = new EditOrderDetailsJDialog(this, true, usuario);
-        this.listPsProductJDialog = new ListPsProductJDialog(this, true, usuario);
-        this.adicionarOrderDetailJDialog = new AdicionarOrderDetailJDialog(this, true, usuario);
+        this.editOrderDetailsJDialog = new EditOrderDetailsJDialog(this, true);
+        this.listPsProductJDialog = new ListPsProductJDialog(this, true);
+        this.adicionarOrderDetailJDialog = new AdicionarOrderDetailJDialog(this, true);
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
         jDateChooserDataInicialCustomer.setDate(format.alteraDiaData(format.dataAtual(), -2));
         jDateChooserDataFinalCustomer.setDate(format.alteraDiaData(format.dataAtual(), 1));
@@ -1194,7 +1185,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
                 ocr.setIdOrder(psOrders.getIdOrder());
                 ocr.setIdCartRule(cartR.getIdCartRule());
                 ocr.setIdOrderInvoice(0);
-                ocr.setName("Desconto Avulso feito por: " + usuario.getNome());
+                ocr.setName("Desconto Avulso feito por: " + ConfiguracaoNoBD.getUsuario().getNome());
                 ocr.setValue(valDescontoAvulso);
                 ocr.setValueTaxExcl(valDescontoAvulso);
                 ocr.setFreeShipping(false);
@@ -1203,7 +1194,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
 
                 try {
                     PsCartRuleLang g = new PsCartRuleLang();
-                    g.setName("Desconto Avulso feito por: " + usuario.getNome());
+                    g.setName("Desconto Avulso feito por: " + ConfiguracaoNoBD.getUsuario().getNome());
                     g.setPsCartRuleLangPK(new PsCartRuleLangPK(cartR.getIdCartRule(), 2));
                     new PsCartRuleLangJpaController(Manager.getManagerPrestaShop()).create(g);
                 } catch (Exception ex) {
@@ -1212,7 +1203,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
             }
         } else {
             for (PsOrderCartRule ocr : listOrderCartRule) {
-                ocr.setName("Desconto Avulso feito por: " + usuario.getNome());
+                ocr.setName("Desconto Avulso feito por: " + ConfiguracaoNoBD.getUsuario().getNome());
                 ocr.setValue(valDescontoAvulso);
                 ocr.setValueTaxExcl(valDescontoAvulso);
                 ocr.setDeleted((short) 0);
@@ -1258,7 +1249,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
                     List<Cliente> listemailCplus = queryCplus.resultPortCnpjOuCpf(cpfCnpj(psCustomer.getSiret()));
                     //new QueryIntegrador(managerIntegrador).valorConfiguracao("cliente_CARACTERISTICA_CPLUS_DIGIMACRO"), cliMagento.getEmail());
                     if (listemailCplus.isEmpty()) {
-                        new ClienteDigimacroCplus().criaClienteCplus(psCustomer, usuario);
+                        new ClienteDigimacroCplus().criaClienteCplus(psCustomer);
 
                     } else {
                         JOptionPane.showMessageDialog(null, "Esse cadastro possui um CPF ou CNPJ cadastrado no C-Plus\nVERIFIQUE!!!");
@@ -1551,7 +1542,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
-            new VendaDigimacroJFrame(usuario).setVisible(true);
+            new VendaDigimacroJFrame().setVisible(true);
         });
     }
 
@@ -1567,7 +1558,6 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
     private final QueryCplus queryCplus;
     private final EditOrderDetailsJDialog editOrderDetailsJDialog;
     private final AdicionarOrderDetailJDialog adicionarOrderDetailJDialog;
-    private static Usuario usuario;
     private final int colunaCustomerId;
     private final int colunaOrderDetail;
     private BigDecimal valDescontoAvulso;

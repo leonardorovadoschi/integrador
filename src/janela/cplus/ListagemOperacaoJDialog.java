@@ -12,6 +12,7 @@ import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
 import jpa.cplus.TipomovimentoJpaController;
+import prestashop.Manager;
 import query.cplus.QueryCplus;
 
 /**
@@ -24,15 +25,14 @@ public class ListagemOperacaoJDialog extends javax.swing.JDialog {
      * Creates new form ListagemOperacaoJDialog
      * @param parent
      * @param modal
-     * @param managerCplus1
      */
-    public ListagemOperacaoJDialog(java.awt.Frame parent, boolean modal, EntityManagerFactory managerCplus1) {
+    public ListagemOperacaoJDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        managerCplus = managerCplus1;
-        queryCplus = new QueryCplus(managerCplus);
+        //managerCplus = managerCplus1;
+        queryCplus = new QueryCplus();
         colunaCodMovimento = jTableListagemMovimento.getColumnModel().getColumnIndex("Codtipomovimento");
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
     }
     
     public void pesquisas(){
@@ -90,7 +90,7 @@ public class ListagemOperacaoJDialog extends javax.swing.JDialog {
         } else {
             String cod = jTableListagemMovimento.getValueAt(jTableListagemMovimento.getSelectedRow(), colunaCodMovimento).toString();
             if (cod != null) {
-                setMovimento(new TipomovimentoJpaController(managerCplus).findTipomovimento(cod));               
+                setMovimento(new TipomovimentoJpaController(Manager.getManagerCplus()).findTipomovimento(cod));               
                 setCancelamento(false);
                 dispose();
             } else {
@@ -490,7 +490,7 @@ public class ListagemOperacaoJDialog extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                ListagemOperacaoJDialog dialog = new ListagemOperacaoJDialog(new javax.swing.JFrame(), true, managerCplus);
+                ListagemOperacaoJDialog dialog = new ListagemOperacaoJDialog(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -508,7 +508,7 @@ public class ListagemOperacaoJDialog extends javax.swing.JDialog {
     String tipoMovimentoString;
     QueryCplus queryCplus;
     private int colunaCodMovimento;
-    static EntityManagerFactory managerCplus;
+    //static EntityManagerFactory managerCplus;
     boolean cancelamento;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

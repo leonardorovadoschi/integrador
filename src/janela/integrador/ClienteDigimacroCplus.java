@@ -8,21 +8,19 @@ package janela.integrador;
 import acesso.ConexaoDB;
 import entidade.cplus.Cliente;
 import entidade.cplus.Clientecaracteristica;
-import entidade.cplus.Usuario;
 import entidade.integrador.IntLogs;
 import entidade.prestaShop.PsAddress;
 import entidade.prestaShop.PsCustomer;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.EntityManagerFactory;
 import jpa.cplus.CaracteristicapessoaJpaController;
 import jpa.cplus.ClienteJpaController;
 import jpa.cplus.ClientecaracteristicaJpaController;
 import jpa.cplus.PlanocontaJpaController;
-import jpa.cplus.UsuarioJpaController;
 import jpa.cplus.VendedorJpaController;
 import jpa.integrador.IntLogsJpaController;
 import jpa.prestaShop.PsStateJpaController;
+import prestashop.ConfiguracaoNoBD;
 import prestashop.Manager;
 import query.integrador.QueryIntegrador;
 import query.prestaShop.QueryPrestaShop;
@@ -33,7 +31,7 @@ import query.prestaShop.QueryPrestaShop;
  */
 public class ClienteDigimacroCplus {
 
-    public void criaClienteCplus(PsCustomer psCustomer, Usuario usuario) {     
+    public void criaClienteCplus(PsCustomer psCustomer) {     
         Cliente cli = new Cliente();
         List<PsAddress> listCustomer = new QueryPrestaShop().listAddress(false, psCustomer.getIdCustomer());
         for (PsAddress psAddress : listCustomer) {           
@@ -93,7 +91,7 @@ public class ClienteDigimacroCplus {
         cli.setBloqueado('N');
         cli.setFlaglojavirtual('Y');
         cli.setFlagfrete('P');
-        cli.setCoduser(new UsuarioJpaController(Manager.getManagerCplus()).findUsuario(usuario.getCoduser()));
+        cli.setCoduser(ConfiguracaoNoBD.getUsuario());
         cli.setFlagrevenda('N');
         cli.setBloqtablet('N');
         cli.setFlagtransfer('N');
