@@ -9,7 +9,6 @@ package janela.cplus;
 import entidade.cplus.Cliente;
 import java.awt.Toolkit;
 import java.util.List;
-import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
 import jpa.cplus.ClienteJpaController;
 import integrador.render.RenderVendasCliente;
@@ -67,10 +66,12 @@ public class ListagemClientesJDialog extends javax.swing.JDialog {
         jPanelPesquisaCliente.setBorder(javax.swing.BorderFactory.createTitledBorder("Pesquisa Cliente"));
 
         jLabelTipoPesquisa.setText("Tipo de Pesquisa:");
+        jLabelTipoPesquisa.setFocusable(false);
 
         jComboBoxTipoPesquisa.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jComboBoxTipoPesquisa.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Nome Cliente", "CPF/CNPJ", "Estado-UF", "Item 4" }));
         jComboBoxTipoPesquisa.setToolTipText("");
+        jComboBoxTipoPesquisa.setFocusable(false);
 
         jTextFieldTermoPesquisa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

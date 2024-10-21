@@ -4,7 +4,7 @@
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
-		<defaultValueExpression><![CDATA["C:\\lista_integrador\\relatorio\\Romaneio_subreport.jasper"]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA["C:/Integrador2/lista_integrador/relatorio/Romaneio_subreport.jasper"]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[]]>

@@ -83,7 +83,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         format = new FormataCampos();     
         queryPrestaShop = new QueryPrestaShop();
         initComponents();
-        codCaracteristicaCliente = new QueryIntegrador().valorConfiguracao("cliente_CARACTERISTICA_CPLUS_DIGIMACRO");
+//        codCaracteristicaCliente = new QueryIntegrador().valorConfiguracao("cliente_CARACTERISTICA_CPLUS_DIGIMACRO");
         queryCplus = new QueryCplus();
         this.listagemSaidasMagentoJDialog = new SaidasPrestaShopJDialog(this, true);
         this.editOrderDetailsJDialog = new EditOrderDetailsJDialog(this, true);
@@ -1310,7 +1310,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
             List<Cliente> listClienteCplusDigi = queryCplus.listClienteData(inicioExecucao);
 
             for (Cliente cliCplus : listClienteCplusDigi) {
-                List<Clientecaracteristica> lisCar = queryCplus.listClienteCaracteristica(codCaracteristicaCliente, cliCplus.getCodcli());
+                List<Clientecaracteristica> lisCar = queryCplus.listClienteCaracteristica(ConfiguracaoNoBD.getValorCaracteristicaCliente(), cliCplus.getCodcli());
                 if (lisCar.size() == 1) {
                     new ClienteCplusDigimacro().atualizaClienteDigimacro(cliCplus);
                 }
@@ -1549,7 +1549,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
     //static EntityManagerFactory managerPrestaShop;
     //static EntityManagerFactory managerIntegrador;
     //static EntityManagerFactory managerCplus;
-    private final String codCaracteristicaCliente;
+    //private final String codCaracteristicaCliente;
     private final FormataCampos format;
     private PsOrders psOrders;
     private final SaidasPrestaShopJDialog listagemSaidasMagentoJDialog;

@@ -42,6 +42,7 @@ import jpa.integrador.IntExecucaoJpaController;
 import jpa.integrador.IntLogsJpaController;
 import pedido.AtualizaPedidoCplusDigimacro;
 import pedido.ManutencaoCarrinhoSite;
+import prestashop.ConfiguracaoNoBD;
 import prestashop.Manager;
 import produto.ProdutoCplusDigimacro;
 import produto.TaxRuleGroup;
@@ -72,7 +73,7 @@ public class IntegracaoJFrame extends javax.swing.JFrame {
         // integradorPUEntityManager.close();
         // var = var1;
 
-        codCaracteristicaCliente = queryIntegrador.valorConfiguracao("cliente_CARACTERISTICA_CPLUS_DIGIMACRO");
+       // codCaracteristicaCliente = ConfiguracaoNoBD.getValorCaracteristicaCliente();
         //shopUrl = queryIntegrador.valorConfiguracao("shopURL");
         //key = queryIntegrador.valorConfiguracao("shopKEY");
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
@@ -824,7 +825,7 @@ public class IntegracaoJFrame extends javax.swing.JFrame {
                 jLabelTotalRegistro.setText("0 de " + numRegistro + " Registros");
                 for (Cliente cliC : listClienteCplusDigi) {
                     //String cod = cliC.getCodcli();
-                    List<Clientecaracteristica> lisCar = queryCplus.listClienteCaracteristica(codCaracteristicaCliente, cliC.getCodcli());
+                    List<Clientecaracteristica> lisCar = queryCplus.listClienteCaracteristica(ConfiguracaoNoBD.getValorCaracteristicaCliente(), cliC.getCodcli());
                     if (lisCar.size() == 1) {
                         new ClienteCplusDigimacro().atualizaClienteDigimacro(cliC);
                         jProgressBarIntegrador.setString(String.valueOf("Atualização Cliente: " + cliC.getNomecli()));
@@ -1051,7 +1052,7 @@ public class IntegracaoJFrame extends javax.swing.JFrame {
     //private static EntityManagerFactory managerIntegrador;
     //private static EntityManagerFactory managerCplus;
     //private static EntityManagerFactory managerPrestaShop;
-    private final String codCaracteristicaCliente;
+   // private final String codCaracteristicaCliente;
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -313,16 +313,24 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="jSpinner" alignment="1" min="-2" pref="118" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="jLabelCaracteristica" max="32767" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jTextFieldCaracteristicaPessoa" min="-2" pref="165" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jButtonCaracteristicaPessoa" min="-2" max="-2" attributes="0"/>
+                          </Group>
                           <Group type="102" attributes="0">
-                              <Component id="jScrollPane1" min="-2" pref="138" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="74" max="-2" attributes="0"/>
-                              <Component id="jButtonClienteComDesconto" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabelCaracteristicaDesconto" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jTextFieldCaracteristicaPessoaDesconto" min="-2" pref="165" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jButtonCaracteristicaPessoaDesconto" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace pref="371" max="32767" attributes="0"/>
+                      <EmptySpace pref="306" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -330,38 +338,60 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jButtonClienteComDesconto" min="-2" max="-2" attributes="0"/>
-                          <Component id="jScrollPane1" min="-2" pref="93" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jTextFieldCaracteristicaPessoaDesconto" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabelCaracteristicaDesconto" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jButtonCaracteristicaPessoaDesconto" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="160" max="32767" attributes="0"/>
-                      <Component id="jSpinner" min="-2" pref="63" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="62" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jTextFieldCaracteristicaPessoa" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabelCaracteristica" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jButtonCaracteristicaPessoa" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace pref="322" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JButton" name="jButtonClienteComDesconto">
+            <Component class="javax.swing.JTextField" name="jTextFieldCaracteristicaPessoaDesconto">
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabelCaracteristicaDesconto">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Cliente com Desconto"/>
+                <Property name="horizontalAlignment" type="int" value="4"/>
+                <Property name="text" type="java.lang.String" value="Caracteristica com desconto:"/>
               </Properties>
             </Component>
-            <Container class="javax.swing.JScrollPane" name="jScrollPane1">
-              <AuxValues>
-                <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
-              </AuxValues>
-
-              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-              <SubComponents>
-                <Component class="javax.swing.JList" name="jListCaracteristicaPessoa">
-                  <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-                  </AuxValues>
-                </Component>
-              </SubComponents>
-            </Container>
-            <Component class="javax.swing.JSpinner" name="jSpinner">
+            <Component class="javax.swing.JButton" name="jButtonCaracteristicaPessoaDesconto">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/icones/pesquisar.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Mudar"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonCaracteristicaPessoaDescontoActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="jButtonCaracteristicaPessoa">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/icones/pesquisar.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Mudar"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonCaracteristicaPessoaActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JTextField" name="jTextFieldCaracteristicaPessoa">
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabelCaracteristica">
+              <Properties>
+                <Property name="horizontalAlignment" type="int" value="4"/>
+                <Property name="text" type="java.lang.String" value="Caracteristica:"/>
+              </Properties>
             </Component>
           </SubComponents>
         </Container>

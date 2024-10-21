@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package prestashop;
 
 import entidade.cplus.Usuario;
@@ -15,31 +14,88 @@ import jpa.integrador.IntConfiguracaoJpaController;
  * @author leo-note
  */
 public class ConfiguracaoNoBD {
-   private static String caminhoCasasDecimais;
-   private static String tipoCasasDecimais;
-   private static String caminhoAudioFinalizado;
-   private static String caminhoAudioErro;
-   private static String tipoAudioFinalizado;
-   private static String tipoAudioErro;
-   private static String caminhoRomaneioSeriais;
-   private static String tipoRomaneioSeriais;
-   private static String caminhoEspelhoRma;
-   private static String tipoEspelhoRma;
-   private static String caminhoEtiquetaSerial;
-   private static String tipoEtiquetaSerial;
-   private static Usuario usuario;
-   private static String caminhoCaracteristicaCliente;
-   private static String tipoCaracteristicaCliente;
-   private static String caminhoCaracteristicaClienteRuim;
-   private static String tipoCaracteristicaClienteRuim;
 
-    public static String getCaminhoCaracteristicaCliente() {
-        return caminhoCaracteristicaCliente;
+    private static String valorCasasDecimais;
+    private static String tipoCasasDecimais;
+    private static String valorAudioFinalizado;
+    private static String valorAudioErro;
+    private static String tipoAudioFinalizado;
+    private static String tipoAudioErro;
+    private static String valorRomaneioSeriais;
+    private static String tipoRomaneioSeriais;
+    private static String valorEspelhoRma;
+
+    public static String getValorCasasDecimais() {
+        return valorCasasDecimais;
     }
 
-    public static void setCaminhoCaracteristicaCliente(String caminhoCaracteristicaCliente) {
-        ConfiguracaoNoBD.caminhoCaracteristicaCliente = caminhoCaracteristicaCliente;
+    public static void setValorCasasDecimais(String valorCasasDecimais) {
+        ConfiguracaoNoBD.valorCasasDecimais = valorCasasDecimais;
     }
+
+    public static String getValorAudioFinalizado() {
+        return valorAudioFinalizado;
+    }
+
+    public static void setValorAudioFinalizado(String valorAudioFinalizado) {
+        ConfiguracaoNoBD.valorAudioFinalizado = valorAudioFinalizado;
+    }
+
+    public static String getValorAudioErro() {
+        return valorAudioErro;
+    }
+
+    public static void setValorAudioErro(String valorAudioErro) {
+        ConfiguracaoNoBD.valorAudioErro = valorAudioErro;
+    }
+
+    public static String getValorRomaneioSeriais() {
+        return valorRomaneioSeriais;
+    }
+
+    public static void setValorRomaneioSeriais(String valorRomaneioSeriais) {
+        ConfiguracaoNoBD.valorRomaneioSeriais = valorRomaneioSeriais;
+    }
+
+    public static String getValorEspelhoRma() {
+        return valorEspelhoRma;
+    }
+
+    public static void setValorEspelhoRma(String valorEspelhoRma) {
+        ConfiguracaoNoBD.valorEspelhoRma = valorEspelhoRma;
+    }
+
+    public static String getValorEtiquetaSerial() {
+        return valorEtiquetaSerial;
+    }
+
+    public static void setValorEtiquetaSerial(String valorEtiquetaSerial) {
+        ConfiguracaoNoBD.valorEtiquetaSerial = valorEtiquetaSerial;
+    }
+
+    public static String getValorCaracteristicaCliente() {
+        return valorCaracteristicaCliente;
+    }
+
+    public static void setValorCaracteristicaCliente(String valorCaracteristicaCliente) {
+        ConfiguracaoNoBD.valorCaracteristicaCliente = valorCaracteristicaCliente;
+    }
+
+    public static String getValorCaracteristicaClienteRuim() {
+        return valorCaracteristicaClienteRuim;
+    }
+
+    public static void setValorCaracteristicaClienteRuim(String valorCaracteristicaClienteRuim) {
+        ConfiguracaoNoBD.valorCaracteristicaClienteRuim = valorCaracteristicaClienteRuim;
+    }
+    private static String tipoEspelhoRma;
+    private static String valorEtiquetaSerial;
+    private static String tipoEtiquetaSerial;
+    private static Usuario usuario;
+    private static String valorCaracteristicaCliente;
+    private static String tipoCaracteristicaCliente;
+    private static String valorCaracteristicaClienteRuim;
+    private static String tipoCaracteristicaClienteRuim;
 
     public static String getTipoCaracteristicaCliente() {
         return tipoCaracteristicaCliente;
@@ -47,14 +103,6 @@ public class ConfiguracaoNoBD {
 
     public static void setTipoCaracteristicaCliente(String tipoCaracteristicaCliente) {
         ConfiguracaoNoBD.tipoCaracteristicaCliente = tipoCaracteristicaCliente;
-    }
-
-    public static String getCaminhoCaracteristicaClienteRuim() {
-        return caminhoCaracteristicaClienteRuim;
-    }
-
-    public static void setCaminhoCaracteristicaClienteRuim(String caminhoCaracteristicaClienteRuim) {
-        ConfiguracaoNoBD.caminhoCaracteristicaClienteRuim = caminhoCaracteristicaClienteRuim;
     }
 
     public static String getTipoCaracteristicaClienteRuim() {
@@ -81,50 +129,6 @@ public class ConfiguracaoNoBD {
         ConfiguracaoNoBD.tipoCasasDecimais = tipoCasasDecimais;
     }
 
-    public static String getCaminhoCasasDecimais() {
-        return caminhoCasasDecimais;
-    }
-
-    public static void setCaminhoCasasDecimais(String caminhoCasasDecimais) {
-        ConfiguracaoNoBD.caminhoCasasDecimais = caminhoCasasDecimais;
-    }
-
-    /**
-     * TIPO > caminho_ARQUIVO_AUDIO_FINALIZADO
-     * DESCRI플O > String para o caminho do audio finalizado 
-     * @return 
-     */
-    public static String getCaminhoAudioFinalizado() {
-        return caminhoAudioFinalizado;
-    }
-
-    /**
-     * TIPO > caminho_ARQUIVO_AUDIO_FINALIZADO
-     * DESCRI플O > String para o caminho do audio finalizado
-     * @param caminhoAudioFinalizado 
-     */
-    public static void setCaminhoAudioFinalizado(String caminhoAudioFinalizado) {
-        ConfiguracaoNoBD.caminhoAudioFinalizado = caminhoAudioFinalizado;
-    }
-    
-     /**
-     * TIPO > caminho_ARQUIVO_AUDIO_ERRO
-     * DESCRI플O > String para o caminho do audiocom erro
-     * @return 
-     */
-    public static String getCaminhoAudioErro() {
-        return caminhoAudioErro;
-    }
-
-    /**
-     * TIPO > caminho_ARQUIVO_AUDIO_ERRO
-     * DESCRI플O > String para o caminho do audiocom erro
-     * @param caminhoAudioErro
-     */
-    public static void setCaminhoAudioErro(String caminhoAudioErro) {
-        ConfiguracaoNoBD.caminhoAudioErro = caminhoAudioErro;
-    }
-
     public static String getTipoAudioFinalizado() {
         return tipoAudioFinalizado;
     }
@@ -141,14 +145,6 @@ public class ConfiguracaoNoBD {
         ConfiguracaoNoBD.tipoAudioErro = tipoAudioErro;
     }
 
-    public static String getCaminhoRomaneioSeriais() {
-        return caminhoRomaneioSeriais;
-    }
-
-    public static void setCaminhoRomaneioSeriais(String caminhoRomaneioSeriais) {
-        ConfiguracaoNoBD.caminhoRomaneioSeriais = caminhoRomaneioSeriais;
-    }
-
     public static String getTipoRomaneioSeriais() {
         return tipoRomaneioSeriais;
     }
@@ -157,28 +153,12 @@ public class ConfiguracaoNoBD {
         ConfiguracaoNoBD.tipoRomaneioSeriais = tipoRomaneioSeriais;
     }
 
-    public static String getCaminhoEspelhoRma() {
-        return caminhoEspelhoRma;
-    }
-
-    public static void setCaminhoEspelhoRma(String caminhoEspelhoRma) {
-        ConfiguracaoNoBD.caminhoEspelhoRma = caminhoEspelhoRma;
-    }
-
     public static String getTipoEspelhoRma() {
         return tipoEspelhoRma;
     }
 
     public static void setTipoEspelhoRma(String tipoEspelhoRma) {
         ConfiguracaoNoBD.tipoEspelhoRma = tipoEspelhoRma;
-    }
-
-    public static String getCaminhoEtiquetaSerial() {
-        return caminhoEtiquetaSerial;
-    }
-
-    public static void setCaminhoEtiquetaSerial(String caminhoEtiquetaSerial) {
-        ConfiguracaoNoBD.caminhoEtiquetaSerial = caminhoEtiquetaSerial;
     }
 
     public static String getTipoEtiquetaSerial() {
@@ -193,28 +173,35 @@ public class ConfiguracaoNoBD {
         for (IntConfiguracao c : new IntConfiguracaoJpaController(Manager.getManagerIntegrador()).findIntConfiguracaoEntities()) {
             switch (c.getTipo()) {
                 case "caminho_ARQUIVO_AUDIO_FINALIZADO":
-                    ConfiguracaoNoBD.setCaminhoAudioFinalizado(c.getValor());
+                    ConfiguracaoNoBD.setValorAudioFinalizado(c.getValor());
                     ConfiguracaoNoBD.setTipoAudioFinalizado(c.getTipo());
                     break;
                 case "caminho_ARQUIVO_AUDIO_ERRO":
-                    ConfiguracaoNoBD.setCaminhoAudioErro(c.getValor());
+                    ConfiguracaoNoBD.setValorAudioErro(c.getValor());
                     ConfiguracaoNoBD.setTipoAudioErro(c.getTipo());
                     break;
                 case "caminho_RELATORIO_ROMANEIO_SERIAIS":
-                    ConfiguracaoNoBD.setCaminhoRomaneioSeriais(c.getValor());
+                    ConfiguracaoNoBD.setValorRomaneioSeriais(c.getValor());
                     ConfiguracaoNoBD.setTipoRomaneioSeriais(c.getTipo());
                     break;
                 case "caminho_RELATORIO_ESPELHO_RMA":
-                    ConfiguracaoNoBD.setCaminhoEspelhoRma(c.getValor());
+                    ConfiguracaoNoBD.setValorEspelhoRma(c.getValor());
                     ConfiguracaoNoBD.setTipoEspelhoRma(c.getTipo());
                     break;
                 case "caminho_ENTRADA_SERIAL":
-                    ConfiguracaoNoBD.setCaminhoEtiquetaSerial(c.getValor());
+                    ConfiguracaoNoBD.setValorEtiquetaSerial(c.getValor());
                     ConfiguracaoNoBD.setTipoEtiquetaSerial(c.getTipo());
+                    break;
+                case "cliente_CARACTERISTICA_CPLUS_DIGIMACRO":
+                    ConfiguracaoNoBD.setValorCaracteristicaCliente(c.getValor());
+                    ConfiguracaoNoBD.setTipoCaracteristicaCliente(c.getTipo());
+                    break;
+                case "cliente_CARACTERISTICA_CPLUS_DIGIMACRO_RUIM":
+                    ConfiguracaoNoBD.setValorCaracteristicaCliente(c.getValor());
+                    ConfiguracaoNoBD.setTipoCaracteristicaCliente(c.getTipo());
                     break;
             }
         }
     }
-   
-   
+
 }

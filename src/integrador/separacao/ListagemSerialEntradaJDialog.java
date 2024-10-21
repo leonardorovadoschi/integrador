@@ -222,7 +222,7 @@ public class ListagemSerialEntradaJDialog extends javax.swing.JDialog {
             s.getIdSerial().setNomeProduto(s.getIdSerial().getCodigoProduto() + "-" + s.getIdSerial().getNomeProduto());
             listText.add(s.getIdSerial());
         }
-        new ImprimeRelatorio().imprimeRelatorioPeloJar(ConfiguracaoNoBD.getCaminhoEtiquetaSerial(), listText);
+        new ImprimeRelatorio().imprimeRelatorioPeloJar(ConfiguracaoNoBD.getValorEtiquetaSerial(), listText);
         dispose();
         setVisible(false);
     }//GEN-LAST:event_jButtonImprimirEtiquetaActionPerformed

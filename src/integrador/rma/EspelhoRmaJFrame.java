@@ -417,7 +417,7 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonOperacaoActionPerformed
 
     private void jButtonImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonImprimirActionPerformed
-        new ImprimeRelatorio().imprimeRelatorioPeloJar(ConfiguracaoNoBD.getCaminhoEspelhoRma(), movendaprodList);
+        new ImprimeRelatorio().imprimeRelatorioPeloJar(ConfiguracaoNoBD.getValorEspelhoRma(), movendaprodList);
     }//GEN-LAST:event_jButtonImprimirActionPerformed
 
     private void jButtonRemoverProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRemoverProdutoActionPerformed

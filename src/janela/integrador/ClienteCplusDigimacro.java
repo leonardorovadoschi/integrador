@@ -24,6 +24,7 @@ import jpa.prestaShop.PsAddressJpaController;
 import jpa.prestaShop.PsCustomerGroupJpaController;
 import jpa.prestaShop.PsCustomerJpaController;
 import jpa.prestaShop.exceptions.NonexistentEntityException;
+import prestashop.ConfiguracaoNoBD;
 import prestashop.Manager;
 import query.cplus.QueryCplus;
 import query.integrador.QueryIntegrador;
@@ -277,7 +278,7 @@ public class ClienteCplusDigimacro {
      */
     private Integer grupoId(Cliente cliente) {
         Integer valor;
-        List<Cliente> listCliCplus = new QueryCplus().listCaracteristicaCliente(new QueryIntegrador().valorConfiguracao("cliente_CARACTERISTICA_CPLUS_DIGIMACRO_RUIM"), cliente.getCodcli());
+        List<Cliente> listCliCplus = new QueryCplus().listCaracteristicaCliente(ConfiguracaoNoBD.getValorCaracteristicaClienteRuim(), cliente.getCodcli());
         if (listCliCplus.size() == 1) {
             valor = 5; //cliente ruim         
         } else {

@@ -1627,10 +1627,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
             // if(listProdIntegracao.size() == 1){
             //       for (ProdutoIntegracao produtoIntegracao : listProdIntegracao) {
             if (!"".equals(jTextFieldPartNumberSistema.getText())) {
-                gravaPartNumber(jTextFieldPartNumberSistema.getText().toUpperCase());
-                // for (Campocustomvalor campo : queryCplus.listCampoMaster(produtoCplus.getCodprod(), "000000004")) {
-                //     campo.setValor(jTextFieldPartNumberSistema.getText().toUpperCase());
-                // }
+                gravaPartNumber(jTextFieldPartNumberSistema.getText().toUpperCase());              
             }
             //if (!"".equals(jTextFieldComplementoFiscal.getText())) {               
             gravaComplementoFiscal(jTextFieldComplementoFiscal.getText());
@@ -1926,6 +1923,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         jButtonEditarSetorEstoque.setEnabled(true);
         jButtonAtualizaMargemCusto.setEnabled(true);
         jTextFieldSetor.setText(setor(produtoCplus));
+        carregaTabelaProduto();
     }
 
     private void limpaCampos() {
@@ -1976,6 +1974,8 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         jTextFieldSetor.setText("");
         jButtonEditarSetorEstoque.setEnabled(false);
         produtoCplus = new Produto();
+        jTextFieldTotalOutrasDespesas.setText("");
+        //carregaTabelaProduto();
     }
 
     private BigDecimal calculaValorVenda(BigDecimal margemLucro) {

@@ -47,6 +47,7 @@ import jpa.cplus.VendedorJpaController;
 import jpa.prestaShop.PsCustomerJpaController;
 import jpa.prestaShop.PsGroupJpaController;
 import jpa.prestaShop.PsProductJpaController;
+import prestashop.ConfiguracaoNoBD;
 import prestashop.Manager;
 import query.cplus.QueryCplus;
 import query.integrador.QueryIntegrador;
@@ -90,7 +91,7 @@ public class PedidoDigimacroCplus {
                 JOptionPane.showMessageDialog(null, "não foi possivel localizar o cliente, Verifique!!! \n Código Cliente Site é: " + new PsCustomerJpaController(Manager.getManagerPrestaShop()).findPsCustomer(order.getIdOrder()).getLastname());
             } else {
                 for (Cliente cliente : listCliente) {
-                    List<Clientecaracteristica> listCarac = new QueryCplus().listClienteCaracteristica(new QueryIntegrador().valorConfiguracao("cliente_CARACTERISTICA_CPLUS_DIGIMACRO"), cliente.getCodcli());
+                    List<Clientecaracteristica> listCarac = new QueryCplus().listClienteCaracteristica(ConfiguracaoNoBD.getValorCaracteristicaCliente(), cliente.getCodcli());
                     if (listCarac.size() == 1) {
 
                         if (verificaEndereco(cliente, order) == false) {
@@ -357,7 +358,7 @@ public class PedidoDigimacroCplus {
                 prod.setCodpreco(new PrecoJpaController(Manager.getManagerCplus()).findPreco("000000001"));
                 boolean cliRuim = false;
                 for (Clientecaracteristica cliCaract : orcamento.getCodcli().getClientecaracteristicaCollection()) {
-                    if (cliCaract.getCodcli().getCodcli() == null ? new QueryIntegrador().valorConfiguracao("cliente_CARACTERISTICA_CPLUS_DIGIMACRO_RUIM") == null : cliCaract.getCodcli().getCodcli().equals(new QueryIntegrador().valorConfiguracao("cliente_CARACTERISTICA_CPLUS_DIGIMACRO_RUIM"))) {
+                    if (cliCaract.getCodcli().getCodcli() == null ? ConfiguracaoNoBD.getValorCaracteristicaClienteRuim() == null : cliCaract.getCodcli().getCodcli().equals(ConfiguracaoNoBD.getValorCaracteristicaClienteRuim())) {
                         cliRuim = true;
                     }
                 }
