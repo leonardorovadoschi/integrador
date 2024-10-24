@@ -45,9 +45,17 @@ public class CarregaConfiguracao {
                     ConfiguracaoNoBD.setValorCaracteristicaClienteRuim(c.getValor());
                     ConfiguracaoNoBD.setTipoCaracteristicaClienteRuim(c.getTipo());
                     break;
-                    case "caminho_RELATORIO_PRODUTO_COMPRADO":
+                case "caminho_RELATORIO_PRODUTO_COMPRADO":
                     ConfiguracaoNoBD.setValorProdutoComprado(c.getValor());
                     ConfiguracaoNoBD.setTipoProdutoComprado(c.getTipo());
+                    break;
+                case "cor_LINHA_IMPAR":
+                    ConfiguracaoNoBD.setValorLinhaImpar(c.getValor());
+                    ConfiguracaoNoBD.setTipoLinhaImpar(c.getTipo());
+                    break;
+                    case "cor_LINHA_SELECIONADA":
+                    ConfiguracaoNoBD.setValorLinhaSelecionada(c.getValor());
+                    ConfiguracaoNoBD.setTipoLinhaSelecionada(c.getTipo());
                     break;
             }
         }

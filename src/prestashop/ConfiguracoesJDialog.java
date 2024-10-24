@@ -5,7 +5,9 @@
  */
 package prestashop;
 
+import janela.cplus.FormataCampos;
 import janela.cplus.ListagemCaracteristicaPessoaJDialog;
+import java.awt.Color;
 import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -46,6 +48,7 @@ public class ConfiguracoesJDialog extends javax.swing.JDialog {
         cplusPUEntityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("cplusPU").createEntityManager();
         caracteristicapessoaQuery = java.beans.Beans.isDesignTime() ? null : cplusPUEntityManager.createQuery("SELECT c FROM Caracteristicapessoa c");
         caracteristicapessoaList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : caracteristicapessoaQuery.getResultList();
+        jColor = new javax.swing.JColorChooser();
         jTabbedPaneConfArquivos = new javax.swing.JTabbedPane();
         jPanelConfGerais = new javax.swing.JPanel();
         jPanelArquivos = new javax.swing.JPanel();
@@ -74,6 +77,11 @@ public class ConfiguracoesJDialog extends javax.swing.JDialog {
         jButtonCaracteristicaPessoa = new javax.swing.JButton();
         jTextFieldCaracteristicaPessoa = new javax.swing.JTextField();
         jLabelCaracteristica = new javax.swing.JLabel();
+        jPanelCores = new javax.swing.JPanel();
+        jLabelCorLinhaImpar = new javax.swing.JLabel();
+        jButtonCorLinhaImpar = new javax.swing.JButton();
+        jLabelCorLinhaSelecionada = new javax.swing.JLabel();
+        jButtonCorLinhaSelecionada = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Configurações");
@@ -314,6 +322,59 @@ public class ConfiguracoesJDialog extends javax.swing.JDialog {
 
         jTabbedPaneConfArquivos.addTab("Clientes", jPanelCliente);
 
+        jLabelCorLinhaImpar.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabelCorLinhaImpar.setText("Cor da Linha Impar:");
+
+        jButtonCorLinhaImpar.setText("Selecione");
+        jButtonCorLinhaImpar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCorLinhaImparActionPerformed(evt);
+            }
+        });
+
+        jLabelCorLinhaSelecionada.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabelCorLinhaSelecionada.setText("Cor da Linha Selecionada:");
+
+        jButtonCorLinhaSelecionada.setText("Selecione");
+        jButtonCorLinhaSelecionada.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCorLinhaSelecionadaActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanelCoresLayout = new javax.swing.GroupLayout(jPanelCores);
+        jPanelCores.setLayout(jPanelCoresLayout);
+        jPanelCoresLayout.setHorizontalGroup(
+            jPanelCoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelCoresLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelCoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelCoresLayout.createSequentialGroup()
+                        .addComponent(jLabelCorLinhaImpar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonCorLinhaImpar))
+                    .addGroup(jPanelCoresLayout.createSequentialGroup()
+                        .addComponent(jLabelCorLinhaSelecionada)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonCorLinhaSelecionada)))
+                .addContainerGap(504, Short.MAX_VALUE))
+        );
+        jPanelCoresLayout.setVerticalGroup(
+            jPanelCoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelCoresLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelCoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelCorLinhaImpar)
+                    .addComponent(jButtonCorLinhaImpar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelCoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelCorLinhaSelecionada)
+                    .addComponent(jButtonCorLinhaSelecionada))
+                .addContainerGap(327, Short.MAX_VALUE))
+        );
+
+        jTabbedPaneConfArquivos.addTab("Cores", jPanelCores);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -474,6 +535,32 @@ public class ConfiguracoesJDialog extends javax.swing.JDialog {
         new CarregaConfiguracao().carregar();
     }//GEN-LAST:event_jButtonProdutoCompradoActionPerformed
 
+    private void jButtonCorLinhaImparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCorLinhaImparActionPerformed
+        Color cor = jColor.showDialog(null, "Escolha uma Cor", format.stringParaColor(ConfiguracaoNoBD.getValorLinhaImpar()));
+        if (cor != null){
+        jButtonCorLinhaImpar.setBackground(cor);
+        try {
+            queryIntegrador.atualizaValorConfiguracao(ConfiguracaoNoBD.getTipoLinhaImpar(), format.colorParaString(cor));
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Houve um ero ao editar " + ConfiguracaoNoBD.getTipoLinhaImpar() + "! \n" + ex);
+        }
+         new CarregaConfiguracao().carregar();
+        }
+    }//GEN-LAST:event_jButtonCorLinhaImparActionPerformed
+
+    private void jButtonCorLinhaSelecionadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCorLinhaSelecionadaActionPerformed
+         Color cor = jColor.showDialog(null, "Escolha uma Cor", format.stringParaColor(ConfiguracaoNoBD.getValorLinhaSelecionada()));
+         if (cor != null){
+         jButtonCorLinhaSelecionada.setBackground(cor);
+        try {
+            queryIntegrador.atualizaValorConfiguracao(ConfiguracaoNoBD.getTipoLinhaSelecionada(), format.colorParaString(cor));
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Houve um ero ao editar " + ConfiguracaoNoBD.getTipoLinhaSelecionada() + "! \n" + ex);
+        }
+         new CarregaConfiguracao().carregar();
+         }
+    }//GEN-LAST:event_jButtonCorLinhaSelecionadaActionPerformed
+
     public void setCarregaCampos() {
         jTextFieldSomFinalizado.setText(ConfiguracaoNoBD.getValorAudioFinalizado());
         jTextFieldSomErro.setText(ConfiguracaoNoBD.getValorAudioErro());
@@ -482,11 +569,13 @@ public class ConfiguracoesJDialog extends javax.swing.JDialog {
         jTextFieldEtiquetaSerial.setText(ConfiguracaoNoBD.getValorEtiquetaSerial());
         jTextFieldCaracteristicaPessoaDesconto.setText(
                 new CaracteristicapessoaJpaController(Manager.getManagerCplus()).
-                        findCaracteristicapessoa(ConfiguracaoNoBD.getValorCaracteristicaCliente()).getNomecaracteristicapessoa());
+                findCaracteristicapessoa(ConfiguracaoNoBD.getValorCaracteristicaCliente()).getNomecaracteristicapessoa());
         jTextFieldCaracteristicaPessoa.setText(
                 new CaracteristicapessoaJpaController(Manager.getManagerCplus()).
-                        findCaracteristicapessoa(ConfiguracaoNoBD.getValorCaracteristicaClienteRuim()).getNomecaracteristicapessoa());
-        jTextFieldProdutoComprado.setText(ConfiguracaoNoBD.getValorProdutoComprado());
+                findCaracteristicapessoa(ConfiguracaoNoBD.getValorCaracteristicaClienteRuim()).getNomecaracteristicapessoa());
+        jTextFieldProdutoComprado.setText(ConfiguracaoNoBD.getValorProdutoComprado());       
+        jButtonCorLinhaImpar.setBackground(format.stringParaColor(ConfiguracaoNoBD.getValorLinhaImpar()));
+        jButtonCorLinhaSelecionada.setBackground(format.stringParaColor(ConfiguracaoNoBD.getValorLinhaSelecionada()));
     }
 
     /**
@@ -532,6 +621,7 @@ public class ConfiguracoesJDialog extends javax.swing.JDialog {
     }
     // private final EntityManagerFactory managerCplus;
     private final QueryIntegrador queryIntegrador;
+    private final FormataCampos format = new FormataCampos();
     private ListagemCaracteristicaPessoaJDialog caracteristicaPessoaJDialog;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -541,14 +631,19 @@ public class ConfiguracoesJDialog extends javax.swing.JDialog {
     private javax.persistence.EntityManager cplusPUEntityManager;
     private javax.swing.JButton jButtonCaracteristicaPessoa;
     private javax.swing.JButton jButtonCaracteristicaPessoaDesconto;
+    private javax.swing.JButton jButtonCorLinhaImpar;
+    private javax.swing.JButton jButtonCorLinhaSelecionada;
     private javax.swing.JButton jButtonEspelhoRma;
     private javax.swing.JButton jButtonEtiquetaSerial;
     private javax.swing.JButton jButtonProdutoComprado;
     private javax.swing.JButton jButtonRomaneioSeriais;
     private javax.swing.JButton jButtonSomErro;
     private javax.swing.JButton jButtonSomFinalizado;
+    private javax.swing.JColorChooser jColor;
     private javax.swing.JLabel jLabelCaracteristica;
     private javax.swing.JLabel jLabelCaracteristicaDesconto;
+    private javax.swing.JLabel jLabelCorLinhaImpar;
+    private javax.swing.JLabel jLabelCorLinhaSelecionada;
     private javax.swing.JLabel jLabelEspelhoRma;
     private javax.swing.JLabel jLabelEtiquetaSerial;
     private javax.swing.JLabel jLabelProdutosComprados;
@@ -558,6 +653,7 @@ public class ConfiguracoesJDialog extends javax.swing.JDialog {
     private javax.swing.JPanel jPanelArquivos;
     private javax.swing.JPanel jPanelCliente;
     private javax.swing.JPanel jPanelConfGerais;
+    private javax.swing.JPanel jPanelCores;
     private javax.swing.JTabbedPane jTabbedPaneConfArquivos;
     private javax.swing.JTextField jTextFieldCaracteristicaPessoa;
     private javax.swing.JTextField jTextFieldCaracteristicaPessoaDesconto;

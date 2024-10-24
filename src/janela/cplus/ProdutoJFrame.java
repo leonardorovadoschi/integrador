@@ -175,7 +175,6 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         jPanelAbaListaProdutos = new javax.swing.JPanel();
         jScrollPane6 = new javax.swing.JScrollPane();
         jTableListagemProdutos = new javax.swing.JTable();
-        jPanel2 = new javax.swing.JPanel();
         jTextFieldMaxResult = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jMenuBarProdutos = new javax.swing.JMenuBar();
@@ -1012,6 +1011,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
             }
         });
         jTableListagemProdutos.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        jTableListagemProdutos.setColumnSelectionAllowed(true);
         jTableListagemProdutos.getTableHeader().setReorderingAllowed(false);
         jTableListagemProdutos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -1036,25 +1036,10 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         );
         jPanelAbaListaProdutosLayout.setVerticalGroup(
             jPanelAbaListaProdutosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelAbaListaProdutosLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE))
+            .addComponent(jScrollPane6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 374, Short.MAX_VALUE)
         );
 
         jTabbedPaneAlteracaoPrecoProdutoCplus.addTab("Listagem Produtos C-Plus", jPanelAbaListaProdutos);
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1225, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 377, Short.MAX_VALUE)
-        );
-
-        jTabbedPaneAlteracaoPrecoProdutoCplus.addTab("tab2", jPanel2);
 
         jTextFieldMaxResult.setText("20");
 
@@ -1410,6 +1395,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         String codProdutoTabela = jTableListagemProdutos.getValueAt(jTableListagemProdutos.getSelectedRow(), colunaCodprod).toString();
         if(codProdutoTabela == null ? produtoCplus.getCodprod() != null : !codProdutoTabela.equals(produtoCplus.getCodprod())){
         carregarCampos();
+        jButtonAtualizaMargemCusto.setEnabled(true);
         }
     }//GEN-LAST:event_jTableListagemProdutosMouseClicked
 
@@ -1531,14 +1517,21 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         calculoTotalOutrosCustos();
     }
 
+    /**
+     * O campos das tabela produto são
+     * totalOutrosCustos é outros acrecido de percOutrosCustos o calculo é feito atumaticamente
+     * outros é a soma de IPI mais Outros custos tambem é feito automaticamente
+     */
     private void calculoTotalOutrosCustos() {
-        double aliqCusto = format.stringParaDecimal(jTextFieldPercOutrosCustos.getText(), 4).doubleValue();
-        jTextFieldPercOutrosCustos.setText(format.bigDecimalParaString(new BigDecimal(aliqCusto), 4));
-        double custo = produtoCplus.getPrecusto().doubleValue();
-        double valorPercentualCusto = (custo * aliqCusto) / 100.00;
-        double outros = valorPercentualCusto + produtoCplus.getOutros().doubleValue();
-        jTextFieldTotalCustoOperacional.setText(format.bigDecimalParaString(new BigDecimal(outros), 2));        
-        jTextFieldCustoReal.setText(format.bigDecimalParaString(produtoCplus.getPrecusto().add(new BigDecimal(outros)), 2));
+        //double aliqCusto = format.stringParaDecimal(jTextFieldPercOutrosCustos.getText(), 4).doubleValue();
+        ///jTextFieldPercOutrosCustos.setText(format.bigDecimalParaString(new BigDecimal(aliqCusto), 4));
+        //double custo = produtoCplus.getPrecusto().doubleValue();
+        //double valorPercentualCusto = (custo * aliqCusto) / 100.00;
+        //double outros = valorPercentualCusto + produtoCplus.getOutros().doubleValue();
+        //jTextFieldTotalCustoOperacional.setText(format.bigDecimalParaString(new BigDecimal(valorPercentualCusto), 2));  
+        //BigDecimal custoReal = produtoCplus.getPrecusto().add(produtoCplus.getOutros());
+        //custoReal =  custoReal.add(new BigDecimal(valorPercentualCusto));
+        //jTextFieldCustoReal.setText(format.bigDecimalParaString(custoReal, 2));
         jButtonGravar.setEnabled(true);
     }
 
@@ -1562,7 +1555,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
             produtoCplus.setNomeprodweb(jTextFieldNomeSite.getText().trim());
             produtoCplus.setCodigointerno(tamanhoString(jTextFieldCodigoInterno.getText(), 20));
             produtoCplus.setPercoutroscustos(format.stringParaDecimal(jTextFieldPercOutrosCustos.getText(), 3));
-            produtoCplus.setTotoutroscustos(format.stringParaDecimal(jTextFieldTotalCustoOperacional.getText(), 2));
+            //produtoCplus.setTotoutroscustos(format.stringParaDecimal(jTextFieldTotalCustoOperacional.getText(), 2));
             produtoCplus.setAltura(format.stringParaDecimal(jTextFieldAltura.getText(), 4));
             produtoCplus.setLargura(format.stringParaDecimal(jTextFieldLargura.getText(), 4));
             produtoCplus.setComprimento(format.stringParaDecimal(jTextFieldComprimento.getText(), 4));
@@ -1641,6 +1634,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         }
         //limpaCampos();
         //carregaTabelaProduto();
+        carregarCampos();
     }
 
     private void gerarAuditoria() {
@@ -1772,8 +1766,14 @@ public class ProdutoJFrame extends javax.swing.JFrame {
     }
 
     private void carregarCampos() {
-        String codProdutoTabela = jTableListagemProdutos.getValueAt(jTableListagemProdutos.getSelectedRow(), colunaCodprod).toString();
+        colunaCodprod = jTableListagemProdutos.getColumnModel().getColumnIndex("Codprod");
+        String codProdutoTabela = "";
+        if (jTableListagemProdutos.getSelectedRow() == -1) {
+            codProdutoTabela = produtoCplus.getCodprod();
+        }else {
+        codProdutoTabela = jTableListagemProdutos.getValueAt(jTableListagemProdutos.getSelectedRow(), colunaCodprod).toString();
         produtoCplus = new ProdutoJpaController(Manager.getManagerCplus()).findProduto(codProdutoTabela);
+        }
         if (produtoCplus.getDatreaj() != null) {
             jTextFieldDataUltimoReajuste.setText(format.dataStringSoData(produtoCplus.getDatreaj(), 0));
         }
@@ -1798,7 +1798,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         jTextFieldValorOutrosCustos.setText(format.bigDecimalParaString(produtoCplus.getValoutroscustos(), 2));
         jTextFieldPercOutrosCustos.setText(format.bigDecimalParaString(produtoCplus.getPercoutroscustos(), 2));
         jTextFieldCustoMedio.setText(format.bigDecimalParaString(produtoCplus.getCustomedio(), 2));
-        jTextFieldTotalCustoOperacional.setText(format.bigDecimalParaString(produtoCplus.getTotoutroscustos(), 2));
+        jTextFieldTotalCustoOperacional.setText(format.bigDecimalParaString(produtoCplus.getTotoutroscustos().subtract(produtoCplus.getOutros()), 2));
         jTextFieldNomeCplus.setText(produtoCplus.getNomeprod());
         jTextFieldCodigoInterno.setText(produtoCplus.getCodigointerno());
         jTextFieldNomeSite.setText(produtoCplus.getNomeprodweb());
@@ -1926,8 +1926,8 @@ public class ProdutoJFrame extends javax.swing.JFrame {
             jComboBoxOrigemProduto.setSelectedIndex(9);
         }
         jButtonGravar.setEnabled(false);
+        jButtonAtualizaMargemCusto.setEnabled(false);
         jButtonEditarSetorEstoque.setEnabled(true);
-        jButtonAtualizaMargemCusto.setEnabled(true);
         jTextFieldSetor.setText(setor(produtoCplus));
         //carregaTabelaProduto();
     }
@@ -2236,7 +2236,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
     private final QueryIntegrador queryIntegrador;
     private final QueryPrestaShop queryPrestaShop;
     private final FormataCampos format;
-    private final int colunaCodprod;
+    private int colunaCodprod;
     // private int casasDecimais;
     //private final int colunaProdutoFornecedor;
 
@@ -2302,7 +2302,6 @@ public class ProdutoJFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItemListagemSaidas;
     private javax.swing.JMenu jMenuListagem;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanelAbaListaProdutos;
     private javax.swing.JPanel jPanelArredondamentoVenda;
     private javax.swing.JPanel jPanelControles;

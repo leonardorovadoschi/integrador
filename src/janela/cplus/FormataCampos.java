@@ -5,6 +5,7 @@
  */
 package janela.cplus;
 
+import java.awt.Color;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
@@ -26,6 +27,42 @@ import javax.swing.text.MaskFormatter;
  */
 public class FormataCampos {
 
+    /**
+     * Função que pega uma string no formato xxx,xxx,xxx e converte em uma Cor
+     * @param txtRGB
+     * @return 
+     */
+    public Color stringParaColor(String txtRGB){
+        String[] lis = txtRGB.split(",");
+        int cont = 0;
+        int r = 0;
+        int g = 0;
+        int b = 0;
+        for (String rgb : lis) {
+            switch (cont) {
+                case 0:
+                    r = Integer.valueOf(rgb.trim());
+                    break;
+                case 1:
+                    g = Integer.valueOf(rgb.trim());
+                  break;
+                case 2:
+                    b = Integer.valueOf(rgb.trim()); 
+                  break;
+            }
+            cont++;
+        } 
+        return new Color(r,g,b);
+    }
+    /**
+     * Função que transforma uma cor em uma string no formato RGB xxx,xxx,xxx
+     * @param cor
+     * @return 
+     */
+    public String colorParaString(Color cor){
+        String txt = String.valueOf(cor.getRed())+","+String.valueOf(cor.getGreen())+","+String.valueOf(cor.getBlue());
+        return txt;
+    }
     /**
      * Função que converte data do BD para uma string, usada em pesquisas WebService
      * formato yyyy-MM-dd%20HH:mm:ss %20 substitui o espaço em branco

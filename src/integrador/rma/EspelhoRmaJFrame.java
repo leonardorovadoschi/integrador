@@ -473,8 +473,7 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
                 format.bigDecimalParaString(e.getBaseicms(), 2), 
                 format.bigDecimalParaString(e.getValoricms(), 2), 
                 e.getCodmovprod()});
-        }
-  
+        } 
     }
     
     private BigDecimal valorUnitarioCompra(Movendaprod prod) {
@@ -723,7 +722,10 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
         jButtonImprimir.setEnabled(false);
         jButtonRemoverProduto.setEnabled(false);
         jButtonInserir.setEnabled(false);
-        // listSerial.clear();
+       // DefaultTableModel tab = (DefaultTableModel) jTableItensEspelho.getModel();
+        while (jTableItensEspelho.getModel().getRowCount() > 0) {
+            ((DefaultTableModel) jTableItensEspelho.getModel()).removeRow(0);
+        }
     }
 
     /**

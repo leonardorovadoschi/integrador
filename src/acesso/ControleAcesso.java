@@ -7,7 +7,6 @@
 package acesso;
 
 import entidade.cplus.Sistemaacesso;
-import entidade.cplus.Usuario;
 import entidade.cplus.Usuarioacesso;
 import query.cplus.QueryCplus;
 import java.io.Serializable;

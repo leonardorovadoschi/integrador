@@ -22,7 +22,6 @@ import jpa.integrador.IntLogsJpaController;
 import jpa.prestaShop.PsStateJpaController;
 import prestashop.ConfiguracaoNoBD;
 import prestashop.Manager;
-import query.integrador.QueryIntegrador;
 import query.prestaShop.QueryPrestaShop;
 
 /**

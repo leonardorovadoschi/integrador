@@ -16,8 +16,6 @@ import janela.cplus.FormataCampos;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
-import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
 import jpa.integrador.IntLogsJpaController;
 import jpa.prestaShop.PsAddressJpaController;
@@ -27,7 +25,6 @@ import jpa.prestaShop.exceptions.NonexistentEntityException;
 import prestashop.ConfiguracaoNoBD;
 import prestashop.Manager;
 import query.cplus.QueryCplus;
-import query.integrador.QueryIntegrador;
 import query.prestaShop.QueryPrestaShop;
 
 /**

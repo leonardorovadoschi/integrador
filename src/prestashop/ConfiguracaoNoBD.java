@@ -26,7 +26,43 @@ public class ConfiguracaoNoBD {
     private static String valorEspelhoRma;
     private static String valorProdutoComprado;
     private static String tipoProdutoComprado;
+    private static String valorLinhaImpar;
+    private static String tipoLinhaImpar;
+    private static String valorLinhaSelecionada;
+    private static String tipoLinhaSelecionada;
 
+    public static String getValorLinhaSelecionada() {
+        return valorLinhaSelecionada;
+    }
+
+    public static void setValorLinhaSelecionada(String valorLinhaSelecionada) {
+        ConfiguracaoNoBD.valorLinhaSelecionada = valorLinhaSelecionada;
+    }
+
+    public static String getTipoLinhaSelecionada() {
+        return tipoLinhaSelecionada;
+    }
+
+    public static void setTipoLinhaSelecionada(String tipoLinhaSelecionada) {
+        ConfiguracaoNoBD.tipoLinhaSelecionada = tipoLinhaSelecionada;
+    }
+
+    public static String getValorLinhaImpar() {
+        return valorLinhaImpar;
+    }
+
+    public static void setValorLinhaImpar(String valorLinhaImpar) {
+        ConfiguracaoNoBD.valorLinhaImpar = valorLinhaImpar;
+    }
+
+    public static String getTipoLinhaImpar() {
+        return tipoLinhaImpar;
+    }
+
+    public static void setTipoLinhaImpar(String tipoLinhaImpar) {
+        ConfiguracaoNoBD.tipoLinhaImpar = tipoLinhaImpar;
+    }
+    
     public static String getValorProdutoComprado() {
         return valorProdutoComprado;
     }
