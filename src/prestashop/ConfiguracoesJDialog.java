@@ -5,7 +5,6 @@
  */
 package prestashop;
 
-import entidade.cplus.Caracteristicapessoa;
 import janela.cplus.ListagemCaracteristicaPessoaJDialog;
 import java.io.File;
 import javax.swing.JFileChooser;
@@ -65,6 +64,9 @@ public class ConfiguracoesJDialog extends javax.swing.JDialog {
         jButtonEtiquetaSerial = new javax.swing.JButton();
         jTextFieldEtiquetaSerial = new javax.swing.JTextField();
         jLabelEtiquetaSerial = new javax.swing.JLabel();
+        jLabelProdutosComprados = new javax.swing.JLabel();
+        jTextFieldProdutoComprado = new javax.swing.JTextField();
+        jButtonProdutoComprado = new javax.swing.JButton();
         jPanelCliente = new javax.swing.JPanel();
         jTextFieldCaracteristicaPessoaDesconto = new javax.swing.JTextField();
         jLabelCaracteristicaDesconto = new javax.swing.JLabel();
@@ -156,6 +158,19 @@ public class ConfiguracoesJDialog extends javax.swing.JDialog {
         jLabelEtiquetaSerial.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabelEtiquetaSerial.setText("Etiqueta Serial:");
 
+        jLabelProdutosComprados.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabelProdutosComprados.setText("Produtos Comprados:");
+
+        jTextFieldProdutoComprado.setEnabled(false);
+
+        jButtonProdutoComprado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/pesquisar.png"))); // NOI18N
+        jButtonProdutoComprado.setText("Caminho");
+        jButtonProdutoComprado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonProdutoCompradoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelArquivosLayout = new javax.swing.GroupLayout(jPanelArquivos);
         jPanelArquivos.setLayout(jPanelArquivosLayout);
         jPanelArquivosLayout.setHorizontalGroup(
@@ -164,32 +179,40 @@ public class ConfiguracoesJDialog extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jPanelArquivosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelArquivosLayout.createSequentialGroup()
-                        .addComponent(jLabelEtiquetaSerial, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanelArquivosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanelArquivosLayout.createSequentialGroup()
+                                .addComponent(jLabelEtiquetaSerial, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextFieldEtiquetaSerial, javax.swing.GroupLayout.DEFAULT_SIZE, 492, Short.MAX_VALUE))
+                            .addGroup(jPanelArquivosLayout.createSequentialGroup()
+                                .addComponent(jLabelSomFinalizado, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextFieldSomFinalizado))
+                            .addGroup(jPanelArquivosLayout.createSequentialGroup()
+                                .addComponent(jLabelEspelhoRma, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextFieldEspelhoRma))
+                            .addGroup(jPanelArquivosLayout.createSequentialGroup()
+                                .addComponent(jLabelRomaneioSeriais, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextFieldRomaneioSeriais))
+                            .addGroup(jPanelArquivosLayout.createSequentialGroup()
+                                .addComponent(jLabelSomErro, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextFieldSomErro)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldEtiquetaSerial, javax.swing.GroupLayout.DEFAULT_SIZE, 492, Short.MAX_VALUE))
+                        .addGroup(jPanelArquivosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButtonSomFinalizado)
+                            .addComponent(jButtonSomErro)
+                            .addComponent(jButtonRomaneioSeriais)
+                            .addComponent(jButtonEspelhoRma)
+                            .addComponent(jButtonEtiquetaSerial)))
                     .addGroup(jPanelArquivosLayout.createSequentialGroup()
-                        .addComponent(jLabelSomFinalizado, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabelProdutosComprados, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldSomFinalizado))
-                    .addGroup(jPanelArquivosLayout.createSequentialGroup()
-                        .addComponent(jLabelEspelhoRma, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextFieldProdutoComprado, javax.swing.GroupLayout.DEFAULT_SIZE, 492, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldEspelhoRma))
-                    .addGroup(jPanelArquivosLayout.createSequentialGroup()
-                        .addComponent(jLabelRomaneioSeriais, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldRomaneioSeriais))
-                    .addGroup(jPanelArquivosLayout.createSequentialGroup()
-                        .addComponent(jLabelSomErro, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldSomErro)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelArquivosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonSomFinalizado)
-                    .addComponent(jButtonSomErro)
-                    .addComponent(jButtonRomaneioSeriais)
-                    .addComponent(jButtonEspelhoRma)
-                    .addComponent(jButtonEtiquetaSerial))
+                        .addComponent(jButtonProdutoComprado)))
                 .addContainerGap())
         );
         jPanelArquivosLayout.setVerticalGroup(
@@ -220,7 +243,12 @@ public class ConfiguracoesJDialog extends javax.swing.JDialog {
                     .addComponent(jLabelEtiquetaSerial)
                     .addComponent(jTextFieldEtiquetaSerial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonEtiquetaSerial))
-                .addContainerGap(229, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelArquivosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelProdutosComprados)
+                    .addComponent(jTextFieldProdutoComprado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonProdutoComprado))
+                .addContainerGap(198, Short.MAX_VALUE))
         );
 
         jTabbedPaneConfArquivos.addTab("Arquivos", jPanelArquivos);
@@ -426,6 +454,26 @@ public class ConfiguracoesJDialog extends javax.swing.JDialog {
         new CarregaConfiguracao().carregar();
     }//GEN-LAST:event_jButtonCaracteristicaPessoaActionPerformed
 
+    private void jButtonProdutoCompradoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonProdutoCompradoActionPerformed
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Selecione apenas JRXML", "jrxml");
+        chooser.setFileFilter(filter);
+        chooser.setDialogTitle("Selecione o arquivo");
+        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        File file = new File(jTextFieldProdutoComprado.getText());
+        chooser.setCurrentDirectory(file);
+        int retorno = chooser.showOpenDialog(this);
+        if (retorno == JFileChooser.APPROVE_OPTION) {
+            file = chooser.getSelectedFile();
+            jTextFieldProdutoComprado.setText(file.getPath().replace("\\", "/"));
+            try {
+                queryIntegrador.atualizaValorConfiguracao(ConfiguracaoNoBD.getTipoProdutoComprado(), jTextFieldProdutoComprado.getText());
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Houve um ero ao editar " + ConfiguracaoNoBD.getTipoProdutoComprado() + "! \n" + ex);
+            }
+        }
+        new CarregaConfiguracao().carregar();
+    }//GEN-LAST:event_jButtonProdutoCompradoActionPerformed
+
     public void setCarregaCampos() {
         jTextFieldSomFinalizado.setText(ConfiguracaoNoBD.getValorAudioFinalizado());
         jTextFieldSomErro.setText(ConfiguracaoNoBD.getValorAudioErro());
@@ -438,7 +486,7 @@ public class ConfiguracoesJDialog extends javax.swing.JDialog {
         jTextFieldCaracteristicaPessoa.setText(
                 new CaracteristicapessoaJpaController(Manager.getManagerCplus()).
                         findCaracteristicapessoa(ConfiguracaoNoBD.getValorCaracteristicaClienteRuim()).getNomecaracteristicapessoa());
-
+        jTextFieldProdutoComprado.setText(ConfiguracaoNoBD.getValorProdutoComprado());
     }
 
     /**
@@ -495,6 +543,7 @@ public class ConfiguracoesJDialog extends javax.swing.JDialog {
     private javax.swing.JButton jButtonCaracteristicaPessoaDesconto;
     private javax.swing.JButton jButtonEspelhoRma;
     private javax.swing.JButton jButtonEtiquetaSerial;
+    private javax.swing.JButton jButtonProdutoComprado;
     private javax.swing.JButton jButtonRomaneioSeriais;
     private javax.swing.JButton jButtonSomErro;
     private javax.swing.JButton jButtonSomFinalizado;
@@ -502,6 +551,7 @@ public class ConfiguracoesJDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabelCaracteristicaDesconto;
     private javax.swing.JLabel jLabelEspelhoRma;
     private javax.swing.JLabel jLabelEtiquetaSerial;
+    private javax.swing.JLabel jLabelProdutosComprados;
     private javax.swing.JLabel jLabelRomaneioSeriais;
     private javax.swing.JLabel jLabelSomErro;
     private javax.swing.JLabel jLabelSomFinalizado;
@@ -513,6 +563,7 @@ public class ConfiguracoesJDialog extends javax.swing.JDialog {
     private javax.swing.JTextField jTextFieldCaracteristicaPessoaDesconto;
     private javax.swing.JTextField jTextFieldEspelhoRma;
     private javax.swing.JTextField jTextFieldEtiquetaSerial;
+    private javax.swing.JTextField jTextFieldProdutoComprado;
     private javax.swing.JTextField jTextFieldRomaneioSeriais;
     private javax.swing.JTextField jTextFieldSomErro;
     private javax.swing.JTextField jTextFieldSomFinalizado;

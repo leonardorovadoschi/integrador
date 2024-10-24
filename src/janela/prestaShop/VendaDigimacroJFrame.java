@@ -66,7 +66,6 @@ import prestashop.ConfiguracaoNoBD;
 import prestashop.Manager;
 import produto.PedidoCompra;
 import query.cplus.QueryCplus;
-import query.integrador.QueryIntegrador;
 import query.prestaShop.QueryPrestaShop;
 
 /**

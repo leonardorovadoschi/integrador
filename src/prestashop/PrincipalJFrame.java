@@ -66,7 +66,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         jMenuItemVendasDigimacro.setEnabled(acesso.verificaAcessoUsuario( "Editar Venda"));           
         jMenuManutencaoRma.setEnabled(acesso.verificaAcessoUsuario( "Editar ordem de serviço"));
         jMenuItemListagemVenda.setEnabled(acesso.verificaAcessoUsuario( "Editar orçamento"));
-        jMenuItemAlteracaoDePreco.setEnabled(acesso.verificaAcessoUsuario("Editar produtos"));
+        jMenuItemAlteracaoDePreco.setEnabled(acesso.verificaAcessoUsuario("Editar produtos/serviços"));
         jMenuItemConfiguracao.setEnabled(acesso.verificaAcessoUsuario("Geral"));
         jMenuIntegracao.setEnabled(acesso.verificaAcessoUsuario("Ponto de venda"));
         

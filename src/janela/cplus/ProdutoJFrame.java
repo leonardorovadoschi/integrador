@@ -86,6 +86,9 @@ public class ProdutoJFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         buttonGroupArredondamentoPrecoVenda = new javax.swing.ButtonGroup();
+        cplusPUEntityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("cplusPU").createEntityManager();
+        produtoQuery = java.beans.Beans.isDesignTime() ? null : cplusPUEntityManager.createQuery("SELECT p FROM Produto p where p.codigo = \"555555555\"");
+        produtoList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(produtoQuery.getResultList());
         jPanelControles = new javax.swing.JPanel();
         jPanelEstoque = new javax.swing.JPanel();
         jTextFieldEstoqueAtual = new javax.swing.JTextField();
@@ -101,7 +104,6 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         jLabelCustoReal = new javax.swing.JLabel();
         jLabelValorIpi = new javax.swing.JLabel();
         jLabelValorSt = new javax.swing.JLabel();
-        jLabelValorOutrasDespesas = new javax.swing.JLabel();
         jLabelValorOutrosCustos = new javax.swing.JLabel();
         jLabelPrecoPutrosCustos = new javax.swing.JLabel();
         jLabelCustoMedio = new javax.swing.JLabel();
@@ -109,12 +111,11 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         jTextFieldCustoReal = new javax.swing.JTextField();
         jTextFieldValorIpi = new javax.swing.JTextField();
         jTextFieldValorSubstituicaoTributaria = new javax.swing.JTextField();
-        jTextFieldValorOutrasDes = new javax.swing.JTextField();
         jTextFieldValorOutrosCustos = new javax.swing.JTextField();
         jTextFieldPercOutrosCustos = new javax.swing.JTextField();
         jTextFieldCustoMedio = new javax.swing.JTextField();
         jLabelTotalOutrosCustos = new javax.swing.JLabel();
-        jTextFieldTotalOutrasDespesas = new javax.swing.JTextField();
+        jTextFieldTotalCustoOperacional = new javax.swing.JTextField();
         jPanelPesquisa = new javax.swing.JPanel();
         jComboBoxTermoPesquisa = new javax.swing.JComboBox();
         jTextFieldTermoPesquisa = new javax.swing.JTextField();
@@ -174,6 +175,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         jPanelAbaListaProdutos = new javax.swing.JPanel();
         jScrollPane6 = new javax.swing.JScrollPane();
         jTableListagemProdutos = new javax.swing.JTable();
+        jPanel2 = new javax.swing.JPanel();
         jTextFieldMaxResult = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jMenuBarProdutos = new javax.swing.JMenuBar();
@@ -302,12 +304,6 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         jLabelValorSt.setMaximumSize(new java.awt.Dimension(100, 14));
         jLabelValorSt.setMinimumSize(new java.awt.Dimension(100, 14));
 
-        jLabelValorOutrasDespesas.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabelValorOutrasDespesas.setText("Outras Despesas: R$");
-        jLabelValorOutrasDespesas.setFocusable(false);
-        jLabelValorOutrasDespesas.setMaximumSize(new java.awt.Dimension(100, 14));
-        jLabelValorOutrasDespesas.setMinimumSize(new java.awt.Dimension(100, 14));
-
         jLabelValorOutrosCustos.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabelValorOutrosCustos.setText("Outros Custos: R$");
         jLabelValorOutrosCustos.setFocusable(false);
@@ -350,11 +346,6 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         jTextFieldValorSubstituicaoTributaria.setFocusable(false);
         jTextFieldValorSubstituicaoTributaria.setRequestFocusEnabled(false);
 
-        jTextFieldValorOutrasDes.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jTextFieldValorOutrasDes.setEnabled(false);
-        jTextFieldValorOutrasDes.setFocusable(false);
-        jTextFieldValorOutrasDes.setRequestFocusEnabled(false);
-
         jTextFieldValorOutrosCustos.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jTextFieldValorOutrosCustos.setEnabled(false);
         jTextFieldValorOutrosCustos.setFocusable(false);
@@ -384,12 +375,12 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         jTextFieldCustoMedio.setRequestFocusEnabled(false);
 
         jLabelTotalOutrosCustos.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabelTotalOutrosCustos.setText("Total Tributo:");
+        jLabelTotalOutrosCustos.setText("Custo Operacional: R$");
 
-        jTextFieldTotalOutrasDespesas.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jTextFieldTotalOutrasDespesas.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jTextFieldTotalOutrasDespesas.setToolTipText("É a soma da ST IPI e o Custo Operacional:");
-        jTextFieldTotalOutrasDespesas.setEnabled(false);
+        jTextFieldTotalCustoOperacional.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jTextFieldTotalCustoOperacional.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextFieldTotalCustoOperacional.setToolTipText("É a soma da ST IPI e o Custo Operacional:");
+        jTextFieldTotalCustoOperacional.setEnabled(false);
 
         javax.swing.GroupLayout jPanelCustosLayout = new javax.swing.GroupLayout(jPanelCustos);
         jPanelCustos.setLayout(jPanelCustosLayout);
@@ -404,21 +395,19 @@ public class ProdutoJFrame extends javax.swing.JFrame {
                     .addComponent(jLabelValorOutrosCustos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabelCustoMedio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabelValorIpi, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabelValorOutrasDespesas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
                     .addComponent(jLabelPrecoPutrosCustos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabelTotalOutrosCustos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
-                .addGroup(jPanelCustosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(18, 18, 18)
+                .addGroup(jPanelCustosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jTextFieldPrecoCusto, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
                     .addComponent(jTextFieldCustoReal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
                     .addComponent(jTextFieldValorSubstituicaoTributaria, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
-                    .addComponent(jTextFieldValorOutrosCustos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldCustoMedio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldValorIpi, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
-                    .addComponent(jTextFieldValorOutrasDes, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTextFieldPercOutrosCustos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldTotalOutrasDespesas, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addContainerGap())
+                    .addComponent(jTextFieldValorOutrosCustos, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jTextFieldPercOutrosCustos, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jTextFieldValorIpi, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jTextFieldCustoMedio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
+                    .addComponent(jTextFieldTotalCustoOperacional, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(26, 26, 26))
         );
 
         jPanelCustosLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jTextFieldCustoMedio, jTextFieldCustoReal, jTextFieldPrecoCusto, jTextFieldValorSubstituicaoTributaria});
@@ -451,16 +440,12 @@ public class ProdutoJFrame extends javax.swing.JFrame {
                     .addComponent(jTextFieldValorIpi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelCustosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelValorOutrasDespesas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldValorOutrasDes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelCustosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelPrecoPutrosCustos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextFieldPercOutrosCustos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelCustosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelTotalOutrosCustos)
-                    .addComponent(jTextFieldTotalOutrasDespesas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldTotalCustoOperacional, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -1047,7 +1032,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         jPanelAbaListaProdutos.setLayout(jPanelAbaListaProdutosLayout);
         jPanelAbaListaProdutosLayout.setHorizontalGroup(
             jPanelAbaListaProdutosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 1253, Short.MAX_VALUE)
+            .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 1225, Short.MAX_VALUE)
         );
         jPanelAbaListaProdutosLayout.setVerticalGroup(
             jPanelAbaListaProdutosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1057,6 +1042,19 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         );
 
         jTabbedPaneAlteracaoPrecoProdutoCplus.addTab("Listagem Produtos C-Plus", jPanelAbaListaProdutos);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1225, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 377, Short.MAX_VALUE)
+        );
+
+        jTabbedPaneAlteracaoPrecoProdutoCplus.addTab("tab2", jPanel2);
 
         jTextFieldMaxResult.setText("20");
 
@@ -1166,9 +1164,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 8, Short.MAX_VALUE)
-                .addComponent(jPanelControles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jPanelControles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -1411,7 +1407,10 @@ public class ProdutoJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonEditarSetorEstoqueActionPerformed
 
     private void jTableListagemProdutosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableListagemProdutosMouseClicked
+        String codProdutoTabela = jTableListagemProdutos.getValueAt(jTableListagemProdutos.getSelectedRow(), colunaCodprod).toString();
+        if(codProdutoTabela == null ? produtoCplus.getCodprod() != null : !codProdutoTabela.equals(produtoCplus.getCodprod())){
         carregarCampos();
+        }
     }//GEN-LAST:event_jTableListagemProdutosMouseClicked
 
     private void jMenuItemListagemSaidasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemListagemSaidasActionPerformed
@@ -1538,7 +1537,8 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         double custo = produtoCplus.getPrecusto().doubleValue();
         double valorPercentualCusto = (custo * aliqCusto) / 100.00;
         double outros = valorPercentualCusto + produtoCplus.getOutros().doubleValue();
-        jTextFieldTotalOutrasDespesas.setText(format.bigDecimalParaString(new BigDecimal(outros), 2));
+        jTextFieldTotalCustoOperacional.setText(format.bigDecimalParaString(new BigDecimal(outros), 2));        
+        jTextFieldCustoReal.setText(format.bigDecimalParaString(produtoCplus.getPrecusto().add(new BigDecimal(outros)), 2));
         jButtonGravar.setEnabled(true);
     }
 
@@ -1554,13 +1554,15 @@ public class ProdutoJFrame extends javax.swing.JFrame {
                         break;
                 }
             }
+            
+            produtoCplus.setCustoreal(format.stringParaDecimal(jTextFieldCustoReal.getText(), 2));
             produtoCplus.setLastChange(format.dataAtual());
             produtoCplus.setDatreaj(format.dataAtual());
             produtoCplus.setNomeprod(jTextFieldNomeCplus.getText().trim());
             produtoCplus.setNomeprodweb(jTextFieldNomeSite.getText().trim());
             produtoCplus.setCodigointerno(tamanhoString(jTextFieldCodigoInterno.getText(), 20));
             produtoCplus.setPercoutroscustos(format.stringParaDecimal(jTextFieldPercOutrosCustos.getText(), 3));
-            produtoCplus.setTotoutroscustos(format.stringParaDecimal(jTextFieldTotalOutrasDespesas.getText(), 2));
+            produtoCplus.setTotoutroscustos(format.stringParaDecimal(jTextFieldTotalCustoOperacional.getText(), 2));
             produtoCplus.setAltura(format.stringParaDecimal(jTextFieldAltura.getText(), 4));
             produtoCplus.setLargura(format.stringParaDecimal(jTextFieldLargura.getText(), 4));
             produtoCplus.setComprimento(format.stringParaDecimal(jTextFieldComprimento.getText(), 4));
@@ -1627,16 +1629,18 @@ public class ProdutoJFrame extends javax.swing.JFrame {
             // if(listProdIntegracao.size() == 1){
             //       for (ProdutoIntegracao produtoIntegracao : listProdIntegracao) {
             if (!"".equals(jTextFieldPartNumberSistema.getText())) {
-                gravaPartNumber(jTextFieldPartNumberSistema.getText().toUpperCase());              
+                gravaPartNumber(jTextFieldPartNumberSistema.getText().toUpperCase());
             }
             //if (!"".equals(jTextFieldComplementoFiscal.getText())) {               
             gravaComplementoFiscal(jTextFieldComplementoFiscal.getText());
             //}                           
             jButtonGravar.setEnabled(false);
+            jButtonAtualizaMargemCusto.setEnabled(false);
         } catch (Exception ex) {
             criaLog(new Date(System.currentTimeMillis()), "Erro ao editar Preço no C-plus no Frame Alteracao de preço \n" + ex, "Erro Editar");
         }
-        carregarCampos();
+        //limpaCampos();
+        //carregaTabelaProduto();
     }
 
     private void gerarAuditoria() {
@@ -1704,9 +1708,13 @@ public class ProdutoJFrame extends javax.swing.JFrame {
             ((DefaultTableModel) jTableListagemProdutos.getModel()).removeRow(0);
         }
         for (Produto e : produtoList) {
+            String dat = "";
+            if (e.getDatreaj() != null) {
+                dat = format.dataStringDataCompleta(e.getDatreaj(), 0);
+            }
             //"Data Atualização", "Data Reajuste", "Codigo", "Nome Site", "Preço", "Margem", "Estoque", "Localização", "Nome C-Plus", "Custo Real", "Preço Custo", "Pedido Compra", "EAN", "Codprod"
-            tab.addRow(new Object[]{format.dataStringDataCompleta(e.getLastChange(), 0), //"Data Atualização"
-                format.dataStringDataCompleta(e.getDatreaj(), 0), //"Data Reajuste"
+            tab.addRow(new Object[]{format.dataStringDataCompleta(e.getLastChange(), 0), //"Data Atualização"             
+                dat, //"Data Reajuste"             
                 e.getCodigo(), //"Codigo"
                 e.getNomeprodweb(), //"Nome Site"
                 format.bigDecimalParaString(precoVenda(e), 2),//"Preço"
@@ -1716,7 +1724,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
                 e.getNomeprod(),//"Nome C-Plus"
                 format.bigDecimalParaString(e.getCustoreal(), 2), //"Custo Real"
                 format.bigDecimalParaString(e.getPrecusto(), 2), //"Preço Custo"
-                new PedidoCompra().produtoComprado( e.getCodprod()), //"Pedido Compra"
+                new PedidoCompra().produtoComprado(e.getCodprod()), //"Pedido Compra"
                 eanProduto(e), //"EAN"
                 e.getCodprod(), //"Codprod"
         });
@@ -1769,7 +1777,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         if (produtoCplus.getDatreaj() != null) {
             jTextFieldDataUltimoReajuste.setText(format.dataStringSoData(produtoCplus.getDatreaj(), 0));
         }
-        precoCustoRealSistema = produtoCplus.getCustoreal();
+        //precoCustoRealSistema = produtoCplus.getCustoreal();
         if (produtoCplus.getCustomedio().doubleValue() <= 0.0001) {
             produtoCplus.setCustomedio(produtoCplus.getCustoreal());
             try {
@@ -1777,20 +1785,20 @@ public class ProdutoJFrame extends javax.swing.JFrame {
             } catch (NonexistentEntityException ex) {
                 criaLog(new Date(System.currentTimeMillis()), "Erro ao editar custo médio no C-plus no Frame Alteracao de preço \n" + ex, "Erro Editar");
             } catch (Exception ex) {
-                criaLog(new Date(System.currentTimeMillis()), "Erro ao editar custo médio no C-plus no Frame Alteracao de preï¿½o \n" + ex, "Erro Editar");
+                criaLog(new Date(System.currentTimeMillis()), "Erro ao editar custo médio no C-plus no Frame Alteracao de preço \n" + ex, "Erro Editar");
             }
-        } 
+        }
 
         jTextFieldPrecoCusto.setText(format.bigDecimalParaString(produtoCplus.getPrecusto(), 2));
         jTextFieldCustoReal.setText(format.bigDecimalParaString(produtoCplus.getCustoreal(), 2));
         jTextFieldValorIpi.setText(format.bigDecimalParaString(produtoCplus.getValoripi(), 2));
         jTextFieldValorSubstituicaoTributaria.setText(format.bigDecimalParaString(produtoCplus.getValorsubsttributaria(), 2));
 
-        jTextFieldValorOutrasDes.setText(format.bigDecimalParaString(produtoCplus.getOutros(), 2));
+        //jTextFieldValorOutrasDes.setText(format.bigDecimalParaString(produtoCplus.getOutros(), 2));
         jTextFieldValorOutrosCustos.setText(format.bigDecimalParaString(produtoCplus.getValoutroscustos(), 2));
         jTextFieldPercOutrosCustos.setText(format.bigDecimalParaString(produtoCplus.getPercoutroscustos(), 2));
         jTextFieldCustoMedio.setText(format.bigDecimalParaString(produtoCplus.getCustomedio(), 2));
-        jTextFieldTotalOutrasDespesas.setText(format.bigDecimalParaString(produtoCplus.getTotoutroscustos(), 2));
+        jTextFieldTotalCustoOperacional.setText(format.bigDecimalParaString(produtoCplus.getTotoutroscustos(), 2));
         jTextFieldNomeCplus.setText(produtoCplus.getNomeprod());
         jTextFieldCodigoInterno.setText(produtoCplus.getCodigointerno());
         jTextFieldNomeSite.setText(produtoCplus.getNomeprodweb());
@@ -1798,22 +1806,20 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         char compra = 'C';
         List<Moventrada> listMovEntrada = queryCplus.resultUltimaCompra(codProdutoTabela, compra, 1);
         for (Moventrada movEnt : listMovEntrada) {
-            jTextFieldDataUltimaCompra.setText(format.dataStringSoData(movEnt.getData(), 2));
+            jTextFieldDataUltimaCompra.setText(format.dataStringSoData(movEnt.getData(), 0));
             if (movEnt.getCodForn() != null) {
                 jTextFieldFornecedor.setText(movEnt.getCodForn().getNomeforn());
             }
             for (Moventradaprod movPro : queryCplus.resultProdutoEntrada(codProdutoTabela, movEnt.getCodmoventr())) {
-                BigDecimal totalCusto = movPro.getValorunitario().add(movPro.getValorsubsttributaria().divide(movPro.getQuantidade()));
-                totalCusto = totalCusto.add(movPro.getValoripi().divide(movPro.getQuantidade(), 4, RoundingMode.HALF_UP));
-
                 jTextFieldUltimaQuantidadeComprada.setText(format.bigDecimalParaString(movPro.getQuantidade(), 0));
 //                precoCustoUltimaCompra = totalCusto;
-                jTextFieldPrecoCusto.setText(format.bigDecimalParaString(movPro.getValorunitario(), 2));
-                jTextFieldValorSubstituicaoTributaria.setText(format.bigDecimalParaString(movPro.getValorsubsttributaria().divide(movPro.getQuantidade()), 2));
-                jTextFieldValorIpi.setText(format.bigDecimalParaString(movPro.getValoripi().divide(movPro.getQuantidade()), 2));
-                jTextFieldCustoReal.setText(format.bigDecimalParaString(totalCusto, 2));
+
             }
         }
+        jTextFieldPrecoCusto.setText(format.bigDecimalParaString(produtoCplus.getPrecusto(), 2));
+        jTextFieldValorSubstituicaoTributaria.setText(format.bigDecimalParaString(produtoCplus.getValorsubsttributaria(), 2));
+        jTextFieldValorIpi.setText(format.bigDecimalParaString(produtoCplus.getValoripi(), 2));
+        jTextFieldCustoReal.setText(format.bigDecimalParaString(produtoCplus.getCustoreal(), 2));
         char venda = 'V';
         List<Movenda> listMovVenda = queryCplus.resultUltimaVenda(codProdutoTabela, venda, 1);
         for (Movenda movVen : listMovVenda) {
@@ -1923,7 +1929,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         jButtonEditarSetorEstoque.setEnabled(true);
         jButtonAtualizaMargemCusto.setEnabled(true);
         jTextFieldSetor.setText(setor(produtoCplus));
-        carregaTabelaProduto();
+        //carregaTabelaProduto();
     }
 
     private void limpaCampos() {
@@ -1957,7 +1963,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         jTextFieldReservaOs.setText("");
         jTextFieldUltimaQuantidadeComprada.setText("");
         jTextFieldValorIpi.setText("");
-        jTextFieldValorOutrasDes.setText("");
+       // jTextFieldValorOutrasDes.setText("");
         jTextFieldValorOutrosCustos.setText("");
         jTextFieldValorSubstituicaoTributaria.setText("");
         //  jTextFieldQuntItensCarrinhoMagento.setText("");
@@ -1974,13 +1980,13 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         jTextFieldSetor.setText("");
         jButtonEditarSetorEstoque.setEnabled(false);
         produtoCplus = new Produto();
-        jTextFieldTotalOutrasDespesas.setText("");
-        //carregaTabelaProduto();
+        jTextFieldTotalCustoOperacional.setText("");
+        carregaTabelaProduto();
     }
 
     private BigDecimal calculaValorVenda(BigDecimal margemLucro) {
         double precoCustoProduto;
-        precoCustoProduto = precoCustoRealSistema.doubleValue();
+        precoCustoProduto = produtoCplus.getCustoreal().doubleValue();
         double margemLucroTexto = margemLucro.doubleValue();
         double valorVendaCalculado = ((precoCustoProduto * margemLucroTexto) / 100) + precoCustoProduto;
         BigDecimal resultado = new BigDecimal(valorVendaCalculado).setScale(2, RoundingMode.HALF_UP);
@@ -1989,7 +1995,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
 
     private BigDecimal calculaMargemVendaCusto(BigDecimal precoVenda) {
         double precoCustoProduto;
-        precoCustoProduto = precoCustoRealSistema.doubleValue();
+        precoCustoProduto = produtoCplus.getCustoreal().doubleValue();
         double precoVendaProduto = precoVenda.doubleValue();
         double margemLucro = ((precoVendaProduto - precoCustoProduto) / precoCustoProduto) * 100;
         BigDecimal resultado = new BigDecimal(margemLucro).setScale(4, RoundingMode.HALF_UP);
@@ -1997,7 +2003,8 @@ public class ProdutoJFrame extends javax.swing.JFrame {
     }
 
     private BigDecimal calculaMargemPraGravarBanco(String precoVendaTextField) {
-        double precoCustoProduto = precoCustoRealSistema.doubleValue();
+        // double precoCustoProduto = precoCustoRealSistema.doubleValue();
+        double precoCustoProduto = produtoCplus.getCustoreal().doubleValue();
         double precoVendaProduto = format.stringParaDecimal(precoVendaTextField, 2).doubleValue();
 
         double margemLucro = ((precoVendaProduto - precoCustoProduto) / precoCustoProduto) * 100;
@@ -2222,8 +2229,8 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         });
     }
 
-   // private static EntityManagerFactory managerIntegrador;
-   //private static EntityManagerFactory managerPrestaShop;
+    // private static EntityManagerFactory managerIntegrador;
+    //private static EntityManagerFactory managerPrestaShop;
     //private static EntityManagerFactory managerCplus;
     private final QueryCplus queryCplus;
     private final QueryIntegrador queryIntegrador;
@@ -2234,19 +2241,20 @@ public class ProdutoJFrame extends javax.swing.JFrame {
     //private final int colunaProdutoFornecedor;
 
     private Produto produtoCplus;
-    private BigDecimal precoCustoRealSistema;   
+    //private BigDecimal precoCustoRealSistema;   
     private List<Produtopreco> listPrecoProduto;
     private List<Produtoestoque> listEstoqueProduto;
     private final ListagemEntradasJDialog listagemEntradasJDialog;
     private final ListagemSaidasJDialog listagemSaidasJDialog;
     private final ListagemLocalizacaoJDialog listagemLocalizacaoJDialog;
-    private final List<Produto> produtoList = new ArrayList<>();
+    //private final List<Produto> produtoList =  new ArrayList<>();
     private final List<Movendaprod> movendaprodList = new ArrayList<>();
     private final List<Moventradaprod> moventradaprodList = new ArrayList<>();
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroupArredondamentoPrecoVenda;
+    private javax.persistence.EntityManager cplusPUEntityManager;
     private javax.swing.JButton jButtonAtualizaMargemCusto;
     private javax.swing.JButton jButtonAtualizarCarregaCampos;
     private javax.swing.JButton jButtonEditarSetorEstoque;
@@ -2286,7 +2294,6 @@ public class ProdutoJFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelSetor;
     private javax.swing.JLabel jLabelTotalOutrosCustos;
     private javax.swing.JLabel jLabelValorIpi;
-    private javax.swing.JLabel jLabelValorOutrasDespesas;
     private javax.swing.JLabel jLabelValorOutrosCustos;
     private javax.swing.JLabel jLabelValorSt;
     private javax.swing.JMenu jMenu3;
@@ -2295,6 +2302,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItemListagemSaidas;
     private javax.swing.JMenu jMenuListagem;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanelAbaListaProdutos;
     private javax.swing.JPanel jPanelArredondamentoVenda;
     private javax.swing.JPanel jPanelControles;
@@ -2335,13 +2343,14 @@ public class ProdutoJFrame extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldReservaOs;
     private javax.swing.JTextField jTextFieldSetor;
     private javax.swing.JTextField jTextFieldTermoPesquisa;
-    private javax.swing.JTextField jTextFieldTotalOutrasDespesas;
+    private javax.swing.JTextField jTextFieldTotalCustoOperacional;
     private javax.swing.JTextField jTextFieldUltimaQuantidadeComprada;
     private javax.swing.JTextField jTextFieldUnidade;
     private javax.swing.JTextField jTextFieldValorIpi;
-    private javax.swing.JTextField jTextFieldValorOutrasDes;
     private javax.swing.JTextField jTextFieldValorOutrosCustos;
     private javax.swing.JTextField jTextFieldValorSubstituicaoTributaria;
+    private java.util.List<entidade.cplus.Produto> produtoList;
+    private javax.persistence.Query produtoQuery;
     // End of variables declaration//GEN-END:variables
 
 }

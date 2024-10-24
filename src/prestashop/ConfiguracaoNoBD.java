@@ -24,7 +24,25 @@ public class ConfiguracaoNoBD {
     private static String valorRomaneioSeriais;
     private static String tipoRomaneioSeriais;
     private static String valorEspelhoRma;
+    private static String valorProdutoComprado;
+    private static String tipoProdutoComprado;
 
+    public static String getValorProdutoComprado() {
+        return valorProdutoComprado;
+    }
+
+    public static void setValorProdutoComprado(String valorProdutoComprado) {
+        ConfiguracaoNoBD.valorProdutoComprado = valorProdutoComprado;
+    }
+
+    public static String getTipoProdutoComprado() {
+        return tipoProdutoComprado;
+    }
+
+    public static void setTipoProdutoComprado(String tipoProdutoComprado) {
+        ConfiguracaoNoBD.tipoProdutoComprado = tipoProdutoComprado;
+    }
+    
     public static String getValorCasasDecimais() {
         return valorCasasDecimais;
     }

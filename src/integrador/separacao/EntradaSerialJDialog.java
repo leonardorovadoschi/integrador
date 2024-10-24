@@ -388,7 +388,7 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
     private void jButtonImprimirEtiquetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonImprimirEtiquetaActionPerformed
         List<SerialProduto> listText = new ArrayList<>();
         for (EntradaSerial s : queryIntegrador.listPorEntradaProd(movEntradaProd.getCodmoveprod())) {
-            s.getIdSerial().setNomeProduto(movEntradaProd.getCodprod().getCodigo() + "-" + s.getIdSerial().getNomeProduto());
+            s.getIdSerial().setNomeProduto(s.getIdSerial().getCodigoProduto() + "-" + s.getIdSerial().getNomeProduto());
             listText.add(s.getIdSerial());
         }    
         new ImprimeRelatorio().imprimeRelatorioPeloJar(ConfiguracaoNoBD.getValorEtiquetaSerial(), listText);

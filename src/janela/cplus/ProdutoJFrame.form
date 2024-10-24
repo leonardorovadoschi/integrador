@@ -4,6 +4,30 @@
   <NonVisualComponents>
     <Component class="javax.swing.ButtonGroup" name="buttonGroupArredondamentoPrecoVenda">
     </Component>
+    <Component class="javax.persistence.EntityManager" name="cplusPUEntityManager">
+      <Properties>
+        <Property name="persistenceUnit" type="java.lang.String" value="cplusPU"/>
+      </Properties>
+    </Component>
+    <Component class="javax.persistence.Query" name="produtoQuery">
+      <Properties>
+        <Property name="query" type="java.lang.String" value="SELECT p FROM Produto p where p.codigo = &quot;555555555&quot;"/>
+        <Property name="entityManager" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$EMProperty$EntityManagerEditor">
+          <ComponentRef name="cplusPUEntityManager"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="java.util.List" name="produtoList">
+      <Properties>
+        <Property name="query" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$QueryBeanProperty$QueryEditor">
+          <ComponentRef name="produtoQuery"/>
+        </Property>
+        <Property name="observable" type="boolean" value="true"/>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;entidade.cplus.Produto&gt;"/>
+      </AuxValues>
+    </Component>
     <Menu class="javax.swing.JMenuBar" name="jMenuBarProdutos">
       <SubComponents>
         <Menu class="javax.swing.JMenu" name="jMenuListagem">
@@ -63,10 +87,7 @@
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="1" attributes="0">
-              <EmptySpace min="0" pref="8" max="32767" attributes="0"/>
-              <Component id="jPanelControles" min="-2" max="-2" attributes="0"/>
-          </Group>
+          <Component id="jPanelControles" min="-2" max="-2" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -152,7 +173,7 @@
                               </Group>
                               <Component id="jPanelArredondamentoVenda" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="6" max="32767" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                           <Component id="jTabbedPaneAlteracaoPrecoProdutoCplus" min="-2" pref="402" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" attributes="0">
@@ -334,23 +355,21 @@
                           <Component id="jLabelValorOutrosCustos" alignment="1" max="32767" attributes="0"/>
                           <Component id="jLabelCustoMedio" alignment="1" max="32767" attributes="0"/>
                           <Component id="jLabelValorIpi" alignment="1" max="32767" attributes="0"/>
-                          <Component id="jLabelValorOutrasDespesas" alignment="1" pref="116" max="32767" attributes="0"/>
                           <Component id="jLabelPrecoPutrosCustos" alignment="1" max="32767" attributes="0"/>
                           <Component id="jLabelTotalOutrosCustos" alignment="1" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="19" max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="jTextFieldPrecoCusto" linkSize="8" alignment="1" pref="60" max="32767" attributes="0"/>
                           <Component id="jTextFieldCustoReal" linkSize="8" alignment="1" pref="60" max="32767" attributes="0"/>
                           <Component id="jTextFieldValorSubstituicaoTributaria" linkSize="8" alignment="1" pref="60" max="32767" attributes="0"/>
-                          <Component id="jTextFieldValorOutrosCustos" alignment="1" min="-2" pref="60" max="-2" attributes="0"/>
-                          <Component id="jTextFieldCustoMedio" linkSize="8" alignment="1" min="-2" pref="60" max="-2" attributes="0"/>
-                          <Component id="jTextFieldValorIpi" alignment="1" pref="75" max="32767" attributes="0"/>
-                          <Component id="jTextFieldValorOutrasDes" alignment="1" max="32767" attributes="0"/>
-                          <Component id="jTextFieldPercOutrosCustos" alignment="1" min="-2" pref="60" max="-2" attributes="0"/>
-                          <Component id="jTextFieldTotalOutrasDespesas" alignment="1" max="32767" attributes="0"/>
+                          <Component id="jTextFieldValorOutrosCustos" alignment="1" max="32767" attributes="0"/>
+                          <Component id="jTextFieldPercOutrosCustos" alignment="1" max="32767" attributes="0"/>
+                          <Component id="jTextFieldValorIpi" alignment="1" max="32767" attributes="0"/>
+                          <Component id="jTextFieldCustoMedio" linkSize="8" alignment="1" pref="60" max="32767" attributes="0"/>
+                          <Component id="jTextFieldTotalCustoOperacional" alignment="1" min="-2" pref="60" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -388,18 +407,13 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabelValorOutrasDespesas" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTextFieldValorOutrasDes" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabelPrecoPutrosCustos" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jTextFieldPercOutrosCustos" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabelTotalOutrosCustos" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTextFieldTotalOutrasDespesas" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextFieldTotalCustoOperacional" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -450,19 +464,6 @@
               <Properties>
                 <Property name="horizontalAlignment" type="int" value="4"/>
                 <Property name="text" type="java.lang.String" value="Valor S.T.: R$"/>
-                <Property name="focusable" type="boolean" value="false"/>
-                <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[100, 14]"/>
-                </Property>
-                <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[100, 14]"/>
-                </Property>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="jLabelValorOutrasDespesas">
-              <Properties>
-                <Property name="horizontalAlignment" type="int" value="4"/>
-                <Property name="text" type="java.lang.String" value="Outras Despesas: R$"/>
                 <Property name="focusable" type="boolean" value="false"/>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[100, 14]"/>
@@ -553,14 +554,6 @@
                 <Property name="requestFocusEnabled" type="boolean" value="false"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="jTextFieldValorOutrasDes">
-              <Properties>
-                <Property name="horizontalAlignment" type="int" value="4"/>
-                <Property name="enabled" type="boolean" value="false"/>
-                <Property name="focusable" type="boolean" value="false"/>
-                <Property name="requestFocusEnabled" type="boolean" value="false"/>
-              </Properties>
-            </Component>
             <Component class="javax.swing.JTextField" name="jTextFieldValorOutrosCustos">
               <Properties>
                 <Property name="horizontalAlignment" type="int" value="4"/>
@@ -601,10 +594,10 @@
             <Component class="javax.swing.JLabel" name="jLabelTotalOutrosCustos">
               <Properties>
                 <Property name="horizontalAlignment" type="int" value="4"/>
-                <Property name="text" type="java.lang.String" value="Total Tributo:"/>
+                <Property name="text" type="java.lang.String" value="Custo Operacional: R$"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="jTextFieldTotalOutrasDespesas">
+            <Component class="javax.swing.JTextField" name="jTextFieldTotalCustoOperacional">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Tahoma" size="12" style="0"/>
@@ -1391,7 +1384,7 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jScrollPane6" alignment="0" pref="1253" max="32767" attributes="0"/>
+                      <Component id="jScrollPane6" alignment="0" pref="1225" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
@@ -1518,6 +1511,28 @@
                   </SubComponents>
                 </Container>
               </SubComponents>
+            </Container>
+            <Container class="javax.swing.JPanel" name="jPanel2">
+              <Constraints>
+                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+                  <JTabbedPaneConstraints tabName="tab2">
+                    <Property name="tabTitle" type="java.lang.String" value="tab2"/>
+                  </JTabbedPaneConstraints>
+                </Constraint>
+              </Constraints>
+
+              <Layout>
+                <DimensionLayout dim="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <EmptySpace min="0" pref="1225" max="32767" attributes="0"/>
+                  </Group>
+                </DimensionLayout>
+                <DimensionLayout dim="1">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <EmptySpace min="0" pref="377" max="32767" attributes="0"/>
+                  </Group>
+                </DimensionLayout>
+              </Layout>
             </Container>
           </SubComponents>
         </Container>

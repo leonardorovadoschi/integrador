@@ -111,39 +111,50 @@
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="jLabelEtiquetaSerial" min="-2" pref="105" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jTextFieldEtiquetaSerial" pref="492" max="32767" attributes="0"/>
-                          </Group>
                           <Group type="102" attributes="0">
-                              <Component id="jLabelSomFinalizado" min="-2" pref="105" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="jLabelEtiquetaSerial" min="-2" pref="105" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="jTextFieldEtiquetaSerial" pref="492" max="32767" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" attributes="0">
+                                      <Component id="jLabelSomFinalizado" min="-2" pref="105" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="jTextFieldSomFinalizado" max="32767" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="jLabelEspelhoRma" min="-2" pref="105" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="jTextFieldEspelhoRma" max="32767" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="jLabelRomaneioSeriais" min="-2" pref="105" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="jTextFieldRomaneioSeriais" max="32767" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="jLabelSomErro" min="-2" pref="105" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="jTextFieldSomErro" max="32767" attributes="0"/>
+                                  </Group>
+                              </Group>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jTextFieldSomFinalizado" max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jButtonSomFinalizado" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jButtonSomErro" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jButtonRomaneioSeriais" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jButtonEspelhoRma" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jButtonEtiquetaSerial" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="jLabelEspelhoRma" min="-2" pref="105" max="-2" attributes="0"/>
+                              <Component id="jLabelProdutosComprados" min="-2" pref="105" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jTextFieldEspelhoRma" max="32767" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="jLabelRomaneioSeriais" min="-2" pref="105" max="-2" attributes="0"/>
+                              <Component id="jTextFieldProdutoComprado" pref="492" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jTextFieldRomaneioSeriais" max="32767" attributes="0"/>
+                              <Component id="jButtonProdutoComprado" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="jLabelSomErro" min="-2" pref="105" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jTextFieldSomErro" max="32767" attributes="0"/>
-                          </Group>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jButtonSomFinalizado" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="jButtonSomErro" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="jButtonRomaneioSeriais" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="jButtonEspelhoRma" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="jButtonEtiquetaSerial" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -182,7 +193,13 @@
                           <Component id="jTextFieldEtiquetaSerial" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jButtonEtiquetaSerial" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="229" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabelProdutosComprados" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextFieldProdutoComprado" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jButtonProdutoComprado" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace pref="198" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -297,6 +314,28 @@
                 <Property name="horizontalAlignment" type="int" value="4"/>
                 <Property name="text" type="java.lang.String" value="Etiqueta Serial:"/>
               </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabelProdutosComprados">
+              <Properties>
+                <Property name="horizontalAlignment" type="int" value="4"/>
+                <Property name="text" type="java.lang.String" value="Produtos Comprados:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="jTextFieldProdutoComprado">
+              <Properties>
+                <Property name="enabled" type="boolean" value="false"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JButton" name="jButtonProdutoComprado">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/icones/pesquisar.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Caminho"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonProdutoCompradoActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

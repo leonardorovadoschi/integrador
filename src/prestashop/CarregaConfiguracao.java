@@ -5,9 +5,7 @@
  */
 package prestashop;
 
-import entidade.cplus.Caracteristica;
 import entidade.integrador.IntConfiguracao;
-import jpa.cplus.CaracteristicaJpaController;
 import jpa.integrador.IntConfiguracaoJpaController;
 
 /**
@@ -46,6 +44,10 @@ public class CarregaConfiguracao {
                 case "cliente_CARACTERISTICA_CPLUS_DIGIMACRO_RUIM":
                     ConfiguracaoNoBD.setValorCaracteristicaClienteRuim(c.getValor());
                     ConfiguracaoNoBD.setTipoCaracteristicaClienteRuim(c.getTipo());
+                    break;
+                    case "caminho_RELATORIO_PRODUTO_COMPRADO":
+                    ConfiguracaoNoBD.setValorProdutoComprado(c.getValor());
+                    ConfiguracaoNoBD.setTipoProdutoComprado(c.getTipo());
                     break;
             }
         }

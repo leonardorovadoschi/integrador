@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import prestashop.ConfiguracaoNoBD;
 import query.cplus.QueryCplus;
 
 /**
@@ -35,7 +36,7 @@ public class PedidoCompra {
         if (l.size() > 0) {
             Comparator ordemNome = new ComparadorNomeProdCompra();
             Collections.sort(l, ordemNome);
-            new ImprimeRelatorio().imprimeRelatorioPeloJar("/integrador/relatorio/PedidoCompra.jrxml", l);
+            new ImprimeRelatorio().imprimeRelatorioPeloJar(ConfiguracaoNoBD.getValorProdutoComprado(), l);
         }
     }
 
