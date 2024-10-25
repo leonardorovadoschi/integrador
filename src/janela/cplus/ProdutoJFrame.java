@@ -68,6 +68,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         jTextFieldTermoPesquisa.requestFocus();
         colunaCodprod = jTableListagemProdutos.getColumnModel().getColumnIndex("Codprod");
         this.listagemEntradasJDialog = new ListagemEntradasJDialog(this, true);
+        this.listagemEntradaProdutoJDialog = new ListagemEntradaProdutoJDialog(this, true);
         jTextFieldNomeCplus.setDocument(new LimiteDigitos(50));//limite de digitos no campo
         jTextFieldNomeSite.setDocument(new LimiteDigitos(100));//limite digitos no campo
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
@@ -1019,6 +1020,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
             }
         });
         jScrollPane6.setViewportView(jTableListagemProdutos);
+        jTableListagemProdutos.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (jTableListagemProdutos.getColumnModel().getColumnCount() > 0) {
             jTableListagemProdutos.getColumnModel().getColumn(0).setPreferredWidth(120);
             jTableListagemProdutos.getColumnModel().getColumn(1).setPreferredWidth(80);
@@ -1132,6 +1134,11 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         jMenuListagem.add(jMenuItemListagemSaidas);
 
         jMenuItemListagemEntradas.setText("Listagem Entradas");
+        jMenuItemListagemEntradas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemListagemEntradasActionPerformed(evt);
+            }
+        });
         jMenuListagem.add(jMenuItemListagemEntradas);
 
         jMenuBarProdutos.add(jMenuListagem);
@@ -1407,6 +1414,13 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         }
         this.listagemSaidasJDialog.setVisible(true);
     }//GEN-LAST:event_jMenuItemListagemSaidasActionPerformed
+
+    private void jMenuItemListagemEntradasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemListagemEntradasActionPerformed
+        if(produtoCplus != null){
+            this.listagemEntradaProdutoJDialog.setTermoPesquisa(produtoCplus);
+            this.listagemEntradaProdutoJDialog.setVisible(true);
+        }
+    }//GEN-LAST:event_jMenuItemListagemEntradasActionPerformed
 
     private String tamanhoString(String str, int tamanhoString) {
         String str2 = "";
@@ -1723,7 +1737,6 @@ public class ProdutoJFrame extends javax.swing.JFrame {
                 e.getCodprod(), //"Codprod"
         });
         }
-
     }
 
     private String eanProduto(Produto p) {
@@ -2245,6 +2258,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
     private List<Produtopreco> listPrecoProduto;
     private List<Produtoestoque> listEstoqueProduto;
     private final ListagemEntradasJDialog listagemEntradasJDialog;
+    private final ListagemEntradaProdutoJDialog listagemEntradaProdutoJDialog;
     private final ListagemSaidasJDialog listagemSaidasJDialog;
     private final ListagemLocalizacaoJDialog listagemLocalizacaoJDialog;
     //private final List<Produto> produtoList =  new ArrayList<>();

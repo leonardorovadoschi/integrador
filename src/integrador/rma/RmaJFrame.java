@@ -16,7 +16,6 @@ import entidade.cplus.Moventradaprod;
 import entidade.cplus.Produto;
 import entidade.cplus.Produtoestoque;
 import entidade.cplus.Tipomovimento;
-import entidade.cplus.Usuario;
 import entidade.integrador.EntradaSerial;
 import entidade.integrador.SaidaSerial;
 import entidade.integrador.SerialProduto;
@@ -32,7 +31,6 @@ import java.awt.Toolkit;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -60,7 +58,6 @@ public class RmaJFrame extends javax.swing.JFrame {
 
     /**
      * Creates new form RmaJFrame     
-     * @param usuario
      */
     public RmaJFrame() {
         initComponents();
