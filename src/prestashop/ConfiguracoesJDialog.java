@@ -622,7 +622,7 @@ public class ConfiguracoesJDialog extends javax.swing.JDialog {
     // private final EntityManagerFactory managerCplus;
     private final QueryIntegrador queryIntegrador;
     private final FormataCampos format = new FormataCampos();
-    private ListagemCaracteristicaPessoaJDialog caracteristicaPessoaJDialog;
+    private final ListagemCaracteristicaPessoaJDialog caracteristicaPessoaJDialog;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private java.util.List<entidade.cplus.Caracteristicapessoa> caracteristicapessoaList;

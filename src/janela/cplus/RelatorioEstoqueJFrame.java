@@ -460,9 +460,9 @@ public class RelatorioEstoqueJFrame extends javax.swing.JFrame {
             Comparator ordemNome = new ComparadorNomeProduto();
             Collections.sort(listaProdutosEstoque, ordemNome);
             if (jCheckBoxRelatorioUmaLinha.isSelected()) {
-                new ImprimeRelatorio().imprimeRelatorioPeloJar("/integrador/relatorio/Relatorio_Inventario_contabil.jrxml", listaProdutosEstoque);
+                new ImprimeRelatorio().imprimeRelatorioPeloJar("C:/Integrador2/lista_integrador/relatorio/Relatorio_Inventario_contabil.jrxml", listaProdutosEstoque);
             } else {
-                new ImprimeRelatorio().imprimeRelatorioPeloJar("/integrador/relatorio/Relatorio_Inventario.jrxml", listaProdutosEstoque);
+                new ImprimeRelatorio().imprimeRelatorioPeloJar("C:/Integrador2/lista_integrador/relatorio/Relatorio_Inventario.jrxml", listaProdutosEstoque);
             }
         } else {
             JOptionPane.showMessageDialog(null, "Não ha dados a serem impressos \n");
