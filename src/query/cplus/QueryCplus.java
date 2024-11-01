@@ -198,7 +198,7 @@ public class QueryCplus {
     }
 
     /**
-     * Fun√ß√£o que verifica se o item j√° existe na entrada e se o pre√ßo √©
+     * FunÁ„o que verifica se o item j· existe na entrada e se o preÁo È
      * igual ao vendido
      *
      * @param codMovEntrada
@@ -214,9 +214,10 @@ public class QueryCplus {
         query.setParameter("valorUnitario", valorUnitario);
         return query.getResultList();
     }
+    
 
     /**
-     * Fun√ß√£o que verifica se j√° existe uma entrada de cliente sem nota
+     * FunÁ„o que verifica se j· existe uma entrada de cliente sem nota
      * emitida
      *
      * @param tipoMovimentoCodigo
@@ -932,7 +933,7 @@ public class QueryCplus {
      /**
      * FunÁ„o que retorna uma lista de entradas o tipoMovimento for true  
      * ser· compras, se for false ser· tudo maxResultado siginifica o numero de
-     * resultados retornados a ordem √© pela ultima data de entrada
+     * resultados retornados a ordem pela ultima data de entrada
      *
      * @param codigoProduto
      * @param tipoMovimento

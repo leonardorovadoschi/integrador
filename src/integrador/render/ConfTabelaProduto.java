@@ -37,8 +37,9 @@ public class ConfTabelaProduto extends DefaultTableCellRenderer {
         }
         //colorir linha selecionada
         if (table.isRowSelected(row)) {
-                background = new FormataCampos().stringParaColor(ConfiguracaoNoBD.getValorLinhaSelecionada());
+            background = new FormataCampos().stringParaColor(ConfiguracaoNoBD.getValorLinhaSelecionada());
         }
+        //"Data Entrada", "Fornecedor", "Codigo Fornecedor", "Quantidade", "Valor Unitário", "Valor Total", "Aliq IPI", "Valor IPI", "CST", "CFOP", "Aliq. ICMS", "Valor ICMS", ,"Num Nota", "CodMovEntrada"
         //mantem o alinhamento default
         label.setHorizontalAlignment(SwingConstants.LEFT);
         label.setForeground(Color.BLACK);
@@ -74,7 +75,7 @@ public class ConfTabelaProduto extends DefaultTableCellRenderer {
                 break;
             case 10:
                 label.setHorizontalAlignment(SwingConstants.RIGHT);
-                break;
+                break;      
         }
         //label.setForeground(foreground);
         label.setBackground(background);
