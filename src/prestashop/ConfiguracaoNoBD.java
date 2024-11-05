@@ -15,6 +15,14 @@ import jpa.integrador.IntConfiguracaoJpaController;
  */
 public class ConfiguracaoNoBD {
 
+    private static String tipoEspelhoRma;
+    private static String valorEtiquetaSerial;
+    private static String tipoEtiquetaSerial;
+    private static Usuario usuario;
+    private static String valorCaracteristicaCliente;
+    private static String tipoCaracteristicaCliente;
+    private static String valorCaracteristicaClienteRuim;
+    private static String tipoCaracteristicaClienteRuim;
     private static String valorCasasDecimais;
     private static String tipoCasasDecimais;
     private static String valorAudioFinalizado;
@@ -30,6 +38,42 @@ public class ConfiguracaoNoBD {
     private static String tipoLinhaImpar;
     private static String valorLinhaSelecionada;
     private static String tipoLinhaSelecionada;
+    private static String valorLinhaCompleto;
+    private static String tipoLinhaCompleto;
+    private static String valorLinhaIncompleto;
+    private static String tipoLinhaIncompleto;
+
+    public static String getValorLinhaIncompleto() {
+        return valorLinhaIncompleto;
+    }
+
+    public static void setValorLinhaIncompleto(String valorLinhaIncompleto) {
+        ConfiguracaoNoBD.valorLinhaIncompleto = valorLinhaIncompleto;
+    }
+
+    public static String getTipoLinhaIncompleto() {
+        return tipoLinhaIncompleto;
+    }
+
+    public static void setTipoLinhaIncompleto(String tipoLinhaIncompleto) {
+        ConfiguracaoNoBD.tipoLinhaIncompleto = tipoLinhaIncompleto;
+    }
+
+    public static String getValorLinhaCompleto() {
+        return valorLinhaCompleto;
+    }
+
+    public static void setValorLinhaCompleto(String valorLinhaCompleto) {
+        ConfiguracaoNoBD.valorLinhaCompleto = valorLinhaCompleto;
+    }
+
+    public static String getTipoLinhaCompleto() {
+        return tipoLinhaCompleto;
+    }
+
+    public static void setTipoLinhaCompleto(String tipoLinhaCompleto) {
+        ConfiguracaoNoBD.tipoLinhaCompleto = tipoLinhaCompleto;
+    }
 
     public static String getValorLinhaSelecionada() {
         return valorLinhaSelecionada;
@@ -142,14 +186,6 @@ public class ConfiguracaoNoBD {
     public static void setValorCaracteristicaClienteRuim(String valorCaracteristicaClienteRuim) {
         ConfiguracaoNoBD.valorCaracteristicaClienteRuim = valorCaracteristicaClienteRuim;
     }
-    private static String tipoEspelhoRma;
-    private static String valorEtiquetaSerial;
-    private static String tipoEtiquetaSerial;
-    private static Usuario usuario;
-    private static String valorCaracteristicaCliente;
-    private static String tipoCaracteristicaCliente;
-    private static String valorCaracteristicaClienteRuim;
-    private static String tipoCaracteristicaClienteRuim;
 
     public static String getTipoCaracteristicaCliente() {
         return tipoCaracteristicaCliente;
@@ -223,7 +259,7 @@ public class ConfiguracaoNoBD {
         ConfiguracaoNoBD.tipoEtiquetaSerial = tipoEtiquetaSerial;
     }
 
-    public void carregaConfiguracoes() {
+    private void carregaConfiguracoes() {
         for (IntConfiguracao c : new IntConfiguracaoJpaController(Manager.getManagerIntegrador()).findIntConfiguracaoEntities()) {
             switch (c.getTipo()) {
                 case "caminho_ARQUIVO_AUDIO_FINALIZADO":

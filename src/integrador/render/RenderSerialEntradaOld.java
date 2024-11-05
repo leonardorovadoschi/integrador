@@ -15,8 +15,8 @@ import javax.swing.table.DefaultTableCellRenderer;
  *
  * @author leonardo
  */
-public class RenderSerialEntrada extends DefaultTableCellRenderer{
-    public RenderSerialEntrada() {
+public class RenderSerialEntradaOld extends DefaultTableCellRenderer{
+    public RenderSerialEntradaOld() {
         setHorizontalAlignment(SwingConstants.CENTER);
     }
     @Override

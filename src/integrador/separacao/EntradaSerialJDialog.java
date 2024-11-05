@@ -680,15 +680,15 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
     }
 
     private void tocarSomErro() {
-        String path = queryIntegrador.valorConfiguracao("caminho_ARQUIVO_AUDIO_ERRO");
-        File mp3File = new File(path);
+        //String path = queryIntegrador.valorConfiguracao("caminho_ARQUIVO_AUDIO_ERRO");
+        File mp3File = new File(ConfiguracaoNoBD.getValorAudioErro());
         ReproduzirAudio musica = new ReproduzirAudio(mp3File);
         musica.play();
     }
 
     private void tocarSomFinalizado() {
-        String path = queryIntegrador.valorConfiguracao("caminho_ARQUIVO_AUDIO_FINALIZADO");
-        File mp3File = new File(path);
+        //String path = queryIntegrador.valorConfiguracao("caminho_ARQUIVO_AUDIO_FINALIZADO");
+        File mp3File = new File(ConfiguracaoNoBD.getValorAudioFinalizado());
         ReproduzirAudio musica = new ReproduzirAudio(mp3File);
         musica.play();
     }

@@ -9,7 +9,6 @@ package integrador.render;
 import java.awt.Color;
 import java.awt.Component;
 import java.math.BigDecimal;
-import java.util.Collection;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
@@ -17,8 +16,8 @@ import javax.swing.table.DefaultTableCellRenderer;
  *
  * @author leonardo
  */
-public class RenderSerialSaidaGreenRed extends DefaultTableCellRenderer{
-    public RenderSerialSaidaGreenRed() {
+public class RenderSerialSaidaGreenRedOld extends DefaultTableCellRenderer{
+    public RenderSerialSaidaGreenRedOld() {
 
     }
 

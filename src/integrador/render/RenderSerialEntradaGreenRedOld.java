@@ -17,7 +17,7 @@ import javax.swing.table.TableCellRenderer;
  *
  * @author leonardo
  */
-public class RenderSerialEntradaGreenRed implements TableCellRenderer {
+public class RenderSerialEntradaGreenRedOld implements TableCellRenderer {
 
     public static final DefaultTableCellRenderer DEFAULT_RENDERER = new DefaultTableCellRenderer();
 

@@ -12,6 +12,7 @@ import entidade.cplus.Tipomovimento;
 import entidade.cplus.Unidade;
 import entidade.integrador.SaidaSerial;
 import integrador.relatorio.ImprimeRelatorio;
+import integrador.render.ConfTabelaEspelhoRma;
 import janela.cplus.FormataCampos;
 import janela.cplus.ListagemClientesJDialog;
 import janela.cplus.ListagemOperacaoJDialog;
@@ -49,6 +50,7 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
         queryIntegrador = new QueryIntegrador();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
         movendaprodList = new ArrayList<>();
+         jTableItensEspelho.setDefaultRenderer(Object.class, new ConfTabelaEspelhoRma());
     }
 
     /**
@@ -427,6 +429,7 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
             if (prodFor.getCodmovprod() == null ? codMovendaProd == null : prodFor.getCodmovprod().equals(codMovendaProd)) {
                 jTableItensEspelho.clearSelection();
                 movendaprodList.remove(prodFor);
+                carregaTabelaMovendaprod();
                 jButtonRemoverProduto.setEnabled(false);
             }
         }
@@ -460,7 +463,7 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
                 e.getCodprod().getNomeprod(), 
                 e.getCodsituacaotributaria(), 
                 e.getCodcfop().getCodcfop(), 
-                e.getCodprod().getCodclassificacaofiscal().getCodclassificacaofiscal(),
+                e.getCodprod().getCodclassificacaofiscal().getCodigo(),
                 format.bigDecimalParaString(e.getQuantidade(), 0), 
                 format.bigDecimalParaString(e.getValorunitario(), 2), 
                 format.bigDecimalParaString(e.getValortotal(), 2), 

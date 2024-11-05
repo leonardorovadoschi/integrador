@@ -82,6 +82,10 @@ public class ConfiguracoesJDialog extends javax.swing.JDialog {
         jButtonCorLinhaImpar = new javax.swing.JButton();
         jLabelCorLinhaSelecionada = new javax.swing.JLabel();
         jButtonCorLinhaSelecionada = new javax.swing.JButton();
+        jLabelCorLinhaCompleta = new javax.swing.JLabel();
+        jButtonCorLinhaCompleta = new javax.swing.JButton();
+        jLabelCorLinhaIncompleto = new javax.swing.JLabel();
+        jButtonCorLinhaIncompleto = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Configurações");
@@ -342,22 +346,54 @@ public class ConfiguracoesJDialog extends javax.swing.JDialog {
             }
         });
 
+        jLabelCorLinhaCompleta.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabelCorLinhaCompleta.setText("Cor da Linha Completa:");
+
+        jButtonCorLinhaCompleta.setText("Selecione");
+        jButtonCorLinhaCompleta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCorLinhaCompletaActionPerformed(evt);
+            }
+        });
+
+        jLabelCorLinhaIncompleto.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabelCorLinhaIncompleto.setText("Cor da Linha Incompleta:");
+
+        jButtonCorLinhaIncompleto.setText("Selecione");
+        jButtonCorLinhaIncompleto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCorLinhaIncompletoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelCoresLayout = new javax.swing.GroupLayout(jPanelCores);
         jPanelCores.setLayout(jPanelCoresLayout);
         jPanelCoresLayout.setHorizontalGroup(
             jPanelCoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelCoresLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanelCoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelCoresLayout.createSequentialGroup()
-                        .addComponent(jLabelCorLinhaImpar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButtonCorLinhaImpar))
+                .addGroup(jPanelCoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanelCoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelCoresLayout.createSequentialGroup()
+                            .addComponent(jLabelCorLinhaImpar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGap(18, 18, 18)
+                            .addComponent(jButtonCorLinhaImpar))
+                        .addGroup(jPanelCoresLayout.createSequentialGroup()
+                            .addGroup(jPanelCoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jLabelCorLinhaCompleta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabelCorLinhaSelecionada, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanelCoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanelCoresLayout.createSequentialGroup()
+                                    .addGap(18, 18, 18)
+                                    .addComponent(jButtonCorLinhaSelecionada))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelCoresLayout.createSequentialGroup()
+                                    .addGap(18, 18, 18)
+                                    .addComponent(jButtonCorLinhaCompleta)))))
                     .addGroup(jPanelCoresLayout.createSequentialGroup()
-                        .addComponent(jLabelCorLinhaSelecionada)
+                        .addComponent(jLabelCorLinhaIncompleto, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButtonCorLinhaSelecionada)))
-                .addContainerGap(504, Short.MAX_VALUE))
+                        .addComponent(jButtonCorLinhaIncompleto)))
+                .addContainerGap(494, Short.MAX_VALUE))
         );
         jPanelCoresLayout.setVerticalGroup(
             jPanelCoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -370,7 +406,15 @@ public class ConfiguracoesJDialog extends javax.swing.JDialog {
                 .addGroup(jPanelCoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelCorLinhaSelecionada)
                     .addComponent(jButtonCorLinhaSelecionada))
-                .addContainerGap(327, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelCoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelCorLinhaCompleta)
+                    .addComponent(jButtonCorLinhaCompleta))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanelCoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelCorLinhaIncompleto)
+                    .addComponent(jButtonCorLinhaIncompleto))
+                .addContainerGap(264, Short.MAX_VALUE))
         );
 
         jTabbedPaneConfArquivos.addTab("Cores", jPanelCores);
@@ -537,29 +581,55 @@ public class ConfiguracoesJDialog extends javax.swing.JDialog {
 
     private void jButtonCorLinhaImparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCorLinhaImparActionPerformed
         Color cor = jColor.showDialog(null, "Escolha uma Cor", format.stringParaColor(ConfiguracaoNoBD.getValorLinhaImpar()));
-        if (cor != null){
-        jButtonCorLinhaImpar.setBackground(cor);
-        try {
-            queryIntegrador.atualizaValorConfiguracao(ConfiguracaoNoBD.getTipoLinhaImpar(), format.colorParaString(cor));
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Houve um ero ao editar " + ConfiguracaoNoBD.getTipoLinhaImpar() + "! \n" + ex);
-        }
-         new CarregaConfiguracao().carregar();
+        if (cor != null) {
+            jButtonCorLinhaImpar.setBackground(cor);
+            try {
+                queryIntegrador.atualizaValorConfiguracao(ConfiguracaoNoBD.getTipoLinhaImpar(), format.colorParaString(cor));
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Houve um ero ao editar " + ConfiguracaoNoBD.getTipoLinhaImpar() + "! \n" + ex);
+            }
+            new CarregaConfiguracao().carregar();
         }
     }//GEN-LAST:event_jButtonCorLinhaImparActionPerformed
 
     private void jButtonCorLinhaSelecionadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCorLinhaSelecionadaActionPerformed
-         Color cor = jColor.showDialog(null, "Escolha uma Cor", format.stringParaColor(ConfiguracaoNoBD.getValorLinhaSelecionada()));
-         if (cor != null){
-         jButtonCorLinhaSelecionada.setBackground(cor);
-        try {
-            queryIntegrador.atualizaValorConfiguracao(ConfiguracaoNoBD.getTipoLinhaSelecionada(), format.colorParaString(cor));
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Houve um ero ao editar " + ConfiguracaoNoBD.getTipoLinhaSelecionada() + "! \n" + ex);
+        Color cor = jColor.showDialog(null, "Escolha uma Cor", format.stringParaColor(ConfiguracaoNoBD.getValorLinhaSelecionada()));
+        if (cor != null) {
+            jButtonCorLinhaSelecionada.setBackground(cor);
+            try {
+                queryIntegrador.atualizaValorConfiguracao(ConfiguracaoNoBD.getTipoLinhaSelecionada(), format.colorParaString(cor));
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Houve um ero ao editar " + ConfiguracaoNoBD.getTipoLinhaSelecionada() + "! \n" + ex);
+            }
+            new CarregaConfiguracao().carregar();
         }
-         new CarregaConfiguracao().carregar();
-         }
     }//GEN-LAST:event_jButtonCorLinhaSelecionadaActionPerformed
+
+    private void jButtonCorLinhaCompletaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCorLinhaCompletaActionPerformed
+        Color cor = jColor.showDialog(null, "Escolha uma Cor", format.stringParaColor(ConfiguracaoNoBD.getValorLinhaCompleto()));
+        if (cor != null) {
+            jButtonCorLinhaCompleta.setBackground(cor);
+            try {
+                queryIntegrador.atualizaValorConfiguracao(ConfiguracaoNoBD.getTipoLinhaCompleto(), format.colorParaString(cor));
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Houve um ero ao editar " + ConfiguracaoNoBD.getTipoLinhaCompleto() + "! \n" + ex);
+            }
+            new CarregaConfiguracao().carregar();
+        }
+    }//GEN-LAST:event_jButtonCorLinhaCompletaActionPerformed
+
+    private void jButtonCorLinhaIncompletoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCorLinhaIncompletoActionPerformed
+        Color cor = jColor.showDialog(null, "Escolha uma Cor", format.stringParaColor(ConfiguracaoNoBD.getValorLinhaIncompleto()));
+        if (cor != null) {
+            jButtonCorLinhaIncompleto.setBackground(cor);
+            try {
+                queryIntegrador.atualizaValorConfiguracao(ConfiguracaoNoBD.getTipoLinhaIncompleto(), format.colorParaString(cor));
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Houve um ero ao editar " + ConfiguracaoNoBD.getTipoLinhaIncompleto() + "! \n" + ex);
+            }
+            new CarregaConfiguracao().carregar();
+        }
+    }//GEN-LAST:event_jButtonCorLinhaIncompletoActionPerformed
 
     public void setCarregaCampos() {
         jTextFieldSomFinalizado.setText(ConfiguracaoNoBD.getValorAudioFinalizado());
@@ -573,9 +643,11 @@ public class ConfiguracoesJDialog extends javax.swing.JDialog {
         jTextFieldCaracteristicaPessoa.setText(
                 new CaracteristicapessoaJpaController(Manager.getManagerCplus()).
                 findCaracteristicapessoa(ConfiguracaoNoBD.getValorCaracteristicaClienteRuim()).getNomecaracteristicapessoa());
-        jTextFieldProdutoComprado.setText(ConfiguracaoNoBD.getValorProdutoComprado());       
+        jTextFieldProdutoComprado.setText(ConfiguracaoNoBD.getValorProdutoComprado());
         jButtonCorLinhaImpar.setBackground(format.stringParaColor(ConfiguracaoNoBD.getValorLinhaImpar()));
         jButtonCorLinhaSelecionada.setBackground(format.stringParaColor(ConfiguracaoNoBD.getValorLinhaSelecionada()));
+        jButtonCorLinhaCompleta.setBackground(format.stringParaColor(ConfiguracaoNoBD.getValorLinhaCompleto()));
+        jButtonCorLinhaIncompleto.setBackground(format.stringParaColor(ConfiguracaoNoBD.getValorLinhaIncompleto()));
     }
 
     /**
@@ -631,7 +703,9 @@ public class ConfiguracoesJDialog extends javax.swing.JDialog {
     private javax.persistence.EntityManager cplusPUEntityManager;
     private javax.swing.JButton jButtonCaracteristicaPessoa;
     private javax.swing.JButton jButtonCaracteristicaPessoaDesconto;
+    private javax.swing.JButton jButtonCorLinhaCompleta;
     private javax.swing.JButton jButtonCorLinhaImpar;
+    private javax.swing.JButton jButtonCorLinhaIncompleto;
     private javax.swing.JButton jButtonCorLinhaSelecionada;
     private javax.swing.JButton jButtonEspelhoRma;
     private javax.swing.JButton jButtonEtiquetaSerial;
@@ -642,7 +716,9 @@ public class ConfiguracoesJDialog extends javax.swing.JDialog {
     private javax.swing.JColorChooser jColor;
     private javax.swing.JLabel jLabelCaracteristica;
     private javax.swing.JLabel jLabelCaracteristicaDesconto;
+    private javax.swing.JLabel jLabelCorLinhaCompleta;
     private javax.swing.JLabel jLabelCorLinhaImpar;
+    private javax.swing.JLabel jLabelCorLinhaIncompleto;
     private javax.swing.JLabel jLabelCorLinhaSelecionada;
     private javax.swing.JLabel jLabelEspelhoRma;
     private javax.swing.JLabel jLabelEtiquetaSerial;

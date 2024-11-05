@@ -625,13 +625,13 @@
                         <Column editable="false" title="Desc. Grupo" type="java.lang.String"/>
                         <Column editable="false" title="Peso" type="java.lang.String"/>
                         <Column editable="false" title="Reference" type="java.lang.String"/>
-                        <Column editable="false" title="Id Order" type="java.lang.Integer"/>
-                        <Column editable="false" title="Id Order Detail" type="java.lang.Integer"/>
+                        <Column editable="false" title="Id Order" type="java.lang.String"/>
+                        <Column editable="false" title="Id Order Detail" type="java.lang.String"/>
                       </Table>
                     </Property>
                     <Property name="autoResizeMode" type="int" value="0"/>
                     <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
-                      <TableColumnModel selectionModel="0">
+                      <TableColumnModel selectionModel="1">
                         <Column maxWidth="-1" minWidth="-1" prefWidth="120" resizable="true">
                           <Title/>
                           <Editor/>
@@ -694,6 +694,7 @@
                         </Column>
                       </TableColumnModel>
                     </Property>
+                    <Property name="columnSelectionAllowed" type="boolean" value="true"/>
                     <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
                       <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
                     </Property>

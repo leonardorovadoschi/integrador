@@ -20,10 +20,11 @@ import entidade.integrador.IntLogs;
 import entidade.integrador.SaidaSerial;
 import entidade.integrador.SerialProduto;
 import integrador.relatorio.ImprimeRelatorio;
-import integrador.render.produto.RenderLocalizacao;
+import integrador.render.ConfTabelaSaidaSerial;
+import integrador.render.ConfTabelaSaidaSerialProd;
+import janela.cplus.FormataCampos;
 import janela.cplus.ListagemProdutoJDialog;
 import janela.cplus.ListagemSaidasJDialog;
-import java.awt.Color;
 import java.awt.Toolkit;
 import java.io.File;
 import java.math.BigDecimal;
@@ -32,10 +33,8 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
 import jpa.cplus.MovendaJpaController;
 import jpa.cplus.MovendaprodJpaController;
 import jpa.cplus.ProdutoJpaController;
@@ -58,25 +57,18 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
      * Creates new form SaidaSerialJFrame
      */
     public SaidaSerialJFrame() {
-        initComponents();
-        //managerCplus = managerCplus1;
-        //managerPrestaShop = managerPrestaShop1;
-        //querySerial = new QuerySerial(managerCplus);
-        queryCplus = new QueryCplus();
-        //queryPrestaShop = new QueryPrestaShop(managerPrestaShop);
-        //managerIntegrador = managerIntegrador1;
+        initComponents();      
+        queryCplus = new QueryCplus();       
         queryIntegrador = new QueryIntegrador();
         this.listagemSaidasJDialog = new ListagemSaidasJDialog(this, true);
         this.listagemUsuarioJDialog = new ListagemUsuarioJDialog(this, true);
-        this.listagemUsuarioJDialog.setLocationRelativeTo(null);
-        // this.serialJDialog = new SerialJDialog(this, true);
+        this.listagemUsuarioJDialog.setLocationRelativeTo(null);       
         this.listagemUsuarioJDialog.requestFocusInWindow();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
-        //colunaCodMovProdutoSaida = jTableProdutosPedido.getColumnModel().getColumnIndex("Codmovprod");
-        //colunaQuantidadeConferida = jTableProdutosPedido.getColumnModel().getColumnIndex("Quant Conferida");   
-        //colunaCodMovProdutoSerial = jTableSerialSaida.getColumnModel().getColumnIndex("Codmovendaprodserial");
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));      
         this.listagemProdutoJDialog = new ListagemProdutoJDialog(this, true);
-     new RenderLocalizacao(Manager.getManagerCplus());
+    // new RenderLocalizacao(Manager.getManagerCplus());
+     jTableSaidaProd.setDefaultRenderer(Object.class, new ConfTabelaSaidaSerialProd());
+     jTableSeriasSeparados.setDefaultRenderer(Object.class, new ConfTabelaSaidaSerial());
 
     }
 
@@ -300,20 +292,20 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
                     .addComponent(jButtonCancelarSeparacao)))
         );
 
-        jTableSaidaProd.setFont(new java.awt.Font("Arial", 0, 17)); // NOI18N
+        jTableSaidaProd.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jTableSaidaProd.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Código", "Nome Produto", "Quantidade", "Separado", "Setor", "Estoque", "Cod. MovProd"
+                "Código", "Nome Produto", "Quantidade", "Separado", "Setor", "Estoque", "Unidade", "Cod. MovProd"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -336,15 +328,16 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTableSaidaProd);
         jTableSaidaProd.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (jTableSaidaProd.getColumnModel().getColumnCount() > 0) {
-            jTableSaidaProd.getColumnModel().getColumn(0).setPreferredWidth(90);
+            jTableSaidaProd.getColumnModel().getColumn(0).setPreferredWidth(100);
             jTableSaidaProd.getColumnModel().getColumn(1).setPreferredWidth(400);
             jTableSaidaProd.getColumnModel().getColumn(2).setPreferredWidth(50);
             jTableSaidaProd.getColumnModel().getColumn(3).setPreferredWidth(50);
-            jTableSaidaProd.getColumnModel().getColumn(4).setPreferredWidth(10);
-            jTableSaidaProd.getColumnModel().getColumn(5).setPreferredWidth(20);
-            jTableSaidaProd.getColumnModel().getColumn(6).setPreferredWidth(5);
+            jTableSaidaProd.getColumnModel().getColumn(4).setPreferredWidth(30);
+            jTableSaidaProd.getColumnModel().getColumn(5).setPreferredWidth(30);
+            jTableSaidaProd.getColumnModel().getColumn(7).setPreferredWidth(5);
         }
 
+        jTableSeriasSeparados.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jTableSeriasSeparados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -354,13 +347,21 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
         });
+        jTableSeriasSeparados.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         jTableSeriasSeparados.setColumnSelectionAllowed(true);
         jTableSeriasSeparados.getTableHeader().setReorderingAllowed(false);
         jTableSeriasSeparados.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -403,7 +404,7 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(87, 87, 87)
-                        .addComponent(jPanelInformacoes, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jPanelInformacoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(jPanelPesquisas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -570,27 +571,29 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
         for (Movendaprod e : listaProdutoPedido) {
             int coluna = jTableSaidaProd.getColumnModel().getColumnIndex("Cod. MovProd");
             int colunaSeparado = jTableSaidaProd.getColumnModel().getColumnIndex("Separado");
-             tabSaidaProd.addRow(new Object[]{e.getCodprod().getCodigo(), e.getCodprod().getNomeprod(), quantidadePacote(e), queryIntegrador.listPorSaidaProd(e.getCodmovprod()).size(), 
-                                    setor(e.getCodprod()) ,EstoqueCplus(e.getCodprod().getCodprod()), e.getCodmovprod()});
+             tabSaidaProd.addRow(new Object[]{
+                 e.getCodprod().getCodigo(), 
+                 e.getCodprod().getNomeprod(), 
+                 String.valueOf(quantidadePacote(e)), 
+                 String.valueOf(queryIntegrador.listPorSaidaProd(e.getCodmovprod()).size()), 
+                 setor(e.getCodprod()),
+                 String.valueOf(EstoqueCplus(e.getCodprod().getCodprod())), 
+                 unidade(e),
+                 e.getCodmovprod()
+             });
             String value = (String) jTableSaidaProd.getValueAt(linha, coluna);
             if (movProd.getCodmovprod() == null ? value == null : movProd.getCodmovprod().equals(value)) {
                 tabSaidaProd.setValueAt(quantSeparada, linha, colunaSeparado);
                 DefaultTableModel tabSerial = (DefaultTableModel) jTableSeriasSeparados.getModel();
                 for (SaidaSerial s : queryIntegrador.listSaidaSerial(serial, movProd.getCodmovprod())) {
-                    tabSerial.addRow(new Object[]{s.getIdSerial().getCodigoProduto(), s.getIdSerial().getNomeProduto(), s.getIdSerial().getSerial(), s.getIdSaidaSerial()});
-                    //colore as linhas da tabela
-                    TableCellRenderer rendererSeparado = new ColorirLinhaImpar();
-                    for (int c = 0; c < jTableSeriasSeparados.getColumnCount(); c++) {
-                        jTableSeriasSeparados.setDefaultRenderer(jTableSeriasSeparados.getColumnClass(c), rendererSeparado);
-                    }                   
+                    tabSerial.addRow(new Object[]{
+                        s.getIdSerial().getCodigoProduto(), 
+                        s.getIdSerial().getNomeProduto(), 
+                        s.getIdSerial().getSerial(), 
+                        String.valueOf(s.getIdSaidaSerial())
+                    });                                
                 }
-            }
-            //colore as linhas da tabela            
-            TableCellRenderer renderer = new ColorirTabelaSaidaSerial();
-            for (int c = 0; c < jTableSaidaProd.getColumnCount(); c++) {
-                jTableSaidaProd.setDefaultRenderer(jTableSaidaProd.getColumnClass(c), renderer);
-            }
-            //**********************
+            }           
             linha++;
         }
     }
@@ -602,7 +605,14 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
        }
         return text;
     }
-    
+     private String unidade(Movendaprod prodEnt) {
+        String txt = "";
+        List<Unidade> listUn = queryCplus.resultPorUnidadeProduto(prodEnt.getCodprod().getUnidade());
+        for (Unidade un : listUn) {
+           txt = un.getCodigo();
+        }
+        return txt;
+    }   
      private Integer EstoqueCplus(String codProd) {
         BigDecimal estoque = BigDecimal.ZERO;
         List<Produtoestoque> listEsroque = new QueryCplus().listEstoquesPorProd(codProd);
@@ -618,14 +628,16 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
             ((DefaultTableModel) jTableSaidaProd.getModel()).removeRow(0);
         }
         for (Movendaprod e : listaProdutoPedido) {
-            tab.addRow(new Object[]{e.getCodprod().getCodigo(), e.getCodprod().getNomeprod(), quantidadePacote(e), queryIntegrador.listPorSaidaProd(e.getCodmovprod()).size(), 
-                                    setor(e.getCodprod()) ,EstoqueCplus(e.getCodprod().getCodprod()), e.getCodmovprod()});
-            //colore as linhas da tabela
-            TableCellRenderer renderer = new ColorirTabelaSaidaSerial();
-            for (int c = 0; c < jTableSaidaProd.getColumnCount(); c++) {
-                jTableSaidaProd.setDefaultRenderer(jTableSaidaProd.getColumnClass(c), renderer);
-            }
-            //**********************
+            tab.addRow(new Object[]{
+                e.getCodprod().getCodigo(), 
+                 e.getCodprod().getNomeprod(), 
+                 String.valueOf(quantidadePacote(e)), 
+                 String.valueOf(queryIntegrador.listPorSaidaProd(e.getCodmovprod()).size()), 
+                 setor(e.getCodprod()),
+                 String.valueOf(EstoqueCplus(e.getCodprod().getCodprod())), 
+                 unidade(e),
+                 e.getCodmovprod()
+            });          
         }
 
         DefaultTableModel tabSerial = (DefaultTableModel) jTableSeriasSeparados.getModel();
@@ -633,13 +645,12 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
             ((DefaultTableModel) jTableSeriasSeparados.getModel()).removeRow(0);
         }
         for (SaidaSerial s : queryIntegrador.listPorSaida(movenda.getCodmovenda())) {
-            tabSerial.addRow(new Object[]{s.getIdSerial().getCodigoProduto(), s.getIdSerial().getNomeProduto(), s.getIdSerial().getSerial(), s.getIdSaidaSerial()});
-            //colore as linhas da tabela
-            TableCellRenderer rendererSeparado = new ColorirLinhaImpar();
-            for (int c = 0; c < jTableSeriasSeparados.getColumnCount(); c++) {
-                jTableSeriasSeparados.setDefaultRenderer(jTableSeriasSeparados.getColumnClass(c), rendererSeparado);
-            }
-            //**********************
+            tabSerial.addRow(new Object[]{
+                s.getIdSerial().getCodigoProduto(), 
+                s.getIdSerial().getNomeProduto(), 
+                s.getIdSerial().getSerial(), 
+                String.valueOf(s.getIdSaidaSerial())
+            });           
         }
         if (jTableSeriasSeparados.getRowCount() != 0) {
             jTableSeriasSeparados.setRowSelectionInterval(jTableSeriasSeparados.getRowCount() - 1, jTableSeriasSeparados.getRowCount() - 1);//seleciona ultima linha   
@@ -849,10 +860,10 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
 
     private void tocarSomErro() {
         //String com o caminho do arquivo ReproduzirAudio a ser tocado
-        String path = queryIntegrador.valorConfiguracao("caminho_ARQUIVO_AUDIO_ERRO");
+       //String path = queryIntegrador.valorConfiguracao("caminho_ARQUIVO_AUDIO_ERRO");
         //new VariavelStatica().caminho_ARQUIVO_AUDIO_ERRO;
         //Instanciar um objeto File com o arquivo ReproduzirAudio
-        File mp3File = new File(path);
+        File mp3File = new File(ConfiguracaoNoBD.getValorAudioErro());
         //Instancia do Objeto ReproduzirAudio, a qual criamos a classe.
         ReproduzirAudio musica = new ReproduzirAudio(mp3File);
         //Finalmente a chamada do método que toca a música
@@ -880,12 +891,13 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
         // quantidadeSaidas = movendaprodserialList.size();
         // quantidadTotalPedido = quanMovendaProd;
         int tot = quanMovendaProd - quantidadeSerial;
-        jTextFieldItensFaltando.setText(String.valueOf(tot));
+        //jTextFieldItensFaltando.setText(String.valueOf(tot));
 
         if (quanMovendaProd == quantidadeSerial) {
             jTextFieldItensFaltando.setText(String.valueOf(tot));
+            jTextFieldItensFaltando.setBackground(format.stringParaColor(ConfiguracaoNoBD.getValorLinhaCompleto()));
             jTextFieldTextoAviso.setText("Pedido Totalmente Separado!");
-            jTextFieldTextoAviso.setBackground(Color.GREEN);
+            jTextFieldTextoAviso.setBackground(format.stringParaColor(ConfiguracaoNoBD.getValorLinhaCompleto()));
             jButtonSepararPedido.setEnabled(false);
             jButtonCancelarSeparacao.setEnabled(false);
             jButtonImprimirRomaneio.setEnabled(true);
@@ -895,8 +907,10 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
             tocarSomFinalizado();
             condicao = true;
         } else {
+            jTextFieldItensFaltando.setText(String.valueOf(tot));
+            jTextFieldItensFaltando.setBackground(format.stringParaColor(ConfiguracaoNoBD.getValorLinhaIncompleto()));
             jTextFieldTextoAviso.setText("Aguardando Separação de Produtos!");
-            jTextFieldTextoAviso.setBackground(Color.RED);
+            jTextFieldTextoAviso.setBackground(format.stringParaColor(ConfiguracaoNoBD.getValorLinhaIncompleto()));
             jButtonImprimirRomaneio.setEnabled(false);
             jButtonSepararPedido.setEnabled(true);
             jButtonCancelarSeparacao.setEnabled(true);
@@ -940,10 +954,10 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
 
     private void tocarSomFinalizado() {
         //String com o caminho do arquivo ReproduzirAudio a ser tocado
-        String path = queryIntegrador.valorConfiguracao("caminho_ARQUIVO_AUDIO_FINALIZADO");
+       // String path = queryIntegrador.valorConfiguracao("caminho_ARQUIVO_AUDIO_FINALIZADO");
         // new VariavelStatica().caminho_ARQUIVO_AUDIO_FINALIZADO;
         //Instancia de um objeto File com o arquivo ReproduzirAudio
-        File mp3File = new File(path);
+        File mp3File = new File(ConfiguracaoNoBD.getValorAudioFinalizado());
         //Instancia do Objeto ReproduzirAudio, a qual criamos a classe.
         ReproduzirAudio musica = new ReproduzirAudio(mp3File);
         //Finalmente a chamada do método que toca a música
@@ -986,11 +1000,12 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
     }
     private Movenda movenda;
     private final ListagemSaidasJDialog listagemSaidasJDialog;
-    ListagemUsuarioJDialog listagemUsuarioJDialog;    
+    private final ListagemUsuarioJDialog listagemUsuarioJDialog;    
     private List<Movendaprod> listaProdutoPedido;
     private final QueryCplus queryCplus;
     private final QueryIntegrador queryIntegrador;
     private final ListagemProdutoJDialog listagemProdutoJDialog; 
+    private final FormataCampos format = new FormataCampos();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCancelarSeparacao;

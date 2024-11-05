@@ -16,7 +16,7 @@ import javax.swing.table.TableCellRenderer;
  *
  * @author leonardo
  */
-public class ColorirTabelaEntradaSerial implements TableCellRenderer {
+public class ColorirTabelaEntradaSerialOld implements TableCellRenderer {
 
     public static final DefaultTableCellRenderer DEFAULT_RENDERER = new DefaultTableCellRenderer();
     int line;

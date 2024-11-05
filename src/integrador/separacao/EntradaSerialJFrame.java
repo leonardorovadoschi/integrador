@@ -11,9 +11,10 @@ import entidade.cplus.Moventradaprod;
 import entidade.cplus.Produto;
 import entidade.cplus.Produtoestoque;
 import entidade.cplus.Unidade;
+import integrador.render.ConfTabelaEntradaSerial;
+import janela.cplus.FormataCampos;
 import janela.cplus.ListagemEntradasJDialog;
 import janela.cplus.ListagemProdutoJDialog;
-import java.awt.Color;
 import java.awt.Toolkit;
 import java.math.BigDecimal;
 import java.net.InetAddress;
@@ -21,8 +22,8 @@ import java.net.UnknownHostException;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
 import jpa.cplus.MoventradaprodJpaController;
+import prestashop.ConfiguracaoNoBD;
 import prestashop.Manager;
 import query.cplus.QueryCplus;
 import query.integrador.QueryIntegrador;
@@ -49,7 +50,7 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
         colunaCodMovProd = jTableEntradaProd.getColumnModel().getColumnIndex("Codmoveprod");
         this.listagemProdutoJDialog = new ListagemProdutoJDialog(this, true);
-
+         jTableEntradaProd.setDefaultRenderer(Object.class, new ConfTabelaEntradaSerial());
         //new RenderPreco();
     }
 
@@ -76,20 +77,21 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Seriais de Entrada");
 
-        jTableEntradaProd.setFont(new java.awt.Font("Arial", 0, 17)); // NOI18N
+        jTableEntradaProd.setAutoCreateRowSorter(true);
+        jTableEntradaProd.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jTableEntradaProd.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Código", "Nome Produto", "Quantidade", "Completo", "Setor", "Estoque Atual", "Codmoveprod"
+                "Código", "Nome Produto", "Quantidade", "Entradas", "Setor", "Estoque Atual", "Unidade", "Codmoveprod"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -100,6 +102,7 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTableEntradaProd.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         jTableEntradaProd.setColumnSelectionAllowed(true);
         jTableEntradaProd.setRowHeight(25);
         jTableEntradaProd.getTableHeader().setReorderingAllowed(false);
@@ -111,8 +114,8 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
         jScrollPane2.setViewportView(jTableEntradaProd);
         jTableEntradaProd.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (jTableEntradaProd.getColumnModel().getColumnCount() > 0) {
-            jTableEntradaProd.getColumnModel().getColumn(0).setPreferredWidth(80);
-            jTableEntradaProd.getColumnModel().getColumn(1).setPreferredWidth(350);
+            jTableEntradaProd.getColumnModel().getColumn(0).setPreferredWidth(130);
+            jTableEntradaProd.getColumnModel().getColumn(1).setPreferredWidth(440);
         }
 
         jPanelPrincipal.setBorder(javax.swing.BorderFactory.createTitledBorder("Painel"));
@@ -332,9 +335,18 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
         }
         for (Moventradaprod e : moEntradaProduto) {
             int comp = queryIntegrador.listPorEntradaProd(e.getCodmoveprod()).size();
-            tab.addRow(new Object[]{e.getCodprod().getCodigo(), e.getCodprod().getNomeprod(), quanPacote(e), comp, setor(e.getCodprod()), EstoqueCplus(e.getCodprod().getCodprod()), e.getCodmoveprod()});
+            tab.addRow(new Object[]{
+                e.getCodprod().getCodigo(), 
+                e.getCodprod().getNomeprod(), 
+                String.valueOf(quanPacote(e)), 
+                String.valueOf(comp), 
+                setor(e.getCodprod()), 
+                format.bigDecimalParaString(EstoqueCplus(e.getCodprod().getCodprod()), 0), 
+                unidade(e),
+                e.getCodmoveprod()
+            });
         }
-        colorirLinha();
+       // colorirLinha();
     }
 
     private String setor(Produto codProd) {
@@ -345,13 +357,13 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
         return text;
     }
 
-    private Integer EstoqueCplus(String codProd) {
+    private BigDecimal EstoqueCplus(String codProd) {
         BigDecimal estoque = BigDecimal.ZERO;
         List<Produtoestoque> listEsroque = new QueryCplus().listEstoquesPorProd(codProd);
         for (Produtoestoque est : listEsroque) {
             estoque = est.getEstatu().subtract(est.getReservadoorcamento().subtract(est.getReservadoos()));
         }
-        return estoque.intValue();
+        return estoque;
     }
 
     private void pesquisarEntrada() {
@@ -375,12 +387,12 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
             entSerial = entSerial + queryIntegrador.listPorEntradaProd(prod.getCodmoveprod()).size();
         }
         if (entSerial == totalProdutos) {
-            jLabelStatusEntrada.setForeground(Color.GREEN);
+            jLabelStatusEntrada.setForeground(format.stringParaColor(ConfiguracaoNoBD.getValorLinhaCompleto()));
             jLabelStatusEntrada.setText("Entrada de Serial Completa");
             //jButtonEntradaDeSeriais.setEnabled(false);
         } else {
 //            insereConfiguracaoParaGravacaoEntrada();
-            jLabelStatusEntrada.setForeground(Color.RED);
+            jLabelStatusEntrada.setForeground(format.stringParaColor(ConfiguracaoNoBD.getValorLinhaIncompleto()));
             jLabelStatusEntrada.setText("Entrada de Serial Incompleta");
             //jButtonEntradaDeSeriais.setEnabled(true);
         }
@@ -405,14 +417,16 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
             }
         }
         return quantidade;
-    }
-
-    private void colorirLinha() {
-        TableCellRenderer renderer = new ColorirTabelaEntradaSerial();
-        for (int c = 0; c < jTableEntradaProd.getColumnCount(); c++) {
-            jTableEntradaProd.setDefaultRenderer(jTableEntradaProd.getColumnClass(c), renderer);
+    }   
+    
+    private String unidade(Moventradaprod prodEnt) {
+        String txt = "";
+        List<Unidade> listUn = queryCplus.resultPorUnidadeProduto(prodEnt.getCodprod().getUnidade());
+        for (Unidade un : listUn) {
+           txt = un.getCodigo();
         }
-    }
+        return txt;
+    }   
 
     /**
      * @param args the command line arguments
@@ -459,6 +473,7 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
     private Moventradaprod movEntradaProd;
     private int colunaCodMovProd;
     private final ListagemProdutoJDialog listagemProdutoJDialog;
+    private FormataCampos format = new FormataCampos();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonEditarProduto;

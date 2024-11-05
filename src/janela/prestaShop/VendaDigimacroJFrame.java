@@ -145,7 +145,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         jTextFieldTotalProdutos = new javax.swing.JTextField();
         jTextFieldTaxa = new javax.swing.JTextField();
         jButtonAlteraPagamento = new javax.swing.JButton();
-        jComboBoxPagamento = new javax.swing.JComboBox<>();
+        jComboBoxPagamento = new javax.swing.JComboBox<String>();
         jComboBoxState = new javax.swing.JComboBox();
         jLabel1 = new javax.swing.JLabel();
         jTextFieldDescontoAvulso = new javax.swing.JTextField();
@@ -302,7 +302,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
             }
         });
 
-        jComboBoxPagamento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " " }));
+        jComboBoxPagamento.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " " }));
         jComboBoxPagamento.setFocusable(false);
         jComboBoxPagamento.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -494,7 +494,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, false, false, false, false, false, false, false
@@ -509,6 +509,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
             }
         });
         jTableOrderDetail.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        jTableOrderDetail.setColumnSelectionAllowed(true);
         jTableOrderDetail.getTableHeader().setReorderingAllowed(false);
         jTableOrderDetail.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -516,6 +517,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
             }
         });
         jScrollPane3.setViewportView(jTableOrderDetail);
+        jTableOrderDetail.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (jTableOrderDetail.getColumnModel().getColumnCount() > 0) {
             jTableOrderDetail.getColumnModel().getColumn(0).setPreferredWidth(120);
             jTableOrderDetail.getColumnModel().getColumn(1).setPreferredWidth(350);
@@ -574,13 +576,9 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
             }
         });
 
-        jDateChooserDataInicialCustomer.setDateFormatString("dd/MM/yyyy");
-
         jLabelDataInicialCustomer.setText("Data Inicial:");
 
         jLabelDataFinalCustomer.setText("Data Final:");
-
-        jDateChooserDataFinalCustomer.setDateFormatString("dd/MM/yyyy");
 
         javax.swing.GroupLayout jPanelControleClienteDigimacroLayout = new javax.swing.GroupLayout(jPanelControleClienteDigimacro);
         jPanelControleClienteDigimacro.setLayout(jPanelControleClienteDigimacroLayout);
@@ -1470,11 +1468,20 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
             //"EAN", "Produto Nome", "Quant", "Valor", 
             //"Val. Unit.", "Val. Total", "Desc. %", "Desc. Grupo", "Peso", "Reference",
             //"Id Order", "Id Order Detail"
-            tab.addRow(new Object[]{e.getProductEan13(), e.getProductName(), e.getProductQuantity(), format.bigDecimalParaString(e.getOriginalProductPrice(), 2),
-                format.bigDecimalParaString(e.getUnitPriceTaxIncl(), 2), format.bigDecimalParaString(e.getTotalPriceTaxIncl(), 2), format.bigDecimalParaPorcentagem(e.getReductionPercent()),
-                format.bigDecimalParaPorcentagem(e.getGroupReduction()), e.getProductWeight(), e.getProductReference(), e.getIdOrder(), e.getIdOrderDetail()});
-        }
-  
+            tab.addRow(new Object[]{
+                e.getProductEan13(), 
+                e.getProductName(), 
+                e.getProductQuantity(), 
+                format.bigDecimalParaString(e.getOriginalProductPrice(), 2),
+                format.bigDecimalParaString(e.getUnitPriceTaxIncl(), 2), 
+                format.bigDecimalParaString(e.getTotalPriceTaxIncl(), 2), 
+                format.bigDecimalParaPorcentagem(e.getReductionPercent()),
+                format.bigDecimalParaPorcentagem(e.getGroupReduction()), 
+                e.getProductWeight(), e.getProductReference(),
+                String.valueOf(e.getIdOrder()), 
+                String.valueOf(e.getIdOrderDetail())
+            });
+        }  
     }
 
     private void limpaCampos() {

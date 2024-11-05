@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package integrador.render;
 
 import janela.cplus.FormataCampos;
@@ -17,21 +18,21 @@ import prestashop.ConfiguracaoNoBD;
 
 /**
  *
- * @author leonardo
+ * @author leo-note
  */
-public class ConfTabelaEntradaProd extends DefaultTableCellRenderer{
+public class ConfTabelaSaidaSerialProd extends DefaultTableCellRenderer{
 
-    public ConfTabelaEntradaProd() {
+    private final FormataCampos format = new FormataCampos();
+    public ConfTabelaSaidaSerialProd() {
     }
     
-    
-     @Override
+    @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         JLabel label = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-       // Color foreground = null;
+        //Color foreground = null;
         Color background = null;
 
-        //colorir linha impar
+//colorir linha impar
         if (row % 2 == 0) {
             //foreground = Color.BLACK;
             background = new FormataCampos().stringParaColor(ConfiguracaoNoBD.getValorLinhaImpar());
@@ -45,49 +46,35 @@ public class ConfTabelaEntradaProd extends DefaultTableCellRenderer{
         label.setForeground(Color.BLACK);
         switch (column) {
             //configuração por coluna 
+            case 2:
+                label.setHorizontalAlignment(SwingConstants.CENTER);
+                setFont(new Font("Arial", 3, 14));//altera a fonte e tamanho da letra
+                break;
             case 3:
                 label.setHorizontalAlignment(SwingConstants.CENTER);
-                //setFont(new Font("Arial", 3, 13));//altera a fonte e tamanho da letra
+                 setFont(new Font("Arial", 3, 14));
                 break;
             case 4:
-                label.setHorizontalAlignment(SwingConstants.RIGHT);//Alinhamento Direita
-                //setFont(new Font("Arial", 3, 13));//altera a fonte e tamanho da letra
-                //String valor = String.valueOf(value)
-                //       .replace("(?:[^\\d\\,])", "") //Remove todos os caracteres não numerais e nem a vírgula
-                //       .replace(",", "");// Substitui a vírgula pelo ponto
-                //if (Double.valueOf(valor) < 10.0) {
-                //    label.setForeground(Color.RED);
-                //}
+                label.setHorizontalAlignment(SwingConstants.CENTER);               
                 break;
             case 5:
-                label.setHorizontalAlignment(SwingConstants.RIGHT);
-                //String inte = value.toString();
-                //int in = Integer.parseInt(inte);
-                //  if (in < 1) {
-                //      label.setForeground(Color.RED);
-                // }
+                label.setHorizontalAlignment(SwingConstants.CENTER);
                 break;
             case 6:
-                label.setHorizontalAlignment(SwingConstants.RIGHT);
-                break;
-            case 7:
-                label.setHorizontalAlignment(SwingConstants.RIGHT);
-                break;
-                case 8:
                 label.setHorizontalAlignment(SwingConstants.CENTER);
                 break;
-                case 9:
-                label.setHorizontalAlignment(SwingConstants.CENTER);
-                break;
-            case 10:
-                label.setHorizontalAlignment(SwingConstants.RIGHT);
-                break;
-            case 11:
-                label.setHorizontalAlignment(SwingConstants.RIGHT);
-                break;
-                case 12:
-                label.setHorizontalAlignment(SwingConstants.RIGHT);
-                break;
+                
+        }
+        int coluna = table.getColumnModel().getColumnIndex("Quantidade");
+        int quantidade = Integer.valueOf(table.getValueAt(row, coluna).toString());
+        coluna = table.getColumnModel().getColumnIndex("Separado");
+        int entradas = Integer.valueOf(table.getValueAt(row, coluna).toString());
+        if (quantidade == entradas) {
+            background = format.stringParaColor(ConfiguracaoNoBD.getValorLinhaCompleto());
+            //colorir linha selecionada
+            if (table.isRowSelected(row)) {
+                background = format.stringParaColor(ConfiguracaoNoBD.getValorLinhaSelecionada());
+            }
         }
         //label.setForeground(foreground);
         label.setBackground(background);

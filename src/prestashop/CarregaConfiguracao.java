@@ -53,9 +53,17 @@ public class CarregaConfiguracao {
                     ConfiguracaoNoBD.setValorLinhaImpar(c.getValor());
                     ConfiguracaoNoBD.setTipoLinhaImpar(c.getTipo());
                     break;
-                    case "cor_LINHA_SELECIONADA":
+                case "cor_LINHA_SELECIONADA":
                     ConfiguracaoNoBD.setValorLinhaSelecionada(c.getValor());
                     ConfiguracaoNoBD.setTipoLinhaSelecionada(c.getTipo());
+                    break;
+                case "cor_LINHA_COMPLETA":
+                    ConfiguracaoNoBD.setValorLinhaCompleto(c.getValor());
+                    ConfiguracaoNoBD.setTipoLinhaCompleto(c.getTipo());
+                    break;
+                    case "cor_LINHA_INCOMPLETA":
+                    ConfiguracaoNoBD.setValorLinhaIncompleto(c.getValor());
+                    ConfiguracaoNoBD.setTipoLinhaIncompleto(c.getTipo());
                     break;
             }
         }
