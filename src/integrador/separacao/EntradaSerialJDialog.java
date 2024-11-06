@@ -19,6 +19,7 @@ import janela.cplus.ListagemProdutoJDialog;
 import java.awt.Toolkit;
 import java.io.File;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -487,7 +488,7 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
         int quantidadeEntrada = quantidadePacote;
         if (Integer.valueOf(quantidadeSerial) <= quantidadeEntrada) {
             List<String> listTex = new ArrayList<>();
-            long serialSequencia = Long.parseLong(primeiroSerial);
+            BigInteger serialSequencia = new BigInteger(primeiroSerial);
             int count = 0;
             for (EntradaSerial enSer : queryIntegrador.listPorEntradaProd(movEntradaProd.getCodmoveprod())) {
                 listTex.add(String.valueOf(enSer.getIdSerial().getSerial()));
@@ -502,7 +503,7 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
                 listTex.add(format);
                 gravarProdutoSerial(format);
                 
-                serialSequencia++;
+                serialSequencia = serialSequencia.add(BigInteger.ONE);
                 count++;
             }
             jTextFieldPrimeiroSerial.setText("");
