@@ -182,18 +182,18 @@
             <Property name="autoCreateRowSorter" type="boolean" value="true"/>
             <Property name="autoResizeMode" type="int" value="0"/>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
-              <TableColumnModel selectionModel="2">
+              <TableColumnModel selectionModel="1">
                 <Column maxWidth="-1" minWidth="-1" prefWidth="60" resizable="true">
                   <Title/>
                   <Editor/>
                   <Renderer/>
                 </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="350" resizable="true">
+                <Column maxWidth="-1" minWidth="-1" prefWidth="420" resizable="true">
                   <Title/>
                   <Editor/>
                   <Renderer/>
                 </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="140" resizable="true">
+                <Column maxWidth="-1" minWidth="-1" prefWidth="160" resizable="true">
                   <Title/>
                   <Editor/>
                   <Renderer/>

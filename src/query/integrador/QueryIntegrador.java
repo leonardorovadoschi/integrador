@@ -237,6 +237,13 @@ public class QueryIntegrador {
         query.setParameter("codProd", codProd);
         return query.getResultList();
     }  
+      public List<SerialProduto> listIdSerialProduto(int idSerial) {
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery("SELECT ven FROM SerialProduto ven WHERE ven.idSerial =:idSerial");
+        query.setParameter("idSerial", idSerial);
+        return query.getResultList();
+    }  
+     
       public List<SaidaSerial> listSaidaSerialLike(String serial) {
         EntityManager em = getEntityManager();
         Query query = em.createQuery("SELECT prodSerial FROM SaidaSerial prodSerial WHERE prodSerial.idSerial.serial LIKE :serialProduto");
