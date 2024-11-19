@@ -7,7 +7,7 @@ package janela.prestaShop;
 
 import entidade.prestaShop.PsCustomer;
 import entidade.prestaShop.PsOrders;
-import integrador.separacao.ColorirLinhaImpar;
+import integrador.render.ConfTabelaSaidasPrestaShop;
 import janela.cplus.FormataCampos;
 import java.awt.Toolkit;
 import java.util.ArrayList;
@@ -15,7 +15,6 @@ import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
 import jpa.prestaShop.PsOrdersJpaController;
 import prestashop.Manager;
 import query.prestaShop.QueryPrestaShop;
@@ -45,6 +44,7 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
         controleDeAcesso();
         psOrdersList = new ArrayList<>();
+        jTableOrders.setDefaultRenderer(Object.class, new ConfTabelaSaidasPrestaShop());
 
     }
 
@@ -207,10 +207,7 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
 
         jTableOrders.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null}
+
             },
             new String [] {
                 "Id Order", "Referencia", "Cliente", "Pagamento", "Total Desc.", "Total", "Total Frete", "Data Add", "Data Atua."
@@ -242,6 +239,9 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
             jTableOrders.getColumnModel().getColumn(0).setPreferredWidth(30);
             jTableOrders.getColumnModel().getColumn(1).setPreferredWidth(100);
             jTableOrders.getColumnModel().getColumn(2).setPreferredWidth(400);
+            jTableOrders.getColumnModel().getColumn(3).setPreferredWidth(180);
+            jTableOrders.getColumnModel().getColumn(7).setPreferredWidth(120);
+            jTableOrders.getColumnModel().getColumn(8).setPreferredWidth(120);
         }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -366,67 +366,16 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
                        list.add(2);
                     //  list.add(3);
                         list.add(10);
-                      listPsOrders = queryPrestaShop.listPsOrders(list, dataInicial, dataFinal);
-                    
+                      listPsOrders = queryPrestaShop.listPsOrders(list, dataInicial, dataFinal);                   
                 } else if (jRadioButtonCancelado.isSelected()) {
-                     listPsOrders = queryPrestaShop.listPsOrders(6, dataFinal, dataInicial);                 
+                     listPsOrders = queryPrestaShop.listPsOrders(6, dataInicial, dataFinal);                 
                 } else if (jRadioButtonProcessado.isSelected()) {
-                    listPsOrders = queryPrestaShop.listPsOrders(5, dataFinal, dataInicial);
-                    /**
-                    try {
-                        HashMap<String, Object> getSchemaOpt = new HashMap();
-                        getSchemaOpt.put("url", shopUrl + "/api/orders?date=1&filter[date_upd]=[" + formataCampos.dataStringWebService(dataInicial, 0) + ","
-                                + formataCampos.dataStringWebService(dataFinal, 0) + "]&filter[current_state]=5");
-                        Document document;
-                        document = ws.getFuncao(getSchemaOpt);
-                        NodeList nList = document.getElementsByTagName("order");
-                        for (String id : ws.retornaListaId(nList)) {
-                            getSchemaOpt.put("url", shopUrl + "/api/orders/" + id);
-                            document = ws.getFuncao(getSchemaOpt);
-                            listPsOrders.add(new WebOrders().xmlParaEntidade(document, ws));
-                        }
-                    } catch (PrestaShopWebserviceException ex) {
-                        JOptionPane.showMessageDialog(null, "Erro ao consultar Web Service: \n" + ex);
-                    }
-                    */
+                    listPsOrders = queryPrestaShop.listPsOrders(5, dataInicial, dataFinal);                 
                 } else if (jRadioButtonEmSeparacao.isSelected()) {
-                    listPsOrders = queryPrestaShop.listPsOrders(3, dataFinal, dataInicial);
-                   /**
-                    try {
-                        HashMap<String, Object> getSchemaOpt = new HashMap();
-                        getSchemaOpt.put("url", shopUrl + "/api/orders?date=1&filter[date_upd]=[" + formataCampos.dataStringWebService(dataInicial, 0) + ","
-                                + formataCampos.dataStringWebService(dataFinal, 0) + "]&filter[current_state]=3");
-                        Document document;
-                        document = ws.getFuncao(getSchemaOpt);
-                        NodeList nList = document.getElementsByTagName("order");
-                        for (String id : ws.retornaListaId(nList)) {
-                            getSchemaOpt.put("url", shopUrl + "/api/orders/" + id);
-                            document = ws.getFuncao(getSchemaOpt);
-                            listPsOrders.add(new WebOrders().xmlParaEntidade(document, ws));
-                        }
-                    } catch (PrestaShopWebserviceException ex) {
-                        JOptionPane.showMessageDialog(null, "Erro ao consultar Web Service: \n" + ex);
-                    }
-                    */
+                    listPsOrders = queryPrestaShop.listPsOrders(3,dataInicial, dataFinal);
+                   
                 } else {
-                    listPsOrders = queryPrestaShop.listPsOrdersUpd(dataFinal, dataInicial);
-                    /**
-                    try {
-                        HashMap<String, Object> getSchemaOpt = new HashMap();
-                        getSchemaOpt.put("url", shopUrl + "/api/orders?date=1&filter[date_upd]=[" + formataCampos.dataStringWebService(dataInicial, 0) + ","
-                                + formataCampos.dataStringWebService(dataFinal, 0) + "]");
-                        Document document;
-                        document = ws.getFuncao(getSchemaOpt);
-                        NodeList nList = document.getElementsByTagName("order");
-                        for (String id : ws.retornaListaId(nList)) {
-                            getSchemaOpt.put("url", shopUrl + "/api/orders/" + id);
-                            document = ws.getFuncao(getSchemaOpt);
-                            listPsOrders.add(new WebOrders().xmlParaEntidade(document, ws));
-                        }
-                    } catch (PrestaShopWebserviceException ex) {
-                        JOptionPane.showMessageDialog(null, "Erro ao consultar Web Service: \n" + ex);
-                    }
-                    */
+                    listPsOrders = queryPrestaShop.listPsOrdersUpd(dataInicial, dataFinal);                
                 }
                 //Date dataInicial = formataCampos.dataBanco(jTextFieldDataInicial.getText());
                 //Date dataFinal = formataCampos.dataBanco(jTextFieldDataFinal.getText());
@@ -473,9 +422,11 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
              //"Id Order", "Referencia", "Cliente", "Pagamento", "Total Desc.", 
              //"Total", "Total Frete", "Data Add", "Data Atua."
             tab.addRow(new Object[]{e.getIdOrder(), e.getReference(), nomeCliente(e.getIdCustomer()),e.getPayment(), format.bigDecimalParaString(e.getTotalDiscountsTaxIncl(), 2) , 
-                format.bigDecimalParaString(e.getTotalPaidTaxIncl(), 2), format.bigDecimalParaString(e.getTotalShippingTaxIncl(), 2), format.dataStringDataCompleta(e.getDateAdd(),0), format.dataStringDataCompleta(e.getDateAdd(),0)});
-        }
-        colorirLinha();   
+                format.bigDecimalParaString(e.getTotalPaidTaxIncl(), 2), 
+                format.bigDecimalParaString(e.getTotalShippingTaxIncl(), 2), 
+                format.dataStringDataCompleta(e.getDateAdd(),0), 
+                format.dataStringDataCompleta(e.getDateAdd(),0)});
+        }   
     }
     
     private String nomeCliente(Integer idCustomer){
@@ -484,14 +435,7 @@ public class SaidasPrestaShopJDialog extends javax.swing.JDialog {
                 txt = valor.getFirstname() + " " + valor.getLastname();  
                 }
         return txt;
-    }
-    
-    private void colorirLinha() {
-        TableCellRenderer renderer = new ColorirLinhaImpar();
-        for (int c = 0; c < jTableOrders.getColumnCount(); c++) {
-            jTableOrders.setDefaultRenderer(jTableOrders.getColumnClass(c), renderer);
-        }
-    }
+    }     
 
     private void finalizacao() {
         idOrder = jTableOrders.getColumnModel().getColumnIndex("Id Order");
