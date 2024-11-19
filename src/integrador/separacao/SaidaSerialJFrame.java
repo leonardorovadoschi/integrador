@@ -69,7 +69,6 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
     // new RenderLocalizacao(Manager.getManagerCplus());
      jTableSaidaProd.setDefaultRenderer(Object.class, new ConfTabelaSaidaSerialProd());
      jTableSeriasSeparados.setDefaultRenderer(Object.class, new ConfTabelaSaidaSerial());
-
     }
 
     /**
