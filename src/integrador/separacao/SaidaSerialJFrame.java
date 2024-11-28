@@ -64,6 +64,7 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
         this.listagemUsuarioJDialog = new ListagemUsuarioJDialog(this, true);
         this.listagemUsuarioJDialog.setLocationRelativeTo(null);       
         this.listagemUsuarioJDialog.requestFocusInWindow();
+        this.listagemSaidasJDialog.setLocationRelativeTo(null);
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));      
         this.listagemProdutoJDialog = new ListagemProdutoJDialog(this, true);
     // new RenderLocalizacao(Manager.getManagerCplus());
@@ -371,7 +372,7 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
         jScrollPane2.setViewportView(jTableSeriasSeparados);
         jTableSeriasSeparados.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (jTableSeriasSeparados.getColumnModel().getColumnCount() > 0) {
-            jTableSeriasSeparados.getColumnModel().getColumn(0).setPreferredWidth(80);
+            jTableSeriasSeparados.getColumnModel().getColumn(0).setPreferredWidth(120);
             jTableSeriasSeparados.getColumnModel().getColumn(1).setPreferredWidth(350);
             jTableSeriasSeparados.getColumnModel().getColumn(2).setPreferredWidth(140);
         }
@@ -387,15 +388,12 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
                             .addComponent(jPanelPesquisas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanelInformacoes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanelConfiguracaoLista, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(101, 101, 101))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jTextFieldTextoAviso, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 882, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 587, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(25, Short.MAX_VALUE))
+                        .addComponent(jPanelConfiguracaoLista, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jTextFieldTextoAviso, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 882, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 614, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -700,7 +698,7 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
         //jButtonExcluirSeria.setEnabled(true);
         if (jTableSeriasSeparados.getSelectedRow() >= 0) {
             int coluna = jTableSeriasSeparados.getColumnModel().getColumnIndex("ID Saida Serial");
-            int id = (int) jTableSeriasSeparados.getValueAt(jTableSeriasSeparados.getSelectedRow(), coluna);
+            int id = Integer.valueOf(jTableSeriasSeparados.getValueAt(jTableSeriasSeparados.getSelectedRow(), coluna).toString());
             try {
                 new SaidaSerialJpaController(Manager.getManagerIntegrador()).destroy(id);
             } catch (jpa.integrador.exceptions.NonexistentEntityException ex) {

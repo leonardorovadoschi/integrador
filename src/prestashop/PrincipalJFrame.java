@@ -47,31 +47,38 @@ public class PrincipalJFrame extends javax.swing.JFrame {
      */
     public PrincipalJFrame() {
         initComponents();
-        jLabelVersao.setText("2.2.1");     
+        jLabelVersao.setText("2.2.1");
         queryIntegrador = new QueryIntegrador();
         this.listagemUsuarioJDialog = new ListagemUsuarioJDialog(this, true);
         this.listagemUsuarioJDialog.setLocationRelativeTo(null);
         this.listagemUsuarioJDialog.requestFocusInWindow();
         this.listagemUsuarioJDialog.setVisible(true);
+        this.rmaJFrame.setLocationRelativeTo(null);
+        this.vendasJframe.setLocationRelativeTo(null);
+        this.relatorioComprasJFrame.setLocationRelativeTo(null);
+        this.frameIntegracao.setLocationRelativeTo(null);
+        this.espelhoRmaJFrame.setLocationRelativeTo(null);
+        this.alteracaoPrecoProduto.setLocationRelativeTo(null);
+        this.entradaSerialJframe.setLocationRelativeTo(null);
+        this.vendaMagentoJFrame.setLocationRelativeTo(null);
+        this.saidaSerialJFrame.setLocationRelativeTo(null);
         acesso = new ControleAcesso();
         if (this.listagemUsuarioJDialog.isCancelamento() == true) {
             cancelamento();
         } else {
-            ConfiguracaoNoBD.setUsuario(this.listagemUsuarioJDialog.getUsuario()); 
+            ConfiguracaoNoBD.setUsuario(this.listagemUsuarioJDialog.getUsuario());
         }
         setCondicao(true);
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
-
-        
-        jMenuItemVendasDigimacro.setEnabled(acesso.verificaAcessoUsuario( "Editar Venda"));           
-        jMenuManutencaoRma.setEnabled(acesso.verificaAcessoUsuario( "Editar ordem de serviço"));
-        jMenuItemListagemVenda.setEnabled(acesso.verificaAcessoUsuario( "Editar orçamento"));
+        jMenuItemVendasDigimacro.setEnabled(acesso.verificaAcessoUsuario("Editar Venda"));
+        jMenuManutencaoRma.setEnabled(acesso.verificaAcessoUsuario("Editar ordem de serviço"));
+        jMenuItemListagemVenda.setEnabled(acesso.verificaAcessoUsuario("Editar orçamento"));
         jMenuItemAlteracaoDePreco.setEnabled(acesso.verificaAcessoUsuario("Editar produtos/serviços"));
         jMenuItemConfiguracao.setEnabled(acesso.verificaAcessoUsuario("Geral"));
         jMenuIntegracao.setEnabled(acesso.verificaAcessoUsuario("Ponto de venda"));
-        
+
         jLabelHostLocal.setText(retornaIpLocal());
-        jLabelUsuario.setText("Nome Usuario: " + ConfiguracaoNoBD.getUsuario().getNome());     
+        jLabelUsuario.setText("Nome Usuario: " + ConfiguracaoNoBD.getUsuario().getNome());
         new CarregaConfiguracao().carregar();
     }
 
@@ -391,7 +398,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemEspelhoRmaActionPerformed
 
     private void jMenuItemComprasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemComprasActionPerformed
-          if (relatorioComprasJFrame == null || !relatorioComprasJFrame.isDisplayable()) {
+        if (relatorioComprasJFrame == null || !relatorioComprasJFrame.isDisplayable()) {
             relatorioComprasJFrame = new RelatorioComprasJFrame();
             relatorioComprasJFrame.setLocationRelativeTo(this); //opcional  
         } else {
@@ -402,14 +409,14 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemComprasActionPerformed
 
     private void jMenuItemEstoqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemEstoqueActionPerformed
-       if (relatorioEstoqueJFrame == null || !relatorioEstoqueJFrame.isDisplayable()) {
+        if (relatorioEstoqueJFrame == null || !relatorioEstoqueJFrame.isDisplayable()) {
             relatorioEstoqueJFrame = new RelatorioEstoqueJFrame();
             relatorioEstoqueJFrame.setLocationRelativeTo(this); //opcional  
         } else {
             relatorioEstoqueJFrame.setExtendedState(JFrame.NORMAL);
             relatorioEstoqueJFrame.toFront();
         }
-        relatorioEstoqueJFrame.setVisible(true);                                       
+        relatorioEstoqueJFrame.setVisible(true);
     }//GEN-LAST:event_jMenuItemEstoqueActionPerformed
 
     private void jMenuItemConfiguracaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemConfiguracaoActionPerformed
@@ -417,40 +424,39 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         this.configuracoesJDialog.setVisible(true);
     }//GEN-LAST:event_jMenuItemConfiguracaoActionPerformed
 
-    
-    private void atualizaCliente(){
-        for(Cliente cli : new QueryCplus().cliente('1')){
-         cli.setFlagusaaliqicmsdiferenciada('N');
-         try {
-             new ClienteJpaController(Manager.getManagerCplus()).edit(cli);
-         } catch (NonexistentEntityException ex) {
-             Logger.getLogger(PrincipalJFrame.class.getName()).log(Level.SEVERE, null, ex);
-         } catch (Exception ex) {
-             Logger.getLogger(PrincipalJFrame.class.getName()).log(Level.SEVERE, null, ex);
-         }
-     }
-      for(Cliente cli : new QueryCplus().cliente('2')){
-         cli.setFlagusaaliqicmsdiferenciada('Y');
-         try {
-             new ClienteJpaController(Manager.getManagerCplus()).edit(cli);
-         } catch (NonexistentEntityException ex) {
-             Logger.getLogger(PrincipalJFrame.class.getName()).log(Level.SEVERE, null, ex);
-         } catch (Exception ex) {
-             Logger.getLogger(PrincipalJFrame.class.getName()).log(Level.SEVERE, null, ex);
-         }
-     }
-       for(Cliente cli : new QueryCplus().cliente('9')){
-         cli.setFlagusaaliqicmsdiferenciada('Y');
-         try {
-             new ClienteJpaController(Manager.getManagerCplus()).edit(cli);
-         } catch (NonexistentEntityException ex) {
-             Logger.getLogger(PrincipalJFrame.class.getName()).log(Level.SEVERE, null, ex);
-         } catch (Exception ex) {
-             Logger.getLogger(PrincipalJFrame.class.getName()).log(Level.SEVERE, null, ex);
-         }
-     }
+    private void atualizaCliente() {
+        for (Cliente cli : new QueryCplus().cliente('1')) {
+            cli.setFlagusaaliqicmsdiferenciada('N');
+            try {
+                new ClienteJpaController(Manager.getManagerCplus()).edit(cli);
+            } catch (NonexistentEntityException ex) {
+                Logger.getLogger(PrincipalJFrame.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception ex) {
+                Logger.getLogger(PrincipalJFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        for (Cliente cli : new QueryCplus().cliente('2')) {
+            cli.setFlagusaaliqicmsdiferenciada('Y');
+            try {
+                new ClienteJpaController(Manager.getManagerCplus()).edit(cli);
+            } catch (NonexistentEntityException ex) {
+                Logger.getLogger(PrincipalJFrame.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception ex) {
+                Logger.getLogger(PrincipalJFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        for (Cliente cli : new QueryCplus().cliente('9')) {
+            cli.setFlagusaaliqicmsdiferenciada('Y');
+            try {
+                new ClienteJpaController(Manager.getManagerCplus()).edit(cli);
+            } catch (NonexistentEntityException ex) {
+                Logger.getLogger(PrincipalJFrame.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception ex) {
+                Logger.getLogger(PrincipalJFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
-    
+
     private void cancelamento() {
         int fechar = JOptionPane.showConfirmDialog(null, " Deseja realmente sair do sistema?", "Fechar Sistema", JOptionPane.YES_NO_CANCEL_OPTION);
         if (fechar == JOptionPane.YES_OPTION) {
@@ -517,15 +523,15 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     private RmaJFrame rmaJFrame;
     private SaidaJFrame vendasJframe;
     private RelatorioComprasJFrame relatorioComprasJFrame;
-    private EntradasCplusJFrame frameEntradaCplus;
+    //private EntradasCplusJFrame frameEntradaCplus;
     private IntegracaoJFrame frameIntegracao;
     private EspelhoRmaJFrame espelhoRmaJFrame;
     private ProdutoJFrame alteracaoPrecoProduto;
     private EntradaSerialJFrame entradaSerialJframe;
-    private ListaFornecedorJFrame listaFornecedorJFrame;
+    //private ListaFornecedorJFrame listaFornecedorJFrame;
 
     //SeparacaoJFrame separacaoJFrame;
-    private ControleRmaJFrame controleRmaJFrame;
+    //private ControleRmaJFrame controleRmaJFrame;
     private VendaDigimacroJFrame vendaMagentoJFrame;
 
     private SaidaSerialJFrame saidaSerialJFrame;

@@ -32,7 +32,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
 import jpa.cplus.CalculoicmsJpaController;
 import jpa.cplus.ProdutoJpaController;
@@ -70,12 +69,6 @@ public class IntegracaoJFrame extends javax.swing.JFrame {
         initComponents();
         //executaManual = new Executa();
         condicaoParaBotaoIniciar = true;
-        // integradorPUEntityManager.close();
-        // var = var1;
-
-       // codCaracteristicaCliente = ConfiguracaoNoBD.getValorCaracteristicaCliente();
-        //shopUrl = queryIntegrador.valorConfiguracao("shopURL");
-        //key = queryIntegrador.valorConfiguracao("shopKEY");
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
         insereIpIntegrador();
     }

@@ -78,8 +78,8 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
      * Creates new form VendaMagentoJFrame
      */
     public VendaDigimacroJFrame() {
-       
-        format = new FormataCampos();     
+
+        format = new FormataCampos();
         queryPrestaShop = new QueryPrestaShop();
         initComponents();
 //        codCaracteristicaCliente = new QueryIntegrador().valorConfiguracao("cliente_CARACTERISTICA_CPLUS_DIGIMACRO");
@@ -107,6 +107,12 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         psOrderDetailList = new ArrayList<>();
         //new RenderHorizontalAlinhamentoDireita();
         jTableOrderDetail.setDefaultRenderer(Object.class, new ConfTabelaOrderDetail());
+
+        this.listagemSaidasMagentoJDialog.setLocationRelativeTo(null);
+        this.listPsProductJDialog.setLocationRelativeTo(null);
+        this.editOrderDetailsJDialog.setLocationRelativeTo(null);
+        this.adicionarOrderDetailJDialog.setLocationRelativeTo(null);
+
     }
 
     /**
@@ -1433,7 +1439,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
     }
 
     private void carregaTabelaCustomer() {
-        DefaultTableModel tab = (DefaultTableModel) jTableCustomer.getModel();      
+        DefaultTableModel tab = (DefaultTableModel) jTableCustomer.getModel();
         while (jTableCustomer.getModel().getRowCount() > 0) {
             ((DefaultTableModel) jTableCustomer.getModel()).removeRow(0);
         }
@@ -1469,19 +1475,19 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
             //"Val. Unit.", "Val. Total", "Desc. %", "Desc. Grupo", "Peso", "Reference",
             //"Id Order", "Id Order Detail"
             tab.addRow(new Object[]{
-                e.getProductEan13(), 
-                e.getProductName(), 
-                e.getProductQuantity(), 
+                e.getProductEan13(),
+                e.getProductName(),
+                e.getProductQuantity(),
                 format.bigDecimalParaString(e.getOriginalProductPrice(), 2),
-                format.bigDecimalParaString(e.getUnitPriceTaxIncl(), 2), 
-                format.bigDecimalParaString(e.getTotalPriceTaxIncl(), 2), 
+                format.bigDecimalParaString(e.getUnitPriceTaxIncl(), 2),
+                format.bigDecimalParaString(e.getTotalPriceTaxIncl(), 2),
                 format.bigDecimalParaPorcentagem(e.getReductionPercent()),
-                format.bigDecimalParaPorcentagem(e.getGroupReduction()), 
+                format.bigDecimalParaPorcentagem(e.getGroupReduction()),
                 e.getProductWeight(), e.getProductReference(),
-                String.valueOf(e.getIdOrder()), 
+                String.valueOf(e.getIdOrder()),
                 String.valueOf(e.getIdOrderDetail())
             });
-        }  
+        }
     }
 
     private void limpaCampos() {
