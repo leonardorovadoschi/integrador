@@ -151,7 +151,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         jTextFieldTotalProdutos = new javax.swing.JTextField();
         jTextFieldTaxa = new javax.swing.JTextField();
         jButtonAlteraPagamento = new javax.swing.JButton();
-        jComboBoxPagamento = new javax.swing.JComboBox<String>();
+        jComboBoxPagamento = new javax.swing.JComboBox<>();
         jComboBoxState = new javax.swing.JComboBox();
         jLabel1 = new javax.swing.JLabel();
         jTextFieldDescontoAvulso = new javax.swing.JTextField();
@@ -308,7 +308,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
             }
         });
 
-        jComboBoxPagamento.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " " }));
+        jComboBoxPagamento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " " }));
         jComboBoxPagamento.setFocusable(false);
         jComboBoxPagamento.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -318,6 +318,11 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
 
         jComboBoxState.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " " }));
         jComboBoxState.setFocusable(false);
+        jComboBoxState.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jComboBoxStateMouseClicked(evt);
+            }
+        });
 
         jLabel1.setText("Desc Avulso:");
 
@@ -388,7 +393,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabelTaxa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabelFrete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabelFrete, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
                     .addComponent(jLabelValorTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabelDesconto, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -403,7 +408,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
                     .addComponent(jTextFieldDescontoAvulso))
                 .addGap(18, 18, 18)
                 .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBoxPagamento, 0, 323, Short.MAX_VALUE)
+                    .addComponent(jComboBoxPagamento, 0, 334, Short.MAX_VALUE)
                     .addComponent(jComboBoxState, 0, 323, Short.MAX_VALUE)
                     .addComponent(jComboBoxShipping, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -454,7 +459,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
                         .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabelEmail)
                             .addComponent(jTextFieldEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
             .addGroup(jPanelInformacoesLayout.createSequentialGroup()
                 .addGroup(jPanelInformacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -540,8 +545,9 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
                 .addGroup(jPanelVendasMagentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelVendasMagentoLayout.createSequentialGroup()
                         .addComponent(jPanelPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 160, Short.MAX_VALUE)
-                        .addComponent(jButtonProdutosComprados, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonProdutosComprados, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(50, 50, 50))
                     .addComponent(jPanelInformacoes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane3))
                 .addContainerGap())
@@ -549,7 +555,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         jPanelVendasMagentoLayout.setVerticalGroup(
             jPanelVendasMagentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelVendasMagentoLayout.createSequentialGroup()
-                .addGroup(jPanelVendasMagentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanelVendasMagentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanelPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonProdutosComprados))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -917,6 +923,10 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         jButtonEditar.setEnabled(true);
         jButtonRemover.setEnabled(true);
     }//GEN-LAST:event_jTableOrderDetailMouseClicked
+
+    private void jComboBoxStateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBoxStateMouseClicked
+
+    }//GEN-LAST:event_jComboBoxStateMouseClicked
 
     private void pesquisarOrders() {
         limpaCampos();
@@ -1514,6 +1524,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         jTextFieldDescontoAvulso.setText("0,00");
         jButtonDescontoAvulso.setEnabled(false);
         jButtonCancelarOrders.setEnabled(false);
+       // jButtonAlteraStatus.setEnabled(false);
         jTextFieldValorFrete.setText("0,00");
         while (jTableOrderDetail.getModel().getRowCount() > 0) {
             ((DefaultTableModel) jTableOrderDetail.getModel()).removeRow(0);

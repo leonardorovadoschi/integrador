@@ -10,7 +10,6 @@ import entidade.cplus.Calculoicmsestado;
 import entidade.cplus.Campocustomvalor;
 import entidade.cplus.Cliente;
 import entidade.cplus.Clientecaracteristica;
-import entidade.cplus.Gtintributavel;
 import entidade.cplus.Orcamento;
 import entidade.cplus.Orcamentoprod;
 import entidade.cplus.Produto;
@@ -32,7 +31,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
 import jpa.cplus.EmpresaJpaController;
 import jpa.cplus.FormapagJpaController;
@@ -43,7 +41,6 @@ import jpa.cplus.PrecoJpaController;
 import jpa.cplus.SetorestoqueJpaController;
 import jpa.cplus.TipomovimentoJpaController;
 import jpa.cplus.TransportadoraJpaController;
-import jpa.cplus.VendedorJpaController;
 import jpa.prestaShop.PsCustomerJpaController;
 import jpa.prestaShop.PsGroupJpaController;
 import jpa.prestaShop.PsProductJpaController;
@@ -91,8 +88,8 @@ public class PedidoDigimacroCplus {
                 JOptionPane.showMessageDialog(null, "não foi possivel localizar o cliente, Verifique!!! \n Código Cliente Site é: " + new PsCustomerJpaController(Manager.getManagerPrestaShop()).findPsCustomer(order.getIdOrder()).getLastname());
             } else {
                 for (Cliente cliente : listCliente) {
-                    List<Clientecaracteristica> listCarac = new QueryCplus().listClienteCaracteristica(ConfiguracaoNoBD.getValorCaracteristicaCliente(), cliente.getCodcli());
-                    if (listCarac.size() == 1) {
+                   // List<Clientecaracteristica> listCarac = new QueryCplus().listClienteCaracteristica(ConfiguracaoNoBD.getValorCaracteristicaCliente(), cliente.getCodcli());
+                  //  if (listCarac.size() == 1) {
 
                         if (verificaEndereco(cliente, order) == false) {
                             int cancelar = JOptionPane.showConfirmDialog(null, " O endereço do C-plus está diferente do entereço do Site "
@@ -259,7 +256,7 @@ public class PedidoDigimacroCplus {
                                 editaOrcamento(imprimir, order, orcamento);
                             }
                         }//if  que verifica alteração de endereço pelo cliente  
-                    }
+                   // }
                 }// for cliente
             }//fim else que verifica cliente existente
         }//if condição para importar pedido

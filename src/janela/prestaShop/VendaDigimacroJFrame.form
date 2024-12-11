@@ -73,8 +73,9 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
                               <Component id="jPanelPesquisa" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="160" max="32767" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                               <Component id="jButtonProdutosComprados" min="-2" pref="208" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
                           </Group>
                           <Component id="jPanelInformacoes" max="32767" attributes="0"/>
                           <Component id="jScrollPane3" alignment="0" max="32767" attributes="0"/>
@@ -86,9 +87,9 @@
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="103" groupAlignment="1" attributes="0">
                           <Component id="jPanelPesquisa" min="-2" max="-2" attributes="0"/>
-                          <Component id="jButtonProdutosComprados" min="-2" max="-2" attributes="0"/>
+                          <Component id="jButtonProdutosComprados" alignment="1" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jPanelInformacoes" min="-2" max="-2" attributes="0"/>
@@ -229,7 +230,7 @@
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jLabelTaxa" max="32767" attributes="0"/>
-                              <Component id="jLabelFrete" max="32767" attributes="0"/>
+                              <Component id="jLabelFrete" pref="122" max="32767" attributes="0"/>
                               <Component id="jLabelValorTotal" max="32767" attributes="0"/>
                               <Component id="jLabelDesconto" alignment="1" max="32767" attributes="0"/>
                               <Component id="jLabel1" max="32767" attributes="0"/>
@@ -246,7 +247,7 @@
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jComboBoxPagamento" alignment="0" pref="323" max="32767" attributes="0"/>
+                              <Component id="jComboBoxPagamento" alignment="0" pref="334" max="32767" attributes="0"/>
                               <Component id="jComboBoxState" alignment="0" pref="323" max="32767" attributes="0"/>
                               <Component id="jComboBoxShipping" alignment="0" max="32767" attributes="0"/>
                           </Group>
@@ -277,13 +278,13 @@
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <EmptySpace min="32" pref="32" max="-2" attributes="0"/>
+                                      <Group type="102" attributes="0">
+                                          <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                                           <Component id="jButtonDescontoAvulso" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Component id="jButtonCancelarOrders" min="-2" max="-2" attributes="0"/>
                                       </Group>
-                                      <Component id="jComboBoxState" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jComboBoxState" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <Group type="102" attributes="0">
@@ -313,7 +314,7 @@
                                   </Group>
                               </Group>
                           </Group>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace pref="25" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -512,6 +513,9 @@
                     </Property>
                     <Property name="focusable" type="boolean" value="false"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jComboBoxStateMouseClicked"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel1">
                   <Properties>

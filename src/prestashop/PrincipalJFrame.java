@@ -53,15 +53,15 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         this.listagemUsuarioJDialog.setLocationRelativeTo(null);
         this.listagemUsuarioJDialog.requestFocusInWindow();
         this.listagemUsuarioJDialog.setVisible(true);
-        this.rmaJFrame.setLocationRelativeTo(null);
-        this.vendasJframe.setLocationRelativeTo(null);
-        this.relatorioComprasJFrame.setLocationRelativeTo(null);
-        this.frameIntegracao.setLocationRelativeTo(null);
-        this.espelhoRmaJFrame.setLocationRelativeTo(null);
-        this.alteracaoPrecoProduto.setLocationRelativeTo(null);
-        this.entradaSerialJframe.setLocationRelativeTo(null);
-        this.vendaMagentoJFrame.setLocationRelativeTo(null);
-        this.saidaSerialJFrame.setLocationRelativeTo(null);
+        //this.rmaJFrame.setLocationRelativeTo(null);
+        //this.vendasJframe.setLocationRelativeTo(null);
+        //this.relatorioComprasJFrame.setLocationRelativeTo(null);
+        //this.frameIntegracao.setLocationRelativeTo(null);
+        //this.espelhoRmaJFrame.setLocationRelativeTo(null);
+        //this.alteracaoPrecoProduto.setLocationRelativeTo(null);
+        //this.entradaSerialJframe.setLocationRelativeTo(null);
+        //this.vendaMagentoJFrame.setLocationRelativeTo(null);
+        //this.saidaSerialJFrame.setLocationRelativeTo(null);
         acesso = new ControleAcesso();
         if (this.listagemUsuarioJDialog.isCancelamento() == true) {
             cancelamento();
@@ -307,7 +307,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         if (aberto) {
             if (frameIntegracao == null || !frameIntegracao.isDisplayable()) {
                 frameIntegracao = new IntegracaoJFrame();
-                frameIntegracao.setLocationRelativeTo(this); //opcional  
+                frameIntegracao.setLocationRelativeTo(null); //opcional  
             } else {
                 frameIntegracao.setExtendedState(JFrame.NORMAL);
                 frameIntegracao.toFront();
@@ -319,7 +319,8 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     private void jMenuItemListagemVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemListagemVendaActionPerformed
         if (vendasJframe == null || !vendasJframe.isDisplayable()) {
             vendasJframe = new SaidaJFrame();
-            vendasJframe.setLocationRelativeTo(this); //opcional  
+             //this.vendasJframe.setLocationRelativeTo(null);
+            vendasJframe.setLocationRelativeTo(null); //opcional  
         } else {
             vendasJframe.setExtendedState(JFrame.NORMAL);
             vendasJframe.toFront();
@@ -330,7 +331,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     private void jMenuItemAlteracaoDePrecoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemAlteracaoDePrecoActionPerformed
         if (alteracaoPrecoProduto == null || !alteracaoPrecoProduto.isDisplayable()) {
             alteracaoPrecoProduto = new ProdutoJFrame();
-            alteracaoPrecoProduto.setLocationRelativeTo(this); //opcional  
+            alteracaoPrecoProduto.setLocationRelativeTo(null); //opcional  
         } else {
             alteracaoPrecoProduto.setExtendedState(JFrame.NORMAL);
             alteracaoPrecoProduto.toFront();
@@ -341,7 +342,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     private void jMenuItemEntradaSerialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemEntradaSerialActionPerformed
         if (entradaSerialJframe == null || !entradaSerialJframe.isDisplayable()) {
             entradaSerialJframe = new EntradaSerialJFrame();
-            entradaSerialJframe.setLocationRelativeTo(this); //opcional  
+            entradaSerialJframe.setLocationRelativeTo(null); //opcional  
         } else {
             entradaSerialJframe.setExtendedState(JFrame.NORMAL);
             entradaSerialJframe.toFront();
@@ -352,7 +353,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     private void jMenuItemRmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemRmaActionPerformed
         if (rmaJFrame == null || !rmaJFrame.isDisplayable()) {
             rmaJFrame = new RmaJFrame();
-            rmaJFrame.setLocationRelativeTo(this); //opcional  
+            rmaJFrame.setLocationRelativeTo(null); //opcional  
         } else {
             rmaJFrame.setExtendedState(JFrame.NORMAL);
             rmaJFrame.toFront();
@@ -367,7 +368,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     private void jMenuItemSeparacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSeparacaoActionPerformed
         if (saidaSerialJFrame == null || !saidaSerialJFrame.isDisplayable()) {
             saidaSerialJFrame = new SaidaSerialJFrame();
-            saidaSerialJFrame.setLocationRelativeTo(this); //opcional  
+            saidaSerialJFrame.setLocationRelativeTo(null); //opcional  
         } else {
             saidaSerialJFrame.setExtendedState(JFrame.NORMAL);
             saidaSerialJFrame.toFront();
@@ -378,7 +379,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     private void jMenuItemVendasDigimacroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemVendasDigimacroActionPerformed
         if (vendaMagentoJFrame == null || !vendaMagentoJFrame.isDisplayable()) {
             vendaMagentoJFrame = new VendaDigimacroJFrame();
-            vendaMagentoJFrame.setLocationRelativeTo(this); //opcional  
+            vendaMagentoJFrame.setLocationRelativeTo(null); //opcional  
         } else {
             vendaMagentoJFrame.setExtendedState(JFrame.NORMAL);
             vendaMagentoJFrame.toFront();
@@ -389,7 +390,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     private void jMenuItemEspelhoRmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemEspelhoRmaActionPerformed
         if (espelhoRmaJFrame == null || !espelhoRmaJFrame.isDisplayable()) {
             espelhoRmaJFrame = new EspelhoRmaJFrame();
-            espelhoRmaJFrame.setLocationRelativeTo(this); //opcional  
+            espelhoRmaJFrame.setLocationRelativeTo(null); //opcional  
         } else {
             espelhoRmaJFrame.setExtendedState(JFrame.NORMAL);
             espelhoRmaJFrame.toFront();
@@ -400,7 +401,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     private void jMenuItemComprasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemComprasActionPerformed
         if (relatorioComprasJFrame == null || !relatorioComprasJFrame.isDisplayable()) {
             relatorioComprasJFrame = new RelatorioComprasJFrame();
-            relatorioComprasJFrame.setLocationRelativeTo(this); //opcional  
+            relatorioComprasJFrame.setLocationRelativeTo(null); //opcional  
         } else {
             relatorioComprasJFrame.setExtendedState(JFrame.NORMAL);
             relatorioComprasJFrame.toFront();
@@ -411,7 +412,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     private void jMenuItemEstoqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemEstoqueActionPerformed
         if (relatorioEstoqueJFrame == null || !relatorioEstoqueJFrame.isDisplayable()) {
             relatorioEstoqueJFrame = new RelatorioEstoqueJFrame();
-            relatorioEstoqueJFrame.setLocationRelativeTo(this); //opcional  
+            relatorioEstoqueJFrame.setLocationRelativeTo(null); //opcional  
         } else {
             relatorioEstoqueJFrame.setExtendedState(JFrame.NORMAL);
             relatorioEstoqueJFrame.toFront();
