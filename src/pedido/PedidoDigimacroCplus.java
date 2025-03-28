@@ -104,9 +104,10 @@ public class PedidoDigimacroCplus {
                             }
                         }
                         if (condicao) {
-                            Integer configCont = new ConexaoDB().ultimoCodigo("ORCAMENTO", "CODORC");
+                            //Integer configCont = new ConexaoDB().ultimoCodigo("ORCAMENTO", "CODORC");
                             Orcamento orc = new Orcamento();
-                            orc.setCodorc(String.format("%09d", configCont));
+                            //orc.setCodorc(String.format("%09d", configCont));
+                            orc.setCodorc(String.valueOf(order.getIdOrder()));
                             orc.setCodcli(cliente);
                             //if (cliente.getCodvended() != null) {
                             //   orc.setCodvended(new VendedorJpaController(managerCplus).findVendedor(cliente.getCodvended().getCodvended()));
@@ -177,8 +178,9 @@ public class PedidoDigimacroCplus {
                             orc.setCampovalor1(new BigDecimal(100.0000));
                             orc.setCodorcamentostatus(new OrcamentostatusJpaController(Manager.getManagerCplus()).findOrcamentostatus("000000001"));
                             orc.setFlagaltpaf('N');
-                            int numOrcamento = new ConexaoDB().ultimoCodigo("ORCAMENTO", "NUMEROORCAMENTO");
-                            orc.setNumeroorcamento(String.format("%09d", numOrcamento));
+                            //int numOrcamento = new ConexaoDB().ultimoCodigo("ORCAMENTO", "NUMEROORCAMENTO");
+                            //orc.setNumeroorcamento(String.format("%09d", numOrcamento));
+                            orc.setNumeroorcamento(String.valueOf(order.getIdOrder()));
                             orc.setFlagestoqueliberado('Y');
                             orc.setValortotalcofins(BigDecimal.ZERO);
                             orc.setValortotalpis(BigDecimal.ZERO);
@@ -190,10 +192,10 @@ public class PedidoDigimacroCplus {
                             orc.setQuantidadevolumes(1);
                             orc.setFlagdescautorizado('N');
 
-                            configCont++;
-                            new ConexaoDB().atualizarCodigo("ORCAMENTO", "CODORC", configCont);
-                            numOrcamento++;
-                            new ConexaoDB().atualizarCodigo("ORCAMENTO", "NUMEROORCAMENTO", numOrcamento);
+                           // configCont++;
+                           // new ConexaoDB().atualizarCodigo("ORCAMENTO", "CODORC", configCont);
+                            //numOrcamento++;
+                            //new ConexaoDB().atualizarCodigo("ORCAMENTO", "NUMEROORCAMENTO", numOrcamento);
 
                             try {
                                 new OrcamentoJpaController(Manager.getManagerCplus()).create(orc);
@@ -348,9 +350,10 @@ public class PedidoDigimacroCplus {
                 Orcamentoprod prod = new Orcamentoprod();
                 prod.setCodorc(orcamento);
                 prod.setCodprod(prodCplus);
-                prod.setCodorcprod(new QueryCplus().incrementOrcProd());
-
-                //prod.setCodorcprod(String.format("%06d", orderItem.getIdOrderDetail()));                            
+                
+                //prod.setCodorcprod(new QueryCplus().incrementOrcProd());
+                //prod.setCodorcprod(String.format("%06d", orderItem.getIdOrderDetail()));     
+                prod.setCodorcprod(String.valueOf(orderItem.getIdOrderDetail())); 
                 prod.setCodempresa(new EmpresaJpaController(Manager.getManagerCplus()).findEmpresa(1));
                 prod.setCodpreco(new PrecoJpaController(Manager.getManagerCplus()).findPreco("000000001"));
                 boolean cliRuim = false;
