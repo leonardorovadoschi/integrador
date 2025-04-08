@@ -7,25 +7,6 @@
         <Property name="persistenceUnit" type="java.lang.String" value="cplusPU"/>
       </Properties>
     </Component>
-    <Component class="javax.persistence.Query" name="movendaprodQuery">
-      <Properties>
-        <Property name="query" type="java.lang.String" value="SELECT ven FROM Movendaprod ven WHERE ven.codmovenda.codmovenda = &quot;5555555&quot;"/>
-        <Property name="entityManager" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$EMProperty$EntityManagerEditor">
-          <ComponentRef name="entityManager"/>
-        </Property>
-      </Properties>
-    </Component>
-    <Component class="java.util.List" name="movendaprodList">
-      <Properties>
-        <Property name="query" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$QueryBeanProperty$QueryEditor">
-          <ComponentRef name="movendaprodQuery"/>
-        </Property>
-        <Property name="observable" type="boolean" value="true"/>
-      </Properties>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;entidade.cplus.Movendaprod&gt;"/>
-      </AuxValues>
-    </Component>
     <Component class="javax.persistence.Query" name="movdocreferenciadoQuery">
       <Properties>
         <Property name="query" type="java.lang.String" value="SELECT m FROM Movdocreferenciado m WHERE m.identidadeorigem =&quot;009999999&quot;"/>
@@ -68,19 +49,12 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-              <Component id="jTabbedPaneMovenda" min="-2" pref="1310" max="-2" attributes="0"/>
-              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-          </Group>
+          <Component id="jTabbedPaneMovenda" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="jTabbedPaneMovenda" min="-2" pref="840" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
-          </Group>
+          <Component id="jTabbedPaneMovenda" alignment="1" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -142,7 +116,7 @@
                           </Group>
                           <Component id="jButtonPesquisar" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="322" max="32767" attributes="0"/>
+                      <EmptySpace pref="183" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -478,7 +452,7 @@
                                   <Component id="jButtonTrocarCliente" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jButtonTrocaVendedor" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace type="unrelated" pref="12" max="32767" attributes="0"/>
+                              <EmptySpace type="unrelated" max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jLabelNumeroPedido" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jTextFieldNumeroPedido" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -882,20 +856,22 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jScrollPane2" alignment="0" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jPanelEdicao" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                          <Component id="jScrollPane2" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jPanelEdicao" min="-2" pref="1230" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
                       <Component id="jPanelEdicao" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane2" pref="459" max="32767" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="jScrollPane2" pref="454" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -918,19 +894,18 @@
                           <Group type="103" groupAlignment="1" attributes="0">
                               <Group type="102" alignment="1" attributes="0">
                                   <Component id="jPanelValorProduto" max="32767" attributes="0"/>
-                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="jPanelIPI" min="-2" pref="165" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="jPanelIPI" min="-2" pref="165" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                                   <Component id="jPanelSubsTrib" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="95" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="1" attributes="0">
-                                  <Component id="jPanelPisCofins" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jPanelPisCofins" max="32767" attributes="0"/>
                                   <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
                                   <Component id="jPanelIcms" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
                               </Group>
                           </Group>
+                          <EmptySpace min="-2" pref="95" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -938,8 +913,8 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jPanelPisCofins" min="-2" max="-2" attributes="0"/>
                               <Component id="jPanelIcms" min="-2" max="-2" attributes="0"/>
+                              <Component id="jPanelPisCofins" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -952,7 +927,7 @@
                               <Component id="jButtonTrocaProdutoPedido" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jButtonEditarMovendaProd" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -982,87 +957,123 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jLabelCstCofins" max="32767" attributes="0"/>
-                                  <Component id="jLabelCstPis" min="-2" pref="64" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Component id="jComboBoxCstPisProd" min="-2" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="jLabelCstCofins" max="32767" attributes="0"/>
+                                          <Component id="jLabelCstPis" min="-2" pref="64" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <Component id="jComboBoxCstPisProd" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Component id="jLabelAliqPisProd" min="-2" pref="100" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <Component id="jComboBoxCstCofinsProd" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Component id="jLabelAliqCofinsProd" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="jTextFieldAliqPisProd" max="32767" attributes="0"/>
+                                          <Component id="jTextFieldAliqCofinsProd" min="-2" pref="60" max="-2" attributes="0"/>
+                                      </Group>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="jLabelAliqPisProd" max="32767" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="jLabelBasePisProd" max="32767" attributes="0"/>
+                                          <Group type="102" attributes="0">
+                                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                              <Component id="jLabelBaseCofinsProd" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Component id="jComboBoxCstCofinsProd" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="jLabelAliqCofinsProd" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabelCstIcms" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="jComboBoxCstIcms" min="-2" pref="198" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="jLabel4" min="-2" pref="169" max="-2" attributes="0"/>
                                   </Group>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jTextFieldAliqPisProd" max="32767" attributes="0"/>
-                                  <Component id="jTextFieldAliqCofinsProd" min="-2" pref="60" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jLabelBasePisProd" pref="81" max="32767" attributes="0"/>
-                                  <Component id="jLabelBaseCofinsProd" pref="0" max="32767" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jTextFieldBasePisProd" pref="58" max="32767" attributes="0"/>
-                                  <Component id="jTextFieldBaseCofinsProd" max="32767" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jLabelValorPisProd" pref="86" max="32767" attributes="0"/>
-                                  <Component id="jLabelValorCofinsProd" pref="0" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jTextFieldValorPis" pref="72" max="32767" attributes="0"/>
-                                  <Component id="jTextFieldValorCofinsProd" max="32767" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <Component id="jTextFieldCodBeneficioFiscal" min="-2" pref="122" max="-2" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" attributes="0">
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="jTextFieldBasePisProd" pref="58" max="32767" attributes="0"/>
+                                          <Component id="jTextFieldBaseCofinsProd" max="32767" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="jLabelValorPisProd" pref="86" max="32767" attributes="0"/>
+                                          <Component id="jLabelValorCofinsProd" pref="0" max="32767" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="jTextFieldValorPis" max="32767" attributes="0"/>
+                                          <Component id="jTextFieldValorCofinsProd" max="32767" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
+                                  </Group>
                               </Group>
-                              <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jLabelCstPis" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jComboBoxCstPisProd" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabelAliqPisProd" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jTextFieldAliqPisProd" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jLabelCstCofins" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jComboBoxCstCofinsProd" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabelAliqCofinsProd" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jTextFieldAliqCofinsProd" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
-                          <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                                      <Component id="jLabelBasePisProd" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jTextFieldBasePisProd" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <Group type="103" groupAlignment="3" attributes="0">
+                                          <Component id="jLabelCstPis" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jComboBoxCstPisProd" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jLabelAliqPisProd" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="3" attributes="0">
+                                          <Component id="jLabelCstCofins" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jComboBoxCstCofinsProd" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jLabelAliqCofinsProd" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      </Group>
                                   </Group>
-                                  <Component id="jLabelValorPisProd" min="-2" max="-2" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                                              <Component id="jLabelBasePisProd" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="jTextFieldBasePisProd" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Component id="jLabelValorPisProd" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="3" attributes="0">
+                                          <Component id="jLabelBaseCofinsProd" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jTextFieldBaseCofinsProd" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jLabelValorCofinsProd" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Component id="jTextFieldValorPis" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="jTextFieldValorCofinsProd" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Component id="jTextFieldAliqPisProd" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="jTextFieldAliqCofinsProd" min="-2" max="-2" attributes="0"/>
+                                  </Group>
                               </Group>
-                              <EmptySpace max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jLabelBaseCofinsProd" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jTextFieldBaseCofinsProd" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabelValorCofinsProd" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabelCstIcms" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jComboBoxCstIcms" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jTextFieldCodBeneficioFiscal" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                          </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <Component id="jTextFieldValorPis" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jTextFieldValorCofinsProd" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -1151,12 +1162,14 @@
                     </Component>
                     <Component class="javax.swing.JTextField" name="jTextFieldValorCofinsProd">
                       <Properties>
+                        <Property name="horizontalAlignment" type="int" value="4"/>
                         <Property name="enabled" type="boolean" value="false"/>
                         <Property name="focusable" type="boolean" value="false"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JTextField" name="jTextFieldValorPis">
                       <Properties>
+                        <Property name="horizontalAlignment" type="int" value="4"/>
                         <Property name="enabled" type="boolean" value="false"/>
                         <Property name="focusable" type="boolean" value="false"/>
                       </Properties>
@@ -1168,6 +1181,9 @@
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JTextField" name="jTextFieldBasePisProd">
+                      <Properties>
+                        <Property name="horizontalAlignment" type="int" value="4"/>
+                      </Properties>
                       <Events>
                         <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTextFieldBasePisProdFocusGained"/>
                         <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTextFieldBasePisProdFocusLost"/>
@@ -1180,11 +1196,51 @@
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JTextField" name="jTextFieldBaseCofinsProd">
+                      <Properties>
+                        <Property name="horizontalAlignment" type="int" value="4"/>
+                      </Properties>
                       <Events>
                         <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTextFieldBaseCofinsProdFocusGained"/>
                         <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTextFieldBaseCofinsProdFocusLost"/>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextFieldBaseCofinsProdActionPerformed"/>
                       </Events>
+                    </Component>
+                    <Component class="javax.swing.JLabel" name="jLabelCstIcms">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="CST ICMS:"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JComboBox" name="jComboBoxCstIcms">
+                      <Properties>
+                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                          <Font name="Tahoma" size="10" style="0"/>
+                        </Property>
+                        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                          <StringArray count="12">
+                            <StringItem index="0" value="00 - Tributada integralmente"/>
+                            <StringItem index="1" value="10 - Tributada e com cobran&#xe7;a do ICMS por S.T."/>
+                            <StringItem index="2" value="20 - Com redu&#xe7;&#xe3;o de base de c&#xe1;lculo"/>
+                            <StringItem index="3" value="30 - N&#xe3;o tributada e com cobran&#xe7;a do ICMS por S.T."/>
+                            <StringItem index="4" value="40 - Isenta "/>
+                            <StringItem index="5" value="41 - N&#xe3;o tributada "/>
+                            <StringItem index="6" value="50 - Suspens&#xe3;o"/>
+                            <StringItem index="7" value="51 - Diferimento "/>
+                            <StringItem index="8" value="60 - ICMS cobrado anteriormente por S.T."/>
+                            <StringItem index="9" value="70 - Com redu&#xe7;&#xe3;o de base ICMS por S.T."/>
+                            <StringItem index="10" value="90 - Outras "/>
+                            <StringItem index="11" value="N&#xe3;o selecionado"/>
+                          </StringArray>
+                        </Property>
+                        <Property name="selectedIndex" type="int" value="11"/>
+                        <Property name="toolTipText" type="java.lang.String" value="Selecione aqui o c&#xf3;digo de Situa&#xe7;&#xe3;o Tribut&#xe1;ria de ICMS "/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JLabel" name="jLabel4">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Cod Beneficio Fiscal:"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JTextField" name="jTextFieldCodBeneficioFiscal">
                     </Component>
                   </SubComponents>
                 </Container>
@@ -1209,16 +1265,13 @@
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                       <Component id="jTextFieldBaseIpiProd" max="32767" attributes="0"/>
                                       <Component id="jTextFieldAliqIpiProd" min="-2" pref="60" max="-2" attributes="0"/>
                                   </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace min="1" pref="1" max="-2" attributes="0"/>
-                                      <Component id="jTextFieldValorIpiProd" min="-2" pref="60" max="-2" attributes="0"/>
-                                  </Group>
+                                  <Component id="jTextFieldValorIpiProd" min="-2" pref="60" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace min="-2" pref="373" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="374" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -1229,17 +1282,17 @@
                                   <Component id="jLabelAliqIpiProd" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jTextFieldAliqIpiProd" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace max="32767" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jLabelBaseIpiProd" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jTextFieldBaseIpiProd" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabelBaseIpiProd" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jLabelValorIpiProd" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jTextFieldValorIpiProd" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabelValorIpiProd" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
+                              <EmptySpace pref="31" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -1263,6 +1316,9 @@
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JTextField" name="jTextFieldBaseIpiProd">
+                      <Properties>
+                        <Property name="horizontalAlignment" type="int" value="4"/>
+                      </Properties>
                       <Events>
                         <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTextFieldBaseIpiProdFocusGained"/>
                         <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTextFieldBaseIpiProdFocusLost"/>
@@ -1276,6 +1332,7 @@
                     </Component>
                     <Component class="javax.swing.JTextField" name="jTextFieldValorIpiProd">
                       <Properties>
+                        <Property name="horizontalAlignment" type="int" value="4"/>
                         <Property name="enabled" type="boolean" value="false"/>
                         <Property name="focusable" type="boolean" value="false"/>
                       </Properties>
@@ -1348,7 +1405,7 @@
                                       <Component id="jTextFieldBaseSTProd" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace pref="34" max="32767" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jLabelAliqMva" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jTextFieldAliqMva" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -1468,15 +1525,6 @@
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
-                              <Component id="jLabelCstIcms" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jComboBoxCstIcms" min="-2" pref="198" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jLabel4" max="32767" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jTextFieldCodBeneficioFiscal" min="-2" pref="122" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="1" max="-2" attributes="0">
                                   <Component id="jLabel3" max="32767" attributes="0"/>
                                   <Component id="jLabelAliquotaIcmsProduto" pref="90" max="32767" attributes="0"/>
@@ -1535,13 +1583,7 @@
                                   <Component id="jTextFieldValorIcmsDeferimento" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabelValorIcmsDeferimento" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jLabelCstIcms" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jComboBoxCstIcms" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jTextFieldCodBeneficioFiscal" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
+                              <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -1567,6 +1609,9 @@
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JTextField" name="jTextFieldBaseIcmsProduto">
+                      <Properties>
+                        <Property name="horizontalAlignment" type="int" value="4"/>
+                      </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextFieldBaseIcmsProdutoActionPerformed"/>
                       </Events>
@@ -1579,38 +1624,9 @@
                     </Component>
                     <Component class="javax.swing.JTextField" name="jTextFieldValorIcmsProduto">
                       <Properties>
+                        <Property name="horizontalAlignment" type="int" value="4"/>
                         <Property name="enabled" type="boolean" value="false"/>
                         <Property name="focusable" type="boolean" value="false"/>
-                      </Properties>
-                    </Component>
-                    <Component class="javax.swing.JLabel" name="jLabelCstIcms">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="CST ICMS:"/>
-                      </Properties>
-                    </Component>
-                    <Component class="javax.swing.JComboBox" name="jComboBoxCstIcms">
-                      <Properties>
-                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                          <Font name="Tahoma" size="10" style="0"/>
-                        </Property>
-                        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                          <StringArray count="12">
-                            <StringItem index="0" value="00 - Tributada integralmente"/>
-                            <StringItem index="1" value="10 - Tributada e com cobran&#xe7;a do ICMS por S.T."/>
-                            <StringItem index="2" value="20 - Com redu&#xe7;&#xe3;o de base de c&#xe1;lculo"/>
-                            <StringItem index="3" value="30 - N&#xe3;o tributada e com cobran&#xe7;a do ICMS por S.T."/>
-                            <StringItem index="4" value="40 - Isenta "/>
-                            <StringItem index="5" value="41 - N&#xe3;o tributada "/>
-                            <StringItem index="6" value="50 - Suspens&#xe3;o"/>
-                            <StringItem index="7" value="51 - Diferimento "/>
-                            <StringItem index="8" value="60 - ICMS cobrado anteriormente por S.T."/>
-                            <StringItem index="9" value="70 - Com redu&#xe7;&#xe3;o de base ICMS por S.T."/>
-                            <StringItem index="10" value="90 - Outras "/>
-                            <StringItem index="11" value="N&#xe3;o selecionado"/>
-                          </StringArray>
-                        </Property>
-                        <Property name="selectedIndex" type="int" value="11"/>
-                        <Property name="toolTipText" type="java.lang.String" value="Selecione aqui o c&#xf3;digo de Situa&#xe7;&#xe3;o Tribut&#xe1;ria de ICMS "/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel3">
@@ -1655,13 +1671,6 @@
                         <Property name="focusable" type="boolean" value="false"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JTextField" name="jTextFieldCodBeneficioFiscal">
-                    </Component>
-                    <Component class="javax.swing.JLabel" name="jLabel4">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="Cod Beneficio Fiscal:"/>
-                      </Properties>
-                    </Component>
                   </SubComponents>
                 </Container>
                 <Container class="javax.swing.JPanel" name="jPanelValorProduto">
@@ -1685,17 +1694,19 @@
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jTextFieldValorUnitarioProduto" pref="60" max="32767" attributes="0"/>
-                                  <Component id="jTextFieldValorProdutos" max="32767" attributes="0"/>
-                                  <Component id="jTextFieldQuantidadeProduto" max="32767" attributes="0"/>
+                                  <Component id="jTextFieldValorUnitarioProduto" pref="95" max="32767" attributes="0"/>
+                                  <Component id="jTextFieldValorProdutos" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jTextFieldQuantidadeProduto" alignment="0" max="32767" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="jCheckBoxAtualizaBaseIcms" pref="209" max="32767" attributes="0"/>
+                                      <Component id="jCheckBoxAtualizaBaseIPI" max="32767" attributes="0"/>
+                                  </Group>
+                                  <Component id="jCheckBoxAtualizaBasePisCofins" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="32767" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jCheckBoxAtualizaBaseIcms" max="32767" attributes="0"/>
-                                  <Component id="jCheckBoxAtualizaBaseIPI" max="32767" attributes="0"/>
-                                  <Component id="jCheckBoxAtualizaBasePisCofins" max="32767" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="104" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -1722,13 +1733,13 @@
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jCheckBoxAtualizaBasePisCofins" min="-2" max="-2" attributes="0"/>
-                                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                                  <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="jLabelQuantidadeProduto" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jTextFieldQuantidadeProduto" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jCheckBoxAtualizaBasePisCofins" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
+                                  <Component id="jTextFieldQuantidadeProduto" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="31" max="32767" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -1745,6 +1756,9 @@
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JTextField" name="jTextFieldValorUnitarioProduto">
+                      <Properties>
+                        <Property name="horizontalAlignment" type="int" value="4"/>
+                      </Properties>
                       <Events>
                         <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTextFieldValorUnitarioProdutoFocusGained"/>
                         <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTextFieldValorUnitarioProdutoFocusLost"/>
@@ -1753,6 +1767,7 @@
                     </Component>
                     <Component class="javax.swing.JTextField" name="jTextFieldValorProdutos">
                       <Properties>
+                        <Property name="horizontalAlignment" type="int" value="4"/>
                         <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
                     </Component>
@@ -1772,6 +1787,7 @@
                     </Component>
                     <Component class="javax.swing.JTextField" name="jTextFieldQuantidadeProduto">
                       <Properties>
+                        <Property name="horizontalAlignment" type="int" value="0"/>
                         <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
                     </Component>
@@ -1807,20 +1823,40 @@
                 <Component class="javax.swing.JTable" name="jTableMovendaProd">
                   <Properties>
                     <Property name="autoCreateRowSorter" type="boolean" value="true"/>
+                    <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
+                      <Table columnCount="21" rowCount="0">
+                        <Column editable="false" title="EAN" type="java.lang.String"/>
+                        <Column editable="false" title="Produto Nome" type="java.lang.String"/>
+                        <Column editable="false" title="Quant" type="java.lang.String"/>
+                        <Column editable="false" title="CFOP" type="java.lang.String"/>
+                        <Column editable="false" title="Origem" type="java.lang.String"/>
+                        <Column editable="false" title="Val. Unit." type="java.lang.String"/>
+                        <Column editable="false" title="Val. Total" type="java.lang.String"/>
+                        <Column editable="false" title="CST" type="java.lang.String"/>
+                        <Column editable="false" title="Base ICMS" type="java.lang.String"/>
+                        <Column editable="false" title="Aliq. ICMS" type="java.lang.String"/>
+                        <Column editable="false" title="Val. ICMS" type="java.lang.String"/>
+                        <Column editable="false" title="CST PIS" type="java.lang.String"/>
+                        <Column editable="false" title="Base PIS" type="java.lang.String"/>
+                        <Column editable="false" title="Aliq. PIS" type="java.lang.String"/>
+                        <Column editable="false" title="Val. PIS" type="java.lang.String"/>
+                        <Column editable="false" title="CST COFINS" type="java.lang.String"/>
+                        <Column editable="false" title="Base COFINS" type="java.lang.String"/>
+                        <Column editable="false" title="Aliq. COFINS" type="java.lang.String"/>
+                        <Column editable="false" title="Val. COFINS" type="java.lang.String"/>
+                        <Column editable="false" title="Cod. Ben. Fiscal" type="java.lang.String"/>
+                        <Column editable="false" title="Codmovprod" type="java.lang.String"/>
+                      </Table>
+                    </Property>
                     <Property name="autoResizeMode" type="int" value="0"/>
                     <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                       <TableColumnModel selectionModel="0">
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="120" resizable="true">
                           <Title/>
                           <Editor/>
                           <Renderer/>
                         </Column>
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="250" resizable="true">
-                          <Title/>
-                          <Editor/>
-                          <Renderer/>
-                        </Column>
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="320" resizable="true">
                           <Title/>
                           <Editor/>
                           <Renderer/>
@@ -1828,28 +1864,7 @@
                         <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                           <Title/>
                           <Editor/>
-                          <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                            <Connection code="new RenderNumeroInteiro()" type="code"/>
-                          </Renderer>
-                        </Column>
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                          <Title/>
-                          <Editor/>
                           <Renderer/>
-                        </Column>
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                          <Title/>
-                          <Editor/>
-                          <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                            <Connection code="new integrador.render.RenderPreco()" type="code"/>
-                          </Renderer>
-                        </Column>
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                          <Title/>
-                          <Editor/>
-                          <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                            <Connection code="new integrador.render.RenderPreco()" type="code"/>
-                          </Renderer>
                         </Column>
                         <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                           <Title/>
@@ -1864,44 +1879,7 @@
                         <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                           <Title/>
                           <Editor/>
-                          <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                            <Connection code="new integrador.render.RenderPreco()" type="code"/>
-                          </Renderer>
-                        </Column>
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                          <Title/>
-                          <Editor/>
-                          <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                            <Connection code="new RenderPorcentagem()" type="code"/>
-                          </Renderer>
-                        </Column>
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                          <Title/>
-                          <Editor/>
-                          <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                            <Connection code="new integrador.render.RenderPreco()" type="code"/>
-                          </Renderer>
-                        </Column>
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                          <Title/>
-                          <Editor/>
-                          <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                            <Connection code="new integrador.render.RenderPreco()" type="code"/>
-                          </Renderer>
-                        </Column>
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                          <Title/>
-                          <Editor/>
-                          <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                            <Connection code="new RenderPorcentagem()" type="code"/>
-                          </Renderer>
-                        </Column>
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                          <Title/>
-                          <Editor/>
-                          <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                            <Connection code="new integrador.render.RenderPreco()" type="code"/>
-                          </Renderer>
+                          <Renderer/>
                         </Column>
                         <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                           <Title/>
@@ -1911,58 +1889,62 @@
                         <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                           <Title/>
                           <Editor/>
-                          <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                            <Connection code="new integrador.render.RenderPreco()" type="code"/>
-                          </Renderer>
+                          <Renderer/>
                         </Column>
                         <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                           <Title/>
                           <Editor/>
-                          <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                            <Connection code="new integrador.render.RenderPreco()" type="code"/>
-                          </Renderer>
+                          <Renderer/>
                         </Column>
                         <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                           <Title/>
                           <Editor/>
-                          <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                            <Connection code="new integrador.render.RenderPreco()" type="code"/>
-                          </Renderer>
+                          <Renderer/>
                         </Column>
                         <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                           <Title/>
                           <Editor/>
-                          <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                            <Connection code="new RenderPorcentagem()" type="code"/>
-                          </Renderer>
+                          <Renderer/>
                         </Column>
                         <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                           <Title/>
                           <Editor/>
-                          <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                            <Connection code="new integrador.render.RenderPreco()" type="code"/>
-                          </Renderer>
+                          <Renderer/>
                         </Column>
                         <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                           <Title/>
                           <Editor/>
-                          <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                            <Connection code="new RenderPorcentagem()" type="code"/>
-                          </Renderer>
+                          <Renderer/>
                         </Column>
                         <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                           <Title/>
                           <Editor/>
-                          <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                            <Connection code="new integrador.render.RenderPreco()" type="code"/>
-                          </Renderer>
+                          <Renderer/>
                         </Column>
                         <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                           <Title/>
                           <Editor/>
-                          <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                            <Connection code="new integrador.render.RenderPreco()" type="code"/>
-                          </Renderer>
+                          <Renderer/>
+                        </Column>
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer/>
+                        </Column>
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer/>
+                        </Column>
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer/>
+                        </Column>
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer/>
                         </Column>
                         <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                           <Title/>
@@ -1983,138 +1965,8 @@
                       <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                     </Property>
                   </Properties>
-                  <BindingProperties>
-                    <BindingProperty name="elements" source="movendaprodList" target="jTableMovendaProd" targetPath="elements" updateStrategy="0" immediately="true">
-                      <Subbinding sourcePath="${codmovprod}">
-                        <BindingParameter name="NAME" value="Codmovprod"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
-                      </Subbinding>
-                      <Subbinding sourcePath="${codprod.nomeprod}">
-                        <BindingParameter name="NAME" value="Nome Produto"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
-                      </Subbinding>
-                      <Subbinding sourcePath="${codmovenda.numped}">
-                        <BindingParameter name="NAME" value="N&#xba; Pedido"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Integer.class"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
-                      </Subbinding>
-                      <Subbinding sourcePath="${quantidade}">
-                        <BindingParameter name="NAME" value="Quantidade"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.math.BigDecimal.class"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
-                      </Subbinding>
-                      <Subbinding sourcePath="${codcfop.codcfop}">
-                        <BindingParameter name="NAME" value="CFOP"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
-                      </Subbinding>
-                      <Subbinding sourcePath="${valortotal}">
-                        <BindingParameter name="NAME" value="Valor Total"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.math.BigDecimal.class"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
-                      </Subbinding>
-                      <Subbinding sourcePath="${valorunitario}">
-                        <BindingParameter name="NAME" value="Valor Unit&#xe1;rio"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.math.BigDecimal.class"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
-                      </Subbinding>
-                      <Subbinding sourcePath="${cstpis}">
-                        <BindingParameter name="NAME" value="CST PIS"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
-                      </Subbinding>
-                      <Subbinding sourcePath="${cstcofins}">
-                        <BindingParameter name="NAME" value="CST COFINS"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
-                      </Subbinding>
-                      <Subbinding sourcePath="${valorpis}">
-                        <BindingParameter name="NAME" value="Valor PIS"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.math.BigDecimal.class"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
-                      </Subbinding>
-                      <Subbinding sourcePath="${aliqpis}">
-                        <BindingParameter name="NAME" value="Aliq. PIS"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.math.BigDecimal.class"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
-                      </Subbinding>
-                      <Subbinding sourcePath="${basepis}">
-                        <BindingParameter name="NAME" value="Base PIS"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.math.BigDecimal.class"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
-                      </Subbinding>
-                      <Subbinding sourcePath="${valorcofins}">
-                        <BindingParameter name="NAME" value="Valor COFINS"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.math.BigDecimal.class"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
-                      </Subbinding>
-                      <Subbinding sourcePath="${aliqcofins}">
-                        <BindingParameter name="NAME" value="Aliq. COFINS"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.math.BigDecimal.class"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
-                      </Subbinding>
-                      <Subbinding sourcePath="${basecofins}">
-                        <BindingParameter name="NAME" value="Base COFINS"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.math.BigDecimal.class"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
-                      </Subbinding>
-                      <Subbinding sourcePath="${aliqreducaobasesubsttributaria}">
-                        <BindingParameter name="NAME" value="Aliq. Redu&#xe7;&#xe3;o ST"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.math.BigDecimal.class"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
-                      </Subbinding>
-                      <Subbinding sourcePath="${valorsubsttributaria}">
-                        <BindingParameter name="NAME" value="Valor ST"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.math.BigDecimal.class"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
-                      </Subbinding>
-                      <Subbinding sourcePath="${basesubsttributaria}">
-                        <BindingParameter name="NAME" value="Base ST"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.math.BigDecimal.class"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
-                      </Subbinding>
-                      <Subbinding sourcePath="${valoricms}">
-                        <BindingParameter name="NAME" value="Valor ICMS"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.math.BigDecimal.class"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
-                      </Subbinding>
-                      <Subbinding sourcePath="${aliqicms}">
-                        <BindingParameter name="NAME" value="Aliq. ICMS"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.math.BigDecimal.class"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
-                      </Subbinding>
-                      <Subbinding sourcePath="${baseicms}">
-                        <BindingParameter name="NAME" value="Base ICMS"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.math.BigDecimal.class"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
-                      </Subbinding>
-                      <Subbinding sourcePath="${aliqipi}">
-                        <BindingParameter name="NAME" value="Aliq. IPI"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.math.BigDecimal.class"/>
-                      </Subbinding>
-                      <Subbinding sourcePath="${baseipi}">
-                        <BindingParameter name="NAME" value="Base IPI"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.math.BigDecimal.class"/>
-                      </Subbinding>
-                      <Subbinding sourcePath="${valoripi}">
-                        <BindingParameter name="NAME" value="Valor IPI"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.math.BigDecimal.class"/>
-                      </Subbinding>
-                      <Subbinding sourcePath="${datavalidade}">
-                        <BindingParameter name="NAME" value="Datavalidade"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.util.Date.class"/>
-                      </Subbinding>
-                      <Subbinding sourcePath="${flagorigemproduto}">
-                        <BindingParameter name="NAME" value="Origem"/>
-                        <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Character.class"/>
-                      </Subbinding>
-                    </BindingProperty>
-                  </BindingProperties>
                   <Events>
                     <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTableMovendaProdMouseClicked"/>
-                    <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTableMovendaProdKeyPressed"/>
                   </Events>
                 </Component>
               </SubComponents>
@@ -2143,7 +1995,7 @@
                               <Component id="jButtonDeletarDocRelacionado" min="-2" pref="172" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace pref="295" max="32767" attributes="0"/>
+                      <EmptySpace pref="220" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="32767" attributes="0"/>
@@ -2164,7 +2016,7 @@
                       <Component id="jButtonDeletarDevolucao" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jScrollPane4" min="-2" pref="300" max="-2" attributes="0"/>
-                      <EmptySpace pref="405" max="32767" attributes="0"/>
+                      <EmptySpace pref="424" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>

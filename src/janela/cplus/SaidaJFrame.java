@@ -19,6 +19,7 @@ import entidade.cplus.Nfceletronica;
 //import integrador.statico.VariavelStatica;
 import pedido.DeletarPedidoCplus;
 import integrador.relatorio.ImprimeRelatorio;
+import integrador.render.ConfTabelaMovendaProd;
 import integrador.render.RenderNumeroInteiro;
 import integrador.render.RenderPorcentagem;
 import pedido.ManutencaoVenda;
@@ -28,6 +29,7 @@ import java.math.RoundingMode;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import jpa.cplus.CfopJpaController;
 import jpa.cplus.ContareceberJpaController;
 import jpa.cplus.MovdocreferenciadoJpaController;
@@ -62,6 +64,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
         this.listagemVendedor = new ListagemVendedorJDialog(this, true);
         //querySerial = new QuerySerial(managerCplus);
         decimaisArredondamento = Integer.valueOf(queryIntegrador.valorConfiguracao("casas_decimais_ARREDONDAMENTO"));
+        jTableMovendaProd.setDefaultRenderer(Object.class, new ConfTabelaMovendaProd());
     }
 
     /**
@@ -75,8 +78,6 @@ public class SaidaJFrame extends javax.swing.JFrame {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("cplusPU").createEntityManager();
-        movendaprodQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT ven FROM Movendaprod ven WHERE ven.codmovenda.codmovenda = \"5555555\"");
-        movendaprodList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(movendaprodQuery.getResultList());
         movdocreferenciadoQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT m FROM Movdocreferenciado m WHERE m.identidadeorigem =\"009999999\"");
         movdocreferenciadoList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(movdocreferenciadoQuery.getResultList());
         jTabbedPaneMovenda = new javax.swing.JTabbedPane();
@@ -170,6 +171,10 @@ public class SaidaJFrame extends javax.swing.JFrame {
         jTextFieldBasePisProd = new javax.swing.JTextField();
         jLabelBaseCofinsProd = new javax.swing.JLabel();
         jTextFieldBaseCofinsProd = new javax.swing.JTextField();
+        jLabelCstIcms = new javax.swing.JLabel();
+        jComboBoxCstIcms = new javax.swing.JComboBox();
+        jLabel4 = new javax.swing.JLabel();
+        jTextFieldCodBeneficioFiscal = new javax.swing.JTextField();
         jPanelIPI = new javax.swing.JPanel();
         jLabelAliqIpiProd = new javax.swing.JLabel();
         jTextFieldAliqIpiProd = new javax.swing.JTextField();
@@ -198,16 +203,12 @@ public class SaidaJFrame extends javax.swing.JFrame {
         jTextFieldBaseIcmsProduto = new javax.swing.JTextField();
         jLabelValorIcmsProduto = new javax.swing.JLabel();
         jTextFieldValorIcmsProduto = new javax.swing.JTextField();
-        jLabelCstIcms = new javax.swing.JLabel();
-        jComboBoxCstIcms = new javax.swing.JComboBox();
         jLabel3 = new javax.swing.JLabel();
         jTextFieldAliqDeferimento = new javax.swing.JTextField();
         jLabelValorIcmsOperacao = new javax.swing.JLabel();
         jTextFieldValorIcmsOperacao = new javax.swing.JTextField();
         jLabelValorIcmsDeferimento = new javax.swing.JLabel();
         jTextFieldValorIcmsDeferimento = new javax.swing.JTextField();
-        jTextFieldCodBeneficioFiscal = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
         jPanelValorProduto = new javax.swing.JPanel();
         jLabelValorUnitario = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
@@ -622,7 +623,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
             .addGroup(jPanelSaidaLayout.createSequentialGroup()
                 .addGroup(jPanelSaidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jTabbedPaneObservacoes, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanelDadosSaida, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanelDadosSaida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanelSaidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanelTotais, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -682,9 +683,9 @@ public class SaidaJFrame extends javax.swing.JFrame {
                                     .addComponent(jButtonExcluirSaida)
                                     .addComponent(jButtonImprimeNFCe))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                        .addComponent(jPanelSaida, javax.swing.GroupLayout.PREFERRED_SIZE, 446, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jPanelSaida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jButtonPesquisar))
-                .addContainerGap(322, Short.MAX_VALUE))
+                .addContainerGap(183, Short.MAX_VALUE))
         );
 
         jTabbedPaneMovenda.addTab("Lista de Pedidos", jPanelListaPedido);
@@ -759,15 +760,18 @@ public class SaidaJFrame extends javax.swing.JFrame {
         jLabelValorCofinsProd.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabelValorCofinsProd.setText("Valor COFINS:");
 
+        jTextFieldValorCofinsProd.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jTextFieldValorCofinsProd.setEnabled(false);
         jTextFieldValorCofinsProd.setFocusable(false);
 
+        jTextFieldValorPis.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jTextFieldValorPis.setEnabled(false);
         jTextFieldValorPis.setFocusable(false);
 
         jLabelBasePisProd.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabelBasePisProd.setText("Base PIS:");
 
+        jTextFieldBasePisProd.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jTextFieldBasePisProd.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 jTextFieldBasePisProdFocusGained(evt);
@@ -784,6 +788,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
 
         jLabelBaseCofinsProd.setText("Base COFINS:");
 
+        jTextFieldBaseCofinsProd.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jTextFieldBaseCofinsProd.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 jTextFieldBaseCofinsProdFocusGained(evt);
@@ -798,75 +803,109 @@ public class SaidaJFrame extends javax.swing.JFrame {
             }
         });
 
+        jLabelCstIcms.setText("CST ICMS:");
+
+        jComboBoxCstIcms.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        jComboBoxCstIcms.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "00 - Tributada integralmente", "10 - Tributada e com cobrança do ICMS por S.T.", "20 - Com redução de base de cálculo", "30 - Não tributada e com cobrança do ICMS por S.T.", "40 - Isenta ", "41 - Não tributada ", "50 - Suspensão", "51 - Diferimento ", "60 - ICMS cobrado anteriormente por S.T.", "70 - Com redução de base ICMS por S.T.", "90 - Outras ", "Não selecionado" }));
+        jComboBoxCstIcms.setSelectedIndex(11);
+        jComboBoxCstIcms.setToolTipText("Selecione aqui o código de Situação Tributária de ICMS ");
+
+        jLabel4.setText("Cod Beneficio Fiscal:");
+
         javax.swing.GroupLayout jPanelPisCofinsLayout = new javax.swing.GroupLayout(jPanelPisCofins);
         jPanelPisCofins.setLayout(jPanelPisCofinsLayout);
         jPanelPisCofinsLayout.setHorizontalGroup(
             jPanelPisCofinsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelPisCofinsLayout.createSequentialGroup()
                 .addGroup(jPanelPisCofinsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabelCstCofins, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabelCstPis, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelPisCofinsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanelPisCofinsLayout.createSequentialGroup()
-                        .addComponent(jComboBoxCstPisProd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanelPisCofinsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabelCstCofins, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabelCstPis, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanelPisCofinsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanelPisCofinsLayout.createSequentialGroup()
+                                .addComponent(jComboBoxCstPisProd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabelAliqPisProd, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanelPisCofinsLayout.createSequentialGroup()
+                                .addComponent(jComboBoxCstCofinsProd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabelAliqCofinsProd)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanelPisCofinsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jTextFieldAliqPisProd)
+                            .addComponent(jTextFieldAliqCofinsProd, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabelAliqPisProd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanelPisCofinsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabelBasePisProd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanelPisCofinsLayout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jLabelBaseCofinsProd))))
                     .addGroup(jPanelPisCofinsLayout.createSequentialGroup()
-                        .addComponent(jComboBoxCstCofinsProd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabelAliqCofinsProd)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelPisCofinsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextFieldAliqPisProd)
-                    .addComponent(jTextFieldAliqCofinsProd, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelPisCofinsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabelBasePisProd, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
-                    .addComponent(jLabelBaseCofinsProd, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelPisCofinsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextFieldBasePisProd, javax.swing.GroupLayout.DEFAULT_SIZE, 58, Short.MAX_VALUE)
-                    .addComponent(jTextFieldBaseCofinsProd))
-                .addGap(10, 10, 10)
-                .addGroup(jPanelPisCofinsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabelValorPisProd, javax.swing.GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE)
-                    .addComponent(jLabelValorCofinsProd, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
+                        .addComponent(jLabelCstIcms)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBoxCstIcms, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelPisCofinsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextFieldValorPis, javax.swing.GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE)
-                    .addComponent(jTextFieldValorCofinsProd))
-                .addGap(13, 13, 13))
+                    .addGroup(jPanelPisCofinsLayout.createSequentialGroup()
+                        .addComponent(jTextFieldCodBeneficioFiscal, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanelPisCofinsLayout.createSequentialGroup()
+                        .addGroup(jPanelPisCofinsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jTextFieldBasePisProd, javax.swing.GroupLayout.DEFAULT_SIZE, 58, Short.MAX_VALUE)
+                            .addComponent(jTextFieldBaseCofinsProd))
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanelPisCofinsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabelValorPisProd, javax.swing.GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE)
+                            .addComponent(jLabelValorCofinsProd, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanelPisCofinsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextFieldValorPis)
+                            .addComponent(jTextFieldValorCofinsProd))
+                        .addGap(13, 13, 13))))
         );
         jPanelPisCofinsLayout.setVerticalGroup(
             jPanelPisCofinsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelPisCofinsLayout.createSequentialGroup()
-                .addGroup(jPanelPisCofinsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelCstPis)
-                    .addComponent(jComboBoxCstPisProd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelAliqPisProd)
-                    .addComponent(jTextFieldAliqPisProd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelPisCofinsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelCstCofins)
-                    .addComponent(jComboBoxCstCofinsProd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelAliqCofinsProd)
-                    .addComponent(jTextFieldAliqCofinsProd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-            .addGroup(jPanelPisCofinsLayout.createSequentialGroup()
                 .addGroup(jPanelPisCofinsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelPisCofinsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabelBasePisProd)
-                        .addComponent(jTextFieldBasePisProd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabelValorPisProd))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(jPanelPisCofinsLayout.createSequentialGroup()
+                        .addGroup(jPanelPisCofinsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabelCstPis)
+                            .addComponent(jComboBoxCstPisProd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelAliqPisProd))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanelPisCofinsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabelCstCofins)
+                            .addComponent(jComboBoxCstCofinsProd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelAliqCofinsProd)))
+                    .addGroup(jPanelPisCofinsLayout.createSequentialGroup()
+                        .addGroup(jPanelPisCofinsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanelPisCofinsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabelBasePisProd)
+                                .addComponent(jTextFieldBasePisProd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabelValorPisProd))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanelPisCofinsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabelBaseCofinsProd)
+                            .addComponent(jTextFieldBaseCofinsProd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelValorCofinsProd)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelPisCofinsLayout.createSequentialGroup()
+                        .addComponent(jTextFieldValorPis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextFieldValorCofinsProd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelPisCofinsLayout.createSequentialGroup()
+                        .addComponent(jTextFieldAliqPisProd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextFieldAliqCofinsProd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanelPisCofinsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelBaseCofinsProd)
-                    .addComponent(jTextFieldBaseCofinsProd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelValorCofinsProd)))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelPisCofinsLayout.createSequentialGroup()
-                .addComponent(jTextFieldValorPis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextFieldValorCofinsProd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabelCstIcms)
+                    .addComponent(jComboBoxCstIcms, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldCodBeneficioFiscal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)))
         );
 
         jPanelIPI.setBorder(javax.swing.BorderFactory.createTitledBorder("IPI"));
@@ -889,6 +928,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
 
         jLabelBaseIpiProd.setText("Base IPI:");
 
+        jTextFieldBaseIpiProd.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jTextFieldBaseIpiProd.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 jTextFieldBaseIpiProdFocusGained(evt);
@@ -905,6 +945,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
 
         jLabelValorIpiProd.setText("Valor IPI:");
 
+        jTextFieldValorIpiProd.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jTextFieldValorIpiProd.setEnabled(false);
         jTextFieldValorIpiProd.setFocusable(false);
 
@@ -923,10 +964,8 @@ public class SaidaJFrame extends javax.swing.JFrame {
                     .addGroup(jPanelIPILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jTextFieldBaseIpiProd)
                         .addComponent(jTextFieldAliqIpiProd, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanelIPILayout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addComponent(jTextFieldValorIpiProd, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(373, 373, 373))
+                    .addComponent(jTextFieldValorIpiProd, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(374, 374, 374))
         );
         jPanelIPILayout.setVerticalGroup(
             jPanelIPILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -934,15 +973,15 @@ public class SaidaJFrame extends javax.swing.JFrame {
                 .addGroup(jPanelIPILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelAliqIpiProd)
                     .addComponent(jTextFieldAliqIpiProd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanelIPILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelBaseIpiProd)
-                    .addComponent(jTextFieldBaseIpiProd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelIPILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelValorIpiProd)
-                    .addComponent(jTextFieldValorIpiProd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(4, 4, 4))
+                    .addComponent(jTextFieldBaseIpiProd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelBaseIpiProd))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelIPILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldValorIpiProd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelValorIpiProd))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
 
         jPanelSubsTrib.setBorder(javax.swing.BorderFactory.createTitledBorder("Substituição Tributária"));
@@ -1042,7 +1081,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
                     .addGroup(jPanelSubsTribLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabelBaseSTProd)
                         .addComponent(jTextFieldBaseSTProd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanelSubsTribLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelAliqMva)
                     .addComponent(jTextFieldAliqMva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1085,6 +1124,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
         jLabelBaseIcmsProduto.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabelBaseIcmsProduto.setText("Base ICMS:");
 
+        jTextFieldBaseIcmsProduto.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jTextFieldBaseIcmsProduto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldBaseIcmsProdutoActionPerformed(evt);
@@ -1094,15 +1134,9 @@ public class SaidaJFrame extends javax.swing.JFrame {
         jLabelValorIcmsProduto.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabelValorIcmsProduto.setText("Valor ICMS:");
 
+        jTextFieldValorIcmsProduto.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jTextFieldValorIcmsProduto.setEnabled(false);
         jTextFieldValorIcmsProduto.setFocusable(false);
-
-        jLabelCstIcms.setText("CST ICMS:");
-
-        jComboBoxCstIcms.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
-        jComboBoxCstIcms.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "00 - Tributada integralmente", "10 - Tributada e com cobrança do ICMS por S.T.", "20 - Com redução de base de cálculo", "30 - Não tributada e com cobrança do ICMS por S.T.", "40 - Isenta ", "41 - Não tributada ", "50 - Suspensão", "51 - Diferimento ", "60 - ICMS cobrado anteriormente por S.T.", "70 - Com redução de base ICMS por S.T.", "90 - Outras ", "Não selecionado" }));
-        jComboBoxCstIcms.setSelectedIndex(11);
-        jComboBoxCstIcms.setToolTipText("Selecione aqui o código de Situação Tributária de ICMS ");
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel3.setText("Ali. Def.:");
@@ -1136,20 +1170,10 @@ public class SaidaJFrame extends javax.swing.JFrame {
         jTextFieldValorIcmsDeferimento.setEnabled(false);
         jTextFieldValorIcmsDeferimento.setFocusable(false);
 
-        jLabel4.setText("Cod Beneficio Fiscal:");
-
         javax.swing.GroupLayout jPanelIcmsLayout = new javax.swing.GroupLayout(jPanelIcms);
         jPanelIcms.setLayout(jPanelIcmsLayout);
         jPanelIcmsLayout.setHorizontalGroup(
             jPanelIcmsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelIcmsLayout.createSequentialGroup()
-                .addComponent(jLabelCstIcms)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBoxCstIcms, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextFieldCodBeneficioFiscal, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(jPanelIcmsLayout.createSequentialGroup()
                 .addGroup(jPanelIcmsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1197,12 +1221,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
                     .addComponent(jTextFieldValorIcmsOperacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextFieldValorIcmsDeferimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelValorIcmsDeferimento))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelIcmsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelCstIcms)
-                    .addComponent(jComboBoxCstIcms, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldCodBeneficioFiscal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4)))
+                .addGap(35, 35, 35))
         );
 
         jPanelValorProduto.setBorder(javax.swing.BorderFactory.createTitledBorder("Valor Produto"));
@@ -1211,6 +1230,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
 
         jLabel1.setText("Valor Total Produtos:");
 
+        jTextFieldValorUnitarioProduto.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jTextFieldValorUnitarioProduto.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 jTextFieldValorUnitarioProdutoFocusGained(evt);
@@ -1225,6 +1245,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
             }
         });
 
+        jTextFieldValorProdutos.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jTextFieldValorProdutos.setEnabled(false);
 
         jCheckBoxAtualizaBaseIcms.setSelected(true);
@@ -1237,6 +1258,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
 
         jLabelQuantidadeProduto.setText("Quantidade:");
 
+        jTextFieldQuantidadeProduto.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextFieldQuantidadeProduto.setEnabled(false);
 
         jCheckBoxAtualizaBaseIPI.setSelected(true);
@@ -1267,15 +1289,16 @@ public class SaidaJFrame extends javax.swing.JFrame {
                     .addComponent(jLabelValorUnitario, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelValorProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextFieldValorUnitarioProduto, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
+                    .addComponent(jTextFieldValorUnitarioProduto, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
                     .addComponent(jTextFieldValorProdutos)
                     .addComponent(jTextFieldQuantidadeProduto))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanelValorProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jCheckBoxAtualizaBaseIcms, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jCheckBoxAtualizaBaseIPI, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jCheckBoxAtualizaBasePisCofins, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(104, 104, 104))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanelValorProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelValorProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jCheckBoxAtualizaBaseIcms, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
+                        .addComponent(jCheckBoxAtualizaBaseIPI, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jCheckBoxAtualizaBasePisCofins))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelValorProdutoLayout.setVerticalGroup(
             jPanelValorProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1295,10 +1318,10 @@ public class SaidaJFrame extends javax.swing.JFrame {
                         .addComponent(jCheckBoxAtualizaBaseIPI)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelValorProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCheckBoxAtualizaBasePisCofins)
                     .addGroup(jPanelValorProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabelQuantidadeProduto)
-                        .addComponent(jTextFieldQuantidadeProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jCheckBoxAtualizaBasePisCofins))
+                    .addComponent(jTextFieldQuantidadeProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -1317,23 +1340,22 @@ public class SaidaJFrame extends javax.swing.JFrame {
                 .addGroup(jPanelEdicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanelEdicaoLayout.createSequentialGroup()
                         .addComponent(jPanelValorProduto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPanelIPI, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanelSubsTrib, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(95, 95, 95))
+                        .addComponent(jPanelIPI, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(15, 15, 15)
+                        .addComponent(jPanelSubsTrib, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanelEdicaoLayout.createSequentialGroup()
-                        .addComponent(jPanelPisCofins, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPanelPisCofins, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(2, 2, 2)
-                        .addComponent(jPanelIcms, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                        .addComponent(jPanelIcms, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(95, 95, 95))
         );
         jPanelEdicaoLayout.setVerticalGroup(
             jPanelEdicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelEdicaoLayout.createSequentialGroup()
                 .addGroup(jPanelEdicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanelPisCofins, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanelIcms, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanelIcms, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanelPisCofins, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelEdicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanelValorProduto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1343,171 +1365,71 @@ public class SaidaJFrame extends javax.swing.JFrame {
                 .addGroup(jPanelEdicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonTrocaProdutoPedido)
                     .addComponent(jButtonEditarMovendaProd))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jTableMovendaProd.setAutoCreateRowSorter(true);
+        jTableMovendaProd.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "EAN", "Produto Nome", "Quant", "CFOP", "Origem", "Val. Unit.", "Val. Total", "CST", "Base ICMS", "Aliq. ICMS", "Val. ICMS", "CST PIS", "Base PIS", "Aliq. PIS", "Val. PIS", "CST COFINS", "Base COFINS", "Aliq. COFINS", "Val. COFINS", "Cod. Ben. Fiscal", "Codmovprod"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jTableMovendaProd.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         jTableMovendaProd.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-
-        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, movendaprodList, jTableMovendaProd);
-        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmovprod}"));
-        columnBinding.setColumnName("Codmovprod");
-        columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codprod.nomeprod}"));
-        columnBinding.setColumnName("Nome Produto");
-        columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmovenda.numped}"));
-        columnBinding.setColumnName("Nº Pedido");
-        columnBinding.setColumnClass(Integer.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${quantidade}"));
-        columnBinding.setColumnName("Quantidade");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codcfop.codcfop}"));
-        columnBinding.setColumnName("CFOP");
-        columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valortotal}"));
-        columnBinding.setColumnName("Valor Total");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valorunitario}"));
-        columnBinding.setColumnName("Valor Unitário");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${cstpis}"));
-        columnBinding.setColumnName("CST PIS");
-        columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${cstcofins}"));
-        columnBinding.setColumnName("CST COFINS");
-        columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valorpis}"));
-        columnBinding.setColumnName("Valor PIS");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${aliqpis}"));
-        columnBinding.setColumnName("Aliq. PIS");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${basepis}"));
-        columnBinding.setColumnName("Base PIS");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valorcofins}"));
-        columnBinding.setColumnName("Valor COFINS");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${aliqcofins}"));
-        columnBinding.setColumnName("Aliq. COFINS");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${basecofins}"));
-        columnBinding.setColumnName("Base COFINS");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${aliqreducaobasesubsttributaria}"));
-        columnBinding.setColumnName("Aliq. Redução ST");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valorsubsttributaria}"));
-        columnBinding.setColumnName("Valor ST");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${basesubsttributaria}"));
-        columnBinding.setColumnName("Base ST");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valoricms}"));
-        columnBinding.setColumnName("Valor ICMS");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${aliqicms}"));
-        columnBinding.setColumnName("Aliq. ICMS");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${baseicms}"));
-        columnBinding.setColumnName("Base ICMS");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${aliqipi}"));
-        columnBinding.setColumnName("Aliq. IPI");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${baseipi}"));
-        columnBinding.setColumnName("Base IPI");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valoripi}"));
-        columnBinding.setColumnName("Valor IPI");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${datavalidade}"));
-        columnBinding.setColumnName("Datavalidade");
-        columnBinding.setColumnClass(java.util.Date.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${flagorigemproduto}"));
-        columnBinding.setColumnName("Origem");
-        columnBinding.setColumnClass(Character.class);
-        bindingGroup.addBinding(jTableBinding);
-        jTableBinding.bind();
         jTableMovendaProd.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTableMovendaProdMouseClicked(evt);
             }
         });
-        jTableMovendaProd.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTableMovendaProdKeyPressed(evt);
-            }
-        });
         jScrollPane2.setViewportView(jTableMovendaProd);
         if (jTableMovendaProd.getColumnModel().getColumnCount() > 0) {
-            jTableMovendaProd.getColumnModel().getColumn(1).setPreferredWidth(250);
-            jTableMovendaProd.getColumnModel().getColumn(3).setCellRenderer(new RenderNumeroInteiro());
-            jTableMovendaProd.getColumnModel().getColumn(5).setCellRenderer(new integrador.render.RenderPreco());
-            jTableMovendaProd.getColumnModel().getColumn(6).setCellRenderer(new integrador.render.RenderPreco());
-            jTableMovendaProd.getColumnModel().getColumn(9).setCellRenderer(new integrador.render.RenderPreco());
-            jTableMovendaProd.getColumnModel().getColumn(10).setCellRenderer(new RenderPorcentagem());
-            jTableMovendaProd.getColumnModel().getColumn(11).setCellRenderer(new integrador.render.RenderPreco());
-            jTableMovendaProd.getColumnModel().getColumn(12).setCellRenderer(new integrador.render.RenderPreco());
-            jTableMovendaProd.getColumnModel().getColumn(13).setCellRenderer(new RenderPorcentagem());
-            jTableMovendaProd.getColumnModel().getColumn(14).setCellRenderer(new integrador.render.RenderPreco());
-            jTableMovendaProd.getColumnModel().getColumn(16).setCellRenderer(new integrador.render.RenderPreco());
-            jTableMovendaProd.getColumnModel().getColumn(17).setCellRenderer(new integrador.render.RenderPreco());
-            jTableMovendaProd.getColumnModel().getColumn(18).setCellRenderer(new integrador.render.RenderPreco());
-            jTableMovendaProd.getColumnModel().getColumn(19).setCellRenderer(new RenderPorcentagem());
-            jTableMovendaProd.getColumnModel().getColumn(20).setCellRenderer(new integrador.render.RenderPreco());
-            jTableMovendaProd.getColumnModel().getColumn(21).setCellRenderer(new RenderPorcentagem());
-            jTableMovendaProd.getColumnModel().getColumn(22).setCellRenderer(new integrador.render.RenderPreco());
-            jTableMovendaProd.getColumnModel().getColumn(23).setCellRenderer(new integrador.render.RenderPreco());
+            jTableMovendaProd.getColumnModel().getColumn(0).setPreferredWidth(120);
+            jTableMovendaProd.getColumnModel().getColumn(1).setPreferredWidth(320);
         }
 
         javax.swing.GroupLayout jPanelProdutosPedidoLayout = new javax.swing.GroupLayout(jPanelProdutosPedido);
         jPanelProdutosPedido.setLayout(jPanelProdutosPedidoLayout);
         jPanelProdutosPedidoLayout.setHorizontalGroup(
             jPanelProdutosPedidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2)
             .addGroup(jPanelProdutosPedidoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanelEdicao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanelProdutosPedidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanelEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, 1230, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanelProdutosPedidoLayout.setVerticalGroup(
             jPanelProdutosPedidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelProdutosPedidoLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(9, 9, 9)
                 .addComponent(jPanelEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 459, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 454, Short.MAX_VALUE))
         );
 
         jTabbedPaneMovenda.addTab("Produtos Pedido", jPanelProdutosPedido);
 
         jTableDocDevolucaoFornecedor.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
 
-        jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, movdocreferenciadoList, jTableDocDevolucaoFornecedor);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${dataemissao}"));
+        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, movdocreferenciadoList, jTableDocDevolucaoFornecedor);
+        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${dataemissao}"));
         columnBinding.setColumnName("Data Emissão");
         columnBinding.setColumnClass(java.util.Date.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${chaveacessonfeletronica}"));
@@ -1580,7 +1502,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
                         .addComponent(jButtonRelacionaDocDevolucao, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButtonDeletarDocRelacionado, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(295, Short.MAX_VALUE))
+                .addContainerGap(220, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelRelacaoDeDocumentosLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButtonDeletarDevolucao)
@@ -1597,7 +1519,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
                 .addComponent(jButtonDeletarDevolucao)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(405, Short.MAX_VALUE))
+                .addContainerGap(424, Short.MAX_VALUE))
         );
 
         jTabbedPaneMovenda.addTab("Relação de Nota Devolução", jPanelRelacaoDeDocumentos);
@@ -1606,16 +1528,11 @@ public class SaidaJFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jTabbedPaneMovenda, javax.swing.GroupLayout.PREFERRED_SIZE, 1310, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jTabbedPaneMovenda)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTabbedPaneMovenda, javax.swing.GroupLayout.PREFERRED_SIZE, 840, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jTabbedPaneMovenda, javax.swing.GroupLayout.Alignment.TRAILING)
         );
 
         bindingGroup.bind();
@@ -1638,10 +1555,6 @@ public class SaidaJFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBoxCstCofinsProdActionPerformed
 
-    private void jTableMovendaProdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableMovendaProdKeyPressed
-
-    }//GEN-LAST:event_jTableMovendaProdKeyPressed
-
     private void jTableMovendaProdMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableMovendaProdMouseClicked
         carregarCamposSaidaProduto();
         jTextFieldValorUnitarioProduto.requestFocus();
@@ -1660,6 +1573,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
     private void jButtonEditarMovendaProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarMovendaProdActionPerformed
         editaMovendaProduto();
         limpacampos();
+        carregaCamposSaida();
     }//GEN-LAST:event_jButtonEditarMovendaProdActionPerformed
 
     private void jButtonTrocaProdutoPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTrocaProdutoPedidoActionPerformed
@@ -2011,14 +1925,14 @@ public class SaidaJFrame extends javax.swing.JFrame {
     
     private void alteraValorProduto() {
         String text = jTextFieldValorUnitarioProduto.getText();
-        jTextFieldValorUnitarioProduto.setText(formataCampos.stringParaStringMoeda(text, decimaisArredondamento));
+        jTextFieldValorUnitarioProduto.setText(formataCampos.stringParaStringMoeda(text, 4));
         BigDecimal aliq;
         BigDecimal valorTotalProduto;
         BigDecimal valorIcms = BigDecimal.ZERO;
         BigDecimal valorIcmsDeferimento;
         BigDecimal aliqDeferimento;
         BigDecimal valorIcmsOperacao;
-        BigDecimal valUnitario = formataCampos.stringParaDecimal(jTextFieldValorUnitarioProduto.getText(), decimaisArredondamento);
+        BigDecimal valUnitario = formataCampos.stringParaDecimal(jTextFieldValorUnitarioProduto.getText(), 4);
         BigDecimal quantidade = new BigDecimal(jTextFieldQuantidadeProduto.getText());
         valorTotalProduto = valUnitario.multiply(quantidade);
         jTextFieldValorProdutos.setText(formataCampos.bigDecimalParaString(valorTotalProduto, decimaisArredondamento));
@@ -2354,20 +2268,18 @@ public class SaidaJFrame extends javax.swing.JFrame {
                 
                 editaMovenda(movendaAlterado);
                 editaMovenda(movenda);
-                movendaprodList.clear();
-                for (Movendaprod pro : queryCplus.listMovendaProd(movenda.getCodmovenda())) {
-                    movendaprodList.add(pro);
-                }
+                carregaTabelaMovendaProd(queryCplus.listMovendaProd(movenda.getCodmovenda()));
             }
         }//fim else que verifica se a produto selecionado na lista
     }
     
     private void carregaCamposSaida() {
         limpacampos();
-        movendaprodList.clear();
-        for (Movendaprod pro : queryCplus.listMovendaProd(movenda.getCodmovenda())) {
-            movendaprodList.add(pro);
-        }
+        //movendaprodList.clear();
+        //for (Movendaprod pro : queryCplus.listMovendaProd(movenda.getCodmovenda())) {
+         //   movendaprodList.add(pro);l
+       // }
+        carregaTabelaMovendaProd(queryCplus.listMovendaProd(movenda.getCodmovenda()));
         //totais da nota
         if ("Y".equals(movenda.getFlagcancelada().toString())) {
             jLabelMensagem.setForeground(Color.red);
@@ -2698,7 +2610,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
             jTextFieldBaseCofinsProd.setEnabled(true);
         }
         jTextFieldValorProdutos.setText(formataCampos.bigDecimalParaString(movProd.getValortotal(), decimaisArredondamento));
-        jTextFieldValorUnitarioProduto.setText(formataCampos.bigDecimalParaString(movProd.getValorunitario(), decimaisArredondamento));
+        jTextFieldValorUnitarioProduto.setText(formataCampos.bigDecimalParaString(movProd.getValorunitario(), 4));
         jTextFieldQuantidadeProduto.setText(formataCampos.bigDecimalParaString(movProd.getQuantidade(), 0));
         jTextFieldAliqStDestino.setText(formataCampos.bigDecimalParaString(movProd.getAliqicmsStUfDestino(), decimaisArredondamento));
         if (movProd.getAliqmva() == null) {
@@ -2737,7 +2649,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
                     prod.setCstcofins("49");
                     break;
             }
-            prod.setValorunitario(formataCampos.stringParaDecimal(jTextFieldValorUnitarioProduto.getText(), decimaisArredondamento));
+            prod.setValorunitario(formataCampos.stringParaDecimal(jTextFieldValorUnitarioProduto.getText(), 4));
             prod.setValortotal(formataCampos.stringParaDecimal(jTextFieldValorProdutos.getText(), decimaisArredondamento));
             prod.setBasepis(formataCampos.stringParaDecimal(jTextFieldBasePisProd.getText(), decimaisArredondamento));
             prod.setAliqpis(formataCampos.stringParaDecimal(jTextFieldAliqPisProd.getText(), decimaisArredondamento));
@@ -2993,6 +2905,43 @@ public class SaidaJFrame extends javax.swing.JFrame {
         }
         return condicao;
     }
+    
+    private void carregaTabelaMovendaProd(List<Movendaprod> prod) {
+        DefaultTableModel tab = (DefaultTableModel) jTableMovendaProd.getModel();
+        while (jTableMovendaProd.getModel().getRowCount() > 0) {
+            ((DefaultTableModel) jTableMovendaProd.getModel()).removeRow(0);
+        }
+        for (Movendaprod e : prod) {
+            //"EAN", "Produto Nome", "Quant", "CFOP", "Origem"
+            //"Val. Unit.", "Val. Total", "CST", "Base ICMS", "Aliq. ICMS", "Valor ICMS",
+            //"CST PIS", "Base PIS", "Aliq. PIS", "Val. PIS",
+            //"CST COFINS", "Base COFINS", "Aliq. COFINS", "Val. COFINS",
+            //"Cod. Ben. fiscal", "Codmovprod
+            tab.addRow(new Object[]{
+                e.getCodigoproduto(),
+                e.getCodprod().getNomeprod(),
+                formataCampos.bigDecimalParaString(e.getQuantidade(), 0),               
+                e.getCodcfop().getCodcfop(),                           
+                String.valueOf(e.getCodprod().getFlagorigemproduto()),
+                formataCampos.bigDecimalParaString(e.getValorunitario(), 4),
+                formataCampos.bigDecimalParaString(e.getValortotal(), decimaisArredondamento),
+                e.getCodsituacaotributaria(), 
+                formataCampos.bigDecimalParaString(e.getBaseicms(), decimaisArredondamento),
+                formataCampos.bigDecimalParaPorcentagem(e.getAliqicms()),               
+                formataCampos.bigDecimalParaString(e.getValoricms(), decimaisArredondamento),
+                e.getCstpis(), 
+                formataCampos.bigDecimalParaString(e.getBasepis(), decimaisArredondamento),
+                formataCampos.bigDecimalParaPorcentagem(e.getAliqpis()),               
+                formataCampos.bigDecimalParaString(e.getValorpis(), decimaisArredondamento),
+                e.getCstcofins(), 
+                formataCampos.bigDecimalParaString(e.getBasecofins(), decimaisArredondamento),
+                formataCampos.bigDecimalParaPorcentagem(e.getAliqcofins()),               
+                formataCampos.bigDecimalParaString(e.getValorcofins(), decimaisArredondamento),
+                e.getCodbeneficiofiscal(),               
+                e.getCodmovprod()
+            });
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -3035,11 +2984,10 @@ public class SaidaJFrame extends javax.swing.JFrame {
     int colunaCodMovendaProduto;
     int codMovenda = 0;
     int colunaMovDocReferenciado;
-    //static EntityManagerFactory managerCplus;
     //static VariavelStatica var;
     private final FormataCampos formataCampos;
     private final QueryCplus queryCplus;
-    ListagemSaidasJDialog listagemSaidasJDialog;
+    private ListagemSaidasJDialog listagemSaidasJDialog;
     ListagemEntradasJDialog listagemEntradasJDialog;
     ListagemClientesJDialog listagemClientesJDialog;
     ListagemVendedorJDialog listagemVendedor;
@@ -3201,8 +3149,6 @@ public class SaidaJFrame extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldValorUnitarioProduto;
     private java.util.List<entidade.cplus.Movdocreferenciado> movdocreferenciadoList;
     private javax.persistence.Query movdocreferenciadoQuery;
-    private java.util.List<entidade.cplus.Movendaprod> movendaprodList;
-    private javax.persistence.Query movendaprodQuery;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
