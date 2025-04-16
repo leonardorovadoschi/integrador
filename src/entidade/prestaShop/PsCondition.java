@@ -26,20 +26,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "ps_condition")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "PsCondition.findAll", query = "SELECT p FROM PsCondition p")
-    , @NamedQuery(name = "PsCondition.findByIdCondition", query = "SELECT p FROM PsCondition p WHERE p.psConditionPK.idCondition = :idCondition")
-    , @NamedQuery(name = "PsCondition.findByIdPsCondition", query = "SELECT p FROM PsCondition p WHERE p.psConditionPK.idPsCondition = :idPsCondition")
-    , @NamedQuery(name = "PsCondition.findByType", query = "SELECT p FROM PsCondition p WHERE p.type = :type")
-    , @NamedQuery(name = "PsCondition.findByOperator", query = "SELECT p FROM PsCondition p WHERE p.operator = :operator")
-    , @NamedQuery(name = "PsCondition.findByValue", query = "SELECT p FROM PsCondition p WHERE p.value = :value")
-    , @NamedQuery(name = "PsCondition.findByResult", query = "SELECT p FROM PsCondition p WHERE p.result = :result")
-    , @NamedQuery(name = "PsCondition.findByCalculationType", query = "SELECT p FROM PsCondition p WHERE p.calculationType = :calculationType")
-    , @NamedQuery(name = "PsCondition.findByCalculationDetail", query = "SELECT p FROM PsCondition p WHERE p.calculationDetail = :calculationDetail")
-    , @NamedQuery(name = "PsCondition.findByValidated", query = "SELECT p FROM PsCondition p WHERE p.validated = :validated")
-    , @NamedQuery(name = "PsCondition.findByDateAdd", query = "SELECT p FROM PsCondition p WHERE p.dateAdd = :dateAdd")
-    , @NamedQuery(name = "PsCondition.findByDateUpd", query = "SELECT p FROM PsCondition p WHERE p.dateUpd = :dateUpd")})
 public class PsCondition implements Serializable {
+    @Basic(optional = false)
+    @Column(name = "validated")
+    private short validated;
 
     private static final long serialVersionUID = 1L;
     @EmbeddedId
@@ -61,9 +51,6 @@ public class PsCondition implements Serializable {
     @Column(name = "calculation_detail")
     private String calculationDetail;
     @Basic(optional = false)
-    @Column(name = "validated")
-    private boolean validated;
-    @Basic(optional = false)
     @Column(name = "date_add")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateAdd;
@@ -79,7 +66,7 @@ public class PsCondition implements Serializable {
         this.psConditionPK = psConditionPK;
     }
 
-    public PsCondition(PsConditionPK psConditionPK, String type, boolean validated, Date dateAdd, Date dateUpd) {
+    public PsCondition(PsConditionPK psConditionPK, String type, short validated, Date dateAdd, Date dateUpd) {
         this.psConditionPK = psConditionPK;
         this.type = type;
         this.validated = validated;
@@ -155,13 +142,6 @@ public class PsCondition implements Serializable {
         this.calculationDetail = calculationDetail;
     }
 
-    public boolean getValidated() {
-        return validated;
-    }
-
-    public void setValidated(boolean validated) {
-        this.validated = validated;
-    }
 
     public Date getDateAdd() {
         return dateAdd;
@@ -202,6 +182,14 @@ public class PsCondition implements Serializable {
     @Override
     public String toString() {
         return "entidade.prestaShop.PsCondition[ psConditionPK=" + psConditionPK + " ]";
+    }
+
+    public short getValidated() {
+        return validated;
+    }
+
+    public void setValidated(short validated) {
+        this.validated = validated;
     }
     
 }

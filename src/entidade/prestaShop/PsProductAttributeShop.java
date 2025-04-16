@@ -26,22 +26,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "ps_product_attribute_shop")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "PsProductAttributeShop.findAll", query = "SELECT p FROM PsProductAttributeShop p")
-    , @NamedQuery(name = "PsProductAttributeShop.findByIdProduct", query = "SELECT p FROM PsProductAttributeShop p WHERE p.idProduct = :idProduct")
-    , @NamedQuery(name = "PsProductAttributeShop.findByIdProductAttribute", query = "SELECT p FROM PsProductAttributeShop p WHERE p.psProductAttributeShopPK.idProductAttribute = :idProductAttribute")
-    , @NamedQuery(name = "PsProductAttributeShop.findByIdShop", query = "SELECT p FROM PsProductAttributeShop p WHERE p.psProductAttributeShopPK.idShop = :idShop")
-    , @NamedQuery(name = "PsProductAttributeShop.findByWholesalePrice", query = "SELECT p FROM PsProductAttributeShop p WHERE p.wholesalePrice = :wholesalePrice")
-    , @NamedQuery(name = "PsProductAttributeShop.findByPrice", query = "SELECT p FROM PsProductAttributeShop p WHERE p.price = :price")
-    , @NamedQuery(name = "PsProductAttributeShop.findByEcotax", query = "SELECT p FROM PsProductAttributeShop p WHERE p.ecotax = :ecotax")
-    , @NamedQuery(name = "PsProductAttributeShop.findByWeight", query = "SELECT p FROM PsProductAttributeShop p WHERE p.weight = :weight")
-    , @NamedQuery(name = "PsProductAttributeShop.findByUnitPriceImpact", query = "SELECT p FROM PsProductAttributeShop p WHERE p.unitPriceImpact = :unitPriceImpact")
-    , @NamedQuery(name = "PsProductAttributeShop.findByDefaultOn", query = "SELECT p FROM PsProductAttributeShop p WHERE p.defaultOn = :defaultOn")
-    , @NamedQuery(name = "PsProductAttributeShop.findByMinimalQuantity", query = "SELECT p FROM PsProductAttributeShop p WHERE p.minimalQuantity = :minimalQuantity")
-    , @NamedQuery(name = "PsProductAttributeShop.findByLowStockThreshold", query = "SELECT p FROM PsProductAttributeShop p WHERE p.lowStockThreshold = :lowStockThreshold")
-    , @NamedQuery(name = "PsProductAttributeShop.findByLowStockAlert", query = "SELECT p FROM PsProductAttributeShop p WHERE p.lowStockAlert = :lowStockAlert")
-    , @NamedQuery(name = "PsProductAttributeShop.findByAvailableDate", query = "SELECT p FROM PsProductAttributeShop p WHERE p.availableDate = :availableDate")})
+
 public class PsProductAttributeShop implements Serializable {
+    @Column(name = "default_on")
+    private Short defaultOn;
 
     private static final long serialVersionUID = 1L;
     @EmbeddedId
@@ -65,8 +53,6 @@ public class PsProductAttributeShop implements Serializable {
     @Basic(optional = false)
     @Column(name = "unit_price_impact")
     private BigDecimal unitPriceImpact;
-    @Column(name = "default_on")
-    private Boolean defaultOn;
     @Basic(optional = false)
     @Column(name = "minimal_quantity")
     private int minimalQuantity;
@@ -158,14 +144,6 @@ public class PsProductAttributeShop implements Serializable {
         this.unitPriceImpact = unitPriceImpact;
     }
 
-    public Boolean getDefaultOn() {
-        return defaultOn;
-    }
-
-    public void setDefaultOn(Boolean defaultOn) {
-        this.defaultOn = defaultOn;
-    }
-
     public int getMinimalQuantity() {
         return minimalQuantity;
     }
@@ -221,6 +199,14 @@ public class PsProductAttributeShop implements Serializable {
     @Override
     public String toString() {
         return "entidade.prestaShop.PsProductAttributeShop[ psProductAttributeShopPK=" + psProductAttributeShopPK + " ]";
+    }
+
+    public Short getDefaultOn() {
+        return defaultOn;
+    }
+
+    public void setDefaultOn(Short defaultOn) {
+        this.defaultOn = defaultOn;
     }
     
 }

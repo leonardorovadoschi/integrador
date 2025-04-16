@@ -32,7 +32,7 @@ public class ClienteDigimacroCplus {
 
     public void criaClienteCplus(PsCustomer psCustomer) {     
         Cliente cli = new Cliente();
-        List<PsAddress> listCustomer = new QueryPrestaShop().listAddress(false, psCustomer.getIdCustomer());
+        List<PsAddress> listCustomer = new QueryPrestaShop().listAddress((short) 0, psCustomer.getIdCustomer());
         for (PsAddress psAddress : listCustomer) {           
                 cli.setComplementologradouro("");        
              cli.setEndereco(tamanhoString(psAddress.getAddress1(), 55));          

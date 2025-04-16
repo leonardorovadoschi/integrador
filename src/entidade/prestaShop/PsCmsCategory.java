@@ -27,16 +27,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "ps_cms_category")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "PsCmsCategory.findAll", query = "SELECT p FROM PsCmsCategory p")
-    , @NamedQuery(name = "PsCmsCategory.findByIdCmsCategory", query = "SELECT p FROM PsCmsCategory p WHERE p.idCmsCategory = :idCmsCategory")
-    , @NamedQuery(name = "PsCmsCategory.findByIdParent", query = "SELECT p FROM PsCmsCategory p WHERE p.idParent = :idParent")
-    , @NamedQuery(name = "PsCmsCategory.findByLevelDepth", query = "SELECT p FROM PsCmsCategory p WHERE p.levelDepth = :levelDepth")
-    , @NamedQuery(name = "PsCmsCategory.findByActive", query = "SELECT p FROM PsCmsCategory p WHERE p.active = :active")
-    , @NamedQuery(name = "PsCmsCategory.findByDateAdd", query = "SELECT p FROM PsCmsCategory p WHERE p.dateAdd = :dateAdd")
-    , @NamedQuery(name = "PsCmsCategory.findByDateUpd", query = "SELECT p FROM PsCmsCategory p WHERE p.dateUpd = :dateUpd")
-    , @NamedQuery(name = "PsCmsCategory.findByPosition", query = "SELECT p FROM PsCmsCategory p WHERE p.position = :position")})
+
 public class PsCmsCategory implements Serializable {
+    @Basic(optional = false)
+    @Column(name = "active")
+    private short active;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -50,9 +45,6 @@ public class PsCmsCategory implements Serializable {
     @Basic(optional = false)
     @Column(name = "level_depth")
     private short levelDepth;
-    @Basic(optional = false)
-    @Column(name = "active")
-    private boolean active;
     @Basic(optional = false)
     @Column(name = "date_add")
     @Temporal(TemporalType.TIMESTAMP)
@@ -72,7 +64,7 @@ public class PsCmsCategory implements Serializable {
         this.idCmsCategory = idCmsCategory;
     }
 
-    public PsCmsCategory(Integer idCmsCategory, int idParent, short levelDepth, boolean active, Date dateAdd, Date dateUpd, int position) {
+    public PsCmsCategory(Integer idCmsCategory, int idParent, short levelDepth, short active, Date dateAdd, Date dateUpd, int position) {
         this.idCmsCategory = idCmsCategory;
         this.idParent = idParent;
         this.levelDepth = levelDepth;
@@ -106,13 +98,6 @@ public class PsCmsCategory implements Serializable {
         this.levelDepth = levelDepth;
     }
 
-    public boolean getActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
 
     public Date getDateAdd() {
         return dateAdd;
@@ -161,6 +146,14 @@ public class PsCmsCategory implements Serializable {
     @Override
     public String toString() {
         return "entidade.prestaShop.PsCmsCategory[ idCmsCategory=" + idCmsCategory + " ]";
+    }
+
+    public short getActive() {
+        return active;
+    }
+
+    public void setActive(short active) {
+        this.active = active;
     }
     
 }

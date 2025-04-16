@@ -27,15 +27,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "ps_tax_rules_group")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "PsTaxRulesGroup.findAll", query = "SELECT p FROM PsTaxRulesGroup p")
-    , @NamedQuery(name = "PsTaxRulesGroup.findByIdTaxRulesGroup", query = "SELECT p FROM PsTaxRulesGroup p WHERE p.idTaxRulesGroup = :idTaxRulesGroup")
-    , @NamedQuery(name = "PsTaxRulesGroup.findByName", query = "SELECT p FROM PsTaxRulesGroup p WHERE p.name = :name")
-    , @NamedQuery(name = "PsTaxRulesGroup.findByActive", query = "SELECT p FROM PsTaxRulesGroup p WHERE p.active = :active")
-    , @NamedQuery(name = "PsTaxRulesGroup.findByDeleted", query = "SELECT p FROM PsTaxRulesGroup p WHERE p.deleted = :deleted")
-    , @NamedQuery(name = "PsTaxRulesGroup.findByDateAdd", query = "SELECT p FROM PsTaxRulesGroup p WHERE p.dateAdd = :dateAdd")
-    , @NamedQuery(name = "PsTaxRulesGroup.findByDateUpd", query = "SELECT p FROM PsTaxRulesGroup p WHERE p.dateUpd = :dateUpd")})
+
 public class PsTaxRulesGroup implements Serializable {
+    @Basic(optional = false)
+    @Column(name = "deleted")
+    private short deleted;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -49,9 +45,6 @@ public class PsTaxRulesGroup implements Serializable {
     @Basic(optional = false)
     @Column(name = "active")
     private int active;
-    @Basic(optional = false)
-    @Column(name = "deleted")
-    private boolean deleted;
     @Basic(optional = false)
     @Column(name = "date_add")
     @Temporal(TemporalType.TIMESTAMP)
@@ -68,7 +61,7 @@ public class PsTaxRulesGroup implements Serializable {
         this.idTaxRulesGroup = idTaxRulesGroup;
     }
 
-    public PsTaxRulesGroup(Integer idTaxRulesGroup, String name, int active, boolean deleted, Date dateAdd, Date dateUpd) {
+    public PsTaxRulesGroup(Integer idTaxRulesGroup, String name, int active, short deleted, Date dateAdd, Date dateUpd) {
         this.idTaxRulesGroup = idTaxRulesGroup;
         this.name = name;
         this.active = active;
@@ -101,13 +94,6 @@ public class PsTaxRulesGroup implements Serializable {
         this.active = active;
     }
 
-    public boolean getDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
-    }
 
     public Date getDateAdd() {
         return dateAdd;
@@ -148,6 +134,14 @@ public class PsTaxRulesGroup implements Serializable {
     @Override
     public String toString() {
         return "entidade.prestaShop.PsTaxRulesGroup[ idTaxRulesGroup=" + idTaxRulesGroup + " ]";
+    }
+
+    public short getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(short deleted) {
+        this.deleted = deleted;
     }
     
 }

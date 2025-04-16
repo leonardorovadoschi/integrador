@@ -25,13 +25,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "ps_tax")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "PsTax.findAll", query = "SELECT p FROM PsTax p")
-    , @NamedQuery(name = "PsTax.findByIdTax", query = "SELECT p FROM PsTax p WHERE p.idTax = :idTax")
-    , @NamedQuery(name = "PsTax.findByRate", query = "SELECT p FROM PsTax p WHERE p.rate = :rate")
-    , @NamedQuery(name = "PsTax.findByActive", query = "SELECT p FROM PsTax p WHERE p.active = :active")
-    , @NamedQuery(name = "PsTax.findByDeleted", query = "SELECT p FROM PsTax p WHERE p.deleted = :deleted")})
+
 public class PsTax implements Serializable {
+    @Basic(optional = false)
+    @Column(name = "active")
+    private short active;
+    @Basic(optional = false)
+    @Column(name = "deleted")
+    private short deleted;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -43,12 +44,6 @@ public class PsTax implements Serializable {
     @Basic(optional = false)
     @Column(name = "rate")
     private BigDecimal rate;
-    @Basic(optional = false)
-    @Column(name = "active")
-    private boolean active;
-    @Basic(optional = false)
-    @Column(name = "deleted")
-    private boolean deleted;
 
     public PsTax() {
     }
@@ -57,7 +52,7 @@ public class PsTax implements Serializable {
         this.idTax = idTax;
     }
 
-    public PsTax(Integer idTax, BigDecimal rate, boolean active, boolean deleted) {
+    public PsTax(Integer idTax, BigDecimal rate, short active, short deleted) {
         this.idTax = idTax;
         this.rate = rate;
         this.active = active;
@@ -80,21 +75,6 @@ public class PsTax implements Serializable {
         this.rate = rate;
     }
 
-    public boolean getActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    public boolean getDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
-    }
 
     @Override
     public int hashCode() {
@@ -119,6 +99,22 @@ public class PsTax implements Serializable {
     @Override
     public String toString() {
         return "entidade.prestaShop.PsTax[ idTax=" + idTax + " ]";
+    }
+
+    public short getActive() {
+        return active;
+    }
+
+    public void setActive(short active) {
+        this.active = active;
+    }
+
+    public short getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(short deleted) {
+        this.deleted = deleted;
     }
     
 }

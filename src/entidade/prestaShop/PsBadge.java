@@ -12,8 +12,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -24,17 +22,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "ps_badge")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "PsBadge.findAll", query = "SELECT p FROM PsBadge p")
-    , @NamedQuery(name = "PsBadge.findByIdBadge", query = "SELECT p FROM PsBadge p WHERE p.idBadge = :idBadge")
-    , @NamedQuery(name = "PsBadge.findByIdPsBadge", query = "SELECT p FROM PsBadge p WHERE p.idPsBadge = :idPsBadge")
-    , @NamedQuery(name = "PsBadge.findByType", query = "SELECT p FROM PsBadge p WHERE p.type = :type")
-    , @NamedQuery(name = "PsBadge.findByIdGroup", query = "SELECT p FROM PsBadge p WHERE p.idGroup = :idGroup")
-    , @NamedQuery(name = "PsBadge.findByGroupPosition", query = "SELECT p FROM PsBadge p WHERE p.groupPosition = :groupPosition")
-    , @NamedQuery(name = "PsBadge.findByScoring", query = "SELECT p FROM PsBadge p WHERE p.scoring = :scoring")
-    , @NamedQuery(name = "PsBadge.findByAwb", query = "SELECT p FROM PsBadge p WHERE p.awb = :awb")
-    , @NamedQuery(name = "PsBadge.findByValidated", query = "SELECT p FROM PsBadge p WHERE p.validated = :validated")})
+
 public class PsBadge implements Serializable {
+    @Basic(optional = false)
+    @Column(name = "validated")
+    private short validated;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -59,9 +51,6 @@ public class PsBadge implements Serializable {
     private int scoring;
     @Column(name = "awb")
     private Integer awb;
-    @Basic(optional = false)
-    @Column(name = "validated")
-    private boolean validated;
 
     public PsBadge() {
     }
@@ -70,7 +59,7 @@ public class PsBadge implements Serializable {
         this.idBadge = idBadge;
     }
 
-    public PsBadge(Integer idBadge, int idPsBadge, String type, int idGroup, int groupPosition, int scoring, boolean validated) {
+    public PsBadge(Integer idBadge, int idPsBadge, String type, int idGroup, int groupPosition, int scoring, short validated) {
         this.idBadge = idBadge;
         this.idPsBadge = idPsBadge;
         this.type = type;
@@ -136,13 +125,6 @@ public class PsBadge implements Serializable {
         this.awb = awb;
     }
 
-    public boolean getValidated() {
-        return validated;
-    }
-
-    public void setValidated(boolean validated) {
-        this.validated = validated;
-    }
 
     @Override
     public int hashCode() {
@@ -167,6 +149,14 @@ public class PsBadge implements Serializable {
     @Override
     public String toString() {
         return "entidade.prestaShop.PsBadge[ idBadge=" + idBadge + " ]";
+    }
+
+    public short getValidated() {
+        return validated;
+    }
+
+    public void setValidated(short validated) {
+        this.validated = validated;
     }
     
 }

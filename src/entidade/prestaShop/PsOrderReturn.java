@@ -28,15 +28,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "ps_order_return")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "PsOrderReturn.findAll", query = "SELECT p FROM PsOrderReturn p")
-    , @NamedQuery(name = "PsOrderReturn.findByIdOrderReturn", query = "SELECT p FROM PsOrderReturn p WHERE p.idOrderReturn = :idOrderReturn")
-    , @NamedQuery(name = "PsOrderReturn.findByIdCustomer", query = "SELECT p FROM PsOrderReturn p WHERE p.idCustomer = :idCustomer")
-    , @NamedQuery(name = "PsOrderReturn.findByIdOrder", query = "SELECT p FROM PsOrderReturn p WHERE p.idOrder = :idOrder")
-    , @NamedQuery(name = "PsOrderReturn.findByState", query = "SELECT p FROM PsOrderReturn p WHERE p.state = :state")
-    , @NamedQuery(name = "PsOrderReturn.findByDateAdd", query = "SELECT p FROM PsOrderReturn p WHERE p.dateAdd = :dateAdd")
-    , @NamedQuery(name = "PsOrderReturn.findByDateUpd", query = "SELECT p FROM PsOrderReturn p WHERE p.dateUpd = :dateUpd")})
+
 public class PsOrderReturn implements Serializable {
+    @Basic(optional = false)
+    @Column(name = "state")
+    private short state;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -50,9 +46,6 @@ public class PsOrderReturn implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_order")
     private int idOrder;
-    @Basic(optional = false)
-    @Column(name = "state")
-    private boolean state;
     @Basic(optional = false)
     @Lob
     @Column(name = "question")
@@ -73,7 +66,7 @@ public class PsOrderReturn implements Serializable {
         this.idOrderReturn = idOrderReturn;
     }
 
-    public PsOrderReturn(Integer idOrderReturn, int idCustomer, int idOrder, boolean state, String question, Date dateAdd, Date dateUpd) {
+    public PsOrderReturn(Integer idOrderReturn, int idCustomer, int idOrder, short state, String question, Date dateAdd, Date dateUpd) {
         this.idOrderReturn = idOrderReturn;
         this.idCustomer = idCustomer;
         this.idOrder = idOrder;
@@ -107,13 +100,6 @@ public class PsOrderReturn implements Serializable {
         this.idOrder = idOrder;
     }
 
-    public boolean getState() {
-        return state;
-    }
-
-    public void setState(boolean state) {
-        this.state = state;
-    }
 
     public String getQuestion() {
         return question;
@@ -162,6 +148,14 @@ public class PsOrderReturn implements Serializable {
     @Override
     public String toString() {
         return "entidade.prestaShop.PsOrderReturn[ idOrderReturn=" + idOrderReturn + " ]";
+    }
+
+    public short getState() {
+        return state;
+    }
+
+    public void setState(short state) {
+        this.state = state;
     }
     
 }

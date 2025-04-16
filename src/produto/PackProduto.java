@@ -111,8 +111,8 @@ public class PackProduto {
         pp1.setIdCategoryDefault(categoriaPadrao(proCplus));
         pp1.setIdShopDefault(1);
         pp1.setIdTaxRulesGroup(taxRulesGroup(proCplus));
-        pp1.setOnSale(false);
-        pp1.setOnlineOnly(false);
+        pp1.setOnSale((short) 0);
+        pp1.setOnlineOnly((short) 0);
         pp1.setEan13(eanCplus(proCplus));
         pp1.setIsbn("");
         pp1.setUpc("");
@@ -134,16 +134,16 @@ public class PackProduto {
         pp1.setDepth(proCplus.getComprimento());
         pp1.setWeight(proCplus.getPesobruto());
         pp1.setOutOfStock(2);
-        pp1.setAdditionalDeliveryTimes(true);
+        pp1.setAdditionalDeliveryTimes((short) 1);
         pp1.setQuantityDiscount(false);
         pp1.setCustomizable((short) 0);
         pp1.setUploadableFiles((short) 0);
         pp1.setTextFields((short) 0);
         if (produtoAtivo(proCplus) && quantidadeEstoque(proCplus) > 0) {
-            pp1.setActive(true);
+            pp1.setActive((short) 1);
             pp1.setIndexed(true);
         } else {
-            pp1.setActive(false);
+            pp1.setActive((short) 0);
             pp1.setIndexed(false);
         }
         pp1.setRedirectType("301-category");
@@ -151,7 +151,7 @@ public class PackProduto {
         pp1.setAvailableForOrder(true);
         pp1.setAvailableDate(null);
         pp1.setShowCondition(true);
-        pp1.setCondition1("new");
+        pp1.setCondition("new");
         pp1.setShowPrice(true);
         // if ("116".equals(proCplus.getCodsec().getClassificacao())) {
         pp1.setIndexed(true);
@@ -196,8 +196,8 @@ public class PackProduto {
                 pps.setPsProductShopPK(new PsProductShopPK(pp.getIdProduct(), 1));
                 pps.setIdCategoryDefault(categoriaPadrao(proCplus));
                 pps.setIdTaxRulesGroup(taxRulesGroup( proCplus));
-                pps.setOnSale(false);
-                pps.setOnlineOnly(false);
+                //pps.setOnSale((short) 0);
+                pps.setOnlineOnly((short) 0);
                 pps.setEcotax(BigDecimal.ZERO);
                 pps.setMinimalQuantity(1);
                 pps.setLowStockThreshold(null);
@@ -212,10 +212,10 @@ public class PackProduto {
                 pps.setTextFields((short) 0);
 
                 if (produtoAtivo(proCplus) && quantidadeEstoque(proCplus) > 0) {
-                    pps.setActive(true);
+                    pps.setActive((short) 1);
                     pps.setIndexed(true);
                 } else {
-                    pps.setActive(false);
+                    pps.setActive((short) 0);
                     pps.setIndexed(false);
                 }
 
@@ -233,7 +233,7 @@ public class PackProduto {
                 // pps.setIndexed(pps.getActive());
                 pps.setVisibility("both");
                 //  }
-                pps.setIndexed(pps.getActive());
+                //pps.setIndexed(pps.getActive());
                 pps.setVisibility("both");
                 pps.setCacheDefaultAttribute(0);
                 pps.setAdvancedStockManagement(false);
@@ -250,8 +250,8 @@ public class PackProduto {
                 psSA.setQuantity(quantidadeEstoque(proCplus, pp));
                 psSA.setPhysicalQuantity(quantidadeEstoque(proCplus, pp));
                 psSA.setReservedQuantity(0);
-                psSA.setDependsOnStock(false);
-                psSA.setOutOfStock(false);
+                psSA.setDependsOnStock((short) 0);
+                psSA.setOutOfStock((short) 0);
                 psSA.setLocation("");
                 new PsStockAvailableJpaController(Manager.getManagerPrestaShop()).create(psSA);
 
@@ -295,10 +295,10 @@ public class PackProduto {
             psP.setPrice(preco);
             psP.setOutOfStock(2);
             if (qunti > 0) {
-                psP.setActive(true);
+                psP.setActive((short) 1);
                 psP.setIndexed(true);
             } else {
-                psP.setActive(false);
+                psP.setActive((short) 0);
                 psP.setIndexed(false);
             }
             try {
@@ -308,10 +308,10 @@ public class PackProduto {
                 for (PsProductShop pps : listPPS) {
                     pps.setPrice(preco);
                     if (qunti > 0) {
-                        pps.setActive(true);
+                        pps.setActive((short) 1);
                         pps.setIndexed(true);
                     } else {
-                        pps.setActive(false);
+                        pps.setActive((short) 0);
                         pps.setIndexed(false);
                     }
                     new PsProductShopJpaController(Manager.getManagerPrestaShop()).edit(pps);
@@ -358,16 +358,16 @@ public class PackProduto {
         pp.setOutOfStock(2);
        
         if (produtoAtivo(proCplus) && quantidadeEstoque(proCplus, pp) > 0) {
-            pp.setActive(true);
+            pp.setActive((short) 1);
             pp.setIndexed(true);
         } else {
-            pp.setActive(false);
+            pp.setActive((short) 0);
             pp.setIndexed(false);
         }
         
         pp.setAvailableDate(new Date(System.currentTimeMillis()));
         pp.setShowCondition(false);
-        pp.setCondition1("new");
+        pp.setCondition("new");
         pp.setShowPrice(true);
         
         pp.setVisibility("both");
@@ -407,10 +407,10 @@ public class PackProduto {
                 pps.setPrice(precoPrincipal( proCplus));
                 
                 if (produtoAtivo(proCplus) && quantidadeEstoque(proCplus, pp) > 0) {
-                    pps.setActive(true);
+                    pps.setActive((short) 1);
                     pps.setIndexed(true);
                 } else {
-                    pps.setActive(false);
+                    pps.setActive((short) 0);
                     pps.setIndexed(false);
                 }
                
@@ -433,8 +433,8 @@ public class PackProduto {
                 psSA.setQuantity(quantidadeEstoque(proCplus, pp));
                 // psSA.setPhysicalQuantity(editaQuantidadeEstoque(managerCplus, managerPrestaShop, proCplus, pp));
                 psSA.setReservedQuantity(0);
-                psSA.setDependsOnStock(false);
-                psSA.setOutOfStock(false);
+                psSA.setDependsOnStock((short) 0);
+                psSA.setOutOfStock((short) 0);
                 new PsStockAvailableJpaController(Manager.getManagerPrestaShop()).edit(psSA);
             }
             //PsSpecificPrice psSP = new PsSpecificPrice();

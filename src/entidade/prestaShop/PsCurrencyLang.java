@@ -29,6 +29,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "PsCurrencyLang.findByName", query = "SELECT p FROM PsCurrencyLang p WHERE p.name = :name")
     , @NamedQuery(name = "PsCurrencyLang.findBySymbol", query = "SELECT p FROM PsCurrencyLang p WHERE p.symbol = :symbol")})
 public class PsCurrencyLang implements Serializable {
+    @Column(name = "pattern")
+    private String pattern;
 
     private static final long serialVersionUID = 1L;
     @EmbeddedId
@@ -104,6 +106,14 @@ public class PsCurrencyLang implements Serializable {
     @Override
     public String toString() {
         return "entidade.prestaShop.PsCurrencyLang[ psCurrencyLangPK=" + psCurrencyLangPK + " ]";
+    }
+
+    public String getPattern() {
+        return pattern;
+    }
+
+    public void setPattern(String pattern) {
+        this.pattern = pattern;
     }
     
 }

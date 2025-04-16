@@ -13,8 +13,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -27,20 +25,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "ps_category")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "PsCategory.findAll", query = "SELECT p FROM PsCategory p")
-    , @NamedQuery(name = "PsCategory.findByIdCategory", query = "SELECT p FROM PsCategory p WHERE p.idCategory = :idCategory")
-    , @NamedQuery(name = "PsCategory.findByIdParent", query = "SELECT p FROM PsCategory p WHERE p.idParent = :idParent")
-    , @NamedQuery(name = "PsCategory.findByIdShopDefault", query = "SELECT p FROM PsCategory p WHERE p.idShopDefault = :idShopDefault")
-    , @NamedQuery(name = "PsCategory.findByLevelDepth", query = "SELECT p FROM PsCategory p WHERE p.levelDepth = :levelDepth")
-    , @NamedQuery(name = "PsCategory.findByNleft", query = "SELECT p FROM PsCategory p WHERE p.nleft = :nleft")
-    , @NamedQuery(name = "PsCategory.findByNright", query = "SELECT p FROM PsCategory p WHERE p.nright = :nright")
-    , @NamedQuery(name = "PsCategory.findByActive", query = "SELECT p FROM PsCategory p WHERE p.active = :active")
-    , @NamedQuery(name = "PsCategory.findByDateAdd", query = "SELECT p FROM PsCategory p WHERE p.dateAdd = :dateAdd")
-    , @NamedQuery(name = "PsCategory.findByDateUpd", query = "SELECT p FROM PsCategory p WHERE p.dateUpd = :dateUpd")
-    , @NamedQuery(name = "PsCategory.findByPosition", query = "SELECT p FROM PsCategory p WHERE p.position = :position")
-    , @NamedQuery(name = "PsCategory.findByIsRootCategory", query = "SELECT p FROM PsCategory p WHERE p.isRootCategory = :isRootCategory")})
+
 public class PsCategory implements Serializable {
+    @Basic(optional = false)
+    @Column(name = "active")
+    private short active;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -64,9 +53,6 @@ public class PsCategory implements Serializable {
     @Column(name = "nright")
     private int nright;
     @Basic(optional = false)
-    @Column(name = "active")
-    private boolean active;
-    @Basic(optional = false)
     @Column(name = "date_add")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateAdd;
@@ -88,7 +74,7 @@ public class PsCategory implements Serializable {
         this.idCategory = idCategory;
     }
 
-    public PsCategory(Integer idCategory, int idParent, int idShopDefault, short levelDepth, int nleft, int nright, boolean active, Date dateAdd, Date dateUpd, int position, boolean isRootCategory) {
+    public PsCategory(Integer idCategory, int idParent, int idShopDefault, short levelDepth, int nleft, int nright, short active, Date dateAdd, Date dateUpd, int position, boolean isRootCategory) {
         this.idCategory = idCategory;
         this.idParent = idParent;
         this.idShopDefault = idShopDefault;
@@ -150,13 +136,6 @@ public class PsCategory implements Serializable {
         this.nright = nright;
     }
 
-    public boolean getActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
 
     public Date getDateAdd() {
         return dateAdd;
@@ -213,6 +192,14 @@ public class PsCategory implements Serializable {
     @Override
     public String toString() {
         return "entidade.prestaShop.PsCategory[ idCategory=" + idCategory + " ]";
+    }
+
+    public short getActive() {
+        return active;
+    }
+
+    public void setActive(short active) {
+        this.active = active;
     }
     
 }

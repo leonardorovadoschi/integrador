@@ -39,7 +39,7 @@ public class TaxRuleGroup {
         pTRG.setActive(1);
         pTRG.setDateAdd(new Date(System.currentTimeMillis()));
         pTRG.setDateUpd(new Date(System.currentTimeMillis()));
-        pTRG.setDeleted(false);
+        pTRG.setDeleted((short) 0);
         pTRG.setName(calIcms.getNomecalculoicms());
         new PsTaxRulesGroupJpaController(Manager.getManagerPrestaShop()).create(pTRG);
         
@@ -56,7 +56,7 @@ public class TaxRuleGroup {
         psTRG.setActive(1);
         //psTRG.setDateAdd(new Date(System.currentTimeMillis()));
         psTRG.setDateUpd(new Date(System.currentTimeMillis()));
-        psTRG.setDeleted(false);
+        psTRG.setDeleted((short) 0);
         psTRG.setName(calIcms.getNomecalculoicms());
         try {
             new PsTaxRulesGroupJpaController(Manager.getManagerPrestaShop()).edit(psTRG);

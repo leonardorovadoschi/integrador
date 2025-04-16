@@ -28,16 +28,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "ps_message")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "PsMessage.findAll", query = "SELECT p FROM PsMessage p")
-    , @NamedQuery(name = "PsMessage.findByIdMessage", query = "SELECT p FROM PsMessage p WHERE p.idMessage = :idMessage")
-    , @NamedQuery(name = "PsMessage.findByIdCart", query = "SELECT p FROM PsMessage p WHERE p.idCart = :idCart")
-    , @NamedQuery(name = "PsMessage.findByIdCustomer", query = "SELECT p FROM PsMessage p WHERE p.idCustomer = :idCustomer")
-    , @NamedQuery(name = "PsMessage.findByIdEmployee", query = "SELECT p FROM PsMessage p WHERE p.idEmployee = :idEmployee")
-    , @NamedQuery(name = "PsMessage.findByIdOrder", query = "SELECT p FROM PsMessage p WHERE p.idOrder = :idOrder")
-    , @NamedQuery(name = "PsMessage.findByPrivate1", query = "SELECT p FROM PsMessage p WHERE p.private1 = :private1")
-    , @NamedQuery(name = "PsMessage.findByDateAdd", query = "SELECT p FROM PsMessage p WHERE p.dateAdd = :dateAdd")})
+
 public class PsMessage implements Serializable {
+    @Basic(optional = false)
+    @Column(name = "private")
+    private short private1;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -60,9 +55,6 @@ public class PsMessage implements Serializable {
     @Column(name = "message")
     private String message;
     @Basic(optional = false)
-    @Column(name = "private")
-    private boolean private1;
-    @Basic(optional = false)
     @Column(name = "date_add")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateAdd;
@@ -74,7 +66,7 @@ public class PsMessage implements Serializable {
         this.idMessage = idMessage;
     }
 
-    public PsMessage(Integer idMessage, int idCustomer, int idOrder, String message, boolean private1, Date dateAdd) {
+    public PsMessage(Integer idMessage, int idCustomer, int idOrder, String message, short private1, Date dateAdd) {
         this.idMessage = idMessage;
         this.idCustomer = idCustomer;
         this.idOrder = idOrder;
@@ -131,14 +123,6 @@ public class PsMessage implements Serializable {
         this.message = message;
     }
 
-    public boolean getPrivate1() {
-        return private1;
-    }
-
-    public void setPrivate1(boolean private1) {
-        this.private1 = private1;
-    }
-
     public Date getDateAdd() {
         return dateAdd;
     }
@@ -170,6 +154,14 @@ public class PsMessage implements Serializable {
     @Override
     public String toString() {
         return "entidade.prestaShop.PsMessage[ idMessage=" + idMessage + " ]";
+    }
+
+    public short getPrivate1() {
+        return private1;
+    }
+
+    public void setPrivate1(short private1) {
+        this.private1 = private1;
     }
     
 }

@@ -24,12 +24,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "ps_homeslider_slides")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "PsHomesliderSlides.findAll", query = "SELECT p FROM PsHomesliderSlides p")
-    , @NamedQuery(name = "PsHomesliderSlides.findByIdHomesliderSlides", query = "SELECT p FROM PsHomesliderSlides p WHERE p.idHomesliderSlides = :idHomesliderSlides")
-    , @NamedQuery(name = "PsHomesliderSlides.findByPosition", query = "SELECT p FROM PsHomesliderSlides p WHERE p.position = :position")
-    , @NamedQuery(name = "PsHomesliderSlides.findByActive", query = "SELECT p FROM PsHomesliderSlides p WHERE p.active = :active")})
+
 public class PsHomesliderSlides implements Serializable {
+    @Basic(optional = false)
+    @Column(name = "active")
+    private short active;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -40,9 +39,6 @@ public class PsHomesliderSlides implements Serializable {
     @Basic(optional = false)
     @Column(name = "position")
     private int position;
-    @Basic(optional = false)
-    @Column(name = "active")
-    private boolean active;
 
     public PsHomesliderSlides() {
     }
@@ -51,7 +47,7 @@ public class PsHomesliderSlides implements Serializable {
         this.idHomesliderSlides = idHomesliderSlides;
     }
 
-    public PsHomesliderSlides(Integer idHomesliderSlides, int position, boolean active) {
+    public PsHomesliderSlides(Integer idHomesliderSlides, int position, short active) {
         this.idHomesliderSlides = idHomesliderSlides;
         this.position = position;
         this.active = active;
@@ -73,13 +69,6 @@ public class PsHomesliderSlides implements Serializable {
         this.position = position;
     }
 
-    public boolean getActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
 
     @Override
     public int hashCode() {
@@ -104,6 +93,14 @@ public class PsHomesliderSlides implements Serializable {
     @Override
     public String toString() {
         return "entidade.prestaShop.PsHomesliderSlides[ idHomesliderSlides=" + idHomesliderSlides + " ]";
+    }
+
+    public short getActive() {
+        return active;
+    }
+
+    public void setActive(short active) {
+        this.active = active;
     }
     
 }

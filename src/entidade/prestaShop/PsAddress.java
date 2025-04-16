@@ -28,32 +28,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "ps_address")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "PsAddress.findAll", query = "SELECT p FROM PsAddress p")
-    , @NamedQuery(name = "PsAddress.findByIdAddress", query = "SELECT p FROM PsAddress p WHERE p.idAddress = :idAddress")
-    , @NamedQuery(name = "PsAddress.findByIdCountry", query = "SELECT p FROM PsAddress p WHERE p.idCountry = :idCountry")
-    , @NamedQuery(name = "PsAddress.findByIdState", query = "SELECT p FROM PsAddress p WHERE p.idState = :idState")
-    , @NamedQuery(name = "PsAddress.findByIdCustomer", query = "SELECT p FROM PsAddress p WHERE p.idCustomer = :idCustomer")
-    , @NamedQuery(name = "PsAddress.findByIdManufacturer", query = "SELECT p FROM PsAddress p WHERE p.idManufacturer = :idManufacturer")
-    , @NamedQuery(name = "PsAddress.findByIdSupplier", query = "SELECT p FROM PsAddress p WHERE p.idSupplier = :idSupplier")
-    , @NamedQuery(name = "PsAddress.findByIdWarehouse", query = "SELECT p FROM PsAddress p WHERE p.idWarehouse = :idWarehouse")
-    , @NamedQuery(name = "PsAddress.findByAlias", query = "SELECT p FROM PsAddress p WHERE p.alias = :alias")
-    , @NamedQuery(name = "PsAddress.findByCompany", query = "SELECT p FROM PsAddress p WHERE p.company = :company")
-    , @NamedQuery(name = "PsAddress.findByLastname", query = "SELECT p FROM PsAddress p WHERE p.lastname = :lastname")
-    , @NamedQuery(name = "PsAddress.findByFirstname", query = "SELECT p FROM PsAddress p WHERE p.firstname = :firstname")
-    , @NamedQuery(name = "PsAddress.findByAddress1", query = "SELECT p FROM PsAddress p WHERE p.address1 = :address1")
-    , @NamedQuery(name = "PsAddress.findByAddress2", query = "SELECT p FROM PsAddress p WHERE p.address2 = :address2")
-    , @NamedQuery(name = "PsAddress.findByPostcode", query = "SELECT p FROM PsAddress p WHERE p.postcode = :postcode")
-    , @NamedQuery(name = "PsAddress.findByCity", query = "SELECT p FROM PsAddress p WHERE p.city = :city")
-    , @NamedQuery(name = "PsAddress.findByPhone", query = "SELECT p FROM PsAddress p WHERE p.phone = :phone")
-    , @NamedQuery(name = "PsAddress.findByPhoneMobile", query = "SELECT p FROM PsAddress p WHERE p.phoneMobile = :phoneMobile")
-    , @NamedQuery(name = "PsAddress.findByVatNumber", query = "SELECT p FROM PsAddress p WHERE p.vatNumber = :vatNumber")
-    , @NamedQuery(name = "PsAddress.findByDni", query = "SELECT p FROM PsAddress p WHERE p.dni = :dni")
-    , @NamedQuery(name = "PsAddress.findByDateAdd", query = "SELECT p FROM PsAddress p WHERE p.dateAdd = :dateAdd")
-    , @NamedQuery(name = "PsAddress.findByDateUpd", query = "SELECT p FROM PsAddress p WHERE p.dateUpd = :dateUpd")
-    , @NamedQuery(name = "PsAddress.findByActive", query = "SELECT p FROM PsAddress p WHERE p.active = :active")
-    , @NamedQuery(name = "PsAddress.findByDeleted", query = "SELECT p FROM PsAddress p WHERE p.deleted = :deleted")})
+
 public class PsAddress implements Serializable {
+    @Basic(optional = false)
+    @Column(name = "active")
+    private short active;
+    @Basic(optional = false)
+    @Column(name = "deleted")
+    private short deleted;
+    @Column(name = "numend")
+    private String numend;
+    @Column(name = "compl")
+    private String compl;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -118,12 +104,6 @@ public class PsAddress implements Serializable {
     @Column(name = "date_upd")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateUpd;
-    @Basic(optional = false)
-    @Column(name = "active")
-    private boolean active;
-    @Basic(optional = false)
-    @Column(name = "deleted")
-    private boolean deleted;
 
     public PsAddress() {
     }
@@ -132,7 +112,7 @@ public class PsAddress implements Serializable {
         this.idAddress = idAddress;
     }
 
-    public PsAddress(Integer idAddress, int idCountry, int idCustomer, int idManufacturer, int idSupplier, int idWarehouse, String alias, String lastname, String firstname, String address1, String city, Date dateAdd, Date dateUpd, boolean active, boolean deleted) {
+    public PsAddress(Integer idAddress, int idCountry, int idCustomer, int idManufacturer, int idSupplier, int idWarehouse, String alias, String lastname, String firstname, String address1, String city, Date dateAdd, Date dateUpd, short active, short deleted) {
         this.idAddress = idAddress;
         this.idCountry = idCountry;
         this.idCustomer = idCustomer;
@@ -326,21 +306,6 @@ public class PsAddress implements Serializable {
         this.dateUpd = dateUpd;
     }
 
-    public boolean getActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    public boolean getDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
-    }
 
     @Override
     public int hashCode() {
@@ -365,6 +330,38 @@ public class PsAddress implements Serializable {
     @Override
     public String toString() {
         return "entidade.prestaShop.PsAddress[ idAddress=" + idAddress + " ]";
+    }
+
+    public short getActive() {
+        return active;
+    }
+
+    public void setActive(short active) {
+        this.active = active;
+    }
+
+    public short getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(short deleted) {
+        this.deleted = deleted;
+    }
+
+    public String getNumend() {
+        return numend;
+    }
+
+    public void setNumend(String numend) {
+        this.numend = numend;
+    }
+
+    public String getCompl() {
+        return compl;
+    }
+
+    public void setCompl(String compl) {
+        this.compl = compl;
     }
     
 }

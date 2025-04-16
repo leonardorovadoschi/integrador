@@ -24,12 +24,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "ps_meta")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "PsMeta.findAll", query = "SELECT p FROM PsMeta p")
-    , @NamedQuery(name = "PsMeta.findByIdMeta", query = "SELECT p FROM PsMeta p WHERE p.idMeta = :idMeta")
-    , @NamedQuery(name = "PsMeta.findByPage", query = "SELECT p FROM PsMeta p WHERE p.page = :page")
-    , @NamedQuery(name = "PsMeta.findByConfigurable", query = "SELECT p FROM PsMeta p WHERE p.configurable = :configurable")})
+
 public class PsMeta implements Serializable {
+    @Basic(optional = false)
+    @Column(name = "configurable")
+    private short configurable;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -40,9 +39,6 @@ public class PsMeta implements Serializable {
     @Basic(optional = false)
     @Column(name = "page")
     private String page;
-    @Basic(optional = false)
-    @Column(name = "configurable")
-    private boolean configurable;
 
     public PsMeta() {
     }
@@ -51,7 +47,7 @@ public class PsMeta implements Serializable {
         this.idMeta = idMeta;
     }
 
-    public PsMeta(Integer idMeta, String page, boolean configurable) {
+    public PsMeta(Integer idMeta, String page, short configurable) {
         this.idMeta = idMeta;
         this.page = page;
         this.configurable = configurable;
@@ -73,13 +69,6 @@ public class PsMeta implements Serializable {
         this.page = page;
     }
 
-    public boolean getConfigurable() {
-        return configurable;
-    }
-
-    public void setConfigurable(boolean configurable) {
-        this.configurable = configurable;
-    }
 
     @Override
     public int hashCode() {
@@ -104,6 +93,14 @@ public class PsMeta implements Serializable {
     @Override
     public String toString() {
         return "entidade.prestaShop.PsMeta[ idMeta=" + idMeta + " ]";
+    }
+
+    public short getConfigurable() {
+        return configurable;
+    }
+
+    public void setConfigurable(short configurable) {
+        this.configurable = configurable;
     }
     
 }

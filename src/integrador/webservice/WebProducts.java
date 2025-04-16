@@ -51,9 +51,9 @@ public class WebProducts {
             psProduct.setCacheHasAttachments(Boolean.valueOf(ws.obterValorObjeto(endElement, "cache_has_attachments")));
             psProduct.setIsVirtual(Boolean.valueOf(ws.obterValorObjeto(endElement, "is_virtual")));
             psProduct.setState(Integer.valueOf(ws.obterValorObjeto(endElement, "state")));
-            psProduct.setAdditionalDeliveryTimes(Boolean.valueOf(ws.obterValorObjeto(endElement, "additional_delivery_times")));
-            psProduct.setOnSale(Boolean.valueOf(ws.obterValorObjeto(endElement, "on_sale")));
-            psProduct.setOnlineOnly(Boolean.valueOf(ws.obterValorObjeto(endElement, "online_only")));
+            //psProduct.setAdditionalDeliveryTimes(Boolean.valueOf(ws.obterValorObjeto(endElement, "additional_delivery_times")));
+            //psProduct.setOnSale(Boolean.valueOf(ws.obterValorObjeto(endElement, "on_sale")));
+            //psProduct.setOnlineOnly(Boolean.valueOf(ws.obterValorObjeto(endElement, "online_only")));
             psProduct.setEcotax(bigDecimal(ws.obterValorObjeto(endElement, "ecotax")));
             psProduct.setMinimalQuantity(Integer.valueOf(ws.obterValorObjeto(endElement, "minimal_quantity")));
             psProduct.setLowStockThreshold(Integer.valueOf(ws.obterValorObjeto(endElement, "low_stock_threshold")));
@@ -65,13 +65,13 @@ public class WebProducts {
             psProduct.setCustomizable(Short.valueOf(ws.obterValorObjeto(endElement, "customizable")));
             psProduct.setTextFields(Short.valueOf(ws.obterValorObjeto(endElement, "text_fields")));
             psProduct.setUploadableFiles(Short.valueOf(ws.obterValorObjeto(endElement, "uploadable_files")));
-            psProduct.setActive(Boolean.valueOf(ws.obterValorObjeto(endElement, "active")));
+            //psProduct.setActive(Boolean.valueOf(ws.obterValorObjeto(endElement, "active")));
             psProduct.setRedirectType(ws.obterValorObjeto(endElement, "redirect_type"));
             psProduct.setIdTypeRedirected(Integer.valueOf(ws.obterValorObjeto(endElement, "id_type_redirected")));
             psProduct.setAvailableForOrder(Boolean.valueOf(ws.obterValorObjeto(endElement, "available_for_order")));
             psProduct.setAvailableDate(dataModWebService(ws.obterValorObjeto(endElement, "available_date")));
             psProduct.setShowCondition(Boolean.valueOf(ws.obterValorObjeto(endElement, "show_condition")));
-            psProduct.setCondition1(ws.obterValorObjeto(endElement, "condition"));
+            //psProduct.setCondition1(ws.obterValorObjeto(endElement, "condition"));
             psProduct.setShowPrice(Boolean.valueOf(ws.obterValorObjeto(endElement, "show_price")));
             psProduct.setIndexed(Boolean.valueOf(ws.obterValorObjeto(endElement, "indexed")));
             psProduct.setVisibility(ws.obterValorObjeto(endElement, "visibility"));

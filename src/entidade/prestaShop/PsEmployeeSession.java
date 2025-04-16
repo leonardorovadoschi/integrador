@@ -6,6 +6,7 @@
 package entidade.prestaShop;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +16,8 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -30,6 +33,14 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "PsEmployeeSession.findByIdEmployee", query = "SELECT p FROM PsEmployeeSession p WHERE p.idEmployee = :idEmployee")
     , @NamedQuery(name = "PsEmployeeSession.findByToken", query = "SELECT p FROM PsEmployeeSession p WHERE p.token = :token")})
 public class PsEmployeeSession implements Serializable {
+    @Basic(optional = false)
+    @Column(name = "date_upd")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateUpd;
+    @Basic(optional = false)
+    @Column(name = "date_add")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateAdd;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -96,6 +107,22 @@ public class PsEmployeeSession implements Serializable {
     @Override
     public String toString() {
         return "entidade.prestaShop.PsEmployeeSession[ idEmployeeSession=" + idEmployeeSession + " ]";
+    }
+
+    public Date getDateUpd() {
+        return dateUpd;
+    }
+
+    public void setDateUpd(Date dateUpd) {
+        this.dateUpd = dateUpd;
+    }
+
+    public Date getDateAdd() {
+        return dateAdd;
+    }
+
+    public void setDateAdd(Date dateAdd) {
+        this.dateAdd = dateAdd;
     }
     
 }

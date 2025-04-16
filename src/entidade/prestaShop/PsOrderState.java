@@ -22,6 +22,35 @@ import javax.persistence.Table;
 @Table(name = "ps_order_state")
 
 public class PsOrderState implements Serializable {
+    @Column(name = "invoice")
+    private Short invoice;
+    @Basic(optional = false)
+    @Column(name = "send_email")
+    private short sendEmail;
+    @Basic(optional = false)
+    @Column(name = "unremovable")
+    private short unremovable;
+    @Basic(optional = false)
+    @Column(name = "hidden")
+    private short hidden;
+    @Basic(optional = false)
+    @Column(name = "delivery")
+    private short delivery;
+    @Basic(optional = false)
+    @Column(name = "shipped")
+    private short shipped;
+    @Basic(optional = false)
+    @Column(name = "paid")
+    private short paid;
+    @Basic(optional = false)
+    @Column(name = "pdf_invoice")
+    private short pdfInvoice;
+    @Basic(optional = false)
+    @Column(name = "pdf_delivery")
+    private short pdfDelivery;
+    @Basic(optional = false)
+    @Column(name = "deleted")
+    private short deleted;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -29,42 +58,13 @@ public class PsOrderState implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_order_state")
     private Integer idOrderState;
-    @Column(name = "invoice")
-    private Boolean invoice;
-    @Basic(optional = false)
-    @Column(name = "send_email")
-    private boolean sendEmail;
     @Column(name = "module_name")
     private String moduleName;
     @Column(name = "color")
     private String color;
     @Basic(optional = false)
-    @Column(name = "unremovable")
-    private boolean unremovable;
-    @Basic(optional = false)
-    @Column(name = "hidden")
-    private boolean hidden;
-    @Basic(optional = false)
     @Column(name = "logable")
     private boolean logable;
-    @Basic(optional = false)
-    @Column(name = "delivery")
-    private boolean delivery;
-    @Basic(optional = false)
-    @Column(name = "shipped")
-    private boolean shipped;
-    @Basic(optional = false)
-    @Column(name = "paid")
-    private boolean paid;
-    @Basic(optional = false)
-    @Column(name = "pdf_invoice")
-    private boolean pdfInvoice;
-    @Basic(optional = false)
-    @Column(name = "pdf_delivery")
-    private boolean pdfDelivery;
-    @Basic(optional = false)
-    @Column(name = "deleted")
-    private boolean deleted;
 
     public PsOrderState() {
     }
@@ -73,7 +73,7 @@ public class PsOrderState implements Serializable {
         this.idOrderState = idOrderState;
     }
 
-    public PsOrderState(Integer idOrderState, boolean sendEmail, boolean unremovable, boolean hidden, boolean logable, boolean delivery, boolean shipped, boolean paid, boolean pdfInvoice, boolean pdfDelivery, boolean deleted) {
+    public PsOrderState(Integer idOrderState, short sendEmail, short unremovable, short hidden, boolean logable, short delivery, short shipped, short paid, short pdfInvoice, short pdfDelivery, short deleted) {
         this.idOrderState = idOrderState;
         this.sendEmail = sendEmail;
         this.unremovable = unremovable;
@@ -95,21 +95,6 @@ public class PsOrderState implements Serializable {
         this.idOrderState = idOrderState;
     }
 
-    public Boolean getInvoice() {
-        return invoice;
-    }
-
-    public void setInvoice(Boolean invoice) {
-        this.invoice = invoice;
-    }
-
-    public boolean getSendEmail() {
-        return sendEmail;
-    }
-
-    public void setSendEmail(boolean sendEmail) {
-        this.sendEmail = sendEmail;
-    }
 
     public String getModuleName() {
         return moduleName;
@@ -127,21 +112,6 @@ public class PsOrderState implements Serializable {
         this.color = color;
     }
 
-    public boolean getUnremovable() {
-        return unremovable;
-    }
-
-    public void setUnremovable(boolean unremovable) {
-        this.unremovable = unremovable;
-    }
-
-    public boolean getHidden() {
-        return hidden;
-    }
-
-    public void setHidden(boolean hidden) {
-        this.hidden = hidden;
-    }
 
     public boolean getLogable() {
         return logable;
@@ -149,54 +119,6 @@ public class PsOrderState implements Serializable {
 
     public void setLogable(boolean logable) {
         this.logable = logable;
-    }
-
-    public boolean getDelivery() {
-        return delivery;
-    }
-
-    public void setDelivery(boolean delivery) {
-        this.delivery = delivery;
-    }
-
-    public boolean getShipped() {
-        return shipped;
-    }
-
-    public void setShipped(boolean shipped) {
-        this.shipped = shipped;
-    }
-
-    public boolean getPaid() {
-        return paid;
-    }
-
-    public void setPaid(boolean paid) {
-        this.paid = paid;
-    }
-
-    public boolean getPdfInvoice() {
-        return pdfInvoice;
-    }
-
-    public void setPdfInvoice(boolean pdfInvoice) {
-        this.pdfInvoice = pdfInvoice;
-    }
-
-    public boolean getPdfDelivery() {
-        return pdfDelivery;
-    }
-
-    public void setPdfDelivery(boolean pdfDelivery) {
-        this.pdfDelivery = pdfDelivery;
-    }
-
-    public boolean getDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
     }
 
     @Override
@@ -222,6 +144,86 @@ public class PsOrderState implements Serializable {
     @Override
     public String toString() {
         return "entidade.prestaShop.PsOrderState[ idOrderState=" + idOrderState + " ]";
+    }
+
+    public Short getInvoice() {
+        return invoice;
+    }
+
+    public void setInvoice(Short invoice) {
+        this.invoice = invoice;
+    }
+
+    public short getSendEmail() {
+        return sendEmail;
+    }
+
+    public void setSendEmail(short sendEmail) {
+        this.sendEmail = sendEmail;
+    }
+
+    public short getUnremovable() {
+        return unremovable;
+    }
+
+    public void setUnremovable(short unremovable) {
+        this.unremovable = unremovable;
+    }
+
+    public short getHidden() {
+        return hidden;
+    }
+
+    public void setHidden(short hidden) {
+        this.hidden = hidden;
+    }
+
+    public short getDelivery() {
+        return delivery;
+    }
+
+    public void setDelivery(short delivery) {
+        this.delivery = delivery;
+    }
+
+    public short getShipped() {
+        return shipped;
+    }
+
+    public void setShipped(short shipped) {
+        this.shipped = shipped;
+    }
+
+    public short getPaid() {
+        return paid;
+    }
+
+    public void setPaid(short paid) {
+        this.paid = paid;
+    }
+
+    public short getPdfInvoice() {
+        return pdfInvoice;
+    }
+
+    public void setPdfInvoice(short pdfInvoice) {
+        this.pdfInvoice = pdfInvoice;
+    }
+
+    public short getPdfDelivery() {
+        return pdfDelivery;
+    }
+
+    public void setPdfDelivery(short pdfDelivery) {
+        this.pdfDelivery = pdfDelivery;
+    }
+
+    public short getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(short deleted) {
+        this.deleted = deleted;
     }
     
 }

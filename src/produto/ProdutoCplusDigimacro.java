@@ -152,7 +152,7 @@ public class ProdutoCplusDigimacro {
         pp1.setIdCategoryDefault(categoriaPadrao(proCplus));
         pp1.setIdShopDefault(1);
         pp1.setIdTaxRulesGroup(taxRulesGroup(proCplus));
-        pp1.setOnSale(false);
+        pp1.setOnSale((short) 0);
         pp1.setLowStockThreshold(EstoqueMinimoCplus(proCplus));
         //pp1.setOnlineOnly(false);
         pp1.setEan13(eanCplus(proCplus));
@@ -189,16 +189,16 @@ public class ProdutoCplusDigimacro {
         }
         pp1.setWeight(proCplus.getPesobruto());
         pp1.setOutOfStock(2);
-        pp1.setAdditionalDeliveryTimes(true);
+        pp1.setAdditionalDeliveryTimes((short) 1);
         pp1.setQuantityDiscount(false);
         pp1.setCustomizable((short) 0);
         pp1.setUploadableFiles((short) 0);
         pp1.setTextFields((short) 0);
         if (produtoAtivo(proCplus) && quanEstoqeuCplus(proCplus) > 0) {
-            pp1.setActive(true);
+            pp1.setActive((short) 1);
             pp1.setIndexed(true);
         } else {
-            pp1.setActive(false);
+            pp1.setActive((short) 0);
             pp1.setIndexed(false);
         }
         pp1.setRedirectType("301-category");
@@ -206,20 +206,20 @@ public class ProdutoCplusDigimacro {
         //pp1.setAvailableForOrder(true);
         pp1.setAvailableDate(null);
         pp1.setShowCondition(true);
-        pp1.setCondition1("new");
+        pp1.setCondition("new");
         //pp1.setShowPrice(true);
         if ("116".equals(proCplus.getCodsec().getClassificacao()) || fatorConversao(proCplus) > 1) {
             //pp1.setIndexed(false);
             pp1.setVisibility("none");
             pp1.setShowPrice(false);
-            pp1.setOnlineOnly(true);
+            pp1.setOnlineOnly((short) 1);
             pp1.setAvailableForOrder(false);
 
         } else {
             // pp1.setIndexed(true);
             pp1.setVisibility("both");
             pp1.setShowPrice(true);
-            pp1.setOnlineOnly(false);
+            pp1.setOnlineOnly((short) 0);
             pp1.setAvailableForOrder(true);
         }
         pp1.setCacheIsPack(false);
@@ -303,33 +303,33 @@ public class ProdutoCplusDigimacro {
         pp.setWeight(proCplus.getPesobruto());
         pp.setOutOfStock(2);
         if (produtoAtivo(proCplus) && quanEstoqeuCplus(proCplus) > 0) {
-            pp.setActive(true);
+            pp.setActive((short) 1);
             pp.setIndexed(true);
         } else {
             ///////////////////////////////////////////////////////////////
             if (sobEncomendaAtivo(proCplus)) {
-                pp.setActive(true);
+                pp.setActive((short) 1);
                 pp.setIndexed(true);
             } else {
-                pp.setActive(false);
+                pp.setActive((short) 0);
                 pp.setIndexed(false);
             }
         }
         pp.setAvailableDate(new Date(System.currentTimeMillis()));
         pp.setShowCondition(false);
-        pp.setCondition1("new");
+        pp.setCondition("new");
         //pp.setShowPrice(true);
         if ("116".equals(proCplus.getCodsec().getClassificacao())) {
             //pp.setIndexed(false);
             pp.setVisibility("none");
             pp.setShowPrice(false);
-            pp.setOnlineOnly(true);
+            pp.setOnlineOnly((short) 1);
             pp.setAvailableForOrder(true);
         } else {
             // pp1.setIndexed(true);
             pp.setVisibility("both");
             pp.setShowPrice(true);
-            pp.setOnlineOnly(false);
+            pp.setOnlineOnly((short) 0);
             pp.setAvailableForOrder(false);
         }
         //if (fatorConversao(proCplus, managerCplus) > 1) {
@@ -1102,7 +1102,7 @@ public class ProdutoCplusDigimacro {
             pps.setPsProductShopPK(new PsProductShopPK(pp.getIdProduct(), 1));
             pps.setIdCategoryDefault(categoriaPadrao( proCplus));
             pps.setIdTaxRulesGroup(taxRulesGroup(proCplus));
-            pps.setOnSale(false);
+            //pps.setOnSale(false);
             pps.setLowStockThreshold(EstoqueMinimoCplus(proCplus));
             //pps.setOnlineOnly(false);
             pps.setEcotax(BigDecimal.ZERO);
@@ -1118,10 +1118,10 @@ public class ProdutoCplusDigimacro {
             pps.setUploadableFiles((short) 0);
             pps.setTextFields((short) 0);
             if (produtoAtivo(proCplus) && quanEstoqeuCplus(proCplus) > 0) {
-                pps.setActive(true);
+                pps.setActive((short) 1);
                 pps.setIndexed(true);
             } else {
-                pps.setActive(false);
+                pps.setActive((short) 0);
                 pps.setIndexed(false);
             }
             pps.setRedirectType("301-category");
@@ -1135,16 +1135,16 @@ public class ProdutoCplusDigimacro {
                 pps.setShowPrice(false);
                 //pps.setIndexed(false);
                 pps.setVisibility("none");
-                pps.setOnlineOnly(true);
+                pps.setOnlineOnly((short) 1);
                 pps.setAvailableForOrder(false);
             } else {
                 //pps.setIndexed(pps.getActive());
                 pps.setVisibility("both");
                 pps.setShowPrice(true);
-                pps.setOnlineOnly(false);
+                pps.setOnlineOnly((short) 0);
                 pps.setAvailableForOrder(true);
             }
-            pps.setIndexed(pps.getActive());
+            //pps.setIndexed(pps.getActive());
             //pps.setVisibility("both");
             pps.setCacheDefaultAttribute(0);
             pps.setAdvancedStockManagement(false);
@@ -1161,7 +1161,10 @@ public class ProdutoCplusDigimacro {
                 pps.setIdCategoryDefault(categoriaPadrao( proCplus));
                 pps.setIdTaxRulesGroup(taxRulesGroup( proCplus));
                 pps.setLowStockThreshold(EstoqueMinimoCplus(proCplus));
-                if (pps.getOnSale() == false && emPromocao(pps, proCplus)) {
+                
+ //////////////////////////////////////////////////////////////////////////////////////               
+               /**
+                if (pps.getOnSale() == (short) 0 && emPromocao(pps, proCplus)) {
                     pps.setOnSale(true);
                     pps.setAvailableDate(new Date(System.currentTimeMillis()));
                 } else if (pps.getOnSale() && tirarPrecoPromocao(pps)) {
@@ -1172,17 +1175,19 @@ public class ProdutoCplusDigimacro {
                 } else {
                     promo = false;
                 }
+                */
+///////////////////////////////////////////////////////////////////////////////                
                 pps.setPrice(precoPrincipal(proCplus));
                 if (produtoAtivo(proCplus) && quanEstoqeuCplus(proCplus) > 0) {
-                    pps.setActive(true);
+                    pps.setActive((short) 1);
                     pps.setIndexed(true);
                 } else {
                     /////////////////////////////////////////////////////////////////////////////////////////////
                     if (sobEncomendaAtivo(proCplus)) {
-                        pps.setActive(true);
+                        pps.setActive((short) 1);
                         pps.setIndexed(true);
                     } else {
-                        pps.setActive(false);
+                        pps.setActive((short) 0);
                         pps.setIndexed(false);
                     }
                 }
@@ -1191,13 +1196,13 @@ public class ProdutoCplusDigimacro {
                     pps.setShowPrice(false);
                     pps.setIndexed(false);
                     pps.setVisibility("none");
-                    pps.setOnlineOnly(true);
+                    pps.setOnlineOnly((short) 1);
                     pps.setAvailableForOrder(false);
                 } else {
                     //pps.setIndexed(pps.getActive());
                     pps.setVisibility("both");
                     pps.setShowPrice(true);
-                    pps.setOnlineOnly(false);
+                    pps.setOnlineOnly((short) 0);
                     pps.setAvailableForOrder(true);
                 }
                 pps.setCacheDefaultAttribute(0);
@@ -1227,8 +1232,8 @@ public class ProdutoCplusDigimacro {
             psSA.setQuantity(quanEstoqeuCplus(proCplus));
             psSA.setPhysicalQuantity(quanEstoqeuCplus(proCplus));
             psSA.setReservedQuantity(0);
-            psSA.setDependsOnStock(false);
-            psSA.setOutOfStock(false);
+            psSA.setDependsOnStock((short) 0);
+            psSA.setOutOfStock((short) 0);
             psSA.setLocation("");
             new PsStockAvailableJpaController(Manager.getManagerPrestaShop()).create(psSA);
         } else {
@@ -1244,8 +1249,8 @@ public class ProdutoCplusDigimacro {
                 //psSA.setQuantity(EstoqueCplusMenosReservaSite(managerCplus, managerPrestaShop, proCplus, pp));
                 psSA.setQuantity(quantidadeCplus - reservaPrestaShop);
                 psSA.setPhysicalQuantity(quantidadeCplus);
-                psSA.setDependsOnStock(false);
-                psSA.setOutOfStock(false);
+                psSA.setDependsOnStock((short) 0);
+                psSA.setOutOfStock((short) 0);
                 try {
                     new PsStockAvailableJpaController(Manager.getManagerPrestaShop()).edit(psSA);
                 } catch (Exception ex) {

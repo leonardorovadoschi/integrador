@@ -67,10 +67,10 @@ public class WebCustomer {
         for (int i = 0; i < listNode.getLength(); i++) {
             Element endElement = (Element) listNode.item(i);
             psCustomer = new PsCustomer();
-            psCustomer.setNewsletter(Boolean.valueOf(ws.obterValorObjeto(endElement, "newsletter")));
-            psCustomer.setOptin(Boolean.valueOf(ws.obterValorObjeto(endElement, "optin")));
-            psCustomer.setShowPublicPrices(Boolean.valueOf(ws.obterValorObjeto(endElement, "show_public_prices")));
-            psCustomer.setActive(Boolean.valueOf(ws.obterValorObjeto(endElement, "active")));
+            //psCustomer.setNewsletter(Boolean.valueOf(ws.obterValorObjeto(endElement, "newsletter")));
+            //psCustomer.setOptin(Boolean.valueOf(ws.obterValorObjeto(endElement, "optin")));
+            //psCustomer.setShowPublicPrices(Boolean.valueOf(ws.obterValorObjeto(endElement, "show_public_prices")));
+            //psCustomer.setActive(Boolean.valueOf(ws.obterValorObjeto(endElement, "active")));
             //psCustomer.setTipo(ws.obterValorObjeto(endElement, "tipo"));
             teste = ws.obterValorObjeto(endElement, "cpf_cnpj");
             if(!"".equals(teste)){    psCustomer.setCpfCnpj(teste);  }

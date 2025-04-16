@@ -34,6 +34,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "PsCategoryLang.findByMetaKeywords", query = "SELECT p FROM PsCategoryLang p WHERE p.metaKeywords = :metaKeywords")
     , @NamedQuery(name = "PsCategoryLang.findByMetaDescription", query = "SELECT p FROM PsCategoryLang p WHERE p.metaDescription = :metaDescription")})
 public class PsCategoryLang implements Serializable {
+    @Lob
+    @Column(name = "additional_description")
+    private String additionalDescription;
 
     private static final long serialVersionUID = 1L;
     @EmbeddedId
@@ -150,6 +153,14 @@ public class PsCategoryLang implements Serializable {
     @Override
     public String toString() {
         return "entidade.prestaShop.PsCategoryLang[ psCategoryLangPK=" + psCategoryLangPK + " ]";
+    }
+
+    public String getAdditionalDescription() {
+        return additionalDescription;
+    }
+
+    public void setAdditionalDescription(String additionalDescription) {
+        this.additionalDescription = additionalDescription;
     }
     
 }

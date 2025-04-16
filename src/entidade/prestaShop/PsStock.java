@@ -39,6 +39,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "PsStock.findByUsableQuantity", query = "SELECT p FROM PsStock p WHERE p.usableQuantity = :usableQuantity")
     , @NamedQuery(name = "PsStock.findByPriceTe", query = "SELECT p FROM PsStock p WHERE p.priceTe = :priceTe")})
 public class PsStock implements Serializable {
+    @Column(name = "mpn")
+    private String mpn;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -202,6 +204,14 @@ public class PsStock implements Serializable {
     @Override
     public String toString() {
         return "entidade.prestaShop.PsStock[ idStock=" + idStock + " ]";
+    }
+
+    public String getMpn() {
+        return mpn;
+    }
+
+    public void setMpn(String mpn) {
+        this.mpn = mpn;
     }
     
 }

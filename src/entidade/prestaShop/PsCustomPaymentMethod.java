@@ -14,8 +14,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -26,37 +24,23 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "ps_custom_payment_method")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "PsCustomPaymentMethod.findAll", query = "SELECT p FROM PsCustomPaymentMethod p"),
-    @NamedQuery(name = "PsCustomPaymentMethod.findByIdCustomPaymentMethod", query = "SELECT p FROM PsCustomPaymentMethod p WHERE p.idCustomPaymentMethod = :idCustomPaymentMethod"),
-    @NamedQuery(name = "PsCustomPaymentMethod.findByLogo", query = "SELECT p FROM PsCustomPaymentMethod p WHERE p.logo = :logo"),
-    @NamedQuery(name = "PsCustomPaymentMethod.findByIdOrderState", query = "SELECT p FROM PsCustomPaymentMethod p WHERE p.idOrderState = :idOrderState"),
-    @NamedQuery(name = "PsCustomPaymentMethod.findByTypeCommission", query = "SELECT p FROM PsCustomPaymentMethod p WHERE p.typeCommission = :typeCommission"),
-    @NamedQuery(name = "PsCustomPaymentMethod.findByConfirmationPage", query = "SELECT p FROM PsCustomPaymentMethod p WHERE p.confirmationPage = :confirmationPage"),
-    @NamedQuery(name = "PsCustomPaymentMethod.findByConfirmationPageAdd", query = "SELECT p FROM PsCustomPaymentMethod p WHERE p.confirmationPageAdd = :confirmationPageAdd"),
-    @NamedQuery(name = "PsCustomPaymentMethod.findByActive", query = "SELECT p FROM PsCustomPaymentMethod p WHERE p.active = :active"),
-    @NamedQuery(name = "PsCustomPaymentMethod.findByCommissionAmount", query = "SELECT p FROM PsCustomPaymentMethod p WHERE p.commissionAmount = :commissionAmount"),
-    @NamedQuery(name = "PsCustomPaymentMethod.findByCurrencyCommission", query = "SELECT p FROM PsCustomPaymentMethod p WHERE p.currencyCommission = :currencyCommission"),
-    @NamedQuery(name = "PsCustomPaymentMethod.findByCommissionPercent", query = "SELECT p FROM PsCustomPaymentMethod p WHERE p.commissionPercent = :commissionPercent"),
-    @NamedQuery(name = "PsCustomPaymentMethod.findByApplyCommission", query = "SELECT p FROM PsCustomPaymentMethod p WHERE p.applyCommission = :applyCommission"),
-    @NamedQuery(name = "PsCustomPaymentMethod.findByTypeDiscount", query = "SELECT p FROM PsCustomPaymentMethod p WHERE p.typeDiscount = :typeDiscount"),
-    @NamedQuery(name = "PsCustomPaymentMethod.findByDiscountAmount", query = "SELECT p FROM PsCustomPaymentMethod p WHERE p.discountAmount = :discountAmount"),
-    @NamedQuery(name = "PsCustomPaymentMethod.findByCurrencyDiscount", query = "SELECT p FROM PsCustomPaymentMethod p WHERE p.currencyDiscount = :currencyDiscount"),
-    @NamedQuery(name = "PsCustomPaymentMethod.findByDiscountPercent", query = "SELECT p FROM PsCustomPaymentMethod p WHERE p.discountPercent = :discountPercent"),
-    @NamedQuery(name = "PsCustomPaymentMethod.findByApplyDiscount", query = "SELECT p FROM PsCustomPaymentMethod p WHERE p.applyDiscount = :applyDiscount"),
-    @NamedQuery(name = "PsCustomPaymentMethod.findByViewMessageField", query = "SELECT p FROM PsCustomPaymentMethod p WHERE p.viewMessageField = :viewMessageField"),
-    @NamedQuery(name = "PsCustomPaymentMethod.findByRequiredMessageField", query = "SELECT p FROM PsCustomPaymentMethod p WHERE p.requiredMessageField = :requiredMessageField"),
-    @NamedQuery(name = "PsCustomPaymentMethod.findByIsSendMail", query = "SELECT p FROM PsCustomPaymentMethod p WHERE p.isSendMail = :isSendMail"),
-    @NamedQuery(name = "PsCustomPaymentMethod.findByCommissionUseTaxOnProducts", query = "SELECT p FROM PsCustomPaymentMethod p WHERE p.commissionUseTaxOnProducts = :commissionUseTaxOnProducts"),
-    @NamedQuery(name = "PsCustomPaymentMethod.findByDiscountUseTaxOnProducts", query = "SELECT p FROM PsCustomPaymentMethod p WHERE p.discountUseTaxOnProducts = :discountUseTaxOnProducts"),
-    @NamedQuery(name = "PsCustomPaymentMethod.findByCartTotalFrom", query = "SELECT p FROM PsCustomPaymentMethod p WHERE p.cartTotalFrom = :cartTotalFrom"),
-    @NamedQuery(name = "PsCustomPaymentMethod.findByCartTotalTo", query = "SELECT p FROM PsCustomPaymentMethod p WHERE p.cartTotalTo = :cartTotalTo"),
-    @NamedQuery(name = "PsCustomPaymentMethod.findByCommissionTax", query = "SELECT p FROM PsCustomPaymentMethod p WHERE p.commissionTax = :commissionTax"),
-    @NamedQuery(name = "PsCustomPaymentMethod.findByDiscountTax", query = "SELECT p FROM PsCustomPaymentMethod p WHERE p.discountTax = :discountTax"),
-    @NamedQuery(name = "PsCustomPaymentMethod.findByPosition", query = "SELECT p FROM PsCustomPaymentMethod p WHERE p.position = :position"),
-    @NamedQuery(name = "PsCustomPaymentMethod.findByIdCms", query = "SELECT p FROM PsCustomPaymentMethod p WHERE p.idCms = :idCms"),
-    @NamedQuery(name = "PsCustomPaymentMethod.findByCommissionSwitch", query = "SELECT p FROM PsCustomPaymentMethod p WHERE p.commissionSwitch = :commissionSwitch")})
+
 public class PsCustomPaymentMethod implements Serializable {
+    @Basic(optional = false)
+    @Column(name = "show_method_available")
+    private short showMethodAvailable;
+    @Basic(optional = false)
+    @Column(name = "visible_method_available")
+    private short visibleMethodAvailable;
+    @Basic(optional = false)
+    @Column(name = "select_currency")
+    private int selectCurrency;
+    @Basic(optional = false)
+    @Column(name = "add_history")
+    private int addHistory;
+    @Basic(optional = false)
+    @Column(name = "qty_order")
+    private int qtyOrder;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -482,6 +466,46 @@ public class PsCustomPaymentMethod implements Serializable {
     @Override
     public String toString() {
         return "entidade.prestaShop.PsCustomPaymentMethod[ idCustomPaymentMethod=" + idCustomPaymentMethod + " ]";
+    }
+
+    public short getShowMethodAvailable() {
+        return showMethodAvailable;
+    }
+
+    public void setShowMethodAvailable(short showMethodAvailable) {
+        this.showMethodAvailable = showMethodAvailable;
+    }
+
+    public short getVisibleMethodAvailable() {
+        return visibleMethodAvailable;
+    }
+
+    public void setVisibleMethodAvailable(short visibleMethodAvailable) {
+        this.visibleMethodAvailable = visibleMethodAvailable;
+    }
+
+    public int getSelectCurrency() {
+        return selectCurrency;
+    }
+
+    public void setSelectCurrency(int selectCurrency) {
+        this.selectCurrency = selectCurrency;
+    }
+
+    public int getAddHistory() {
+        return addHistory;
+    }
+
+    public void setAddHistory(int addHistory) {
+        this.addHistory = addHistory;
+    }
+
+    public int getQtyOrder() {
+        return qtyOrder;
+    }
+
+    public void setQtyOrder(int qtyOrder) {
+        this.qtyOrder = qtyOrder;
     }
     
 }

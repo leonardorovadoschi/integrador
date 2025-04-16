@@ -13,8 +13,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -25,19 +23,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "ps_advice")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "PsAdvice.findAll", query = "SELECT p FROM PsAdvice p")
-    , @NamedQuery(name = "PsAdvice.findByIdAdvice", query = "SELECT p FROM PsAdvice p WHERE p.idAdvice = :idAdvice")
-    , @NamedQuery(name = "PsAdvice.findByIdPsAdvice", query = "SELECT p FROM PsAdvice p WHERE p.idPsAdvice = :idPsAdvice")
-    , @NamedQuery(name = "PsAdvice.findByIdTab", query = "SELECT p FROM PsAdvice p WHERE p.idTab = :idTab")
-    , @NamedQuery(name = "PsAdvice.findByValidated", query = "SELECT p FROM PsAdvice p WHERE p.validated = :validated")
-    , @NamedQuery(name = "PsAdvice.findByHide", query = "SELECT p FROM PsAdvice p WHERE p.hide = :hide")
-    , @NamedQuery(name = "PsAdvice.findByLocation", query = "SELECT p FROM PsAdvice p WHERE p.location = :location")
-    , @NamedQuery(name = "PsAdvice.findBySelector", query = "SELECT p FROM PsAdvice p WHERE p.selector = :selector")
-    , @NamedQuery(name = "PsAdvice.findByStartDay", query = "SELECT p FROM PsAdvice p WHERE p.startDay = :startDay")
-    , @NamedQuery(name = "PsAdvice.findByStopDay", query = "SELECT p FROM PsAdvice p WHERE p.stopDay = :stopDay")
-    , @NamedQuery(name = "PsAdvice.findByWeight", query = "SELECT p FROM PsAdvice p WHERE p.weight = :weight")})
+
 public class PsAdvice implements Serializable {
+    @Basic(optional = false)
+    @Column(name = "validated")
+    private short validated;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -54,9 +44,6 @@ public class PsAdvice implements Serializable {
     @Lob
     @Column(name = "ids_tab")
     private String idsTab;
-    @Basic(optional = false)
-    @Column(name = "validated")
-    private boolean validated;
     @Basic(optional = false)
     @Column(name = "hide")
     private boolean hide;
@@ -81,7 +68,7 @@ public class PsAdvice implements Serializable {
         this.idAdvice = idAdvice;
     }
 
-    public PsAdvice(Integer idAdvice, int idPsAdvice, int idTab, boolean validated, boolean hide, String location, int startDay, int stopDay) {
+    public PsAdvice(Integer idAdvice, int idPsAdvice, int idTab, short validated, boolean hide, String location, int startDay, int stopDay) {
         this.idAdvice = idAdvice;
         this.idPsAdvice = idPsAdvice;
         this.idTab = idTab;
@@ -124,13 +111,6 @@ public class PsAdvice implements Serializable {
         this.idsTab = idsTab;
     }
 
-    public boolean getValidated() {
-        return validated;
-    }
-
-    public void setValidated(boolean validated) {
-        this.validated = validated;
-    }
 
     public boolean getHide() {
         return hide;
@@ -203,6 +183,14 @@ public class PsAdvice implements Serializable {
     @Override
     public String toString() {
         return "entidade.prestaShop.PsAdvice[ idAdvice=" + idAdvice + " ]";
+    }
+
+    public short getValidated() {
+        return validated;
+    }
+
+    public void setValidated(short validated) {
+        this.validated = validated;
     }
     
 }

@@ -22,18 +22,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "ps_customization")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "PsCustomization.findAll", query = "SELECT p FROM PsCustomization p")
-    , @NamedQuery(name = "PsCustomization.findByIdCustomization", query = "SELECT p FROM PsCustomization p WHERE p.psCustomizationPK.idCustomization = :idCustomization")
-    , @NamedQuery(name = "PsCustomization.findByIdProductAttribute", query = "SELECT p FROM PsCustomization p WHERE p.idProductAttribute = :idProductAttribute")
-    , @NamedQuery(name = "PsCustomization.findByIdAddressDelivery", query = "SELECT p FROM PsCustomization p WHERE p.psCustomizationPK.idAddressDelivery = :idAddressDelivery")
-    , @NamedQuery(name = "PsCustomization.findByIdCart", query = "SELECT p FROM PsCustomization p WHERE p.psCustomizationPK.idCart = :idCart")
-    , @NamedQuery(name = "PsCustomization.findByIdProduct", query = "SELECT p FROM PsCustomization p WHERE p.psCustomizationPK.idProduct = :idProduct")
-    , @NamedQuery(name = "PsCustomization.findByQuantity", query = "SELECT p FROM PsCustomization p WHERE p.quantity = :quantity")
-    , @NamedQuery(name = "PsCustomization.findByQuantityRefunded", query = "SELECT p FROM PsCustomization p WHERE p.quantityRefunded = :quantityRefunded")
-    , @NamedQuery(name = "PsCustomization.findByQuantityReturned", query = "SELECT p FROM PsCustomization p WHERE p.quantityReturned = :quantityReturned")
-    , @NamedQuery(name = "PsCustomization.findByInCart", query = "SELECT p FROM PsCustomization p WHERE p.inCart = :inCart")})
+
 public class PsCustomization implements Serializable {
+    @Basic(optional = false)
+    @Column(name = "in_cart")
+    private short inCart;
 
     private static final long serialVersionUID = 1L;
     @EmbeddedId
@@ -50,9 +43,6 @@ public class PsCustomization implements Serializable {
     @Basic(optional = false)
     @Column(name = "quantity_returned")
     private int quantityReturned;
-    @Basic(optional = false)
-    @Column(name = "in_cart")
-    private boolean inCart;
 
     public PsCustomization() {
     }
@@ -61,7 +51,7 @@ public class PsCustomization implements Serializable {
         this.psCustomizationPK = psCustomizationPK;
     }
 
-    public PsCustomization(PsCustomizationPK psCustomizationPK, int idProductAttribute, int quantity, int quantityRefunded, int quantityReturned, boolean inCart) {
+    public PsCustomization(PsCustomizationPK psCustomizationPK, int idProductAttribute, int quantity, int quantityRefunded, int quantityReturned, short inCart) {
         this.psCustomizationPK = psCustomizationPK;
         this.idProductAttribute = idProductAttribute;
         this.quantity = quantity;
@@ -114,14 +104,6 @@ public class PsCustomization implements Serializable {
         this.quantityReturned = quantityReturned;
     }
 
-    public boolean getInCart() {
-        return inCart;
-    }
-
-    public void setInCart(boolean inCart) {
-        this.inCart = inCart;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -145,6 +127,14 @@ public class PsCustomization implements Serializable {
     @Override
     public String toString() {
         return "entidade.prestaShop.PsCustomization[ psCustomizationPK=" + psCustomizationPK + " ]";
+    }
+
+    public short getInCart() {
+        return inCart;
+    }
+
+    public void setInCart(short inCart) {
+        this.inCart = inCart;
     }
     
 }

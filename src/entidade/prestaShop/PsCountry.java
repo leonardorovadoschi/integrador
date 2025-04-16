@@ -24,20 +24,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "ps_country")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "PsCountry.findAll", query = "SELECT p FROM PsCountry p")
-    , @NamedQuery(name = "PsCountry.findByIdCountry", query = "SELECT p FROM PsCountry p WHERE p.idCountry = :idCountry")
-    , @NamedQuery(name = "PsCountry.findByIdZone", query = "SELECT p FROM PsCountry p WHERE p.idZone = :idZone")
-    , @NamedQuery(name = "PsCountry.findByIdCurrency", query = "SELECT p FROM PsCountry p WHERE p.idCurrency = :idCurrency")
-    , @NamedQuery(name = "PsCountry.findByIsoCode", query = "SELECT p FROM PsCountry p WHERE p.isoCode = :isoCode")
-    , @NamedQuery(name = "PsCountry.findByCallPrefix", query = "SELECT p FROM PsCountry p WHERE p.callPrefix = :callPrefix")
-    , @NamedQuery(name = "PsCountry.findByActive", query = "SELECT p FROM PsCountry p WHERE p.active = :active")
-    , @NamedQuery(name = "PsCountry.findByContainsStates", query = "SELECT p FROM PsCountry p WHERE p.containsStates = :containsStates")
-    , @NamedQuery(name = "PsCountry.findByNeedIdentificationNumber", query = "SELECT p FROM PsCountry p WHERE p.needIdentificationNumber = :needIdentificationNumber")
-    , @NamedQuery(name = "PsCountry.findByNeedZipCode", query = "SELECT p FROM PsCountry p WHERE p.needZipCode = :needZipCode")
-    , @NamedQuery(name = "PsCountry.findByZipCodeFormat", query = "SELECT p FROM PsCountry p WHERE p.zipCodeFormat = :zipCodeFormat")
-    , @NamedQuery(name = "PsCountry.findByDisplayTaxLabel", query = "SELECT p FROM PsCountry p WHERE p.displayTaxLabel = :displayTaxLabel")})
+
 public class PsCountry implements Serializable {
+    @Basic(optional = false)
+    @Column(name = "active")
+    private short active;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -57,9 +48,6 @@ public class PsCountry implements Serializable {
     @Basic(optional = false)
     @Column(name = "call_prefix")
     private int callPrefix;
-    @Basic(optional = false)
-    @Column(name = "active")
-    private boolean active;
     @Basic(optional = false)
     @Column(name = "contains_states")
     private boolean containsStates;
@@ -83,7 +71,7 @@ public class PsCountry implements Serializable {
         this.idCountry = idCountry;
     }
 
-    public PsCountry(Integer idCountry, int idZone, int idCurrency, String isoCode, int callPrefix, boolean active, boolean containsStates, boolean needIdentificationNumber, boolean needZipCode, String zipCodeFormat, boolean displayTaxLabel) {
+    public PsCountry(Integer idCountry, int idZone, int idCurrency, String isoCode, int callPrefix, short active, boolean containsStates, boolean needIdentificationNumber, boolean needZipCode, String zipCodeFormat, boolean displayTaxLabel) {
         this.idCountry = idCountry;
         this.idZone = idZone;
         this.idCurrency = idCurrency;
@@ -137,13 +125,6 @@ public class PsCountry implements Serializable {
         this.callPrefix = callPrefix;
     }
 
-    public boolean getActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
 
     public boolean getContainsStates() {
         return containsStates;
@@ -208,6 +189,14 @@ public class PsCountry implements Serializable {
     @Override
     public String toString() {
         return "entidade.prestaShop.PsCountry[ idCountry=" + idCountry + " ]";
+    }
+
+    public short getActive() {
+        return active;
+    }
+
+    public void setActive(short active) {
+        this.active = active;
     }
     
 }

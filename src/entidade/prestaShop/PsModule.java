@@ -24,13 +24,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "ps_module")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "PsModule.findAll", query = "SELECT p FROM PsModule p")
-    , @NamedQuery(name = "PsModule.findByIdModule", query = "SELECT p FROM PsModule p WHERE p.idModule = :idModule")
-    , @NamedQuery(name = "PsModule.findByName", query = "SELECT p FROM PsModule p WHERE p.name = :name")
-    , @NamedQuery(name = "PsModule.findByActive", query = "SELECT p FROM PsModule p WHERE p.active = :active")
-    , @NamedQuery(name = "PsModule.findByVersion", query = "SELECT p FROM PsModule p WHERE p.version = :version")})
 public class PsModule implements Serializable {
+    @Basic(optional = false)
+    @Column(name = "active")
+    private short active;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -42,9 +39,6 @@ public class PsModule implements Serializable {
     @Column(name = "name")
     private String name;
     @Basic(optional = false)
-    @Column(name = "active")
-    private boolean active;
-    @Basic(optional = false)
     @Column(name = "version")
     private String version;
 
@@ -55,7 +49,7 @@ public class PsModule implements Serializable {
         this.idModule = idModule;
     }
 
-    public PsModule(Integer idModule, String name, boolean active, String version) {
+    public PsModule(Integer idModule, String name, short active, String version) {
         this.idModule = idModule;
         this.name = name;
         this.active = active;
@@ -78,13 +72,6 @@ public class PsModule implements Serializable {
         this.name = name;
     }
 
-    public boolean getActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
 
     public String getVersion() {
         return version;
@@ -117,6 +104,14 @@ public class PsModule implements Serializable {
     @Override
     public String toString() {
         return "entidade.prestaShop.PsModule[ idModule=" + idModule + " ]";
+    }
+
+    public short getActive() {
+        return active;
+    }
+
+    public void setActive(short active) {
+        this.active = active;
     }
     
 }

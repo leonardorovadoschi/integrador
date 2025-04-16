@@ -27,14 +27,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "ps_stock_mvt_reason")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "PsStockMvtReason.findAll", query = "SELECT p FROM PsStockMvtReason p")
-    , @NamedQuery(name = "PsStockMvtReason.findByIdStockMvtReason", query = "SELECT p FROM PsStockMvtReason p WHERE p.idStockMvtReason = :idStockMvtReason")
-    , @NamedQuery(name = "PsStockMvtReason.findBySign", query = "SELECT p FROM PsStockMvtReason p WHERE p.sign = :sign")
-    , @NamedQuery(name = "PsStockMvtReason.findByDateAdd", query = "SELECT p FROM PsStockMvtReason p WHERE p.dateAdd = :dateAdd")
-    , @NamedQuery(name = "PsStockMvtReason.findByDateUpd", query = "SELECT p FROM PsStockMvtReason p WHERE p.dateUpd = :dateUpd")
-    , @NamedQuery(name = "PsStockMvtReason.findByDeleted", query = "SELECT p FROM PsStockMvtReason p WHERE p.deleted = :deleted")})
 public class PsStockMvtReason implements Serializable {
+    @Basic(optional = false)
+    @Column(name = "deleted")
+    private short deleted;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -53,9 +49,6 @@ public class PsStockMvtReason implements Serializable {
     @Column(name = "date_upd")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateUpd;
-    @Basic(optional = false)
-    @Column(name = "deleted")
-    private boolean deleted;
 
     public PsStockMvtReason() {
     }
@@ -64,7 +57,7 @@ public class PsStockMvtReason implements Serializable {
         this.idStockMvtReason = idStockMvtReason;
     }
 
-    public PsStockMvtReason(Integer idStockMvtReason, boolean sign, Date dateAdd, Date dateUpd, boolean deleted) {
+    public PsStockMvtReason(Integer idStockMvtReason, boolean sign, Date dateAdd, Date dateUpd, short deleted) {
         this.idStockMvtReason = idStockMvtReason;
         this.sign = sign;
         this.dateAdd = dateAdd;
@@ -104,13 +97,6 @@ public class PsStockMvtReason implements Serializable {
         this.dateUpd = dateUpd;
     }
 
-    public boolean getDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
-    }
 
     @Override
     public int hashCode() {
@@ -135,6 +121,14 @@ public class PsStockMvtReason implements Serializable {
     @Override
     public String toString() {
         return "entidade.prestaShop.PsStockMvtReason[ idStockMvtReason=" + idStockMvtReason + " ]";
+    }
+
+    public short getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(short deleted) {
+        this.deleted = deleted;
     }
     
 }

@@ -28,28 +28,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "ps_product_attribute")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "PsProductAttribute.findAll", query = "SELECT p FROM PsProductAttribute p")
-    , @NamedQuery(name = "PsProductAttribute.findByIdProductAttribute", query = "SELECT p FROM PsProductAttribute p WHERE p.idProductAttribute = :idProductAttribute")
-    , @NamedQuery(name = "PsProductAttribute.findByIdProduct", query = "SELECT p FROM PsProductAttribute p WHERE p.idProduct = :idProduct")
-    , @NamedQuery(name = "PsProductAttribute.findByReference", query = "SELECT p FROM PsProductAttribute p WHERE p.reference = :reference")
-    , @NamedQuery(name = "PsProductAttribute.findBySupplierReference", query = "SELECT p FROM PsProductAttribute p WHERE p.supplierReference = :supplierReference")
-    , @NamedQuery(name = "PsProductAttribute.findByLocation", query = "SELECT p FROM PsProductAttribute p WHERE p.location = :location")
-    , @NamedQuery(name = "PsProductAttribute.findByEan13", query = "SELECT p FROM PsProductAttribute p WHERE p.ean13 = :ean13")
-    , @NamedQuery(name = "PsProductAttribute.findByIsbn", query = "SELECT p FROM PsProductAttribute p WHERE p.isbn = :isbn")
-    , @NamedQuery(name = "PsProductAttribute.findByUpc", query = "SELECT p FROM PsProductAttribute p WHERE p.upc = :upc")
-    , @NamedQuery(name = "PsProductAttribute.findByWholesalePrice", query = "SELECT p FROM PsProductAttribute p WHERE p.wholesalePrice = :wholesalePrice")
-    , @NamedQuery(name = "PsProductAttribute.findByPrice", query = "SELECT p FROM PsProductAttribute p WHERE p.price = :price")
-    , @NamedQuery(name = "PsProductAttribute.findByEcotax", query = "SELECT p FROM PsProductAttribute p WHERE p.ecotax = :ecotax")
-    , @NamedQuery(name = "PsProductAttribute.findByQuantity", query = "SELECT p FROM PsProductAttribute p WHERE p.quantity = :quantity")
-    , @NamedQuery(name = "PsProductAttribute.findByWeight", query = "SELECT p FROM PsProductAttribute p WHERE p.weight = :weight")
-    , @NamedQuery(name = "PsProductAttribute.findByUnitPriceImpact", query = "SELECT p FROM PsProductAttribute p WHERE p.unitPriceImpact = :unitPriceImpact")
-    , @NamedQuery(name = "PsProductAttribute.findByDefaultOn", query = "SELECT p FROM PsProductAttribute p WHERE p.defaultOn = :defaultOn")
-    , @NamedQuery(name = "PsProductAttribute.findByMinimalQuantity", query = "SELECT p FROM PsProductAttribute p WHERE p.minimalQuantity = :minimalQuantity")
-    , @NamedQuery(name = "PsProductAttribute.findByLowStockThreshold", query = "SELECT p FROM PsProductAttribute p WHERE p.lowStockThreshold = :lowStockThreshold")
-    , @NamedQuery(name = "PsProductAttribute.findByLowStockAlert", query = "SELECT p FROM PsProductAttribute p WHERE p.lowStockAlert = :lowStockAlert")
-    , @NamedQuery(name = "PsProductAttribute.findByAvailableDate", query = "SELECT p FROM PsProductAttribute p WHERE p.availableDate = :availableDate")})
+
 public class PsProductAttribute implements Serializable {
+    @Column(name = "mpn")
+    private String mpn;
+    @Column(name = "default_on")
+    private Short defaultOn;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -91,8 +75,6 @@ public class PsProductAttribute implements Serializable {
     @Basic(optional = false)
     @Column(name = "unit_price_impact")
     private BigDecimal unitPriceImpact;
-    @Column(name = "default_on")
-    private Boolean defaultOn;
     @Basic(optional = false)
     @Column(name = "minimal_quantity")
     private int minimalQuantity;
@@ -237,14 +219,6 @@ public class PsProductAttribute implements Serializable {
         this.unitPriceImpact = unitPriceImpact;
     }
 
-    public Boolean getDefaultOn() {
-        return defaultOn;
-    }
-
-    public void setDefaultOn(Boolean defaultOn) {
-        this.defaultOn = defaultOn;
-    }
-
     public int getMinimalQuantity() {
         return minimalQuantity;
     }
@@ -300,6 +274,22 @@ public class PsProductAttribute implements Serializable {
     @Override
     public String toString() {
         return "entidade.prestaShop.PsProductAttribute[ idProductAttribute=" + idProductAttribute + " ]";
+    }
+
+    public String getMpn() {
+        return mpn;
+    }
+
+    public void setMpn(String mpn) {
+        this.mpn = mpn;
+    }
+
+    public Short getDefaultOn() {
+        return defaultOn;
+    }
+
+    public void setDefaultOn(Short defaultOn) {
+        this.defaultOn = defaultOn;
     }
     
 }

@@ -35,6 +35,15 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "PsTab.findByHideHostMode", query = "SELECT p FROM PsTab p WHERE p.hideHostMode = :hideHostMode")
     , @NamedQuery(name = "PsTab.findByIcon", query = "SELECT p FROM PsTab p WHERE p.icon = :icon")})
 public class PsTab implements Serializable {
+    @Column(name = "wording")
+    private String wording;
+    @Column(name = "wording_domain")
+    private String wordingDomain;
+    @Basic(optional = false)
+    @Column(name = "enabled")
+    private boolean enabled;
+    @Column(name = "route_name")
+    private String routeName;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -163,6 +172,38 @@ public class PsTab implements Serializable {
     @Override
     public String toString() {
         return "entidade.prestaShop.PsTab[ idTab=" + idTab + " ]";
+    }
+
+    public String getWording() {
+        return wording;
+    }
+
+    public void setWording(String wording) {
+        this.wording = wording;
+    }
+
+    public String getWordingDomain() {
+        return wordingDomain;
+    }
+
+    public void setWordingDomain(String wordingDomain) {
+        this.wordingDomain = wordingDomain;
+    }
+
+    public boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public String getRouteName() {
+        return routeName;
+    }
+
+    public void setRouteName(String routeName) {
+        this.routeName = routeName;
     }
     
 }

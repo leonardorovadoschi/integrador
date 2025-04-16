@@ -151,7 +151,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         jTextFieldTotalProdutos = new javax.swing.JTextField();
         jTextFieldTaxa = new javax.swing.JTextField();
         jButtonAlteraPagamento = new javax.swing.JButton();
-        jComboBoxPagamento = new javax.swing.JComboBox<>();
+        jComboBoxPagamento = new javax.swing.JComboBox<String>();
         jComboBoxState = new javax.swing.JComboBox();
         jLabel1 = new javax.swing.JLabel();
         jTextFieldDescontoAvulso = new javax.swing.JTextField();
@@ -308,7 +308,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
             }
         });
 
-        jComboBoxPagamento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " " }));
+        jComboBoxPagamento.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " " }));
         jComboBoxPagamento.setFocusable(false);
         jComboBoxPagamento.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -1165,28 +1165,28 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
             cr.setQuantity(1);
             cr.setQuantityPerUser(1);
             cr.setPriority(1);
-            cr.setPartialUse(true);
+            cr.setPartialUse((short) 1);
             cr.setMinimumAmount(BigDecimal.ZERO);
             cr.setMinimumAmountTax(false);
             cr.setMinimumAmountCurrency(0);
             cr.setMinimumAmountShipping(false);
-            cr.setCountryRestriction(false);
-            cr.setCarrierRestriction(false);
-            cr.setGroupRestriction(false);
-            cr.setCartRuleRestriction(false);
-            cr.setProductRestriction(false);
-            cr.setShopRestriction(false);
+            cr.setCountryRestriction((short) 0);
+            cr.setCarrierRestriction((short) 0);
+            cr.setGroupRestriction((short) 0);
+            cr.setCartRuleRestriction((short) 0);
+            cr.setProductRestriction((short) 0);
+            cr.setShopRestriction((short) 0);
             cr.setFreeShipping(false);
             cr.setReductionPercent(BigDecimal.ZERO);
             cr.setReductionAmount(valDescontoAvulso);
-            cr.setReductionTax(false);
+            cr.setReductionTax((short) 0);
             cr.setReductionCurrency(1);
             cr.setReductionProduct(0);
-            cr.setReductionExcludeSpecial(false);
+            cr.setReductionExcludeSpecial((short) 0);
             cr.setGiftProduct(0);
             cr.setGiftProductAttribute(0);
-            cr.setHighlight(false);
-            cr.setActive(false);
+            cr.setHighlight((short) 0);
+            cr.setActive((short) 0);
             cr.setDateAdd(format.dataAtual());
             cr.setDateUpd(format.dataAtual());
             cr.setCode("");
@@ -1344,7 +1344,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         jTextFieldTotalProdutos.setText(format.bigDecimalParaString(psOrders.getTotalProducts(), 2));
         jTextFieldNome.setText(psCustomer.getFirstname() + " " + psCustomer.getLastname());
 
-        for (PsAddress psAddress : queryPrestaShop.listAddress(false, psCustomer.getIdCustomer())) {
+        for (PsAddress psAddress : queryPrestaShop.listAddress((short) 0, psCustomer.getIdCustomer())) {
             jTextFieldCpfCnpj.setText(format.mascaraCNPJouCPF(psAddress.getVatNumber()));
             jTextFieldRgIe.setText(psAddress.getDni());
         }

@@ -22,19 +22,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "ps_condition_advice")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "PsConditionAdvice.findAll", query = "SELECT p FROM PsConditionAdvice p")
-    , @NamedQuery(name = "PsConditionAdvice.findByIdCondition", query = "SELECT p FROM PsConditionAdvice p WHERE p.psConditionAdvicePK.idCondition = :idCondition")
-    , @NamedQuery(name = "PsConditionAdvice.findByIdAdvice", query = "SELECT p FROM PsConditionAdvice p WHERE p.psConditionAdvicePK.idAdvice = :idAdvice")
-    , @NamedQuery(name = "PsConditionAdvice.findByDisplay", query = "SELECT p FROM PsConditionAdvice p WHERE p.display = :display")})
+
 public class PsConditionAdvice implements Serializable {
+    @Basic(optional = false)
+    @Column(name = "display")
+    private short display;
 
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected PsConditionAdvicePK psConditionAdvicePK;
-    @Basic(optional = false)
-    @Column(name = "display")
-    private boolean display;
 
     public PsConditionAdvice() {
     }
@@ -43,7 +39,7 @@ public class PsConditionAdvice implements Serializable {
         this.psConditionAdvicePK = psConditionAdvicePK;
     }
 
-    public PsConditionAdvice(PsConditionAdvicePK psConditionAdvicePK, boolean display) {
+    public PsConditionAdvice(PsConditionAdvicePK psConditionAdvicePK, short display) {
         this.psConditionAdvicePK = psConditionAdvicePK;
         this.display = display;
     }
@@ -60,13 +56,6 @@ public class PsConditionAdvice implements Serializable {
         this.psConditionAdvicePK = psConditionAdvicePK;
     }
 
-    public boolean getDisplay() {
-        return display;
-    }
-
-    public void setDisplay(boolean display) {
-        this.display = display;
-    }
 
     @Override
     public int hashCode() {
@@ -91,6 +80,14 @@ public class PsConditionAdvice implements Serializable {
     @Override
     public String toString() {
         return "entidade.prestaShop.PsConditionAdvice[ psConditionAdvicePK=" + psConditionAdvicePK + " ]";
+    }
+
+    public short getDisplay() {
+        return display;
+    }
+
+    public void setDisplay(short display) {
+        this.display = display;
     }
     
 }

@@ -43,6 +43,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "PsOrderPayment.findByCardHolder", query = "SELECT p FROM PsOrderPayment p WHERE p.cardHolder = :cardHolder")
     , @NamedQuery(name = "PsOrderPayment.findByDateAdd", query = "SELECT p FROM PsOrderPayment p WHERE p.dateAdd = :dateAdd")})
 public class PsOrderPayment implements Serializable {
+    @Column(name = "id_employee")
+    private Integer idEmployee;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -215,6 +217,14 @@ public class PsOrderPayment implements Serializable {
     @Override
     public String toString() {
         return "entidade.prestaShop.PsOrderPayment[ idOrderPayment=" + idOrderPayment + " ]";
+    }
+
+    public Integer getIdEmployee() {
+        return idEmployee;
+    }
+
+    public void setIdEmployee(Integer idEmployee) {
+        this.idEmployee = idEmployee;
     }
     
 }

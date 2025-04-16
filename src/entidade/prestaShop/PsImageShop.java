@@ -29,6 +29,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "PsImageShop.findByIdShop", query = "SELECT p FROM PsImageShop p WHERE p.psImageShopPK.idShop = :idShop")
     , @NamedQuery(name = "PsImageShop.findByCover", query = "SELECT p FROM PsImageShop p WHERE p.cover = :cover")})
 public class PsImageShop implements Serializable {
+    @Column(name = "cover")
+    private Short cover;
 
     private static final long serialVersionUID = 1L;
     @EmbeddedId
@@ -36,8 +38,6 @@ public class PsImageShop implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_product")
     private int idProduct;
-    @Column(name = "cover")
-    private Boolean cover;
 
     public PsImageShop() {
     }
@@ -71,13 +71,6 @@ public class PsImageShop implements Serializable {
         this.idProduct = idProduct;
     }
 
-    public Boolean getCover() {
-        return cover;
-    }
-
-    public void setCover(Boolean cover) {
-        this.cover = cover;
-    }
 
     @Override
     public int hashCode() {
@@ -102,6 +95,14 @@ public class PsImageShop implements Serializable {
     @Override
     public String toString() {
         return "entidade.prestaShop.PsImageShop[ psImageShopPK=" + psImageShopPK + " ]";
+    }
+
+    public Short getCover() {
+        return cover;
+    }
+
+    public void setCover(Short cover) {
+        this.cover = cover;
     }
     
 }

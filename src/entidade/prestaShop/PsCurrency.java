@@ -25,17 +25,20 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "ps_currency")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "PsCurrency.findAll", query = "SELECT p FROM PsCurrency p")
-    , @NamedQuery(name = "PsCurrency.findByIdCurrency", query = "SELECT p FROM PsCurrency p WHERE p.idCurrency = :idCurrency")
-    , @NamedQuery(name = "PsCurrency.findByName", query = "SELECT p FROM PsCurrency p WHERE p.name = :name")
-    , @NamedQuery(name = "PsCurrency.findByIsoCode", query = "SELECT p FROM PsCurrency p WHERE p.isoCode = :isoCode")
-    , @NamedQuery(name = "PsCurrency.findByNumericIsoCode", query = "SELECT p FROM PsCurrency p WHERE p.numericIsoCode = :numericIsoCode")
-    , @NamedQuery(name = "PsCurrency.findByPrecision", query = "SELECT p FROM PsCurrency p WHERE p.precision = :precision")
-    , @NamedQuery(name = "PsCurrency.findByConversionRate", query = "SELECT p FROM PsCurrency p WHERE p.conversionRate = :conversionRate")
-    , @NamedQuery(name = "PsCurrency.findByDeleted", query = "SELECT p FROM PsCurrency p WHERE p.deleted = :deleted")
-    , @NamedQuery(name = "PsCurrency.findByActive", query = "SELECT p FROM PsCurrency p WHERE p.active = :active")})
+
 public class PsCurrency implements Serializable {
+    @Basic(optional = false)
+    @Column(name = "deleted")
+    private short deleted;
+    @Basic(optional = false)
+    @Column(name = "active")
+    private short active;
+    @Basic(optional = false)
+    @Column(name = "unofficial")
+    private short unofficial;
+    @Basic(optional = false)
+    @Column(name = "modified")
+    private short modified;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -58,12 +61,6 @@ public class PsCurrency implements Serializable {
     @Basic(optional = false)
     @Column(name = "conversion_rate")
     private BigDecimal conversionRate;
-    @Basic(optional = false)
-    @Column(name = "deleted")
-    private boolean deleted;
-    @Basic(optional = false)
-    @Column(name = "active")
-    private boolean active;
 
     public PsCurrency() {
     }
@@ -72,7 +69,7 @@ public class PsCurrency implements Serializable {
         this.idCurrency = idCurrency;
     }
 
-    public PsCurrency(Integer idCurrency, String name, String isoCode, int precision, BigDecimal conversionRate, boolean deleted, boolean active) {
+    public PsCurrency(Integer idCurrency, String name, String isoCode, int precision, BigDecimal conversionRate, short deleted, short active) {
         this.idCurrency = idCurrency;
         this.name = name;
         this.isoCode = isoCode;
@@ -130,21 +127,6 @@ public class PsCurrency implements Serializable {
         this.conversionRate = conversionRate;
     }
 
-    public boolean getDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
-    }
-
-    public boolean getActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
 
     @Override
     public int hashCode() {
@@ -169,6 +151,38 @@ public class PsCurrency implements Serializable {
     @Override
     public String toString() {
         return "entidade.prestaShop.PsCurrency[ idCurrency=" + idCurrency + " ]";
+    }
+
+    public short getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(short deleted) {
+        this.deleted = deleted;
+    }
+
+    public short getActive() {
+        return active;
+    }
+
+    public void setActive(short active) {
+        this.active = active;
+    }
+
+    public short getUnofficial() {
+        return unofficial;
+    }
+
+    public void setUnofficial(short unofficial) {
+        this.unofficial = unofficial;
+    }
+
+    public short getModified() {
+        return modified;
+    }
+
+    public void setModified(short modified) {
+        this.modified = modified;
     }
     
 }

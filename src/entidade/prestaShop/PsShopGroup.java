@@ -34,6 +34,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "PsShopGroup.findByActive", query = "SELECT p FROM PsShopGroup p WHERE p.active = :active")
     , @NamedQuery(name = "PsShopGroup.findByDeleted", query = "SELECT p FROM PsShopGroup p WHERE p.deleted = :deleted")})
 public class PsShopGroup implements Serializable {
+    @Basic(optional = false)
+    @Column(name = "color")
+    private String color;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -156,6 +159,14 @@ public class PsShopGroup implements Serializable {
     @Override
     public String toString() {
         return "entidade.prestaShop.PsShopGroup[ idShopGroup=" + idShopGroup + " ]";
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
     
 }

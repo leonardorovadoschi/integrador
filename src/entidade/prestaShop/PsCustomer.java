@@ -32,16 +32,16 @@ public class PsCustomer implements Serializable {
 
     @Basic(optional = false)
     @Column(name = "newsletter")
-    private boolean newsletter;
+    private short newsletter;
     @Basic(optional = false)
     @Column(name = "optin")
-    private boolean optin;
+    private short optin;
     @Basic(optional = false)
     @Column(name = "show_public_prices")
-    private boolean showPublicPrices;
+    private short showPublicPrices;
     @Basic(optional = false)
     @Column(name = "active")
-    private boolean active;
+    private short active;
 
     @Transient
     private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
@@ -151,7 +151,7 @@ public class PsCustomer implements Serializable {
         this.idCustomer = idCustomer;
     }
 
-    public PsCustomer(Integer idCustomer, int idShopGroup, int idShop, int idGender, int idDefaultGroup, int idRisk, String firstname, String lastname, String email, String passwd, Date lastPasswdGen, boolean newsletter, boolean optin, BigDecimal outstandingAllowAmount, boolean showPublicPrices, int maxPaymentDays, String secureKey, boolean active, boolean isGuest, boolean deleted, Date dateAdd, Date dateUpd) {
+    public PsCustomer(Integer idCustomer, int idShopGroup, int idShop, int idGender, int idDefaultGroup, int idRisk, String firstname, String lastname, String email, String passwd, Date lastPasswdGen, short newsletter, short optin, BigDecimal outstandingAllowAmount, short showPublicPrices, int maxPaymentDays, String secureKey, short active, boolean isGuest, boolean deleted, Date dateAdd, Date dateUpd) {
         this.idCustomer = idCustomer;
         this.idShopGroup = idShopGroup;
         this.idShop = idShop;
@@ -378,16 +378,6 @@ public class PsCustomer implements Serializable {
         changeSupport.firePropertyChange("outstandingAllowAmount", oldOutstandingAllowAmount, outstandingAllowAmount);
     }
 
-    public boolean getShowPublicPrices() {
-        return showPublicPrices;
-    }
-
-    public void setShowPublicPrices(boolean showPublicPrices) {
-        boolean oldShowPublicPrices = this.showPublicPrices;
-        this.showPublicPrices = showPublicPrices;
-        changeSupport.firePropertyChange("showPublicPrices", oldShowPublicPrices, showPublicPrices);
-    }
-
     public int getMaxPaymentDays() {
         return maxPaymentDays;
     }
@@ -551,28 +541,36 @@ public class PsCustomer implements Serializable {
         changeSupport.removePropertyChangeListener(listener);
     }
 
-    public boolean getNewsletter() {
+    public short getNewsletter() {
         return newsletter;
     }
 
-    public void setNewsletter(boolean newsletter) {
+    public void setNewsletter(short newsletter) {
         this.newsletter = newsletter;
     }
 
-    public boolean getOptin() {
+    public short getOptin() {
         return optin;
     }
 
-    public void setOptin(boolean optin) {
+    public void setOptin(short optin) {
         this.optin = optin;
     }
    
 
-    public boolean getActive() {
+    public short getShowPublicPrices() {
+        return showPublicPrices;
+    }
+
+    public void setShowPublicPrices(short showPublicPrices) {
+        this.showPublicPrices = showPublicPrices;
+    }
+
+    public short getActive() {
         return active;
     }
 
-    public void setActive(boolean active) {
+    public void setActive(short active) {
         this.active = active;
     }
     

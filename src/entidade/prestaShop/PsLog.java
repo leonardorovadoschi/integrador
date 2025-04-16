@@ -39,6 +39,15 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "PsLog.findByDateAdd", query = "SELECT p FROM PsLog p WHERE p.dateAdd = :dateAdd")
     , @NamedQuery(name = "PsLog.findByDateUpd", query = "SELECT p FROM PsLog p WHERE p.dateUpd = :dateUpd")})
 public class PsLog implements Serializable {
+    @Column(name = "id_shop")
+    private Integer idShop;
+    @Column(name = "id_shop_group")
+    private Integer idShopGroup;
+    @Column(name = "id_lang")
+    private Integer idLang;
+    @Basic(optional = false)
+    @Column(name = "in_all_shops")
+    private short inAllShops;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -180,6 +189,38 @@ public class PsLog implements Serializable {
     @Override
     public String toString() {
         return "entidade.prestaShop.PsLog[ idLog=" + idLog + " ]";
+    }
+
+    public Integer getIdShop() {
+        return idShop;
+    }
+
+    public void setIdShop(Integer idShop) {
+        this.idShop = idShop;
+    }
+
+    public Integer getIdShopGroup() {
+        return idShopGroup;
+    }
+
+    public void setIdShopGroup(Integer idShopGroup) {
+        this.idShopGroup = idShopGroup;
+    }
+
+    public Integer getIdLang() {
+        return idLang;
+    }
+
+    public void setIdLang(Integer idLang) {
+        this.idLang = idLang;
+    }
+
+    public short getInAllShops() {
+        return inAllShops;
+    }
+
+    public void setInAllShops(short inAllShops) {
+        this.inAllShops = inAllShops;
     }
     
 }

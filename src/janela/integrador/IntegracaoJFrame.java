@@ -521,7 +521,7 @@ public class IntegracaoJFrame extends javax.swing.JFrame {
                             }
                         }
                         if (jCheckBoxInativoComEstoque.isSelected()) {
-                            if (pp.getActive() == false && estoqueCplus( produto) > 0) {
+                            if (pp.getActive() == (short) 0 && estoqueCplus( produto) > 0) {
                                 criaLog(new Date(System.currentTimeMillis()), ", O produto: " + produto.getNomeprod() + " está com estoque e inativo\n",
                                         "Erro Informar");
                                 produto.setLastChange(new Date(System.currentTimeMillis()));

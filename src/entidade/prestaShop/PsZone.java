@@ -24,12 +24,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "ps_zone")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "PsZone.findAll", query = "SELECT p FROM PsZone p")
-    , @NamedQuery(name = "PsZone.findByIdZone", query = "SELECT p FROM PsZone p WHERE p.idZone = :idZone")
-    , @NamedQuery(name = "PsZone.findByName", query = "SELECT p FROM PsZone p WHERE p.name = :name")
-    , @NamedQuery(name = "PsZone.findByActive", query = "SELECT p FROM PsZone p WHERE p.active = :active")})
+
 public class PsZone implements Serializable {
+    @Basic(optional = false)
+    @Column(name = "active")
+    private short active;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -40,9 +39,6 @@ public class PsZone implements Serializable {
     @Basic(optional = false)
     @Column(name = "name")
     private String name;
-    @Basic(optional = false)
-    @Column(name = "active")
-    private boolean active;
 
     public PsZone() {
     }
@@ -51,7 +47,7 @@ public class PsZone implements Serializable {
         this.idZone = idZone;
     }
 
-    public PsZone(Integer idZone, String name, boolean active) {
+    public PsZone(Integer idZone, String name, short active) {
         this.idZone = idZone;
         this.name = name;
         this.active = active;
@@ -73,13 +69,6 @@ public class PsZone implements Serializable {
         this.name = name;
     }
 
-    public boolean getActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
 
     @Override
     public int hashCode() {
@@ -104,6 +93,14 @@ public class PsZone implements Serializable {
     @Override
     public String toString() {
         return "entidade.prestaShop.PsZone[ idZone=" + idZone + " ]";
+    }
+
+    public short getActive() {
+        return active;
+    }
+
+    public void setActive(short active) {
+        this.active = active;
     }
     
 }

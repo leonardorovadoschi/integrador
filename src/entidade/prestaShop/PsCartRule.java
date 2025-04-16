@@ -15,8 +15,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -29,41 +27,41 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "ps_cart_rule")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "PsCartRule.findAll", query = "SELECT p FROM PsCartRule p")
-    , @NamedQuery(name = "PsCartRule.findByIdCartRule", query = "SELECT p FROM PsCartRule p WHERE p.idCartRule = :idCartRule")
-    , @NamedQuery(name = "PsCartRule.findByIdCustomer", query = "SELECT p FROM PsCartRule p WHERE p.idCustomer = :idCustomer")
-    , @NamedQuery(name = "PsCartRule.findByDateFrom", query = "SELECT p FROM PsCartRule p WHERE p.dateFrom = :dateFrom")
-    , @NamedQuery(name = "PsCartRule.findByDateTo", query = "SELECT p FROM PsCartRule p WHERE p.dateTo = :dateTo")
-    , @NamedQuery(name = "PsCartRule.findByQuantity", query = "SELECT p FROM PsCartRule p WHERE p.quantity = :quantity")
-    , @NamedQuery(name = "PsCartRule.findByQuantityPerUser", query = "SELECT p FROM PsCartRule p WHERE p.quantityPerUser = :quantityPerUser")
-    , @NamedQuery(name = "PsCartRule.findByPriority", query = "SELECT p FROM PsCartRule p WHERE p.priority = :priority")
-    , @NamedQuery(name = "PsCartRule.findByPartialUse", query = "SELECT p FROM PsCartRule p WHERE p.partialUse = :partialUse")
-    , @NamedQuery(name = "PsCartRule.findByCode", query = "SELECT p FROM PsCartRule p WHERE p.code = :code")
-    , @NamedQuery(name = "PsCartRule.findByMinimumAmount", query = "SELECT p FROM PsCartRule p WHERE p.minimumAmount = :minimumAmount")
-    , @NamedQuery(name = "PsCartRule.findByMinimumAmountTax", query = "SELECT p FROM PsCartRule p WHERE p.minimumAmountTax = :minimumAmountTax")
-    , @NamedQuery(name = "PsCartRule.findByMinimumAmountCurrency", query = "SELECT p FROM PsCartRule p WHERE p.minimumAmountCurrency = :minimumAmountCurrency")
-    , @NamedQuery(name = "PsCartRule.findByMinimumAmountShipping", query = "SELECT p FROM PsCartRule p WHERE p.minimumAmountShipping = :minimumAmountShipping")
-    , @NamedQuery(name = "PsCartRule.findByCountryRestriction", query = "SELECT p FROM PsCartRule p WHERE p.countryRestriction = :countryRestriction")
-    , @NamedQuery(name = "PsCartRule.findByCarrierRestriction", query = "SELECT p FROM PsCartRule p WHERE p.carrierRestriction = :carrierRestriction")
-    , @NamedQuery(name = "PsCartRule.findByGroupRestriction", query = "SELECT p FROM PsCartRule p WHERE p.groupRestriction = :groupRestriction")
-    , @NamedQuery(name = "PsCartRule.findByCartRuleRestriction", query = "SELECT p FROM PsCartRule p WHERE p.cartRuleRestriction = :cartRuleRestriction")
-    , @NamedQuery(name = "PsCartRule.findByProductRestriction", query = "SELECT p FROM PsCartRule p WHERE p.productRestriction = :productRestriction")
-    , @NamedQuery(name = "PsCartRule.findByShopRestriction", query = "SELECT p FROM PsCartRule p WHERE p.shopRestriction = :shopRestriction")
-    , @NamedQuery(name = "PsCartRule.findByFreeShipping", query = "SELECT p FROM PsCartRule p WHERE p.freeShipping = :freeShipping")
-    , @NamedQuery(name = "PsCartRule.findByReductionPercent", query = "SELECT p FROM PsCartRule p WHERE p.reductionPercent = :reductionPercent")
-    , @NamedQuery(name = "PsCartRule.findByReductionAmount", query = "SELECT p FROM PsCartRule p WHERE p.reductionAmount = :reductionAmount")
-    , @NamedQuery(name = "PsCartRule.findByReductionTax", query = "SELECT p FROM PsCartRule p WHERE p.reductionTax = :reductionTax")
-    , @NamedQuery(name = "PsCartRule.findByReductionCurrency", query = "SELECT p FROM PsCartRule p WHERE p.reductionCurrency = :reductionCurrency")
-    , @NamedQuery(name = "PsCartRule.findByReductionProduct", query = "SELECT p FROM PsCartRule p WHERE p.reductionProduct = :reductionProduct")
-    , @NamedQuery(name = "PsCartRule.findByReductionExcludeSpecial", query = "SELECT p FROM PsCartRule p WHERE p.reductionExcludeSpecial = :reductionExcludeSpecial")
-    , @NamedQuery(name = "PsCartRule.findByGiftProduct", query = "SELECT p FROM PsCartRule p WHERE p.giftProduct = :giftProduct")
-    , @NamedQuery(name = "PsCartRule.findByGiftProductAttribute", query = "SELECT p FROM PsCartRule p WHERE p.giftProductAttribute = :giftProductAttribute")
-    , @NamedQuery(name = "PsCartRule.findByHighlight", query = "SELECT p FROM PsCartRule p WHERE p.highlight = :highlight")
-    , @NamedQuery(name = "PsCartRule.findByActive", query = "SELECT p FROM PsCartRule p WHERE p.active = :active")
-    , @NamedQuery(name = "PsCartRule.findByDateAdd", query = "SELECT p FROM PsCartRule p WHERE p.dateAdd = :dateAdd")
-    , @NamedQuery(name = "PsCartRule.findByDateUpd", query = "SELECT p FROM PsCartRule p WHERE p.dateUpd = :dateUpd")})
+
 public class PsCartRule implements Serializable {
+    @Basic(optional = false)
+    @Column(name = "partial_use")
+    private short partialUse;
+    @Basic(optional = false)
+    @Column(name = "country_restriction")
+    private short countryRestriction;
+    @Basic(optional = false)
+    @Column(name = "carrier_restriction")
+    private short carrierRestriction;
+    @Basic(optional = false)
+    @Column(name = "group_restriction")
+    private short groupRestriction;
+    @Basic(optional = false)
+    @Column(name = "cart_rule_restriction")
+    private short cartRuleRestriction;
+    @Basic(optional = false)
+    @Column(name = "product_restriction")
+    private short productRestriction;
+    @Basic(optional = false)
+    @Column(name = "shop_restriction")
+    private short shopRestriction;
+    @Basic(optional = false)
+    @Column(name = "reduction_tax")
+    private short reductionTax;
+    @Basic(optional = false)
+    @Column(name = "reduction_exclude_special")
+    private short reductionExcludeSpecial;
+    @Basic(optional = false)
+    @Column(name = "highlight")
+    private short highlight;
+    @Basic(optional = false)
+    @Column(name = "active")
+    private short active;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -95,9 +93,6 @@ public class PsCartRule implements Serializable {
     @Column(name = "priority")
     private int priority;
     @Basic(optional = false)
-    @Column(name = "partial_use")
-    private boolean partialUse;
-    @Basic(optional = false)
     @Column(name = "code")
     private String code;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -114,24 +109,6 @@ public class PsCartRule implements Serializable {
     @Column(name = "minimum_amount_shipping")
     private boolean minimumAmountShipping;
     @Basic(optional = false)
-    @Column(name = "country_restriction")
-    private boolean countryRestriction;
-    @Basic(optional = false)
-    @Column(name = "carrier_restriction")
-    private boolean carrierRestriction;
-    @Basic(optional = false)
-    @Column(name = "group_restriction")
-    private boolean groupRestriction;
-    @Basic(optional = false)
-    @Column(name = "cart_rule_restriction")
-    private boolean cartRuleRestriction;
-    @Basic(optional = false)
-    @Column(name = "product_restriction")
-    private boolean productRestriction;
-    @Basic(optional = false)
-    @Column(name = "shop_restriction")
-    private boolean shopRestriction;
-    @Basic(optional = false)
     @Column(name = "free_shipping")
     private boolean freeShipping;
     @Basic(optional = false)
@@ -141,29 +118,17 @@ public class PsCartRule implements Serializable {
     @Column(name = "reduction_amount")
     private BigDecimal reductionAmount;
     @Basic(optional = false)
-    @Column(name = "reduction_tax")
-    private boolean reductionTax;
-    @Basic(optional = false)
     @Column(name = "reduction_currency")
     private int reductionCurrency;
     @Basic(optional = false)
     @Column(name = "reduction_product")
     private int reductionProduct;
     @Basic(optional = false)
-    @Column(name = "reduction_exclude_special")
-    private boolean reductionExcludeSpecial;
-    @Basic(optional = false)
     @Column(name = "gift_product")
     private int giftProduct;
     @Basic(optional = false)
     @Column(name = "gift_product_attribute")
     private int giftProductAttribute;
-    @Basic(optional = false)
-    @Column(name = "highlight")
-    private boolean highlight;
-    @Basic(optional = false)
-    @Column(name = "active")
-    private boolean active;
     @Basic(optional = false)
     @Column(name = "date_add")
     @Temporal(TemporalType.TIMESTAMP)
@@ -180,7 +145,7 @@ public class PsCartRule implements Serializable {
         this.idCartRule = idCartRule;
     }
 
-    public PsCartRule(Integer idCartRule, int idCustomer, Date dateFrom, Date dateTo, int quantity, int quantityPerUser, int priority, boolean partialUse, String code, BigDecimal minimumAmount, boolean minimumAmountTax, int minimumAmountCurrency, boolean minimumAmountShipping, boolean countryRestriction, boolean carrierRestriction, boolean groupRestriction, boolean cartRuleRestriction, boolean productRestriction, boolean shopRestriction, boolean freeShipping, BigDecimal reductionPercent, BigDecimal reductionAmount, boolean reductionTax, int reductionCurrency, int reductionProduct, boolean reductionExcludeSpecial, int giftProduct, int giftProductAttribute, boolean highlight, boolean active, Date dateAdd, Date dateUpd) {
+    public PsCartRule(Integer idCartRule, int idCustomer, Date dateFrom, Date dateTo, int quantity, int quantityPerUser, int priority, short partialUse, String code, BigDecimal minimumAmount, boolean minimumAmountTax, int minimumAmountCurrency, boolean minimumAmountShipping, short countryRestriction, short carrierRestriction, short groupRestriction, short cartRuleRestriction, short productRestriction, short shopRestriction, boolean freeShipping, BigDecimal reductionPercent, BigDecimal reductionAmount, short reductionTax, int reductionCurrency, int reductionProduct, short reductionExcludeSpecial, int giftProduct, int giftProductAttribute, short highlight, short active, Date dateAdd, Date dateUpd) {
         this.idCartRule = idCartRule;
         this.idCustomer = idCustomer;
         this.dateFrom = dateFrom;
@@ -279,14 +244,6 @@ public class PsCartRule implements Serializable {
         this.priority = priority;
     }
 
-    public boolean getPartialUse() {
-        return partialUse;
-    }
-
-    public void setPartialUse(boolean partialUse) {
-        this.partialUse = partialUse;
-    }
-
     public String getCode() {
         return code;
     }
@@ -327,54 +284,6 @@ public class PsCartRule implements Serializable {
         this.minimumAmountShipping = minimumAmountShipping;
     }
 
-    public boolean getCountryRestriction() {
-        return countryRestriction;
-    }
-
-    public void setCountryRestriction(boolean countryRestriction) {
-        this.countryRestriction = countryRestriction;
-    }
-
-    public boolean getCarrierRestriction() {
-        return carrierRestriction;
-    }
-
-    public void setCarrierRestriction(boolean carrierRestriction) {
-        this.carrierRestriction = carrierRestriction;
-    }
-
-    public boolean getGroupRestriction() {
-        return groupRestriction;
-    }
-
-    public void setGroupRestriction(boolean groupRestriction) {
-        this.groupRestriction = groupRestriction;
-    }
-
-    public boolean getCartRuleRestriction() {
-        return cartRuleRestriction;
-    }
-
-    public void setCartRuleRestriction(boolean cartRuleRestriction) {
-        this.cartRuleRestriction = cartRuleRestriction;
-    }
-
-    public boolean getProductRestriction() {
-        return productRestriction;
-    }
-
-    public void setProductRestriction(boolean productRestriction) {
-        this.productRestriction = productRestriction;
-    }
-
-    public boolean getShopRestriction() {
-        return shopRestriction;
-    }
-
-    public void setShopRestriction(boolean shopRestriction) {
-        this.shopRestriction = shopRestriction;
-    }
-
     public boolean getFreeShipping() {
         return freeShipping;
     }
@@ -399,14 +308,6 @@ public class PsCartRule implements Serializable {
         this.reductionAmount = reductionAmount;
     }
 
-    public boolean getReductionTax() {
-        return reductionTax;
-    }
-
-    public void setReductionTax(boolean reductionTax) {
-        this.reductionTax = reductionTax;
-    }
-
     public int getReductionCurrency() {
         return reductionCurrency;
     }
@@ -421,14 +322,6 @@ public class PsCartRule implements Serializable {
 
     public void setReductionProduct(int reductionProduct) {
         this.reductionProduct = reductionProduct;
-    }
-
-    public boolean getReductionExcludeSpecial() {
-        return reductionExcludeSpecial;
-    }
-
-    public void setReductionExcludeSpecial(boolean reductionExcludeSpecial) {
-        this.reductionExcludeSpecial = reductionExcludeSpecial;
     }
 
     public int getGiftProduct() {
@@ -447,21 +340,6 @@ public class PsCartRule implements Serializable {
         this.giftProductAttribute = giftProductAttribute;
     }
 
-    public boolean getHighlight() {
-        return highlight;
-    }
-
-    public void setHighlight(boolean highlight) {
-        this.highlight = highlight;
-    }
-
-    public boolean getActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
 
     public Date getDateAdd() {
         return dateAdd;
@@ -502,6 +380,94 @@ public class PsCartRule implements Serializable {
     @Override
     public String toString() {
         return "entidade.prestaShop.PsCartRule[ idCartRule=" + idCartRule + " ]";
+    }
+
+    public short getPartialUse() {
+        return partialUse;
+    }
+
+    public void setPartialUse(short partialUse) {
+        this.partialUse = partialUse;
+    }
+
+    public short getCountryRestriction() {
+        return countryRestriction;
+    }
+
+    public void setCountryRestriction(short countryRestriction) {
+        this.countryRestriction = countryRestriction;
+    }
+
+    public short getCarrierRestriction() {
+        return carrierRestriction;
+    }
+
+    public void setCarrierRestriction(short carrierRestriction) {
+        this.carrierRestriction = carrierRestriction;
+    }
+
+    public short getGroupRestriction() {
+        return groupRestriction;
+    }
+
+    public void setGroupRestriction(short groupRestriction) {
+        this.groupRestriction = groupRestriction;
+    }
+
+    public short getCartRuleRestriction() {
+        return cartRuleRestriction;
+    }
+
+    public void setCartRuleRestriction(short cartRuleRestriction) {
+        this.cartRuleRestriction = cartRuleRestriction;
+    }
+
+    public short getProductRestriction() {
+        return productRestriction;
+    }
+
+    public void setProductRestriction(short productRestriction) {
+        this.productRestriction = productRestriction;
+    }
+
+    public short getShopRestriction() {
+        return shopRestriction;
+    }
+
+    public void setShopRestriction(short shopRestriction) {
+        this.shopRestriction = shopRestriction;
+    }
+
+    public short getReductionTax() {
+        return reductionTax;
+    }
+
+    public void setReductionTax(short reductionTax) {
+        this.reductionTax = reductionTax;
+    }
+
+    public short getReductionExcludeSpecial() {
+        return reductionExcludeSpecial;
+    }
+
+    public void setReductionExcludeSpecial(short reductionExcludeSpecial) {
+        this.reductionExcludeSpecial = reductionExcludeSpecial;
+    }
+
+    public short getHighlight() {
+        return highlight;
+    }
+
+    public void setHighlight(short highlight) {
+        this.highlight = highlight;
+    }
+
+    public short getActive() {
+        return active;
+    }
+
+    public void setActive(short active) {
+        this.active = active;
     }
     
 }

@@ -12,8 +12,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -24,14 +22,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "ps_cms")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "PsCms.findAll", query = "SELECT p FROM PsCms p")
-    , @NamedQuery(name = "PsCms.findByIdCms", query = "SELECT p FROM PsCms p WHERE p.idCms = :idCms")
-    , @NamedQuery(name = "PsCms.findByIdCmsCategory", query = "SELECT p FROM PsCms p WHERE p.idCmsCategory = :idCmsCategory")
-    , @NamedQuery(name = "PsCms.findByPosition", query = "SELECT p FROM PsCms p WHERE p.position = :position")
-    , @NamedQuery(name = "PsCms.findByActive", query = "SELECT p FROM PsCms p WHERE p.active = :active")
-    , @NamedQuery(name = "PsCms.findByIndexation", query = "SELECT p FROM PsCms p WHERE p.indexation = :indexation")})
+
 public class PsCms implements Serializable {
+    @Basic(optional = false)
+    @Column(name = "active")
+    private short active;
+    @Basic(optional = false)
+    @Column(name = "indexation")
+    private short indexation;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -45,12 +43,6 @@ public class PsCms implements Serializable {
     @Basic(optional = false)
     @Column(name = "position")
     private int position;
-    @Basic(optional = false)
-    @Column(name = "active")
-    private boolean active;
-    @Basic(optional = false)
-    @Column(name = "indexation")
-    private boolean indexation;
 
     public PsCms() {
     }
@@ -59,7 +51,7 @@ public class PsCms implements Serializable {
         this.idCms = idCms;
     }
 
-    public PsCms(Integer idCms, int idCmsCategory, int position, boolean active, boolean indexation) {
+    public PsCms(Integer idCms, int idCmsCategory, int position, short active, short indexation) {
         this.idCms = idCms;
         this.idCmsCategory = idCmsCategory;
         this.position = position;
@@ -91,21 +83,6 @@ public class PsCms implements Serializable {
         this.position = position;
     }
 
-    public boolean getActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    public boolean getIndexation() {
-        return indexation;
-    }
-
-    public void setIndexation(boolean indexation) {
-        this.indexation = indexation;
-    }
 
     @Override
     public int hashCode() {
@@ -130,6 +107,22 @@ public class PsCms implements Serializable {
     @Override
     public String toString() {
         return "entidade.prestaShop.PsCms[ idCms=" + idCms + " ]";
+    }
+
+    public short getActive() {
+        return active;
+    }
+
+    public void setActive(short active) {
+        this.active = active;
+    }
+
+    public short getIndexation() {
+        return indexation;
+    }
+
+    public void setIndexation(short indexation) {
+        this.indexation = indexation;
     }
     
 }

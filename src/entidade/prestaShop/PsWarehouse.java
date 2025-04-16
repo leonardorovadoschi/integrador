@@ -24,17 +24,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "ps_warehouse")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "PsWarehouse.findAll", query = "SELECT p FROM PsWarehouse p")
-    , @NamedQuery(name = "PsWarehouse.findByIdWarehouse", query = "SELECT p FROM PsWarehouse p WHERE p.idWarehouse = :idWarehouse")
-    , @NamedQuery(name = "PsWarehouse.findByIdCurrency", query = "SELECT p FROM PsWarehouse p WHERE p.idCurrency = :idCurrency")
-    , @NamedQuery(name = "PsWarehouse.findByIdAddress", query = "SELECT p FROM PsWarehouse p WHERE p.idAddress = :idAddress")
-    , @NamedQuery(name = "PsWarehouse.findByIdEmployee", query = "SELECT p FROM PsWarehouse p WHERE p.idEmployee = :idEmployee")
-    , @NamedQuery(name = "PsWarehouse.findByReference", query = "SELECT p FROM PsWarehouse p WHERE p.reference = :reference")
-    , @NamedQuery(name = "PsWarehouse.findByName", query = "SELECT p FROM PsWarehouse p WHERE p.name = :name")
-    , @NamedQuery(name = "PsWarehouse.findByManagementType", query = "SELECT p FROM PsWarehouse p WHERE p.managementType = :managementType")
-    , @NamedQuery(name = "PsWarehouse.findByDeleted", query = "SELECT p FROM PsWarehouse p WHERE p.deleted = :deleted")})
+
 public class PsWarehouse implements Serializable {
+    @Basic(optional = false)
+    @Column(name = "deleted")
+    private short deleted;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -59,9 +53,6 @@ public class PsWarehouse implements Serializable {
     @Basic(optional = false)
     @Column(name = "management_type")
     private String managementType;
-    @Basic(optional = false)
-    @Column(name = "deleted")
-    private boolean deleted;
 
     public PsWarehouse() {
     }
@@ -70,7 +61,7 @@ public class PsWarehouse implements Serializable {
         this.idWarehouse = idWarehouse;
     }
 
-    public PsWarehouse(Integer idWarehouse, int idCurrency, int idAddress, int idEmployee, String name, String managementType, boolean deleted) {
+    public PsWarehouse(Integer idWarehouse, int idCurrency, int idAddress, int idEmployee, String name, String managementType, short deleted) {
         this.idWarehouse = idWarehouse;
         this.idCurrency = idCurrency;
         this.idAddress = idAddress;
@@ -136,13 +127,6 @@ public class PsWarehouse implements Serializable {
         this.managementType = managementType;
     }
 
-    public boolean getDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
-    }
 
     @Override
     public int hashCode() {
@@ -167,6 +151,14 @@ public class PsWarehouse implements Serializable {
     @Override
     public String toString() {
         return "entidade.prestaShop.PsWarehouse[ idWarehouse=" + idWarehouse + " ]";
+    }
+
+    public short getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(short deleted) {
+        this.deleted = deleted;
     }
     
 }

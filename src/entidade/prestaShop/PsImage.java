@@ -31,6 +31,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "PsImage.findByPosition", query = "SELECT p FROM PsImage p WHERE p.position = :position")
     , @NamedQuery(name = "PsImage.findByCover", query = "SELECT p FROM PsImage p WHERE p.cover = :cover")})
 public class PsImage implements Serializable {
+    @Column(name = "cover")
+    private Short cover;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -44,8 +46,6 @@ public class PsImage implements Serializable {
     @Basic(optional = false)
     @Column(name = "position")
     private short position;
-    @Column(name = "cover")
-    private Boolean cover;
 
     public PsImage() {
     }
@@ -84,13 +84,6 @@ public class PsImage implements Serializable {
         this.position = position;
     }
 
-    public Boolean getCover() {
-        return cover;
-    }
-
-    public void setCover(Boolean cover) {
-        this.cover = cover;
-    }
 
     @Override
     public int hashCode() {
@@ -115,6 +108,14 @@ public class PsImage implements Serializable {
     @Override
     public String toString() {
         return "entidade.prestaShop.PsImage[ idImage=" + idImage + " ]";
+    }
+
+    public Short getCover() {
+        return cover;
+    }
+
+    public void setCover(Short cover) {
+        this.cover = cover;
     }
     
 }

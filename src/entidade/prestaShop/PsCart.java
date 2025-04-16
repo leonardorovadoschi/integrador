@@ -26,6 +26,15 @@ import javax.persistence.TemporalType;
 @Table(name = "ps_cart")
 
 public class PsCart implements Serializable {
+    @Basic(optional = false)
+    @Column(name = "recyclable")
+    private short recyclable;
+    @Basic(optional = false)
+    @Column(name = "gift")
+    private short gift;
+    @Basic(optional = false)
+    @Column(name = "allow_seperated_package")
+    private short allowSeperatedPackage;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -67,21 +76,12 @@ public class PsCart implements Serializable {
     @Basic(optional = false)
     @Column(name = "secure_key")
     private String secureKey;
-    @Basic(optional = false)
-    @Column(name = "recyclable")
-    private boolean recyclable;
-    @Basic(optional = false)
-    @Column(name = "gift")
-    private boolean gift;
     @Lob
     @Column(name = "gift_message")
     private String giftMessage;
     @Basic(optional = false)
     @Column(name = "mobile_theme")
     private boolean mobileTheme;
-    @Basic(optional = false)
-    @Column(name = "allow_seperated_package")
-    private boolean allowSeperatedPackage;
     @Basic(optional = false)
     @Column(name = "date_add")
     @Temporal(TemporalType.TIMESTAMP)
@@ -101,7 +101,7 @@ public class PsCart implements Serializable {
         this.idCart = idCart;
     }
 
-    public PsCart(Integer idCart, int idShopGroup, int idShop, int idCarrier, String deliveryOption, int idLang, int idAddressDelivery, int idAddressInvoice, int idCurrency, int idCustomer, int idGuest, String secureKey, boolean recyclable, boolean gift, boolean mobileTheme, boolean allowSeperatedPackage, Date dateAdd, Date dateUpd) {
+    public PsCart(Integer idCart, int idShopGroup, int idShop, int idCarrier, String deliveryOption, int idLang, int idAddressDelivery, int idAddressInvoice, int idCurrency, int idCustomer, int idGuest, String secureKey, short recyclable, short gift, boolean mobileTheme, short allowSeperatedPackage, Date dateAdd, Date dateUpd) {
         this.idCart = idCart;
         this.idShopGroup = idShopGroup;
         this.idShop = idShop;
@@ -218,21 +218,6 @@ public class PsCart implements Serializable {
         this.secureKey = secureKey;
     }
 
-    public boolean getRecyclable() {
-        return recyclable;
-    }
-
-    public void setRecyclable(boolean recyclable) {
-        this.recyclable = recyclable;
-    }
-
-    public boolean getGift() {
-        return gift;
-    }
-
-    public void setGift(boolean gift) {
-        this.gift = gift;
-    }
 
     public String getGiftMessage() {
         return giftMessage;
@@ -250,11 +235,11 @@ public class PsCart implements Serializable {
         this.mobileTheme = mobileTheme;
     }
 
-    public boolean getAllowSeperatedPackage() {
+    public short getAllowSeperatedPackage() {
         return allowSeperatedPackage;
     }
 
-    public void setAllowSeperatedPackage(boolean allowSeperatedPackage) {
+    public void setAllowSeperatedPackage(short allowSeperatedPackage) {
         this.allowSeperatedPackage = allowSeperatedPackage;
     }
 
@@ -305,6 +290,22 @@ public class PsCart implements Serializable {
     @Override
     public String toString() {
         return "entidade.prestaShop.PsCart[ idCart=" + idCart + " ]";
+    }
+
+    public short getRecyclable() {
+        return recyclable;
+    }
+
+    public void setRecyclable(short recyclable) {
+        this.recyclable = recyclable;
+    }
+
+    public short getGift() {
+        return gift;
+    }
+
+    public void setGift(short gift) {
+        this.gift = gift;
     }
     
 }

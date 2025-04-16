@@ -29,6 +29,35 @@ import javax.persistence.Transient;
 @Table(name = "ps_product")
 
 public class PsProduct implements Serializable {
+    @Basic(optional = false)
+    @Column(name = "on_sale")
+    private short onSale;
+    @Basic(optional = false)
+    @Column(name = "online_only")
+    private short onlineOnly;
+    @Column(name = "mpn")
+    private String mpn;
+    @Basic(optional = false)
+    @Column(name = "unit_price")
+    private BigDecimal unitPrice;
+    @Basic(optional = false)
+    @Column(name = "depth")
+    private BigDecimal depth;
+    @Basic(optional = false)
+    @Column(name = "additional_delivery_times")
+    private short additionalDeliveryTimes;
+    @Basic(optional = false)
+    @Column(name = "active")
+    private short active;
+    //@Basic(optional = false)
+    //@Column(name = "condition")
+    //private String condition;
+    @Basic(optional = false)
+    @Column(name = "state")
+    private int state;
+    @Basic(optional = false)
+    @Column(name = "product_type")
+    private String productType;
 
     @Transient
     private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
@@ -51,12 +80,6 @@ public class PsProduct implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_tax_rules_group")
     private int idTaxRulesGroup;
-    @Basic(optional = false)
-    @Column(name = "on_sale")
-    private boolean onSale;
-    @Basic(optional = false)
-    @Column(name = "online_only")
-    private boolean onlineOnly;
     @Column(name = "ean13")
     private String ean13;
     @Column(name = "isbn")
@@ -104,18 +127,12 @@ public class PsProduct implements Serializable {
     @Basic(optional = false)
     @Column(name = "height")
     private BigDecimal height;
-    @Basic(optional = false)
-    @Column(name = "\"depth\"")
-    private BigDecimal depth;
-    @Basic(optional = false)
+    @Basic(optional = false)  
     @Column(name = "weight")
     private BigDecimal weight;
     @Basic(optional = false)
     @Column(name = "out_of_stock")
     private int outOfStock;
-    @Basic(optional = false)
-    @Column(name = "additional_delivery_times")
-    private boolean additionalDeliveryTimes;
     @Column(name = "quantity_discount")
     private Boolean quantityDiscount;
     @Basic(optional = false)
@@ -127,9 +144,6 @@ public class PsProduct implements Serializable {
     @Basic(optional = false)
     @Column(name = "text_fields")
     private short textFields;
-    @Basic(optional = false)
-    @Column(name = "active")
-    private boolean active;
     @Basic(optional = false)
     @Column(name = "redirect_type")
     private String redirectType;
@@ -181,10 +195,8 @@ public class PsProduct implements Serializable {
     private boolean advancedStockManagement;
     @Basic(optional = false)
     @Column(name = "pack_stock_type")
-    private int packStockType;
-    @Basic(optional = false)
-    @Column(name = "\"state\"")
-    private int state;
+    private int packStockType;   
+    
 
     public PsProduct() {
     }
@@ -193,7 +205,7 @@ public class PsProduct implements Serializable {
         this.idProduct = idProduct;
     }
 
-    public PsProduct(Integer idProduct, int idShopDefault, int idTaxRulesGroup, boolean onSale, boolean onlineOnly, BigDecimal ecotax, int quantity, int minimalQuantity, boolean lowStockAlert, BigDecimal price, BigDecimal wholesalePrice, BigDecimal unitPriceRatio, BigDecimal additionalShippingCost, BigDecimal width, BigDecimal height, BigDecimal depth, BigDecimal weight, int outOfStock, boolean additionalDeliveryTimes, short customizable, short uploadableFiles, short textFields, boolean active, String redirectType, int idTypeRedirected, boolean availableForOrder, boolean showCondition, String condition, boolean showPrice, boolean indexed, String visibility, boolean cacheIsPack, boolean cacheHasAttachments, boolean isVirtual, Date dateAdd, Date dateUpd, boolean advancedStockManagement, int packStockType, int state) {
+    public PsProduct(Integer idProduct, int idShopDefault, int idTaxRulesGroup, short onSale, short onlineOnly, BigDecimal ecotax, int quantity, int minimalQuantity, boolean lowStockAlert, BigDecimal price, BigDecimal wholesalePrice, BigDecimal unitPriceRatio, BigDecimal additionalShippingCost, BigDecimal width, BigDecimal height, BigDecimal depth, BigDecimal weight, int outOfStock, short additionalDeliveryTimes, short customizable, short uploadableFiles, short textFields, short active, String redirectType, int idTypeRedirected, boolean availableForOrder, boolean showCondition, String condition, boolean showPrice, boolean indexed, String visibility, boolean cacheIsPack, boolean cacheHasAttachments, boolean isVirtual, Date dateAdd, Date dateUpd, boolean advancedStockManagement, int packStockType, int state) {
         this.idProduct = idProduct;
         this.idShopDefault = idShopDefault;
         this.idTaxRulesGroup = idTaxRulesGroup;
@@ -293,26 +305,6 @@ public class PsProduct implements Serializable {
         int oldIdTaxRulesGroup = this.idTaxRulesGroup;
         this.idTaxRulesGroup = idTaxRulesGroup;
         changeSupport.firePropertyChange("idTaxRulesGroup", oldIdTaxRulesGroup, idTaxRulesGroup);
-    }
-
-    public boolean getOnSale() {
-        return onSale;
-    }
-
-    public void setOnSale(boolean onSale) {
-        boolean oldOnSale = this.onSale;
-        this.onSale = onSale;
-        changeSupport.firePropertyChange("onSale", oldOnSale, onSale);
-    }
-
-    public boolean getOnlineOnly() {
-        return onlineOnly;
-    }
-
-    public void setOnlineOnly(boolean onlineOnly) {
-        boolean oldOnlineOnly = this.onlineOnly;
-        this.onlineOnly = onlineOnly;
-        changeSupport.firePropertyChange("onlineOnly", oldOnlineOnly, onlineOnly);
     }
 
     public String getEan13() {
@@ -525,16 +517,6 @@ public class PsProduct implements Serializable {
         changeSupport.firePropertyChange("outOfStock", oldOutOfStock, outOfStock);
     }
 
-    public boolean getAdditionalDeliveryTimes() {
-        return additionalDeliveryTimes;
-    }
-
-    public void setAdditionalDeliveryTimes(boolean additionalDeliveryTimes) {
-        boolean oldAdditionalDeliveryTimes = this.additionalDeliveryTimes;
-        this.additionalDeliveryTimes = additionalDeliveryTimes;
-        changeSupport.firePropertyChange("additionalDeliveryTimes", oldAdditionalDeliveryTimes, additionalDeliveryTimes);
-    }
-
     public Boolean getQuantityDiscount() {
         return quantityDiscount;
     }
@@ -575,15 +557,6 @@ public class PsProduct implements Serializable {
         changeSupport.firePropertyChange("textFields", oldTextFields, textFields);
     }
 
-    public boolean getActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        boolean oldActive = this.active;
-        this.active = active;
-        changeSupport.firePropertyChange("active", oldActive, active);
-    }
 
     public String getRedirectType() {
         return redirectType;
@@ -635,12 +608,14 @@ public class PsProduct implements Serializable {
         changeSupport.firePropertyChange("showCondition", oldShowCondition, showCondition);
     }
 
-    public String getCondition1() {
+    public String getCondition() {
         return condition;
     }
 
-    public void setCondition1(String condition1) {
-        this.condition = condition1;
+    public void setCondition(String condition) {
+        String oldCondition = this.condition;
+        this.condition = condition;
+        changeSupport.firePropertyChange("condition", oldCondition, condition);
     }
 
     public boolean getShowPrice() {
@@ -794,6 +769,76 @@ public class PsProduct implements Serializable {
 
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         changeSupport.removePropertyChangeListener(listener);
+    }
+
+    public short getOnSale() {
+        return onSale;
+    }
+
+    public void setOnSale(short onSale) {
+        short oldOnSale = this.onSale;
+        this.onSale = onSale;
+        changeSupport.firePropertyChange("onSale", oldOnSale, onSale);
+    }
+
+    public short getOnlineOnly() {
+        return onlineOnly;
+    }
+
+    public void setOnlineOnly(short onlineOnly) {
+        short oldOnlineOnly = this.onlineOnly;
+        this.onlineOnly = onlineOnly;
+        changeSupport.firePropertyChange("onlineOnly", oldOnlineOnly, onlineOnly);
+    }
+
+    public String getMpn() {
+        return mpn;
+    }
+
+    public void setMpn(String mpn) {
+        String oldMpn = this.mpn;
+        this.mpn = mpn;
+        changeSupport.firePropertyChange("mpn", oldMpn, mpn);
+    }
+
+    public BigDecimal getUnitPrice() {
+        return unitPrice;
+    }
+
+    public void setUnitPrice(BigDecimal unitPrice) {
+        BigDecimal oldUnitPrice = this.unitPrice;
+        this.unitPrice = unitPrice;
+        changeSupport.firePropertyChange("unitPrice", oldUnitPrice, unitPrice);
+    }
+
+    public short getAdditionalDeliveryTimes() {
+        return additionalDeliveryTimes;
+    }
+
+    public void setAdditionalDeliveryTimes(short additionalDeliveryTimes) {
+        short oldAdditionalDeliveryTimes = this.additionalDeliveryTimes;
+        this.additionalDeliveryTimes = additionalDeliveryTimes;
+        changeSupport.firePropertyChange("additionalDeliveryTimes", oldAdditionalDeliveryTimes, additionalDeliveryTimes);
+    }
+
+    public short getActive() {
+        return active;
+    }
+
+    public void setActive(short active) {
+        short oldActive = this.active;
+        this.active = active;
+        changeSupport.firePropertyChange("active", oldActive, active);
+    }
+
+    public String getProductType() {
+        return productType;
+    }
+
+    public void setProductType(String productType) {
+        String oldProductType = this.productType;
+        this.productType = productType;
+        changeSupport.firePropertyChange("productType", oldProductType, productType);
     }
     
 }

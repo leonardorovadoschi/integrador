@@ -24,20 +24,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "ps_stock_available")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "PsStockAvailable.findAll", query = "SELECT p FROM PsStockAvailable p")
-    , @NamedQuery(name = "PsStockAvailable.findByIdStockAvailable", query = "SELECT p FROM PsStockAvailable p WHERE p.idStockAvailable = :idStockAvailable")
-    , @NamedQuery(name = "PsStockAvailable.findByIdProduct", query = "SELECT p FROM PsStockAvailable p WHERE p.idProduct = :idProduct")
-    , @NamedQuery(name = "PsStockAvailable.findByIdProductAttribute", query = "SELECT p FROM PsStockAvailable p WHERE p.idProductAttribute = :idProductAttribute")
-    , @NamedQuery(name = "PsStockAvailable.findByIdShop", query = "SELECT p FROM PsStockAvailable p WHERE p.idShop = :idShop")
-    , @NamedQuery(name = "PsStockAvailable.findByIdShopGroup", query = "SELECT p FROM PsStockAvailable p WHERE p.idShopGroup = :idShopGroup")
-    , @NamedQuery(name = "PsStockAvailable.findByQuantity", query = "SELECT p FROM PsStockAvailable p WHERE p.quantity = :quantity")
-    , @NamedQuery(name = "PsStockAvailable.findByPhysicalQuantity", query = "SELECT p FROM PsStockAvailable p WHERE p.physicalQuantity = :physicalQuantity")
-    , @NamedQuery(name = "PsStockAvailable.findByReservedQuantity", query = "SELECT p FROM PsStockAvailable p WHERE p.reservedQuantity = :reservedQuantity")
-    , @NamedQuery(name = "PsStockAvailable.findByDependsOnStock", query = "SELECT p FROM PsStockAvailable p WHERE p.dependsOnStock = :dependsOnStock")
-    , @NamedQuery(name = "PsStockAvailable.findByOutOfStock", query = "SELECT p FROM PsStockAvailable p WHERE p.outOfStock = :outOfStock")
-    , @NamedQuery(name = "PsStockAvailable.findByLocation", query = "SELECT p FROM PsStockAvailable p WHERE p.location = :location")})
+
 public class PsStockAvailable implements Serializable {
+    @Basic(optional = false)
+    @Column(name = "depends_on_stock")
+    private short dependsOnStock;
+    @Basic(optional = false)
+    @Column(name = "out_of_stock")
+    private short outOfStock;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -67,12 +61,6 @@ public class PsStockAvailable implements Serializable {
     @Column(name = "reserved_quantity")
     private int reservedQuantity;
     @Basic(optional = false)
-    @Column(name = "depends_on_stock")
-    private boolean dependsOnStock;
-    @Basic(optional = false)
-    @Column(name = "out_of_stock")
-    private boolean outOfStock;
-    @Basic(optional = false)
     @Column(name = "location")
     private String location;
 
@@ -83,7 +71,7 @@ public class PsStockAvailable implements Serializable {
         this.idStockAvailable = idStockAvailable;
     }
 
-    public PsStockAvailable(Integer idStockAvailable, int idProduct, int idProductAttribute, int idShop, int idShopGroup, int quantity, int physicalQuantity, int reservedQuantity, boolean dependsOnStock, boolean outOfStock, String location) {
+    public PsStockAvailable(Integer idStockAvailable, int idProduct, int idProductAttribute, int idShop, int idShopGroup, int quantity, int physicalQuantity, int reservedQuantity, short dependsOnStock, short outOfStock, String location) {
         this.idStockAvailable = idStockAvailable;
         this.idProduct = idProduct;
         this.idProductAttribute = idProductAttribute;
@@ -161,22 +149,6 @@ public class PsStockAvailable implements Serializable {
         this.reservedQuantity = reservedQuantity;
     }
 
-    public boolean getDependsOnStock() {
-        return dependsOnStock;
-    }
-
-    public void setDependsOnStock(boolean dependsOnStock) {
-        this.dependsOnStock = dependsOnStock;
-    }
-
-    public boolean getOutOfStock() {
-        return outOfStock;
-    }
-
-    public void setOutOfStock(boolean outOfStock) {
-        this.outOfStock = outOfStock;
-    }
-
     public String getLocation() {
         return location;
     }
@@ -208,6 +180,22 @@ public class PsStockAvailable implements Serializable {
     @Override
     public String toString() {
         return "entidade.prestaShop.PsStockAvailable[ idStockAvailable=" + idStockAvailable + " ]";
+    }
+
+    public short getDependsOnStock() {
+        return dependsOnStock;
+    }
+
+    public void setDependsOnStock(short dependsOnStock) {
+        this.dependsOnStock = dependsOnStock;
+    }
+
+    public short getOutOfStock() {
+        return outOfStock;
+    }
+
+    public void setOutOfStock(short outOfStock) {
+        this.outOfStock = outOfStock;
     }
     
 }

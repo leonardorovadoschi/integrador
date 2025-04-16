@@ -254,7 +254,7 @@ public class QueryPrestaShop implements Serializable {
      * @param endereco
      * @return
      */
-    public List<PsAddress> listEndereco(Boolean deletado, Integer idCustomer, String endereco) {
+    public List<PsAddress> listEndereco(short deletado, Integer idCustomer, String endereco) {
         EntityManager em = getEntityManager();
         Query query = em.createQuery("SELECT c FROM PsAddress c WHERE c.address1 =:endereco AND c.idCustomer =:idCustomer AND c.deleted =:deletado");
         query.setParameter("endereco", endereco);
@@ -283,7 +283,7 @@ public class QueryPrestaShop implements Serializable {
      * @param idCustomer
      * @return
      */
-    public List<PsAddress> listAddress(boolean deletado, Integer idCustomer) {
+    public List<PsAddress> listAddress(short deletado, Integer idCustomer) {
         EntityManager em = getEntityManager();
         Query query = em.createQuery("SELECT c FROM PsAddress c WHERE c.idCustomer =:idCustomer AND c.deleted =:deletado");
         query.setParameter("idCustomer", idCustomer);
@@ -708,7 +708,7 @@ public class QueryPrestaShop implements Serializable {
      */
     public List<PsCarrier> listCarrier(Integer idCerrier) {
         EntityManager em = getEntityManager();
-        boolean deleted = false;
+        short deleted = (short) 0;
         Query query = em.createQuery("SELECT c FROM PsCarrier c WHERE c.idCarrier =:idCerrier AND c.deleted =:deleted");
         query.setParameter("idCerrier", idCerrier);
         query.setParameter("deleted", deleted);

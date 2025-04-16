@@ -28,22 +28,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "ps_store")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "PsStore.findAll", query = "SELECT p FROM PsStore p")
-    , @NamedQuery(name = "PsStore.findByIdStore", query = "SELECT p FROM PsStore p WHERE p.idStore = :idStore")
-    , @NamedQuery(name = "PsStore.findByIdCountry", query = "SELECT p FROM PsStore p WHERE p.idCountry = :idCountry")
-    , @NamedQuery(name = "PsStore.findByIdState", query = "SELECT p FROM PsStore p WHERE p.idState = :idState")
-    , @NamedQuery(name = "PsStore.findByCity", query = "SELECT p FROM PsStore p WHERE p.city = :city")
-    , @NamedQuery(name = "PsStore.findByPostcode", query = "SELECT p FROM PsStore p WHERE p.postcode = :postcode")
-    , @NamedQuery(name = "PsStore.findByLatitude", query = "SELECT p FROM PsStore p WHERE p.latitude = :latitude")
-    , @NamedQuery(name = "PsStore.findByLongitude", query = "SELECT p FROM PsStore p WHERE p.longitude = :longitude")
-    , @NamedQuery(name = "PsStore.findByPhone", query = "SELECT p FROM PsStore p WHERE p.phone = :phone")
-    , @NamedQuery(name = "PsStore.findByFax", query = "SELECT p FROM PsStore p WHERE p.fax = :fax")
-    , @NamedQuery(name = "PsStore.findByEmail", query = "SELECT p FROM PsStore p WHERE p.email = :email")
-    , @NamedQuery(name = "PsStore.findByActive", query = "SELECT p FROM PsStore p WHERE p.active = :active")
-    , @NamedQuery(name = "PsStore.findByDateAdd", query = "SELECT p FROM PsStore p WHERE p.dateAdd = :dateAdd")
-    , @NamedQuery(name = "PsStore.findByDateUpd", query = "SELECT p FROM PsStore p WHERE p.dateUpd = :dateUpd")})
+
 public class PsStore implements Serializable {
+    @Basic(optional = false)
+    @Column(name = "active")
+    private short active;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -74,9 +63,6 @@ public class PsStore implements Serializable {
     @Column(name = "email")
     private String email;
     @Basic(optional = false)
-    @Column(name = "active")
-    private boolean active;
-    @Basic(optional = false)
     @Column(name = "date_add")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateAdd;
@@ -92,7 +78,7 @@ public class PsStore implements Serializable {
         this.idStore = idStore;
     }
 
-    public PsStore(Integer idStore, int idCountry, String city, String postcode, boolean active, Date dateAdd, Date dateUpd) {
+    public PsStore(Integer idStore, int idCountry, String city, String postcode, short active, Date dateAdd, Date dateUpd) {
         this.idStore = idStore;
         this.idCountry = idCountry;
         this.city = city;
@@ -182,13 +168,6 @@ public class PsStore implements Serializable {
         this.email = email;
     }
 
-    public boolean getActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
 
     public Date getDateAdd() {
         return dateAdd;
@@ -229,6 +208,14 @@ public class PsStore implements Serializable {
     @Override
     public String toString() {
         return "entidade.prestaShop.PsStore[ idStore=" + idStore + " ]";
+    }
+
+    public short getActive() {
+        return active;
+    }
+
+    public void setActive(short active) {
+        this.active = active;
     }
     
 }

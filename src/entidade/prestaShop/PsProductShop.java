@@ -24,6 +24,21 @@ import javax.persistence.TemporalType;
 @Table(name = "ps_product_shop")
 
 public class PsProductShop implements Serializable {
+    @Basic(optional = false)
+    @Column(name = "on_sale")
+    private short onSale;
+    @Basic(optional = false)
+    @Column(name = "online_only")
+    private short onlineOnly;
+    @Basic(optional = false)
+    @Column(name = "unit_price")
+    private BigDecimal unitPrice;
+    @Basic(optional = false)
+    @Column(name = "active")
+    private short active;
+    @Basic(optional = false)
+    @Column(name = "\"condition\"")
+    private String condition;
 
     private static final long serialVersionUID = 1L;
     @EmbeddedId
@@ -33,12 +48,6 @@ public class PsProductShop implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_tax_rules_group")
     private int idTaxRulesGroup;
-    @Basic(optional = false)
-    @Column(name = "on_sale")
-    private boolean onSale;
-    @Basic(optional = false)
-    @Column(name = "online_only")
-    private boolean onlineOnly;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @Column(name = "ecotax")
@@ -75,9 +84,6 @@ public class PsProductShop implements Serializable {
     @Column(name = "text_fields")
     private short textFields;
     @Basic(optional = false)
-    @Column(name = "active")
-    private boolean active;
-    @Basic(optional = false)
     @Column(name = "redirect_type")
     private String redirectType;
     @Basic(optional = false)
@@ -92,9 +98,6 @@ public class PsProductShop implements Serializable {
     @Basic(optional = false)
     @Column(name = "show_condition")
     private boolean showCondition;
-    @Basic(optional = false)
-    @Column(name = "\"condition\"")
-    private String condition;
     @Basic(optional = false)
     @Column(name = "show_price")
     private boolean showPrice;
@@ -128,7 +131,7 @@ public class PsProductShop implements Serializable {
         this.psProductShopPK = psProductShopPK;
     }
 
-    public PsProductShop(PsProductShopPK psProductShopPK, int idTaxRulesGroup, boolean onSale, boolean onlineOnly, BigDecimal ecotax, int minimalQuantity, boolean lowStockAlert, BigDecimal price, BigDecimal wholesalePrice, BigDecimal unitPriceRatio, BigDecimal additionalShippingCost, short customizable, short uploadableFiles, short textFields, boolean active, String redirectType, int idTypeRedirected, boolean availableForOrder, boolean showCondition, String condition, boolean showPrice, boolean indexed, String visibility, boolean advancedStockManagement, Date dateAdd, Date dateUpd, int packStockType) {
+    public PsProductShop(PsProductShopPK psProductShopPK, int idTaxRulesGroup, short onSale, short onlineOnly, BigDecimal ecotax, int minimalQuantity, boolean lowStockAlert, BigDecimal price, BigDecimal wholesalePrice, BigDecimal unitPriceRatio, BigDecimal additionalShippingCost, short customizable, short uploadableFiles, short textFields, short active, String redirectType, int idTypeRedirected, boolean availableForOrder, boolean showCondition, String condition, boolean showPrice, boolean indexed, String visibility, boolean advancedStockManagement, Date dateAdd, Date dateUpd, int packStockType) {
         this.psProductShopPK = psProductShopPK;
         this.idTaxRulesGroup = idTaxRulesGroup;
         this.onSale = onSale;
@@ -184,22 +187,6 @@ public class PsProductShop implements Serializable {
 
     public void setIdTaxRulesGroup(int idTaxRulesGroup) {
         this.idTaxRulesGroup = idTaxRulesGroup;
-    }
-
-    public boolean getOnSale() {
-        return onSale;
-    }
-
-    public void setOnSale(boolean onSale) {
-        this.onSale = onSale;
-    }
-
-    public boolean getOnlineOnly() {
-        return onlineOnly;
-    }
-
-    public void setOnlineOnly(boolean onlineOnly) {
-        this.onlineOnly = onlineOnly;
     }
 
     public BigDecimal getEcotax() {
@@ -298,13 +285,6 @@ public class PsProductShop implements Serializable {
         this.textFields = textFields;
     }
 
-    public boolean getActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
 
     public String getRedirectType() {
         return redirectType;
@@ -442,5 +422,25 @@ public class PsProductShop implements Serializable {
     public String toString() {
         return "entidade.prestaShop.PsProductShop[ psProductShopPK=" + psProductShopPK + " ]";
     }
-    
+
+    public void setOnlineOnly(short onlineOnly) {
+        this.onlineOnly = onlineOnly;
+    }
+
+    public BigDecimal getUnitPrice() {
+        return unitPrice;
+    }
+
+    public void setUnitPrice(BigDecimal unitPrice) {
+        this.unitPrice = unitPrice;
+    }
+
+    public short getActive() {
+        return active;
+    }
+
+    public void setActive(short active) {
+        this.active = active;
+    }
+
 }

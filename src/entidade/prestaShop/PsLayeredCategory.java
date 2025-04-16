@@ -35,6 +35,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "PsLayeredCategory.findByFilterType", query = "SELECT p FROM PsLayeredCategory p WHERE p.filterType = :filterType")
     , @NamedQuery(name = "PsLayeredCategory.findByFilterShowLimit", query = "SELECT p FROM PsLayeredCategory p WHERE p.filterShowLimit = :filterShowLimit")})
 public class PsLayeredCategory implements Serializable {
+    @Basic(optional = false)
+    @Column(name = "controller")
+    private String controller;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -167,6 +170,14 @@ public class PsLayeredCategory implements Serializable {
     @Override
     public String toString() {
         return "entidade.prestaShop.PsLayeredCategory[ idLayeredCategory=" + idLayeredCategory + " ]";
+    }
+
+    public String getController() {
+        return controller;
+    }
+
+    public void setController(String controller) {
+        this.controller = controller;
     }
     
 }

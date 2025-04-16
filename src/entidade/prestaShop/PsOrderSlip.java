@@ -28,24 +28,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "ps_order_slip")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "PsOrderSlip.findAll", query = "SELECT p FROM PsOrderSlip p")
-    , @NamedQuery(name = "PsOrderSlip.findByIdOrderSlip", query = "SELECT p FROM PsOrderSlip p WHERE p.idOrderSlip = :idOrderSlip")
-    , @NamedQuery(name = "PsOrderSlip.findByConversionRate", query = "SELECT p FROM PsOrderSlip p WHERE p.conversionRate = :conversionRate")
-    , @NamedQuery(name = "PsOrderSlip.findByIdCustomer", query = "SELECT p FROM PsOrderSlip p WHERE p.idCustomer = :idCustomer")
-    , @NamedQuery(name = "PsOrderSlip.findByIdOrder", query = "SELECT p FROM PsOrderSlip p WHERE p.idOrder = :idOrder")
-    , @NamedQuery(name = "PsOrderSlip.findByTotalProductsTaxExcl", query = "SELECT p FROM PsOrderSlip p WHERE p.totalProductsTaxExcl = :totalProductsTaxExcl")
-    , @NamedQuery(name = "PsOrderSlip.findByTotalProductsTaxIncl", query = "SELECT p FROM PsOrderSlip p WHERE p.totalProductsTaxIncl = :totalProductsTaxIncl")
-    , @NamedQuery(name = "PsOrderSlip.findByTotalShippingTaxExcl", query = "SELECT p FROM PsOrderSlip p WHERE p.totalShippingTaxExcl = :totalShippingTaxExcl")
-    , @NamedQuery(name = "PsOrderSlip.findByTotalShippingTaxIncl", query = "SELECT p FROM PsOrderSlip p WHERE p.totalShippingTaxIncl = :totalShippingTaxIncl")
-    , @NamedQuery(name = "PsOrderSlip.findByShippingCost", query = "SELECT p FROM PsOrderSlip p WHERE p.shippingCost = :shippingCost")
-    , @NamedQuery(name = "PsOrderSlip.findByAmount", query = "SELECT p FROM PsOrderSlip p WHERE p.amount = :amount")
-    , @NamedQuery(name = "PsOrderSlip.findByShippingCostAmount", query = "SELECT p FROM PsOrderSlip p WHERE p.shippingCostAmount = :shippingCostAmount")
-    , @NamedQuery(name = "PsOrderSlip.findByPartial", query = "SELECT p FROM PsOrderSlip p WHERE p.partial = :partial")
-    , @NamedQuery(name = "PsOrderSlip.findByOrderSlipType", query = "SELECT p FROM PsOrderSlip p WHERE p.orderSlipType = :orderSlipType")
-    , @NamedQuery(name = "PsOrderSlip.findByDateAdd", query = "SELECT p FROM PsOrderSlip p WHERE p.dateAdd = :dateAdd")
-    , @NamedQuery(name = "PsOrderSlip.findByDateUpd", query = "SELECT p FROM PsOrderSlip p WHERE p.dateUpd = :dateUpd")})
+
 public class PsOrderSlip implements Serializable {
+    @Basic(optional = false)
+    @Column(name = "order_slip_type")
+    private short orderSlipType;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -84,9 +71,6 @@ public class PsOrderSlip implements Serializable {
     @Column(name = "partial")
     private boolean partial;
     @Basic(optional = false)
-    @Column(name = "order_slip_type")
-    private boolean orderSlipType;
-    @Basic(optional = false)
     @Column(name = "date_add")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateAdd;
@@ -102,7 +86,7 @@ public class PsOrderSlip implements Serializable {
         this.idOrderSlip = idOrderSlip;
     }
 
-    public PsOrderSlip(Integer idOrderSlip, BigDecimal conversionRate, int idCustomer, int idOrder, short shippingCost, BigDecimal amount, BigDecimal shippingCostAmount, boolean partial, boolean orderSlipType, Date dateAdd, Date dateUpd) {
+    public PsOrderSlip(Integer idOrderSlip, BigDecimal conversionRate, int idCustomer, int idOrder, short shippingCost, BigDecimal amount, BigDecimal shippingCostAmount, boolean partial, short orderSlipType, Date dateAdd, Date dateUpd) {
         this.idOrderSlip = idOrderSlip;
         this.conversionRate = conversionRate;
         this.idCustomer = idCustomer;
@@ -212,14 +196,6 @@ public class PsOrderSlip implements Serializable {
         this.partial = partial;
     }
 
-    public boolean getOrderSlipType() {
-        return orderSlipType;
-    }
-
-    public void setOrderSlipType(boolean orderSlipType) {
-        this.orderSlipType = orderSlipType;
-    }
-
     public Date getDateAdd() {
         return dateAdd;
     }
@@ -259,6 +235,14 @@ public class PsOrderSlip implements Serializable {
     @Override
     public String toString() {
         return "entidade.prestaShop.PsOrderSlip[ idOrderSlip=" + idOrderSlip + " ]";
+    }
+
+    public short getOrderSlipType() {
+        return orderSlipType;
+    }
+
+    public void setOrderSlipType(short orderSlipType) {
+        this.orderSlipType = orderSlipType;
     }
     
 }

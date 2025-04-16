@@ -27,37 +27,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "ps_employee")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "PsEmployee.findAll", query = "SELECT p FROM PsEmployee p")
-    , @NamedQuery(name = "PsEmployee.findByIdEmployee", query = "SELECT p FROM PsEmployee p WHERE p.idEmployee = :idEmployee")
-    , @NamedQuery(name = "PsEmployee.findByIdProfile", query = "SELECT p FROM PsEmployee p WHERE p.idProfile = :idProfile")
-    , @NamedQuery(name = "PsEmployee.findByIdLang", query = "SELECT p FROM PsEmployee p WHERE p.idLang = :idLang")
-    , @NamedQuery(name = "PsEmployee.findByLastname", query = "SELECT p FROM PsEmployee p WHERE p.lastname = :lastname")
-    , @NamedQuery(name = "PsEmployee.findByFirstname", query = "SELECT p FROM PsEmployee p WHERE p.firstname = :firstname")
-    , @NamedQuery(name = "PsEmployee.findByEmail", query = "SELECT p FROM PsEmployee p WHERE p.email = :email")
-    , @NamedQuery(name = "PsEmployee.findByPasswd", query = "SELECT p FROM PsEmployee p WHERE p.passwd = :passwd")
-    , @NamedQuery(name = "PsEmployee.findByLastPasswdGen", query = "SELECT p FROM PsEmployee p WHERE p.lastPasswdGen = :lastPasswdGen")
-    , @NamedQuery(name = "PsEmployee.findByStatsDateFrom", query = "SELECT p FROM PsEmployee p WHERE p.statsDateFrom = :statsDateFrom")
-    , @NamedQuery(name = "PsEmployee.findByStatsDateTo", query = "SELECT p FROM PsEmployee p WHERE p.statsDateTo = :statsDateTo")
-    , @NamedQuery(name = "PsEmployee.findByStatsCompareFrom", query = "SELECT p FROM PsEmployee p WHERE p.statsCompareFrom = :statsCompareFrom")
-    , @NamedQuery(name = "PsEmployee.findByStatsCompareTo", query = "SELECT p FROM PsEmployee p WHERE p.statsCompareTo = :statsCompareTo")
-    , @NamedQuery(name = "PsEmployee.findByStatsCompareOption", query = "SELECT p FROM PsEmployee p WHERE p.statsCompareOption = :statsCompareOption")
-    , @NamedQuery(name = "PsEmployee.findByPreselectDateRange", query = "SELECT p FROM PsEmployee p WHERE p.preselectDateRange = :preselectDateRange")
-    , @NamedQuery(name = "PsEmployee.findByBoColor", query = "SELECT p FROM PsEmployee p WHERE p.boColor = :boColor")
-    , @NamedQuery(name = "PsEmployee.findByBoTheme", query = "SELECT p FROM PsEmployee p WHERE p.boTheme = :boTheme")
-    , @NamedQuery(name = "PsEmployee.findByBoCss", query = "SELECT p FROM PsEmployee p WHERE p.boCss = :boCss")
-    , @NamedQuery(name = "PsEmployee.findByDefaultTab", query = "SELECT p FROM PsEmployee p WHERE p.defaultTab = :defaultTab")
-    , @NamedQuery(name = "PsEmployee.findByBoWidth", query = "SELECT p FROM PsEmployee p WHERE p.boWidth = :boWidth")
-    , @NamedQuery(name = "PsEmployee.findByBoMenu", query = "SELECT p FROM PsEmployee p WHERE p.boMenu = :boMenu")
-    , @NamedQuery(name = "PsEmployee.findByActive", query = "SELECT p FROM PsEmployee p WHERE p.active = :active")
-    , @NamedQuery(name = "PsEmployee.findByOptin", query = "SELECT p FROM PsEmployee p WHERE p.optin = :optin")
-    , @NamedQuery(name = "PsEmployee.findByIdLastOrder", query = "SELECT p FROM PsEmployee p WHERE p.idLastOrder = :idLastOrder")
-    , @NamedQuery(name = "PsEmployee.findByIdLastCustomerMessage", query = "SELECT p FROM PsEmployee p WHERE p.idLastCustomerMessage = :idLastCustomerMessage")
-    , @NamedQuery(name = "PsEmployee.findByIdLastCustomer", query = "SELECT p FROM PsEmployee p WHERE p.idLastCustomer = :idLastCustomer")
-    , @NamedQuery(name = "PsEmployee.findByLastConnectionDate", query = "SELECT p FROM PsEmployee p WHERE p.lastConnectionDate = :lastConnectionDate")
-    , @NamedQuery(name = "PsEmployee.findByResetPasswordToken", query = "SELECT p FROM PsEmployee p WHERE p.resetPasswordToken = :resetPasswordToken")
-    , @NamedQuery(name = "PsEmployee.findByResetPasswordValidity", query = "SELECT p FROM PsEmployee p WHERE p.resetPasswordValidity = :resetPasswordValidity")})
+
 public class PsEmployee implements Serializable {
+    @Basic(optional = false)
+    @Column(name = "active")
+    private short active;
+    @Column(name = "optin")
+    private Short optin;
+    @Basic(optional = false)
+    @Column(name = "has_enabled_gravatar")
+    private short hasEnabledGravatar;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -120,12 +99,6 @@ public class PsEmployee implements Serializable {
     @Column(name = "bo_menu")
     private boolean boMenu;
     @Basic(optional = false)
-    @Column(name = "active")
-    private boolean active;
-    @Basic(optional = false)
-    @Column(name = "optin")
-    private boolean optin;
-    @Basic(optional = false)
     @Column(name = "id_last_order")
     private int idLastOrder;
     @Basic(optional = false)
@@ -150,7 +123,7 @@ public class PsEmployee implements Serializable {
         this.idEmployee = idEmployee;
     }
 
-    public PsEmployee(Integer idEmployee, int idProfile, int idLang, String lastname, String firstname, String email, String passwd, Date lastPasswdGen, int statsCompareOption, int defaultTab, int boWidth, boolean boMenu, boolean active, boolean optin, int idLastOrder, int idLastCustomerMessage, int idLastCustomer) {
+    public PsEmployee(Integer idEmployee, int idProfile, int idLang, String lastname, String firstname, String email, String passwd, Date lastPasswdGen, int statsCompareOption, int defaultTab, int boWidth, boolean boMenu, short active, short optin, int idLastOrder, int idLastCustomerMessage, int idLastCustomer) {
         this.idEmployee = idEmployee;
         this.idProfile = idProfile;
         this.idLang = idLang;
@@ -330,21 +303,6 @@ public class PsEmployee implements Serializable {
         this.boMenu = boMenu;
     }
 
-    public boolean getActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    public boolean getOptin() {
-        return optin;
-    }
-
-    public void setOptin(boolean optin) {
-        this.optin = optin;
-    }
 
     public int getIdLastOrder() {
         return idLastOrder;
@@ -417,6 +375,30 @@ public class PsEmployee implements Serializable {
     @Override
     public String toString() {
         return "entidade.prestaShop.PsEmployee[ idEmployee=" + idEmployee + " ]";
+    }
+
+    public short getActive() {
+        return active;
+    }
+
+    public void setActive(short active) {
+        this.active = active;
+    }
+
+    public Short getOptin() {
+        return optin;
+    }
+
+    public void setOptin(Short optin) {
+        this.optin = optin;
+    }
+
+    public short getHasEnabledGravatar() {
+        return hasEnabledGravatar;
+    }
+
+    public void setHasEnabledGravatar(short hasEnabledGravatar) {
+        this.hasEnabledGravatar = hasEnabledGravatar;
     }
     
 }

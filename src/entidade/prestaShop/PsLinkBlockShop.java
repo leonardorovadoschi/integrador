@@ -6,6 +6,8 @@
 package entidade.prestaShop;
 
 import java.io.Serializable;
+import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
@@ -25,6 +27,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "PsLinkBlockShop.findByIdLinkBlock", query = "SELECT p FROM PsLinkBlockShop p WHERE p.psLinkBlockShopPK.idLinkBlock = :idLinkBlock")
     , @NamedQuery(name = "PsLinkBlockShop.findByIdShop", query = "SELECT p FROM PsLinkBlockShop p WHERE p.psLinkBlockShopPK.idShop = :idShop")})
 public class PsLinkBlockShop implements Serializable {
+    @Basic(optional = false)
+    @Column(name = "position")
+    private int position;
 
     private static final long serialVersionUID = 1L;
     @EmbeddedId
@@ -72,6 +77,14 @@ public class PsLinkBlockShop implements Serializable {
     @Override
     public String toString() {
         return "entidade.prestaShop.PsLinkBlockShop[ psLinkBlockShopPK=" + psLinkBlockShopPK + " ]";
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
     
 }

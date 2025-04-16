@@ -75,17 +75,17 @@ public class ClienteCplusDigimacro {
             pc.setPasswd("$2y$10$GYuAOlc5IShnSKdeM5r53eawvO/74elEjc9MlrydSPLNk4FgJHflq");//digi2012 é a senha
             pc.setLastPasswdGen(new Date(System.currentTimeMillis()));
             pc.setBirthday(cliente.getDatcad());
-            pc.setNewsletter(true);
+            pc.setNewsletter((short) 1);
             pc.setIpRegistrationNewsletter(null);
             pc.setNewsletterDateAdd(new Date(System.currentTimeMillis()));
-            pc.setOptin(false);
+            pc.setOptin((short) 0);
             pc.setWebsite(cliente.getWeb());
             if (cliente.getLimitecred() != null) {
                 pc.setOutstandingAllowAmount(cliente.getLimitecred());
             } else {
                 pc.setOutstandingAllowAmount(BigDecimal.ZERO);
             }
-            pc.setShowPublicPrices(false);
+            pc.setShowPublicPrices((short) 0);
             pc.setMaxPaymentDays(0);
             pc.setSecureKey("2a4c16f26e944cb993cb31a9e9875bf8");
 
@@ -179,7 +179,7 @@ public class ClienteCplusDigimacro {
                             break;
                     }
                     ///Endereço//////
-                    List<PsAddress> paList = new QueryPrestaShop().listAddress(false, pc.getIdCustomer());
+                    List<PsAddress> paList = new QueryPrestaShop().listAddress((short) 0, pc.getIdCustomer());
                     if (paList.isEmpty()) {
                         criarAdderess( pc, cliente);
                     } else if (paList.size() == 1) {
@@ -246,7 +246,7 @@ public class ClienteCplusDigimacro {
         } else {
             complemento = cliente.getComplementologradouro();
         }
-        List<PsAddress> listText = new QueryPrestaShop().listEndereco(false, customer.getIdCustomer(), endereco(ende, numero, complemento));
+        List<PsAddress> listText = new QueryPrestaShop().listEndereco((short) 0, customer.getIdCustomer(), endereco(ende, numero, complemento));
         if (listText.size() > 0) {
             condicao = true;
         } else {
@@ -294,10 +294,10 @@ public class ClienteCplusDigimacro {
      * @param cliente
      * @return
      */
-    private boolean ativo(Cliente cliente) {
-        boolean valor = true;
+    private short ativo(Cliente cliente) {
+        short valor = (short) 1;
         if ("Y".equals(String.valueOf(cliente.getFlagnaovender()))) {
-            valor = false;
+            valor = (short) 0;
         }
         return valor;
     }
@@ -508,8 +508,8 @@ public class ClienteCplusDigimacro {
 
         pa.setDateAdd(new Date(System.currentTimeMillis()));
         pa.setDateUpd(new Date(System.currentTimeMillis()));
-        pa.setActive(true);
-        pa.setDeleted(false);
+        pa.setActive((short) 1);
+        pa.setDeleted((short) 0);
         pa.setOther("");
 
         new PsAddressJpaController(Manager.getManagerPrestaShop()).create(pa);
@@ -577,7 +577,7 @@ public class ClienteCplusDigimacro {
             //pa.setDni(cpfCnpj(cliente));
 
             pa.setDateUpd(new Date(System.currentTimeMillis()));
-            pa.setActive(true);
+            pa.setActive((short) 1);
             pa.setOther("");
             try {
                 //pa.setDeleted(false);

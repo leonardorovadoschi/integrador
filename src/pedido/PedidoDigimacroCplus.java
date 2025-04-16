@@ -305,7 +305,7 @@ public class PedidoDigimacroCplus {
         } else {
             complemento = cliente.getComplementologradouro();
         }
-        List<PsAddress> listText = new QueryPrestaShop().listEndereco(false, po.getIdCustomer(), endereco(ende, numero, complemento));
+        List<PsAddress> listText = new QueryPrestaShop().listEndereco((short) 0, po.getIdCustomer(), endereco(ende, numero, complemento));
         if (listText.size() > 0) {
             condicao = true;
         } else {

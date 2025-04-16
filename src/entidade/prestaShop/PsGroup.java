@@ -28,15 +28,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "ps_group")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "PsGroup.findAll", query = "SELECT p FROM PsGroup p")
-    , @NamedQuery(name = "PsGroup.findByIdGroup", query = "SELECT p FROM PsGroup p WHERE p.idGroup = :idGroup")
-    , @NamedQuery(name = "PsGroup.findByReduction", query = "SELECT p FROM PsGroup p WHERE p.reduction = :reduction")
-    , @NamedQuery(name = "PsGroup.findByPriceDisplayMethod", query = "SELECT p FROM PsGroup p WHERE p.priceDisplayMethod = :priceDisplayMethod")
-    , @NamedQuery(name = "PsGroup.findByShowPrices", query = "SELECT p FROM PsGroup p WHERE p.showPrices = :showPrices")
-    , @NamedQuery(name = "PsGroup.findByDateAdd", query = "SELECT p FROM PsGroup p WHERE p.dateAdd = :dateAdd")
-    , @NamedQuery(name = "PsGroup.findByDateUpd", query = "SELECT p FROM PsGroup p WHERE p.dateUpd = :dateUpd")})
+
 public class PsGroup implements Serializable {
+    @Basic(optional = false)
+    @Column(name = "show_prices")
+    private short showPrices;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -51,9 +47,6 @@ public class PsGroup implements Serializable {
     @Basic(optional = false)
     @Column(name = "price_display_method")
     private short priceDisplayMethod;
-    @Basic(optional = false)
-    @Column(name = "show_prices")
-    private boolean showPrices;
     @Basic(optional = false)
     @Column(name = "date_add")
     @Temporal(TemporalType.TIMESTAMP)
@@ -70,7 +63,7 @@ public class PsGroup implements Serializable {
         this.idGroup = idGroup;
     }
 
-    public PsGroup(Integer idGroup, BigDecimal reduction, short priceDisplayMethod, boolean showPrices, Date dateAdd, Date dateUpd) {
+    public PsGroup(Integer idGroup, BigDecimal reduction, short priceDisplayMethod, short showPrices, Date dateAdd, Date dateUpd) {
         this.idGroup = idGroup;
         this.reduction = reduction;
         this.priceDisplayMethod = priceDisplayMethod;
@@ -101,14 +94,6 @@ public class PsGroup implements Serializable {
 
     public void setPriceDisplayMethod(short priceDisplayMethod) {
         this.priceDisplayMethod = priceDisplayMethod;
-    }
-
-    public boolean getShowPrices() {
-        return showPrices;
-    }
-
-    public void setShowPrices(boolean showPrices) {
-        this.showPrices = showPrices;
     }
 
     public Date getDateAdd() {
@@ -150,6 +135,14 @@ public class PsGroup implements Serializable {
     @Override
     public String toString() {
         return "entidade.prestaShop.PsGroup[ idGroup=" + idGroup + " ]";
+    }
+
+    public short getShowPrices() {
+        return showPrices;
+    }
+
+    public void setShowPrices(short showPrices) {
+        this.showPrices = showPrices;
     }
     
 }

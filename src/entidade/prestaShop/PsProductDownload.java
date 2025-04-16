@@ -27,19 +27,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "ps_product_download")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "PsProductDownload.findAll", query = "SELECT p FROM PsProductDownload p")
-    , @NamedQuery(name = "PsProductDownload.findByIdProductDownload", query = "SELECT p FROM PsProductDownload p WHERE p.idProductDownload = :idProductDownload")
-    , @NamedQuery(name = "PsProductDownload.findByIdProduct", query = "SELECT p FROM PsProductDownload p WHERE p.idProduct = :idProduct")
-    , @NamedQuery(name = "PsProductDownload.findByDisplayFilename", query = "SELECT p FROM PsProductDownload p WHERE p.displayFilename = :displayFilename")
-    , @NamedQuery(name = "PsProductDownload.findByFilename", query = "SELECT p FROM PsProductDownload p WHERE p.filename = :filename")
-    , @NamedQuery(name = "PsProductDownload.findByDateAdd", query = "SELECT p FROM PsProductDownload p WHERE p.dateAdd = :dateAdd")
-    , @NamedQuery(name = "PsProductDownload.findByDateExpiration", query = "SELECT p FROM PsProductDownload p WHERE p.dateExpiration = :dateExpiration")
-    , @NamedQuery(name = "PsProductDownload.findByNbDaysAccessible", query = "SELECT p FROM PsProductDownload p WHERE p.nbDaysAccessible = :nbDaysAccessible")
-    , @NamedQuery(name = "PsProductDownload.findByNbDownloadable", query = "SELECT p FROM PsProductDownload p WHERE p.nbDownloadable = :nbDownloadable")
-    , @NamedQuery(name = "PsProductDownload.findByActive", query = "SELECT p FROM PsProductDownload p WHERE p.active = :active")
-    , @NamedQuery(name = "PsProductDownload.findByIsShareable", query = "SELECT p FROM PsProductDownload p WHERE p.isShareable = :isShareable")})
 public class PsProductDownload implements Serializable {
+    @Basic(optional = false)
+    @Column(name = "active")
+    private short active;
+    @Basic(optional = false)
+    @Column(name = "is_shareable")
+    private short isShareable;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -65,12 +59,6 @@ public class PsProductDownload implements Serializable {
     private Integer nbDaysAccessible;
     @Column(name = "nb_downloadable")
     private Integer nbDownloadable;
-    @Basic(optional = false)
-    @Column(name = "active")
-    private boolean active;
-    @Basic(optional = false)
-    @Column(name = "is_shareable")
-    private boolean isShareable;
 
     public PsProductDownload() {
     }
@@ -79,7 +67,7 @@ public class PsProductDownload implements Serializable {
         this.idProductDownload = idProductDownload;
     }
 
-    public PsProductDownload(Integer idProductDownload, int idProduct, Date dateAdd, boolean active, boolean isShareable) {
+    public PsProductDownload(Integer idProductDownload, int idProduct, Date dateAdd, short active, short isShareable) {
         this.idProductDownload = idProductDownload;
         this.idProduct = idProduct;
         this.dateAdd = dateAdd;
@@ -151,21 +139,6 @@ public class PsProductDownload implements Serializable {
         this.nbDownloadable = nbDownloadable;
     }
 
-    public boolean getActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    public boolean getIsShareable() {
-        return isShareable;
-    }
-
-    public void setIsShareable(boolean isShareable) {
-        this.isShareable = isShareable;
-    }
 
     @Override
     public int hashCode() {
@@ -190,6 +163,22 @@ public class PsProductDownload implements Serializable {
     @Override
     public String toString() {
         return "entidade.prestaShop.PsProductDownload[ idProductDownload=" + idProductDownload + " ]";
+    }
+
+    public short getActive() {
+        return active;
+    }
+
+    public void setActive(short active) {
+        this.active = active;
+    }
+
+    public short getIsShareable() {
+        return isShareable;
+    }
+
+    public void setIsShareable(short isShareable) {
+        this.isShareable = isShareable;
     }
     
 }

@@ -32,6 +32,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "PsHook.findByTitle", query = "SELECT p FROM PsHook p WHERE p.title = :title")
     , @NamedQuery(name = "PsHook.findByPosition", query = "SELECT p FROM PsHook p WHERE p.position = :position")})
 public class PsHook implements Serializable {
+    @Basic(optional = false)
+    @Column(name = "active")
+    private short active;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -129,6 +132,14 @@ public class PsHook implements Serializable {
     @Override
     public String toString() {
         return "entidade.prestaShop.PsHook[ idHook=" + idHook + " ]";
+    }
+
+    public short getActive() {
+        return active;
+    }
+
+    public void setActive(short active) {
+        this.active = active;
     }
     
 }

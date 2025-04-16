@@ -12,8 +12,6 @@ import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -24,12 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "ps_custom_payment_method_lang")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "PsCustomPaymentMethodLang.findAll", query = "SELECT p FROM PsCustomPaymentMethodLang p"),
-    @NamedQuery(name = "PsCustomPaymentMethodLang.findByIdCustomPaymentMethod", query = "SELECT p FROM PsCustomPaymentMethodLang p WHERE p.psCustomPaymentMethodLangPK.idCustomPaymentMethod = :idCustomPaymentMethod"),
-    @NamedQuery(name = "PsCustomPaymentMethodLang.findByIdLang", query = "SELECT p FROM PsCustomPaymentMethodLang p WHERE p.psCustomPaymentMethodLangPK.idLang = :idLang"),
-    @NamedQuery(name = "PsCustomPaymentMethodLang.findByNameMessageField", query = "SELECT p FROM PsCustomPaymentMethodLang p WHERE p.nameMessageField = :nameMessageField"),
-    @NamedQuery(name = "PsCustomPaymentMethodLang.findByErrorMessageField", query = "SELECT p FROM PsCustomPaymentMethodLang p WHERE p.errorMessageField = :errorMessageField")})
+
 public class PsCustomPaymentMethodLang implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId

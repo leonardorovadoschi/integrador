@@ -52,6 +52,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "PsSupplyOrderDetail.findByTaxValueWithOrderDiscount", query = "SELECT p FROM PsSupplyOrderDetail p WHERE p.taxValueWithOrderDiscount = :taxValueWithOrderDiscount")
     , @NamedQuery(name = "PsSupplyOrderDetail.findByPriceWithOrderDiscountTe", query = "SELECT p FROM PsSupplyOrderDetail p WHERE p.priceWithOrderDiscountTe = :priceWithOrderDiscountTe")})
 public class PsSupplyOrderDetail implements Serializable {
+    @Column(name = "mpn")
+    private String mpn;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -351,6 +353,14 @@ public class PsSupplyOrderDetail implements Serializable {
     @Override
     public String toString() {
         return "entidade.prestaShop.PsSupplyOrderDetail[ idSupplyOrderDetail=" + idSupplyOrderDetail + " ]";
+    }
+
+    public String getMpn() {
+        return mpn;
+    }
+
+    public void setMpn(String mpn) {
+        this.mpn = mpn;
     }
     
 }
