@@ -49,13 +49,13 @@ public class WebOrders {
             psOrders.setPayment(ws.obterValorObjeto(endElement, "payment"));
             psOrders.setConversionRate(bigDecimal(ws.obterValorObjeto(endElement, "conversion_rate")));
             psOrders.setModule(ws.obterValorObjeto(endElement, "module"));
-            psOrders.setRecyclable(Boolean.valueOf(ws.obterValorObjeto(endElement, "recyclable")));
-            psOrders.setGift(Boolean.valueOf(ws.obterValorObjeto(endElement, "gift")));
+            //psOrders.setRecyclable(Boolean.valueOf(ws.obterValorObjeto(endElement, "recyclable")));
+            //psOrders.setGift(Boolean.valueOf(ws.obterValorObjeto(endElement, "gift")));
             teste = ws.obterValorObjeto(endElement, "gift_message");
             if (!"".equals(teste)) {    psOrders.setGiftMessage(teste); }
             psOrders.setMobileTheme(Boolean.valueOf(ws.obterValorObjeto(endElement, "mobile_theme")));
             teste = ws.obterValorObjeto(endElement, "shipping_number");
-            if (!"".equals(teste)) {    psOrders.setShippingNumber(teste);  }
+            //if (!"".equals(teste)) {    psOrders.setShippingNumber(teste);  }
             psOrders.setTotalDiscounts(bigDecimal(ws.obterValorObjeto(endElement, "total_discounts")));
             psOrders.setTotalDiscountsTaxIncl(bigDecimal(ws.obterValorObjeto(endElement, "total_discounts_tax_incl")));
             psOrders.setTotalDiscountsTaxExcl(bigDecimal(ws.obterValorObjeto(endElement, "total_discounts_tax_excl")));

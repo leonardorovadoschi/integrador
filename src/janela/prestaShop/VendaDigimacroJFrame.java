@@ -99,7 +99,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         for (PsOrderStateLang st : queryPrestaShop.listPsOrderStateLang(2)) {
             ((DefaultComboBoxModel) jComboBoxState.getModel()).addElement(st.getName()); // Adiciona o Objeto
         }
-        for (PsCarrier st : queryPrestaShop.listPsCarrier(true, false)) {
+        for (PsCarrier st : queryPrestaShop.listPsCarrier((short) 1, (short) 0)) {
             ((DefaultComboBoxModel) jComboBoxShipping.getModel()).addElement(st.getName()); // Adiciona o Objeto
         }
         valDescontoAvulso = BigDecimal.ZERO;

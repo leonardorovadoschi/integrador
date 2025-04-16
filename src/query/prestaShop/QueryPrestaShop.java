@@ -119,7 +119,7 @@ public class QueryPrestaShop implements Serializable {
         return query.getResultList();
     }
     
-    public List<PsCarrier> listPsCarrier(boolean active, boolean deleted) {
+    public List<PsCarrier> listPsCarrier(short active, short deleted) {
         EntityManager em = getEntityManager();
         Query query = em.createQuery("SELECT c FROM PsCarrier c WHERE c.active = :active And c.deleted =:deleted");
         query.setParameter("active", active);

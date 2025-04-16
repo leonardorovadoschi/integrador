@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author leo
+ * @author leonardo
  */
 @Entity
 @Table(name = "ps_carrier")
@@ -29,7 +29,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "PsCarrier.findAll", query = "SELECT p FROM PsCarrier p")
     , @NamedQuery(name = "PsCarrier.findByIdCarrier", query = "SELECT p FROM PsCarrier p WHERE p.idCarrier = :idCarrier")
     , @NamedQuery(name = "PsCarrier.findByIdReference", query = "SELECT p FROM PsCarrier p WHERE p.idReference = :idReference")
-    , @NamedQuery(name = "PsCarrier.findByIdTaxRulesGroup", query = "SELECT p FROM PsCarrier p WHERE p.idTaxRulesGroup = :idTaxRulesGroup")
     , @NamedQuery(name = "PsCarrier.findByName", query = "SELECT p FROM PsCarrier p WHERE p.name = :name")
     , @NamedQuery(name = "PsCarrier.findByUrl", query = "SELECT p FROM PsCarrier p WHERE p.url = :url")
     , @NamedQuery(name = "PsCarrier.findByActive", query = "SELECT p FROM PsCarrier p WHERE p.active = :active")
@@ -59,8 +58,6 @@ public class PsCarrier implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_reference")
     private int idReference;
-    @Column(name = "id_tax_rules_group")
-    private Integer idTaxRulesGroup;
     @Basic(optional = false)
     @Column(name = "name")
     private String name;
@@ -68,28 +65,28 @@ public class PsCarrier implements Serializable {
     private String url;
     @Basic(optional = false)
     @Column(name = "active")
-    private boolean active;
+    private short active;
     @Basic(optional = false)
     @Column(name = "deleted")
-    private boolean deleted;
+    private short deleted;
     @Basic(optional = false)
     @Column(name = "shipping_handling")
-    private boolean shippingHandling;
+    private short shippingHandling;
     @Basic(optional = false)
     @Column(name = "range_behavior")
-    private boolean rangeBehavior;
+    private short rangeBehavior;
     @Basic(optional = false)
     @Column(name = "is_module")
-    private boolean isModule;
+    private short isModule;
     @Basic(optional = false)
     @Column(name = "is_free")
-    private boolean isFree;
+    private short isFree;
     @Basic(optional = false)
     @Column(name = "shipping_external")
-    private boolean shippingExternal;
+    private short shippingExternal;
     @Basic(optional = false)
     @Column(name = "need_range")
-    private boolean needRange;
+    private short needRange;
     @Column(name = "external_module_name")
     private String externalModuleName;
     @Basic(optional = false)
@@ -117,7 +114,7 @@ public class PsCarrier implements Serializable {
         this.idCarrier = idCarrier;
     }
 
-    public PsCarrier(Integer idCarrier, int idReference, String name, boolean active, boolean deleted, boolean shippingHandling, boolean rangeBehavior, boolean isModule, boolean isFree, boolean shippingExternal, boolean needRange, int shippingMethod, int position) {
+    public PsCarrier(Integer idCarrier, int idReference, String name, short active, short deleted, short shippingHandling, short rangeBehavior, short isModule, short isFree, short shippingExternal, short needRange, int shippingMethod, int position) {
         this.idCarrier = idCarrier;
         this.idReference = idReference;
         this.name = name;
@@ -149,14 +146,6 @@ public class PsCarrier implements Serializable {
         this.idReference = idReference;
     }
 
-    public Integer getIdTaxRulesGroup() {
-        return idTaxRulesGroup;
-    }
-
-    public void setIdTaxRulesGroup(Integer idTaxRulesGroup) {
-        this.idTaxRulesGroup = idTaxRulesGroup;
-    }
-
     public String getName() {
         return name;
     }
@@ -173,67 +162,67 @@ public class PsCarrier implements Serializable {
         this.url = url;
     }
 
-    public boolean getActive() {
+    public short getActive() {
         return active;
     }
 
-    public void setActive(boolean active) {
+    public void setActive(short active) {
         this.active = active;
     }
 
-    public boolean getDeleted() {
+    public short getDeleted() {
         return deleted;
     }
 
-    public void setDeleted(boolean deleted) {
+    public void setDeleted(short deleted) {
         this.deleted = deleted;
     }
 
-    public boolean getShippingHandling() {
+    public short getShippingHandling() {
         return shippingHandling;
     }
 
-    public void setShippingHandling(boolean shippingHandling) {
+    public void setShippingHandling(short shippingHandling) {
         this.shippingHandling = shippingHandling;
     }
 
-    public boolean getRangeBehavior() {
+    public short getRangeBehavior() {
         return rangeBehavior;
     }
 
-    public void setRangeBehavior(boolean rangeBehavior) {
+    public void setRangeBehavior(short rangeBehavior) {
         this.rangeBehavior = rangeBehavior;
     }
 
-    public boolean getIsModule() {
+    public short getIsModule() {
         return isModule;
     }
 
-    public void setIsModule(boolean isModule) {
+    public void setIsModule(short isModule) {
         this.isModule = isModule;
     }
 
-    public boolean getIsFree() {
+    public short getIsFree() {
         return isFree;
     }
 
-    public void setIsFree(boolean isFree) {
+    public void setIsFree(short isFree) {
         this.isFree = isFree;
     }
 
-    public boolean getShippingExternal() {
+    public short getShippingExternal() {
         return shippingExternal;
     }
 
-    public void setShippingExternal(boolean shippingExternal) {
+    public void setShippingExternal(short shippingExternal) {
         this.shippingExternal = shippingExternal;
     }
 
-    public boolean getNeedRange() {
+    public short getNeedRange() {
         return needRange;
     }
 
-    public void setNeedRange(boolean needRange) {
+    public void setNeedRange(short needRange) {
         this.needRange = needRange;
     }
 

@@ -31,6 +31,16 @@ import javax.persistence.Transient;
 
 public class PsOrders implements Serializable {
 
+    @Basic(optional = false)
+    @Column(name = "recyclable")
+    private short recyclable;
+    @Basic(optional = false)
+    @Column(name = "gift")
+    private short gift;
+    @Lob
+    @Column(name = "note")
+    private String note;
+
     @Transient
     private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
 
@@ -84,20 +94,14 @@ public class PsOrders implements Serializable {
     private BigDecimal conversionRate;
     @Column(name = "module")
     private String module;
-    @Basic(optional = false)
-    @Column(name = "recyclable")
-    private boolean recyclable;
-    @Basic(optional = false)
-    @Column(name = "gift")
-    private boolean gift;
     @Lob
     @Column(name = "gift_message")
     private String giftMessage;
     @Basic(optional = false)
     @Column(name = "mobile_theme")
     private boolean mobileTheme;
-    @Column(name = "shipping_number")
-    private String shippingNumber;
+    //@Column(name = "shipping_number")
+    //private String shippingNumber;
     @Basic(optional = false)
     @Column(name = "total_discounts")
     private BigDecimal totalDiscounts;
@@ -185,7 +189,7 @@ public class PsOrders implements Serializable {
         this.idOrder = idOrder;
     }
 
-    public PsOrders(Integer idOrder, int idShopGroup, int idShop, int idCarrier, int idLang, int idCustomer, int idCart, int idCurrency, int idAddressDelivery, int idAddressInvoice, int currentState, String secureKey, String payment, BigDecimal conversionRate, boolean recyclable, boolean gift, boolean mobileTheme, BigDecimal totalDiscounts, BigDecimal totalDiscountsTaxIncl, BigDecimal totalDiscountsTaxExcl, BigDecimal totalPaid, BigDecimal totalPaidTaxIncl, BigDecimal totalPaidTaxExcl, BigDecimal totalPaidReal, BigDecimal totalProducts, BigDecimal totalProductsWt, BigDecimal totalShipping, BigDecimal totalShippingTaxIncl, BigDecimal totalShippingTaxExcl, BigDecimal carrierTaxRate, BigDecimal totalWrapping, BigDecimal totalWrappingTaxIncl, BigDecimal totalWrappingTaxExcl, boolean roundMode, boolean roundType, int invoiceNumber, int deliveryNumber, Date invoiceDate, Date deliveryDate, int valid, Date dateAdd, Date dateUpd) {
+    public PsOrders(Integer idOrder, int idShopGroup, int idShop, int idCarrier, int idLang, int idCustomer, int idCart, int idCurrency, int idAddressDelivery, int idAddressInvoice, int currentState, String secureKey, String payment, BigDecimal conversionRate, short recyclable, short gift, boolean mobileTheme, BigDecimal totalDiscounts, BigDecimal totalDiscountsTaxIncl, BigDecimal totalDiscountsTaxExcl, BigDecimal totalPaid, BigDecimal totalPaidTaxIncl, BigDecimal totalPaidTaxExcl, BigDecimal totalPaidReal, BigDecimal totalProducts, BigDecimal totalProductsWt, BigDecimal totalShipping, BigDecimal totalShippingTaxIncl, BigDecimal totalShippingTaxExcl, BigDecimal carrierTaxRate, BigDecimal totalWrapping, BigDecimal totalWrappingTaxIncl, BigDecimal totalWrappingTaxExcl, boolean roundMode, boolean roundType, int invoiceNumber, int deliveryNumber, Date invoiceDate, Date deliveryDate, int valid, Date dateAdd, Date dateUpd) {
         this.idOrder = idOrder;
         this.idShopGroup = idShopGroup;
         this.idShop = idShop;
@@ -390,25 +394,6 @@ public class PsOrders implements Serializable {
         changeSupport.firePropertyChange("module", oldModule, module);
     }
 
-    public boolean getRecyclable() {
-        return recyclable;
-    }
-
-    public void setRecyclable(boolean recyclable) {
-        boolean oldRecyclable = this.recyclable;
-        this.recyclable = recyclable;
-        changeSupport.firePropertyChange("recyclable", oldRecyclable, recyclable);
-    }
-
-    public boolean getGift() {
-        return gift;
-    }
-
-    public void setGift(boolean gift) {
-        boolean oldGift = this.gift;
-        this.gift = gift;
-        changeSupport.firePropertyChange("gift", oldGift, gift);
-    }
 
     public String getGiftMessage() {
         return giftMessage;
@@ -430,15 +415,15 @@ public class PsOrders implements Serializable {
         changeSupport.firePropertyChange("mobileTheme", oldMobileTheme, mobileTheme);
     }
 
-    public String getShippingNumber() {
-        return shippingNumber;
-    }
+  //  public String getShippingNumber() {
+  //      return shippingNumber;
+  //  }
 
-    public void setShippingNumber(String shippingNumber) {
-        String oldShippingNumber = this.shippingNumber;
-        this.shippingNumber = shippingNumber;
-        changeSupport.firePropertyChange("shippingNumber", oldShippingNumber, shippingNumber);
-    }
+  //  public void setShippingNumber(String shippingNumber) {
+   //     String oldShippingNumber = this.shippingNumber;
+   //     this.shippingNumber = shippingNumber;
+   //     changeSupport.firePropertyChange("shippingNumber", oldShippingNumber, shippingNumber);
+   // }
 
     public BigDecimal getTotalDiscounts() {
         return totalDiscounts;
@@ -721,6 +706,30 @@ public class PsOrders implements Serializable {
 
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         changeSupport.removePropertyChangeListener(listener);
+    }
+
+    public short getRecyclable() {
+        return recyclable;
+    }
+
+    public void setRecyclable(short recyclable) {
+        this.recyclable = recyclable;
+    }
+
+    public short getGift() {
+        return gift;
+    }
+
+    public void setGift(short gift) {
+        this.gift = gift;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
     
 }
