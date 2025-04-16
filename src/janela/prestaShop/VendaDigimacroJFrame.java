@@ -798,24 +798,13 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         try {
             if (jComboBoxPagamento.getSelectedIndex() == 1) {
                 psOrders.setModule("custompaymentmethod_1");
-                psOrders.setPayment("Cupom");
-            }
-            if (jComboBoxPagamento.getSelectedIndex() == 2) {
-                psOrders.setModule("custompaymentmethod_3");
-                psOrders.setPayment("À vista ou Transferência");
-            }
-            if (jComboBoxPagamento.getSelectedIndex() == 3) {
-                psOrders.setModule("custompaymentmethod_4");
-                psOrders.setPayment("À vista");
-            }
-            if (jComboBoxPagamento.getSelectedIndex() == 4) {
-                psOrders.setModule("custompaymentmethod_5");
                 psOrders.setPayment("Boleto (R$300,00 Min.)");
             }
-            if (jComboBoxPagamento.getSelectedIndex() == 5) {
-                psOrders.setModule("custompaymentmethod_6");
-                psOrders.setPayment("Cartão de Crédito");
+            if (jComboBoxPagamento.getSelectedIndex() == 2) {
+                psOrders.setModule("custompaymentmethod_2");
+                psOrders.setPayment("À vista ou Transferência");
             }
+            
             //new PsOrdersJpaController(managerPrestaShop).edit(psOrders);
             //editaOrders();
             desativarDescontoAvulso();
@@ -1050,7 +1039,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         BigDecimal valAcrecimo = BigDecimal.ZERO;
         Connection conn = new ConexaoPrestaShop().getConnection();
         List<PsOrderCommission> lisyOrderCommissions = new ConexaoPrestaShop().listPsOrderCommission(conn, psOrders.getIdOrder());
-        if ("custompaymentmethod_3".equals(psOrders.getModule())) { //se o metodo de pagamento for com desconto           
+        if ("custompaymentmethod_2".equals(psOrders.getModule())) { //se o metodo de pagamento for com desconto           
             //valTotal = totProd.multiply(new BigDecimal("0.985")).setScale(2, RoundingMode.HALF_UP);
             valDesconto = totProd.multiply(new BigDecimal("0.015")).setScale(2, RoundingMode.HALF_UP);
             desFormaPagamento = valDesconto.doubleValue();
@@ -1366,18 +1355,10 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
                 case "custompaymentmethod_1":
                     jComboBoxPagamento.setSelectedIndex(1);
                     break;
-                case "custompaymentmethod_3":
+                case "custompaymentmethod_2":
                     jComboBoxPagamento.setSelectedIndex(2);
                     break;
-                case "custompaymentmethod_4":
-                    jComboBoxPagamento.setSelectedIndex(3);
-                    break;
-                case "custompaymentmethod_5":
-                    jComboBoxPagamento.setSelectedIndex(4);
-                    break;
-                case "custompaymentmethod_6":
-                    jComboBoxPagamento.setSelectedIndex(5);
-                    break;
+                                  
             }
         }
 

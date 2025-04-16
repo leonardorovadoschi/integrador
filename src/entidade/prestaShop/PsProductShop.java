@@ -161,6 +161,14 @@ public class PsProductShop implements Serializable {
         this.packStockType = packStockType;
     }
 
+    public short getOnSale() {
+        return onSale;
+    }
+
+    public void setOnSale(short onSale) {
+        this.onSale = onSale;
+    }
+ 
     public PsProductShop(int idProduct, int idShop) {
         this.psProductShopPK = new PsProductShopPK(idProduct, idShop);
     }

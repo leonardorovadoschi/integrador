@@ -96,8 +96,6 @@ public class IntegracaoJFrame extends javax.swing.JFrame {
         jButtonExecucao = new javax.swing.JButton();
         jButtonParaExecucao = new javax.swing.JButton();
         jButtonAtualizaProduto = new javax.swing.JButton();
-        jComboBoxNewToDate = new javax.swing.JComboBox<>();
-        jLabel1 = new javax.swing.JLabel();
         jButtonVerificarProdutos = new javax.swing.JButton();
         jCheckBoxVerificaProdutoIntegrado = new javax.swing.JCheckBox();
         jCheckBoxInativoComEstoque = new javax.swing.JCheckBox();
@@ -173,12 +171,6 @@ public class IntegracaoJFrame extends javax.swing.JFrame {
             }
         });
 
-        jComboBoxNewToDate.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7" }));
-        jComboBoxNewToDate.setSelectedIndex(2);
-        jComboBoxNewToDate.setToolTipText("");
-
-        jLabel1.setText("Dias Para Frente Site:");
-
         jButtonVerificarProdutos.setText("Verifica divergencias de estoque e pre�os");
         jButtonVerificarProdutos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -211,11 +203,7 @@ public class IntegracaoJFrame extends javax.swing.JFrame {
                     .addComponent(jButtonAtualizaProduto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jCheckBoxVerificaProdutoIntegrado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jCheckBoxInativoComEstoque, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(73, 73, 73)
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(jComboBoxNewToDate, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(256, 256, 256)
                 .addGroup(jPanelDigimacroBotoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButtonAtualizaTaxa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButtonExecucao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -230,9 +218,7 @@ public class IntegracaoJFrame extends javax.swing.JFrame {
                 .addGroup(jPanelDigimacroBotoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonAtualizaClienteCplusParaMagento)
                     .addComponent(jButtonAtualizaTaxa)
-                    .addComponent(jButtonAtualizaProduto)
-                    .addComponent(jComboBoxNewToDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
+                    .addComponent(jButtonAtualizaProduto))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelDigimacroBotoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonExecucao)
@@ -842,36 +828,6 @@ public class IntegracaoJFrame extends javax.swing.JFrame {
         }//if que verifica se está em execução
     }
 
-    private int newToDate() {
-        int valor;
-        switch (jComboBoxNewToDate.getSelectedIndex()) {
-            case 0:
-                valor = 24;
-                break;
-            case 1:
-                valor = 48;
-                break;
-            case 2:
-                valor = 72;
-                break;
-            case 3:
-                valor = 96;
-                break;
-            case 4:
-                valor = 120;
-                break;
-            case 5:
-                valor = 144;
-                break;
-            case 6:
-                valor = 168;
-                break;
-            default:
-                valor = 48;
-        }
-        return valor;
-    }
-
     private void integrarEstoque() {
         IntExecucao execucaoEstoque = new IntExecucaoJpaController(Manager.getManagerIntegrador()).findIntExecucao("ajusta_estoque");
         if (execucaoEstoque.getCondicao() == 1) {
@@ -1064,8 +1020,6 @@ public class IntegracaoJFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButtonVerificarProdutos;
     private javax.swing.JCheckBox jCheckBoxInativoComEstoque;
     private javax.swing.JCheckBox jCheckBoxVerificaProdutoIntegrado;
-    private javax.swing.JComboBox<String> jComboBoxNewToDate;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabelTotalRegistro;
     private javax.swing.JPanel jPanelDigimacroBotoes;
     private javax.swing.JPanel jPanelLogs;

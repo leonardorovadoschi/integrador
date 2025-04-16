@@ -248,7 +248,7 @@ public class ProdutoCplusDigimacro {
                 } else {
                     categoriaProdutoPack(pp, proCplus);
                 }
-                produtoTransportadora(pp);
+              //  produtoTransportadora(pp);
             } catch (Exception ex) {
                 criaLog( "Houve um erro ao criar PsProductLang ex. " + ex, "ERRO CRIAR");
             }
@@ -353,7 +353,7 @@ public class ProdutoCplusDigimacro {
             } else {
                 categoriaProdutoPack(pp, proCplus);
             }          
-            produtoTransportadora(pp);           
+            //produtoTransportadora(pp);           
         } catch (Exception ex) {
             criaLog("Houve um erro ao criar PsProductLang ex. " + ex, "ERRO EDITAR");
         }
@@ -443,20 +443,6 @@ public class ProdutoCplusDigimacro {
             var = cl.getIdTaxRulesGroup();
         }
         return var;
-    }
-
-    private boolean taxaProdutosICMSDfifenciada(Produto pro) {
-        List<PsTaxRulesGroup> listT = new QueryPrestaShop().listPorNomeCalculoIcms(pro.getCodcalculoicms().getNomecalculoicms());
-        boolean condicao = false;
-        for (PsTaxRulesGroup cl : listT) {
-            String[] names = cl.getName().split("-");
-            for (int count = 1; count < names.length; count++) {
-                if ("ISENTO".equals(names[count])) {
-                    condicao = true;
-                }
-            }
-        }
-        return condicao;
     }
 
     /**
@@ -1025,24 +1011,6 @@ public class ProdutoCplusDigimacro {
         return idManuf;
     }
 
-    private void produtoTransportadora(PsProduct pp) {
-        /**
-         * //List<PsCarrier> carrier = new
-         * QueryPrestaShop(managerPrestaShop).listCarrier(true); for(PsCarrier
-         * carrier :new QueryPrestaShop(managerPrestaShop).listCarrier(true)){
-         * List<PsProductCarrier> productCarrier = new
-         * QueryPrestaShop(managerPrestaShop).listPsProductCarrier(pp.getIdProduct(),
-         * carrier.getIdReference()); if(productCarrier.isEmpty()){
-         * PsProductCarrier pc = new PsProductCarrier();
-         * pc.setPsProductCarrierPK(new PsProductCarrierPK(pp.getIdProduct(),
-         * carrier.getIdReference(), 1)); try { new
-         * PsProductCarrierJpaController(managerPrestaShop).create(pc); } catch
-         * (Exception ex) { criaLog(managerIntegrador, "Houve um erro ao criar
-         * PsProductCarrier ex. " + ex, "ERRO CRIAR"); } }
-         *
-         * }
-         */
-    }
 
     private String tamanhoString(String str, int tamanhoString) {
         String str2 = "";
@@ -1163,19 +1131,21 @@ public class ProdutoCplusDigimacro {
                 pps.setLowStockThreshold(EstoqueMinimoCplus(proCplus));
                 
  //////////////////////////////////////////////////////////////////////////////////////               
-               /**
+               
                 if (pps.getOnSale() == (short) 0 && emPromocao(pps, proCplus)) {
-                    pps.setOnSale(true);
+                    pps.setOnSale((short) 1);
                     pps.setAvailableDate(new Date(System.currentTimeMillis()));
-                } else if (pps.getOnSale() && tirarPrecoPromocao(pps)) {
-                    pps.setOnSale(false);
+                } else {
+                    if (pps.getOnSale() == (short) 1 && tirarPrecoPromocao(pps)) {
+                        pps.setOnSale((short) 0);
+                    }
                 }
-                if (pps.getOnSale()) {
+                if (pps.getOnSale() == (short) 1) {
                     promo = true;
                 } else {
                     promo = false;
                 }
-                */
+                
 ///////////////////////////////////////////////////////////////////////////////                
                 pps.setPrice(precoPrincipal(proCplus));
                 if (produtoAtivo(proCplus) && quanEstoqeuCplus(proCplus) > 0) {
