@@ -169,6 +169,8 @@ public class PackProduto {
         pp1.setAdvancedStockManagement(false);
         pp1.setPackStockType(3);
         pp1.setState(1);
+        pp1.setProductType("pack");
+        pp1.setUnitPrice(BigDecimal.ZERO);
 
         new PsProductJpaController(Manager.getManagerPrestaShop()).create(pp1);
 
@@ -240,6 +242,7 @@ public class PackProduto {
                 pps.setDateAdd(new Date(System.currentTimeMillis()));
                 pps.setDateUpd(new Date(System.currentTimeMillis()));
                 pps.setPackStockType(3);
+                pps.setUnitPrice(BigDecimal.ZERO);
                 new PsProductShopJpaController(Manager.getManagerPrestaShop()).create(pps);
 
                 PsStockAvailable psSA = new PsStockAvailable();

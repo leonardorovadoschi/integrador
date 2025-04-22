@@ -231,7 +231,8 @@ public class ProdutoCplusDigimacro {
         pp1.setAdvancedStockManagement(false);
         pp1.setPackStockType(3);
         pp1.setState(1);
-        // pp1.setDepth(BigDecimal.ZERO);
+        pp1.setProductType("standard");
+        pp1.setUnitPrice(BigDecimal.ZERO);
 
         new PsProductJpaController(Manager.getManagerPrestaShop()).create(pp1);
 
@@ -1119,6 +1120,7 @@ public class ProdutoCplusDigimacro {
             pps.setDateAdd(new Date(System.currentTimeMillis()));
             pps.setDateUpd(new Date(System.currentTimeMillis()));
             pps.setPackStockType(3);
+            pps.setUnitPrice(BigDecimal.ZERO);
             try {
                 new PsProductShopJpaController(Manager.getManagerPrestaShop()).create(pps);
             } catch (Exception ex) {
