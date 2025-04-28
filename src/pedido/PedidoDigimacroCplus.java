@@ -5,7 +5,6 @@
  */
 package pedido;
 
-import acesso.ConexaoDB;
 import entidade.cplus.Calculoicmsestado;
 import entidade.cplus.Campocustomvalor;
 import entidade.cplus.Cliente;

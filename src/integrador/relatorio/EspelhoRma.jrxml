@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="5786a882-6f6e-495c-8989-32411d348f1b">
 	<property name="ireport.zoom" value="2.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="186"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -578,7 +578,7 @@
 			<textField>
 				<reportElement x="452" y="36" width="50" height="12" forecolor="#FF3300" uuid="59ca02d8-fc15-4bc5-a962-5f442ce61130"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial" size="10" isBold="true"/>
+					<font fontName="Arial" size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{cstpis}]]></textFieldExpression>
 			</textField>
@@ -624,34 +624,6 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{valortotal}]]></textFieldExpression>
 			</textField>
-			<textField pattern="¤ #,##0.00">
-				<reportElement x="328" y="12" width="50" height="12" forecolor="#FF3300" uuid="ba57f50e-2b2a-442e-9dc4-adcc4ddaaef7"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Arial" size="8" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{basesubsttributaria}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="288" y="12" width="39" height="12" uuid="89322fca-634e-406f-903d-a000bcc001a4"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Arial" size="8" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Base ST]]></text>
-			</staticText>
-			<textField pattern="¤ #,##0.00">
-				<reportElement x="328" y="24" width="50" height="12" forecolor="#FF3300" uuid="e06615e4-29f1-4da1-b663-8bdf967cbe60"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Arial" size="8" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{valorsubsttributaria}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="288" y="24" width="39" height="12" uuid="89800f02-9f87-44d2-b81b-a2aa761d6dd6"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Arial" size="8" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Valor ST]]></text>
-			</staticText>
 			<textField pattern="¤ #,##0.00">
 				<reportElement x="278" y="0" width="49" height="12" forecolor="#FF3300" uuid="b0c7bdcc-cab7-404c-a571-2c1360ebbc44"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
@@ -815,34 +787,6 @@
 					<font fontName="Arial" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{valorIcms}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="172" y="13" width="83" height="11" uuid="4ea3e420-ac65-4999-9500-1a52a5850801"/>
-				<textElement>
-					<font fontName="Arial" size="8"/>
-				</textElement>
-				<text><![CDATA[BASE SUBS. TRIBUT.]]></text>
-			</staticText>
-			<textField pattern="¤ #,##0.00">
-				<reportElement x="172" y="23" width="83" height="13" forecolor="#FF3300" uuid="049a4d1a-186e-4208-9235-ea5065cfd2f5"/>
-				<textElement textAlignment="Right">
-					<font fontName="Arial" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{baseSt}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="258" y="13" width="95" height="11" uuid="8b2ce3b9-f227-4321-a614-6f25a302da24"/>
-				<textElement>
-					<font fontName="Arial" size="8"/>
-				</textElement>
-				<text><![CDATA[VALOR SUBS. TRIBUT.]]></text>
-			</staticText>
-			<textField pattern="¤ #,##0.00">
-				<reportElement x="258" y="23" width="95" height="13" forecolor="#FF3300" uuid="2d4a07bd-e09e-4a54-a8fc-5ca51dff9569"/>
-				<textElement textAlignment="Right">
-					<font fontName="Arial" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{valorSt}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="69" y="39" width="61" height="11" uuid="dbe2029a-1dc8-4173-864f-08571b640ee4"/>
