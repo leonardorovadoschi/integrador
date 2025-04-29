@@ -19,8 +19,6 @@ import entidade.cplus.Tipomovimento;
 import entidade.integrador.EntradaSerial;
 import entidade.integrador.SaidaSerial;
 import entidade.integrador.SerialProduto;
-import integrador.render.ConfTabelaEntradaProd;
-import integrador.render.ConfTabelaEspelhoRma;
 import integrador.render.ConfTabelaRmaSerialProduto;
 import integrador.separacao.ColorirLinhaImpar;
 import janela.cplus.FormataCampos;
@@ -48,7 +46,6 @@ import jpa.cplus.exceptions.NonexistentEntityException;
 import jpa.integrador.EntradaSerialJpaController;
 import jpa.integrador.SaidaSerialJpaController;
 import jpa.integrador.SerialProdutoJpaController;
-import prestashop.ConfiguracaoNoBD;
 import prestashop.Manager;
 import produto.ProdutoCplusDigimacro;
 import query.cplus.QueryCplus;
@@ -61,7 +58,7 @@ import query.integrador.QueryIntegrador;
 public class RmaJFrame extends javax.swing.JFrame {
 
     /**
-     * Creates new form RmaJFrame     
+     * Creates new form RmaJFrame
      */
     public RmaJFrame() {
         initComponents();
@@ -77,7 +74,7 @@ public class RmaJFrame extends javax.swing.JFrame {
         this.listagemProdutoJDialog = new ListagemProdutoJDialog(this, rootPaneCheckingEnabled);
         colunaSerial = jTableProdutoSerial.getColumnModel().getColumnIndex("Serial");
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
-       // clienteCupom = queryIntegrador.valorConfiguracao("cliente_CODIGO_PARA_CUPOM");
+        // clienteCupom = queryIntegrador.valorConfiguracao("cliente_CODIGO_PARA_CUPOM");
         jTableProdutoSerial.setDefaultRenderer(Object.class, new ConfTabelaRmaSerialProduto());
     }
 
@@ -579,8 +576,8 @@ public class RmaJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonExcluiEntradaSerialActionPerformed
 
     private void jButtonEditarProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarProdutoActionPerformed
-      
-            this.listagemProdutoJDialog.setVisible(true);
+
+        this.listagemProdutoJDialog.setVisible(true);
     }//GEN-LAST:event_jButtonEditarProdutoActionPerformed
 
     private void limpaTabelas() {
@@ -620,10 +617,10 @@ public class RmaJFrame extends javax.swing.JFrame {
                 CNPJ = cpfCnpj(entrada.getCodcli());
             }
             tab.addRow(new Object[]{
-                e.getIdEntradaSerial(), 
-                txt, 
-                formatacaoDeCampos.dataStringSoData(entrada.getData(), 0), 
-                CNPJ, 
+                e.getIdEntradaSerial(),
+                txt,
+                formatacaoDeCampos.dataStringSoData(entrada.getData(), 0),
+                CNPJ,
                 entrada.getNumnota(), entrada.getCodtipomovimento().getNometipomovimento()});
             //corLinha(comp);
         }
@@ -631,24 +628,32 @@ public class RmaJFrame extends javax.swing.JFrame {
         while (jTableSaidaSerial.getModel().getRowCount() > 0) {
             ((DefaultTableModel) jTableSaidaSerial.getModel()).removeRow(0);
         }
-        for (SaidaSerial s : serial.getSaidaSerialCollection()) {           
+        for (SaidaSerial s : serial.getSaidaSerialCollection()) {
             String txt = "";
             String CNPJ = "";
             venda = new MovendaJpaController(Manager.getManagerCplus()).findMovenda(s.getCodSaida());
-            vendaProd = new MovendaprodJpaController(Manager.getManagerCplus()).findMovendaprod(s.getCodSaidaProd());
-            if (venda.getCodForn() != null) {
-                txt = venda.getCodForn().getNomeforn();
-                CNPJ = formatacaoDeCampos.mascaraCNPJ(venda.getCodForn().getCnpj());
-            } else if (venda.getCodcli() != null) {
-                txt = venda.getCodcli().getNomecli();
-                CNPJ = cpfCnpj(venda.getCodcli());
+            if (venda != null) {
+                vendaProd = new MovendaprodJpaController(Manager.getManagerCplus()).findMovendaprod(s.getCodSaidaProd());
+                if (venda.getCodForn() != null) {
+                    txt = venda.getCodForn().getNomeforn();
+                    CNPJ = formatacaoDeCampos.mascaraCNPJ(venda.getCodForn().getCnpj());
+                } else if (venda.getCodcli() != null) {
+                    txt = venda.getCodcli().getNomecli();
+                    CNPJ = cpfCnpj(venda.getCodcli());
+                }
+                tab1.addRow(new Object[]{
+                    s.getIdSaidaSerial(),
+                    txt,
+                    new FormataCampos().dataStringSoData(venda.getData(), 0),
+                    CNPJ, venda.getNumped(),
+                    venda.getCodtipomovimento().getNometipomovimento()});
+            }else{
+                try {
+                    new SaidaSerialJpaController(Manager.getManagerIntegrador()).destroy(s.getIdSaidaSerial());
+                } catch (jpa.integrador.exceptions.NonexistentEntityException ex) {
+                    JOptionPane.showMessageDialog(null, "Houve um erro ao excluir o serial da Saida!! \n" + ex);
+                }
             }
-            tab1.addRow(new Object[]{
-                s.getIdSaidaSerial(), 
-                txt, 
-                new FormataCampos().dataStringSoData(venda.getData(), 0), 
-                CNPJ, venda.getNumped(), 
-                venda.getCodtipomovimento().getNometipomovimento()});
         }
     }
 
@@ -959,17 +964,17 @@ public class RmaJFrame extends javax.swing.JFrame {
         } else {
             codigoCliente = "0001";
         }
-        
-            int colNome = jTableSaidaSerial.getColumnModel().getColumnIndex("Nome");
-            this.listagemClientesJDialog.setTermoPesquisa(jTableSaidaSerial.getValueAt(jTableSaidaSerial.getSelectedRow(), colNome).toString());
-            this.listagemClientesJDialog.listarClientes();
-            this.listagemClientesJDialog.setVisible(true);
-            if (this.listagemClientesJDialog.isCancelamento() == false) {
-                cliente = this.listagemClientesJDialog.getCliente();
-            } else {
-                cancelaEntradaCliente = true;
-            }
-        
+
+        int colNome = jTableSaidaSerial.getColumnModel().getColumnIndex("Nome");
+        this.listagemClientesJDialog.setTermoPesquisa(jTableSaidaSerial.getValueAt(jTableSaidaSerial.getSelectedRow(), colNome).toString());
+        this.listagemClientesJDialog.listarClientes();
+        this.listagemClientesJDialog.setVisible(true);
+        if (this.listagemClientesJDialog.isCancelamento() == false) {
+            cliente = this.listagemClientesJDialog.getCliente();
+        } else {
+            cancelaEntradaCliente = true;
+        }
+
         if (cancelaEntradaCliente == false) {
             //localização da Operação
             if (jCheckBoxDevolucao.isSelected()) {
@@ -1058,19 +1063,19 @@ public class RmaJFrame extends javax.swing.JFrame {
         if (venda.getCodcli() != null) {
             codigoCliente = venda.getCodcli().getCodcli();
         } else {
-           // codigoCliente = clienteCupom;
+            // codigoCliente = clienteCupom;
         }
         do {
-           
-                int colNome = jTableSaidaSerial.getColumnModel().getColumnIndex("Nome");
-                this.listagemClientesJDialog.setTermoPesquisa(jTableSaidaSerial.getValueAt(jTableSaidaSerial.getSelectedRow(), colNome).toString());
-                this.listagemClientesJDialog.listarClientes();
-                this.listagemClientesJDialog.setVisible(true);
-                if (this.listagemClientesJDialog.isCancelamento() == false) {
-                    cliente = this.listagemClientesJDialog.getCliente();
-                } else {
-                    cancelaSaidaCliente = true;
-                }           
+
+            int colNome = jTableSaidaSerial.getColumnModel().getColumnIndex("Nome");
+            this.listagemClientesJDialog.setTermoPesquisa(jTableSaidaSerial.getValueAt(jTableSaidaSerial.getSelectedRow(), colNome).toString());
+            this.listagemClientesJDialog.listarClientes();
+            this.listagemClientesJDialog.setVisible(true);
+            if (this.listagemClientesJDialog.isCancelamento() == false) {
+                cliente = this.listagemClientesJDialog.getCliente();
+            } else {
+                cancelaSaidaCliente = true;
+            }
             //localizção da Operação           
             this.listagemOperacaoJDialog.setDevolucao(false);
             this.listagemOperacaoJDialog.setInativo(false);
@@ -1168,7 +1173,7 @@ public class RmaJFrame extends javax.swing.JFrame {
                 if (!"".equals(jTextFieldArgumentoPesquisa.getText())) {
                     listProdSerial = queryIntegrador.listSerialLike(jTextFieldArgumentoPesquisa.getText());
                     for (SerialProduto p : listProdSerial) {
-                        serialProdutoList.add(p);                      
+                        serialProdutoList.add(p);
                     }
                 } else {
                     JOptionPane.showMessageDialog(null, "Não há valor para pesquisa!!! ");
@@ -1309,7 +1314,7 @@ public class RmaJFrame extends javax.swing.JFrame {
     private Moventrada entrada;
     private Moventradaprod entradaProd;
     private Movenda venda;
-    private Movendaprod vendaProd;   
+    private Movendaprod vendaProd;
     //private final String clienteCupom;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
