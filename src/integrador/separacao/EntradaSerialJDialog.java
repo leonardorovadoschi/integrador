@@ -47,7 +47,7 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
      */
     public EntradaSerialJDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        initComponents();       
+        initComponents();
         queryIntegrador = new QueryIntegrador();
         queryCplus = new QueryCplus();
         this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
@@ -391,7 +391,7 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
         for (EntradaSerial s : queryIntegrador.listPorEntradaProd(movEntradaProd.getCodmoveprod())) {
             s.getIdSerial().setNomeProduto(s.getIdSerial().getCodigoProduto() + "-" + s.getIdSerial().getNomeProduto());
             listText.add(s.getIdSerial());
-        }    
+        }
         new ImprimeRelatorio().imprimeRelatorioPeloJar(ConfiguracaoNoBD.getValorEtiquetaSerial(), listText);
         dispose();
         setVisible(false);
@@ -406,7 +406,7 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_jToggleButtonEntradaSequencialActionPerformed
 
     private void excluirSerialSelecionado() {
-       // DefaultTableModel tabelaEntradaSerial = (DefaultTableModel) jTableSerialDigitado.getModel();
+        // DefaultTableModel tabelaEntradaSerial = (DefaultTableModel) jTableSerialDigitado.getModel();
         int row = jTableSerialDigitado.getSelectedRow();
         int coluna = jTableSerialDigitado.getColumnModel().getColumnIndex("Serial");
         //tabelaEntradaSerial.removeRow(row);
@@ -433,9 +433,9 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
         jButtonExcluirSerialSelecionado.setEnabled(false);
         List<String> listTex = new ArrayList<>();
         for (EntradaSerial enSer : queryIntegrador.listPorEntradaProd(movEntradaProd.getCodmoveprod())) {
-                listTex.add(String.valueOf(enSer.getIdSerial().getSerial()));
-                //gravarProdutoSerial(String.valueOf(enSer));
-            }
+            listTex.add(String.valueOf(enSer.getIdSerial().getSerial()));
+            //gravarProdutoSerial(String.valueOf(enSer));
+        }
         criarTabela(listTex);
         confereQuantidadeDigitada();
     }
@@ -455,10 +455,10 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
     }
 
     private void gerarSeriais() {
-        if (queryIntegrador.listPorEntradaProd(movEntradaProd.getCodmoveprod()).isEmpty()) {           
-            Integer incrementSerial = Integer.valueOf(queryIntegrador.valorConfiguracao("increment_serial_gerado"));            
+        if (queryIntegrador.listPorEntradaProd(movEntradaProd.getCodmoveprod()).isEmpty()) {
+            Integer incrementSerial = Integer.valueOf(queryIntegrador.valorConfiguracao("increment_serial_gerado"));
             int quantidadeEntrada = quantidadePacote;
-            List<String> listTex = new ArrayList<>();          
+            List<String> listTex = new ArrayList<>();
             int count = 0;
             while (count < quantidadeEntrada) {
                 jTableSerialDigitado.clearSelection(); //Tira linha selecionada 
@@ -488,8 +488,11 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
         int quantidadeEntrada = quantidadePacote;
         if (Integer.valueOf(quantidadeSerial) <= quantidadeEntrada) {
             List<String> listTex = new ArrayList<>();
-            BigInteger serialSequencia = new BigInteger(primeiroSerial);
+            // BigInteger serialSequencia = new BigInteger(primeiroSerial);
+            int caracteres = primeiroSerial.length();
+            int serialSequencia = Integer.valueOf(primeiroSerial.substring(caracteres - 3, caracteres));
             int count = 0;
+            String serNovo;
             for (EntradaSerial enSer : queryIntegrador.listPorEntradaProd(movEntradaProd.getCodmoveprod())) {
                 listTex.add(String.valueOf(enSer.getIdSerial().getSerial()));
                 //gravarProdutoSerial(String.valueOf(enSer));
@@ -497,13 +500,14 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
             while (Integer.valueOf(quantidadeSerial) > count) {
                 jTextFieldSerial.setText(String.valueOf(serialSequencia));
                 jTableSerialDigitado.clearSelection(); //Tira linha selecionada      
-               // listTex.add(String.valueOf(serialSequencia));
+                // listTex.add(String.valueOf(serialSequencia));
                 //gravarProdutoSerial(String.valueOf(serialSequencia));
-                String format = String.format("%0"+primeiroSerial.length()+"d", serialSequencia);
-                listTex.add(format);
-                gravarProdutoSerial(format);
-                
-                serialSequencia = serialSequencia.add(BigInteger.ONE);
+                //String format = String.format("%0"+primeiroSerial.length()+"d", serialSequencia);
+                serNovo = primeiroSerial.substring(0, caracteres - 3) + serialSequencia;
+                listTex.add(serNovo);
+                gravarProdutoSerial(serNovo);
+                //serialSequencia = serialSequencia.add(BigInteger.ONE);
+                serialSequencia++;
                 count++;
             }
             jTextFieldPrimeiroSerial.setText("");
@@ -713,16 +717,16 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
         jTextFieldEstoqueCplus.setText(EstoqueCplus(produto.getCodprod()));
         jTextFieldSetor.setText(setor(produto));
     }
-    
-     private String setor(Produto codProd){
+
+    private String setor(Produto codProd) {
         String text = "";
-        for(Localizacao loc : queryCplus.listLocalizacao(codProd.getCodloc())){
-            text =  loc.getDescricao();
-        }             
+        for (Localizacao loc : queryCplus.listLocalizacao(codProd.getCodloc())) {
+            text = loc.getDescricao();
+        }
         return text;
     }
-    
-     private String EstoqueCplus(String codProd) {
+
+    private String EstoqueCplus(String codProd) {
         BigDecimal estoque = BigDecimal.ZERO;
         List<Produtoestoque> listEsroque = new QueryCplus().listEstoquesPorProd(codProd);
         for (Produtoestoque est : listEsroque) {
