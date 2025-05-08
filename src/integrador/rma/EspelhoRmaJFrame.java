@@ -493,38 +493,49 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
     }
 
     private BigDecimal valorBaseCofinsEspelho(Movendaprod prod, BigDecimal quantidadeEspelho) {
-        BigDecimal val = prod.getBasecofins().divide(prod.getQuantidade(), 4, RoundingMode.HALF_UP);
-        val = val.multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);
+        //BigDecimal val = prod.getBasecofins().divide(prod.getQuantidade(), 4, RoundingMode.HALF_UP);
+        //val = val.multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal val = valorTotalProdutoEspelho(prod, quantidadeEspelho).subtract(valorIcmsEspelho(prod, quantidadeEspelho));
         return val;
     }
 
     private BigDecimal valorBasePisEspelho(Movendaprod prod, BigDecimal quantidadeEspelho) {
-        BigDecimal val = prod.getBasepis().divide(prod.getQuantidade(), 4, RoundingMode.HALF_UP);
-        val = val.multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);
+        //BigDecimal val = prod.getBasepis().divide(prod.getQuantidade(), 4, RoundingMode.HALF_UP);
+        //val = val.multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal val = valorTotalProdutoEspelho(prod, quantidadeEspelho).subtract(valorIcmsEspelho(prod, quantidadeEspelho));
         return val;
     }
 
     private BigDecimal valorCofinsEspelho(Movendaprod prod, BigDecimal quantidadeEspelho) {
-        BigDecimal val = prod.getValorcofins().divide(prod.getQuantidade(), 4, RoundingMode.HALF_UP);
-        val = val.multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);
+        //BigDecimal val = prod.getValorcofins().divide(prod.getQuantidade(), 4, RoundingMode.HALF_UP);
+        //val = val.multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal val = valorBaseCofinsEspelho(prod, quantidadeEspelho).multiply(new BigDecimal("0.076"));
         return val;
     }
 
     private BigDecimal valorPisEspelho(Movendaprod prod, BigDecimal quantidadeEspelho) {
-        BigDecimal val = prod.getValorpis().divide(prod.getQuantidade(), 4, RoundingMode.HALF_UP);
-        val = val.multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);
+        //BigDecimal val = prod.getValorpis().divide(prod.getQuantidade(), 4, RoundingMode.HALF_UP);
+        //val = val.multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal val = valorBasePisEspelho(prod, quantidadeEspelho).multiply(new BigDecimal("0.0165"));
         return val;
     }
 
     private BigDecimal valorBaseIcmsEspelho(Movendaprod prod, BigDecimal quantidadeEspelho) {
-        BigDecimal val = prod.getBaseicms().divide(prod.getQuantidade(), 4, RoundingMode.HALF_UP);
-        val = val.multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);
+        //BigDecimal val = prod.getBaseicms().divide(prod.getQuantidade(), 4, RoundingMode.HALF_UP);
+        //val = val.multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal val = valorTotalProdutoEspelho(prod, quantidadeEspelho);
         return val;
     }
 
     private BigDecimal valorIcmsEspelho(Movendaprod prod, BigDecimal quantidadeEspelho) {
-        BigDecimal val = prod.getValoricms().divide(prod.getQuantidade(), 4, RoundingMode.HALF_UP);
-        val = val.multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);
+        //BigDecimal val = prod.getValoricms().divide(prod.getQuantidade(), 4, RoundingMode.HALF_UP);
+        //val = val.multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal val =  valorTotalProdutoEspelho(prod, quantidadeEspelho);
+        if("51".equals(prod.getCodsituacaotributaria())){
+            val = val.multiply(new BigDecimal("0.12"));
+        }else{
+            val = val.multiply(new BigDecimal("0.17"));
+        }
         return val;
     }
 
@@ -556,11 +567,12 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
                         prod.setAliqcofins(prod1.getAliqcofins());
                         prod.setAliqicms(prod1.getAliqicms());
                         prod.setAliqpis(prod1.getAliqpis());
-                        prod.setBasecofins(valorBaseCofinsEspelho(prod1, quantidadeEspelho));
-                        prod.setBaseicms(valorBaseIcmsEspelho(prod1, quantidadeEspelho));
+                         prod.setBaseicms(valorBaseIcmsEspelho(prod1, quantidadeEspelho));
+                        prod.setValoricms(valorIcmsEspelho(prod1, quantidadeEspelho));
+                        prod.setBasecofins(valorBaseCofinsEspelho(prod1, quantidadeEspelho));                       
                         prod.setBasepis(valorBasePisEspelho(prod1, quantidadeEspelho));
                         prod.setValorcofins(valorCofinsEspelho(prod1, quantidadeEspelho));
-                        prod.setValoricms(valorIcmsEspelho(prod1, quantidadeEspelho));
+                        
                         prod.setValorpis(valorPisEspelho(prod1, quantidadeEspelho));
                         prod.getCodmovenda().setCodcli(cliente);
                         if ("RS".equals(cliente.getEstado())) {
@@ -615,9 +627,9 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
                     prod.setAliqpis(prod1.getAliqpis());
                     prod.setBasecofins(valorBaseCofinsEspelho(prod1, quantidadeEspelho));
                     prod.setBaseicms(valorBaseIcmsEspelho(prod1, quantidadeEspelho));
-                    prod.setBasepis(valorBasePisEspelho(prod1, quantidadeEspelho));
-                    prod.setValorcofins(valorCofinsEspelho(prod1, quantidadeEspelho));
                     prod.setValoricms(valorIcmsEspelho(prod1, quantidadeEspelho));
+                    prod.setBasepis(valorBasePisEspelho(prod1, quantidadeEspelho));
+                    prod.setValorcofins(valorCofinsEspelho(prod1, quantidadeEspelho));                  
                     prod.setValorpis(valorPisEspelho(prod1, quantidadeEspelho));
                     prod.getCodmovenda().setCodcli(cliente);
                     if ("RS".equals(cliente.getEstado())) {

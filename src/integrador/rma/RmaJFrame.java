@@ -770,11 +770,8 @@ public class RmaJFrame extends javax.swing.JFrame {
      * Função que atualiza o estoque no magento pelo codProduto da tabela
      * ProdutoSerial
      */
-    private void atualizaEstoque(Produto prod) {
-        //List<Produto> listProd = queryCplus.listProdutoSerial(jTableProdutoSerial.getValueAt(jTableProdutoSerial.getSelectedRow(), colunaCodProd).toString());
-        //for (Produto prod : listProd) {
+    private void atualizaEstoque(Produto prod) {       
         new ProdutoCplusDigimacro().produtoCplusDigimacro(prod);
-        //}
     }
 
     private void decisaoRma() {
@@ -826,7 +823,6 @@ public class RmaJFrame extends javax.swing.JFrame {
                 }
                 break;
         }
-        //jTextFieldArgumentoPesquisa.setText("");
     }
 
     /**
@@ -840,18 +836,10 @@ public class RmaJFrame extends javax.swing.JFrame {
         Fornecedor fornecedor = null;
         Calculoicmsestado calculoIcmsEstado = null;
         String nomeFornecedor = "";
-        // String codMovProdEntrada = "";
-        //Moventradaprod entradaProd = new Moventradaprod();
-        //int idEnt = Integer.valueOf(jTableEntradaSerial.getValueAt(jTableEntradaSerial.getSelectedRow(), jTableEntradaSerial.getColumnModel().getColumnIndex("CId Entrada Serial")).toString());
-        //for(EntradaSerial entSer : queryIntegrador.listPorIdEntradaProd(idEnt)){
+       
         // localização da entrada do produto
-        do {//licalização calculo ICMS por estado 
-            //colunaMovProdutoEntrada = jTableEntradaSerial.getColumnModel().getColumnIndex("CodMovProdutoEntrada");
-            //codMovProdEntrada = jTableEntradaSerial.getValueAt(jTableEntradaSerial.getSelectedRow(), colunaMovProdutoEntrada).toString();
-
-            //entradaProd = new MoventradaprodJpaController(managerCplus).findMoventradaprod(entSer.getCodEntradaProd());
+        do {//licalização calculo ICMS por estado            
             cancelaSaidaFornecedor = false;
-            //colunaNomeFornecedorEntrada = jTableEntradaSerial.getColumnModel().getColumnIndex("Nome");
             nomeFornecedor = jTableEntradaSerial.getValueAt(jTableEntradaSerial.getSelectedRow(), jTableEntradaSerial.getColumnModel().getColumnIndex("Nome")).toString();
             if (!"".equals(nomeFornecedor)) {
                 this.listagemFornecedorJDialog.setTermoPesquisa(nomeFornecedor);
@@ -940,7 +928,6 @@ public class RmaJFrame extends javax.swing.JFrame {
             if (new SaidaFornecedorCplus().saidaFornecedorCplus(controlaEstoque, movimentoSaidaFornecedor, calculoIcmsEstado, fornecedor, entradaProd, serial) == false) {
                 cancelaSaidaFornecedor = true;
             }
-
         }
         return cancelaSaidaFornecedor;
     }
@@ -953,12 +940,10 @@ public class RmaJFrame extends javax.swing.JFrame {
     private boolean entradaCliente() {
         boolean cancelaEntradaCliente = false;
         String codigoCliente = "";
-        //String codMovProdSaida = "";
         Cliente cliente = null;
         //Movendaprod vendaProd = null;
         Tipomovimento movimentoEntradaCliente = null;
         Calculoicmsestado calculoIcmsEstado = null;
-        // colunaCodClienteSaida = jTableSaidaSerial.getColumnModel().getColumnIndex("CodCliente");
         if (venda.getCodcli() != null) {
             codigoCliente = venda.getCodcli().getCodcli();
         } else {
@@ -992,13 +977,7 @@ public class RmaJFrame extends javax.swing.JFrame {
             } else {
                 cancelaEntradaCliente = true;
             }
-        }
-        if (cancelaEntradaCliente == false) {
-            //movimento de saida cliente
-            //colunaCodMovProdutoSaida = jTableSaidaSerial.getColumnModel().getColumnIndex("Codmovprod");
-            //codMovProdSaida = jTableSaidaSerial.getValueAt(jTableSaidaSerial.getSelectedRow(), colunaCodMovProdutoSaida).toString();
-            //vendaProd = new MovendaprodJpaController(managerCplus).findMovendaprod(codMovProdSaida);
-        }
+        }       
         if (cancelaEntradaCliente == false) {
             //licalização calculo ICMS por estado                    
             List<Calculoicmsestado> listIcmsPorEstado;
@@ -1053,13 +1032,9 @@ public class RmaJFrame extends javax.swing.JFrame {
     private void saidaClienteRma(boolean controlaEstoque) {
         boolean cancelaSaidaCliente = false;
         String codigoCliente = "";
-        // String codMovProdSaida = "";
         Cliente cliente = null;
-        //Movendaprod vendaProd = null;
         Tipomovimento movimentoSaidaCliente = null;
         Calculoicmsestado calculoIcmsEstado = null;
-
-        //colunaCodClienteSaida = jTableSaidaSerial.getColumnModel().getColumnIndex("CodCliente");
         if (venda.getCodcli() != null) {
             codigoCliente = venda.getCodcli().getCodcli();
         } else {
@@ -1087,13 +1062,7 @@ public class RmaJFrame extends javax.swing.JFrame {
                 movimentoSaidaCliente = this.listagemOperacaoJDialog.getMovimento();
             } else {
                 cancelaSaidaCliente = true;
-            }
-            //if (cancelaSaidaCliente == false) {
-            //movimento de saida cliente
-            //colunaCodMovProdutoSaida = jTableSaidaSerial.getColumnModel().getColumnIndex("id Saida Serial");
-            //codMovProdSaida = jTableSaidaSerial.getValueAt(jTableSaidaSerial.getSelectedRow(), colunaCodMovProdutoSaida).toString();
-            // vendaProd = new MovendaprodJpaController(managerCplus).findMovendaprod(codMovProdSaida);
-            //}
+            }           
             if (cancelaSaidaCliente == false) {
                 //licalização calculo ICMS por estado                    
                 List<Calculoicmsestado> listIcmsPorEstado;
@@ -1304,9 +1273,6 @@ public class RmaJFrame extends javax.swing.JFrame {
     private final ListagemFornecedorJDialog listagemFornecedorJDialog;
     private final ListagemProdutoJDialog listagemProdutoJDialog;
     private int colunaSerial;
-    //private static EntityManagerFactory managerCplus;
-    //private static EntityManagerFactory managerPrestaShop;
-    //private static EntityManagerFactory managerIntegrador;
     private final QueryIntegrador queryIntegrador;
     private final QueryCplus queryCplus;
     private final FormataCampos formatacaoDeCampos;

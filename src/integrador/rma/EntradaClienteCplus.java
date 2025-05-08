@@ -60,7 +60,7 @@ public class EntradaClienteCplus {
             String serial) {
         queryCplus = new QueryCplus();
         queryIntegrador = new QueryIntegrador();
-       // decimaisArredondamento = Integer.valueOf(queryIntegrador.valorConfiguracao("casas_decimais_ARREDONDAMENTO"));
+        // decimaisArredondamento = Integer.valueOf(queryIntegrador.valorConfiguracao("casas_decimais_ARREDONDAMENTO"));
         boolean condicao = true;
         List<Moventrada> listMoventrada = queryCplus.listagemMoventradaCliente(movimento.getCodigo(), cliente.getCodcli());
         if (listMoventrada.isEmpty()) {
@@ -114,8 +114,8 @@ public class EntradaClienteCplus {
         String devolucao = movimento.getFlagdevolucao().toString();
         BigDecimal val = BigDecimal.ZERO;
         if ("Y".equals(devolucao)) {
-         val = prod.getValorsubsttributaria().divide(prod.getQuantidade(), 4, RoundingMode.HALF_UP);
-        val = val.multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);
+            val = prod.getValorsubsttributaria().divide(prod.getQuantidade(), 4, RoundingMode.HALF_UP);
+            val = val.multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);
         }
         return val;
     }
@@ -124,8 +124,8 @@ public class EntradaClienteCplus {
         String devolucao = movimento.getFlagdevolucao().toString();
         BigDecimal val = BigDecimal.ZERO;
         if ("Y".equals(devolucao)) {
-        val = prod.getBasesubsttributaria().divide(prod.getQuantidade(), 4, RoundingMode.HALF_UP);
-        val = val.multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);
+            val = prod.getBasesubsttributaria().divide(prod.getQuantidade(), 4, RoundingMode.HALF_UP);
+            val = val.multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);
         }
         return val;
     }
@@ -134,8 +134,9 @@ public class EntradaClienteCplus {
         String devolucao = movimento.getFlagdevolucao().toString();
         BigDecimal val = BigDecimal.ZERO;
         if ("Y".equals(devolucao)) {
-        val = prod.getBasecofins().divide(prod.getQuantidade(), 4, RoundingMode.HALF_UP);
-        val = val.multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);
+            //val = prod.getBasecofins().divide(prod.getQuantidade(), 4, RoundingMode.HALF_UP);
+            //val = val.multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);
+            val = valorTotalProdutoEntradao(prod, quantidadeEspelho).subtract(valorIcmsEntrada(prod, quantidadeEspelho, movimento));
         }
         return val;
     }
@@ -144,8 +145,9 @@ public class EntradaClienteCplus {
         String devolucao = movimento.getFlagdevolucao().toString();
         BigDecimal val = BigDecimal.ZERO;
         if ("Y".equals(devolucao)) {
-        val = prod.getBasepis().divide(prod.getQuantidade(), 4, RoundingMode.HALF_UP);
-        val = val.multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);
+            //val = prod.getBasepis().divide(prod.getQuantidade(), 4, RoundingMode.HALF_UP);
+            //val = val.multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);
+            val = valorTotalProdutoEntradao(prod, quantidadeEspelho).subtract(valorIcmsEntrada(prod, quantidadeEspelho, movimento));
         }
         return val;
     }
@@ -154,8 +156,9 @@ public class EntradaClienteCplus {
         String devolucao = movimento.getFlagdevolucao().toString();
         BigDecimal val = BigDecimal.ZERO;
         if ("Y".equals(devolucao)) {
-        val = prod.getValorcofins().divide(prod.getQuantidade(), 4, RoundingMode.HALF_UP);
-        val = val.multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);
+            //val = prod.getValorcofins().divide(prod.getQuantidade(), 4, RoundingMode.HALF_UP);
+            //val = val.multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);
+            val = valorBaseCofinsEntrada(prod, quantidadeEspelho, movimento).multiply(new BigDecimal("0.076"));
         }
         return val;
     }
@@ -164,8 +167,9 @@ public class EntradaClienteCplus {
         String devolucao = movimento.getFlagdevolucao().toString();
         BigDecimal val = BigDecimal.ZERO;
         if ("Y".equals(devolucao)) {
-        val = prod.getValorpis().divide(prod.getQuantidade(), 4, RoundingMode.HALF_UP);
-        val = val.multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);
+            //val = prod.getValorpis().divide(prod.getQuantidade(), 4, RoundingMode.HALF_UP);
+            //val = val.multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);
+            val = valorBasePisEntrada(prod, quantidadeEspelho, movimento).multiply(new BigDecimal("0.0165"));
         }
         return val;
     }
@@ -179,21 +183,13 @@ public class EntradaClienteCplus {
         return val;
     }
 
-    private BigDecimal valorIpiEntrada(Movendaprod prod, BigDecimal quantidadeEspelho) {
-        BigDecimal val = BigDecimal.ZERO;
-        if (prod.getBaseipi() != null) {
-            val = prod.getValoripi().divide(prod.getQuantidade(), 4, RoundingMode.HALF_UP);
-            val = val.multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);
-        }
-        return val;
-    }
-
     private BigDecimal valorBaseIcmsEntrada(Movendaprod prod, BigDecimal quantidadeEspelho, Tipomovimento movimento) {
         String devolucao = movimento.getFlagdevolucao().toString();
         BigDecimal val = BigDecimal.ZERO;
         if ("Y".equals(devolucao)) {
-         val = prod.getBaseicms().divide(prod.getQuantidade(), 4, RoundingMode.HALF_UP);
-        val = val.multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);
+            //val = prod.getBaseicms().divide(prod.getQuantidade(), 4, RoundingMode.HALF_UP);
+           // val = val.multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);
+            val = valorTotalProdutoEntradao(prod, quantidadeEspelho);
         }
         return val;
     }
@@ -202,14 +198,29 @@ public class EntradaClienteCplus {
         String devolucao = movimento.getFlagdevolucao().toString();
         BigDecimal val = BigDecimal.ZERO;
         if ("Y".equals(devolucao)) {
-            val = prod.getValoricms().divide(prod.getQuantidade(), 4, RoundingMode.HALF_UP);
-            val = val.multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);
+            //val = prod.getValoricms().divide(prod.getQuantidade(), 4, RoundingMode.HALF_UP);
+            //val = val.multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);
+            val = valorTotalProdutoEntradao(prod, quantidadeEspelho);
+            if ("51".equals(prod.getCodsituacaotributaria())) {
+                val = val.multiply(new BigDecimal("0.12"));
+            } else {
+                val = val.multiply(new BigDecimal("0.17"));
+            }
         }
         return val;
     }
 
     private BigDecimal valorTotalProdutoEntradao(Movendaprod prod, BigDecimal quantidadeEspelho) {
         BigDecimal val = valorUnitarioVenda(prod).multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);
+        return val;
+    }
+
+    private BigDecimal valorIpiEntrada(Movendaprod prod, BigDecimal quantidadeEspelho) {
+        BigDecimal val = BigDecimal.ZERO;
+        if (prod.getBaseipi() != null) {
+            val = prod.getValoripi().divide(prod.getQuantidade(), 4, RoundingMode.HALF_UP);
+            val = val.multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);
+        }
         return val;
     }
 
@@ -227,16 +238,16 @@ public class EntradaClienteCplus {
         Moventradaprod entradaProd = new Moventradaprod();
         Integer configCont = Integer.valueOf(queryIntegrador.valorConfiguracao("increment_tabela_moventrada_prod"));
         //double quant = 1.00;
-        BigDecimal quant = quantidadeConversaoEntrada(movendaProd);        
-        if ("RS".equals(cliente.getEstado())) {           
+        BigDecimal quant = quantidadeConversaoEntrada(movendaProd);
+        if ("RS".equals(cliente.getEstado())) {
             if ("5405".equals(movendaProd.getCodcfop().getCodcfop())) {
                 entradaProd.setCodcfop(new CfopJpaController(Manager.getManagerCplus()).findCfop("1411"));
-            } else {              
+            } else {
                 entradaProd.setCodcfop(new CfopJpaController(Manager.getManagerCplus()).findCfop("1202"));
             }
         } else {
             entradaProd.setCodcfop(new CfopJpaController(Manager.getManagerCplus()).findCfop("2202"));
-        }      
+        }
         String configString = String.format("%09d", configCont);
         entradaProd.setCodmoveprod(configString);
         entradaProd.setCodmoventr(movEntrada);
@@ -251,12 +262,12 @@ public class EntradaClienteCplus {
         entradaProd.setAliqdescontoitem(BigDecimal.ZERO);
         entradaProd.setValordescontoitem(BigDecimal.ZERO);
         entradaProd.setValortotal(valorTotalProdutoEntradao(movendaProd, quant));
+         entradaProd.setBaseicms(valorBaseIcmsEntrada(movendaProd, quant, movimento));
+        entradaProd.setValoricms(valorIcmsEntrada(movendaProd, quant, movimento));
         entradaProd.setBaseipi(valorBaseIpiEntrada(movendaProd, quant));
         entradaProd.setAliqipi(movendaProd.getAliqipi());
-        entradaProd.setValoripi(valorIpiEntrada(movendaProd, quant));
-        entradaProd.setBaseicms(valorBaseIcmsEntrada(movendaProd, quant, movimento));
+        entradaProd.setValoripi(valorIpiEntrada(movendaProd, quant));     
         entradaProd.setAliqicms(movendaProd.getAliqicms());
-        entradaProd.setValoricms(valorIcmsEntrada(movendaProd, quant, movimento));
         entradaProd.setBasesubsttributaria(valorBaseSTEntrada(movendaProd, quant, movimento));
         entradaProd.setValorsubsttributaria(valorSTEntrada(movendaProd, quant, movimento));
         entradaProd.setFlagorigemproduto(movendaProd.getFlagorigemproduto());
@@ -294,7 +305,7 @@ public class EntradaClienteCplus {
             String devolucao = movimento.getFlagdevolucao().toString();
             if ("Y".equals(devolucao)) {
                 Moventradaprod entPro = new MoventradaprodJpaController(Manager.getManagerCplus()).findMoventradaprod(String.format("%09d", configCont));
-                new LancamentoVale().lancamentoVale( movEntrada.getCodcli(), movendaProd.getCodmovenda(), movEntrada);
+                new LancamentoVale().lancamentoVale(movEntrada.getCodcli(), movendaProd.getCodmovenda(), movEntrada);
                 devolucaoCliente(entPro, movendaProd);
             }
             /////////////////////////////////////////////////////////////
@@ -312,6 +323,7 @@ public class EntradaClienteCplus {
     /**
      * Função que preenche a tabela Movendadevolucao, e complementa a venda com
      * quantidade devolvida
+     *
      * @param entradaProd
      * @param vendaProd
      */
@@ -369,12 +381,12 @@ public class EntradaClienteCplus {
         movEntradaProd.setQuantidade(quant);
         movEntradaProd.setValorunitario(valorUnitarioVenda(movendaProd));
         movEntradaProd.setValortotal(valorTotalProdutoEntradao(movendaProd, quant));
+        movEntradaProd.setValoricms(valorIcmsEntrada(movendaProd, quant, movimento));
         movEntradaProd.setBaseipi(valorBaseIpiEntrada(movendaProd, quant));
         movEntradaProd.setAliqipi(movendaProd.getAliqipi());
         movEntradaProd.setValoripi(valorIpiEntrada(movendaProd, quant));
         movEntradaProd.setBaseicms(valorBaseIcmsEntrada(movendaProd, quant, movimento));
         movEntradaProd.setAliqicms(movendaProd.getAliqicms());
-        movEntradaProd.setValoricms(valorIcmsEntrada(movendaProd, quant, movimento));
         movEntradaProd.setBasesubsttributaria(valorBaseSTEntrada(movendaProd, quant, movimento));
         movEntradaProd.setValorsubsttributaria(valorSTEntrada(movendaProd, quant, movimento));
         movEntradaProd.setBasecofins(valorBaseCofinsEntrada(movendaProd, quant, movimento));
@@ -383,7 +395,6 @@ public class EntradaClienteCplus {
         movEntradaProd.setBasepis(valorBasePisEntrada(movendaProd, quant, movimento));
         movEntradaProd.setAliqpis(movendaProd.getAliqpis());
         movEntradaProd.setValorpis(valorPisEntrada(movendaProd, quant, movimento));
-
         movEntradaProd.setValordescontorateado(BigDecimal.ZERO);
         try {
             new MoventradaprodJpaController(Manager.getManagerCplus()).edit(movEntradaProd);
@@ -394,7 +405,7 @@ public class EntradaClienteCplus {
             String devolucao = movimento.getFlagdevolucao().toString();
             if ("Y".equals(devolucao)) {
                 new LancamentoVale().lancamentoVale(movEntrada.getCodcli(), movendaProd.getCodmovenda(), entrada);
-                devolucaoCliente( movEntradaProd, movendaProd);
+                devolucaoCliente(movEntradaProd, movendaProd);
             }
         } catch (NonexistentEntityException ex) {
             JOptionPane.showMessageDialog(null, "Houve um erro ao Editar Entrada Produto!!!\n " + ex);
