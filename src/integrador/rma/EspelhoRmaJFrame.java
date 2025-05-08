@@ -481,7 +481,7 @@ public class EspelhoRmaJFrame extends javax.swing.JFrame {
     
     private BigDecimal valorUnitarioCompra(Movendaprod prod) {
         BigDecimal val = prod.getValortotal().subtract(prod.getValordescontorateado());
-        val = val.add(prod.getValoracrescimorateado());
+        //val = val.add(prod.getValoracrescimorateado());// se tira por que vai o valor do frete neste campo
         val = val.divide(prod.getQuantidade(), 4, RoundingMode.HALF_UP);
         return val;
     }
