@@ -1441,6 +1441,13 @@ public class QueryCplus {
         query.setParameter("codOrcamento", codOrcamento);//primeiro parametro          
         return query.getResultList();
     }
+    
+    public List<Orcamentoprod> listIdOrcProd(String codOrcProd) {
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery("SELECT ven FROM Orcamentoprod ven WHERE ven.codorcprod =:codOrcProd");
+        query.setParameter("codOrcProd", codOrcProd);//primeiro parametro          
+        return query.getResultList();
+    }
 
     /**
      * fun��o qeu acha o calculo de icms dependendo da fun��o
