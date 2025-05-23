@@ -12,10 +12,8 @@ import entidade.cplus.Clientecaracteristica;
 import entidade.cplus.Orcamento;
 import entidade.cplus.Orcamentoprod;
 import entidade.cplus.Produto;
-import entidade.cplus.Transportadora;
 import entidade.cplus.Unidade;
 import entidade.prestaShop.PsAddress;
-import entidade.prestaShop.PsCarrier;
 import entidade.prestaShop.PsCustomer;
 import entidade.prestaShop.PsGroup;
 import entidade.prestaShop.PsMessage;
@@ -24,7 +22,6 @@ import entidade.prestaShop.PsOrders;
 import entidade.prestaShop.PsPack;
 import entidade.prestaShop.PsProduct;
 import entidade.prestaShop.PsSpecificPrice;
-import integrador.relatorio.ImprimeRelatorio;
 import janela.cplus.FormataCampos;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -206,7 +203,12 @@ public class PedidoDigimacroCplus {
 
                         for (Orcamento orcamento : lidtOrcamento) {
                             for (PsOrderDetail orderItem : new QueryPrestaShop().listPsOrderDetail(order.getIdOrder())) {
+                                int id = orderItem.getIdOrderDetail();
+                                
                                 if (new PsProductJpaController(Manager.getManagerPrestaShop()).findPsProduct(orderItem.getProductId()).getCacheIsPack()) {
+                                    
+                                    id =  id - 100000;
+                                    
                                     PsCustomer C = new PsCustomerJpaController(Manager.getManagerPrestaShop()).findPsCustomer(order.getIdCustomer());
                                     PsGroup G = new PsGroupJpaController(Manager.getManagerPrestaShop()).findPsGroup(C.getIdDefaultGroup());
                                     BigDecimal descPac = BigDecimal.ZERO;
@@ -221,6 +223,9 @@ public class PedidoDigimacroCplus {
                                     }
                                     int quantPack = orderItem.getProductQuantity();// tem que receber o valor fora do pacote
                                     for (PsPack psP : new QueryPrestaShop().listPack(orderItem.getProductId())) {
+                                        
+                                        id = id - 99;
+                                        
                                         PsProduct P = new PsProductJpaController(Manager.getManagerPrestaShop()).findPsProduct(psP.getPsPackPK().getIdProductItem());
                                         BigDecimal precUni = P.getPrice();
                                         int quanProdutosPack = psP.getQuantity();//quantidade de produtos que tem no pacote
@@ -234,10 +239,10 @@ public class PedidoDigimacroCplus {
                                         orderItem.setUnitPriceTaxIncl(precUni);
                                         orderItem.setTotalPriceTaxIncl(precUni.multiply(quantidade));
 
-                                        criaPedidoProdutoCplus(orderItem, orcamento, cliente); // cria produto pacote
+                                        criaPedidoProdutoCplus(id, orderItem, orcamento, cliente); // cria produto pacote
                                     }
                                 } else { //cria produto normal
-                                    criaPedidoProdutoCplus(orderItem, orcamento, cliente);
+                                    criaPedidoProdutoCplus(id, orderItem, orcamento, cliente);
                                 }
                             }//for order item
 
@@ -311,7 +316,7 @@ public class PedidoDigimacroCplus {
         return stringSeparada;
     }
 
-    private void criaPedidoProdutoCplus(PsOrderDetail orderItem, Orcamento orcamento, Cliente cli) {
+    private void criaPedidoProdutoCplus(int id, PsOrderDetail orderItem, Orcamento orcamento, Cliente cli) {
         QueryCplus queryCplus = new QueryCplus();
         //int decimaisArredondamento = Integer.valueOf(new QueryIntegrador(managerIntegrador).valorConfiguracao("casas_decimais_ARREDONDAMENTO"));
         Calculoicmsestado calculoIcmsEstado = null;
@@ -338,15 +343,7 @@ public class PedidoDigimacroCplus {
                 }
                 Orcamentoprod prod = new Orcamentoprod();
                 prod.setCodorc(orcamento);
-                prod.setCodprod(prodCplus);
-                int id = orderItem.getIdOrderDetail();
-                if (queryCplus.listIdOrcProd(String.valueOf(id)).size() > 0) {
-                    id = id - 100000;
-                    do {
-                        id--;
-                    } while (queryCplus.listProdutosOrcemanto(String.valueOf(id)).size() > 0);
-                }
-
+                prod.setCodprod(prodCplus);             
                 prod.setCodorcprod(String.valueOf(id));
                 prod.setCodempresa(new EmpresaJpaController(Manager.getManagerCplus()).findEmpresa(1));
                 prod.setCodpreco(new PrecoJpaController(Manager.getManagerCplus()).findPreco("000000001"));
