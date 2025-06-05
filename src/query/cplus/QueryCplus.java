@@ -149,13 +149,6 @@ public class QueryCplus {
         return query.getResultList();
     }
 
-    public List<Produtocodigo> listProdutoCodigo(String codProduto) {
-        EntityManager em = getEntityManager();
-        Query query = em.createQuery("SELECT p FROM Produtocodigo p where p.codprod.codprod =:codProduto");
-        query.setParameter("codProduto", codProduto);//primeiro parametro                 
-        return query.getResultList();
-    }
-
     public List<Produto> listagemProdutoPorSerial(String serial) {
         EntityManager entityManager = getEntityManager();
         Query query = entityManager.createQuery("SELECT p.codprod FROM Produtoserial p where p.serial =:serial");
@@ -489,11 +482,19 @@ public class QueryCplus {
 
         return query.getResultList();
     }
-
-    public List<Produtocodigo> listagemProdutoCodigo(String codProduto) {
-        EntityManager entityManager = getEntityManager();
-        Query query = entityManager.createQuery("SELECT p FROM Produtocodigo p where p.codprod.codprod =:codProduto");
-        query.setParameter("codProduto", codProduto);//primeiro parametro        
+  
+     public List<Produtocodigo> listEanProduto(String codProd) {
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery("SELECT p FROM Produtocodigo p where p.codprod.codprod =:codProd AND p.codtipocodigo =:tipoCodigo ORDER BY P.lastChange DESC");
+        query.setParameter("codProd", codProd);
+        query.setParameter("tipoCodigo", "000000002");
+        return query.getResultList();
+    }
+      
+      public List<Produto> listProdutoCodigoPrincipal(String codigo) {
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery("SELECT ven FROM Produto ven WHERE ven.codigo =:codigo");
+        query.setParameter("codigo", codigo);        
         return query.getResultList();
     }
 
@@ -1105,13 +1106,7 @@ public class QueryCplus {
         return query.getResultList();
     }
 
-    public List<Produtocodigo> resultEanProduto(String codProd) {
-        EntityManager em = getEntityManager();
-        Query query = em.createQuery("SELECT p FROM Produtocodigo p where p.codprod.codprod =:codProd AND p.codtipocodigo =:tipoCodigo");
-        query.setParameter("codProd", codProd);
-        query.setParameter("tipoCodigo", "000000002");
-        return query.getResultList();
-    }
+   
 
     public List<Produto> resultPorEanProduto(String codigoEanProduto) {
         EntityManager em = getEntityManager();
@@ -1764,12 +1759,7 @@ public List<Movendaproddevolucaocompra> listagemControlaDevolucaoPorSaida(String
         return query.getResultList();
     }
     
-    public List<Produto> listProdutoCodigoPrincipal(String codigo) {
-       EntityManager em = getEntityManager();
-        Query query = em.createQuery("SELECT ven FROM Produto ven WHERE ven.codigo =:codigo");
-        query.setParameter("codigo", codigo);        
-        return query.getResultList();
-    }
+   
 
     public List<Cliente> cliente(char indiedest) {
        EntityManager em = getEntityManager();

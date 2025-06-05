@@ -61,9 +61,13 @@ public class CarregaConfiguracao {
                     ConfiguracaoNoBD.setValorLinhaCompleto(c.getValor());
                     ConfiguracaoNoBD.setTipoLinhaCompleto(c.getTipo());
                     break;
-                    case "cor_LINHA_INCOMPLETA":
+                case "cor_LINHA_INCOMPLETA":
                     ConfiguracaoNoBD.setValorLinhaIncompleto(c.getValor());
                     ConfiguracaoNoBD.setTipoLinhaIncompleto(c.getTipo());
+                    break;
+                case "cor_LINHA_CUIDADO":
+                    ConfiguracaoNoBD.setValorLinhaCuidado(c.getValor());
+                    ConfiguracaoNoBD.setTipoLinhaCuidado(c.getTipo());
                     break;
             }
         }

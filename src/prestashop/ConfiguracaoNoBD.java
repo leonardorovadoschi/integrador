@@ -42,7 +42,27 @@ public class ConfiguracaoNoBD {
     private static String tipoLinhaCompleto;
     private static String valorLinhaIncompleto;
     private static String tipoLinhaIncompleto;
+    private static String valorLinhaCuidado;
+    private static String tipoLinhaCuidado;
 
+    public static String getValorLinhaCuidado() {
+        return valorLinhaCuidado;
+    }
+
+    public static void setValorLinhaCuidado(String valorLinhaCuidado) {
+        ConfiguracaoNoBD.valorLinhaCuidado = valorLinhaCuidado;
+    }
+
+    public static String getTipoLinhaCuidado() {
+        return tipoLinhaCuidado;
+    }
+
+    public static void setTipoLinhaCuidado(String tipoLinhaCuidado) {
+        ConfiguracaoNoBD.tipoLinhaCuidado = tipoLinhaCuidado;
+    }
+
+    
+    
     public static String getValorLinhaIncompleto() {
         return valorLinhaIncompleto;
     }

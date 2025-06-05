@@ -86,6 +86,8 @@ public class ConfiguracoesJDialog extends javax.swing.JDialog {
         jButtonCorLinhaCompleta = new javax.swing.JButton();
         jLabelCorLinhaIncompleto = new javax.swing.JLabel();
         jButtonCorLinhaIncompleto = new javax.swing.JButton();
+        jLabelCorLinhaCuidado = new javax.swing.JLabel();
+        jButtonCorLinhaCuidado = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Configurações");
@@ -366,33 +368,49 @@ public class ConfiguracoesJDialog extends javax.swing.JDialog {
             }
         });
 
+        jLabelCorLinhaCuidado.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabelCorLinhaCuidado.setText("Cor da Linha Cuidado:");
+
+        jButtonCorLinhaCuidado.setText("Selecione");
+        jButtonCorLinhaCuidado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCorLinhaCuidadoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelCoresLayout = new javax.swing.GroupLayout(jPanelCores);
         jPanelCores.setLayout(jPanelCoresLayout);
         jPanelCoresLayout.setHorizontalGroup(
             jPanelCoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelCoresLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanelCoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanelCoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelCoresLayout.createSequentialGroup()
-                            .addComponent(jLabelCorLinhaImpar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGap(18, 18, 18)
-                            .addComponent(jButtonCorLinhaImpar))
+                .addGroup(jPanelCoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelCoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanelCoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelCoresLayout.createSequentialGroup()
+                                .addComponent(jLabelCorLinhaImpar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButtonCorLinhaImpar))
+                            .addGroup(jPanelCoresLayout.createSequentialGroup()
+                                .addGroup(jPanelCoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jLabelCorLinhaCompleta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabelCorLinhaSelecionada, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(jPanelCoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanelCoresLayout.createSequentialGroup()
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jButtonCorLinhaSelecionada))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelCoresLayout.createSequentialGroup()
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jButtonCorLinhaCompleta)))))
                         .addGroup(jPanelCoresLayout.createSequentialGroup()
-                            .addGroup(jPanelCoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jLabelCorLinhaCompleta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabelCorLinhaSelecionada, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(jPanelCoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanelCoresLayout.createSequentialGroup()
-                                    .addGap(18, 18, 18)
-                                    .addComponent(jButtonCorLinhaSelecionada))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelCoresLayout.createSequentialGroup()
-                                    .addGap(18, 18, 18)
-                                    .addComponent(jButtonCorLinhaCompleta)))))
+                            .addComponent(jLabelCorLinhaIncompleto, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(jButtonCorLinhaIncompleto)))
                     .addGroup(jPanelCoresLayout.createSequentialGroup()
-                        .addComponent(jLabelCorLinhaIncompleto, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(8, 8, 8)
+                        .addComponent(jLabelCorLinhaCuidado, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButtonCorLinhaIncompleto)))
+                        .addComponent(jButtonCorLinhaCuidado)))
                 .addContainerGap(494, Short.MAX_VALUE))
         );
         jPanelCoresLayout.setVerticalGroup(
@@ -410,11 +428,15 @@ public class ConfiguracoesJDialog extends javax.swing.JDialog {
                 .addGroup(jPanelCoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelCorLinhaCompleta)
                     .addComponent(jButtonCorLinhaCompleta))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanelCoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelCoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabelCorLinhaIncompleto)
                     .addComponent(jButtonCorLinhaIncompleto))
-                .addContainerGap(264, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelCoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonCorLinhaCuidado)
+                    .addComponent(jLabelCorLinhaCuidado))
+                .addContainerGap(240, Short.MAX_VALUE))
         );
 
         jTabbedPaneConfArquivos.addTab("Cores", jPanelCores);
@@ -631,6 +653,19 @@ public class ConfiguracoesJDialog extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_jButtonCorLinhaIncompletoActionPerformed
 
+    private void jButtonCorLinhaCuidadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCorLinhaCuidadoActionPerformed
+        Color cor = jColor.showDialog(null, "Escolha uma Cor", format.stringParaColor(ConfiguracaoNoBD.getValorLinhaCuidado()));
+        if (cor != null) {
+            jButtonCorLinhaCuidado.setBackground(cor);
+            try {
+                queryIntegrador.atualizaValorConfiguracao(ConfiguracaoNoBD.getTipoLinhaCuidado(), format.colorParaString(cor));
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Houve um ero ao editar " + ConfiguracaoNoBD.getTipoLinhaCuidado() + "! \n" + ex);
+            }
+            new CarregaConfiguracao().carregar();
+        }
+    }//GEN-LAST:event_jButtonCorLinhaCuidadoActionPerformed
+
     public void setCarregaCampos() {
         jTextFieldSomFinalizado.setText(ConfiguracaoNoBD.getValorAudioFinalizado());
         jTextFieldSomErro.setText(ConfiguracaoNoBD.getValorAudioErro());
@@ -648,6 +683,7 @@ public class ConfiguracoesJDialog extends javax.swing.JDialog {
         jButtonCorLinhaSelecionada.setBackground(format.stringParaColor(ConfiguracaoNoBD.getValorLinhaSelecionada()));
         jButtonCorLinhaCompleta.setBackground(format.stringParaColor(ConfiguracaoNoBD.getValorLinhaCompleto()));
         jButtonCorLinhaIncompleto.setBackground(format.stringParaColor(ConfiguracaoNoBD.getValorLinhaIncompleto()));
+        jButtonCorLinhaCuidado.setBackground(format.stringParaColor(ConfiguracaoNoBD.getValorLinhaCuidado()));
     }
 
     /**
@@ -704,6 +740,7 @@ public class ConfiguracoesJDialog extends javax.swing.JDialog {
     private javax.swing.JButton jButtonCaracteristicaPessoa;
     private javax.swing.JButton jButtonCaracteristicaPessoaDesconto;
     private javax.swing.JButton jButtonCorLinhaCompleta;
+    private javax.swing.JButton jButtonCorLinhaCuidado;
     private javax.swing.JButton jButtonCorLinhaImpar;
     private javax.swing.JButton jButtonCorLinhaIncompleto;
     private javax.swing.JButton jButtonCorLinhaSelecionada;
@@ -717,6 +754,7 @@ public class ConfiguracoesJDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabelCaracteristica;
     private javax.swing.JLabel jLabelCaracteristicaDesconto;
     private javax.swing.JLabel jLabelCorLinhaCompleta;
+    private javax.swing.JLabel jLabelCorLinhaCuidado;
     private javax.swing.JLabel jLabelCorLinhaImpar;
     private javax.swing.JLabel jLabelCorLinhaIncompleto;
     private javax.swing.JLabel jLabelCorLinhaSelecionada;

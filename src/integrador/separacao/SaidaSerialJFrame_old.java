@@ -28,7 +28,6 @@ import janela.cplus.ListagemSaidasJDialog;
 import java.awt.Toolkit;
 import java.io.File;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -52,12 +51,12 @@ import query.integrador.QueryIntegrador;
  *
  * @author leonardo
  */
-public class SaidaSerialJFrame extends javax.swing.JFrame {
+public class SaidaSerialJFrame_old extends javax.swing.JFrame {
 
     /**
      * Creates new form SaidaSerialJFrame
      */
-    public SaidaSerialJFrame() {
+    public SaidaSerialJFrame_old() {
         initComponents();
         queryCplus = new QueryCplus();
         queryIntegrador = new QueryIntegrador();
@@ -71,7 +70,6 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
         // new RenderLocalizacao(Manager.getManagerCplus());
         jTableSaidaProd.setDefaultRenderer(Object.class, new ConfTabelaSaidaSerialProd());
         jTableSeriasSeparados.setDefaultRenderer(Object.class, new ConfTabelaSaidaSerial());
-
     }
 
     /**
@@ -87,7 +85,6 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
         jButtonImprimirRomaneio = new javax.swing.JButton();
         jButtonExcluirSeria = new javax.swing.JButton();
         jButtonEditarProduto = new javax.swing.JButton();
-        jButtonFechar = new javax.swing.JButton();
         jTextFieldTextoAviso = new javax.swing.JTextField();
         jPanelInformacoes = new javax.swing.JPanel();
         jLabelItensFaltando = new javax.swing.JLabel();
@@ -100,7 +97,7 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
         jButtonPesquisaSaida = new javax.swing.JButton();
         jButtonSepararPedido = new javax.swing.JButton();
         jButtonCancelarSeparacao = new javax.swing.JButton();
-        jButtonGravar = new javax.swing.JButton();
+        jButtonFechar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableSaidaProd = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -139,35 +136,26 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
             }
         });
 
-        jButtonFechar.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        jButtonFechar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/stop.png"))); // NOI18N
-        jButtonFechar.setText("Fechar");
-        jButtonFechar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonFecharActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanelConfiguracaoListaLayout = new javax.swing.GroupLayout(jPanelConfiguracaoLista);
         jPanelConfiguracaoLista.setLayout(jPanelConfiguracaoListaLayout);
         jPanelConfiguracaoListaLayout.setHorizontalGroup(
             jPanelConfiguracaoListaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelConfiguracaoListaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButtonFechar, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelConfiguracaoListaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonEditarProduto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonImprimirRomaneio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonExcluirSeria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelConfiguracaoListaLayout.createSequentialGroup()
+                .addGroup(jPanelConfiguracaoListaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanelConfiguracaoListaLayout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonEditarProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanelConfiguracaoListaLayout.createSequentialGroup()
+                        .addGap(171, 171, 171)
+                        .addGroup(jPanelConfiguracaoListaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButtonImprimirRomaneio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButtonExcluirSeria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(54, 54, 54))
         );
         jPanelConfiguracaoListaLayout.setVerticalGroup(
             jPanelConfiguracaoListaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelConfiguracaoListaLayout.createSequentialGroup()
-                .addGroup(jPanelConfiguracaoListaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonImprimirRomaneio)
-                    .addComponent(jButtonFechar))
+                .addComponent(jButtonImprimirRomaneio)
                 .addGap(42, 42, 42)
                 .addComponent(jButtonExcluirSeria)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -269,12 +257,12 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
             }
         });
 
-        jButtonGravar.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        jButtonGravar.setText("Gravar");
-        jButtonGravar.setEnabled(false);
-        jButtonGravar.addActionListener(new java.awt.event.ActionListener() {
+        jButtonFechar.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jButtonFechar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/stop.png"))); // NOI18N
+        jButtonFechar.setText("Fechar");
+        jButtonFechar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonGravarActionPerformed(evt);
+                jButtonFecharActionPerformed(evt);
             }
         });
 
@@ -284,24 +272,24 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
             jPanelPesquisasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelPesquisasLayout.createSequentialGroup()
                 .addGroup(jPanelPesquisasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButtonPesquisaSaida, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
-                    .addComponent(jButtonGravar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 102, Short.MAX_VALUE)
+                    .addComponent(jButtonSepararPedido, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
+                    .addComponent(jButtonPesquisaSaida, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanelPesquisasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButtonCancelarSeparacao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonSepararPedido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                    .addComponent(jButtonFechar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonCancelarSeparacao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(102, Short.MAX_VALUE))
         );
         jPanelPesquisasLayout.setVerticalGroup(
             jPanelPesquisasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelPesquisasLayout.createSequentialGroup()
-                .addGroup(jPanelPesquisasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanelPesquisasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonPesquisaSaida)
-                    .addComponent(jButtonSepararPedido))
+                    .addComponent(jButtonFechar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelPesquisasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonCancelarSeparacao)
-                    .addComponent(jButtonGravar)))
+                    .addComponent(jButtonSepararPedido)
+                    .addComponent(jButtonCancelarSeparacao)))
         );
 
         jTableSaidaProd.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -452,7 +440,7 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonExcluirSeriaActionPerformed
 
     private void jButtonCancelarSeparacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarSeparacaoActionPerformed
-        int cancelar = JOptionPane.showConfirmDialog(null, "AO CANCELAR O PEDIDO OS SERIAIS DIGITADOS SERÃO PERDIDOS,\n DESEJA PROSSEGUIR??", "Cancelar", JOptionPane.YES_NO_CANCEL_OPTION);
+        int cancelar = JOptionPane.showConfirmDialog(null, "AO CANCELAR O PEDIDO NÃO FICARA SEPARADO,\n DESEJA PROSSEGUIR??", "Cancelar", JOptionPane.YES_NO_CANCEL_OPTION);
         if (cancelar == JOptionPane.YES_OPTION) {
             jButtonFechar.setEnabled(true);
             jButtonPesquisaSaida.setEnabled(true);
@@ -513,141 +501,70 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButtonEditarProdutoActionPerformed
 
-    private void jButtonGravarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGravarActionPerformed
-        gravarSaidaSerial();
-    }//GEN-LAST:event_jButtonGravarActionPerformed
-
-    /**
-     * Função que carrega uma lista de EAN dos Produtos que estão no pedido A
-     * função tambem carega a List <ListCodigoProduto> listCodigo
-     */
-    private void carregaListaCodigos() {
-        listCodigo = new ArrayList<>();
-        for (Movendaprod p : listMovendaProd) {
-            for (Produtocodigo cod : queryCplus.listEanProduto(p.getCodprod().getCodprod())) {
-                ListCodigoProduto e = new ListCodigoProduto();
-                e.setId_Codigo(cod.getId());
-                e.setCodigo(cod.getCodigo());
-                e.setCod_prod(cod.getCodprod().getCodprod());
-                listCodigo.add(e);
-            }
-        }
-    }
-
-    /**
-     * Função que percore a lista de seriais da saida e verifica se a quantidade
-     * de seriais do item da venda que estão na lista de Saida retorna o numnero
-     * de Seriais do Item do pedido
-     *
-     * @param movProd
-     * @param listSS
-     * @return
-     */
-    private int produtoSeparado(Movendaprod movProd, List<SaidaSerial> listSS) {
-        //boolean condicao = true;
-        int cont = 0;
-        for (SaidaSerial ss : listSS) {
-            if (ss.getCodSaidaProd().equals(movProd.getCodmovprod())) {
-                cont++;
-            }
-        }
-        return cont;
-    }
-
-    /**
-     * Função que percore a lista de seriais para ver se o mesmo já se encontra
-     * na lista
-     *
-     * @param serial
-     * @param listSS
-     * @return
-     */
-    private boolean produtoDuplicado(String serial, List<SaidaSerial> listSS) {
-        boolean condicao = true;
-        //int cont = 0;
-        for (SaidaSerial ss : listSS) {
-            if (ss.getIdSerial().getSerial().equals(serial)) {
-                condicao = false;
-            }
-        }
-        return condicao;
-    }
-
     private void adicionarSerial() {
         int quantSeparada = 0;
-        boolean condicao = false;
         if (!"".equals(jTextFieldSerial.getText())) {
             List<SerialProduto> listSer = queryIntegrador.listSerialExato(jTextFieldSerial.getText().toUpperCase().trim());
+            List<SaidaSerial> listSS = new ArrayList<>();
+            SerialProduto serialProduto = new SerialProduto();
+            Movendaprod movendaprod = new Movendaprod();
+            boolean condicao = false;
+            boolean noPedido = false;
             if (listSer.size() == 1) {
-                if (verificaCodigos(jTextFieldSerial.getText().toUpperCase().trim())) {
+                if (verificaCodigos(listSer, jTextFieldSerial.getText().toUpperCase().trim())) {
                     for (SerialProduto ser : listSer) {
-                        int quantProdTotal = 0;
-                        int serialProdutoSeparado = 0;
-                        int quantTotalPedido = 0;
-                        //boolean jaPassou = false;
-                        for (Movendaprod movProd : listMovendaProd) {
-                            if (ser.getCodProduto().equals(movProd.getCodprod().getCodprod())) {
-                                condicao = true;
-                            }
-                        }
-                        if (condicao) {
-                            for (SaidaSerial ss : listSaidaSerial) {
-                                if (ss.getIdSerial().getSerial().equals(jTextFieldSerial.getText().toUpperCase().trim())) {
-                                    condicao = false;
-                                    manutencaoDeErro("O Serial: " + ss.getIdSerial().getSerial() + ", já está no pedido!!");
-                                }
-                            }
-                        } else {
-                            manutencaoDeErro("O Produto: " + ser.getNomeProduto() + ", não está no pedido!!");
-                            condicao = false;
-                        }
-
-                        if (condicao) {
-                            for (Movendaprod movProd : listMovendaProd) {
-                                quantTotalPedido = quantTotalPedido + movProd.getQuantidade().intValue();
-                                if (movProd.getCodprod().getCodprod().equals(ser.getCodProduto())) {
-                                    quantProdTotal = quantProdTotal + movProd.getQuantidade().intValue();
-                                    serialProdutoSeparado = serialProdutoSeparado + produtoSeparado(movProd, listSaidaSerial);
-                                }
-                            }
-                        }
-
-                        if (condicao) {
-                            boolean jaPassou = true;
-                            for (Movendaprod movProd : listMovendaProd) {
-                                if (movProd.getCodprod().getCodprod().equals(ser.getCodProduto())) {
-                                    int quan = produtoSeparado(movProd, listSaidaSerial);
-                                    if (movProd.getQuantidade().intValue() > quan && produtoDuplicado(ser.getSerial(), listSaidaSerial)) {
-                                        quantSeparada = quan + 1;
-                                        SaidaSerial a = new SaidaSerial();
-                                        a.setIdSaidaSerial(0);
-                                        a.setCodSaidaProd(movProd.getCodmovprod());
-                                        a.setDataSaida(format.dataAtual());
-                                        a.setCodSaida(movProd.getCodmovenda().getCodmovenda());
-                                        a.setIdSerial(ser);
-                                        listSaidaSerial.add(a);
-                                        carregaTabelasAdicionar(movProd, quantSeparada);
-                                        pedidoSeparado(true);
-                                        if (quantTotalPedido == listSaidaSerial.size()) {
-                                            jButtonGravar.setEnabled(true);
-                                        }
-                                    } else {
-                                        if (quantProdTotal == serialProdutoSeparado) {
-                                            manutencaoDeErro("O produto: " + ser.getNomeProduto() + ", está totalmente separado!!");
+                        int quantVenda = 0;
+                        boolean jaPassou = false;
+                        for (Movendaprod movProd : listaProdutoPedido) {
+                            if (ser.getCodProduto() == null ? movProd.getCodprod().getCodprod() == null : ser.getCodProduto().equals(movProd.getCodprod().getCodprod())) {
+                                noPedido = true;
+                                quantVenda = quantidadePacote(movProd);
+                                listSS = queryIntegrador.listPorSaidaProd(movProd.getCodmovprod());
+                                if (quantVenda > listSS.size()) {
+                                    serialProduto = ser;
+                                    movendaprod = movProd;
+                                    quantSeparada = listSS.size() + 1;
+                                    condicao = true;
+                                } else {
+                                    int prodDuplicado = 0;
+                                    int separados = 0;
+                                  
+                                    for (Movendaprod mov : listaProdutoPedido) {
+                                        if (movProd.getCodprod().getCodprod() == mov.getCodprod().getCodprod()) {
+                                            prodDuplicado = prodDuplicado + quantidadePacote(mov);
+                                            separados = separados + queryIntegrador.listPorSaidaProd(mov.getCodmovprod()).size();
                                         }
                                     }
+                                    if (prodDuplicado == separados && jaPassou == false) {
+                                        manutencaoDeErro("O produto: " + ser.getNomeProduto() + ", está totalmente separado!!");
+                                        jaPassou = true;
+                                    }
                                 }
+                            }//if que verifica o prodoto no pedido                   
+                        } //forMoveProd
+                        if (noPedido == false) {
+                            manutencaoDeErro("O Produto: " + ser.getNomeProduto() + ", não está no pedido!!");
+                        }
+                    }//for ser
+                    if (condicao) {
+                        for (SaidaSerial ss : listSS) {
+                            if (ss.getIdSerial().getSerial() == null ? jTextFieldSerial.getText().toUpperCase().trim() == null : ss.getIdSerial().getSerial().equals(jTextFieldSerial.getText().toUpperCase().trim())) {
+                                condicao = false;
+                                manutencaoDeErro("O Serial: " + ss.getIdSerial().getSerial() + ", já está no pedido!!");
                             }
                         }
                     }
                 } else {
+                    condicao = false;
                     manutencaoDeErro("O serial não pode ser o EAN, Verifique!!");
                 }
             } else {
                 manutencaoDeErro("Serial não encontrado: " + jTextFieldSerial.getText() + " Verifique!!");
             }
-        } else {
-            manutencaoDeErro("Você deve digitar algo Verifique!!");
+            if (condicao) {
+                gravarSaidaSerial(serialProduto, movendaprod);
+                carregaTabelasAdicionar(movendaprod, quantSeparada, jTextFieldSerial.getText().toUpperCase().trim());
+            }
         }
         //carregaTabelas();
         jTextFieldSerial.selectAll();
@@ -655,52 +572,40 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
         jTextFieldSerial.requestFocus();
     }
 
-    private void carregaTabelasAdicionar(Movendaprod movProd, int quantSeparada) {
+    private void carregaTabelasAdicionar(Movendaprod movProd, int quantSeparada, String serial) {
         DefaultTableModel tabSaidaProd = (DefaultTableModel) jTableSaidaProd.getModel();
         while (jTableSaidaProd.getModel().getRowCount() > 0) {
             ((DefaultTableModel) jTableSaidaProd.getModel()).removeRow(0);
         }
         int linha = 0;
-        for (Movendaprod e : listMovendaProd) {
+        for (Movendaprod e : listaProdutoPedido) {
             int coluna = jTableSaidaProd.getColumnModel().getColumnIndex("Cod. MovProd");
             int colunaSeparado = jTableSaidaProd.getColumnModel().getColumnIndex("Separado");
             tabSaidaProd.addRow(new Object[]{
                 e.getCodprod().getCodigo(),
                 e.getCodprod().getNomeprod(),
-                //String.valueOf(quantidadePacote(e)),
-                String.valueOf(e.getQuantidade().intValue()),
-                //String.valueOf(queryIntegrador.listPorSaidaProd(e.getCodmovprod()).size()),
-                String.valueOf(produtoSeparado(e, listSaidaSerial)),
+                String.valueOf(quantidadePacote(e)),
+                String.valueOf(queryIntegrador.listPorSaidaProd(e.getCodmovprod()).size()),
                 setor(e.getCodprod()),
                 String.valueOf(EstoqueCplus(e.getCodprod().getCodprod())),
                 unidade(e),
                 e.getCodmovprod()
             });
-
             String value = (String) jTableSaidaProd.getValueAt(linha, coluna);
             if (movProd.getCodmovprod() == null ? value == null : movProd.getCodmovprod().equals(value)) {
                 tabSaidaProd.setValueAt(quantSeparada, linha, colunaSeparado);
+                DefaultTableModel tabSerial = (DefaultTableModel) jTableSeriasSeparados.getModel();
+                for (SaidaSerial s : queryIntegrador.listSaidaSerial(serial, movProd.getCodmovprod())) {
+                    tabSerial.addRow(new Object[]{
+                        s.getIdSerial().getCodigoProduto(),
+                        s.getIdSerial().getNomeProduto(),
+                        s.getIdSerial().getSerial(),
+                        String.valueOf(s.getIdSaidaSerial())
+                    });
+                }
             }
             linha++;
-
         }
-        DefaultTableModel tabSerial = (DefaultTableModel) jTableSeriasSeparados.getModel();
-        while (jTableSeriasSeparados.getModel().getRowCount() > 0) {
-            ((DefaultTableModel) jTableSeriasSeparados.getModel()).removeRow(0);
-        }
-        for (SaidaSerial s : listSaidaSerial) {
-            tabSerial.addRow(new Object[]{
-                s.getIdSerial().getCodigoProduto(),
-                s.getIdSerial().getNomeProduto(),
-                s.getIdSerial().getSerial(),
-                String.valueOf(s.getIdSaidaSerial())
-            });
-        }
-        int lastRow = jTableSeriasSeparados.getRowCount() - 1;
-        if (lastRow >= 0) {
-            jTableSeriasSeparados.scrollRectToVisible(jTableSeriasSeparados.getCellRect(lastRow, 0, true));
-        }
-
     }
 
     private String setor(Produto codProd) {
@@ -734,13 +639,12 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
         while (jTableSaidaProd.getModel().getRowCount() > 0) {
             ((DefaultTableModel) jTableSaidaProd.getModel()).removeRow(0);
         }
-        for (Movendaprod e : listMovendaProd) {
+        for (Movendaprod e : listaProdutoPedido) {
             tab.addRow(new Object[]{
                 e.getCodprod().getCodigo(),
                 e.getCodprod().getNomeprod(),
-                //String.valueOf(quantidadePacote(e)),
-                String.valueOf(e.getQuantidade().intValue()),
-                String.valueOf(produtoSeparado(e, listSaidaSerial)),
+                String.valueOf(quantidadePacote(e)),
+                String.valueOf(queryIntegrador.listPorSaidaProd(e.getCodmovprod()).size()),
                 setor(e.getCodprod()),
                 String.valueOf(EstoqueCplus(e.getCodprod().getCodprod())),
                 unidade(e),
@@ -752,7 +656,7 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
         while (jTableSeriasSeparados.getModel().getRowCount() > 0) {
             ((DefaultTableModel) jTableSeriasSeparados.getModel()).removeRow(0);
         }
-        for (SaidaSerial s : listSaidaSerial) {
+        for (SaidaSerial s : queryIntegrador.listPorSaida(movenda.getCodmovenda())) {
             tabSerial.addRow(new Object[]{
                 s.getIdSerial().getCodigoProduto(),
                 s.getIdSerial().getNomeProduto(),
@@ -768,22 +672,20 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
         }
     }
 
-    /**
-     * Função que passa pela listagem de EANs do pedido Caso algum seja igual ao
-     * serial digitado retorna false
-     *
-     * @param textoDigitado
-     * @return
-     */
-    private boolean verificaCodigos(String textoDigitado) {
+    private boolean verificaCodigos(List<SerialProduto> listSer, String textoDigitado) {
         boolean condicao = true;
-
-        for (ListCodigoProduto p : listCodigo) {
-            if (p.getCodigo().equals(textoDigitado)) {
+        for (SerialProduto ser : listSer) {
+            Produto produto = new ProdutoJpaController(Manager.getManagerCplus()).findProduto(ser.getCodProduto());
+            if (produto.getCodigo() == null ? textoDigitado == null : produto.getCodigo().equals(textoDigitado)) {
                 condicao = false;
+            } else {
+                for (Produtocodigo cod : produto.getProdutocodigoCollection()) {
+                    if (cod.getCodigo() == null ? textoDigitado == null : cod.getCodigo().equals(textoDigitado)) {
+                        condicao = false;
+                    }
+                }
             }
         }
-
         return condicao;
     }
 
@@ -811,17 +713,12 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
         //jButtonExcluirSeria.setEnabled(true);
         if (jTableSeriasSeparados.getSelectedRow() >= 0) {
             int coluna = jTableSeriasSeparados.getColumnModel().getColumnIndex("ID Saida Serial");
-            Integer aValue = Integer.valueOf(jTableSeriasSeparados.getValueAt(jTableSeriasSeparados.getSelectedRow(), coluna).toString());
-            if (aValue > 0) {
-                try {
-                    new SaidaSerialJpaController(Manager.getManagerIntegrador()).destroy(aValue);
-                } catch (jpa.integrador.exceptions.NonexistentEntityException ex) {
-                    JOptionPane.showMessageDialog(null, "Erro ao excluir serial!! \n" + ex);
-                }
+            int id = Integer.valueOf(jTableSeriasSeparados.getValueAt(jTableSeriasSeparados.getSelectedRow(), coluna).toString());
+            try {
+                new SaidaSerialJpaController(Manager.getManagerIntegrador()).destroy(id);
+            } catch (jpa.integrador.exceptions.NonexistentEntityException ex) {
+                JOptionPane.showMessageDialog(null, "Erro ao excluir serial!! \n" + ex);
             }
-            coluna = jTableSeriasSeparados.getColumnModel().getColumnIndex("Serial");
-            String txt = jTableSeriasSeparados.getValueAt(jTableSeriasSeparados.getSelectedRow(), coluna).toString();
-            listSaidaSerial.removeIf(p -> p.getIdSerial().getSerial().equals(txt));
         } else {
             JOptionPane.showMessageDialog(null, "Favor selecionar uma linha");
         }
@@ -926,42 +823,19 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
         this.listagemSaidasJDialog.setVisible(true);
         if (this.listagemSaidasJDialog.isCancelamento() == false) {
             movenda = this.listagemSaidasJDialog.getMoVenda();
-            //listMovendaProd = queryCplus.listMovendaProd(movenda.getCodmovenda()); 
-            //Laço altera a quantidade na nos produtos do pedido com referencia aos pacotes
-            listSaidaSerial = new ArrayList<>();
-            listMovendaProd = new ArrayList<>();
-            for (Movendaprod p : queryCplus.listMovendaProd(movenda.getCodmovenda())) {
-                BigDecimal q = p.getQuantidade();
-                for (Unidade un : queryCplus.resultPorUnidadeProduto(p.getCodprod().getUnidade())) {
-                    if (un.getFatorconversao().intValue() > 1) {
-                        q = p.getQuantidade().divide(un.getFatorconversao());
-                    }
-                }
-                p.setQuantidade(q);
-                listMovendaProd.add(p);
-            }
-            //Laço que carrega uma lista de Seriais de Saida caso haja
-            //for (Movendaprod p : listMovendaProd) {
-            for (SaidaSerial s : queryIntegrador.listPorSaida(movenda.getCodmovenda())) {
-                listSaidaSerial.add(s);
-            }
-            //}
-            //carrega a lista de codigos EAN do C-plus
-            carregaListaCodigos();
-            //////////////////////////////////////////// 
-
+            listaProdutoPedido = queryCplus.listMovendaProd(movenda.getCodmovenda());
             String str = movenda.getFlagcancelada().toString();
             if ("N".equals(str)) {
                 if (insereConfiguracaoParaSeparacao()) {
                     if (verificaPedidoAberto()) {
                         carregaTabelas();
-                        pedidoSeparado(true);
+                        pedidoSeparado(false);
                     }
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "O pedido está cancelado, verifique!!! ", "Erro Separar", JOptionPane.ERROR_MESSAGE);
             }
-            //jButtonCancelarSeparacao.setEnabled(false);
+            jButtonCancelarSeparacao.setEnabled(false);
             jButtonPesquisaSaida.setEnabled(true);
             jButtonFechar.setEnabled(true);
         }//fim if adialog cancelado
@@ -976,35 +850,23 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
         new IntLogsJpaController(Manager.getManagerIntegrador()).create(log);
     }
 
-    private void gravarSaidaSerial() {
-        for (SaidaSerial s : listSaidaSerial) {
-            if (s.getIdSaidaSerial() == 0) {
-                SaidaSerial mvps = new SaidaSerial();
-                mvps.setCodSaida(s.getCodSaida());
-                mvps.setCodSaidaProd(s.getCodSaidaProd());
-                mvps.setDataSaida(new Date(System.currentTimeMillis()));
-                mvps.setDevolvido(false);
-                mvps.setIdSerial(s.getIdSerial());
-                try {
-                    new SaidaSerialJpaController(Manager.getManagerIntegrador()).create(mvps);
-
-                } catch (Exception ex) {
-                    tocarSomErro();
-                    JOptionPane.showMessageDialog(null, "ERRO AO GRAVAR SERIAL, Verifique!! \n" + ex, "Erro Separar", JOptionPane.ERROR_MESSAGE);
-                    this.listagemUsuarioJDialog.setVisible(true);
-                }
-            }
+    private void gravarSaidaSerial(SerialProduto ser, Movendaprod movProd) {
+        SaidaSerial mvps = new SaidaSerial();
+        mvps.setCodSaida(movProd.getCodmovenda().getCodmovenda());
+        mvps.setCodSaidaProd(movProd.getCodmovprod());
+        mvps.setDataSaida(new Date(System.currentTimeMillis()));
+        mvps.setDevolvido(false);
+        mvps.setIdSerial(ser);
+        try {
+            new SaidaSerialJpaController(Manager.getManagerIntegrador()).create(mvps);
+            // jButtonGravar.setEnabled(false);
+            //jTextFieldSerial.setEnabled(false);         
+        } catch (Exception ex) {
+            tocarSomErro();
+            //pedidoSeparado();
+            JOptionPane.showMessageDialog(null, "ERRO AO GRAVAR SERIAL, Verifique!! \n" + ex, "Erro Separar", JOptionPane.ERROR_MESSAGE);
+            this.listagemUsuarioJDialog.setVisible(true);
         }
-        //Laço que carrega uma lista de Seriais de Saida caso haja
-        listSaidaSerial.clear();
-        for (SaidaSerial s : queryIntegrador.listPorSaida(movenda.getCodmovenda())) {
-            listSaidaSerial.add(s);
-        }
-        jButtonFechar.setEnabled(true);
-        jButtonPesquisaSaida.setEnabled(true);
-        jButtonGravar.setEnabled(false);
-        jTextFieldSerial.setEnabled(false);
-        carregaTabelas();
         pedidoSeparado(true);
     }
 
@@ -1026,16 +888,14 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
      * @return true se já estiver separado false não separado ou não separado
      * completamente
      */
-    private boolean pedidoSeparado(boolean val) {
+    private boolean pedidoSeparado(boolean separando) {
         boolean condicao = false;
         //List<Movendaprod> listaProdutoPedido = queryCplus.listMovendaProd(movenda.getCodmovenda());
         int quanMovendaProd = 0;
-        //int quantidadeSerial = queryIntegrador.listPorSaida(movenda.getCodmovenda()).size();
-        int quantidadeSerial = listSaidaSerial.size();
-        for (Movendaprod movProd : listMovendaProd) {
+        int quantidadeSerial = queryIntegrador.listPorSaida(movenda.getCodmovenda()).size();
+        for (Movendaprod movProd : listaProdutoPedido) {
             //soma quantidades do pedido
-            //quanMovendaProd = quanMovendaProd + quantidadePacote(movProd);
-            quanMovendaProd = quanMovendaProd + movProd.getQuantidade().intValue();
+            quanMovendaProd = quanMovendaProd + quantidadePacote(movProd);
             //soma seriais
             //quantidadeSerial = quantidadeSerial + queryIntegrador.listPorSaidaProd(movProd.getCodmovprod()).size();
         }
@@ -1045,24 +905,17 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
         int tot = quanMovendaProd - quantidadeSerial;
         //jTextFieldItensFaltando.setText(String.valueOf(tot));
 
-        if (quanMovendaProd == quantidadeSerial && val) {
+        if (quanMovendaProd == quantidadeSerial) {
             jTextFieldItensFaltando.setText(String.valueOf(tot));
-            if (quanMovendaProd == queryIntegrador.listPorSaida(movenda.getCodmovenda()).size()) {
-                jTextFieldItensFaltando.setBackground(format.stringParaColor(ConfiguracaoNoBD.getValorLinhaCompleto()));
-                jTextFieldTextoAviso.setText("Pedido Totalmente Separado!");
-                jTextFieldTextoAviso.setBackground(format.stringParaColor(ConfiguracaoNoBD.getValorLinhaCompleto()));
-            } else {
-                jTextFieldItensFaltando.setBackground(format.stringParaColor(ConfiguracaoNoBD.getValorLinhaCuidado()));
-                jTextFieldTextoAviso.setText("Pedido pendente de GRAVAÇÃO!");
-                jTextFieldTextoAviso.setBackground(format.stringParaColor(ConfiguracaoNoBD.getValorLinhaCuidado()));
-            }
+            jTextFieldItensFaltando.setBackground(format.stringParaColor(ConfiguracaoNoBD.getValorLinhaCompleto()));
+            jTextFieldTextoAviso.setText("Pedido Totalmente Separado!");
+            jTextFieldTextoAviso.setBackground(format.stringParaColor(ConfiguracaoNoBD.getValorLinhaCompleto()));
             jButtonSepararPedido.setEnabled(false);
-            jButtonCancelarSeparacao.setEnabled(true);
+            jButtonCancelarSeparacao.setEnabled(false);
             jButtonImprimirRomaneio.setEnabled(true);
-            //jButtonPesquisaSaida.setEnabled(true);
-            //jButtonFechar.setEnabled(true);
+            jButtonPesquisaSaida.setEnabled(true);
+            jButtonFechar.setEnabled(true);
             jTextFieldSerial.setEnabled(false);
-            //jButtonGravar.setEnabled(true);
             tocarSomFinalizado();
             condicao = true;
         } else {
@@ -1075,17 +928,13 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
             jButtonCancelarSeparacao.setEnabled(true);
             jButtonFechar.setEnabled(false);
             jButtonPesquisaSaida.setEnabled(false);
-            jButtonGravar.setEnabled(false);
         }
-        if (quanMovendaProd == quantidadeSerial) {
+        if (quanMovendaProd == quantidadeSerial && separando) {
             String romaneio = "";
-            for (Movendaprod vend : listMovendaProd) {
+            for (Movendaprod vend : listaProdutoPedido) {
                 romaneio = romaneio + vend.getCodprod().getCodigo() + ": ";
-                //for (SaidaSerial sai : queryIntegrador.listPorSaidaProd(vend.getCodmovprod())) {
-                for (SaidaSerial sai : listSaidaSerial) {
-                    if (vend.getCodmovprod().equals(sai.getCodSaidaProd())) {
-                        romaneio = romaneio + sai.getIdSerial().getSerial() + ", ";
-                    }
+                for (SaidaSerial sai : queryIntegrador.listPorSaidaProd(vend.getCodmovprod())) {
+                    romaneio = romaneio + sai.getIdSerial().getSerial() + ", ";
                 }
                 romaneio = romaneio + "  ";
             }
@@ -1161,14 +1010,10 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
             }
         });
     }
-
-    private List<ListCodigoProduto> listCodigo;
-    private List<SaidaSerial> listSaidaSerial;
-
     private Movenda movenda;
     private final ListagemSaidasJDialog listagemSaidasJDialog;
     private final ListagemUsuarioJDialog listagemUsuarioJDialog;
-    private List<Movendaprod> listMovendaProd;
+    private List<Movendaprod> listaProdutoPedido;
     private final QueryCplus queryCplus;
     private final QueryIntegrador queryIntegrador;
     private final ListagemProdutoJDialog listagemProdutoJDialog;
@@ -1179,7 +1024,6 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButtonEditarProduto;
     private javax.swing.JButton jButtonExcluirSeria;
     private javax.swing.JButton jButtonFechar;
-    private javax.swing.JButton jButtonGravar;
     private javax.swing.JButton jButtonImprimirRomaneio;
     private javax.swing.JButton jButtonPesquisaSaida;
     private javax.swing.JButton jButtonSepararPedido;

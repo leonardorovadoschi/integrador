@@ -251,7 +251,7 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
             String codMovProd = jTableEntradaProd.getValueAt(jTableEntradaProd.getSelectedRow(), colunaCodMovProd).toString();
             movEntradaProd = new MoventradaprodJpaController(Manager.getManagerCplus()).findMoventradaprod(codMovProd);
             this.entradaSerialJDialog.setProduto(movEntradaProd.getCodprod());
-            this.entradaSerialJDialog.setListCodigo(queryCplus.listagemProdutoCodigo(movEntradaProd.getCodprod().getCodprod()));
+            this.entradaSerialJDialog.setListCodigo(queryCplus.listEanProduto(movEntradaProd.getCodprod().getCodprod()));
             this.entradaSerialJDialog.setMovEntradaProd(movEntradaProd);
             this.entradaSerialJDialog.confereQuantidadeDigitada();
             this.entradaSerialJDialog.setVisible(true);

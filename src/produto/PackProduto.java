@@ -490,7 +490,7 @@ public class PackProduto {
      */
     private String eanCplus(Produto proCplus) {
         String tex = "";
-        List<Produtocodigo> listPrdCod = new QueryCplus().resultEanProduto(proCplus.getCodprod());
+        List<Produtocodigo> listPrdCod = new QueryCplus().listEanProduto(proCplus.getCodprod());
         for (Produtocodigo pc : listPrdCod) {
             tex = pc.getCodigo();
         }
