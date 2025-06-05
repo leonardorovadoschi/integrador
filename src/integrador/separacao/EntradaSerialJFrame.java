@@ -39,7 +39,7 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
      */
     public EntradaSerialJFrame() {
         initComponents();
-        
+
         this.listagemEntradasJDialog = new ListagemEntradasJDialog(this, true);
         //this.listagemUsuarioJDialog = new ListagemUsuarioJDialog(this, true, managerCplus);
         this.entradaSerialJDialog = new EntradaSerialJDialog(this, true);
@@ -50,7 +50,7 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
         colunaCodMovProd = jTableEntradaProd.getColumnModel().getColumnIndex("Codmoveprod");
         this.listagemProdutoJDialog = new ListagemProdutoJDialog(this, true);
-         jTableEntradaProd.setDefaultRenderer(Object.class, new ConfTabelaEntradaSerial());
+        jTableEntradaProd.setDefaultRenderer(Object.class, new ConfTabelaEntradaSerial());
         //new RenderPreco();
     }
 
@@ -313,9 +313,8 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
         movEntradaProd = new MoventradaprodJpaController(Manager.getManagerCplus()).findMoventradaprod(codMovProd);
         if (movEntradaProd.getCodmoveprod() != null || !"".equals(movEntradaProd.getCodmoveprod())) {
             int completo = queryIntegrador.listPorEntradaProd(movEntradaProd.getCodmoveprod()).size();
-            if (quanPacote(movEntradaProd) != completo) {
-                //jButtonEntradaDeSeriais.setEnabled(true);
-            } else {
+            if (movEntradaProd.getQuantidade().intValue() == completo) {
+                //jButtonEntradaDeSeriais.setEnabled(true);          
                 //jButtonEntradaDeSeriais.setEnabled(false);
                 for (int cont = 0; cont < jTableEntradaProd.getRowCount(); cont++) {
                     if (movEntradaProd.getCodmoveprod() == jTableEntradaProd.getValueAt(cont, colunaCodMovProd)) {
@@ -324,29 +323,28 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
                 }
             }
         }
-        //  }
     }
 
     private void carregarTabela() {
-        List<Moventradaprod> moEntradaProduto = queryCplus.listagemMovEntradaProdPorEntrada(movEntrada.getCodmoventr());
+        //List<Moventradaprod> moEntradaProduto = queryCplus.listagemMovEntradaProdPorEntrada(movEntrada.getCodmoventr());
         DefaultTableModel tab = (DefaultTableModel) jTableEntradaProd.getModel();
         while (jTableEntradaProd.getModel().getRowCount() > 0) {
             ((DefaultTableModel) jTableEntradaProd.getModel()).removeRow(0);
         }
-        for (Moventradaprod e : moEntradaProduto) {
+        for (Moventradaprod e : listMovEnt) {
             int comp = queryIntegrador.listPorEntradaProd(e.getCodmoveprod()).size();
             tab.addRow(new Object[]{
-                e.getCodprod().getCodigo(), 
-                e.getCodprod().getNomeprod(), 
-                String.valueOf(quanPacote(e)), 
-                String.valueOf(comp), 
-                setor(e.getCodprod()), 
-                format.bigDecimalParaString(EstoqueCplus(e.getCodprod().getCodprod()), 0), 
-                unidade(e),
+                e.getCodprod().getCodigo(),
+                e.getCodprod().getNomeprod(),
+                String.valueOf(e.getQuantidade().intValue()),
+                String.valueOf(comp),
+                e.getNumeroecf(),
+                format.bigDecimalParaString(e.getAliqirrf(), 0),
+                e.getUnidadetrib(),
                 e.getCodmoveprod()
             });
         }
-       // colorirLinha();
+        // colorirLinha();     
     }
 
     private String setor(Produto codProd) {
@@ -372,6 +370,14 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
         this.listagemEntradasJDialog.setVisible(true);
         if (this.listagemEntradasJDialog.isCancelamento() == false) {
             movEntrada = this.listagemEntradasJDialog.getMovEntrada();
+
+            listMovEnt = queryCplus.listagemMovEntradaProdPorEntrada(movEntrada.getCodmoventr());
+            for (Moventradaprod prod : listMovEnt) {
+                prod.setNumeroecf(setor(prod.getCodprod()));//se refere a localização
+                prod.setAliqirrf(EstoqueCplus(prod.getCodprod().getCodprod())); // se refere quantidade de no estoque               
+                prod.setQuantidade(new BigDecimal(quanPacote(prod)));//altera para a quantidade de pacotes
+            }
+
             carregarTabela();
             verificaEntradaCompleta();
             jButtonListaSerialEntrada.setEnabled(true);
@@ -380,10 +386,11 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
 
     private void verificaEntradaCompleta() {
         int entSerial = 0;
-        List<Moventradaprod> listProdEntrada = queryCplus.listagemMovEntradaProdPorEntrada(movEntrada.getCodmoventr());
+
         int totalProdutos = 0;
-        for (Moventradaprod prod : listProdEntrada) {
-            totalProdutos = totalProdutos + (quanPacote(prod));
+        for (Moventradaprod prod : listMovEnt) {
+            //totalProdutos = totalProdutos + (quanPacote(prod));
+            totalProdutos = totalProdutos + prod.getQuantidade().intValue();
             entSerial = entSerial + queryIntegrador.listPorEntradaProd(prod.getCodmoveprod()).size();
         }
         if (entSerial == totalProdutos) {
@@ -417,16 +424,7 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
             }
         }
         return quantidade;
-    }   
-    
-    private String unidade(Moventradaprod prodEnt) {
-        String txt = "";
-        List<Unidade> listUn = queryCplus.resultPorUnidadeProduto(prodEnt.getCodprod().getUnidade());
-        for (Unidade un : listUn) {
-           txt = un.getCodigo();
-        }
-        return txt;
-    }   
+    }
 
     /**
      * @param args the command line arguments
@@ -463,6 +461,7 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
         });
     }
 
+    private List<Moventradaprod> listMovEnt;
     private final ListagemEntradasJDialog listagemEntradasJDialog;
     private final ListagemSerialEntradaJDialog listagemSerialEntradaJDialog;
     private final EntradaSerialJDialog entradaSerialJDialog;

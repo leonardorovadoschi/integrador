@@ -28,7 +28,6 @@ import janela.cplus.ListagemSaidasJDialog;
 import java.awt.Toolkit;
 import java.io.File;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -573,6 +572,9 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
         return condicao;
     }
 
+    /**
+     * Função responsável por verificar se ha erro coo o serial digitado
+     */
     private void adicionarSerial() {
         int quantSeparada = 0;
         boolean condicao = false;
@@ -584,7 +586,6 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
                         int quantProdTotal = 0;
                         int serialProdutoSeparado = 0;
                         int quantTotalPedido = 0;
-                        //boolean jaPassou = false;
                         for (Movendaprod movProd : listMovendaProd) {
                             if (ser.getCodProduto().equals(movProd.getCodprod().getCodprod())) {
                                 condicao = true;
@@ -655,6 +656,11 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
         jTextFieldSerial.requestFocus();
     }
 
+    /**
+     * Função responsável por carregar tabelas na hora da separação
+     * @param movProd
+     * @param quantSeparada 
+     */
     private void carregaTabelasAdicionar(Movendaprod movProd, int quantSeparada) {
         DefaultTableModel tabSaidaProd = (DefaultTableModel) jTableSaidaProd.getModel();
         while (jTableSaidaProd.getModel().getRowCount() > 0) {
@@ -671,9 +677,9 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
                 String.valueOf(e.getQuantidade().intValue()),
                 //String.valueOf(queryIntegrador.listPorSaidaProd(e.getCodmovprod()).size()),
                 String.valueOf(produtoSeparado(e, listSaidaSerial)),
-                setor(e.getCodprod()),
-                String.valueOf(EstoqueCplus(e.getCodprod().getCodprod())),
-                unidade(e),
+                e.getCodigoeanproduto(), //se refere a localização ou setor
+                String.valueOf(e.getComissao().intValue()), //se refere ao estoque
+                e.getUnidade(),
                 e.getCodmovprod()
             });
 
@@ -682,7 +688,6 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
                 tabSaidaProd.setValueAt(quantSeparada, linha, colunaSeparado);
             }
             linha++;
-
         }
         DefaultTableModel tabSerial = (DefaultTableModel) jTableSeriasSeparados.getModel();
         while (jTableSeriasSeparados.getModel().getRowCount() > 0) {
@@ -703,21 +708,17 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Retorna a localização
+     * @param codProd
+     * @return 
+     */
     private String setor(Produto codProd) {
         String text = "";
         for (Localizacao loc : queryCplus.listLocalizacao(codProd.getCodloc())) {
             text = loc.getDescricao();
         }
         return text;
-    }
-
-    private String unidade(Movendaprod prodEnt) {
-        String txt = "";
-        List<Unidade> listUn = queryCplus.resultPorUnidadeProduto(prodEnt.getCodprod().getUnidade());
-        for (Unidade un : listUn) {
-            txt = un.getCodigo();
-        }
-        return txt;
     }
 
     private Integer EstoqueCplus(String codProd) {
@@ -741,9 +742,9 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
                 //String.valueOf(quantidadePacote(e)),
                 String.valueOf(e.getQuantidade().intValue()),
                 String.valueOf(produtoSeparado(e, listSaidaSerial)),
-                setor(e.getCodprod()),
-                String.valueOf(EstoqueCplus(e.getCodprod().getCodprod())),
-                unidade(e),
+                e.getCodigoeanproduto(), //se refere a localização ou setor
+                String.valueOf(e.getComissao().intValue()), //se refere ao estoque
+                e.getUnidade(),
                 e.getCodmovprod()
             });
         }
@@ -938,6 +939,10 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
                     }
                 }
                 p.setQuantidade(q);
+                //carrega o estoque do produto
+                p.setComissao(new BigDecimal(EstoqueCplus(p.getCodprod().getCodprod())));
+                //carrega a localização do produto
+                p.setCodigoeanproduto(setor(p.getCodprod()));
                 listMovendaProd.add(p);
             }
             //Laço que carrega uma lista de Seriais de Saida caso haja

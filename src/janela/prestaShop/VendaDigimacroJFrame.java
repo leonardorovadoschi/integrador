@@ -1438,9 +1438,19 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
             //"Nome", "E-Mail", "Empresa", "CPF/CNPJ", "Data Atual.", 
             //"Data Add", "Ativo", "Nota", "Limite crédito", "Newsletter", 
             //"Id Group", "Id Customer"
-            tab.addRow(new Object[]{nomeCliente(e.getIdCustomer()), e.getCompany(), e.getEmail(), format.mascaraCNPJouCPF(e.getSiret()), format.dataStringDataCompleta(e.getDateUpd(), 0),
-                format.dataStringDataCompleta(e.getDateAdd(), 0), e.getActive(), e.getNote(), format.bigDecimalParaString(e.getOutstandingAllowAmount(), 2), e.getNewsletter(),
-                e.getIdDefaultGroup(), e.getIdCustomer()});
+            tab.addRow(new Object[]{
+                nomeCliente(e.getIdCustomer()), 
+                e.getCompany(), 
+                e.getEmail(), 
+                format.mascaraCNPJouCPF(e.getSiret()), 
+                format.dataStringDataCompleta(e.getDateUpd(), 0),
+                format.dataStringDataCompleta(e.getDateAdd(), 0), 
+                e.getActive(), 
+                e.getNote(), 
+                format.bigDecimalParaString(e.getOutstandingAllowAmount(), 2), 
+                e.getNewsletter(),
+                e.getIdDefaultGroup(), 
+                e.getIdCustomer()});
         }
         TableCellRenderer renderer = new ColorirLinhaImpar();
         for (int c = 0; c < jTableCustomer.getColumnCount(); c++) {
