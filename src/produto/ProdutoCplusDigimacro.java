@@ -88,7 +88,7 @@ public class ProdutoCplusDigimacro {
         // List<PsProduct> listProdSite = new QueryPrestaShop(managerPrestaShop).listagemProdutoSite("000001942");
         switch (listProdSite.size()) {
             case 0:
-                if (produtoAtivo(proCplus) && EstoqueCplus(proCplus) > 0) {
+                if (produtoAtivo(proCplus) && quanEstoqeuCplus(proCplus) > 0) {
                     criarProdutoSite(proCplus);
                     if (fatorConversao(proCplus) > 1) {
                         new PackProduto().produtoCplusDigimacro(proCplus);
@@ -550,32 +550,18 @@ public class ProdutoCplusDigimacro {
     private Integer quanEstoqeuCplus(Produto proCplus) {
         BigDecimal estoque = BigDecimal.ZERO;
         int stock;
-        List<Produtoestoque> listEsroque = new QueryCplus().listEstoquesPorProd(proCplus.getCodprod());
-        for (Produtoestoque est : listEsroque) {
+       // List<Produtoestoque> listEsroque = new QueryCplus().listEstoquesPorProd(proCplus.getCodprod());
+        for (Produtoestoque est : proCplus.getProdutoestoqueCollection()) {          
             estoque = est.getEstatu().subtract(est.getReservadoorcamento().subtract(est.getReservadoos()));
         }
         stock = estoque.intValue();
         return stock;
     }
-
-    /**
-     * Função que verifica as reservas dos pedidos no c-plus e no site
-     * @param produto
-     * @return BigDecimal
-     */
-    private Integer EstoqueCplus(Produto proCplus) {
-        BigDecimal estoque = BigDecimal.ZERO;
-        List<Produtoestoque> listEsroque = new QueryCplus().listEstoquesPorProd(proCplus.getCodprod());
-        for (Produtoestoque est : listEsroque) {
-            estoque = est.getEstatu().subtract(est.getReservadoorcamento().subtract(est.getReservadoos()));
-        }
-        return estoque.intValue();
-    }
     
     private Integer EstoqueMinimoCplus(Produto proCplus) {
         BigDecimal estoque = BigDecimal.ZERO;
-        List<Produtoestoque> listEsroque = new QueryCplus().listEstoquesPorProd(proCplus.getCodprod());
-        for (Produtoestoque est : listEsroque) {
+        //List<Produtoestoque> listEsroque = new QueryCplus().listEstoquesPorProd(proCplus.getCodprod());
+        for (Produtoestoque est : proCplus.getProdutoestoqueCollection()) {
             estoque = est.getQtdemin();
         }
         return estoque.intValue();
@@ -620,23 +606,11 @@ public class ProdutoCplusDigimacro {
                 new PsSpecificPriceJpaController(Manager.getManagerPrestaShop()).create(psSP);
             } else if (listPSSP.size() == 1) {
                 for (PsSpecificPrice psSP : listPSSP) {
-                    //psSP.setIdSpecificPriceRule(0);
-                    // psSP.setIdCart(0);
-                    //psSP.setIdProduct(pp.getIdProduct());
-                    // psSP.setIdShop(1);
-                    // psSP.setIdShopGroup(0);
-                    // psSP.setIdCurrency(1);
-                    // psSP.setIdCountry(58);
-                    // psSP.setIdGroup(7);
-                    // psSP.setIdCustomer(0);
-                    // psSP.setIdProductAttribute(0);
+                    
                     psSP.setPrice(new BigDecimal("-1.0"));
                     //psSP.setPrice(precoDiferenciado.multiply(new BigDecimal("0.9")));
                     psSP.setFromQuantity(defineQuantidadePreco(pp, bd));
-                    //psSP.setReduction(bd.divide(new BigDecimal("100.0")));
-                    //psSP.setReductionTax(true);
-                    //psSP.setReductionType("percentage");
-                    //psSP.setFrom(new );
+                    
                     psSP.setTo(new FormataCampos().alteraDiaData(new Date(System.currentTimeMillis()), 360));
                     try {
                         new PsSpecificPriceJpaController(Manager.getManagerPrestaShop()).edit(psSP);

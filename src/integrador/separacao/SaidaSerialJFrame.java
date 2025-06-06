@@ -1039,108 +1039,68 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
     private void pedidoSeparado(boolean val) {
 
         new Thread(() -> {
-            
-                //List<Movendaprod> listaProdutoPedido = queryCplus.listMovendaProd(movenda.getCodmovenda());
-                int quanMovendaProd = 0;
-                //int quantidadeSerial = queryIntegrador.listPorSaida(movenda.getCodmovenda()).size();
-                int quantidadeSerial = listSaidaSerial.size();
-                for (Movendaprod movProd : listMovendaProd) {
-                    //soma quantidades do pedido
-                    //quanMovendaProd = quanMovendaProd + quantidadePacote(movProd);
-                    quanMovendaProd = quanMovendaProd + movProd.getQuantidade().intValue();
-                    //soma seriais
-                    //quantidadeSerial = quantidadeSerial + queryIntegrador.listPorSaidaProd(movProd.getCodmovprod()).size();
-                }
-                jProgressBarSaidaSerial.setMaximum(quanMovendaProd);
-                jProgressBarSaidaSerial.setMinimum(0);
-                jProgressBarSaidaSerial.setForeground(format.stringParaColor(ConfiguracaoNoBD.getValorLinhaCompleto()));
-                
-                
-                jButtonExcluirSeria.setEnabled(false);
-                // quantidadeSaidas = movendaprodserialList.size();
-                // quantidadTotalPedido = quanMovendaProd;
-                int tot = quanMovendaProd - quantidadeSerial;
-                //jTextFieldItensFaltando.setText(String.valueOf(tot));
-                //jProgressBarSaidaSerial.setString(String.valueOf("Produtos Site Cplus: " + count));
-                if (quanMovendaProd == quantidadeSerial && val) {
-                    jTextFieldItensFaltando.setText(String.valueOf(tot));
-                    if (quanMovendaProd == queryIntegrador.listPorSaida(movenda.getCodmovenda()).size()) {
-                        jTextFieldItensFaltando.setBackground(format.stringParaColor(ConfiguracaoNoBD.getValorLinhaCompleto()));
-                        //jTextFieldTextoAviso.setText("Pedido Totalmente Separado!");
-                        //jTextFieldTextoAviso.setBackground(format.stringParaColor(ConfiguracaoNoBD.getValorLinhaCompleto()));
-                        jProgressBarSaidaSerial.setBackground(format.stringParaColor(ConfiguracaoNoBD.getValorLinhaCompleto()));
-                        jProgressBarSaidaSerial.setString(String.valueOf("Produtos Separados!!!: "));
-                        jProgressBarSaidaSerial.setMinimum(quanMovendaProd);
-                    } else {                                                 
-                            jTextFieldItensFaltando.setBackground(format.stringParaColor(ConfiguracaoNoBD.getValorLinhaCuidado())); // Tratar a exceção se a thread for interrompida
-                            //jTextFieldTextoAviso.setText("AGUARDE SALVANDO SERIAIS NO BANCO DE DADOS!");
-                            //jTextFieldTextoAviso.setBackground(format.stringParaColor(ConfiguracaoNoBD.getValorLinhaCuidado()));
-                            // Pausa por 3 segundos (3000 milissegundos)
-                            jProgressBarSaidaSerial.setString(String.valueOf("AGUARDE SALVANDO SERIAIS NO BANCO DE DADOS!"));
-                            jProgressBarSaidaSerial.setBackground(format.stringParaColor(ConfiguracaoNoBD.getValorLinhaCuidado()));
-                            
-                            //gravarSaidaSerial();
-                            int cont = 0;
-                            for (SaidaSerial s : listSaidaSerial) {
-                                if (s.getIdSaidaSerial() == 0) {
-                                    SaidaSerial mvps = new SaidaSerial();
-                                    mvps.setCodSaida(s.getCodSaida());
-                                    mvps.setCodSaidaProd(s.getCodSaidaProd());
-                                    mvps.setDataSaida(new Date(System.currentTimeMillis()));
-                                    mvps.setDevolvido(false);
-                                    mvps.setIdSerial(s.getIdSerial());
-                                    try {
-                                        new SaidaSerialJpaController(Manager.getManagerIntegrador()).create(mvps);
-                                        //jTextFieldTextoAviso.setText("AGUARDE SALVANDO SERIAIS NO BANCO DE DADOS!-------: " + s.getIdSerial().getSerial());
-                                        jProgressBarSaidaSerial.setMinimum(cont);
-                                        cont++;
-                                    } catch (Exception ex) {
-                                        tocarSomErro();
-                                        JOptionPane.showMessageDialog(null, "ERRO AO GRAVAR SERIAL, Verifique!! \n" + ex, "Erro Separar", JOptionPane.ERROR_MESSAGE);
-                                        SaidaSerialJFrame.this.listagemUsuarioJDialog.setVisible(true);
-                                    }
-                                }
-                            }
-                            //Laço que carrega uma lista de Seriais de Saida caso haja
-                            listSaidaSerial.clear();
-                            for (SaidaSerial s : queryIntegrador.listPorSaida(movenda.getCodmovenda())) {
-                                listSaidaSerial.add(s);
-                            }
-                            jButtonFechar.setEnabled(true);
-                            jButtonPesquisaSaida.setEnabled(true);
-                            jButtonGravar.setEnabled(false);
-                            jTextFieldSerial.setEnabled(false);
-                            carregaTabelas();
-                            pedidoSeparado(true);
-                        
 
-                    }
-                    jButtonSepararPedido.setEnabled(false);
-                    jButtonCancelarSeparacao.setEnabled(true);
-                    jButtonImprimirRomaneio.setEnabled(true);
-                    //jButtonPesquisaSaida.setEnabled(true);
-                    //jButtonFechar.setEnabled(true);
-                    jTextFieldSerial.setEnabled(false);
-                    //jButtonGravar.setEnabled(true);
-                    tocarSomFinalizado();
-                    //condicao = true;
+            //List<Movendaprod> listaProdutoPedido = queryCplus.listMovendaProd(movenda.getCodmovenda());
+            int quanMovendaProd = 0;
+            //int quantidadeSerial = queryIntegrador.listPorSaida(movenda.getCodmovenda()).size();
+            int quantidadeSerial = listSaidaSerial.size();
+            for (Movendaprod movProd : listMovendaProd) {
+                    //soma quantidades do pedido
+                //quanMovendaProd = quanMovendaProd + quantidadePacote(movProd);
+                quanMovendaProd = quanMovendaProd + movProd.getQuantidade().intValue();
+                    //soma seriais
+                //quantidadeSerial = quantidadeSerial + queryIntegrador.listPorSaidaProd(movProd.getCodmovprod()).size();
+            }
+            jProgressBarSaidaSerial.setMaximum(quanMovendaProd);
+            jProgressBarSaidaSerial.setMinimum(0);
+            jProgressBarSaidaSerial.setForeground(format.stringParaColor(ConfiguracaoNoBD.getValorLinhaCompleto()));
+
+            jButtonExcluirSeria.setEnabled(false);
+                // quantidadeSaidas = movendaprodserialList.size();
+            // quantidadTotalPedido = quanMovendaProd;
+            int tot = quanMovendaProd - quantidadeSerial;
+                //jTextFieldItensFaltando.setText(String.valueOf(tot));
+            //jProgressBarSaidaSerial.setString(String.valueOf("Produtos Site Cplus: " + count));
+            if (quanMovendaProd == quantidadeSerial && val) {
+                jTextFieldItensFaltando.setText(String.valueOf(tot));
+                if (quanMovendaProd == queryIntegrador.listPorSaida(movenda.getCodmovenda()).size()) {
+                    jTextFieldItensFaltando.setBackground(format.stringParaColor(ConfiguracaoNoBD.getValorLinhaCompleto()));
+                        //jTextFieldTextoAviso.setText("Pedido Totalmente Separado!");
+                    //jTextFieldTextoAviso.setBackground(format.stringParaColor(ConfiguracaoNoBD.getValorLinhaCompleto()));
+                    jProgressBarSaidaSerial.setBackground(format.stringParaColor(ConfiguracaoNoBD.getValorLinhaCompleto()));
+                    jProgressBarSaidaSerial.setString(String.valueOf("Produtos Separados!!!: "));
+                    jProgressBarSaidaSerial.setMinimum(quanMovendaProd);
                 } else {
-                    jProgressBarSaidaSerial.setBackground(format.stringParaColor(ConfiguracaoNoBD.getValorLinhaIncompleto()));
-                    jProgressBarSaidaSerial.setString(String.valueOf("Aguardando Separação de Produtos!"));
-                    jProgressBarSaidaSerial.setValue(listSaidaSerial.size());                  
-                    jTextFieldItensFaltando.setText(String.valueOf(tot));
-                    
-                    jTextFieldItensFaltando.setBackground(format.stringParaColor(ConfiguracaoNoBD.getValorLinhaIncompleto()));
-                    //jTextFieldTextoAviso.setText("Aguardando Separação de Produtos!");
-                    //jTextFieldTextoAviso.setBackground(format.stringParaColor(ConfiguracaoNoBD.getValorLinhaIncompleto()));
-                    jButtonImprimirRomaneio.setEnabled(false);
-                    jButtonSepararPedido.setEnabled(true);
-                    jButtonCancelarSeparacao.setEnabled(true);
-                    jButtonFechar.setEnabled(false);
-                    jButtonPesquisaSaida.setEnabled(false);
-                    jButtonGravar.setEnabled(false);
-                }
-                if (quanMovendaProd == quantidadeSerial) {
+                    jTextFieldItensFaltando.setBackground(format.stringParaColor(ConfiguracaoNoBD.getValorLinhaCuidado())); // Tratar a exceção se a thread for interrompida
+                    //jTextFieldTextoAviso.setText("AGUARDE SALVANDO SERIAIS NO BANCO DE DADOS!");
+                    //jTextFieldTextoAviso.setBackground(format.stringParaColor(ConfiguracaoNoBD.getValorLinhaCuidado()));
+                    // Pausa por 3 segundos (3000 milissegundos)
+                    jProgressBarSaidaSerial.setString(String.valueOf("AGUARDE SALVANDO SERIAIS NO BANCO DE DADOS!"));
+                    jProgressBarSaidaSerial.setBackground(format.stringParaColor(ConfiguracaoNoBD.getValorLinhaCuidado()));
+
+                    //gravarSaidaSerial();
+                    int cont = 0;
+                    for (SaidaSerial s : listSaidaSerial) {
+                        if (s.getIdSaidaSerial() == 0) {
+                            SaidaSerial mvps = new SaidaSerial();
+                            mvps.setCodSaida(s.getCodSaida());
+                            mvps.setCodSaidaProd(s.getCodSaidaProd());
+                            mvps.setDataSaida(new Date(System.currentTimeMillis()));
+                            mvps.setDevolvido(false);
+                            mvps.setIdSerial(s.getIdSerial());
+                            try {
+                                new SaidaSerialJpaController(Manager.getManagerIntegrador()).create(mvps);
+                                //jTextFieldTextoAviso.setText("AGUARDE SALVANDO SERIAIS NO BANCO DE DADOS!-------: " + s.getIdSerial().getSerial());
+                                jProgressBarSaidaSerial.setMinimum(cont);
+                                cont++;
+                            } catch (Exception ex) {
+                                tocarSomErro();
+                                JOptionPane.showMessageDialog(null, "ERRO AO GRAVAR SERIAL, Verifique!! \n" + ex, "Erro Separar", JOptionPane.ERROR_MESSAGE);
+                                SaidaSerialJFrame.this.listagemUsuarioJDialog.setVisible(true);
+                            }
+                        }
+                    }
+                    //grava romaneio nas observações da nota
                     String romaneio = "";
                     for (Movendaprod vend : listMovendaProd) {
                         romaneio = romaneio + vend.getCodprod().getCodigo() + ": ";
@@ -1160,9 +1120,66 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
                     } catch (Exception ex) {
                         JOptionPane.showMessageDialog(null, "ERRO AO EDITAR MOVENDA, Verifique!! \n" + ex, "Erro Separar", JOptionPane.ERROR_MESSAGE);
                     }
-                }
 
-            
+                    //Laço que carrega uma lista de Seriais de Saida caso haja
+                    listSaidaSerial.clear();
+                    for (SaidaSerial s : queryIntegrador.listPorSaida(movenda.getCodmovenda())) {
+                        listSaidaSerial.add(s);
+                    }
+                    jButtonFechar.setEnabled(true);
+                    jButtonPesquisaSaida.setEnabled(true);
+                    jButtonGravar.setEnabled(false);
+                    jTextFieldSerial.setEnabled(false);
+                    carregaTabelas();
+                    pedidoSeparado(true);
+
+                }
+                jButtonSepararPedido.setEnabled(false);
+                jButtonCancelarSeparacao.setEnabled(true);
+                jButtonImprimirRomaneio.setEnabled(true);
+                    //jButtonPesquisaSaida.setEnabled(true);
+                //jButtonFechar.setEnabled(true);
+                jTextFieldSerial.setEnabled(false);
+                //jButtonGravar.setEnabled(true);
+                tocarSomFinalizado();
+                //condicao = true;
+            } else {
+                jProgressBarSaidaSerial.setBackground(format.stringParaColor(ConfiguracaoNoBD.getValorLinhaIncompleto()));
+                jProgressBarSaidaSerial.setString(String.valueOf("Aguardando Separação de Produtos!"));
+                jProgressBarSaidaSerial.setValue(listSaidaSerial.size());
+                jTextFieldItensFaltando.setText(String.valueOf(tot));
+
+                jTextFieldItensFaltando.setBackground(format.stringParaColor(ConfiguracaoNoBD.getValorLinhaIncompleto()));
+                    //jTextFieldTextoAviso.setText("Aguardando Separação de Produtos!");
+                //jTextFieldTextoAviso.setBackground(format.stringParaColor(ConfiguracaoNoBD.getValorLinhaIncompleto()));
+                jButtonImprimirRomaneio.setEnabled(false);
+                jButtonSepararPedido.setEnabled(true);
+                jButtonCancelarSeparacao.setEnabled(true);
+                jButtonFechar.setEnabled(false);
+                jButtonPesquisaSaida.setEnabled(false);
+                jButtonGravar.setEnabled(false);
+            }
+            /**if (quanMovendaProd == quantidadeSerial) {
+                String romaneio = "";
+                for (Movendaprod vend : listMovendaProd) {
+                    romaneio = romaneio + vend.getCodprod().getCodigo() + ": ";
+                    //for (SaidaSerial sai : queryIntegrador.listPorSaidaProd(vend.getCodmovprod())) {
+                    for (SaidaSerial sai : listSaidaSerial) {
+                        if (vend.getCodmovprod().equals(sai.getCodSaidaProd())) {
+                            romaneio = romaneio + sai.getIdSerial().getSerial() + ", ";
+                        }
+                    }
+                    romaneio = romaneio + "  ";
+                }
+                movenda.setObsnotafiscal(romaneio);
+                try {
+                    new MovendaJpaController(Manager.getManagerCplus()).edit(movenda);
+                } catch (NonexistentEntityException ex) {
+                    JOptionPane.showMessageDialog(null, "ERRO AO EDITAR MOVENDA, Verifique!! \n" + ex, "Erro Separar", JOptionPane.ERROR_MESSAGE);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, "ERRO AO EDITAR MOVENDA, Verifique!! \n" + ex, "Erro Separar", JOptionPane.ERROR_MESSAGE);
+                }
+            } */
         }).start();
     }
 
