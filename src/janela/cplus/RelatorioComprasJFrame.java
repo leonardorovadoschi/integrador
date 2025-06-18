@@ -991,7 +991,7 @@ public class RelatorioComprasJFrame extends javax.swing.JFrame {
     private Date inicioAvaliacao;
     private Date fimAvaliacao;
     int colunaCodprod;
-    Produto produtoCplus;
+    private Produto produtoCplus;
     FormataCampos formataCampo;
     private String idProdCplus;
 

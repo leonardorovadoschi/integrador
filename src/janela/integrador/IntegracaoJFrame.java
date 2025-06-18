@@ -595,8 +595,8 @@ public class IntegracaoJFrame extends javax.swing.JFrame {
     private Integer estoqueCplus(Produto proCplus) {
         BigDecimal estoque = BigDecimal.ZERO;
         int stock;
-        List<Produtoestoque> listEsroque = new QueryCplus().listEstoquesPorProd(proCplus.getCodprod());
-        for (Produtoestoque est : listEsroque) {
+        //List<Produtoestoque> listEsroque = new QueryCplus().listEstoquesPorProd(proCplus.getCodprod());
+        for (Produtoestoque est : proCplus.getProdutoestoqueCollection()) {
             estoque = est.getEstatu().subtract(est.getReservadoorcamento().subtract(est.getReservadoos()));
         }
         stock = estoque.intValue();

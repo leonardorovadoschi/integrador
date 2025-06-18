@@ -27,6 +27,7 @@ import prestashop.ConfiguracaoNoBD;
 import janela.cplus.FormataCampos;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -444,8 +445,9 @@ public class SaidaFornecedorCplus {
     }
     
     private void atualizaEstoque(Produto produto){
-        List<Produtoestoque> listestoque = queryCplus.listEstoquesPorProd(produto.getCodprod());
-        for(Produtoestoque estoque : listestoque){
+        //List<Produtoestoque> listestoque = new ArrayList(produto.getProdutoestoqueCollection());
+                //queryCplus.listEstoquesPorProd(produto.getCodprod());
+        for(Produtoestoque estoque : produto.getProdutoestoqueCollection()){
             BigDecimal estoqueNovo = estoque.getEstatu();
             estoqueNovo.subtract(quantidadeConversao(produto));
             estoque.setEstatu(estoqueNovo);

@@ -372,7 +372,7 @@ public class ListagemProdutoJDialog extends javax.swing.JDialog {
             ((DefaultTableModel) jTableProdutos.getModel()).removeRow(0);
         }
         for (Produto prod : listProd) {
-            tab.addRow(new Object[]{prod.getCodigo(), prod.getNomeprod(), prod.getUnidade(), setor(prod), EstoqueCplus(prod.getCodprod()), prod.getCodprod()});
+            tab.addRow(new Object[]{prod.getCodigo(), prod.getNomeprod(), prod.getUnidade(), setor(prod), EstoqueCplus(prod), prod.getCodprod()});
             TableCellRenderer rendererSeparado = new ColorirLinhaImpar();
             for (int c = 0; c < jTableProdutos.getColumnCount(); c++) {
                 jTableProdutos.setDefaultRenderer(jTableProdutos.getColumnClass(c), rendererSeparado);
@@ -380,10 +380,10 @@ public class ListagemProdutoJDialog extends javax.swing.JDialog {
         }
     }
 
-    private Integer EstoqueCplus(String codProd) {
+    private Integer EstoqueCplus(Produto prod) {
         BigDecimal estoque = BigDecimal.ZERO;
-        List<Produtoestoque> listEsroque = new QueryCplus().listEstoquesPorProd(codProd);
-        for (Produtoestoque est : listEsroque) {
+        //List<Produtoestoque> listEsroque = new QueryCplus().listEstoquesPorProd(codProd);
+        for (Produtoestoque est : prod.getProdutoestoqueCollection()) {
             estoque = est.getEstatu().subtract(est.getReservadoorcamento().subtract(est.getReservadoos()));
         }
         return estoque.intValue();

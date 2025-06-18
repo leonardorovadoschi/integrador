@@ -1400,9 +1400,9 @@ public class ProdutoJFrame extends javax.swing.JFrame {
 
     private void jTableListagemProdutosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableListagemProdutosMouseClicked
         String codProdutoTabela = jTableListagemProdutos.getValueAt(jTableListagemProdutos.getSelectedRow(), colunaCodprod).toString();
-        if(codProdutoTabela == null ? produtoCplus.getCodprod() != null : !codProdutoTabela.equals(produtoCplus.getCodprod())){
-        carregarCampos();
-        jButtonAtualizaMargemCusto.setEnabled(true);
+        if (codProdutoTabela == null ? produtoCplus.getCodprod() != null : !codProdutoTabela.equals(produtoCplus.getCodprod())) {
+            carregarCampos();
+            jButtonAtualizaMargemCusto.setEnabled(true);
         }
     }//GEN-LAST:event_jTableListagemProdutosMouseClicked
 
@@ -1416,7 +1416,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemListagemSaidasActionPerformed
 
     private void jMenuItemListagemEntradasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemListagemEntradasActionPerformed
-        if(produtoCplus != null){
+        if (produtoCplus != null) {
             this.listagemEntradaProdutoJDialog.setTermoPesquisa(produtoCplus);
             this.listagemEntradaProdutoJDialog.setVisible(true);
         }
@@ -1519,7 +1519,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
             }
             listIcmsEstado = queryCplus.listcalculoIcmsEstadol("RS", "RS", "5102", produtoCplus.getCodcalculoicms().getCodcalculoicms());
             if (listIcmsEstado.size() == 1) {
-                jTextFieldPercOutrosCustos.setText(format.bigDecimalParaString(new CalculoDeCusto().custoMediouUniComIpi(listIcmsEstado, produtoCplus, Manager.getManagerCplus()), 2));
+                jTextFieldPercOutrosCustos.setText(format.bigDecimalParaString(new CalculoDeCusto().custoMediouUniComIpi(listIcmsEstado, produtoCplus), 2));
             } else {
                 condicaoIcms = true;
                 //JOptionPane.showMessageDialog(null, "Não foi possi encontrar o calculo de ICMS verifique no C-Plus!!!\n lista de resultados: " + listIcmsEstado.size());
@@ -1532,9 +1532,9 @@ public class ProdutoJFrame extends javax.swing.JFrame {
     }
 
     /**
-     * O campos das tabela produto são
-     * totalOutrosCustos é outros acrecido de percOutrosCustos o calculo é feito atumaticamente
-     * outros é a soma de IPI mais Outros custos tambem é feito automaticamente
+     * O campos das tabela produto são totalOutrosCustos é outros acrecido de
+     * percOutrosCustos o calculo é feito atumaticamente outros é a soma de IPI
+     * mais Outros custos tambem é feito automaticamente
      */
     private void calculoTotalOutrosCustos() {
         //double aliqCusto = format.stringParaDecimal(jTextFieldPercOutrosCustos.getText(), 4).doubleValue();
@@ -1561,7 +1561,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
                         break;
                 }
             }
-            
+
             produtoCplus.setCustoreal(format.stringParaDecimal(jTextFieldCustoReal.getText(), 2));
             produtoCplus.setLastChange(format.dataAtual());
             produtoCplus.setDatreaj(format.dataAtual());
@@ -1783,9 +1783,9 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         String codProdutoTabela = "";
         if (jTableListagemProdutos.getSelectedRow() == -1) {
             codProdutoTabela = produtoCplus.getCodprod();
-        }else {
-        codProdutoTabela = jTableListagemProdutos.getValueAt(jTableListagemProdutos.getSelectedRow(), colunaCodprod).toString();
-        produtoCplus = new ProdutoJpaController(Manager.getManagerCplus()).findProduto(codProdutoTabela);
+        } else {
+            codProdutoTabela = jTableListagemProdutos.getValueAt(jTableListagemProdutos.getSelectedRow(), colunaCodprod).toString();
+            produtoCplus = new ProdutoJpaController(Manager.getManagerCplus()).findProduto(codProdutoTabela);
         }
         if (produtoCplus.getDatreaj() != null) {
             jTextFieldDataUltimoReajuste.setText(format.dataStringSoData(produtoCplus.getDatreaj(), 0));
@@ -1823,8 +1823,11 @@ public class ProdutoJFrame extends javax.swing.JFrame {
             if (movEnt.getCodForn() != null) {
                 jTextFieldFornecedor.setText(movEnt.getCodForn().getNomeforn());
             }
-            for (Moventradaprod movPro : queryCplus.resultProdutoEntrada(codProdutoTabela, movEnt.getCodmoventr())) {
-                jTextFieldUltimaQuantidadeComprada.setText(format.bigDecimalParaString(movPro.getQuantidade(), 0));
+            // for (Moventradaprod movPro : queryCplus.resultProdutoEntrada(codProdutoTabela, movEnt.getCodmoventr())) {
+            for (Moventradaprod movPro : movEnt.getMoventradaprodCollection()) {
+                if (movPro.getCodprod().getCodprod().equals(codProdutoTabela)) {
+                    jTextFieldUltimaQuantidadeComprada.setText(format.bigDecimalParaString(movPro.getQuantidade(), 0));
+                }
 //                precoCustoUltimaCompra = totalCusto;
 
             }
@@ -1838,8 +1841,10 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         for (Movenda movVen : listMovVenda) {
             jTextFieldDataUltimaVenda.setText(format.dataStringSoData(movVen.getData(), 0));
         }
-        listEstoqueProduto = queryCplus.listEstoquesPorProd(codProdutoTabela);
-        listPrecoProduto = queryCplus.resultTodosPrecos(codProdutoTabela);
+        //listEstoqueProduto = queryCplus.listEstoquesPorProd(codProdutoTabela);
+        //listPrecoProduto = queryCplus.resultTodosPrecos(codProdutoTabela);
+        listEstoqueProduto = new ArrayList(produtoCplus.getProdutoestoqueCollection());
+        listPrecoProduto = new ArrayList(produtoCplus.getProdutoprecoCollection());
         for (Produtopreco preco : listPrecoProduto) {
             BigDecimal margem = BigDecimal.ZERO;
             switch (preco.getCodpreco().getCodpreco()) {
@@ -1860,7 +1865,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
                     break;
             }
         }
-        for (Produtoestoque estoque : queryCplus.listEstoquesPorProd(codProdutoTabela)) {
+        for (Produtoestoque estoque : listEstoqueProduto) {
             if ("000000001".equals(estoque.getSetorestoque().getCodsetorestoque())) {
                 jTextFieldEstoqueAtual.setText(format.bigDecimalParaString(estoque.getEstatu(), 0));
                 jTextFieldReservaOrcamento.setText(format.bigDecimalParaString(estoque.getReservadoorcamento(), 0));
@@ -1899,7 +1904,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         } else {
             jCheckBoxNoSite.setSelected(false);
         }
-        lisCar = queryCplus.listProdutoCaracteristicaDoProduto(produtoCplus.getCodprod());
+        //lisCar = queryCplus.listProdutoCaracteristicaDoProduto(produtoCplus.getCodprod());
         if (lisCar.size() != 1) {
             JOptionPane.showMessageDialog(null, "O produto: " + produtoCplus.getNomeprod() + " possui Erro nas caracteristicas, Favor Corrigir");
         }
@@ -1976,7 +1981,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         jTextFieldReservaOs.setText("");
         jTextFieldUltimaQuantidadeComprada.setText("");
         jTextFieldValorIpi.setText("");
-       // jTextFieldValorOutrasDes.setText("");
+        // jTextFieldValorOutrasDes.setText("");
         jTextFieldValorOutrosCustos.setText("");
         jTextFieldValorSubstituicaoTributaria.setText("");
         //  jTextFieldQuntItensCarrinhoMagento.setText("");

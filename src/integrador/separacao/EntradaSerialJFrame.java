@@ -19,6 +19,7 @@ import java.awt.Toolkit;
 import java.math.BigDecimal;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -355,10 +356,10 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
         return text;
     }
 
-    private BigDecimal EstoqueCplus(String codProd) {
+    private BigDecimal EstoqueCplus(Produto prod) {
         BigDecimal estoque = BigDecimal.ZERO;
-        List<Produtoestoque> listEsroque = new QueryCplus().listEstoquesPorProd(codProd);
-        for (Produtoestoque est : listEsroque) {
+        //List<Produtoestoque> listEsroque = new QueryCplus().listEstoquesPorProd(codProd);
+        for (Produtoestoque est : prod.getProdutoestoqueCollection()) {
             estoque = est.getEstatu().subtract(est.getReservadoorcamento().subtract(est.getReservadoos()));
         }
         return estoque;
@@ -374,7 +375,7 @@ public class EntradaSerialJFrame extends javax.swing.JFrame {
             listMovEnt = queryCplus.listagemMovEntradaProdPorEntrada(movEntrada.getCodmoventr());
             for (Moventradaprod prod : listMovEnt) {
                 prod.setNumeroecf(setor(prod.getCodprod()));//se refere a localização
-                prod.setAliqirrf(EstoqueCplus(prod.getCodprod().getCodprod())); // se refere quantidade de no estoque               
+                prod.setAliqirrf(EstoqueCplus(prod.getCodprod())); // se refere quantidade de no estoque               
                 prod.setQuantidade(new BigDecimal(quanPacote(prod)));//altera para a quantidade de pacotes
             }
 

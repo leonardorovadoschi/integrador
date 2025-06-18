@@ -727,10 +727,10 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
         return text;
     }
 
-    private Integer EstoqueCplus(String codProd) {
+    private Integer EstoqueCplus(Produto prod) {
         BigDecimal estoque = BigDecimal.ZERO;
-        List<Produtoestoque> listEsroque = new QueryCplus().listEstoquesPorProd(codProd);
-        for (Produtoestoque est : listEsroque) {
+        //List<Produtoestoque> listEsroque = new QueryCplus().listEstoquesPorProd(codProd);
+        for (Produtoestoque est : prod.getProdutoestoqueCollection()) {
             estoque = est.getEstatu().subtract(est.getReservadoorcamento().subtract(est.getReservadoos()));
         }
         return estoque.intValue();
@@ -946,7 +946,7 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
                 }
                 p.setQuantidade(q);
                 //carrega o estoque do produto
-                p.setComissao(new BigDecimal(EstoqueCplus(p.getCodprod().getCodprod())));
+                p.setComissao(new BigDecimal(EstoqueCplus(p.getCodprod())));
                 //carrega a localização do produto
                 p.setCodigoeanproduto(setor(p.getCodprod()));
                 listMovendaProd.add(p);

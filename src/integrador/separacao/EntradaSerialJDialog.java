@@ -714,7 +714,7 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
 
     public void setProduto(Produto produto) {
         this.produto = produto;
-        jTextFieldEstoqueCplus.setText(EstoqueCplus(produto.getCodprod()));
+        jTextFieldEstoqueCplus.setText(EstoqueCplus(produto));
         jTextFieldSetor.setText(setor(produto));
     }
 
@@ -726,10 +726,11 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
         return text;
     }
 
-    private String EstoqueCplus(String codProd) {
+    private String EstoqueCplus(Produto prod) {
         BigDecimal estoque = BigDecimal.ZERO;
-        List<Produtoestoque> listEsroque = new QueryCplus().listEstoquesPorProd(codProd);
-        for (Produtoestoque est : listEsroque) {
+       // List<Produtoestoque> listEsroque = new ArrayList(prod.getProdutoestoqueCollection());
+                //new QueryCplus().listEstoquesPorProd(codProd);
+        for (Produtoestoque est : prod.getProdutoestoqueCollection()) {
             estoque = est.getEstatu().subtract(est.getReservadoorcamento().subtract(est.getReservadoos()));
         }
         return String.valueOf(estoque.intValue());

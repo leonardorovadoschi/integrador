@@ -587,7 +587,7 @@ public class SaidaSerialJFrame_old extends javax.swing.JFrame {
                 String.valueOf(quantidadePacote(e)),
                 String.valueOf(queryIntegrador.listPorSaidaProd(e.getCodmovprod()).size()),
                 setor(e.getCodprod()),
-                String.valueOf(EstoqueCplus(e.getCodprod().getCodprod())),
+                String.valueOf(EstoqueCplus(e.getCodprod())),
                 unidade(e),
                 e.getCodmovprod()
             });
@@ -625,10 +625,10 @@ public class SaidaSerialJFrame_old extends javax.swing.JFrame {
         return txt;
     }
 
-    private Integer EstoqueCplus(String codProd) {
+    private Integer EstoqueCplus(Produto prod) {
         BigDecimal estoque = BigDecimal.ZERO;
-        List<Produtoestoque> listEsroque = new QueryCplus().listEstoquesPorProd(codProd);
-        for (Produtoestoque est : listEsroque) {
+        //List<Produtoestoque> listEsroque = new QueryCplus().listEstoquesPorProd(codProd);
+        for (Produtoestoque est : prod.getProdutoestoqueCollection()) {
             estoque = est.getEstatu().subtract(est.getReservadoorcamento().subtract(est.getReservadoos()));
         }
         return estoque.intValue();
@@ -646,7 +646,7 @@ public class SaidaSerialJFrame_old extends javax.swing.JFrame {
                 String.valueOf(quantidadePacote(e)),
                 String.valueOf(queryIntegrador.listPorSaidaProd(e.getCodmovprod()).size()),
                 setor(e.getCodprod()),
-                String.valueOf(EstoqueCplus(e.getCodprod().getCodprod())),
+                String.valueOf(EstoqueCplus(e.getCodprod())),
                 unidade(e),
                 e.getCodmovprod()
             });

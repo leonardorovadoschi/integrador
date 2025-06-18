@@ -506,8 +506,9 @@ public class RmaJFrame extends javax.swing.JFrame {
         serial = jTableProdutoSerial.getValueAt(jTableProdutoSerial.getSelectedRow(), colunaSerial).toString();
         for (SerialProduto ser : queryIntegrador.listSerialExato(serial)) {
             carregaTabelaEntradaSerial(ser);
-            jTextFieldEstoqueCplus.setText(String.valueOf(estoqueCplus(ser.getCodProduto())));
-            jTextFieldLocalizacao.setText(setor(new ProdutoJpaController(Manager.getManagerCplus()).findProduto(ser.getCodProduto())));
+            Produto prod = new ProdutoJpaController(Manager.getManagerCplus()).findProduto(ser.getCodProduto());
+            jTextFieldEstoqueCplus.setText(String.valueOf(estoqueCplus(prod)));
+            jTextFieldLocalizacao.setText(setor(prod));
         }
         //mostraEstoque(jTableProdutoSerial.getValueAt(jTableProdutoSerial.getSelectedRow(), colunaCodProd).toString());
     }//GEN-LAST:event_jTableProdutoSerialMouseClicked
@@ -749,10 +750,10 @@ public class RmaJFrame extends javax.swing.JFrame {
         jTextFieldArgumentoPesquisa.selectAll();
     }
 
-    private Integer estoqueCplus(String codProd) {
+    private Integer estoqueCplus(Produto prod) {
         BigDecimal estoque = BigDecimal.ZERO;
-        List<Produtoestoque> listEsroque = queryCplus.listEstoquesPorProd(codProd);
-        for (Produtoestoque est : listEsroque) {
+        //List<Produtoestoque> listEsroque = queryCplus.listEstoquesPorProd(codProd);
+        for (Produtoestoque est : prod.getProdutoestoqueCollection()) {
             estoque = est.getEstatu().subtract(est.getReservadoorcamento().subtract(est.getReservadoos()));
         }
         return estoque.intValue();

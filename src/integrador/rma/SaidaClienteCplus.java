@@ -21,6 +21,7 @@ import entidade.cplus.Unidade;
 import janela.cplus.FormataCampos;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -298,8 +299,8 @@ public class SaidaClienteCplus {
     }
 
     private void atualizaEstoque(Produto produto){
-        List<Produtoestoque> listestoque = queryCplus.listEstoquesPorProd(produto.getCodprod());
-        for(Produtoestoque estoque : listestoque){
+        //List<Produtoestoque> listestoque = queryCplus.listEstoquesPorProd(produto.getCodprod());
+        for(Produtoestoque estoque : produto.getProdutoestoqueCollection()){
             BigDecimal estoqueNovo = estoque.getEstatu();
             estoqueNovo.subtract(quantidadeConversaoSaida(produto));
             estoque.setEstatu(estoqueNovo);

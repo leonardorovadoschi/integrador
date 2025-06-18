@@ -10,10 +10,8 @@ import entidade.cplus.Moventradaprod;
 import entidade.cplus.Produto;
 import entidade.cplus.Produtoestoque;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.List;
-import javax.persistence.EntityManagerFactory;
 import query.cplus.QueryCplus;
 
 /**
@@ -22,7 +20,7 @@ import query.cplus.QueryCplus;
  */
 public class CalculoDeCusto {
 
-    public BigDecimal custoMediouUniComIpi(List<Calculoicmsestado> listIcmsEstado, Produto prod, EntityManagerFactory managerCplus) {
+    public BigDecimal custoMediouUniComIpi(List<Calculoicmsestado> listIcmsEstado, Produto prod) {
         //boolean condicaoIcms = true;
         BigDecimal quanCompra = BigDecimal.ZERO;
         BigDecimal valorProdutos = BigDecimal.ZERO;
@@ -31,7 +29,7 @@ public class CalculoDeCusto {
         BigDecimal valorTotalIpi = BigDecimal.ZERO;
         BigDecimal valorTotalSt = BigDecimal.ZERO;
         BigDecimal incremetEstoque = BigDecimal.ZERO;
-        BigDecimal quantidadeEstoque = quantidadeEstoque(prod, managerCplus);
+        BigDecimal quantidadeEstoque = quantidadeEstoque(prod);
         BigDecimal custoMedioUnitario;
         BigDecimal creditoIcms;
         BigDecimal debitoIcms;
@@ -134,9 +132,9 @@ public class CalculoDeCusto {
     }
   
 
-    private BigDecimal quantidadeEstoque(Produto prod, EntityManagerFactory managerCplus) {
+    private BigDecimal quantidadeEstoque(Produto prod) {
         BigDecimal qntEstoque = BigDecimal.ZERO;
-        for (Produtoestoque estoque : new QueryCplus().listEstoquesPorProd(prod.getCodprod())) {
+        for (Produtoestoque estoque : prod.getProdutoestoqueCollection()) {
             qntEstoque = estoque.getEstatu().subtract(estoque.getReservadoorcamento().subtract(estoque.getReservadoos()));
         }
         return qntEstoque;
