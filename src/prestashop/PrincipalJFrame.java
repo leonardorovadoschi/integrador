@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package prestashop;
 
 import acesso.ControleAcesso;
@@ -44,21 +45,12 @@ public class PrincipalJFrame extends javax.swing.JFrame {
      */
     public PrincipalJFrame() {
         initComponents();
-        jLabelVersao.setText("2.2.1");
+        jLabelVersao.setText("2.2.2");
         queryIntegrador = new QueryIntegrador();
         this.listagemUsuarioJDialog = new ListagemUsuarioJDialog(this, true);
         this.listagemUsuarioJDialog.setLocationRelativeTo(null);
         this.listagemUsuarioJDialog.requestFocusInWindow();
-        this.listagemUsuarioJDialog.setVisible(true);
-        //this.rmaJFrame.setLocationRelativeTo(null);
-        //this.vendasJframe.setLocationRelativeTo(null);
-        //this.relatorioComprasJFrame.setLocationRelativeTo(null);
-        //this.frameIntegracao.setLocationRelativeTo(null);
-        //this.espelhoRmaJFrame.setLocationRelativeTo(null);
-        //this.alteracaoPrecoProduto.setLocationRelativeTo(null);
-        //this.entradaSerialJframe.setLocationRelativeTo(null);
-        //this.vendaMagentoJFrame.setLocationRelativeTo(null);
-        //this.saidaSerialJFrame.setLocationRelativeTo(null);
+        this.listagemUsuarioJDialog.setVisible(true);       
         acesso = new ControleAcesso();
         if (this.listagemUsuarioJDialog.isCancelamento() == true) {
             cancelamento();

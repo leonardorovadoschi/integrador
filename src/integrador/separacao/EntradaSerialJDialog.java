@@ -503,7 +503,7 @@ public class EntradaSerialJDialog extends javax.swing.JDialog {
                 // listTex.add(String.valueOf(serialSequencia));
                 //gravarProdutoSerial(String.valueOf(serialSequencia));
                 //String format = String.format("%0"+primeiroSerial.length()+"d", serialSequencia);
-                serNovo = primeiroSerial.substring(0, caracteres - 3) + serialSequencia;
+                serNovo = primeiroSerial.substring(0, caracteres - 3) + String.format("%03d", serialSequencia);
                 listTex.add(serNovo);
                 gravarProdutoSerial(serNovo);
                 //serialSequencia = serialSequencia.add(BigInteger.ONE);
