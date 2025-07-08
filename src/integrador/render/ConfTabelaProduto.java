@@ -57,6 +57,8 @@ public class ConfTabelaProduto extends DefaultTableCellRenderer {
                         .replace(",", "");// Substitui a vírgula pelo ponto
                 if (Double.valueOf(valor) < 10.0) {
                     label.setForeground(Color.RED);
+                }else{
+                    label.setForeground(Color.BLUE);
                 }
                 break;
             case 6:
@@ -65,6 +67,8 @@ public class ConfTabelaProduto extends DefaultTableCellRenderer {
                 int in = Integer.parseInt(inte);
                 if (in < 1) {
                     label.setForeground(Color.RED);
+                }else{
+                    label.setForeground(Color.BLUE);
                 }
                 break;
             case 7:

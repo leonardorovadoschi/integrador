@@ -40,6 +40,7 @@ import jpa.cplus.ProdutocaracteristicaJpaController;
 import jpa.cplus.ProdutoprecoJpaController;
 import jpa.cplus.exceptions.NonexistentEntityException;
 import jpa.integrador.IntLogsJpaController;
+import org.xhtmlrenderer.css.style.derived.StringValue;
 import prestashop.Manager;
 import produto.PedidoCompra;
 import query.cplus.QueryCplus;
@@ -1648,6 +1649,12 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         }
         //limpaCampos();
         //carregaTabelaProduto();
+        DefaultTableModel tab = (DefaultTableModel) jTableListagemProdutos.getModel();
+        int linhaSelecionada = jTableListagemProdutos.getSelectedRow();
+        if (linhaSelecionada != -1) {
+            tab.setValueAt(jTextFieldPrecoNormal.getText(), linhaSelecionada, 4/*colunaPreco*/);
+            tab.setValueAt(jTextFieldMargemNormal.getText(), linhaSelecionada, 5/*Margem*/);
+        }
         carregarCampos();
     }
 
