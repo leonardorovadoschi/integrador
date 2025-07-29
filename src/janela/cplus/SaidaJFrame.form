@@ -859,7 +859,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
                           <Component id="jScrollPane2" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jPanelEdicao" min="-2" pref="1230" max="-2" attributes="0"/>
+                          <Component id="jPanelEdicao" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
@@ -871,7 +871,7 @@
                       <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
                       <Component id="jPanelEdicao" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jScrollPane2" pref="454" max="32767" attributes="0"/>
+                      <Component id="jScrollPane2" pref="509" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -957,23 +957,25 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="jLabelCstCofins" max="32767" attributes="0"/>
-                                          <Component id="jLabelCstPis" min="-2" pref="64" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="jLabelCstCofins" max="32767" attributes="0"/>
+                                  <Component id="jLabelCstPis" min="-2" pref="64" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <Component id="jCheckBoxAtualizaBasePisCofins" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
+                                      <Component id="jLabel4" max="32767" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <Component id="jComboBoxCstPisProd" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace max="-2" attributes="0"/>
-                                              <Component id="jLabelAliqPisProd" min="-2" pref="100" max="-2" attributes="0"/>
-                                          </Group>
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <Component id="jComboBoxCstCofinsProd" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace max="-2" attributes="0"/>
-                                              <Component id="jLabelAliqCofinsProd" min="-2" max="-2" attributes="0"/>
-                                          </Group>
+                                          <Component id="jComboBoxCstCofinsProd" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jComboBoxCstPisProd" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="jLabelAliqPisProd" max="32767" attributes="0"/>
+                                          <Component id="jLabelAliqCofinsProd" max="32767" attributes="0"/>
                                       </Group>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -981,46 +983,33 @@
                                           <Component id="jTextFieldAliqCofinsProd" min="-2" pref="60" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="jLabelBasePisProd" max="32767" attributes="0"/>
-                                          <Group type="102" attributes="0">
-                                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                              <Component id="jLabelBaseCofinsProd" min="-2" max="-2" attributes="0"/>
-                                          </Group>
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="jLabelBaseCofinsProd" max="32767" attributes="0"/>
+                                          <Component id="jLabelBasePisProd" min="-2" pref="68" max="-2" attributes="0"/>
                                       </Group>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="jLabelCstIcms" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jComboBoxCstIcms" min="-2" pref="198" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jLabel4" min="-2" pref="169" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" attributes="0">
-                                      <Component id="jTextFieldCodBeneficioFiscal" min="-2" pref="122" max="-2" attributes="0"/>
-                                      <EmptySpace max="32767" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" attributes="0">
                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="jTextFieldBasePisProd" pref="58" max="32767" attributes="0"/>
-                                          <Component id="jTextFieldBaseCofinsProd" max="32767" attributes="0"/>
+                                          <Component id="jTextFieldBasePisProd" max="32767" attributes="0"/>
+                                          <Component id="jTextFieldBaseCofinsProd" min="-2" pref="58" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="jLabelValorPisProd" pref="86" max="32767" attributes="0"/>
-                                          <Component id="jLabelValorCofinsProd" pref="0" max="32767" attributes="0"/>
+                                          <Component id="jLabelValorPisProd" max="32767" attributes="0"/>
+                                          <Component id="jLabelValorCofinsProd" min="-2" pref="86" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="jTextFieldValorCofinsProd" pref="58" max="32767" attributes="0"/>
                                           <Component id="jTextFieldValorPis" max="32767" attributes="0"/>
-                                          <Component id="jTextFieldValorCofinsProd" max="32767" attributes="0"/>
                                       </Group>
-                                      <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
                                   </Group>
+                                  <Component id="jTextFieldCodBeneficioFiscal" min="-2" pref="122" max="-2" attributes="0"/>
                               </Group>
+                              <EmptySpace max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -1032,13 +1021,11 @@
                                       <Group type="103" groupAlignment="3" attributes="0">
                                           <Component id="jLabelCstPis" alignment="3" min="-2" max="-2" attributes="0"/>
                                           <Component id="jComboBoxCstPisProd" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jLabelAliqPisProd" alignment="3" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="3" attributes="0">
                                           <Component id="jLabelCstCofins" alignment="3" min="-2" max="-2" attributes="0"/>
                                           <Component id="jComboBoxCstCofinsProd" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jLabelAliqCofinsProd" alignment="3" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <Group type="102" attributes="0">
@@ -1046,34 +1033,42 @@
                                           <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                                               <Component id="jLabelBasePisProd" alignment="3" min="-2" max="-2" attributes="0"/>
                                               <Component id="jTextFieldBasePisProd" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="jTextFieldAliqPisProd" alignment="3" min="-2" max="-2" attributes="0"/>
                                           </Group>
-                                          <Component id="jLabelValorPisProd" min="-2" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="3" attributes="0">
+                                              <Component id="jLabelValorPisProd" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="jTextFieldValorPis" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          </Group>
                                       </Group>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="3" attributes="0">
                                           <Component id="jLabelBaseCofinsProd" alignment="3" min="-2" max="-2" attributes="0"/>
                                           <Component id="jTextFieldBaseCofinsProd" alignment="3" min="-2" max="-2" attributes="0"/>
                                           <Component id="jLabelValorCofinsProd" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jTextFieldValorCofinsProd" alignment="3" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
-                                  <Group type="102" alignment="1" attributes="0">
-                                      <Component id="jTextFieldValorPis" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jTextFieldValorCofinsProd" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="1" attributes="0">
-                                      <Component id="jTextFieldAliqPisProd" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jTextFieldAliqCofinsProd" min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Component id="jLabelAliqPisProd" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace min="28" pref="28" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="1" attributes="0">
+                                          <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="3" attributes="0">
+                                              <Component id="jTextFieldAliqCofinsProd" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="jLabelAliqCofinsProd" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
                                   </Group>
                               </Group>
-                              <EmptySpace max="32767" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jLabelCstIcms" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jComboBoxCstIcms" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jTextFieldCodBeneficioFiscal" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel4" alignment="3" max="32767" attributes="0"/>
+                                  <Component id="jCheckBoxAtualizaBasePisCofins" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -1112,6 +1107,9 @@
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JTextField" name="jTextFieldAliqPisProd">
+                      <Properties>
+                        <Property name="horizontalAlignment" type="int" value="4"/>
+                      </Properties>
                       <Events>
                         <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTextFieldAliqPisProdFocusGained"/>
                         <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTextFieldAliqPisProdFocusLost"/>
@@ -1119,6 +1117,9 @@
                       </Events>
                     </Component>
                     <Component class="javax.swing.JTextField" name="jTextFieldAliqCofinsProd">
+                      <Properties>
+                        <Property name="horizontalAlignment" type="int" value="4"/>
+                      </Properties>
                       <Events>
                         <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTextFieldAliqCofinsProdFocusGained"/>
                         <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTextFieldAliqCofinsProdFocusLost"/>
@@ -1205,42 +1206,22 @@
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextFieldBaseCofinsProdActionPerformed"/>
                       </Events>
                     </Component>
-                    <Component class="javax.swing.JLabel" name="jLabelCstIcms">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="CST ICMS:"/>
-                      </Properties>
-                    </Component>
-                    <Component class="javax.swing.JComboBox" name="jComboBoxCstIcms">
-                      <Properties>
-                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                          <Font name="Tahoma" size="10" style="0"/>
-                        </Property>
-                        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                          <StringArray count="12">
-                            <StringItem index="0" value="00 - Tributada integralmente"/>
-                            <StringItem index="1" value="10 - Tributada e com cobran&#xe7;a do ICMS por S.T."/>
-                            <StringItem index="2" value="20 - Com redu&#xe7;&#xe3;o de base de c&#xe1;lculo"/>
-                            <StringItem index="3" value="30 - N&#xe3;o tributada e com cobran&#xe7;a do ICMS por S.T."/>
-                            <StringItem index="4" value="40 - Isenta "/>
-                            <StringItem index="5" value="41 - N&#xe3;o tributada "/>
-                            <StringItem index="6" value="50 - Suspens&#xe3;o"/>
-                            <StringItem index="7" value="51 - Diferimento "/>
-                            <StringItem index="8" value="60 - ICMS cobrado anteriormente por S.T."/>
-                            <StringItem index="9" value="70 - Com redu&#xe7;&#xe3;o de base ICMS por S.T."/>
-                            <StringItem index="10" value="90 - Outras "/>
-                            <StringItem index="11" value="N&#xe3;o selecionado"/>
-                          </StringArray>
-                        </Property>
-                        <Property name="selectedIndex" type="int" value="11"/>
-                        <Property name="toolTipText" type="java.lang.String" value="Selecione aqui o c&#xf3;digo de Situa&#xe7;&#xe3;o Tribut&#xe1;ria de ICMS "/>
-                      </Properties>
-                    </Component>
                     <Component class="javax.swing.JLabel" name="jLabel4">
                       <Properties>
+                        <Property name="horizontalAlignment" type="int" value="4"/>
                         <Property name="text" type="java.lang.String" value="Cod Beneficio Fiscal:"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JTextField" name="jTextFieldCodBeneficioFiscal">
+                    </Component>
+                    <Component class="javax.swing.JCheckBox" name="jCheckBoxAtualizaBasePisCofins">
+                      <Properties>
+                        <Property name="selected" type="boolean" value="true"/>
+                        <Property name="text" type="java.lang.String" value="Atualiza Base PIS/COFINS"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBoxAtualizaBasePisCofinsActionPerformed"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -1258,18 +1239,23 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jLabelBaseIpiProd" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="jLabelValorIpiProd" alignment="0" min="-2" pref="70" max="-2" attributes="0"/>
-                                  <Component id="jLabelAliqIpiProd" alignment="0" max="32767" attributes="0"/>
-                              </Group>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="jTextFieldBaseIpiProd" max="32767" attributes="0"/>
-                                      <Component id="jTextFieldAliqIpiProd" min="-2" pref="60" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                  <Component id="jCheckBoxAtualizaBaseIPI" max="32767" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="jLabelBaseIpiProd" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="jLabelValorIpiProd" alignment="0" min="-2" pref="70" max="-2" attributes="0"/>
+                                          <Component id="jLabelAliqIpiProd" alignment="0" max="32767" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                              <Component id="jTextFieldBaseIpiProd" max="32767" attributes="0"/>
+                                              <Component id="jTextFieldAliqIpiProd" min="-2" pref="60" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Component id="jTextFieldValorIpiProd" min="-2" pref="60" max="-2" attributes="0"/>
+                                      </Group>
                                   </Group>
-                                  <Component id="jTextFieldValorIpiProd" min="-2" pref="60" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="374" max="-2" attributes="0"/>
                           </Group>
@@ -1292,7 +1278,8 @@
                                   <Component id="jTextFieldValorIpiProd" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabelValorIpiProd" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="31" max="32767" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="jCheckBoxAtualizaBaseIPI" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -1304,6 +1291,9 @@
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JTextField" name="jTextFieldAliqIpiProd">
+                      <Properties>
+                        <Property name="horizontalAlignment" type="int" value="4"/>
+                      </Properties>
                       <Events>
                         <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTextFieldAliqIpiProdFocusGained"/>
                         <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTextFieldAliqIpiProdFocusLost"/>
@@ -1337,6 +1327,15 @@
                         <Property name="focusable" type="boolean" value="false"/>
                       </Properties>
                     </Component>
+                    <Component class="javax.swing.JCheckBox" name="jCheckBoxAtualizaBaseIPI">
+                      <Properties>
+                        <Property name="selected" type="boolean" value="true"/>
+                        <Property name="text" type="java.lang.String" value="Atualiza Base IPI"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBoxAtualizaBaseIPIActionPerformed"/>
+                      </Events>
+                    </Component>
                   </SubComponents>
                 </Container>
                 <Container class="javax.swing.JPanel" name="jPanelSubsTrib">
@@ -1352,13 +1351,8 @@
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Group type="102" attributes="0">
-                                      <Component id="jLabelOrigemProduto" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="jComboBoxOrigemProduto" min="-2" pref="188" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                           <Component id="jLabelAliqMva" max="32767" attributes="0"/>
                                           <Component id="jLabelBaseSTProd" pref="77" max="32767" attributes="0"/>
@@ -1373,7 +1367,19 @@
                                           <Component id="jLabelValorSTProd" max="32767" attributes="0"/>
                                           <Component id="jLabel2" max="32767" attributes="0"/>
                                       </Group>
+                                  </Group>
+                                  <Group type="102" attributes="0">
+                                      <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
+                                      <Component id="jLabelOrigemProduto" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="jComboBoxOrigemProduto" pref="0" max="32767" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="jLabelCstIcms" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Group type="102" attributes="0">
                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                           <Component id="jTextFieldValorSTProd" pref="60" max="32767" attributes="0"/>
                                           <Component id="jTextFieldAliqStDestino" max="32767" attributes="0"/>
@@ -1383,6 +1389,7 @@
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="jTextFieldCfopProduto" min="-2" pref="56" max="-2" attributes="0"/>
                                   </Group>
+                                  <Component id="jComboBoxCstIcms" pref="0" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace max="32767" attributes="0"/>
                           </Group>
@@ -1405,18 +1412,23 @@
                                       <Component id="jTextFieldBaseSTProd" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace max="32767" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jLabelAliqMva" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jTextFieldAliqMva" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jTextFieldAliqStDestino" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jComboBoxOrigemProduto" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabelOrigemProduto" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" alignment="3" groupAlignment="3" attributes="0">
+                                      <Component id="jLabelCstIcms" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jComboBoxCstIcms" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
                               </Group>
+                              <EmptySpace pref="33" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -1429,6 +1441,9 @@
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JTextField" name="jTextFieldBaseSTProd">
+                      <Properties>
+                        <Property name="horizontalAlignment" type="int" value="4"/>
+                      </Properties>
                       <Events>
                         <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTextFieldBaseSTProdFocusGained"/>
                         <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTextFieldBaseSTProdFocusLost"/>
@@ -1442,6 +1457,9 @@
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JTextField" name="jTextFieldValorSTProd">
+                      <Properties>
+                        <Property name="horizontalAlignment" type="int" value="4"/>
+                      </Properties>
                       <Events>
                         <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTextFieldValorSTProdFocusGained"/>
                         <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTextFieldValorSTProdFocusLost"/>
@@ -1449,6 +1467,9 @@
                       </Events>
                     </Component>
                     <Component class="javax.swing.JTextField" name="jTextFieldCfopProduto">
+                      <Properties>
+                        <Property name="horizontalAlignment" type="int" value="4"/>
+                      </Properties>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabelCfop">
                       <Properties>
@@ -1491,6 +1512,9 @@
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JTextField" name="jTextFieldAliqMva">
+                      <Properties>
+                        <Property name="horizontalAlignment" type="int" value="4"/>
+                      </Properties>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel2">
                       <Properties>
@@ -1499,6 +1523,39 @@
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JTextField" name="jTextFieldAliqStDestino">
+                      <Properties>
+                        <Property name="horizontalAlignment" type="int" value="4"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JLabel" name="jLabelCstIcms">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="CST ICMS:"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JComboBox" name="jComboBoxCstIcms">
+                      <Properties>
+                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                          <Font name="Tahoma" size="10" style="0"/>
+                        </Property>
+                        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                          <StringArray count="12">
+                            <StringItem index="0" value="00 - Tributada integralmente"/>
+                            <StringItem index="1" value="10 - Tributada e com cobran&#xe7;a do ICMS por S.T."/>
+                            <StringItem index="2" value="20 - Com redu&#xe7;&#xe3;o de base de c&#xe1;lculo"/>
+                            <StringItem index="3" value="30 - N&#xe3;o tributada e com cobran&#xe7;a do ICMS por S.T."/>
+                            <StringItem index="4" value="40 - Isenta "/>
+                            <StringItem index="5" value="41 - N&#xe3;o tributada "/>
+                            <StringItem index="6" value="50 - Suspens&#xe3;o"/>
+                            <StringItem index="7" value="51 - Diferimento "/>
+                            <StringItem index="8" value="60 - ICMS cobrado anteriormente por S.T."/>
+                            <StringItem index="9" value="70 - Com redu&#xe7;&#xe3;o de base ICMS por S.T."/>
+                            <StringItem index="10" value="90 - Outras "/>
+                            <StringItem index="11" value="N&#xe3;o selecionado"/>
+                          </StringArray>
+                        </Property>
+                        <Property name="selectedIndex" type="int" value="11"/>
+                        <Property name="toolTipText" type="java.lang.String" value="Selecione aqui o c&#xf3;digo de Situa&#xe7;&#xe3;o Tribut&#xe1;ria de ICMS "/>
+                      </Properties>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -1524,42 +1581,42 @@
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="1" max="-2" attributes="0">
                                   <Component id="jLabel3" max="32767" attributes="0"/>
                                   <Component id="jLabelAliquotaIcmsProduto" pref="90" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jTextFieldAliqDeferimento" pref="50" max="32767" attributes="0"/>
-                                  <Component id="jTextFieldAliqIcmsProduto" max="32767" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jLabelBaseIcmsProduto" max="32767" attributes="0"/>
-                                  <Component id="jLabelValorIcmsOperacao" min="-2" pref="90" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jTextFieldBaseIcmsProduto" max="32767" attributes="0"/>
-                                  <Component id="jTextFieldValorIcmsOperacao" min="-2" pref="60" max="-2" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="jTextFieldAliqDeferimento" pref="50" max="32767" attributes="0"/>
+                                          <Component id="jTextFieldAliqIcmsProduto" max="32767" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="jLabelBaseIcmsProduto" max="32767" attributes="0"/>
+                                          <Component id="jLabelValorIcmsOperacao" min="-2" pref="90" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="jTextFieldBaseIcmsProduto" max="32767" attributes="0"/>
+                                          <Component id="jTextFieldValorIcmsOperacao" min="-2" pref="60" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                                  <Component id="jCheckBoxAtualizaBaseIcms" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Component id="jLabelValorIcmsProduto" max="32767" attributes="0"/>
                                   <Component id="jLabelValorIcmsDeferimento" min="-2" pref="90" max="-2" attributes="0"/>
                               </Group>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jTextFieldValorIcmsDeferimento" min="-2" pref="55" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="1" attributes="0">
-                                      <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
-                                      <Component id="jTextFieldValorIcmsProduto" min="-2" pref="56" max="-2" attributes="0"/>
-                                  </Group>
+                              <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="jTextFieldValorIcmsProduto" pref="56" max="32767" attributes="0"/>
+                                  <Component id="jTextFieldValorIcmsDeferimento" max="32767" attributes="0"/>
                               </Group>
-                              <EmptySpace max="32767" attributes="0"/>
+                              <EmptySpace pref="14" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -1583,7 +1640,9 @@
                                   <Component id="jTextFieldValorIcmsDeferimento" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabelValorIcmsDeferimento" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="jCheckBoxAtualizaBaseIcms" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -1596,6 +1655,9 @@
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JTextField" name="jTextFieldAliqIcmsProduto">
+                      <Properties>
+                        <Property name="horizontalAlignment" type="int" value="4"/>
+                      </Properties>
                       <Events>
                         <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTextFieldAliqIcmsProdutoFocusGained"/>
                         <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTextFieldAliqIcmsProdutoFocusLost"/>
@@ -1637,6 +1699,7 @@
                     </Component>
                     <Component class="javax.swing.JTextField" name="jTextFieldAliqDeferimento">
                       <Properties>
+                        <Property name="horizontalAlignment" type="int" value="4"/>
                         <Property name="toolTipText" type="java.lang.String" value="&#xc9; a aliquota do deferimento caso haja"/>
                         <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
@@ -1649,6 +1712,7 @@
                     </Component>
                     <Component class="javax.swing.JTextField" name="jTextFieldValorIcmsOperacao">
                       <Properties>
+                        <Property name="horizontalAlignment" type="int" value="4"/>
                         <Property name="toolTipText" type="java.lang.String" value="&#xc9; o valor total do ICMS, no caso pela aliquota estadual"/>
                         <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
@@ -1666,10 +1730,20 @@
                     </Component>
                     <Component class="javax.swing.JTextField" name="jTextFieldValorIcmsDeferimento">
                       <Properties>
+                        <Property name="horizontalAlignment" type="int" value="4"/>
                         <Property name="toolTipText" type="java.lang.String" value="&#xc9; o valor do ICMS da Opera&#xe7;&#xe3;o multiplo pela alicota do deferimento"/>
                         <Property name="enabled" type="boolean" value="false"/>
                         <Property name="focusable" type="boolean" value="false"/>
                       </Properties>
+                    </Component>
+                    <Component class="javax.swing.JCheckBox" name="jCheckBoxAtualizaBaseIcms">
+                      <Properties>
+                        <Property name="selected" type="boolean" value="true"/>
+                        <Property name="text" type="java.lang.String" value="Atualiza Base ICMS"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBoxAtualizaBaseIcmsActionPerformed"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -1687,57 +1761,58 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                  <Component id="jLabelQuantidadeProduto" max="32767" attributes="0"/>
-                                  <Component id="jLabel1" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="jLabelValorUnitario" alignment="0" max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="jLabel5" alignment="1" max="32767" attributes="0"/>
+                                  <Component id="jLabelQuantidadeProduto" min="-2" pref="117" max="-2" attributes="0"/>
+                                  <Component id="jLabelValorUnitario" alignment="1" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jTextFieldValorUnitarioProduto" pref="95" max="32767" attributes="0"/>
-                                  <Component id="jTextFieldValorProdutos" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="jTextFieldQuantidadeProduto" alignment="0" max="32767" attributes="0"/>
-                              </Group>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="jCheckBoxAtualizaBaseIcms" pref="209" max="32767" attributes="0"/>
-                                      <Component id="jCheckBoxAtualizaBaseIPI" max="32767" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="jTextFieldValorDescontoRateado" min="-2" pref="80" max="-2" attributes="0"/>
+                                          <Component id="jTextFieldValorUnitarioProduto" min="-2" pref="80" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="jLabel6" pref="132" max="32767" attributes="0"/>
+                                          <Component id="jLabel1" max="32767" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="jTextFieldValorProdutos" pref="70" max="32767" attributes="0"/>
+                                          <Component id="jTextFieldValorAcrescimoRateado" max="32767" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="jCheckBoxAtualizaBasePisCofins" min="-2" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="jTextFieldQuantidadeProduto" min="-2" pref="80" max="-2" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                  </Group>
                               </Group>
-                              <EmptySpace max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <Group type="103" groupAlignment="3" attributes="0">
-                                          <Component id="jLabelValorUnitario" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jTextFieldValorUnitarioProduto" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="3" attributes="0">
-                                          <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jTextFieldValorProdutos" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="jCheckBoxAtualizaBaseIcms" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jCheckBoxAtualizaBaseIPI" min="-2" max="-2" attributes="0"/>
-                                  </Group>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jLabelValorUnitario" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jTextFieldValorUnitarioProduto" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jTextFieldValorProdutos" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jTextFieldValorDescontoRateado" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jTextFieldValorAcrescimoRateado" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="jLabelQuantidadeProduto" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jCheckBoxAtualizaBasePisCofins" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Component id="jTextFieldQuantidadeProduto" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jLabelQuantidadeProduto" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jTextFieldQuantidadeProduto" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="32767" attributes="0"/>
                           </Group>
@@ -1747,11 +1822,13 @@
                   <SubComponents>
                     <Component class="javax.swing.JLabel" name="jLabelValorUnitario">
                       <Properties>
+                        <Property name="horizontalAlignment" type="int" value="4"/>
                         <Property name="text" type="java.lang.String" value="Valor Unit&#xe1;rio Produto:"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel1">
                       <Properties>
+                        <Property name="horizontalAlignment" type="int" value="4"/>
                         <Property name="text" type="java.lang.String" value="Valor Total Produtos:"/>
                       </Properties>
                     </Component>
@@ -1771,17 +1848,9 @@
                         <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JCheckBox" name="jCheckBoxAtualizaBaseIcms">
-                      <Properties>
-                        <Property name="selected" type="boolean" value="true"/>
-                        <Property name="text" type="java.lang.String" value="Atualiza Base ICMS"/>
-                      </Properties>
-                      <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBoxAtualizaBaseIcmsActionPerformed"/>
-                      </Events>
-                    </Component>
                     <Component class="javax.swing.JLabel" name="jLabelQuantidadeProduto">
                       <Properties>
+                        <Property name="horizontalAlignment" type="int" value="4"/>
                         <Property name="text" type="java.lang.String" value="Quantidade:"/>
                       </Properties>
                     </Component>
@@ -1791,23 +1860,29 @@
                         <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JCheckBox" name="jCheckBoxAtualizaBaseIPI">
+                    <Component class="javax.swing.JLabel" name="jLabel5">
                       <Properties>
-                        <Property name="selected" type="boolean" value="true"/>
-                        <Property name="text" type="java.lang.String" value="Atualiza Base IPI"/>
+                        <Property name="horizontalAlignment" type="int" value="4"/>
+                        <Property name="text" type="java.lang.String" value="Valor Desconto Rateado:"/>
                       </Properties>
-                      <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBoxAtualizaBaseIPIActionPerformed"/>
-                      </Events>
                     </Component>
-                    <Component class="javax.swing.JCheckBox" name="jCheckBoxAtualizaBasePisCofins">
+                    <Component class="javax.swing.JLabel" name="jLabel6">
                       <Properties>
-                        <Property name="selected" type="boolean" value="true"/>
-                        <Property name="text" type="java.lang.String" value="Atualiza Base PIS/COFINS"/>
+                        <Property name="horizontalAlignment" type="int" value="4"/>
+                        <Property name="text" type="java.lang.String" value="Valor Acr&#xe9;cimo Rateado:"/>
                       </Properties>
-                      <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBoxAtualizaBasePisCofinsActionPerformed"/>
-                      </Events>
+                    </Component>
+                    <Component class="javax.swing.JTextField" name="jTextFieldValorDescontoRateado">
+                      <Properties>
+                        <Property name="horizontalAlignment" type="int" value="4"/>
+                        <Property name="enabled" type="boolean" value="false"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JTextField" name="jTextFieldValorAcrescimoRateado">
+                      <Properties>
+                        <Property name="horizontalAlignment" type="int" value="4"/>
+                        <Property name="enabled" type="boolean" value="false"/>
+                      </Properties>
                     </Component>
                   </SubComponents>
                 </Container>
