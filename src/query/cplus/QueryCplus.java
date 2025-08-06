@@ -73,6 +73,14 @@ public class QueryCplus {
         return emf.createEntityManager();
     }
     
+     public List<Produto> buscarProdutosComEstoqueSemVendasAPartirDe(Calendar dataFim) {
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery("SELECT p FROM Produto p WHERE EXISTS(SELECT 1 FROM Produtoestoque pe WHERE pe.produtoestoquePK.codprod = p.codprod AND pe.estatu > 0.00) AND NOT EXISTS (SELECT 1 FROM Movendaprod mp JOIN mp.codmovenda mv WHERE mp.codprod = p AND mv.data >= :dataFim)");  
+        query.setParameter("dataFim", dataFim.getTime());//primeiro parametro 
+        return query.getResultList();
+    }
+    
+    
     /**
      * Função que retorna lista de produtos de entrada, sendo Compra e CST 10 pelo codigo do produto
      * @param codigo

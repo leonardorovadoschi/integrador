@@ -326,20 +326,27 @@ public class RelatorioEstoqueJFrame extends javax.swing.JFrame {
     private void jButtonProdSemVendasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonProdSemVendasActionPerformed
         String tex = "";
         jTextArea.setText("");
-        List<Produtoestoque> prodList = new ArrayList<>();
-        for (Produtoestoque prodestoque : queryCplus.resultComEstoque()) {
-            if (queryCplus.naoVendidoDesDe(prodestoque.getProduto().getCodprod(), jDateChooserDataSemVenda.getDate()).isEmpty()) {
-                if (queryCplus.compradoAntes(prodestoque.getProduto().getCodprod(), jDateChooserDataSemVenda.getDate()).isEmpty()) {
+        List<Produto> prodList = new ArrayList<>();
+        //for (Produtoestoque prodestoque : queryCplus.resultComEstoque()) {
+            for (Produto prodestoque : queryCplus.buscarProdutosComEstoqueSemVendasAPartirDe(jDateChooserDataSemVenda.getCalendar()) ) {
+            //if (queryCplus.naoVendidoDesDe(prodestoque.getProduto().getCodprod(), jDateChooserDataSemVenda.getDate()).isEmpty()) {
+              //  if (queryCplus.compradoAntes(prodestoque.getProduto().getCodprod(), jDateChooserDataSemVenda.getDate()).isEmpty()) {
                     prodList.add(prodestoque);
-                }
-            }
+               // }
+           // }
         }
         if (prodList.size() > 0) {
             Comparator ordemNome = new ComparadorNomeProduto();
             Collections.sort(prodList, ordemNome);
-            for (Produtoestoque pe : prodList) {
-                tex = tex + pe.getProduto().getCodigo()
-                        + " - " + pe.getProduto().getNomeprod()
+            String qua = "";
+            String dat = "";
+            for (Produto pe : prodList) {
+                 for(Produtoestoque es : pe.getProdutoestoqueCollection()){
+                     qua = formatacaoCampos.bigDecimalParaString(es.getEstatu(),0);
+                 }
+                tex = tex + pe.getCodigo()
+                        + " - " + pe.getNomeprod()
+                         + " - " + qua
                         + "\n";
                 jTextArea.setText(tex);
             }
