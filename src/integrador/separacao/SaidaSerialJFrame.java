@@ -10,6 +10,7 @@ import entidade.cplus.Localizacao;
 import entidade.cplus.Movenda;
 import entidade.cplus.Movendaprod;
 import entidade.cplus.Movendaprodserial;
+import entidade.cplus.Movendarec;
 import entidade.cplus.Produto;
 import entidade.cplus.Produtocodigo;
 import entidade.cplus.Produtoestoque;
@@ -33,13 +34,10 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import jpa.cplus.MovendaJpaController;
 import jpa.cplus.MovendaprodJpaController;
-import jpa.cplus.ProdutoJpaController;
 import jpa.cplus.exceptions.NonexistentEntityException;
 import jpa.integrador.IntConfiguracaoJpaController;
 import jpa.integrador.IntLogsJpaController;
@@ -398,15 +396,15 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jPanelPesquisas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanelInformacoes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanelConfiguracaoLista, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 882, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jProgressBarSaidaSerial, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 872, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 882, Short.MAX_VALUE)
+                    .addComponent(jProgressBarSaidaSerial, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 614, Short.MAX_VALUE))
         );
@@ -618,7 +616,7 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
                         }
 
                         if (condicao) {
-                            boolean jaPassou = true;
+                           // boolean jaPassou = true;
                             for (Movendaprod movProd : listMovendaProd) {
                                 if (movProd.getCodprod().getCodprod().equals(ser.getCodProduto())) {
                                     int quan = produtoSeparado(movProd, listSaidaSerial);
@@ -1102,6 +1100,12 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
                     }
                     //grava romaneio nas observações da nota
                     String romaneio = "";
+                    for(Movendarec rec : movenda.getMovendarecCollection()){
+                        if(!"003".equals(rec.getCodrec().getCodrec()) && movenda.getMovendarecCollection().size() > 1 ){
+                        romaneio = romaneio + rec.getCodrec().getRecebimento() + " "+ format.bigDecimalParaString(rec.getValor(), 2) + " " ;
+                        }
+                    }
+                    romaneio = romaneio + " - ";
                     for (Movendaprod vend : listMovendaProd) {
                         romaneio = romaneio + vend.getCodprod().getCodigo() + ": ";
                         //for (SaidaSerial sai : queryIntegrador.listPorSaidaProd(vend.getCodmovprod())) {
