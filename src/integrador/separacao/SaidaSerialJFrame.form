@@ -38,7 +38,7 @@
                   <Component id="jProgressBarSaidaSerial" alignment="1" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jScrollPane2" pref="614" max="32767" attributes="0"/>
+              <Component id="jScrollPane2" min="-2" pref="545" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
