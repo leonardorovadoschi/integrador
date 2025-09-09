@@ -1109,7 +1109,7 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
                            c.setHistorico("Vendas, Pedido: "+ movenda.getNumped() +", Tipo: "+ rec.getCodrec().getRecebimento());
                            c.setCodcli(movenda.getCodcli());
                            c.setIdrec(rec.getCodrec().getCodrec());
-                           c.setFlagforncli(movenda.getFlagforncli());
+                           c.setFlagforncli('C');
                             try {
                                 new CaixaJpaController(Manager.getManagerCplus()).edit(c);
                             } catch (Exception ex) {
