@@ -5,6 +5,7 @@
  */
 package query.cplus;
 
+import entidade.cplus.Caixa;
 import entidade.cplus.Calculoicms;
 import entidade.cplus.Calculoicmsestado;
 import entidade.cplus.Campocustomvalor;
@@ -29,6 +30,7 @@ import entidade.cplus.Movendaprod;
 import entidade.cplus.Movendaprodcomp;
 import entidade.cplus.Movendaproddevolucaocompra;
 import entidade.cplus.Movendaprodserial;
+import entidade.cplus.Movendarec;
 import entidade.cplus.Moventrada;
 import entidade.cplus.Moventradaprod;
 import entidade.cplus.Moventradaprodserial;
@@ -80,6 +82,13 @@ public class QueryCplus {
         return query.getResultList();
     }
     
+      public List<Caixa> buscaRecebimentosCaixa(Movenda venda , BigDecimal valor) {
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery("SELECT p FROM Caixa p WHERE p.codmovenda =:venda AND p.valor =:valor");  
+        query.setParameter("venda", venda.getCodmovenda());//primeiro parametro 
+        query.setParameter("valor", valor);
+        return query.getResultList();
+    }
     
     /**
      * Função que retorna lista de produtos de entrada, sendo Compra e CST 10 pelo codigo do produto

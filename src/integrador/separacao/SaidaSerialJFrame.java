@@ -6,6 +6,7 @@
 package integrador.separacao;
 
 import acesso.ListagemUsuarioJDialog;
+import entidade.cplus.Caixa;
 import entidade.cplus.Localizacao;
 import entidade.cplus.Movenda;
 import entidade.cplus.Movendaprod;
@@ -34,8 +35,11 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import jpa.cplus.CaixaJpaController;
 import jpa.cplus.MovendaJpaController;
 import jpa.cplus.MovendaprodJpaController;
 import jpa.cplus.exceptions.NonexistentEntityException;
@@ -1098,6 +1102,22 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
                             }
                         }
                     }
+                    //Atualizar recebimentos no caixa
+                    for(Movendarec rec : movenda.getMovendarecCollection()){
+                        for(Caixa c  : queryCplus.buscaRecebimentosCaixa(movenda, rec.getValor())){
+                           c.setCodcli(movenda.getCodcli());
+                           c.setHistorico("Vendas, Pedido: "+ movenda.getNumped() +", Tipo: "+ rec.getCodrec().getRecebimento());
+                           c.setCodcli(movenda.getCodcli());
+                           c.setIdrec(rec.getCodrec().getCodrec());
+                           c.setFlagforncli(movenda.getFlagforncli());
+                            try {
+                                new CaixaJpaController(Manager.getManagerCplus()).edit(c);
+                            } catch (Exception ex) {
+                                JOptionPane.showMessageDialog(null, "ERRO AO EDITAR CAIXA, Verifique!! \n" + ex, "Erro Editar", JOptionPane.ERROR_MESSAGE);
+                            }                          
+                        }
+                    }
+                    
                     //grava romaneio nas observações da nota
                     String romaneio = "";
                     for(Movendarec rec : movenda.getMovendarecCollection()){
@@ -1120,9 +1140,9 @@ public class SaidaSerialJFrame extends javax.swing.JFrame {
                     try {
                         new MovendaJpaController(Manager.getManagerCplus()).edit(movenda);
                     } catch (NonexistentEntityException ex) {
-                        JOptionPane.showMessageDialog(null, "ERRO AO EDITAR MOVENDA, Verifique!! \n" + ex, "Erro Separar", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "ERRO AO EDITAR MOVENDA, Verifique!! \n" + ex, "Erro Editar", JOptionPane.ERROR_MESSAGE);
                     } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(null, "ERRO AO EDITAR MOVENDA, Verifique!! \n" + ex, "Erro Separar", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "ERRO AO EDITAR MOVENDA, Verifique!! \n" + ex, "Erro Editar", JOptionPane.ERROR_MESSAGE);
                     }
 
                     //Laço que carrega uma lista de Seriais de Saida caso haja
