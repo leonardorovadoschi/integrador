@@ -21,6 +21,7 @@ import entidade.cplus.Produtopreco;
 import entidade.integrador.IntLogs;
 import entidade.prestaShop.PsProduct;
 import integrador.render.ConfTabelaProduto;
+import integrador.render.ConfTabelaProdutoEntrada;
 import integrador.render.ConfTabelaProdutoSaida;
 import java.awt.Color;
 import java.awt.Toolkit;
@@ -77,6 +78,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         this.listagemSaidasJDialog = new ListagemSaidasJDialog(this, true);
         jTableListagemProdutos.setDefaultRenderer(Object.class, new ConfTabelaProduto());
         jTableSaidaProduto.setDefaultRenderer(Object.class, new ConfTabelaProdutoSaida());
+        jTableEntradaProduto.setDefaultRenderer(Object.class, new ConfTabelaProdutoEntrada());
     }
 
     /**

@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package integrador.render;
 
 import janela.cplus.FormataCampos;
@@ -17,10 +16,11 @@ import prestashop.ConfiguracaoNoBD;
 
 /**
  *
- * @author leo-note
+ * @author leonardo
  */
-public class ConfTabelaProdutoSaida extends DefaultTableCellRenderer{
-    public ConfTabelaProdutoSaida() {
+public class ConfTabelaProdutoEntrada extends DefaultTableCellRenderer{
+    
+    public ConfTabelaProdutoEntrada() {
        
     }
 
@@ -41,6 +41,10 @@ public class ConfTabelaProdutoSaida extends DefaultTableCellRenderer{
         label.setHorizontalAlignment(SwingConstants.LEFT);
         label.setForeground(Color.BLACK);
         //configuração por coluna 
+        if(column == 1){
+            label.setHorizontalAlignment(SwingConstants.RIGHT);
+            //setFont(new Font("Arial", 2, 13));//altera a fonte da letra
+        }
         if(column == 2){
             label.setHorizontalAlignment(SwingConstants.RIGHT);
             //setFont(new Font("Arial", 2, 13));//altera a fonte da letra
@@ -55,18 +59,20 @@ public class ConfTabelaProdutoSaida extends DefaultTableCellRenderer{
         }
         if(column == 5){
             label.setHorizontalAlignment(SwingConstants.RIGHT);
-            //setFont(new Font("Arial", 2, 13));//altera a fonte da letra
+            //setFont(new Font("Arial", 3, 12));//altera a fonte da letra
         }
         if(column == 6){
             label.setHorizontalAlignment(SwingConstants.RIGHT);
-            //setFont(new Font("Arial", 3, 12));//altera a fonte da letra
         }
         if(column == 7){
             label.setHorizontalAlignment(SwingConstants.RIGHT);
         }
         if(column == 8){
             label.setHorizontalAlignment(SwingConstants.RIGHT);
-        }           
+        } 
+         if(column == 9){
+            label.setHorizontalAlignment(SwingConstants.RIGHT);
+        } 
         //label.setForeground(foreground);
         label.setBackground(background);
         return label;
