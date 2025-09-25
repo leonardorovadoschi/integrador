@@ -10,7 +10,6 @@ import entidade.cplus.Fornproduto;
 import entidade.cplus.Moventradaprod;
 import entidade.cplus.Produto;
 import integrador.render.ConfTabelaEntradaProd;
-import integrador.render.ConfTabelaProduto;
 import javax.swing.JOptionPane;
 import java.awt.Toolkit;
 import javax.swing.table.DefaultTableModel;
@@ -340,7 +339,7 @@ public class ListagemEntradaProdutoJDialog extends javax.swing.JDialog {
             case 0:
                 movEntradaProdList.clear();
                 if (verificaSeForNumero(jTextFieldMaximoDeResultadosEntradas.getText())) {
-                    for (Moventradaprod movProd : queryCplus.resultProdutoEntrada(termoPes, jCheckBoxSomenteCompras.isSelected(), Integer.valueOf(jTextFieldMaximoDeResultadosEntradas.getText()))) {
+                    for (Moventradaprod movProd : queryCplus.resultProdutoEntrada(prodCplus, jCheckBoxSomenteCompras.isSelected(), Integer.valueOf(jTextFieldMaximoDeResultadosEntradas.getText()))) {
                         movEntradaProdList.add(movProd);
                     }
                     carregaTabelaMovProduto();
@@ -370,7 +369,7 @@ public class ListagemEntradaProdutoJDialog extends javax.swing.JDialog {
     public void setTermoPesquisa(Produto prodCplus) {
         //jComboBoxTipoPesquisa1.setSelectedIndex(indexPesquisa);
         this.jTextFieldTermoPesquisa.setText(prodCplus.getNomeprod());       
-        this.termoPes = prodCplus.getCodprod();
+        this.prodCplus = prodCplus;
         tipoPesquisa();
     }
 
@@ -440,11 +439,11 @@ public class ListagemEntradaProdutoJDialog extends javax.swing.JDialog {
         });
     }
 
-    private String termoPes;
-    private Moventradaprod movEntradaProd;
-    private FormataCampos format;
-    private int colunaCodMovEntrada;
-    private QueryCplus queryCplus;
+    private Produto prodCplus;
+    //private Moventradaprod movEntradaProd;
+    private final FormataCampos format;
+    private final int colunaCodMovEntrada;
+    private final QueryCplus queryCplus;
     //static EntityManagerFactory managerCplus;
     boolean cancelamento;
     ListagemClientesJDialog listagemClientesJDialog;

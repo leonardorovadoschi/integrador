@@ -854,13 +854,15 @@ public class RelatorioComprasJFrame extends javax.swing.JFrame {
             }
         }
         if (listEntradaProdData.isEmpty()) {
-            List<Moventradaprod> listEntradaProd = queryCplus.resultProdutoEntrada(codProdCplus, true, 1);
+            Date primeiraDataCompra = jDateChooserDataFinal.getDate();
+            /**List<Moventradaprod> listEntradaProd = queryCplus.resultProdutoEntrada(codProdCplus, true, 1);
             Date primeiraDataCompra = jDateChooserDataFinal.getDate();
             for (Moventradaprod entradaProd : listEntradaProd) {
                 if (comparaDatas(entradaProd.getCodmoventr().getData(), primeiraDataCompra)) {
                     primeiraDataCompra = entradaProd.getCodmoventr().getData();
                 }
             }
+            * */
             if (comEstoque) {
                 listaVendaProdData = queryCplus.resultProdutoVenda(codProdCplus, 'V', primeiraDataCompra, jDateChooserDataFinal.getDate());
                 numerodeDiasCalculo = diferencaDeDias(primeiraDataCompra, jDateChooserDataFinal.getDate());
@@ -870,6 +872,7 @@ public class RelatorioComprasJFrame extends javax.swing.JFrame {
                     totalVendas = totalVendas.add(vendaProd.getQuantidade());
                 }
             } else {
+                /**
                 List<Movendaprod> listaVendaProd = queryCplus.resultProdutoVenda(codProdCplus, true, 1);
                 for (Movendaprod prodUltimo : listaVendaProd) {
                     listaVendaProdData = queryCplus.resultProdutoVenda(codProdCplus, 'V', primeiraDataCompra, prodUltimo.getCodmovenda().getData());
@@ -879,8 +882,8 @@ public class RelatorioComprasJFrame extends javax.swing.JFrame {
                     for (Movendaprod vendaProd : listaVendaProdData) {
                         totalVendas = totalVendas.add(vendaProd.getQuantidade());
                     }
-                }
-            }
+                } */
+            } 
         } else {
             if (comEstoque) {
                 listaVendaProdData = queryCplus.resultProdutoVenda(codProdCplus, 'V', jDateChooserDataInicial.getDate(), jDateChooserDataFinal.getDate());
@@ -891,6 +894,7 @@ public class RelatorioComprasJFrame extends javax.swing.JFrame {
                     totalVendas = totalVendas.add(vendaProd.getQuantidade());
                 }
             } else {
+                /**
                 List<Movendaprod> listaVendaProd = queryCplus.resultProdutoVenda(codProdCplus, true, 1);
                 for (Movendaprod prodUltimo : listaVendaProd) {
                     listaVendaProdData = queryCplus.resultProdutoVenda(codProdCplus, 'V', jDateChooserDataInicial.getDate(), prodUltimo.getCodmovenda().getData());
@@ -901,6 +905,7 @@ public class RelatorioComprasJFrame extends javax.swing.JFrame {
                         totalVendas = totalVendas.add(vendaProd.getQuantidade());
                     }
                 }
+                */
             }
         }
         BigDecimal totBig;

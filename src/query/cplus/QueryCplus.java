@@ -787,17 +787,24 @@ public class QueryCplus {
         return query.getResultList();
     }
 
-   
+   /**
+    * Função que retorna Todas as Saidas ou somente Vendas
+    * tambem retorna uma lista da data aual para antiga
+    * @param prod
+    * @param somenteVenda
+    * @param maxResultado
+    * @return 
+    */
 
-    public List<Movendaprod> resultProdutoVenda(String codigoProduto, Boolean tipoMovimento, Integer maxResultado) {
+    public List<Movendaprod> resultProdutoVenda(Produto prod, Boolean somenteVenda, Integer maxResultado) {
         String quer = "";
-        if (tipoMovimento) {
+        if (somenteVenda) {
             quer = quer + " AND tipoMov.flagtipomovimento =:tipoMovimento";
         }
         EntityManager em = getEntityManager();
-        Query query = em.createQuery("SELECT MOVPROD FROM Movendaprod movProd INNER JOIN MOVPROD.codmovenda mov INNER JOIN mov.codtipomovimento tipoMov WHERE MOVPROD.codprod.codprod =:codigoProduto" + quer + " ORDER BY mov.data DESC");
-        query.setParameter("codigoProduto", codigoProduto);//primeiro parametro 
-        if (tipoMovimento) {
+        Query query = em.createQuery("SELECT MOVPROD FROM Movendaprod movProd INNER JOIN MOVPROD.codmovenda mov INNER JOIN mov.codtipomovimento tipoMov WHERE MOVPROD.codprod =:prod" + quer + " ORDER BY mov.data DESC");
+        query.setParameter("prod", prod); 
+        if (somenteVenda) {
             char val = 'V';
             query.setParameter("tipoMovimento", val);//primeiro parametro 
         }
@@ -953,19 +960,19 @@ public class QueryCplus {
      * será compras, se for false será tudo maxResultado siginifica o numero de
      * resultados retornados a ordem pela ultima data de entrada
      *
-     * @param codigoProduto
+     * @param prod
      * @param tipoMovimento
      * @param maxResultado
      * @return
      */
-    public List<Moventradaprod> resultProdutoEntrada(String codigoProduto, Boolean tipoMovimento, Integer maxResultado) {
+    public List<Moventradaprod> resultProdutoEntrada(Produto prod, Boolean tipoMovimento, Integer maxResultado) {
         String quer = "";
         if (tipoMovimento) {
             quer = quer + " AND tipoMov.flagtipomovimento =:tipoMovimento";
         }
         EntityManager em = getEntityManager();
-        Query query = em.createQuery("SELECT MOVPROD FROM Moventradaprod movProd INNER JOIN MOVPROD.codmoventr mov INNER JOIN mov.codtipomovimento tipoMov WHERE MOVPROD.codprod.codprod =:codigoProduto" + quer + " ORDER BY mov.data DESC");
-        query.setParameter("codigoProduto", codigoProduto);//primeiro parametro 
+        Query query = em.createQuery("SELECT MOVPROD FROM Moventradaprod movProd INNER JOIN MOVPROD.codmoventr mov INNER JOIN mov.codtipomovimento tipoMov WHERE MOVPROD.codprod =:prod" + quer + " ORDER BY mov.data DESC");
+        query.setParameter("prod", prod);//primeiro parametro 
         if (tipoMovimento) {
             char val = 'C';
             query.setParameter("tipoMovimento", val);//primeiro parametro 

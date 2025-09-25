@@ -46,7 +46,7 @@ public class CalculoDeCusto {
         BigDecimal aliqPisCofins = new BigDecimal("0.0925");
         
         if(quantidadeEstoque.intValue() > 0){
-        for (Moventradaprod movProd : new QueryCplus().resultProdutoEntrada(prod.getCodprod(), true, 10)) {
+        for (Moventradaprod movProd : new QueryCplus().resultProdutoEntrada(prod, true, 10)) {
             quanCompra = quanCompra.add(movProd.getQuantidade());
             if (quantidadeEstoque.intValue() >= quanCompra.intValue()) { //estoque maior que quantidade de compra
                 valorProdutos = valorProdutos.add(movProd.getValortotal());

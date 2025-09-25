@@ -40,7 +40,6 @@ public class RelatorioEstoqueJFrame extends javax.swing.JFrame {
     /**
      * Creates new form RelatorioInventarioJFrame
      *
-     * @param managerCplus1
      */
     public RelatorioEstoqueJFrame() {
         initComponents();
@@ -511,7 +510,7 @@ public class RelatorioEstoqueJFrame extends javax.swing.JFrame {
                 double valorTotalSt = 0.00;
                 int estoqueCompra = 0;
                 int incremetEstoque = 0;
-                for (Moventradaprod movProd : queryCplus.resultProdutoEntrada(prodEstoque.getProduto().getCodprod(), true, 10)) {
+                for (Moventradaprod movProd : queryCplus.resultProdutoEntrada(prodEstoque.getProduto(), true, 10)) {
                     estoqueCompra = estoqueCompra + movProd.getQuantidade().intValue();
                     if (quantidadeEstoque >= estoqueCompra) {
                         valorProdutos = valorProdutos + movProd.getValortotal().doubleValue();
@@ -592,14 +591,8 @@ public class RelatorioEstoqueJFrame extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(RelatorioEstoqueJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(RelatorioEstoqueJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(RelatorioEstoqueJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(RelatorioEstoqueJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
+            JOptionPane.showMessageDialog(null, "Erro de main \n" + ex);
         }
         //</editor-fold>
 
