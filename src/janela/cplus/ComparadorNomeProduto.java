@@ -6,18 +6,18 @@
 
 package janela.cplus;
 
-import entidade.cplus.Produto;
+import entidade.cplus.Produtoestoque;
 import java.util.Comparator;
 
 /**
  *
  * @author leonardo
  */
-public class ComparadorNomeProduto implements Comparator<Produto>{
+public class ComparadorNomeProduto implements Comparator<Produtoestoque>{
 
     @Override
-    public int compare(Produto o1, Produto o2) {
-        return o1.getNomeprod().compareTo(o2.getNomeprod()); 
+    public int compare(Produtoestoque o1, Produtoestoque o2) {
+        return o1.getProduto().getNomeprod().compareTo(o2.getProduto().getNomeprod()); 
     }
   
     

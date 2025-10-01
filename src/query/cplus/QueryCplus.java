@@ -514,6 +514,14 @@ public class QueryCplus {
         query.setParameter("codigo", codigo);        
         return query.getResultList();
     }
+      
+      public List<Moventradaprod> listMovEntradaProdComEstoque() {
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery("SELECT mep FROM Moventradaprod mep JOIN mep.codmoventr me JOIN mep.codprod p JOIN p.produtoestoqueCollection pe WHERE pe.estatu > 0 ORDER BY me.data DESC");
+        //query.setParameter("codMovEntrada", codMovEntrada);
+        return query.getResultList();
+    }
+      
 
     public List<Moventradaprod> listagemMovEntradaProdPorEntrada(String codMovEntrada) {
         EntityManager em = getEntityManager();
