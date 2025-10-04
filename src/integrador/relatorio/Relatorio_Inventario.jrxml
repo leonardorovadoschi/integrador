@@ -60,6 +60,9 @@
 	<field name="percoutroscustos2" class="java.math.BigDecimal">
 		<fieldDescription><![CDATA[produto.percoutroscustos2]]></fieldDescription>
 	</field>
+	<field name="Totoutroscustos" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[produto.totoutroscustos]]></fieldDescription>
+	</field>
 	<variable name="TOT_PRODUTO" class="java.math.BigDecimal">
 		<variableExpression><![CDATA[$F{custoreal}.multiply($F{estatu})]]></variableExpression>
 	</variable>
@@ -246,7 +249,7 @@
 			<textField pattern="¤ #,##0.00">
 				<reportElement x="553" y="0" width="50" height="13" uuid="7a39a760-3a1f-40e0-abe8-547cb29c9f99"/>
 				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA[$F{valoutroscustos}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{Totoutroscustos}]]></textFieldExpression>
 			</textField>
 			<textField pattern="¤ #,##0.00">
 				<reportElement x="500" y="0" width="50" height="13" uuid="9579d5f1-8a08-45f3-b83a-15d808c82bdf"/>

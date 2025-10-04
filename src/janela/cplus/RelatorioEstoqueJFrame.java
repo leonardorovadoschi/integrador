@@ -299,56 +299,32 @@ public class RelatorioEstoqueJFrame extends javax.swing.JFrame {
                 for (Moventradaprod movProd : queryCplus.resultProdutoEntrada(prodEstoque.getProduto().getCodprod(), formatacaoCampos.alteraHoraData(jDateChooserDataInventario.getDate()), true)) {
                     estoqueCompra = estoqueCompra
                             + movProd.getQuantidade().intValue();
-                    if (quantidadeEstoque
-                            >= estoqueCompra) {
-                        valorProdutos = valorProdutos
-                                + movProd.getValortotal().doubleValue();
-                        if (movProd.getValoricms()
-                                != null) {
-                            valorTotalIcms = valorTotalIcms
-                                    + movProd.getValoricms().doubleValue();
+                    if (quantidadeEstoque >= estoqueCompra) {
+                        valorProdutos = valorProdutos + movProd.getValortotal().doubleValue();
+                        if (movProd.getValoricms() != null) {
+                            valorTotalIcms = valorTotalIcms + movProd.getValoricms().doubleValue();
                         }
-                        valorTotalPisCofins
-                                = valorTotalPisCofins + movProd.getValorpis().doubleValue()
-                                + movProd.getValorcofins().doubleValue();
+                        valorTotalPisCofins = valorTotalPisCofins + movProd.getValorpis().doubleValue() + movProd.getValorcofins().doubleValue();
                         if (movProd.getValorsubsttributaria() != null) {
-                            valorTotalSt
-                                    = valorTotalSt + movProd.getValorsubsttributaria().doubleValue();
+                            valorTotalSt = valorTotalSt + movProd.getValorsubsttributaria().doubleValue();
                         }
                         if (movProd.getValoripi() != null) {
-                            valorTotalIpi = valorTotalIpi
-                                    + movProd.getValoripi().doubleValue();
+                            valorTotalIpi = valorTotalIpi + movProd.getValoripi().doubleValue();
                         }
-                        incremetEstoque
-                                = incremetEstoque + movProd.getQuantidade().intValue();
+                        incremetEstoque = incremetEstoque + movProd.getQuantidade().intValue();
                     } else {
-                        valorProdutos = valorProdutos + ((quantidadeEstoque
-                                - incremetEstoque) * movProd.getValorunitario().doubleValue());
-                        double valorRestanteIcmsUnitario = movProd.getValoricms().doubleValue()
-                                / movProd.getQuantidade().doubleValue();
-                        valorTotalIcms
-                                = valorTotalIcms + (valorRestanteIcmsUnitario * (quantidadeEstoque
-                                - incremetEstoque));
-                        double valorRestantePisCofinsUnitario
-                                = (movProd.getValorpis().doubleValue()
-                                + movProd.getValorcofins().doubleValue())
-                                / (movProd.getQuantidade().doubleValue());
-                        valorTotalPisCofins
-                                = valorTotalPisCofins + (valorRestantePisCofinsUnitario
-                                * (quantidadeEstoque - incremetEstoque));
+                        valorProdutos = valorProdutos + ((quantidadeEstoque - incremetEstoque) * movProd.getValorunitario().doubleValue());
+                        double valorRestanteIcmsUnitario = movProd.getValoricms().doubleValue() / movProd.getQuantidade().doubleValue();
+                        valorTotalIcms = valorTotalIcms + (valorRestanteIcmsUnitario * (quantidadeEstoque - incremetEstoque)); 
+                        double valorRestantePisCofinsUnitario = (movProd.getValorpis().doubleValue() + movProd.getValorcofins().doubleValue()) / (movProd.getQuantidade().doubleValue());
+                        valorTotalPisCofins = valorTotalPisCofins + (valorRestantePisCofinsUnitario * (quantidadeEstoque - incremetEstoque)); 
                         if (movProd.getValorsubsttributaria() != null) {
-                            double valorRestanteStUnitario
-                                    = movProd.getValorsubsttributaria().doubleValue()
-                                    / movProd.getQuantidade().doubleValue();
-                            valorTotalSt = valorTotalSt
-                                    + (valorRestanteStUnitario * (quantidadeEstoque - incremetEstoque));
+                            double valorRestanteStUnitario = movProd.getValorsubsttributaria().doubleValue() / movProd.getQuantidade().doubleValue();
+                            valorTotalSt = valorTotalSt + (valorRestanteStUnitario * (quantidadeEstoque - incremetEstoque));
                         }
                         if (movProd.getValoripi() != null) {
-                            double valorRestanteIpi
-                                    = movProd.getValoripi().doubleValue()
-                                    / movProd.getQuantidade().doubleValue();
-                            valorTotalIpi = valorTotalIpi
-                                    + (valorRestanteIpi * (quantidadeEstoque - incremetEstoque));
+                            double valorRestanteIpi = movProd.getValoripi().doubleValue() / movProd.getQuantidade().doubleValue();
+                            valorTotalIpi = valorTotalIpi + (valorRestanteIpi * (quantidadeEstoque - incremetEstoque));
                         }
                         break;
                     } // } //fim for listagem entrada de compra
@@ -369,16 +345,11 @@ public class RelatorioEstoqueJFrame extends javax.swing.JFrame {
                     prodEstoque.getProduto().setValoripi(new BigDecimal(valorIpiUnitario).setScale(2, RoundingMode.HALF_UP));
 
                     creditoIcms = valorTotalIcms / quantidadeEstoque;
-                    creditoPisCofins
-                            = valorTotalPisCofins / quantidadeEstoque;
-                    valorStUnitario
-                            = valorTotalSt / quantidadeEstoque;
-                    valorIpiUnitario = valorTotalIpi
-                            / quantidadeEstoque;
-                    custoProdutoUnitario = valorProdutos
-                            / quantidadeEstoque;
-                    custoProdutoUnitario = custoProdutoUnitario
-                            + valorIpiUnitario + valorStUnitario - creditoIcms - creditoPisCofins;
+                    creditoPisCofins = valorTotalPisCofins / quantidadeEstoque;
+                    valorStUnitario = valorTotalSt / quantidadeEstoque;
+                    valorIpiUnitario = valorTotalIpi / quantidadeEstoque;
+                    custoProdutoUnitario = valorProdutos / quantidadeEstoque;
+                    custoProdutoUnitario = custoProdutoUnitario + valorIpiUnitario + valorStUnitario - creditoIcms - creditoPisCofins;
                     prodEstoque.getProduto().setPrecusto(new BigDecimal(custoProdutoUnitario).setScale(2, RoundingMode.HALF_UP));
 
                     prodEstoque.setEstatu(new BigDecimal(quantidadeEstoque));
@@ -491,41 +462,81 @@ public class RelatorioEstoqueJFrame extends javax.swing.JFrame {
     private void inventarioSismples() {
         List<Produtoestoque> listProd = new ArrayList<>();
         int qtdEstoque = 0;
-        double totalValor = 0.0;
-        int unitarioMedio = 0;
-        double valUnitario = 0.00;
-        double valCofins = 0.00;
-        double valPis = 0.00;
-        double valIpi = 0.00;
+        double totalValorUnitario = 0.0;
+        double totalValorIcms = 0.0;
+        double totalValorPisCofins = 0.0;
+        double totalValorIpi = 0.0;
+        int quantidadeMedia = 0;
+        double unitario = 0.00;      
+        double icms = 0.00;
+        double pis = 0.00;
+        double cofins = 0.00;
+        double pisCofins = 0.00;
+        double ipi = 0.00;
 
         for (Produtoestoque es : queryCplus.resultComEstoque()) {
+           // for (Produtoestoque es : queryCplus.listEstoquesPorProd("000001026")) { //FONTE ATX 350W PS-350 24PINOS SEM CABO C3 TECH
             qtdEstoque = es.getEstatu().intValue();
-            totalValor = 0.0;
+            totalValorUnitario = 0.0;
             for (Moventradaprod mp : queryCplus.resultProdutoEntrada(es.getProduto().getCodprod(), formatacaoCampos.alteraHoraData(jDateChooserDataInventario.getDate()), true)) {
                 if (mp.getValorunitario() != null) {
-                    valUnitario = mp.getValorunitario().doubleValue();
+                    unitario = mp.getValorunitario().doubleValue();
+                }
+                if (mp.getValoricms()!= null) {
+                    icms = mp.getValoricms().doubleValue() / mp.getQuantidade().doubleValue();
+                }
+                if (mp.getValorcofins()!= null) {
+                    cofins = mp.getValorcofins().doubleValue() / mp.getQuantidade().doubleValue();
+                }
+                if (mp.getValorpis()!= null) {
+                    pis = mp.getValorpis().doubleValue() / mp.getQuantidade().doubleValue();
                 }
                 if (mp.getValoripi() != null) {
-                    valIpi = mp.getValoripi().doubleValue();
+                    ipi = mp.getValoripi().doubleValue() / mp.getQuantidade().doubleValue();
                 }
                 // System.out.println("Nome Produto: " + mp.getCodprod().getNomeprod() + ", Quantidade: " + qtdEstoque);
-                int restante = qtdEstoque - unitarioMedio;
+                int restante = qtdEstoque - quantidadeMedia;
                 if (restante <= 0) {
                     break;
                 }
                 int qtdConsiderada = Math.min(mp.getQuantidade().intValue(), restante);
-                totalValor += qtdConsiderada * valUnitario;
-                unitarioMedio += qtdConsiderada;
+                totalValorUnitario += qtdConsiderada * unitario;
+                totalValorIcms += qtdConsiderada * icms;
+                pisCofins = pis + cofins;
+                totalValorPisCofins += qtdConsiderada * pisCofins;
+                totalValorIpi += qtdConsiderada * ipi;
+                quantidadeMedia += qtdConsiderada;
             }
-            double custoMedio = 0.00;
-            if (totalValor > 0) {
-                custoMedio = totalValor / unitarioMedio;
-                es.getProduto().setCustoreal(new BigDecimal(custoMedio));
-                System.out.println("Nome Produto: " + es.getProduto().getNomeprod() + "Custo Médio: " + custoMedio);
+            double valorUnitarioMedio = 0.00;
+            double valorIcmsMedio = 0.00;
+            double valorPisCofinsMedio = 0.00;
+            double valorIpiMedio = 0.00;
+            if (totalValorUnitario > 0) {
+                valorUnitarioMedio = totalValorUnitario / quantidadeMedia;
+                valorIcmsMedio = totalValorIcms / quantidadeMedia;
+                valorPisCofinsMedio = totalValorPisCofins / quantidadeMedia;
+                valorIpiMedio = totalValorIpi / quantidadeMedia;
+                es.getProduto().setCustoreal(new BigDecimal(valorUnitarioMedio));
+                //System.out.println("Nome Produto: " + es.getProduto().getNomeprod() + "  Custo Unitario Médio: " + valorUnitarioMedio);
+                //System.out.println("Nome Produto: " + es.getProduto().getNomeprod() + "  Custo ICMS Médio: " + valorIcmsMedio);
+                //System.out.println("Nome Produto: " + es.getProduto().getNomeprod() + "  Custo Pis/Cofins Médio: " + valorPisCofinsMedio);
+                //System.out.println("Nome Produto: " + es.getProduto().getNomeprod() + "  Custo IPI Médio: " + valorIpiMedio);
             } else {
-                custoMedio = valUnitario;
-                System.out.println("Nome Produto: " + es.getProduto().getNomeprod() + "Custo Médio: " + custoMedio);
-            }           
+                valorUnitarioMedio = unitario;
+                valorIcmsMedio = icms;
+                valorPisCofinsMedio = pisCofins;
+                valorIpiMedio = ipi;
+                //System.out.println("Nome Produto: " + es.getProduto().getNomeprod() + "  Custo Unitario Médio: " + valorUnitarioMedio);
+                //System.out.println("Nome Produto: " + es.getProduto().getNomeprod() + "  Custo ICMS Médio: " + valorIcmsMedio);
+                //System.out.println("Nome Produto: " + es.getProduto().getNomeprod() + "  Custo Pis/Cofins Médio: " + valorPisCofinsMedio);
+                //System.out.println("Nome Produto: " + es.getProduto().getNomeprod() + "  Custo IPI Médio: " + valorIpiMedio);
+            }  
+            es.getProduto().setPercoutroscustos2(new BigDecimal(valorPisCofinsMedio).setScale(2, RoundingMode.HALF_UP));
+            es.getProduto().setValoripi(new BigDecimal(valorIpiMedio).setScale(2, RoundingMode.HALF_UP));
+            es.getProduto().setPrecusto(new BigDecimal(valorUnitarioMedio + valorIpiMedio - valorIcmsMedio - valorPisCofinsMedio).setScale(2, RoundingMode.HALF_UP));
+            double custoreal = valorUnitarioMedio + valorIpiMedio;
+            es.getProduto().setCustoreal(new BigDecimal(custoreal));
+            // es.getProduto().getTotoutroscustos().doubleValue()
 
             listProd.add(es);
         }
