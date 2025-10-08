@@ -10,6 +10,8 @@ import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
 import java.awt.Toolkit;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 import jpa.cplus.MoventradaJpaController;
 import prestashop.Manager;
 import query.cplus.QueryCplus;
@@ -30,6 +32,7 @@ public class ListagemEntradasJDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         colunaCodMovEntrada = jTableListagemEntradas.getColumnModel().getColumnIndex("Codmoventr");
+        this.entradaJDialog = new EntradaJFrame();
         //managerCplus = managerCplus1;
         queryCplus = new QueryCplus();
         formataCampos = new FormataCampos();
@@ -159,70 +162,84 @@ public class ListagemEntradasJDialog extends javax.swing.JDialog {
         org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codForn.nomeforn}"));
         columnBinding.setColumnName("Fornecedor");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${numnota}"));
         columnBinding.setColumnName("Numero Nota");
         columnBinding.setColumnClass(Integer.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codForn.estado}"));
         columnBinding.setColumnName("UF For.");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codtipomovimento.nometipomovimento}"));
         columnBinding.setColumnName("Operação");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valortotalnota}"));
         columnBinding.setColumnName("Valor Total Nota");
         columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${data}"));
         columnBinding.setColumnName("Data");
         columnBinding.setColumnClass(java.util.Date.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${dataemissao}"));
         columnBinding.setColumnName("Data Emissão");
         columnBinding.setColumnClass(java.util.Date.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${numeroprotocolonfe}"));
         columnBinding.setColumnName("Protocolo NF-e");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${numerochavenfe}"));
         columnBinding.setColumnName("Numero Chave Nf-e");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valortotalpis}"));
         columnBinding.setColumnName("Valor PIS");
         columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valortotalcofins}"));
         columnBinding.setColumnName("Valor COFINS");
         columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valortotalipi}"));
         columnBinding.setColumnName("Valor IPI");
         columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valortotalprodutos}"));
         columnBinding.setColumnName("Valor Produtos");
         columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${hora}"));
         columnBinding.setColumnName("Hora");
         columnBinding.setColumnClass(java.util.Date.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valorsubsttributaria}"));
         columnBinding.setColumnName("Valor S.T.");
         columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${basesubsttributaria}"));
         columnBinding.setColumnName("Base S.T.");
         columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valoricms}"));
         columnBinding.setColumnName("Valor ICMS");
         columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${baseicms}"));
         columnBinding.setColumnName("Base ICMS");
         columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmoventr}"));
         columnBinding.setColumnName("Codmoventr");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
         jTableListagemEntradas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTableListagemEntradasMouseClicked(evt);
-            }
-        });
-        jTableListagemEntradas.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTableListagemEntradasKeyPressed(evt);
             }
         });
         jScrollPane1.setViewportView(jTableListagemEntradas);
@@ -299,14 +316,25 @@ public class ListagemEntradasJDialog extends javax.swing.JDialog {
 
     private void jTextFieldTermoPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldTermoPesquisaActionPerformed
         tipoPesquisa();
+        
+        
     }//GEN-LAST:event_jTextFieldTermoPesquisaActionPerformed
 
-    private void jTableListagemEntradasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableListagemEntradasMouseClicked
-
-    }//GEN-LAST:event_jTableListagemEntradasMouseClicked
-
     private void jButtonOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOkActionPerformed
-        finalizacao();
+         finalizacao();
+        this.entradaJDialog.setMovEntrada(getMovEntrada());
+            this.entradaJDialog.setVisible(true);
+
+            if (entradaJDialog == null || !entradaJDialog.isDisplayable()) {
+                this.entradaJDialog = new EntradaJFrame();
+                //this.vendasJframe.setLocationRelativeTo(null);
+                this.entradaJDialog.setLocationRelativeTo(null); //opcional  
+            } else {
+                this.entradaJDialog.setExtendedState(JFrame.NORMAL);
+                this.entradaJDialog.toFront();
+            }
+            this.entradaJDialog.setMovEntrada(getMovEntrada());
+            this.entradaJDialog.setVisible(true);
     }//GEN-LAST:event_jButtonOkActionPerformed
 
     private void jButtonPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPesquisarActionPerformed
@@ -317,10 +345,30 @@ public class ListagemEntradasJDialog extends javax.swing.JDialog {
         cancelamento();
     }//GEN-LAST:event_jButtonCancelarActionPerformed
 
-    private void jTableListagemEntradasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableListagemEntradasKeyPressed
-        finalizacao();
-    }//GEN-LAST:event_jTableListagemEntradasKeyPressed
+    private void jTableListagemEntradasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableListagemEntradasMouseClicked
+        abrirEntrada(evt);
+    }//GEN-LAST:event_jTableListagemEntradasMouseClicked
 
+    private void abrirEntrada(java.awt.event.MouseEvent evt){
+        
+// Verifica se foi um duplo clique (2 cliques)
+        if (evt.getClickCount() == 2 && SwingUtilities.isLeftMouseButton(evt)) {
+            finalizacao();
+            this.entradaJDialog.setMovEntrada(getMovEntrada());
+            this.entradaJDialog.setVisible(true);
+
+            if (entradaJDialog == null || !entradaJDialog.isDisplayable()) {
+                this.entradaJDialog = new EntradaJFrame();
+                //this.vendasJframe.setLocationRelativeTo(null);
+                this.entradaJDialog.setLocationRelativeTo(null); //opcional  
+            } else {
+                this.entradaJDialog.setExtendedState(JFrame.NORMAL);
+                this.entradaJDialog.toFront();
+            }
+            this.entradaJDialog.setMovEntrada(getMovEntrada());
+            this.entradaJDialog.setVisible(true);
+        }
+    }
     private void cancelamento() {
         int cancelar = JOptionPane.showConfirmDialog(null, " Deseja realmente cancelar? \n O processo será encerrado!!", "Cancelar", JOptionPane.YES_NO_CANCEL_OPTION);
         if (cancelar == JOptionPane.YES_OPTION) {
@@ -495,6 +543,7 @@ public class ListagemEntradasJDialog extends javax.swing.JDialog {
     //static EntityManagerFactory managerCplus;
     boolean cancelamento;
     ListagemClientesJDialog listagemClientesJDialog;
+    private EntradaJFrame entradaJDialog;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.persistence.EntityManager cplusPUEntityManager;

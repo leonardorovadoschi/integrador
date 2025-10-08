@@ -1,29 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
-  <NonVisualComponents>
-    <Component class="java.util.List" name="moventradaList">
-      <Properties>
-        <Property name="query" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$QueryBeanProperty$QueryEditor">
-          <ComponentRef name="default"/>
-        </Property>
-        <Property name="observable" type="boolean" value="true"/>
-      </Properties>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;entidade.cplus.Moventrada&gt;"/>
-      </AuxValues>
-    </Component>
-    <Component class="java.util.List" name="fabricanteList">
-      <Properties>
-        <Property name="query" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$QueryBeanProperty$QueryEditor">
-          <ComponentRef name="default"/>
-        </Property>
-      </Properties>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;entidade.cplus.Fabricante&gt;"/>
-      </AuxValues>
-    </Component>
-  </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
   </Properties>
@@ -58,40 +35,37 @@
                           <Component id="jLabelDataDeEmissao" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Component id="jDateChooserDataDeEntrada" max="32767" attributes="0"/>
-                                  <Component id="jLabel1" max="32767" attributes="0"/>
+                                  <Component id="jLabelDataEntrada" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <Component id="jLabel2" min="-2" pref="58" max="-2" attributes="0"/>
-                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  <Component id="jLabelOperacao" min="-2" pref="58" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="jTextFieldCodTipoMovimento" min="-2" pref="67" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="jButtonPesquisarOperacao" min="-2" pref="38" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="jTextFieldDescricaoTipoMovimento" min="-2" pref="220" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="jTextFieldCodTipoMovimento" max="32767" attributes="0"/>
                               </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jButtonPesquisarOperacao" min="-2" pref="38" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="1" max="-2" attributes="0">
                                   <Component id="jTextFieldSerie" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="jLabel4" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jLabelSerie" alignment="0" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jLabel3" max="32767" attributes="0"/>
+                                  <Component id="jLabelModelo" max="32767" attributes="0"/>
                                   <Component id="jTextFieldModelo" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jTextFieldDescrisaoModelo" min="-2" pref="157" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="1" max="-2" attributes="0">
                                   <Component id="jTextFieldCodCfop" alignment="0" min="-2" pref="48" max="-2" attributes="0"/>
                                   <Component id="jLabelCfop" alignment="0" min="-2" pref="48" max="-2" attributes="0"/>
@@ -99,7 +73,6 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jButtonPesquisarCfop" min="-2" pref="38" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="jTextFieldDescricaoTipoMovimento" min="-2" pref="202" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
@@ -170,14 +143,14 @@
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="jLabelValorDoFrete" pref="100" max="32767" attributes="0"/>
                           <Component id="jTextFieldValorDoFrete" max="32767" attributes="0"/>
-                          <Component id="jLabel5" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jLabelValorTotalProdutos" alignment="0" max="32767" attributes="0"/>
                           <Component id="jTextFieldValorTotalProdutos" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jLabel6" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jLabelValorTotalNota" alignment="0" max="32767" attributes="0"/>
                           <Component id="jTextFieldValorTotalNota" alignment="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
               <Component id="jTabbedPaneObservacoes" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -188,124 +161,119 @@
           <Group type="102" alignment="0" attributes="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabelDataDeEmissao" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabelDataEntrada" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabelOperacao" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jLabelDataDeEmissao" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jDateChooserDataDeEmissao" min="-2" max="-2" attributes="0"/>
                                   <Component id="jDateChooserDataDeEntrada" min="-2" max="-2" attributes="0"/>
                                   <Component id="jTextFieldCodTipoMovimento" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jButtonPesquisarOperacao" min="-2" pref="20" max="-2" attributes="0"/>
                               </Group>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
-                              <Component id="jTextFieldDescricaoTipoMovimento" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jButtonPesquisarOperacao" min="-2" pref="20" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jLabelNDaNota" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jTextFieldNumDaNota" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jTextFieldSerie" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jTextFieldModelo" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jTextFieldDescrisaoModelo" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
-                          <Group type="102" attributes="0">
-                              <Component id="jLabelCfop" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jTextFieldCodCfop" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jButtonPesquisarCfop" alignment="0" min="-2" pref="20" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jLabelCodFornecedor" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <Group type="103" groupAlignment="3" attributes="0">
+                                          <Component id="jLabelNDaNota" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jLabelSerie" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jLabelModelo" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="3" attributes="0">
+                                          <Component id="jTextFieldNumDaNota" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jTextFieldSerie" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jTextFieldModelo" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jTextFieldDescrisaoModelo" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                                  <Group type="102" attributes="0">
+                                      <Component id="jLabelCfop" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="jTextFieldCodFornecedor" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jButtonPesquisarFornecedor" min="-2" pref="20" max="-2" attributes="0"/>
+                                          <Component id="jTextFieldCodCfop" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jButtonPesquisarCfop" alignment="0" min="-2" pref="20" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jLabelCodFornecedor" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="jTextFieldCodFornecedor" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="jButtonPesquisarFornecedor" min="-2" pref="20" max="-2" attributes="0"/>
+                                              </Group>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="3" attributes="0">
+                                                  <Component id="jLabelBaseIcms" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="jLabelValorIcms" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="jLabelValorDesconto" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="jLabelValorAcrescimo" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="jLabelValorDoFrete" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              </Group>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="3" attributes="0">
+                                                  <Component id="jTextFieldBaseIcms" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="jTextFieldValorIcms" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="jTextFieldValorDesconto" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="jTextFieldValorAcrescimo" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="jTextFieldValorDoFrete" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              </Group>
+                                          </Group>
+                                          <Component id="jTextFieldNomeFornecedor" alignment="0" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="3" attributes="0">
-                                          <Component id="jLabelBaseIcms" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jLabelValorIcms" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jLabelValorDesconto" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jLabelValorAcrescimo" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jLabelValorDoFrete" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jLabelValorOutrasDespesas" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jLabelValorPis" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jLabelValorCofins" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jLabelValorIpi" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jLabelValorTotalProdutos" alignment="3" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="3" attributes="0">
-                                          <Component id="jTextFieldBaseIcms" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jTextFieldValorIcms" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jTextFieldValorDesconto" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jTextFieldValorAcrescimo" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jTextFieldValorDoFrete" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jTextFieldValorOutrasDespesas" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jTextFieldValorPis" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jTextFieldValorCofins" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jTextFieldValorTotalIpi" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jTextFieldValorTotalProdutos" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="3" attributes="0">
+                                          <Component id="jLabelFormaDePagamento" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jLabelValorTotalNota" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Group type="103" groupAlignment="1" attributes="0">
+                                              <Component id="jTextFieldCodFormaPagamento" min="-2" max="-2" attributes="0"/>
+                                              <Component id="jButtonPesquisarFormaPagamento" min="-2" pref="20" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Component id="jTextFieldValorTotalNota" alignment="0" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
-                                  <Component id="jTextFieldNomeFornecedor" alignment="0" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jLabelValorOutrasDespesas" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabelValorPis" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabelValorCofins" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabelValorIpi" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jTextFieldValorOutrasDespesas" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jTextFieldValorPis" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jTextFieldValorCofins" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jTextFieldValorTotalIpi" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jTextFieldValorTotalProdutos" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jLabelFormaDePagamento" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="103" groupAlignment="1" attributes="0">
-                                      <Component id="jTextFieldCodFormaPagamento" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jButtonPesquisarFormaPagamento" min="-2" pref="20" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Component id="jTextFieldValorTotalNota" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jTextFieldNomeFormaPagamento" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <Component id="jTextFieldNomeFormaPagamento" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextFieldDescricaoTipoMovimento" min="-2" max="-2" attributes="0"/>
                       </Group>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
-                  <Group type="102" alignment="1" attributes="0">
+                  <Group type="102" attributes="0">
                       <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
-                      <Component id="jTabbedPaneObservacoes" min="-2" pref="250" max="-2" attributes="0"/>
+                      <Component id="jTabbedPaneObservacoes" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jScrollPane1" pref="297" max="32767" attributes="0"/>
+              <Component id="jScrollPane1" min="-2" pref="265" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -349,12 +317,12 @@
             <Property name="autoResizeMode" type="int" value="0"/>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
               <TableColumnModel selectionModel="0">
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                <Column maxWidth="-1" minWidth="-1" prefWidth="120" resizable="true">
                   <Title/>
                   <Editor/>
                   <Renderer/>
                 </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="250" resizable="true">
+                <Column maxWidth="-1" minWidth="-1" prefWidth="350" resizable="true">
                   <Title/>
                   <Editor/>
                   <Renderer/>
@@ -475,14 +443,14 @@
         <Property name="text" type="java.lang.String" value="Dara da Emiss&#xe3;o"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel1">
+    <Component class="javax.swing.JLabel" name="jLabelDataEntrada">
       <Properties>
         <Property name="text" type="java.lang.String" value="Data da Entrada"/>
       </Properties>
     </Component>
     <Component class="com.toedter.calendar.JDateChooser" name="jDateChooserDataDeEntrada">
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel2">
+    <Component class="javax.swing.JLabel" name="jLabelOperacao">
       <Properties>
         <Property name="text" type="java.lang.String" value="Opera&#xe7;&#xe3;o"/>
       </Properties>
@@ -503,16 +471,19 @@
         <Property name="text" type="java.lang.String" value="N&#xba; da Nota"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel4">
+    <Component class="javax.swing.JLabel" name="jLabelSerie">
       <Properties>
         <Property name="text" type="java.lang.String" value="S&#xe9;rie"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldNumDaNota">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="4"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldSerie">
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel3">
+    <Component class="javax.swing.JLabel" name="jLabelModelo">
       <Properties>
         <Property name="text" type="java.lang.String" value="Modelo"/>
       </Properties>
@@ -557,6 +528,10 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldBaseIcms">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="4"/>
+        <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelValorIcms">
       <Properties>
@@ -564,6 +539,10 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldValorIcms">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="4"/>
+        <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelValorDesconto">
       <Properties>
@@ -571,6 +550,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldValorDesconto">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="4"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelValorAcrescimo">
       <Properties>
@@ -578,6 +560,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldValorAcrescimo">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="4"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelValorDoFrete">
       <Properties>
@@ -585,6 +570,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldValorDoFrete">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="4"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelValorOutrasDespesas">
       <Properties>
@@ -592,6 +580,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldValorOutrasDespesas">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="4"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelValorPis">
       <Properties>
@@ -599,6 +590,10 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldValorPis">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="4"/>
+        <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelValorCofins">
       <Properties>
@@ -606,20 +601,32 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldValorCofins">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="4"/>
+        <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldValorTotalIpi">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="4"/>
+        <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelValorIpi">
       <Properties>
         <Property name="text" type="java.lang.String" value="Valor IPI"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel5">
+    <Component class="javax.swing.JLabel" name="jLabelValorTotalProdutos">
       <Properties>
         <Property name="text" type="java.lang.String" value="Valor Total Produtos"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldValorTotalProdutos">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="4"/>
+        <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelFormaDePagamento">
       <Properties>
@@ -637,12 +644,16 @@
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldNomeFormaPagamento">
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel6">
+    <Component class="javax.swing.JLabel" name="jLabelValorTotalNota">
       <Properties>
         <Property name="text" type="java.lang.String" value="Valor Total da Nota"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldValorTotalNota">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="4"/>
+        <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
     </Component>
     <Container class="javax.swing.JTabbedPane" name="jTabbedPaneObservacoes">
       <Properties>
@@ -667,12 +678,12 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jScrollPane2" alignment="0" pref="398" max="32767" attributes="0"/>
+                  <Component id="jScrollPane2" alignment="0" pref="355" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jScrollPane2" alignment="0" pref="199" max="32767" attributes="0"/>
+                  <Component id="jScrollPane2" alignment="0" pref="235" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>
@@ -706,12 +717,12 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jScrollPane3" alignment="0" pref="398" max="32767" attributes="0"/>
+                  <Component id="jScrollPane3" alignment="0" pref="355" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jScrollPane3" alignment="0" pref="199" max="32767" attributes="0"/>
+                  <Component id="jScrollPane3" alignment="0" pref="235" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>
@@ -747,7 +758,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jLabelChaveNfe" pref="388" max="32767" attributes="0"/>
+                          <Component id="jLabelChaveNfe" pref="345" max="32767" attributes="0"/>
                           <Component id="jTextFieldChaveNfe" max="32767" attributes="0"/>
                           <Component id="jLabelTransportadora" alignment="0" max="32767" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
@@ -789,7 +800,7 @@
                       <Component id="jRadioButtonFreteEmitente" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jRadioButtonFreteDestinatario" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="45" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="81" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -854,7 +865,7 @@
                           <Component id="jLabelTipoConsumidor" alignment="0" max="32767" attributes="0"/>
                           <Component id="jComboBoxTipoConsumidor" alignment="0" max="32767" attributes="0"/>
                           <Component id="jLabelIndentificadorDePresença" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jComboBoxIdentificadorDePresenca" alignment="0" pref="388" max="32767" attributes="0"/>
+                          <Component id="jComboBoxIdentificadorDePresenca" alignment="0" pref="345" max="32767" attributes="0"/>
                           <Component id="jLabelIdentificadorDeDestino" alignment="0" max="32767" attributes="0"/>
                           <Component id="jComboBoxIdentificadorDeDestino" alignment="0" max="32767" attributes="0"/>
                       </Group>
@@ -880,7 +891,7 @@
                       <Component id="jLabelIdentificadorDeDestino" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jComboBoxIdentificadorDeDestino" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="21" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="49" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>

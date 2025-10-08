@@ -70,7 +70,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
         jTextFieldTermoPesquisa.requestFocus();
         colunaCodprod = jTableListagemProdutos.getColumnModel().getColumnIndex("Codprod");
         this.listagemEntradasJDialog = new ListagemEntradasJDialog(this, true);
-        this.listagemEntradaProdutoJDialog = new ListagemEntradaProdutoJDialog(this, true);
+//        this.listagemEntradaProdutoJDialog = new ListagemEntradaProdutoJDialog(this, true);
         jTextFieldNomeCplus.setDocument(new LimiteDigitos(50));//limite de digitos no campo
         jTextFieldNomeSite.setDocument(new LimiteDigitos(100));//limite digitos no campo
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
@@ -1630,8 +1630,10 @@ public class ProdutoJFrame extends javax.swing.JFrame {
 
     private void jMenuItemListagemEntradasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemListagemEntradasActionPerformed
         if (produtoCplus != null) {
-            this.listagemEntradaProdutoJDialog.setTermoPesquisa(produtoCplus);
-            this.listagemEntradaProdutoJDialog.setVisible(true);
+         //   this.listagemEntradaProdutoJDialog.setTermoPesquisa(produtoCplus);
+         //   this.listagemEntradaProdutoJDialog.setVisible(true);
+            this.listagemEntradasJDialog.setTermoPesquisa(produtoCplus.getCodigo(), 3);
+            this.listagemEntradasJDialog.setVisible(true);
         }
     }//GEN-LAST:event_jMenuItemListagemEntradasActionPerformed
 
@@ -2568,7 +2570,7 @@ public class ProdutoJFrame extends javax.swing.JFrame {
     private List<Produtopreco> listPrecoProduto;
     private List<Produtoestoque> listEstoqueProduto;
     private final ListagemEntradasJDialog listagemEntradasJDialog;
-    private final ListagemEntradaProdutoJDialog listagemEntradaProdutoJDialog;
+    //private final ListagemEntradaProdutoJDialog listagemEntradaProdutoJDialog;
     private final ListagemSaidasJDialog listagemSaidasJDialog;
     private final ListagemLocalizacaoJDialog listagemLocalizacaoJDialog;
     //private final List<Produto> produtoList =  new ArrayList<>();
