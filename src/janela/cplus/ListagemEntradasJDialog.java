@@ -6,13 +6,16 @@
 package janela.cplus;
 
 import entidade.cplus.Moventrada;
+import entidade.cplus.Usuario;
 import java.util.List;
-import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
 import java.awt.Toolkit;
+import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
 import jpa.cplus.MoventradaJpaController;
+import jpa.cplus.UsuarioJpaController;
 import prestashop.Manager;
 import query.cplus.QueryCplus;
 
@@ -35,9 +38,9 @@ public class ListagemEntradasJDialog extends javax.swing.JDialog {
         this.entradaJDialog = new EntradaJFrame();
         //managerCplus = managerCplus1;
         queryCplus = new QueryCplus();
-        formataCampos = new FormataCampos();
-        jDateChooserDataFinal.setDate(formataCampos.alteraDiaData(formataCampos.dataAtual(), 0));
-        jDateChooserDataInicial.setDate(formataCampos.alteraDiaData(formataCampos.dataAtual(), -2));
+        format = new FormataCampos();
+        jDateChooserDataFinal.setDate(format.alteraDiaData(format.dataAtual(), 0));
+        jDateChooserDataInicial.setDate(format.alteraDiaData(format.dataAtual(), -2));
         listagemClientesJDialog = new ListagemClientesJDialog(parent, modal);
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/logo.png")));
     }
@@ -50,11 +53,7 @@ public class ListagemEntradasJDialog extends javax.swing.JDialog {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        cplusPUEntityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("cplusPU").createEntityManager();
-        moventradaQuery = java.beans.Beans.isDesignTime() ? null : cplusPUEntityManager.createQuery("SELECT mov FROM Moventrada mov WHERE mov.numnota = 999999");
-        moventradaList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(moventradaQuery.getResultList());
         jPanelPesquisa = new javax.swing.JPanel();
         jComboBoxTipoPesquisa1 = new javax.swing.JComboBox();
         jTextFieldTermoPesquisa = new javax.swing.JTextField();
@@ -77,7 +76,7 @@ public class ListagemEntradasJDialog extends javax.swing.JDialog {
         jPanelPesquisa.setBorder(javax.swing.BorderFactory.createTitledBorder("Pesquisa"));
 
         jComboBoxTipoPesquisa1.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        jComboBoxTipoPesquisa1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Num Nota", "Por Cliente", "Data", "Código Produto" }));
+        jComboBoxTipoPesquisa1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Num Nota", "Por Cliente", "Data", "Código Produto", "Nome Produto" }));
         jComboBoxTipoPesquisa1.setToolTipText("Selecione a opção que desejar!");
         jComboBoxTipoPesquisa1.setFocusable(false);
 
@@ -155,88 +154,32 @@ public class ListagemEntradasJDialog extends javax.swing.JDialog {
         );
 
         jTableListagemEntradas.setAutoCreateRowSorter(true);
+        jTableListagemEntradas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Data Entrada", "Data Emissão", "Nº Nota", "Fornecedor / Cliente", "Valor Total Produtos", "Valor Total Nota", "Valor ICMS", "Valor do Frete", "Outras Despesas", "Descontos", "Acréscimos", "Operação", "Modelo NF-e", "Usuário", "Valor IPI", "Valor PIS", "Valor COFINS", "Nº do Vale", "Codmoventr"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jTableListagemEntradas.setToolTipText("Listagem de Entradas");
         jTableListagemEntradas.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
-
-        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, moventradaList, jTableListagemEntradas);
-        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codForn.nomeforn}"));
-        columnBinding.setColumnName("Fornecedor");
-        columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${numnota}"));
-        columnBinding.setColumnName("Numero Nota");
-        columnBinding.setColumnClass(Integer.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codForn.estado}"));
-        columnBinding.setColumnName("UF For.");
-        columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codtipomovimento.nometipomovimento}"));
-        columnBinding.setColumnName("Operação");
-        columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valortotalnota}"));
-        columnBinding.setColumnName("Valor Total Nota");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${data}"));
-        columnBinding.setColumnName("Data");
-        columnBinding.setColumnClass(java.util.Date.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${dataemissao}"));
-        columnBinding.setColumnName("Data Emissão");
-        columnBinding.setColumnClass(java.util.Date.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${numeroprotocolonfe}"));
-        columnBinding.setColumnName("Protocolo NF-e");
-        columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${numerochavenfe}"));
-        columnBinding.setColumnName("Numero Chave Nf-e");
-        columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valortotalpis}"));
-        columnBinding.setColumnName("Valor PIS");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valortotalcofins}"));
-        columnBinding.setColumnName("Valor COFINS");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valortotalipi}"));
-        columnBinding.setColumnName("Valor IPI");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valortotalprodutos}"));
-        columnBinding.setColumnName("Valor Produtos");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${hora}"));
-        columnBinding.setColumnName("Hora");
-        columnBinding.setColumnClass(java.util.Date.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valorsubsttributaria}"));
-        columnBinding.setColumnName("Valor S.T.");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${basesubsttributaria}"));
-        columnBinding.setColumnName("Base S.T.");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valoricms}"));
-        columnBinding.setColumnName("Valor ICMS");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${baseicms}"));
-        columnBinding.setColumnName("Base ICMS");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codmoventr}"));
-        columnBinding.setColumnName("Codmoventr");
-        columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
-        bindingGroup.addBinding(jTableBinding);
-        jTableBinding.bind();
+        jTableListagemEntradas.getTableHeader().setReorderingAllowed(false);
         jTableListagemEntradas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTableListagemEntradasMouseClicked(evt);
@@ -244,26 +187,8 @@ public class ListagemEntradasJDialog extends javax.swing.JDialog {
         });
         jScrollPane1.setViewportView(jTableListagemEntradas);
         if (jTableListagemEntradas.getColumnModel().getColumnCount() > 0) {
-            jTableListagemEntradas.getColumnModel().getColumn(0).setMinWidth(100);
-            jTableListagemEntradas.getColumnModel().getColumn(0).setPreferredWidth(350);
-            jTableListagemEntradas.getColumnModel().getColumn(0).setMaxWidth(500);
-            jTableListagemEntradas.getColumnModel().getColumn(3).setPreferredWidth(300);
-            jTableListagemEntradas.getColumnModel().getColumn(4).setPreferredWidth(120);
-            jTableListagemEntradas.getColumnModel().getColumn(4).setCellRenderer(new integrador.render.RenderPreco());
-            jTableListagemEntradas.getColumnModel().getColumn(5).setPreferredWidth(130);
-            jTableListagemEntradas.getColumnModel().getColumn(6).setCellRenderer(new integrador.render.RenderDataEHora());
-            jTableListagemEntradas.getColumnModel().getColumn(8).setMinWidth(150);
-            jTableListagemEntradas.getColumnModel().getColumn(8).setPreferredWidth(250);
-            jTableListagemEntradas.getColumnModel().getColumn(8).setMaxWidth(450);
-            jTableListagemEntradas.getColumnModel().getColumn(9).setCellRenderer(new integrador.render.RenderPreco());
-            jTableListagemEntradas.getColumnModel().getColumn(10).setCellRenderer(new integrador.render.RenderPreco());
-            jTableListagemEntradas.getColumnModel().getColumn(11).setCellRenderer(new integrador.render.RenderPreco());
-            jTableListagemEntradas.getColumnModel().getColumn(12).setCellRenderer(new integrador.render.RenderPreco());
-            jTableListagemEntradas.getColumnModel().getColumn(13).setCellRenderer(new integrador.render.RenderHora());
-            jTableListagemEntradas.getColumnModel().getColumn(14).setCellRenderer(new integrador.render.RenderPreco());
-            jTableListagemEntradas.getColumnModel().getColumn(15).setCellRenderer(new integrador.render.RenderPreco());
-            jTableListagemEntradas.getColumnModel().getColumn(16).setCellRenderer(new integrador.render.RenderPreco());
-            jTableListagemEntradas.getColumnModel().getColumn(17).setCellRenderer(new integrador.render.RenderPreco());
+            jTableListagemEntradas.getColumnModel().getColumn(3).setPreferredWidth(350);
+            jTableListagemEntradas.getColumnModel().getColumn(11).setPreferredWidth(250);
         }
 
         jButtonOk.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
@@ -309,32 +234,17 @@ public class ListagemEntradasJDialog extends javax.swing.JDialog {
                 .addGap(19, 19, 19))
         );
 
-        bindingGroup.bind();
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextFieldTermoPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldTermoPesquisaActionPerformed
         tipoPesquisa();
-        
-        
+
+
     }//GEN-LAST:event_jTextFieldTermoPesquisaActionPerformed
 
     private void jButtonOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOkActionPerformed
-         finalizacao();
-        this.entradaJDialog.setMovEntrada(getMovEntrada());
-            this.entradaJDialog.setVisible(true);
-
-            if (entradaJDialog == null || !entradaJDialog.isDisplayable()) {
-                this.entradaJDialog = new EntradaJFrame();
-                //this.vendasJframe.setLocationRelativeTo(null);
-                this.entradaJDialog.setLocationRelativeTo(null); //opcional  
-            } else {
-                this.entradaJDialog.setExtendedState(JFrame.NORMAL);
-                this.entradaJDialog.toFront();
-            }
-            this.entradaJDialog.setMovEntrada(getMovEntrada());
-            this.entradaJDialog.setVisible(true);
+        finalizacao();
     }//GEN-LAST:event_jButtonOkActionPerformed
 
     private void jButtonPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPesquisarActionPerformed
@@ -349,9 +259,12 @@ public class ListagemEntradasJDialog extends javax.swing.JDialog {
         abrirEntrada(evt);
     }//GEN-LAST:event_jTableListagemEntradasMouseClicked
 
-    private void abrirEntrada(java.awt.event.MouseEvent evt){
-        
-// Verifica se foi um duplo clique (2 cliques)
+    /**
+     * Função que abre um editor de entrada quando for duplo click
+     * @param evt 
+     */
+    private void abrirEntrada(java.awt.event.MouseEvent evt) {
+    // Verifica se foi um duplo clique (2 cliques)
         if (evt.getClickCount() == 2 && SwingUtilities.isLeftMouseButton(evt)) {
             finalizacao();
             this.entradaJDialog.setMovEntrada(getMovEntrada());
@@ -369,6 +282,38 @@ public class ListagemEntradasJDialog extends javax.swing.JDialog {
             this.entradaJDialog.setVisible(true);
         }
     }
+    
+    private void carregaTabela() {
+        DefaultTableModel tab = (DefaultTableModel) jTableListagemEntradas.getModel();
+        while (jTableListagemEntradas.getModel().getRowCount() > 0) {
+            ((DefaultTableModel) jTableListagemEntradas.getModel()).removeRow(0);
+        }
+        for (Moventrada e : listEntrada) {
+            tab.addRow(new Object[]{
+                format.dataStringSoData(e.getData(), 0), //"Data Entrada", 
+                //(condição) ? código_se_verdadeiro : código_se_falso
+                e.getDataemissao()!= null ? format.dataStringSoData(e.getDataemissao(), 0) : "", //"Data Emissão", 
+                e.getNumnota() != null ? e.getNumnota() : "", //Nº Nota", 
+                e.getCodForn() != null ? e.getCodForn().getNomeforn() : e.getCodcli() != null ? e.getCodcli().getNomecli() : "", //"Fornecedor / Cliente", 
+                format.bigDecimalParaString(e.getValortotalprodutos(), 4), //"Valor Total Produtos", 
+                format.bigDecimalParaString(e.getValortotalnota(), 4),//"Valor Total Nota", 
+                format.bigDecimalParaString(e.getValoricms(), 4),//"Valor ICMS", 
+                format.bigDecimalParaString(e.getValorfrete(), 4),//"Valor do Frete", 
+                format.bigDecimalParaString(e.getValoroutrasdespesas(), 4),//"Outras Despesas", 
+                format.bigDecimalParaString(e.getValordesconto(), 4),//"Descontos", 
+                e.getValoracrescimo() != null ? format.bigDecimalParaString(e.getValoracrescimo(), 4) : "",//"Acréscimos", 
+                e.getCodtipomovimento().getNometipomovimento(), //"Operação", 
+                e.getModelonota() != null ? e.getModelonota() : "", //"Modelo NF-e", 
+                e.getCoduser() != null ? new UsuarioJpaController(Manager.getManagerCplus()).findUsuario(e.getCoduser()).getNome() : "",//"Usuário", 
+                format.bigDecimalParaString(e.getValortotalipi(), 4),//"Valor IPI", 
+                format.bigDecimalParaString(e.getValortotalpis(), 4),//"Valor PIS", 
+                format.bigDecimalParaString(e.getValortotalcofins(), 4),//"Valor COFINS", 
+                "", //"Nº do Vale", 
+                e.getCodmoventr() //"Codmoventr"                                                          
+            });
+        }
+    }
+
     private void cancelamento() {
         int cancelar = JOptionPane.showConfirmDialog(null, " Deseja realmente cancelar? \n O processo será encerrado!!", "Cancelar", JOptionPane.YES_NO_CANCEL_OPTION);
         if (cancelar == JOptionPane.YES_OPTION) {
@@ -395,15 +340,12 @@ public class ListagemEntradasJDialog extends javax.swing.JDialog {
         switch (jComboBoxTipoPesquisa1.getSelectedIndex()) {
             case 0:
                 if (verificaSeForNumero(jTextFieldTermoPesquisa.getText())) {
-                    List<Moventrada> listMoventrada = queryCplus.resultadoPelaNotaEntrada(Integer.parseInt(this.jTextFieldTermoPesquisa.getText()));
-                    moventradaList.clear();
-                    if (listMoventrada.size() < 1) {
+                    //List<Moventrada> listMoventrada = queryCplus.resultadoPelaNotaEntrada(Integer.parseInt(this.jTextFieldTermoPesquisa.getText()));
+                    listEntrada = queryCplus.resultadoPelaNotaEntrada(Integer.parseInt(this.jTextFieldTermoPesquisa.getText()));
+                    if (listEntrada.size() < 1) {
                         JOptionPane.showMessageDialog(null, "Não foi encontrado resultado para essa pesquisa!!! ");
-                    } else {
-                        for (Moventrada ent : listMoventrada) {
-                            moventradaList.add(ent);
-                        }
                     }
+
                 } else {
                     JOptionPane.showMessageDialog(null, "São aceitos apenas numeros!!! ");
                 }
@@ -414,14 +356,10 @@ public class ListagemEntradasJDialog extends javax.swing.JDialog {
                     this.listagemClientesJDialog.listarClientes();
                     this.listagemClientesJDialog.setVisible(true);
                     if (this.listagemClientesJDialog.isCancelamento() == false) {
-                        List<Moventrada> listMoventrada = queryCplus.resultadoPeloClienteEntrada(this.listagemClientesJDialog.getCliente().getCodcli());
-                        moventradaList.clear();
-                        if (listMoventrada.size() < 1) {
+                        //List<Moventrada> listMoventrada = queryCplus.resultadoPeloClienteEntrada(this.listagemClientesJDialog.getCliente().getCodcli());
+                        listEntrada = queryCplus.resultadoPeloClienteEntrada(this.listagemClientesJDialog.getCliente().getCodcli());
+                        if (listEntrada.size() < 1) {
                             JOptionPane.showMessageDialog(null, "Não foi encontrado resultado para essa pesquisa!!! ");
-                        } else {
-                            for (Moventrada ent : listMoventrada) {
-                                moventradaList.add(ent);
-                            }
                         }
                     }
                 } else {
@@ -429,21 +367,24 @@ public class ListagemEntradasJDialog extends javax.swing.JDialog {
                 }
                 break;
             case 2:
-                moventradaList.clear();
-                for (Moventrada entrada : queryCplus.resultadoPelaDataEntrada(jDateChooserDataInicial.getDate(), jDateChooserDataFinal.getDate())) {
-                    moventradaList.add(entrada);
-                }
+                //moventradaList.clear();
+                //for (Moventrada entrada : queryCplus.resultadoPelaDataEntrada(jDateChooserDataInicial.getDate(), jDateChooserDataFinal.getDate())) {
+                //    moventradaList.add(entrada);
+                //}
+                listEntrada = queryCplus.resultadoPelaDataEntrada(jDateChooserDataInicial.getDate(), jDateChooserDataFinal.getDate());
                 break;
             case 3:
-                moventradaList.clear();
+                //moventradaList.clear();
                 if (verificaSeForNumero(jTextFieldMaximoDeResultadosEntradas.getText())) {
-                    for (Moventrada movProd : queryCplus.resultPorProduto(jTextFieldTermoPesquisa.getText(), jCheckBoxSomenteCompras.isSelected(), Integer.valueOf(jTextFieldMaximoDeResultadosEntradas.getText()))) {
-                        moventradaList.add(movProd);
-                    }
+                    //for (Moventrada movProd : queryCplus.resultPorProduto(jTextFieldTermoPesquisa.getText(), jCheckBoxSomenteCompras.isSelected(), Integer.valueOf(jTextFieldMaximoDeResultadosEntradas.getText()))) {
+                    //    moventradaList.add(movProd);
+                    //}
+                    listEntrada = queryCplus.resultPorProduto(jTextFieldTermoPesquisa.getText(), jCheckBoxSomenteCompras.isSelected(), Integer.valueOf(jTextFieldMaximoDeResultadosEntradas.getText()));
                 } else {
                     JOptionPane.showMessageDialog(null, "São aceitos apenas numeros!!! ");
                 }
         }
+        carregaTabela();
     }
 
     private void finalizacao() {
@@ -537,16 +478,16 @@ public class ListagemEntradasJDialog extends javax.swing.JDialog {
 
     private String termoPes;
     private Moventrada movEntrada;
-    FormataCampos formataCampos;
+    private final FormataCampos format;
     private int colunaCodMovEntrada;
-    QueryCplus queryCplus;
-    //static EntityManagerFactory managerCplus;
+    private final QueryCplus queryCplus;
+    private List<Moventrada> listEntrada = new ArrayList<>();
     boolean cancelamento;
-    ListagemClientesJDialog listagemClientesJDialog;
+    private final ListagemClientesJDialog listagemClientesJDialog;
     private EntradaJFrame entradaJDialog;
 
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.persistence.EntityManager cplusPUEntityManager;
     private javax.swing.JButton jButtonCancelar;
     private javax.swing.JButton jButtonOk;
     private javax.swing.JButton jButtonPesquisar;
@@ -562,8 +503,5 @@ public class ListagemEntradasJDialog extends javax.swing.JDialog {
     private javax.swing.JTable jTableListagemEntradas;
     private javax.swing.JTextField jTextFieldMaximoDeResultadosEntradas;
     private javax.swing.JTextField jTextFieldTermoPesquisa;
-    private java.util.List<entidade.cplus.Moventrada> moventradaList;
-    private javax.persistence.Query moventradaQuery;
-    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }
