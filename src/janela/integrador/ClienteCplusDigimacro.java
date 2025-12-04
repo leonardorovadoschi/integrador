@@ -166,18 +166,25 @@ public class ClienteCplusDigimacro {
                     }
                     //Customer Group/////
                     List<PsCustomerGroup> pcgList = new QueryPrestaShop().listCustomerGroup(pc.getIdCustomer());
-                    switch (pcgList.size()) {
-                        case 0:
-                            criaCustomerGroup( pc);
-                            break;
-                        case 1:
-                            editaCustomerGroup(pcgList, pc);
-                            break;
-                        default:
-                            excluiCustomerGroup(pcgList, pc);
-                            criaCustomerGroup( pc);
-                            break;
+                    if(pcgList.isEmpty()){
+                        criaCustomerGroup(pc);
+                    }else{
+                        editaCustomerGroup(pcgList, pc);
                     }
+                    
+                   // 
+                   // switch (pcgList.size()) {
+                   //     case 0:
+                   //         criaCustomerGroup( pc);
+                   //         break;
+                   //     case 1:
+                   //         editaCustomerGroup(pcgList, pc);
+                   //         break;
+                   //     default:
+                   //         excluiCustomerGroup(pcgList, pc);
+                   //         criaCustomerGroup( pc);
+                   //        break;
+                   // }
                     ///Endereço//////
                     List<PsAddress> paList = new QueryPrestaShop().listAddress((short) 0, pc.getIdCustomer());
                     if (paList.isEmpty()) {
@@ -423,7 +430,7 @@ public class ClienteCplusDigimacro {
     }
 
     /**
-     * FunÃ§Ã£o para gravar Logs no banco do integrador
+     * Função para gravar Logs no banco do integrador
      *
      * @param managerIntegracao
      * @param mensagem
@@ -439,7 +446,10 @@ public class ClienteCplusDigimacro {
 
     private void editaCustomerGroup(List<PsCustomerGroup> pcgList, PsCustomer pc) {
         for (PsCustomerGroup pcg : pcgList) {
-            pcg.setPsCustomerGroupPK(new PsCustomerGroupPK(pc.getIdCustomer(), pc.getIdDefaultGroup()));
+            if(pc.getIdDefaultGroup() != pcg.getPsCustomerGroupPK().getIdGroup()){
+                excluiCustomerGroup(pcgList, pc);
+                pcg.setPsCustomerGroupPK(new PsCustomerGroupPK(pc.getIdCustomer(), pc.getIdDefaultGroup()));
+            }
             try {
                 new PsCustomerGroupJpaController(Manager.getManagerPrestaShop()).edit(pcg);
             } catch (Exception ex) {
