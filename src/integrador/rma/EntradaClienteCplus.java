@@ -188,7 +188,7 @@ public class EntradaClienteCplus {
         BigDecimal val = BigDecimal.ZERO;
         if ("Y".equals(devolucao)) {
             //val = prod.getBaseicms().divide(prod.getQuantidade(), 4, RoundingMode.HALF_UP);
-           // val = val.multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);
+            // val = val.multiply(quantidadeEspelho).setScale(2, RoundingMode.HALF_UP);
             val = valorTotalProdutoEntradao(prod, quantidadeEspelho);
         }
         return val;
@@ -262,11 +262,11 @@ public class EntradaClienteCplus {
         entradaProd.setAliqdescontoitem(BigDecimal.ZERO);
         entradaProd.setValordescontoitem(BigDecimal.ZERO);
         entradaProd.setValortotal(valorTotalProdutoEntradao(movendaProd, quant));
-         entradaProd.setBaseicms(valorBaseIcmsEntrada(movendaProd, quant, movimento));
+        entradaProd.setBaseicms(valorBaseIcmsEntrada(movendaProd, quant, movimento));
         entradaProd.setValoricms(valorIcmsEntrada(movendaProd, quant, movimento));
         entradaProd.setBaseipi(valorBaseIpiEntrada(movendaProd, quant));
         entradaProd.setAliqipi(movendaProd.getAliqipi());
-        entradaProd.setValoripi(valorIpiEntrada(movendaProd, quant));     
+        entradaProd.setValoripi(valorIpiEntrada(movendaProd, quant));
         entradaProd.setAliqicms(movendaProd.getAliqicms());
         entradaProd.setBasesubsttributaria(valorBaseSTEntrada(movendaProd, quant, movimento));
         entradaProd.setValorsubsttributaria(valorSTEntrada(movendaProd, quant, movimento));
@@ -465,6 +465,9 @@ public class EntradaClienteCplus {
         entrada.setFlagestoqueliberado('Y');
         entrada.setValortotalii(BigDecimal.ZERO);
         entrada.setValoricmsincentfiscal(BigDecimal.ZERO);
+        if (movimento.getFlagdevolucao() == 'Y') {
+            entrada.setFlagnfdevolucao('Y');
+        }
         try {
             new MoventradaJpaController(Manager.getManagerCplus()).create(entrada);
             configCont++;
