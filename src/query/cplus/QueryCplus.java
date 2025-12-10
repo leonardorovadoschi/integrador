@@ -10,6 +10,7 @@ import entidade.cplus.Calculoicms;
 import entidade.cplus.Calculoicmsestado;
 import entidade.cplus.Campocustomvalor;
 import entidade.cplus.Cfop;
+import entidade.cplus.Classificacaofiscal;
 import entidade.cplus.Cliente;
 import entidade.cplus.Clientecaracteristica;
 import entidade.cplus.Contareceber;
@@ -73,6 +74,13 @@ public class QueryCplus {
 
     private EntityManager getEntityManager() {
         return emf.createEntityManager();
+    }
+    
+    public List<Classificacaofiscal> listClassificacaoFiscal(String codclassificacaofiscal) {
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery("SELECT p FROM Classificacaofiscal p WHERE p.codclassificacaofiscal =:codclassificacaofiscal");         
+        query.setParameter("codclassificacaofiscal", codclassificacaofiscal);
+        return query.getResultList();
     }
     
      public List<Produto> buscarProdutosComEstoqueSemVendasAPartirDe(Calendar dataFim) {

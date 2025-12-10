@@ -7,6 +7,7 @@ package integrador.rma;
 
 import acesso.ConexaoDB;
 import entidade.cplus.Calculoicmsestado;
+import entidade.cplus.Centrocusto;
 import entidade.cplus.Cfop;
 import entidade.cplus.Cliente;
 import entidade.cplus.Empresa;
@@ -24,6 +25,7 @@ import java.math.RoundingMode;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
+import jpa.cplus.CentrocustoJpaController;
 import jpa.cplus.CfopJpaController;
 import jpa.cplus.MovendaJpaController;
 import jpa.cplus.MovendadevolucaoJpaController;
@@ -468,6 +470,10 @@ public class EntradaClienteCplus {
         if (movimento.getFlagdevolucao() == 'Y') {
             entrada.setFlagnfdevolucao('Y');
         }
+        entrada.setCodcentrocusto(new CentrocustoJpaController(Manager.getManagerCplus()).findCentrocusto("000000001"));
+        entrada.setTipopagamento('0');
+        entrada.setIndpresenca('0');
+        entrada.setIdentificadordestino('1');
         try {
             new MoventradaJpaController(Manager.getManagerCplus()).create(entrada);
             configCont++;
@@ -478,6 +484,7 @@ public class EntradaClienteCplus {
         }
         return condicao;
     }
+      
 
     /**
      * Atualiza totais da nota fiscal

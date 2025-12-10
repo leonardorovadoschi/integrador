@@ -8,9 +8,11 @@ package janela.cplus;
 import entidade.cplus.Moventrada;
 import entidade.cplus.Moventradaprod;
 import java.awt.Toolkit;
-import javax.persistence.EntityManagerFactory;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import jpa.cplus.FormapagJpaController;
+import jpa.cplus.MoventradaprodJpaController;
 import jpa.cplus.TransportadoraJpaController;
 import prestashop.Manager;
 import query.cplus.QueryCplus;
@@ -59,39 +61,43 @@ public class EntradaJFrame extends javax.swing.JFrame {
         } else if (ent.getFlagnfdevolucao() == 'Y') {
             jComboBoxFinalidadeNfe.setSelectedIndex(3);
         }
-        switch (ent.getIdentificadordestino().toString()) {
-            case "1":
-                jComboBoxIdentificadorDeDestino.setSelectedIndex(0);
-                break;
-            case "2":
-                jComboBoxIdentificadorDeDestino.setSelectedIndex(1);
-                break;
-            case "3":
-                jComboBoxIdentificadorDeDestino.setSelectedIndex(2);
-                break;
-        }
-        switch (ent.getIndpresenca().toString()) {
-            case "0":
-                jComboBoxIdentificadorDePresenca.setSelectedIndex(0);
-                break;
-            case "1":
-                jComboBoxIdentificadorDePresenca.setSelectedIndex(1);
-                break;
-            case "2":
-                jComboBoxIdentificadorDePresenca.setSelectedIndex(2);
-                break;
-            case "3":
-                jComboBoxIdentificadorDePresenca.setSelectedIndex(3);
-                break;
-            case "4":
-                jComboBoxIdentificadorDePresenca.setSelectedIndex(4);
-                break;
-            case "5":
-                jComboBoxIdentificadorDePresenca.setSelectedIndex(5);
-                break;
-            case "9":
-                jComboBoxIdentificadorDePresenca.setSelectedIndex(6);
-                break;
+        if (ent.getIdentificadordestino() != null) {
+            switch (ent.getIdentificadordestino().toString()) {
+                case "1":
+                    jComboBoxIdentificadorDeDestino.setSelectedIndex(0);
+                    break;
+                case "2":
+                    jComboBoxIdentificadorDeDestino.setSelectedIndex(1);
+                    break;
+                case "3":
+                    jComboBoxIdentificadorDeDestino.setSelectedIndex(2);
+                    break;
+            }
+            if (ent.getIndpresenca() != null) {
+                switch (ent.getIndpresenca().toString()) {
+                    case "0":
+                        jComboBoxIdentificadorDePresenca.setSelectedIndex(0);
+                        break;
+                    case "1":
+                        jComboBoxIdentificadorDePresenca.setSelectedIndex(1);
+                        break;
+                    case "2":
+                        jComboBoxIdentificadorDePresenca.setSelectedIndex(2);
+                        break;
+                    case "3":
+                        jComboBoxIdentificadorDePresenca.setSelectedIndex(3);
+                        break;
+                    case "4":
+                        jComboBoxIdentificadorDePresenca.setSelectedIndex(4);
+                        break;
+                    case "5":
+                        jComboBoxIdentificadorDePresenca.setSelectedIndex(5);
+                        break;
+                    case "9":
+                        jComboBoxIdentificadorDePresenca.setSelectedIndex(6);
+                        break;
+                }
+            }
         }
         //jComboBoxTipoConsumidor;
         if (ent.getDataemissao() != null) {
@@ -398,6 +404,11 @@ public class EntradaJFrame extends javax.swing.JFrame {
         });
         jTableMovEntradaProd.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         jTableMovEntradaProd.getTableHeader().setReorderingAllowed(false);
+        jTableMovEntradaProd.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableMovEntradaProdMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTableMovEntradaProd);
         if (jTableMovEntradaProd.getColumnModel().getColumnCount() > 0) {
             jTableMovEntradaProd.getColumnModel().getColumn(0).setPreferredWidth(120);
@@ -836,6 +847,34 @@ public class EntradaJFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jTableMovEntradaProdMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableMovEntradaProdMouseClicked
+        abrirEntrada(evt);
+    }//GEN-LAST:event_jTableMovEntradaProdMouseClicked
+
+    /**
+     * Função que abre um editor de entrada quando for duplo click
+     *
+     * @param evt
+     */
+    private void abrirEntrada(java.awt.event.MouseEvent evt) {
+        // Verifica se foi um duplo clique (2 cliques)
+        if (evt.getClickCount() == 2 && SwingUtilities.isLeftMouseButton(evt)) {
+           
+            if (entradaJFrame == null || !entradaJFrame.isDisplayable()) {
+                entradaJFrame = new EntradaProdutoJFrame();
+                //this.vendasJframe.setLocationRelativeTo(null);
+                entradaJFrame.setLocationRelativeTo(null); //opcional  
+            } else {
+                entradaJFrame.setExtendedState(JFrame.NORMAL);
+                entradaJFrame.toFront();
+            }
+            int coluna = jTableMovEntradaProd.getColumnModel().getColumnIndex("Codmoventradaprod");
+            
+            entradaJFrame.setMovEntradaProd(new MoventradaprodJpaController(Manager.getManagerCplus()).findMoventradaprod(jTableMovEntradaProd.getValueAt(jTableMovEntradaProd.getSelectedRow(), coluna).toString()));
+            entradaJFrame.setVisible(true);
+        }             
+        
+    }
     /**
      * @param args the command line arguments
      */
@@ -875,6 +914,7 @@ public class EntradaJFrame extends javax.swing.JFrame {
     private final FormataCampos format;
     private final QueryCplus queryCplus;
     private Moventrada ent;
+    private EntradaProdutoJFrame entradaJFrame;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonPesquisarCfop;

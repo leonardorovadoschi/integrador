@@ -14,6 +14,7 @@ import integrador.rma.EspelhoRmaJFrame;
 import integrador.rma.RmaJFrame;
 import integrador.separacao.EntradaSerialJFrame;
 import integrador.separacao.SaidaSerialJFrame;
+import janela.cplus.ListagemEntradasJDialog;
 import janela.cplus.ProdutoJFrame;
 import janela.cplus.RelatorioComprasJFrame;
 import janela.cplus.RelatorioEstoqueJFrame;
@@ -90,6 +91,8 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         jMenuIntegracao = new javax.swing.JMenuItem();
         jMenuItemCompras = new javax.swing.JMenuItem();
         jMenuItemEstoque = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jMenuVendas = new javax.swing.JMenu();
         jMenuItemListagemVenda = new javax.swing.JMenuItem();
         jMenuSerial = new javax.swing.JMenu();
@@ -147,6 +150,18 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         jMenuImpostos.add(jMenuItemEstoque);
 
         jMenuBar.add(jMenuImpostos);
+
+        jMenu1.setText("Entradas");
+
+        jMenuItem1.setText("Listagem Entrada");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
+        jMenuBar.add(jMenu1);
 
         jMenuVendas.setText("Vendas");
 
@@ -414,6 +429,10 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         this.configuracoesJDialog.setVisible(true);
     }//GEN-LAST:event_jMenuItemConfiguracaoActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+       this.listagemEntradasJDialog.setVisible(true);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     private void atualizaCliente() {
         for (Cliente cli : new QueryCplus().cliente('1')) {
             cli.setFlagusaaliqicmsdiferenciada('N');
@@ -513,29 +532,18 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     private RmaJFrame rmaJFrame;
     private SaidaJFrame vendasJframe;
     private RelatorioComprasJFrame relatorioComprasJFrame;
-    //private EntradasCplusJFrame frameEntradaCplus;
     private IntegracaoJFrame frameIntegracao;
     private EspelhoRmaJFrame espelhoRmaJFrame;
     private ProdutoJFrame alteracaoPrecoProduto;
-    private EntradaSerialJFrame entradaSerialJframe;
-    //private ListaFornecedorJFrame listaFornecedorJFrame;
-
-    //SeparacaoJFrame separacaoJFrame;
-    //private ControleRmaJFrame controleRmaJFrame;
+    private EntradaSerialJFrame entradaSerialJframe;   
     private VendaDigimacroJFrame vendaMagentoJFrame;
-
-    private SaidaSerialJFrame saidaSerialJFrame;
-    //private final EntityManagerFactory managerIntegrador;
-    //private final EntityManagerFactory managerPrestaShop;
-    //private final EntityManagerFactory managerCplus;
-    //EntityManagerFactory managerMagentoLegiao;
-    //VariavelStatica var; 
-//    private Usuario usuario;
+    private SaidaSerialJFrame saidaSerialJFrame;    
     private final ListagemUsuarioJDialog listagemUsuarioJDialog;
     private final ControleAcesso acesso;
     private final QueryIntegrador queryIntegrador;
     private RelatorioEstoqueJFrame relatorioEstoqueJFrame;
     private final ConfiguracoesJDialog configuracoesJDialog = new ConfiguracoesJDialog(this, true);
+    private final ListagemEntradasJDialog listagemEntradasJDialog = new ListagemEntradasJDialog(this, true);
 
     /**
      * @param args the command line arguments
@@ -588,10 +596,12 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelUsuario;
     private javax.swing.JLabel jLabelV;
     private javax.swing.JLabel jLabelVersao;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JMenu jMenuConfiguracao;
     private javax.swing.JMenu jMenuImpostos;
     private javax.swing.JMenuItem jMenuIntegracao;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItemAlteracaoDePreco;
     private javax.swing.JMenuItem jMenuItemCompras;
     private javax.swing.JMenuItem jMenuItemConfiguracao;

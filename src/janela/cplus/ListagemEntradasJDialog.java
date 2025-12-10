@@ -6,7 +6,6 @@
 package janela.cplus;
 
 import entidade.cplus.Moventrada;
-import entidade.cplus.Usuario;
 import java.util.List;
 import javax.swing.JOptionPane;
 import java.awt.Toolkit;
@@ -35,7 +34,7 @@ public class ListagemEntradasJDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         colunaCodMovEntrada = jTableListagemEntradas.getColumnModel().getColumnIndex("Codmoventr");
-        this.entradaJDialog = new EntradaJFrame();
+        this.entradaJFrame = new EntradaJFrame();
         //managerCplus = managerCplus1;
         queryCplus = new QueryCplus();
         format = new FormataCampos();
@@ -261,28 +260,30 @@ public class ListagemEntradasJDialog extends javax.swing.JDialog {
 
     /**
      * Função que abre um editor de entrada quando for duplo click
-     * @param evt 
+     *
+     * @param evt
      */
     private void abrirEntrada(java.awt.event.MouseEvent evt) {
-    // Verifica se foi um duplo clique (2 cliques)
+        // Verifica se foi um duplo clique (2 cliques)
         if (evt.getClickCount() == 2 && SwingUtilities.isLeftMouseButton(evt)) {
             finalizacao();
-            this.entradaJDialog.setMovEntrada(getMovEntrada());
-            this.entradaJDialog.setVisible(true);
+            //this.entradaJFrame.setMovEntrada(getMovEntrada());
+            //this.entradaJFrame.setVisible(true);
 
-            if (entradaJDialog == null || !entradaJDialog.isDisplayable()) {
-                this.entradaJDialog = new EntradaJFrame();
+            if (entradaJFrame == null || !entradaJFrame.isDisplayable()) {
+                entradaJFrame = new EntradaJFrame();
                 //this.vendasJframe.setLocationRelativeTo(null);
-                this.entradaJDialog.setLocationRelativeTo(null); //opcional  
+                entradaJFrame.setLocationRelativeTo(null); //opcional  
             } else {
-                this.entradaJDialog.setExtendedState(JFrame.NORMAL);
-                this.entradaJDialog.toFront();
+                entradaJFrame.setExtendedState(JFrame.NORMAL);
+                entradaJFrame.toFront();
             }
-            this.entradaJDialog.setMovEntrada(getMovEntrada());
-            this.entradaJDialog.setVisible(true);
-        }
+            entradaJFrame.setMovEntrada(getMovEntrada());
+            entradaJFrame.setVisible(true);
+        }             
+        
     }
-    
+
     private void carregaTabela() {
         DefaultTableModel tab = (DefaultTableModel) jTableListagemEntradas.getModel();
         while (jTableListagemEntradas.getModel().getRowCount() > 0) {
@@ -292,7 +293,7 @@ public class ListagemEntradasJDialog extends javax.swing.JDialog {
             tab.addRow(new Object[]{
                 format.dataStringSoData(e.getData(), 0), //"Data Entrada", 
                 //(condição) ? código_se_verdadeiro : código_se_falso
-                e.getDataemissao()!= null ? format.dataStringSoData(e.getDataemissao(), 0) : "", //"Data Emissão", 
+                e.getDataemissao() != null ? format.dataStringSoData(e.getDataemissao(), 0) : "", //"Data Emissão", 
                 e.getNumnota() != null ? e.getNumnota() : "", //Nº Nota", 
                 e.getCodForn() != null ? e.getCodForn().getNomeforn() : e.getCodcli() != null ? e.getCodcli().getNomecli() : "", //"Fornecedor / Cliente", 
                 format.bigDecimalParaString(e.getValortotalprodutos(), 4), //"Valor Total Produtos", 
@@ -397,6 +398,7 @@ public class ListagemEntradasJDialog extends javax.swing.JDialog {
                 setMovEntrada(new MoventradaJpaController(Manager.getManagerCplus()).findMoventrada(cod));
                 setCancelamento(false);
                 dispose();
+                
             } else {
                 JOptionPane.showMessageDialog(null, "O Código está nullo por favor verifique!!! ");
             }
@@ -484,7 +486,8 @@ public class ListagemEntradasJDialog extends javax.swing.JDialog {
     private List<Moventrada> listEntrada = new ArrayList<>();
     boolean cancelamento;
     private final ListagemClientesJDialog listagemClientesJDialog;
-    private EntradaJFrame entradaJDialog;
+    private EntradaJFrame entradaJFrame;
+    
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

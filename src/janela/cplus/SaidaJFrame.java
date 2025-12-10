@@ -144,7 +144,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
         jTextAreaObservacoesFiscal = new javax.swing.JTextArea();
         jPanel2 = new javax.swing.JPanel();
         jLabelIdentificadorDestino = new javax.swing.JLabel();
-        jComboBoxIdentificadorDeDestino = new javax.swing.JComboBox<>();
+        jComboBoxIdentificadorDeDestino = new javax.swing.JComboBox<String>();
         jButtonPesquisar = new javax.swing.JButton();
         jLabelMensagem = new javax.swing.JLabel();
         jButtonExcluirSaida = new javax.swing.JButton();
@@ -583,7 +583,7 @@ public class SaidaJFrame extends javax.swing.JFrame {
 
         jLabelIdentificadorDestino.setText("Identificador de Destino:");
 
-        jComboBoxIdentificadorDeDestino.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1 - Operação Interna", "2 - Operação Interestadual", "3 - Operação com Exterior" }));
+        jComboBoxIdentificadorDeDestino.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1 - Operação Interna", "2 - Operação Interestadual", "3 - Operação com Exterior" }));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -1123,12 +1123,13 @@ public class SaidaJFrame extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(jTextFieldAliqStDestino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelSubsTribLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBoxOrigemProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelOrigemProduto)
+                .addGroup(jPanelSubsTribLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelSubsTribLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabelCstIcms)
-                        .addComponent(jComboBoxCstIcms, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jComboBoxCstIcms, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanelSubsTribLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jComboBoxOrigemProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabelOrigemProduto)))
                 .addContainerGap(33, Short.MAX_VALUE))
         );
 
