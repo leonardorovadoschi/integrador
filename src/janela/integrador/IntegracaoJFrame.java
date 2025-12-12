@@ -695,7 +695,7 @@ public class IntegracaoJFrame extends javax.swing.JFrame {
                 list.add(3);
                 list.add(4);
                 list.add(10);
-                List<PsOrders> listPsOrders = queryPrestaShop.listPsOrdersState(list);
+                List<PsOrders> listPsOrders = queryPrestaShop.listPsOrdersStates(list);
                 int numRegistro = listPsOrders.size();
                 int cont = 0;
                 jProgressBarIntegrador.setMaximum(numRegistro);

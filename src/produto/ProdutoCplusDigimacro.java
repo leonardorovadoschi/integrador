@@ -1213,7 +1213,7 @@ public class ProdutoCplusDigimacro {
         list.add(2);
         list.add(3);
         list.add(10);
-        List<PsOrders> listPsOrders = new QueryPrestaShop().listPsOrdersState(list);
+        List<PsOrders> listPsOrders = new QueryPrestaShop().listPsOrdersStates(list);
         for (PsOrders order : listPsOrders) {
             List<Movenda> listMovenda = new QueryCplus().resultMovendaPorEntregaTelefone(order.getReference());
             if (listMovenda.isEmpty()) {

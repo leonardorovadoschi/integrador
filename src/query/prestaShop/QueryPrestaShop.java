@@ -543,7 +543,7 @@ public class QueryPrestaShop implements Serializable {
         return query.getResultList();
     }
 
-    public List<PsOrders> listPsOrdersState(List<Integer> listCurrentState) {
+    public List<PsOrders> listPsOrdersStates(List<Integer> listCurrentState) {
         EntityManager em = getEntityManager();
         Query query = em.createQuery("SELECT c FROM PsOrders c WHERE c.currentState IN :currentState");
         query.setParameter("currentState", listCurrentState);

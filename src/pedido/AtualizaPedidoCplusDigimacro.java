@@ -54,6 +54,7 @@ public class AtualizaPedidoCplusDigimacro {
     /**
      * Função que cuida da atualização do pedido, faz as operações no integrador
      * e no PrestaShop
+     *
      * @param order
      * @return false se houve erros
      */
@@ -91,7 +92,7 @@ public class AtualizaPedidoCplusDigimacro {
                 currentState = 4;
                 order.setCurrentState(currentState);
                 psOrderHistory(currentState, order);
-            }
+            } 
         }
         try {
             new PsOrdersJpaController(Manager.getManagerPrestaShop()).edit(order);
@@ -115,7 +116,7 @@ public class AtualizaPedidoCplusDigimacro {
             quanMovendaProd = quanMovendaProd + quantidadeSaida(prod);
         }
         List<SaidaSerial> listSerial = new QueryIntegrador().listPorSaida(movenda.getCodmovenda());
-        if (quanMovendaProd == listSerial.size()) {         
+        if (quanMovendaProd == listSerial.size()) {
             condicao = true;
         }
         return condicao;
@@ -151,7 +152,7 @@ public class AtualizaPedidoCplusDigimacro {
 
     }
 
-    private void orderInvoice(PsOrders order, Movenda movenda) {     
+    private void orderInvoice(PsOrders order, Movenda movenda) {
         List<PsOrderInvoice> lOi = new QueryPrestaShop().listOsOrderInvoic(order.getIdOrder());
         if (lOi.isEmpty()) {
             PsOrderInvoice oi = new PsOrderInvoice();
@@ -173,7 +174,7 @@ public class AtualizaPedidoCplusDigimacro {
             oi.setShopAddress("Lajeado - RS");
             oi.setNote("");
             oi.setDateAdd(new Date(System.currentTimeMillis()));
-            new PsOrderInvoiceJpaController(Manager.getManagerPrestaShop()).create(oi);          
+            new PsOrderInvoiceJpaController(Manager.getManagerPrestaShop()).create(oi);
         }
         for (PsOrderInvoice oi : new QueryPrestaShop().listOsOrderInvoic(order.getIdOrder())) {
             List<PsOrderPayment> listOP = new QueryPrestaShop().listPsOrderPayment(order.getReference());
