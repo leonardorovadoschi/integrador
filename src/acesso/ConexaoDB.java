@@ -61,20 +61,21 @@ public class ConexaoDB {
      */
     public Connection getConnection() {
         try {
-            if (con == null) {
+            if (con == null || con.isClosed()) {
                 Class.forName(jdbcDriver);
                 con = DriverManager.getConnection(url, userName, password);
-            } else if (con.isClosed()) {
-                con = null;
-                return getConnection();
-            }
+            } 
+            //else if (con.isClosed()) {
+            //    con = null;
+             //   return getConnection();
+           // }
         } catch (ClassNotFoundException | SQLException e) {
             JOptionPane.showMessageDialog(null, "Houve um erro ao conectar com Banco de Dados C-Plus!!!\n " + e);
         }
         return con;
     }
 
-    public void closeConnection() {
+    public void closeConnection1() {
         if (con != null) {
             try {
                 con.close();
