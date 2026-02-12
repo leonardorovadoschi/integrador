@@ -151,7 +151,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
         jTextFieldTotalProdutos = new javax.swing.JTextField();
         jTextFieldTaxa = new javax.swing.JTextField();
         jButtonAlteraPagamento = new javax.swing.JButton();
-        jComboBoxPagamento = new javax.swing.JComboBox<String>();
+        jComboBoxPagamento = new javax.swing.JComboBox<>();
         jComboBoxState = new javax.swing.JComboBox();
         jLabel1 = new javax.swing.JLabel();
         jTextFieldDescontoAvulso = new javax.swing.JTextField();
@@ -308,7 +308,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
             }
         });
 
-        jComboBoxPagamento.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " " }));
+        jComboBoxPagamento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " " }));
         jComboBoxPagamento.setFocusable(false);
         jComboBoxPagamento.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -1107,7 +1107,7 @@ public class VendaDigimacroJFrame extends javax.swing.JFrame {
                     val = new BigDecimal("45.00");
                 }
             }
-            if ("São Miguel".equals(c.getName())) {
+            if ("Planalto, TW e São Miguel".equals(c.getName())) {
                 if (valTotal.doubleValue() < 3000.00) {
                     val = new BigDecimal("20.00");
                 }
