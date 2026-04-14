@@ -37,7 +37,6 @@ public class ConexaoDB {
          * Os dados setados abaixo servem para uma conexão em MySQL. Altere de
          * acordo com seu BD. Aconselhamos carregar estes dados de um arquivo.
          */
-// jdbc:firebirdsql://192.168.10.180:3050/c:\cplus/cplus.fdb;
         hostName = "//192.168.10.180";
         userName = "sysdba";
         password = "masterkey";
@@ -46,14 +45,8 @@ public class ConexaoDB {
         dataBasePrefix = "jdbc:firebirdsql:";
         dabaBasePort = "3050";
 
-        url = dataBasePrefix + hostName + ":" + dabaBasePort + "/" + dataBaseName + "";
-
-        /**
-         * Exemplo de um URL completo para MySQL: a concatenação acima deve
-         * ficar algo como: jdbc:'mysql:/localhost:3306/meu_bd'
-         */
+        url = dataBasePrefix + hostName + ":" + dabaBasePort + "/" + dataBaseName + "";      
     }
-
     /**
      * Retorna uma java.sql.Connection.
      *
