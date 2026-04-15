@@ -14,12 +14,9 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -27,17 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "PRODUTOPRECO", catalog = "", schema = "")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Produtopreco.findAll", query = "SELECT p FROM Produtopreco p")
-    , @NamedQuery(name = "Produtopreco.findByCodprodutopreco", query = "SELECT p FROM Produtopreco p WHERE p.codprodutopreco = :codprodutopreco")
-    , @NamedQuery(name = "Produtopreco.findByMargem", query = "SELECT p FROM Produtopreco p WHERE p.margem = :margem")
-    , @NamedQuery(name = "Produtopreco.findByPreco", query = "SELECT p FROM Produtopreco p WHERE p.preco = :preco")
-    , @NamedQuery(name = "Produtopreco.findByDatareajuste", query = "SELECT p FROM Produtopreco p WHERE p.datareajuste = :datareajuste")
-    , @NamedQuery(name = "Produtopreco.findByQuantidademinima", query = "SELECT p FROM Produtopreco p WHERE p.quantidademinima = :quantidademinima")
-    , @NamedQuery(name = "Produtopreco.findByGuid", query = "SELECT p FROM Produtopreco p WHERE p.guid = :guid")
-    , @NamedQuery(name = "Produtopreco.findByFlagaltpaf", query = "SELECT p FROM Produtopreco p WHERE p.flagaltpaf = :flagaltpaf")
-    , @NamedQuery(name = "Produtopreco.findByFlagprodutoprecoexpafv", query = "SELECT p FROM Produtopreco p WHERE p.flagprodutoprecoexpafv = :flagprodutoprecoexpafv")})
+
 public class Produtopreco implements Serializable {
 
     private static final long serialVersionUID = 1L;

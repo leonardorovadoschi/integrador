@@ -13,12 +13,9 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -26,20 +23,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "PRODUTOESTOQUE", catalog = "", schema = "")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Produtoestoque.findAll", query = "SELECT p FROM Produtoestoque p")
-    , @NamedQuery(name = "Produtoestoque.findByCodprod", query = "SELECT p FROM Produtoestoque p WHERE p.produtoestoquePK.codprod = :codprod")
-    , @NamedQuery(name = "Produtoestoque.findByCodempresa", query = "SELECT p FROM Produtoestoque p WHERE p.produtoestoquePK.codempresa = :codempresa")
-    , @NamedQuery(name = "Produtoestoque.findByCodsetorestoque", query = "SELECT p FROM Produtoestoque p WHERE p.produtoestoquePK.codsetorestoque = :codsetorestoque")
-    , @NamedQuery(name = "Produtoestoque.findByEstatu", query = "SELECT p FROM Produtoestoque p WHERE p.estatu = :estatu")
-    , @NamedQuery(name = "Produtoestoque.findByLastChange", query = "SELECT p FROM Produtoestoque p WHERE p.lastChange = :lastChange")
-    , @NamedQuery(name = "Produtoestoque.findByReservadoorcamento", query = "SELECT p FROM Produtoestoque p WHERE p.reservadoorcamento = :reservadoorcamento")
-    , @NamedQuery(name = "Produtoestoque.findByReservadoos", query = "SELECT p FROM Produtoestoque p WHERE p.reservadoos = :reservadoos")
-    , @NamedQuery(name = "Produtoestoque.findByQtdemin", query = "SELECT p FROM Produtoestoque p WHERE p.qtdemin = :qtdemin")
-    , @NamedQuery(name = "Produtoestoque.findByQtdeideal", query = "SELECT p FROM Produtoestoque p WHERE p.qtdeideal = :qtdeideal")
-    , @NamedQuery(name = "Produtoestoque.findByDatconf", query = "SELECT p FROM Produtoestoque p WHERE p.datconf = :datconf")
-    , @NamedQuery(name = "Produtoestoque.findByGuid", query = "SELECT p FROM Produtoestoque p WHERE p.guid = :guid")})
+
 public class Produtoestoque implements Serializable {
 
     private static final long serialVersionUID = 1L;

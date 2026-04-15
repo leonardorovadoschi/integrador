@@ -15,11 +15,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
@@ -28,48 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "USUARIO", catalog = "", schema = "")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u")
-    , @NamedQuery(name = "Usuario.findByCoduser", query = "SELECT u FROM Usuario u WHERE u.coduser = :coduser")
-    , @NamedQuery(name = "Usuario.findByCodigo", query = "SELECT u FROM Usuario u WHERE u.codigo = :codigo")
-    , @NamedQuery(name = "Usuario.findByNome", query = "SELECT u FROM Usuario u WHERE u.nome = :nome")
-    , @NamedQuery(name = "Usuario.findByLogin", query = "SELECT u FROM Usuario u WHERE u.login = :login")
-    , @NamedQuery(name = "Usuario.findBySenha", query = "SELECT u FROM Usuario u WHERE u.senha = :senha")
-    , @NamedQuery(name = "Usuario.findByDescmax", query = "SELECT u FROM Usuario u WHERE u.descmax = :descmax")
-    , @NamedQuery(name = "Usuario.findByDescmaxtab2", query = "SELECT u FROM Usuario u WHERE u.descmaxtab2 = :descmaxtab2")
-    , @NamedQuery(name = "Usuario.findByCodprecopadrao", query = "SELECT u FROM Usuario u WHERE u.codprecopadrao = :codprecopadrao")
-    , @NamedQuery(name = "Usuario.findByAssinaturaemail", query = "SELECT u FROM Usuario u WHERE u.assinaturaemail = :assinaturaemail")
-    , @NamedQuery(name = "Usuario.findByProgramaemail", query = "SELECT u FROM Usuario u WHERE u.programaemail = :programaemail")
-    , @NamedQuery(name = "Usuario.findByEmailretorno", query = "SELECT u FROM Usuario u WHERE u.emailretorno = :emailretorno")
-    , @NamedQuery(name = "Usuario.findByEmailnome", query = "SELECT u FROM Usuario u WHERE u.emailnome = :emailnome")
-    , @NamedQuery(name = "Usuario.findByEmailservidorsmtp", query = "SELECT u FROM Usuario u WHERE u.emailservidorsmtp = :emailservidorsmtp")
-    , @NamedQuery(name = "Usuario.findByEmailservidorpop", query = "SELECT u FROM Usuario u WHERE u.emailservidorpop = :emailservidorpop")
-    , @NamedQuery(name = "Usuario.findByEmailnomeusuario", query = "SELECT u FROM Usuario u WHERE u.emailnomeusuario = :emailnomeusuario")
-    , @NamedQuery(name = "Usuario.findByEmailsenhausuario", query = "SELECT u FROM Usuario u WHERE u.emailsenhausuario = :emailsenhausuario")
-    , @NamedQuery(name = "Usuario.findByEmailusassl", query = "SELECT u FROM Usuario u WHERE u.emailusassl = :emailusassl")
-    , @NamedQuery(name = "Usuario.findByCodsetorestoquepadrao", query = "SELECT u FROM Usuario u WHERE u.codsetorestoquepadrao = :codsetorestoquepadrao")
-    , @NamedQuery(name = "Usuario.findByPermitealterarsetorestoque", query = "SELECT u FROM Usuario u WHERE u.permitealterarsetorestoque = :permitealterarsetorestoque")
-    , @NamedQuery(name = "Usuario.findByFlagadministrador", query = "SELECT u FROM Usuario u WHERE u.flagadministrador = :flagadministrador")
-    , @NamedQuery(name = "Usuario.findByCodcaixas", query = "SELECT u FROM Usuario u WHERE u.codcaixas = :codcaixas")
-    , @NamedQuery(name = "Usuario.findByCodperfilusuario", query = "SELECT u FROM Usuario u WHERE u.codperfilusuario = :codperfilusuario")
-    , @NamedQuery(name = "Usuario.findByListacaixa", query = "SELECT u FROM Usuario u WHERE u.listacaixa = :listacaixa")
-    , @NamedQuery(name = "Usuario.findByFlagativo", query = "SELECT u FROM Usuario u WHERE u.flagativo = :flagativo")
-    , @NamedQuery(name = "Usuario.findByFlagusuarioafv", query = "SELECT u FROM Usuario u WHERE u.flagusuarioafv = :flagusuarioafv")
-    , @NamedQuery(name = "Usuario.findByFlagusasslpop", query = "SELECT u FROM Usuario u WHERE u.flagusasslpop = :flagusasslpop")
-    , @NamedQuery(name = "Usuario.findByPortapop", query = "SELECT u FROM Usuario u WHERE u.portapop = :portapop")
-    , @NamedQuery(name = "Usuario.findByFlagautenticasmtp", query = "SELECT u FROM Usuario u WHERE u.flagautenticasmtp = :flagautenticasmtp")
-    , @NamedQuery(name = "Usuario.findByPortasmtp", query = "SELECT u FROM Usuario u WHERE u.portasmtp = :portasmtp")
-    , @NamedQuery(name = "Usuario.findByTipocriptografiasmtp", query = "SELECT u FROM Usuario u WHERE u.tipocriptografiasmtp = :tipocriptografiasmtp")
-    , @NamedQuery(name = "Usuario.findByFlagtodosorcamentos", query = "SELECT u FROM Usuario u WHERE u.flagtodosorcamentos = :flagtodosorcamentos")
-    , @NamedQuery(name = "Usuario.findByLimitecredito", query = "SELECT u FROM Usuario u WHERE u.limitecredito = :limitecredito")
-    , @NamedQuery(name = "Usuario.findByLimitefaturamento", query = "SELECT u FROM Usuario u WHERE u.limitefaturamento = :limitefaturamento")
-    , @NamedQuery(name = "Usuario.findByListaoperacao", query = "SELECT u FROM Usuario u WHERE u.listaoperacao = :listaoperacao")
-    , @NamedQuery(name = "Usuario.findByListaorcamentostatus", query = "SELECT u FROM Usuario u WHERE u.listaorcamentostatus = :listaorcamentostatus")
-    , @NamedQuery(name = "Usuario.findByFlagpodealterarsa", query = "SELECT u FROM Usuario u WHERE u.flagpodealterarsa = :flagpodealterarsa")
-    , @NamedQuery(name = "Usuario.findByGuid", query = "SELECT u FROM Usuario u WHERE u.guid = :guid")
-    , @NamedQuery(name = "Usuario.findByNaopermitealterarcaixa", query = "SELECT u FROM Usuario u WHERE u.naopermitealterarcaixa = :naopermitealterarcaixa")
-    , @NamedQuery(name = "Usuario.findByListatabelaprecoafv", query = "SELECT u FROM Usuario u WHERE u.listatabelaprecoafv = :listatabelaprecoafv")})
+
 public class Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;

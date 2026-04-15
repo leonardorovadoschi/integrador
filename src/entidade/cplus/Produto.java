@@ -38,9 +38,6 @@ public class Produto implements Serializable {
     @Transient
     private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
 
-    //@Column(name = "CODFABRICANTE")
-    //private String codfabricante;
-
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -55,9 +52,7 @@ public class Produto implements Serializable {
     @JoinColumn(name = "CODFABRICANTE", referencedColumnName = "CODFABRICANTE")
     @ManyToOne
     private Fabricante codfabricante;
-    
-    
-    
+ 
     @Basic(optional = false)
     @Column(name = "CODIGO")
     private String codigo;
