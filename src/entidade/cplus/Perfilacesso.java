@@ -9,10 +9,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -20,13 +17,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "PERFILACESSO", catalog = "", schema = "")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Perfilacesso.findAll", query = "SELECT p FROM Perfilacesso p")
-    , @NamedQuery(name = "Perfilacesso.findByCodsistemaacesso", query = "SELECT p FROM Perfilacesso p WHERE p.perfilacessoPK.codsistemaacesso = :codsistemaacesso")
-    , @NamedQuery(name = "Perfilacesso.findByFlagacesso", query = "SELECT p FROM Perfilacesso p WHERE p.flagacesso = :flagacesso")
-    , @NamedQuery(name = "Perfilacesso.findByCodperfilusuario", query = "SELECT p FROM Perfilacesso p WHERE p.perfilacessoPK.codperfilusuario = :codperfilusuario")
-    , @NamedQuery(name = "Perfilacesso.findByGuid", query = "SELECT p FROM Perfilacesso p WHERE p.guid = :guid")})
+
 public class Perfilacesso implements Serializable {
 
     private static final long serialVersionUID = 1L;

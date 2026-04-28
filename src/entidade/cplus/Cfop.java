@@ -14,11 +14,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
@@ -27,16 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "CFOP", catalog = "", schema = "")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Cfop.findAll", query = "SELECT c FROM Cfop c")
-    , @NamedQuery(name = "Cfop.findByCodcfop", query = "SELECT c FROM Cfop c WHERE c.codcfop = :codcfop")
-    , @NamedQuery(name = "Cfop.findByDescricao", query = "SELECT c FROM Cfop c WHERE c.descricao = :descricao")
-    , @NamedQuery(name = "Cfop.findByFlagalteraestoque", query = "SELECT c FROM Cfop c WHERE c.flagalteraestoque = :flagalteraestoque")
-    , @NamedQuery(name = "Cfop.findByFlagtipo", query = "SELECT c FROM Cfop c WHERE c.flagtipo = :flagtipo")
-    , @NamedQuery(name = "Cfop.findByFlagoperacao", query = "SELECT c FROM Cfop c WHERE c.flagoperacao = :flagoperacao")
-    , @NamedQuery(name = "Cfop.findByFlagcalculaipi", query = "SELECT c FROM Cfop c WHERE c.flagcalculaipi = :flagcalculaipi")
-    , @NamedQuery(name = "Cfop.findByCodigonatoperalterdata", query = "SELECT c FROM Cfop c WHERE c.codigonatoperalterdata = :codigonatoperalterdata")})
+
 public class Cfop implements Serializable {
 
     private static final long serialVersionUID = 1L;

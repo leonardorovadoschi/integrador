@@ -27,34 +27,7 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "TRANSPORTADORA", catalog = "", schema = "")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Transportadora.findAll", query = "SELECT t FROM Transportadora t")
-    , @NamedQuery(name = "Transportadora.findByCodtrans", query = "SELECT t FROM Transportadora t WHERE t.codtrans = :codtrans")
-    , @NamedQuery(name = "Transportadora.findByNometrans", query = "SELECT t FROM Transportadora t WHERE t.nometrans = :nometrans")
-    , @NamedQuery(name = "Transportadora.findByEndereco", query = "SELECT t FROM Transportadora t WHERE t.endereco = :endereco")
-    , @NamedQuery(name = "Transportadora.findByBairro", query = "SELECT t FROM Transportadora t WHERE t.bairro = :bairro")
-    , @NamedQuery(name = "Transportadora.findByCidade", query = "SELECT t FROM Transportadora t WHERE t.cidade = :cidade")
-    , @NamedQuery(name = "Transportadora.findByEstado", query = "SELECT t FROM Transportadora t WHERE t.estado = :estado")
-    , @NamedQuery(name = "Transportadora.findByCep", query = "SELECT t FROM Transportadora t WHERE t.cep = :cep")
-    , @NamedQuery(name = "Transportadora.findByTelefone", query = "SELECT t FROM Transportadora t WHERE t.telefone = :telefone")
-    , @NamedQuery(name = "Transportadora.findByFax", query = "SELECT t FROM Transportadora t WHERE t.fax = :fax")
-    , @NamedQuery(name = "Transportadora.findByInscr", query = "SELECT t FROM Transportadora t WHERE t.inscr = :inscr")
-    , @NamedQuery(name = "Transportadora.findByRefban", query = "SELECT t FROM Transportadora t WHERE t.refban = :refban")
-    , @NamedQuery(name = "Transportadora.findByCnpj", query = "SELECT t FROM Transportadora t WHERE t.cnpj = :cnpj")
-    , @NamedQuery(name = "Transportadora.findByRespons", query = "SELECT t FROM Transportadora t WHERE t.respons = :respons")
-    , @NamedQuery(name = "Transportadora.findByDatcad", query = "SELECT t FROM Transportadora t WHERE t.datcad = :datcad")
-    , @NamedQuery(name = "Transportadora.findByEmail", query = "SELECT t FROM Transportadora t WHERE t.email = :email")
-    , @NamedQuery(name = "Transportadora.findByCodigo", query = "SELECT t FROM Transportadora t WHERE t.codigo = :codigo")
-    , @NamedQuery(name = "Transportadora.findByAntt", query = "SELECT t FROM Transportadora t WHERE t.antt = :antt")
-    , @NamedQuery(name = "Transportadora.findByFlagfisica", query = "SELECT t FROM Transportadora t WHERE t.flagfisica = :flagfisica")
-    , @NamedQuery(name = "Transportadora.findByCodigointegracaofiscal", query = "SELECT t FROM Transportadora t WHERE t.codigointegracaofiscal = :codigointegracaofiscal")
-    , @NamedQuery(name = "Transportadora.findByGuid", query = "SELECT t FROM Transportadora t WHERE t.guid = :guid")
-    , @NamedQuery(name = "Transportadora.findByFlagativo", query = "SELECT t FROM Transportadora t WHERE t.flagativo = :flagativo")
-    , @NamedQuery(name = "Transportadora.findByTipoproprietario", query = "SELECT t FROM Transportadora t WHERE t.tipoproprietario = :tipoproprietario")
-    , @NamedQuery(name = "Transportadora.findByCategoria", query = "SELECT t FROM Transportadora t WHERE t.categoria = :categoria")
-    , @NamedQuery(name = "Transportadora.findByNumerologradouro", query = "SELECT t FROM Transportadora t WHERE t.numerologradouro = :numerologradouro")
-    , @NamedQuery(name = "Transportadora.findByComplementologradouro", query = "SELECT t FROM Transportadora t WHERE t.complementologradouro = :complementologradouro")})
+
 public class Transportadora implements Serializable {
 
     @Column(name = "RAZAOSOCIAL")

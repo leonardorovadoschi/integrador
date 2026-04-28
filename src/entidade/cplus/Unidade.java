@@ -13,11 +13,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
@@ -26,15 +23,7 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "UNIDADE", catalog = "", schema = "")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Unidade.findAll", query = "SELECT u FROM Unidade u")
-    , @NamedQuery(name = "Unidade.findByCodunidade", query = "SELECT u FROM Unidade u WHERE u.codunidade = :codunidade")
-    , @NamedQuery(name = "Unidade.findByCodigo", query = "SELECT u FROM Unidade u WHERE u.codigo = :codigo")
-    , @NamedQuery(name = "Unidade.findByUnidade", query = "SELECT u FROM Unidade u WHERE u.unidade = :unidade")
-    , @NamedQuery(name = "Unidade.findByFlagquantidadeunitaria", query = "SELECT u FROM Unidade u WHERE u.flagquantidadeunitaria = :flagquantidadeunitaria")
-    , @NamedQuery(name = "Unidade.findByFatorconversao", query = "SELECT u FROM Unidade u WHERE u.fatorconversao = :fatorconversao")
-    , @NamedQuery(name = "Unidade.findByGuid", query = "SELECT u FROM Unidade u WHERE u.guid = :guid")})
+
 public class Unidade implements Serializable {
 
     private static final long serialVersionUID = 1L;

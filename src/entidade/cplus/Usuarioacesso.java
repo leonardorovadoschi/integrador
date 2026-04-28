@@ -20,12 +20,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "USUARIOACESSO", catalog = "", schema = "")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Usuarioacesso.findAll", query = "SELECT u FROM Usuarioacesso u")
-    , @NamedQuery(name = "Usuarioacesso.findByCoduser", query = "SELECT u FROM Usuarioacesso u WHERE u.usuarioacessoPK.coduser = :coduser")
-    , @NamedQuery(name = "Usuarioacesso.findByCodsistemaacesso", query = "SELECT u FROM Usuarioacesso u WHERE u.usuarioacessoPK.codsistemaacesso = :codsistemaacesso")
-    , @NamedQuery(name = "Usuarioacesso.findByFlagacesso", query = "SELECT u FROM Usuarioacesso u WHERE u.flagacesso = :flagacesso")})
+
 public class Usuarioacesso implements Serializable {
 
     private static final long serialVersionUID = 1L;

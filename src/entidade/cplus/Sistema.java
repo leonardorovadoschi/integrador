@@ -11,11 +11,8 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
@@ -24,14 +21,7 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "SISTEMA", catalog = "", schema = "")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Sistema.findAll", query = "SELECT s FROM Sistema s")
-    , @NamedQuery(name = "Sistema.findByCodsistema", query = "SELECT s FROM Sistema s WHERE s.codsistema = :codsistema")
-    , @NamedQuery(name = "Sistema.findByNomesistema", query = "SELECT s FROM Sistema s WHERE s.nomesistema = :nomesistema")
-    , @NamedQuery(name = "Sistema.findByArquivo", query = "SELECT s FROM Sistema s WHERE s.arquivo = :arquivo")
-    , @NamedQuery(name = "Sistema.findByUltimaversao", query = "SELECT s FROM Sistema s WHERE s.ultimaversao = :ultimaversao")
-    , @NamedQuery(name = "Sistema.findByFlagbloqueiaversao", query = "SELECT s FROM Sistema s WHERE s.flagbloqueiaversao = :flagbloqueiaversao")})
+
 public class Sistema implements Serializable {
 
     private static final long serialVersionUID = 1L;

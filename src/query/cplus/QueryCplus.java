@@ -1874,5 +1874,12 @@ public List<Movendaproddevolucaocompra> listagemControlaDevolucaoPorSaida(String
         query.setParameter("status", status);              
         return query.getResultList();
     }
+     
+     public List<Pedidoitem> teste(char status) {
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery("SELECT s FROM Fabricante s WHERE s.nomefabricante =:descrica");
+        query.setParameter("status", status);              
+        return query.getResultList();
+    }
       
 }

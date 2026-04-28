@@ -10,10 +10,7 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -21,13 +18,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "PERFILUSUARIO", catalog = "", schema = "")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Perfilusuario.findAll", query = "SELECT p FROM Perfilusuario p")
-    , @NamedQuery(name = "Perfilusuario.findByCodperfilusuario", query = "SELECT p FROM Perfilusuario p WHERE p.codperfilusuario = :codperfilusuario")
-    , @NamedQuery(name = "Perfilusuario.findByCodigo", query = "SELECT p FROM Perfilusuario p WHERE p.codigo = :codigo")
-    , @NamedQuery(name = "Perfilusuario.findByNomeperfilusuario", query = "SELECT p FROM Perfilusuario p WHERE p.nomeperfilusuario = :nomeperfilusuario")
-    , @NamedQuery(name = "Perfilusuario.findByGuid", query = "SELECT p FROM Perfilusuario p WHERE p.guid = :guid")})
+
 public class Perfilusuario implements Serializable {
 
     private static final long serialVersionUID = 1L;

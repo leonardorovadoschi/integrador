@@ -26,15 +26,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "SISTEMAACESSO", catalog = "", schema = "")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Sistemaacesso.findAll", query = "SELECT s FROM Sistemaacesso s")
-    , @NamedQuery(name = "Sistemaacesso.findByCodsistemaacesso", query = "SELECT s FROM Sistemaacesso s WHERE s.codsistemaacesso = :codsistemaacesso")
-    , @NamedQuery(name = "Sistemaacesso.findByDescricao", query = "SELECT s FROM Sistemaacesso s WHERE s.descricao = :descricao")
-    , @NamedQuery(name = "Sistemaacesso.findByFlagacessopadrao", query = "SELECT s FROM Sistemaacesso s WHERE s.flagacessopadrao = :flagacessopadrao")
-    , @NamedQuery(name = "Sistemaacesso.findByArvore", query = "SELECT s FROM Sistemaacesso s WHERE s.arvore = :arvore")
-    , @NamedQuery(name = "Sistemaacesso.findByLastChange", query = "SELECT s FROM Sistemaacesso s WHERE s.lastChange = :lastChange")
-    , @NamedQuery(name = "Sistemaacesso.findByGuid", query = "SELECT s FROM Sistemaacesso s WHERE s.guid = :guid")})
+
 public class Sistemaacesso implements Serializable {
 
     private static final long serialVersionUID = 1L;

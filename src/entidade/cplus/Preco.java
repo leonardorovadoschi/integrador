@@ -13,11 +13,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
@@ -26,25 +23,7 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "PRECO", catalog = "", schema = "")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Preco.findAll", query = "SELECT p FROM Preco p")
-    , @NamedQuery(name = "Preco.findByCodpreco", query = "SELECT p FROM Preco p WHERE p.codpreco = :codpreco")
-    , @NamedQuery(name = "Preco.findByNomepreco", query = "SELECT p FROM Preco p WHERE p.nomepreco = :nomepreco")
-    , @NamedQuery(name = "Preco.findByCodigo", query = "SELECT p FROM Preco p WHERE p.codigo = :codigo")
-    , @NamedQuery(name = "Preco.findByFlagvisualizarconsulta", query = "SELECT p FROM Preco p WHERE p.flagvisualizarconsulta = :flagvisualizarconsulta")
-    , @NamedQuery(name = "Preco.findByMargempadrao", query = "SELECT p FROM Preco p WHERE p.margempadrao = :margempadrao")
-    , @NamedQuery(name = "Preco.findByAliqcomissao", query = "SELECT p FROM Preco p WHERE p.aliqcomissao = :aliqcomissao")
-    , @NamedQuery(name = "Preco.findByDescontomaximo", query = "SELECT p FROM Preco p WHERE p.descontomaximo = :descontomaximo")
-    , @NamedQuery(name = "Preco.findByFormula", query = "SELECT p FROM Preco p WHERE p.formula = :formula")
-    , @NamedQuery(name = "Preco.findByFlagusaformula", query = "SELECT p FROM Preco p WHERE p.flagusaformula = :flagusaformula")
-    , @NamedQuery(name = "Preco.findByFlagexportaafv", query = "SELECT p FROM Preco p WHERE p.flagexportaafv = :flagexportaafv")
-    , @NamedQuery(name = "Preco.findByGuid", query = "SELECT p FROM Preco p WHERE p.guid = :guid")
-    , @NamedQuery(name = "Preco.findByFlaginativa", query = "SELECT p FROM Preco p WHERE p.flaginativa = :flaginativa")
-    , @NamedQuery(name = "Preco.findByFlagexportapdv", query = "SELECT p FROM Preco p WHERE p.flagexportapdv = :flagexportapdv")
-    , @NamedQuery(name = "Preco.findByMensagem", query = "SELECT p FROM Preco p WHERE p.mensagem = :mensagem")
-    , @NamedQuery(name = "Preco.findByListaformapag", query = "SELECT p FROM Preco p WHERE p.listaformapag = :listaformapag")
-    , @NamedQuery(name = "Preco.findByEstado", query = "SELECT p FROM Preco p WHERE p.estado = :estado")})
+
 public class Preco implements Serializable {
 
     private static final long serialVersionUID = 1L;

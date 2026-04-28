@@ -24,12 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "USUARIOPRECO", catalog = "", schema = "")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Usuariopreco.findAll", query = "SELECT u FROM Usuariopreco u")
-    , @NamedQuery(name = "Usuariopreco.findByCodusuariopreco", query = "SELECT u FROM Usuariopreco u WHERE u.codusuariopreco = :codusuariopreco")
-    , @NamedQuery(name = "Usuariopreco.findByDescontomaximo", query = "SELECT u FROM Usuariopreco u WHERE u.descontomaximo = :descontomaximo")
-    , @NamedQuery(name = "Usuariopreco.findByFlagnaoutilizar", query = "SELECT u FROM Usuariopreco u WHERE u.flagnaoutilizar = :flagnaoutilizar")})
+
 public class Usuariopreco implements Serializable {
 
     private static final long serialVersionUID = 1L;
