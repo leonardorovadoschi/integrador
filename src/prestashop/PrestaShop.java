@@ -5,8 +5,10 @@
  */
 package prestashop;
 
+import entidade.cplus.Classificacaofiscal;
 import java.math.BigInteger;
 import javax.swing.JFrame;
+import jpa.cplus.ClassificacaofiscalJpaController;
 
 /**
  *
@@ -23,16 +25,21 @@ public class PrestaShop {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        
+       
+        
 
-        java.awt.EventQueue.invokeLater(() -> {
-            if (frameIntegracao == null
-                    || !frameIntegracao.isDisplayable()) {
-                frameIntegracao = new PrincipalJFrame(); //frameIntegracao.setLocationRelativeTo(this);
+       // java.awt.EventQueue.invokeLater(() -> {
+        //    if (frameIntegracao == null
+       //             || !frameIntegracao.isDisplayable()) {
+       //         frameIntegracao = new PrincipalJFrame(); //frameIntegracao.setLocationRelativeTo(this);
                 //opcional } else { frameIntegracao.setExtendedState(JFrame.NORMAL);
-                frameIntegracao.toFront();
-            }
-            frameIntegracao.setVisible(true);
-        });
+       //         frameIntegracao.toFront();
+       //     }
+       //     frameIntegracao.setVisible(true);
+       // });
+            
+            new Teste().testeQuery();
 /**
         int quantidadeSerial = 10;
         int count = 0;

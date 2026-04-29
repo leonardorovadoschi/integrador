@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package prestashop;
 
+import entidade.cplus.Classificacaofiscal;
 import entidade.cplus.Movendaprod;
 import entidade.cplus.Moventradaprod;
 import entidade.cplus.Produtoestoque;
@@ -14,6 +14,11 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import jpa.cplus.ClassificacaofiscalJpaController;
 import jpa.cplus.ProdutoestoqueJpaController;
 import query.cplus.QueryCplus;
 
@@ -22,23 +27,61 @@ import query.cplus.QueryCplus;
  * @author leo-note
  */
 public class Teste {
+
+    public Teste() {
+        this.emf = Manager.getManagerCplus();
+    }
+    private EntityManagerFactory emf = null;
+
+    private EntityManager getEntityManager() {
+        return emf.createEntityManager();
+    }
     private QueryCplus queryCplus;
     private final FormataCampos formatacaoCampos = new FormataCampos();
-   
+
+    public void testeQuery() {
+        List<Classificacaofiscal> list = new ClassificacaofiscalJpaController(Manager.getManagerCplus()).findClassificacaofiscalEntities();
+        for (Classificacaofiscal c : list) {
+            if (c.getDescricao() != null) {
+                System.out.println("Estring do banco " + c.getDescricao());
+                String limpo = c.getDescricao()
+                        .replaceAll("\\p{Cntrl}", " ")
+                        .replaceAll("\\s+", " ")
+                        .trim();
+                System.out.println("Estring do limpa " + limpo);
+                try {
+                    new ClassificacaofiscalJpaController(Manager.getManagerCplus()).edit(c);
+                } catch (Exception ex) {
+                   // Logger.getLogger(Teste.class.getName()).log(Level.SEVERE, null, ex);
+                    System.out.println("Erro " + ex);
+                }
+            }         
+        }
+    }
+
     private void inventariovelho() {
-        
+
         List<Produtoestoque> listProdEstoque = new ProdutoestoqueJpaController(Manager.getManagerCplus()).findProdutoestoqueEntities();
         List<Produtoestoque> listProd = new ArrayList<>();
         //verificaDataEmissaoNula();
         for (Produtoestoque prodEstoque : listProdEstoque) {
             int quantidadeEstoque = 0;
             if (formatacaoCampos.comparaDuasDatas(prodEstoque.getLastChange(),
-                    formatacaoCampos.dataAtual() /**alteraHoraData(jDateChooserDataInventario.getDate())*/)) {//PRIMEIRA DATA for MENOR ou IGUAL a SEGUNDA DATA vai retornar FALSE
+                    formatacaoCampos.dataAtual() /**
+             * alteraHoraData(jDateChooserDataInventario.getDate())
+             */
+            )) {//PRIMEIRA DATA for MENOR ou IGUAL a SEGUNDA DATA vai retornar FALSE
                 //aqui sera verificado a quantidade em estoque do dia do relatório
-                for (Moventradaprod entradaProd : queryCplus.resultProdutoEntrada(prodEstoque.getProduto().getCodprod(), formatacaoCampos.dataAtual() /**alteraHoraData(jDateChooserDataInventario.getDate())*/, false)) {
+                for (Moventradaprod entradaProd : queryCplus.resultProdutoEntrada(prodEstoque.getProduto().getCodprod(), formatacaoCampos.dataAtual() /**
+                         * alteraHoraData(jDateChooserDataInventario.getDate())
+                         */
+                        , false)) {
                     quantidadeEstoque = quantidadeEstoque + entradaProd.getQuantidade().intValue();
                 }
-                for (Movendaprod saidaProd : queryCplus.resultProdutoSaida(prodEstoque.getProduto().getCodprod(), formatacaoCampos.dataAtual() /**alteraHoraData(jDateChooserDataInventario.getDate())*/)) {
+                for (Movendaprod saidaProd : queryCplus.resultProdutoSaida(prodEstoque.getProduto().getCodprod(), formatacaoCampos.dataAtual() /**
+                 * alteraHoraData(jDateChooserDataInventario.getDate())
+                 */
+                )) {
                     quantidadeEstoque = quantidadeEstoque - saidaProd.getQuantidade().intValue();
                 }
             } else {
@@ -61,7 +104,10 @@ public class Teste {
                 int estoqueCompra = 0;
                 int incremetEstoque = 0;
                 //  queryCplus.resultProdutoEntrada(prodEstoque.getProduto().getCodprod(), true, 10) 
-                for (Moventradaprod movProd : queryCplus.resultProdutoEntrada(prodEstoque.getProduto().getCodprod(), formatacaoCampos.dataAtual() /**alteraHoraData(jDateChooserDataInventario.getDate())*/, true)) {
+                for (Moventradaprod movProd : queryCplus.resultProdutoEntrada(prodEstoque.getProduto().getCodprod(), formatacaoCampos.dataAtual() /**
+                         * alteraHoraData(jDateChooserDataInventario.getDate())
+                         */
+                        , true)) {
                     estoqueCompra = estoqueCompra
                             + movProd.getQuantidade().intValue();
                     if (quantidadeEstoque >= estoqueCompra) {
@@ -80,9 +126,9 @@ public class Teste {
                     } else {
                         valorProdutos = valorProdutos + ((quantidadeEstoque - incremetEstoque) * movProd.getValorunitario().doubleValue());
                         double valorRestanteIcmsUnitario = movProd.getValoricms().doubleValue() / movProd.getQuantidade().doubleValue();
-                        valorTotalIcms = valorTotalIcms + (valorRestanteIcmsUnitario * (quantidadeEstoque - incremetEstoque)); 
+                        valorTotalIcms = valorTotalIcms + (valorRestanteIcmsUnitario * (quantidadeEstoque - incremetEstoque));
                         double valorRestantePisCofinsUnitario = (movProd.getValorpis().doubleValue() + movProd.getValorcofins().doubleValue()) / (movProd.getQuantidade().doubleValue());
-                        valorTotalPisCofins = valorTotalPisCofins + (valorRestantePisCofinsUnitario * (quantidadeEstoque - incremetEstoque)); 
+                        valorTotalPisCofins = valorTotalPisCofins + (valorRestantePisCofinsUnitario * (quantidadeEstoque - incremetEstoque));
                         if (movProd.getValorsubsttributaria() != null) {
                             double valorRestanteStUnitario = movProd.getValorsubsttributaria().doubleValue() / movProd.getQuantidade().doubleValue();
                             valorTotalSt = valorTotalSt + (valorRestanteStUnitario * (quantidadeEstoque - incremetEstoque));
@@ -124,7 +170,7 @@ public class Teste {
 
                 }//fim if com estoque maior que zero }//fim for
             }
-           // listaProdutosEstoque = listProd;
+            // listaProdutosEstoque = listProd;
         }
-}
+    }
 }
