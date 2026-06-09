@@ -29,17 +29,17 @@ public class PrestaShop {
        
         
 
-       // java.awt.EventQueue.invokeLater(() -> {
-        //    if (frameIntegracao == null
-       //             || !frameIntegracao.isDisplayable()) {
-       //         frameIntegracao = new PrincipalJFrame(); //frameIntegracao.setLocationRelativeTo(this);
+        java.awt.EventQueue.invokeLater(() -> {
+            if (frameIntegracao == null
+                    || !frameIntegracao.isDisplayable()) {
+                frameIntegracao = new PrincipalJFrame(); //frameIntegracao.setLocationRelativeTo(this);
                 //opcional } else { frameIntegracao.setExtendedState(JFrame.NORMAL);
-       //         frameIntegracao.toFront();
-       //     }
-       //     frameIntegracao.setVisible(true);
-       // });
+               frameIntegracao.toFront();
+            }
+            frameIntegracao.setVisible(true);
+        });
             
-            new Teste().testeQuery();
+     //       new Teste().testeQuery();
 /**
         int quantidadeSerial = 10;
         int count = 0;
